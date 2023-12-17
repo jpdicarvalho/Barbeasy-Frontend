@@ -38,7 +38,7 @@ const userId = userInformation.user[0].id;
 useEffect(() => {
   const fetchData = async () => {
     try {
-        const response = await fetch('https://barbeasy-backend-production.up.railway.app/listBarbearia', {
+        const response = await fetch('http://localhost:8000/listBarbearia', {
           headers: {
             'Content-Type': 'application/json',
           },
@@ -119,7 +119,7 @@ const obterLocalizacao = async () => {
 useEffect(() => {
   const SearchAvaliation = async () => {
     try {
-      const response = await fetch('https://barbeasy-backend-production.up.railway.app/SearchAvaliation');
+      const response = await fetch('http://localhost:8000/SearchAvaliation');
       const data = await response.json();
       setAllAvaliation(data);
     } catch (error) {
