@@ -1,0 +1,528 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans+Condensed:wght@300&family=Fira+Sans:ital@1&family=Noto+Sans:wght@100;200;400;500;700;900&family=Noto+Serif+Gujarati:wght@100&family=Nunito+Sans:opsz,wght@6..12,200&family=Nunito:wght@200&family=Open+Sans:ital,wght@1,300&family=Oswald:wght@600&family=Poppins:wght@200;300;400;500;700&family=Roboto+Condensed:ital,wght@0,100;0,500;0,700;0,800;0,900;1,200&family=Roboto+Slab:wght@300&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100&display=swap');
+.ContainerMain{
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding-bottom: 200px;
+    min-width: 350px;
+    font-family: 'Noto Sans', sans-serif;
+    background: #0c0e19;
+}
+.Header{
+    position: fixed;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-direction: row;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    width: 100%;
+    padding: 10px;
+}
+#barbDetails{
+    color: white;
+    font-weight: bold;
+    width: auto;
+}
+#logo-Barbeasy{
+    width: 50px;
+    height: 50px;
+}
+.userProfile img{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    right: 5px;
+    margin-bottom: 10px;
+    width: 50px;
+    height: 50px;
+    border-radius: 30px;
+    overflow: hidden;
+
+}
+.Outdoor{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 350px;
+    overflow: hidden;
+}
+.imgOutdoor{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+#imgBarbearia{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    z-index: 1;
+}
+.BarbeariaInformation{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    font-size: 12px;
+    bottom: -2px;
+    z-index: 2;
+    width: 100%;
+    height: auto;
+    padding-left: 115px;
+    padding-bottom: 3px;
+    color: #f6f6fc;
+    border-top-left-radius: 50px;
+    background: #0c0e19;   
+}
+.imgBarbeariaProfile{
+    background: gray;
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    top: -30px;
+    left: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+#barbeLogo{
+    width: 100%;
+    height: 100%;
+}
+#BarbeariaName{
+    color: #f6f6fc;
+    font-size: 15px;
+}
+.location{
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: row;
+    font-size: 15px;
+    color: #f6f6fc;
+    text-align: left;
+    background: transparent;
+    
+}
+.location p{
+    width: auto;
+    margin-left: 3px;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+}
+.material-symbols-outlined.location{
+    padding-bottom: 18px;
+}
+hr{
+    width: 370px;
+    border: 1px solid #1c2035;
+}
+h4{
+    color:#354249;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    font-size: 24px;
+}
+.tittle{
+    margin-top: 5px;
+    margin-bottom: 10px;
+    width: 100%;
+    padding-left: 13px;
+    font-size: 15px;
+    color: #354249;
+    font-weight: 700;
+    letter-spacing: 1px;
+
+}
+
+.Servicos {
+    width: 350px;
+    height: 220px;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    overflow-x: hidden; 
+    overflow-y: auto;
+    margin-top: 10px;
+    
+}
+.servicoDiv {
+    text-align: center;
+    height: 70px;
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #4a17d5;
+    color: #6b3fe4;
+    cursor: pointer;
+    text-align: left;
+    transition: 0.5s;
+}
+.servicoDiv.selected {
+    background-color: #4a17d5;
+    color: white;
+    border-radius: 10px;
+    transition: 0.5s;
+}
+.tittle__Calendar{
+    width: 100%;
+    text-align: left;
+    padding-top: 10px;
+    padding-left: 13px;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+    color: #354249;
+    font-weight: 700;
+}
+/*seção dos horarios*/
+.Horarios{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    border-radius: 10px;
+    padding: 5px;
+    margin-bottom: 5px;
+    width: 100%;
+
+}
+span{
+    color: #354249;
+    font-weight: 800;
+}
+.horarioDiv {
+    position: relative;
+    padding: 5px;
+    margin: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #4a17d5;
+    color: #6b3fe4;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 15px;
+    transition: 0.5s;
+}
+.horarioDiv.selected {
+    background-color: #4a17d5;
+    color: white;
+    border-radius: 10px;
+    transition: 0.5s;
+}
+
+/* =-=-= Estilização do calendario para desktop*/
+.react-calendar {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 220px;
+    min-width: 370px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+.react-calendar__navigation{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+    margin: 10px;
+    border: none;
+    text-decoration: none;
+}
+/*butão voltar Ano*/
+.react-calendar__navigation__arrow.react-calendar__navigation__prev2-button{
+    background: transparent;
+    border-radius: 10px;
+    color: #f6f6fc;
+    width: 40px;
+    height: 30px;
+    border: none;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+    font-size: 30px;
+}
+/*butão voltar Mês*/
+.react-calendar__navigation__arrow.react-calendar__navigation__prev-button{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    color: #f6f6fc;
+    width: 30px;
+    height: 30px;
+    font-size: 30px;
+    margin: 5px;
+}
+.react-calendar__navigation__label{
+    border: none;
+    background: transparent;
+}
+.react-calendar__navigation__label__labelText.react-calendar__navigation__label__labelText--from{
+    color: #f6f6fc;
+    font-size: 15px;
+}
+/*butão avançar Mês*/
+.react-calendar__navigation__arrow.react-calendar__navigation__next-button{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    color: #f6f6fc;
+    width: 30px;
+    height: 30px;
+    font-size: 30px;
+    margin: 5px;
+}
+/*butão avançar Ano*/
+.react-calendar__navigation__arrow.react-calendar__navigation__next2-button{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    width: 40px;
+    height: 30px;
+    font-size: 30px;
+    margin: 5px;
+    color: #f6f6fc;
+}
+/*Container dos dias da semana e mês*/
+.react-calendar__viewContainer{
+    background: transparent;
+    border-radius: 10px;
+}
+/*Sub-container dos dias da semana e mês*/
+.react-calendar__month-view{
+    background: transparent;
+    border-radius: 10px;
+}
+/*div dos dias da semana*/
+.react-calendar__month-view__weekdays{
+    background: transparent;
+    border-radius: 10px;
+}
+/*div especifica de cada dia da semana*/
+.react-calendar__month-view__weekdays__weekday{
+    background: transparent;
+    border-radius: 10px;
+    color: #f6f6fc;
+    font-weight: bold;
+    font-size: 12px;
+    height: 20px;
+    width: 25px;
+    margin-bottom: 5px;
+    text-align: center;
+}    
+/*Container dos dias do mês*/
+.react-calendar__month-view__days{
+    background: transparent;
+    border-radius: 10px;
+}
+/*butão dos dias finais e iniciais dos meses anteriores e posteriores, respectivamente. */
+.react-calendar__tile.react-calendar__month-view__days__day.react-calendar__month-view__days__day--neighboringMonth{
+    background: transparent;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 5px;
+}
+/*button dia 1 do mês*/
+.react-calendar__tile.react-calendar__tile--active.react-calendar__tile--range.react-calendar__tile--rangeStart.react-calendar__tile--rangeEnd.react-calendar__tile--rangeBothEnds.react-calendar__month-view__days__day{
+    background: #4a17d5;
+    color: aliceblue;
+    border-radius: 5px;
+    font-weight: bold;
+    padding: 3px;
+}
+/*todos os butões do dia do mês*/
+.react-calendar__tile.react-calendar__month-view__days__day{
+    background-color: transparent;
+    margin-bottom: 10px;
+    padding: 3px;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+}
+/* =-=-= Fim da estilização do calendario =-=-=*/
+#AgendamentoButton{
+    border: none;
+    background: transparent;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #4a17d5;
+    color: #4a17d5;
+    transition: 0.5s;
+}
+#AgendamentoButton:hover{
+    background:#4a17d5;
+    color: white;
+    transition: 0.5s;
+}
+.mercadoPagoButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #3483fa;
+    color: white;
+    font-size: 16px;
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.5s;
+} 
+.mercadoPagoButton:hover {
+    background-color: #2968c8; /* Azul escuro um pouco mais claro */
+}
+.mercadoPagoLogo {
+    width: 50px;
+    margin-right: 10px;
+    background: #fff;
+    border-radius: 5px;
+}
+.abertoBarbDetails {
+    color: #0f0;
+    border-radius: 5px;
+    padding: 3px;
+    width: 60px;
+    text-align: left;
+    font-weight: bold;
+}
+.fechadoBarbDetails {
+    color: red;
+    border-radius: 10px;
+    padding: 3px;
+    width: 60px;
+    text-align: left;
+    font-weight: bold;
+}
+#span__star{
+    margin-top: px;
+    margin-right: 5px;
+    font-size: 17px;
+    letter-spacing: 1px;
+}
+.Estrelas {
+    display: flex;
+    text-align: center;
+    margin-bottom: 10px;
+} 
+.Estrelas .fa-star {
+    margin-top: 5px;
+    color: #1c2035;
+    cursor: pointer;
+    transition: color 0.3s ease-in-out;
+    font-size: 17px;
+}
+.Estrelas .fa-star.selected,
+.Estrelas .fa-star:hover {
+    color: #fed720;
+} 
+textarea {
+    width: 100%;
+    height: 80px;
+    margin-bottom: 10px;
+    padding: 10px;
+    resize: vertical;
+    background: #1c2035;
+    border-radius: 12px;
+    color: white;
+    outline: none;
+    border: none;
+} 
+textarea::placeholder{
+    color: #f6f6fc;
+    font-family: 'Noto Sans', sans-serif;
+}
+#SendAvaliation {
+    background: #4a17d5;
+    color: white;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.reviews {
+    position: relative;
+    display: flex;
+    border-radius: 8px;
+    text-align: left;
+    width: 350px;
+    height: 200px;
+    cursor: grab;
+    overflow: hidden;
+    padding: 5px;
+}
+.reviews__container{
+    display: flex;
+}
+.reviws__section{
+  padding: 10px;
+  background: #1c2035;
+  margin: 10px;
+  border-radius: 12px;
+}
+.HeaderReview{
+    display: flex;
+    margin-bottom: 10px;
+}
+.img_User{
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    overflow: hidden;
+    border-radius: 50%;
+}
+.img_User img{
+    width: 40px;
+    height: 40px;
+}
+#userName{
+    padding-left: 4px;
+}
+.userName__Stars{
+    width: 150px;
+    height: 50px;
+}
+#Star_Unlocked{
+    position: absolute;
+    background: transparent;
+    width: 150px;
+    height: 20px;
+}
+.reviews__day{
+    width: 80px;
+    height: 40px;
+    text-align: right;
+}

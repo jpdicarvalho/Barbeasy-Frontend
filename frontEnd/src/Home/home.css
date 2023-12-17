@@ -1,0 +1,366 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans+Condensed:wght@300&family=Fira+Sans:ital@1&family=Noto+Serif+Gujarati:wght@100&family=Open+Sans:ital,wght@1,300&family=Oswald:wght@600&family=Poppins:wght@200;300;400;500;700&family=Roboto+Condensed:ital,wght@0,100;0,500;0,700;0,800;0,900;1,200&family=Roboto+Slab:wght@300&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100&display=swap');
+.containerHome{
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-direction: column ;
+  width: 400px;
+  padding: 15px;
+  padding-top: 340px;
+  padding-bottom: 70px;
+  font-family: 'Poppis', sans-serif;
+  background: #100d2a;
+}
+.header{
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  width: 100%;
+  padding: 10px;
+  padding-top: 15px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.imgBoxSectionUser{
+  position: relative;
+  width: 100%;
+  padding: 5px;
+  height: auto;
+  border-radius: 30px;
+  text-align: left;
+  display: flex;
+  flex-direction: row;
+  background: transparent;
+  margin-bottom: 15px;
+}
+.imgBoxSectionUser img{
+  position: relative;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: transparent;
+  margin-right: 10px;
+}
+.spanUser{
+  font-size: 14px;
+  color: white;
+  padding: 2px;
+  background: transparent;
+}
+.spanUser span{
+  background: transparent;
+}
+.spanUser p{
+  background: transparent;
+  font-size: 12px;
+}
+.Barbeasy{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background: transparent;
+  width: 100%;
+  margin-bottom: 15px;
+}
+#logoBarbeasy{
+  width: 100px;
+  height: 100px;
+  background: transparent;
+}
+.Barbeasy h1{
+ background: transparent;
+ color: #f6f6fc;
+ font-size: 40px;
+}
+.containerSearch{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: #6D48D6;
+  width: 100%;
+  height: 70px;
+  padding: 5px;
+  background: transparent;
+}
+.lupa{
+  position: absolute;
+  font-size: 20px;
+  color: #f6f6fc;
+  background: transparent;
+  top: 20px;
+  left: 15px;
+}
+.inputBoxSearch{
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: auto;
+  text-align: left;
+  background: transparent;
+  padding: 5px;
+}
+#inputSearch{
+  padding-left: 40px;
+  outline: none;
+  border: none;
+  border-radius: 30px;
+  width: 100%;
+  height: 50px;
+  margin-right: 5px;
+  background: #100d2a;
+  color: #f6f6fc;
+  padding-right: 10px;
+}
+.inputBoxSearch input[type="search"]::placeholder{
+  color: #f6f6fc;
+  font-weight: bolder;
+  letter-spacing: 1px;
+}
+#Search{
+  color: white;
+  border: none;
+  height: 40px;
+  border-radius: 10px;
+  width: 800px;
+  margin-left: 5px;
+  font-weight: bold;
+  transition: 0.5s;
+
+}
+#h3{
+  position: relative;
+  color: white;
+  border-radius: 30px;
+  font-size: 20px;
+  width: 100%;
+  padding-left: 10px;
+  left: 0;
+  top: 4px;
+  z-index: 1;
+}
+.containerBarbearia{
+  position: relative;
+  width: 300px;
+  height: 300px;
+  border-radius: 20px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-bottom: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+.section{
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  height: 160px;
+  margin-top: 5px ;
+  padding: 5px;
+  border-radius: 12px;
+}
+.imgBoxSection{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 280px;
+  height: 290px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.imgBoxSection img{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  
+}
+.Barbearias{
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  border: none;
+  height: auto;
+  width: 100%;
+  padding: 5px;
+  font-size: 10px;
+  color: black;
+  padding: 5px;
+}
+.Barbearias h2{
+  color: #f6f6fc;
+  font-weight: 300;
+  overflow: hidden;
+}
+.fa-solid.fa-star{
+  color: gold;
+  background: transparent;
+  font-size: 12px;
+  margin-left: 3px;
+  margin-right: 3px;
+  overflow: hidden;
+}
+.endereco{
+  display: flex;
+  flex-direction: row;
+  letter-spacing: 1px;
+  padding-left: 5px;
+  font-size: 11px;
+  border-radius: 20px;
+  padding-bottom: 3px;
+}
+.material-symbols-outlined.location{
+  padding-right: 5px;
+}
+.agendar{
+  position: relative;
+  width: 100%;
+  height: 40px;
+  border-radius: 10px;
+  color: white;
+  border: none;
+  background:#100d2a;
+}
+.glassmorphism {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.Navigation{
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 45px;
+  height: 45px;
+  bottom: 50px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  transition: 0.5s;
+  transition-delay: 0.5s;
+  border-radius: 60px;
+  background: transparent;
+}
+.Navigation.active{
+  width: 250px;
+  background: transparent;
+}
+.Navigation .toggleMenu{
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: none;
+  transition: 0.5s;
+  cursor: pointer;
+  transition-delay: 0.5s;
+}
+.Navigation.active .toggleMenu{
+  transition-delay: 0s;
+  transform: translateY(45px);
+  width: 30px;
+  height: 30px;
+}
+.Navigation .toggleMenu::before{
+  content: '';
+  position: absolute;
+  width: 30px;
+  height: 3px;
+  border-radius: 3px;
+  background: white;
+  transform: translateY(-5px);
+  transition: 0.5s;
+  transition-delay: 0.5s;
+}
+.Navigation .toggleMenu::after{
+  content: '';
+  position: absolute;
+  width: 30px;
+  height: 3px;
+  border-radius: 3px;
+  background: white;
+  transform: translateY(5px);
+  transition: 0.5s;
+  transition-delay: 0.5s;
+}
+.Navigation.active .toggleMenu::before{
+  transition-delay: 0s;
+  color: #f6f6fc;
+  transform: translateY(0px) rotate(45deg) scale(0.6);
+}
+.Navigation.active .toggleMenu::after{
+  transition-delay: 0s;
+  color: #f6f6fc;
+  transform: translateY(0px) rotate(315deg) scale(0.6);
+}
+.Navigation li{
+  list-style: none;
+  transition: 0.5s;
+  transform: scale(0);
+  background: transparent;
+}
+.Navigation.active li{
+  transition-delay: 0.75s;
+  display: flex;
+  transform: scale(1);
+  color: #4a17d5;
+  background: transparent;
+}
+.Navigation li button{
+  color: #4a17d5;
+  font-size: 20px;
+  text-transform: uppercase;
+  border-radius: 20px;
+  transition: 0.5s;
+  background: transparent;
+  border: none;
+  width: auto;
+}
+.Navigation li button:hover{
+  color: #6D48D6;
+  background: transparent;
+}
+.fa-solid, .fas{
+  background: transparent;
+}
+.aberto {
+  position: relative;
+  color: rgb(32, 229, 32);
+  padding: 5px;
+  width: auto;
+  text-align: center;
+  font-size: 12px;
+}
+.fechado {
+  position: relative;
+  color: #1c2035;
+  padding: 5px;
+  width: auto;
+  text-align: center;
+  font-size: 12px;
+  font-weight: bold;
+}

@@ -1,0 +1,66 @@
+.widget {
+  background: #ffffff;
+  width: 500px;
+  border-radius: 8px;
+  color: black;
+}
+
+.widget > header {
+  position: relative;
+  display: flex;
+  border-bottom: 1px solid #e2e2e2;
+}
+
+.widget > header > button {
+  padding: 20px;
+  width: 64px; /* Substitua ${buttonWidth} por um valor fixo, se não estiver usando um pré-processador */
+  background: transparent;
+  color: #918db7;
+  border: 0;
+  transition: 0.35s;
+}
+
+.widget > header > button:not(.active) {
+  opacity: 0.7;
+}
+
+.widget > header > button:hover:not(.active) {
+  opacity: 1;
+}
+
+.widget > header > button.active {
+  color: var(--color-primary);
+}
+
+.underline {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 64px; /* Substitua ${buttonWidth} por um valor fixo */
+  height: 3px;
+  background: var(--color-primary);
+  transition: 0.2s;
+}
+
+.content {
+  position: relative;
+  overflow: hidden;
+  height: 140px;
+  background: red;
+}
+
+.content-inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  width: 900px; /* Substitua ${tabWidth * tabContent.length} por um valor fixo */
+  transition: 0.35s;
+  background: #ffffff;
+}
+
+.tab-content {
+  width: 300px; /* Substitua ${tabWidth} por um valor fixo */
+  padding: 20px;
+}

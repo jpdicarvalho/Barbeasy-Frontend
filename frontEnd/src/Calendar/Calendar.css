@@ -1,0 +1,66 @@
+.container__Calendar{
+    display: flex;
+    justify-content: baseline;
+    align-items: center;
+    flex-direction: column;
+}
+.month{
+    text-align: center;
+    font-size: 25px;
+    letter-spacing: 1px;
+}
+.year{
+    font-size: 15px;
+    letter-spacing: 2px;
+}
+.sectionCalendar {
+    width: 300px;
+    height: 80px;
+    overflow-x: auto; 
+    overflow-y: hidden; 
+    display: flex;
+    flex-direction: column;
+}
+/* Personaliza a barra de rolagem horizontal */
+.sectionCalendar::-webkit-scrollbar {
+    height: 3
+    0; /* Altura da barra de rolagem */
+}
+.sectionCalendar::-webkit-scrollbar-thumb {
+    background-color: #4CAF50; /* Cor da barra de rolagem */
+    border-radius: 6px; /* Raio das bordas da barra de rolagem */
+}
+.sectionCalendar::-webkit-scrollbar-track {
+    background-color: #eee; /* Cor do fundo da barra de rolagem */
+}
+
+.list__Names__Week__And__Day{
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    z-index: 1001;
+    transition: 0.5s;
+}
+.list__name__Week{
+   position: relative;
+   text-align: center;
+   margin-left: 7px;
+   padding: 2px;
+   z-index: 1000;
+   transition: 0.5s;
+}
+.currentDay {
+    background: #354249; /* Substitua com a cor desejada */
+    color: white; /* Cor do texto no dia atual */
+    border-radius: 6px;
+    width: 40px;
+    padding: 1px;
+}
+.selectedDay {
+    background-color: #4a17d5; /* Substitua com a cor desejada para o dia selecionado */
+    color: white; /* Cor do texto no dia selecionado */
+    border-radius: 8px;
+    width: 38px;
+    transition: 0.5s;
+  }
