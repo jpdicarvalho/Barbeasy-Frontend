@@ -16,7 +16,7 @@ function SignUp() {
     const navigate = useNavigate()
     const handleSubmit = (event) => {
         event.preventDefault();
-        axios.post('http://barbeasy-backend-production.up.railway.app/SingUp', values)
+        axios.post('https://barbeasy-backend-production.up.railway.app/SingUp', values)
           .then(res => {
             if (res.status === 201) {
               setMessage('Cadastro realizado!');
