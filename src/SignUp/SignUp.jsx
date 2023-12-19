@@ -16,7 +16,7 @@ function SignUp() {
     const navigate = useNavigate()
     const handleSubmit = (event) => {
         event.preventDefault();
-        axios.post('https://api-user-barbeasy.up.railway.app/SingUp', values)
+        axios.post('https://api-user-barbeasy.up.railway.app/SignUp', values)
           .then(res => {
             if (res.status === 201) {
               setMessage('Cadastro realizado!');
