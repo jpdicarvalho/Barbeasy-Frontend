@@ -38,7 +38,7 @@ function SignIn() {
     async function sendForm(e) {
         e.preventDefault();
 
-        let dataUser = await fetch('https://barbeasy-client-backend.onrender.com/SignIn', {
+        let dataUser = await fetch('https://api-user-barbeasy.up.railway.app/SignIn', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
