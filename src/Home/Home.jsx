@@ -32,13 +32,12 @@ const userData = localStorage.getItem('userData');
 const userInformation = JSON.parse(userData);
 //Fromatando cada letra inicial do nome do usuário para caixa-alta
 const userName = userInformation.user[0].name;
-const userId = userInformation.user[0].id;
 
 //listando as barbearias cadastradas
 useEffect(() => {
   const fetchData = async () => {
     try {
-        const response = await fetch('http://barbeasy-backend-production.up.railway.app/listBarbearia', {
+        const response = await fetch('https://api-user-barbeasy.up.railway.app/listBarbearia', {
           headers: {
             'Content-Type': 'application/json',
           },
@@ -78,6 +77,7 @@ const logoutClick = () => {
   ['token', 'userData'].forEach(key => localStorage.removeItem(key));
   navigate("/SignIn");
 };
+
 //pegando a hora para saudar o usuário
 useEffect(() => {
   const obterSaudacao = () => {
@@ -93,33 +93,11 @@ useEffect(() => {
 obterSaudacao();
 }, []);
 
-/*pegando as cordenadas do usuário
-useEffect(() => {
-const obterLocalizacao = async () => {
-  try {
-    const position = await new Promise((resolve, reject) => {
-      navigator.geolocation.getCurrentPosition(resolve, reject);
-    });
-    setUserLocation({
-      latitude: position.coords.latitude,
-      longitude: position.coords.longitude,
-    });
-  } catch (error) {
-    console.error('Erro ao obter a localização do usuário:', error);
-  }
-};
-
-  obterLocalizacao();
-}, []);*/
-
-// Modificando o trecho abaixo para incluir as latitudes e longitudes das barbearias na URL da API do Google
-
-
 //Buscar as avaliações da barbearia em especifico
 useEffect(() => {
   const SearchAvaliation = async () => {
     try {
-      const response = await fetch('http://barbeasy-backend-production.up.railway.app/SearchAvaliation');
+      const response = await fetch('https://api-user-barbeasy.up.railway.app/SearchAvaliation');
       const data = await response.json();
       setAllAvaliation(data);
     } catch (error) {
@@ -147,13 +125,6 @@ const avaliacoesDaBarbearia = AllAvaliation.filter(avaliacao => avaliacao.barbea
   return media.toFixed(1).replace('.', ',');
 };
 
-const handleMercadoPagoLogin = () => {
-  // Redireciona o usuário para a URL de autorização do Mercado Pago
-  window.location.href = `https://auth.mercadopago.com/authorization?client_id=7433076748534689&response_type=code&platform_id=mp&state=123&redirect_uri=`;
-};
-/*TESTUSER1064212823
-WMN2odtHIq*/
-console.log(userId)
 return (
           <div className="containerHome">
 
@@ -172,11 +143,7 @@ return (
                   <h1>Barbeasy</h1>
                 </div>
                 <div className="containerSearch">
-                <button onClick={handleMercadoPagoLogin} className="mercadoPagoButton">
-                    Acessar com Mercado Pago
-                  </button>
                   <div className="inputBoxSearch">
-                  
                     <i className="fa-solid fa-magnifying-glass lupa"></i>
                     <input type="search" id="inputSearch" name="name" value={search} onChange={(e) => setSearch(e.target.value)} placeholder='Encontrar Barbearia'/>
                   </div>
