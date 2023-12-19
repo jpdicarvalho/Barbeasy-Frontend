@@ -69,7 +69,7 @@ const navigateToHome = () =>{
 //Função LogOut
 const logoutClick = () => {
   ['token', 'userData'].forEach(key => localStorage.removeItem(key));
-  navigate("/SignIn");
+  navigate("/");
 };
 
 //buscando o serviço cadastrado pela barbearia
