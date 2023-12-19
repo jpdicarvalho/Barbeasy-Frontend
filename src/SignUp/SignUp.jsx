@@ -22,7 +22,7 @@ function SignUp() {
               setMessage('Cadastro realizado!');
               setTimeout(() => {
                 setMessage(null);
-                navigate('/SignIn');
+                navigate('/');
               }, 2000);
               
             } else{
