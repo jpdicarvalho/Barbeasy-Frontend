@@ -75,7 +75,7 @@ const handleMenuClick = () => {
 //Função LogOut
 const logoutClick = () => {
   ['token', 'userData'].forEach(key => localStorage.removeItem(key));
-  navigate("/SignIn");
+  navigate("/");
 };
 
 //pegando a hora para saudar o usuário
