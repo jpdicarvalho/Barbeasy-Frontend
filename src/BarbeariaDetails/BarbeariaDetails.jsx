@@ -140,7 +140,7 @@ const enviarAvaliacao = async () => {
       const data = await response.json();
       console.log(data)
       // Recarrega a página após a avaliação ser feita com sucesso
-      
+      window.location.reload();
     } catch (error) {
       console.error('Erro ao enviar a avaliação:', error);
     }
