@@ -74,7 +74,7 @@ function SignUp() {
         <div className='inputBox'>
             <input type="submit" value="Cadastrar"/>
         </div>
-        <Link className="link" to="/">Fazer Login</Link>
+        <Link className="link" to="/SignIn">Fazer Login</Link>
       </form>
     </>
     )

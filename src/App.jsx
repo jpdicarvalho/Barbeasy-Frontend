@@ -1,8 +1,9 @@
 // Importando os componentes e funcionalidades necessários do react-router-dom e prop-types
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Home from './Home/Home';
+import GetStartedPage from './Get-Started/getStarted';
 import SignIn from './SignIn/SignIn';
 import SignUp from './SignUp/SignUp';
+import Home from './Home/Home';
 import BarbeariaDetails from '../src/BarbeariaDetails/BarbeariaDetails';
 import Checkout from './Checkout';
 import Widget from './Widget';
@@ -19,7 +20,7 @@ const PrivateRoute = ({ element, ...props }) => {
   return isUserAuthenticated() ? (
     element
   ) : (
-    <Navigate to="/SignIn" replace state={{ from: props.location }} />
+    <Navigate to="/" replace state={{ from: props.location }} />
   );
 };
 
@@ -35,7 +36,8 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<SignIn />} />
+        <Route path="/" element={<GetStartedPage />} />
+        <Route path="/SignIn" element={<SignIn />} />
         <Route path="/Home" element={<PrivateRoute element={<Home />} />} />
         <Route path="/SignUp" element={<SignUp />} />
         <Route path="/BarbeariaDetails" element={<PrivateRoute element={<BarbeariaDetails />} />} />
