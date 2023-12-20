@@ -77,6 +77,7 @@ function SignIn() {
                 <img src={barberLogo} alt="" />
             </div>
             <h2 id='HeaderSignIn'>Barbeasy</h2>
+            <span>Login</span>
             {message === "Seja Bem Vindo!" ? (
                 <p className="sucess">{message}</p>
                 ) : (
