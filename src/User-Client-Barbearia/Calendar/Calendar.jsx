@@ -67,6 +67,7 @@ export function Calendar({ onDateChange }) {
 
   const handleDateClick = (day, dayOfWeek) => {
     setSelectedDay(day);
+    console.log(selectedDay)
     setSelectedDateInfo(`${dayOfWeek}, ${day}`);
     if (onDateChange) {
       onDateChange(`${dayOfWeek}, ${day}`);

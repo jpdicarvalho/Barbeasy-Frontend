@@ -1,10 +1,10 @@
 // Importando os componentes e funcionalidades necessários do react-router-dom e prop-types
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import GetStartedPage from './Get-Started/getStarted';
-import SignIn from './SignIn/SignIn';
-import SignUp from './SignUp/SignUp';
-import Home from './Home/Home';
-import BarbeariaDetails from '../src/BarbeariaDetails/BarbeariaDetails';
+import GetStartedPage from '../src/Get-Started/getStarted';
+import SignIn from '../src/User-Client-Barbearia/SignIn/SignIn';
+import SignUp from './User-Client-Barbearia/SignUp/SignUp';//não sei porque essa importação só funciona assim...
+import Home from '../src/User-Client-Barbearia/Home/Home';
+import BarbeariaDetails from '../src/User-Client-Barbearia/BarbeariaDetails/BarbeariaDetails';
 import Checkout from './Checkout';
 import Widget from './Widget';
 import PropTypes from 'prop-types';

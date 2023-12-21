@@ -22,7 +22,7 @@ function SignUp() {
               setMessage('Cadastro realizado!');
               setTimeout(() => {
                 setMessage(null);
-                navigate('/');
+                navigate('/SignIn');
               }, 2000);
               
             } else{
@@ -74,7 +74,9 @@ function SignUp() {
         <div className='inputBox'>
             <input type="submit" value="Cadastrar"/>
         </div>
-        <Link className="link" to="/SignIn">Fazer Login</Link>
+        <div className="link__login">
+          <p>Você já tem uma conta?</p><Link className="link" to="/SignIn">Login</Link>
+        </div>
       </form>
     </>
     )

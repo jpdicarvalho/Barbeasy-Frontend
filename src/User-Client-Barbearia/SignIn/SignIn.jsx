@@ -99,7 +99,9 @@ function SignIn() {
                 <div className='inputBox'>
                     <input type="submit" value="Entrar"/>
                 </div>
-                <Link className="link" to="/SignUp">Criar Conta</Link>
+                <div className="link__signup">
+                    <p>Não tem uma conta?</p><Link className="link" to="/SignUp">Criar Conta</Link>
+                </div>
             </form>
     );
 }
