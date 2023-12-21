@@ -26,7 +26,7 @@ const GetStartedPage = () => {
         >
           <p className="tittle__option">Agendar Serviço</p>
           <hr id='hr' />
-          <p>Descubra as melhores opções de serviços de barbearias</p>
+          <p>Descubra as melhores opções de serviços de barbearias.</p>
         </div>
 
         <div
@@ -40,7 +40,7 @@ const GetStartedPage = () => {
         <Link to="/SignIn">
           {optionUser === 'cliente' && <button className='button__link'>Iniciar</button>}
         </Link>
-        <Link to="/">
+        <Link to="SignInBarbearia">
           {optionUser === 'barbearia' && <button className='button__link'>Iniciar</button>}
         </Link>
       </div>

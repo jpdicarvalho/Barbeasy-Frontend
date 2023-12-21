@@ -3,11 +3,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import './style.css'
 import barberLogo from './barber-logo.png';
 
-function SignIn() {
+function SignInBarbearia() {
+
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [message, setMessage] = useState(null);    
+    const [message, setMessage] = useState(null);
     
     async function sendForm(e) {
         e.preventDefault();
@@ -29,7 +30,6 @@ function SignIn() {
         if (dataUser.success) {
             // Armazene o token no localStorage
             localStorage.setItem('token', dataUser.token);
-
             localStorage.setItem('userData', JSON.stringify(dataUser));
             setMessage('Seja Bem Vindo!');
               setTimeout(() => {
@@ -69,10 +69,10 @@ function SignIn() {
                     <input type="submit" value="Entrar"/>
                 </div>
                 <div className="link__signup">
-                    <p>Não tem uma conta?</p><Link className="link" to="/SignUp">Criar Conta</Link>
+                    <p>Não tem uma conta?</p><Link className="link" to="/SignUpBarbearia">Criar Conta</Link>
                 </div>
             </form>
     );
 }
 
-export default SignIn;
+export default SignInBarbearia;

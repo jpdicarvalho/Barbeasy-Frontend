@@ -24,61 +24,6 @@ body{
     width: 100px;
     height: 100px;
 }
-#HeaderSignIn{
-    position: relative;
-    color: #f6f6fc;
-    text-align: center;
-    font-size: 2em;
-    line-height: 0.9em;
-    margin-bottom: 5px;
-}
-#Bemvindo{
-    position: relative;
-    margin-bottom: 12px;
-    font-size: 15px;
-    font-weight: 100;
-}
-.inputBox{
-    position: relative;
-    margin-bottom: 20px;
-}
-.inputBox input{
-    outline: none;
-    background: transparent;
-    border-radius: 12px;
-    font-size: 1em;
-}
-.inputBox input[type="text"],
-.inputBox input[type="password"]{
-   width: 100%;
-   padding: 15px 20px;
-   padding-left: 40px;
-   margin-bottom: 20px;
-   border: 1px solid #7849f4;
-}
-.inputBox i{
-    position: absolute;
-    left: 20px;
-    top: 25%;
-}
-.inputBox input[type="submit"] {
-    margin-bottom: 10px;
-    width: 100%;
-    padding: 15px 20px;
-    cursor: pointer;
-    font-weight: bold;
-    border: none;
-    border-radius: 70px;
-    color: #f6f6fc;
-    background: #10a37f;
-    letter-spacing: 1px;
-    transition: 0.5s;
-   
-}
-.inputBox input[type="submit"]:hover{
-    letter-spacing: 3px;
-    transition: 0.5s; 
-}
 .link__signup{
     width: 240px;
     display: flex;
@@ -86,29 +31,3 @@ body{
     align-items: center;
     flex-direction: row;
 }
-form .link{
-    text-decoration: none;
-    color: white;
-    font-size: 14px;
-    font-weight: bold;
-}
-.sucess{
-    color: #0f0;
-    margin-bottom: 10px;
-    font-size: 13px;
-    text-align: center;
-}
-.error{
-    color: rgb(255, 0, 0);
-    margin-bottom: 10px;
-    font-size: 13px;
-    text-align: center;
-}
-/*
-green #04fc43
-pink #ff2972
-yelow #fee800
-
- box-shadow: inset 5px 5px 10px rgba(0,0,0,0.1),
-   inset -5px -5px 10px #fff;
-*/

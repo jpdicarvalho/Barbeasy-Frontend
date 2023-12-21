@@ -1,8 +1,13 @@
 // Importando os componentes e funcionalidades necessários do react-router-dom e prop-types
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import GetStartedPage from '../src/Get-Started/getStarted';
+
 import SignIn from '../src/User-Client-Barbearia/SignIn/SignIn';
 import SignUp from './User-Client-Barbearia/SignUp/SignUp';//não sei porque essa importação só funciona assim...
+
+import SignInBarbearia from '../src/User-Barbearia/SignIn-Barbearia/SignIn-Barbearia';
+import SignUpBarbearia from '../src/User-Barbearia/SignUp-Barbearia/SignUp-Barbearia';
+
 import Home from '../src/User-Client-Barbearia/Home/Home';
 import BarbeariaDetails from '../src/User-Client-Barbearia/BarbeariaDetails/BarbeariaDetails';
 import Checkout from './Checkout';
@@ -37,9 +42,14 @@ const App = () => {
     <Router>
       <Routes>
         <Route path="/" element={<GetStartedPage />} />
+        
         <Route path="/SignIn" element={<SignIn />} />
-        <Route path="/Home" element={<PrivateRoute element={<Home />} />} />
         <Route path="/SignUp" element={<SignUp />} />
+
+        <Route path="/SignInBarbearia" element={<SignInBarbearia />} />
+        <Route path="/SignUpBarbearia" element={<SignUpBarbearia />} />
+
+        <Route path="/Home" element={<PrivateRoute element={<Home />} />} />
         <Route path="/BarbeariaDetails" element={<PrivateRoute element={<BarbeariaDetails />} />} />
         <Route path="/Checkout" element={<PrivateRoute element={<Checkout />} />} />
         <Route path="/Widget" element={<PrivateRoute element={<Widget />} />} />
