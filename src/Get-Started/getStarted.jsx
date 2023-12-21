@@ -38,10 +38,10 @@ const GetStartedPage = () => {
           <p>Ofereça serviços de barbearia e conecte-se com clientes.</p>
         </div>
         <Link to="/SignIn">
-          {optionUser === 'cliente' && <button>Iniciar</button>}
+          {optionUser === 'cliente' && <button className='button__link'>Iniciar</button>}
         </Link>
         <Link to="/">
-          {optionUser === 'barbearia' && <button>Iniciar</button>}
+          {optionUser === 'barbearia' && <button className='button__link'>Iniciar</button>}
         </Link>
       </div>
     </div>
