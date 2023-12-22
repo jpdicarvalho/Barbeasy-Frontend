@@ -1,0 +1,47 @@
+#tittle_p{
+    margin-bottom: 5px;
+    color: #354249;
+    font-weight: 800;
+}
+#street_icon{
+    position: absolute;
+    top: 42px;
+    left: 10px;
+    color: #f6f6fc;
+}
+#street_number{
+    position: absolute;
+    top: 102px;
+    left: 10px;
+    color: #f6f6fc;
+}
+#neighborhood_icon{
+    position: absolute;
+    left: 10px;
+    top: 163px;
+    color: #f6f6fc;
+}
+#city_icon{
+    position: absolute;
+    left: 10px;
+    top: 225px;
+    color: #f6f6fc;
+}
+#Icon_user_barbearia{
+    position: absolute;
+    left: 15px;
+    top: 44px;
+    color: #f6f6fc;
+}
+#icon_email{
+    position: absolute;
+    left: 15px;
+    top: 106px;
+    color: #f6f6fc;
+}
+#icon_password{
+    position: absolute;
+    left: 15px;
+    top: 165px;
+    color: #f6f6fc;
+}

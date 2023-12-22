@@ -6,10 +6,12 @@ import barberLogo from './barber-logo.png';
 function SignInBarbearia() {
 
     const navigate = useNavigate();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
     const [message, setMessage] = useState(null);
-    
+    const [values, setValues] = useState({
+        email: '',
+        senha: ''
+      });
+
     async function sendForm(e) {
         e.preventDefault();
 
@@ -19,10 +21,7 @@ function SignInBarbearia() {
                 Accept: 'application/json',
                 'Content-type': 'application/json'
             },
-            body: JSON.stringify({
-                password: password,
-                email: email
-            })
+            body: JSON.stringify(values), // Passar os valores do estado no corpo da requisição
         });
         
         dataUser = await dataUser.json();
@@ -58,13 +57,41 @@ function SignInBarbearia() {
                 <p className="error">{message}</p>
             )}
                 <div className="inputBox">
-                    <input type="email" id="email" name="email" onChange={e => setEmail(e.target.value)} placeholder='Email'/>
-                    <i className="fa-solid fa-envelope Icon"></i>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={values.email}
+                    onChange={(e) => {
+                        const inputValue = e.target.value;
+                        // Substituir o conteúdo do campo para conter apenas números, letras, "@" e "."
+                        const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9@.]/g, '');
+                        // Limitar a 50 caracteres
+                        const truncatedValue = sanitizedValue.slice(0, 50);
+                        setValues({ ...values, email: truncatedValue });
+                    }}
+                    placeholder="Email"
+                    required
+                    />{' '} <i className="fa-solid fa-envelope Icon"></i>
                 </div>
+
                 <div className="inputBox">
-                    <input type="password" id="password" name="password" onChange={e => setPassword(e.target.value)} placeholder='Password' />
-                    <i className="fa-solid fa-lock Icon"></i>
+                <input
+                    type="password"
+                    id="senha"
+                    name="senha"
+                    value={values.senha}
+                    onChange={(e) => {
+                    const inputValue = e.target.value;
+                    // Limitar a 8 caracteres
+                    const truncatedValue = inputValue.slice(0, 8);
+                    setValues({ ...values, senha: truncatedValue });
+                    }}
+                    placeholder="Password"
+                    required
+                    />{' '} <i className="fa-solid fa-lock Icon"></i>
                 </div>
+
                 <div className='inputBox'>
                     <input type="submit" value="Entrar"/>
                 </div>

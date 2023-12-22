@@ -23,37 +23,38 @@
   position: absolute;
   left: 10px;
   top: 11px;
-  color: #fff;
+  color: #f6f6fc;
 }
 #Icon_User{
   position: absolute;
   left: 15px;
   top: 75px;
-  color: #fff;
+  color: #f6f6fc;
 }
 #Icon_phone{
   position: absolute;
   left: 10px;
   top: 74px;
-  color: #fff;
+  color: #f6f6fc;
 }
 .Icon{
   position: absolute;
   left: 15px;
   top: 16px;
-  color: #fff;
+  color: #f6f6fc;
 }
 #button_next{
-margin-bottom: 10px;
-width: 300px;
-padding: 15px 20px;
-cursor: pointer;
-font-weight: bold;
-border: none;
-border-radius: 12px;
-color: #f6f6fc;
-background: #7849f4;
-transition: 0.5s;
+  margin-bottom: 10px;
+  width: 300px;
+  padding: 15px 20px;
+  cursor: pointer;
+  font-weight: 800;
+  border: none;
+  border-radius: 12px;
+  color: #f6f6fc;
+  background: #7849f4;
+  letter-spacing: 1px;
+  transition: 0.5s;
 }
 .inputBox{
   position: relative;
@@ -96,11 +97,12 @@ transition: 0.5s;
 }
 form .link{
   text-decoration: none;
-  color: white;
-  font-size: 14px;
-  font-weight: bold;
+  color: #f6f6fc;
+  font-size: 15px;
+  padding-top: 1px;
+  font-weight: 500;
 }
-.sucess{
+.success{
   color: #0f0;
   margin-bottom: 10px;
   font-size: 13px;

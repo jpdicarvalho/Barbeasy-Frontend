@@ -76,32 +76,37 @@ function SignUp() {
 
         <animated.div style={props} className="inputContainer">
           <div className="inputBox">
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={values.name}
-              onChange={(e) => {
-                const inputValue = e.target.value;
-                // Remover caracteres não alfanuméricos
-                const filteredValue = inputValue.replace(/[^a-zA-Z0-9]/g, '');
-                // Limitar a 30 caracteres
-                const truncatedValue = filteredValue.slice(0, 30);
-                setValues({ ...values, name: truncatedValue });
-              }}
-              placeholder="Nome de Usuário"
-              required
-            /> <i className="fa-regular fa-user Icon"></i>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value={values.name}
+            onChange={(e) => {
+              const inputValue = e.target.value;
+              // Remover caracteres não alfanuméricos, ponto e espaço
+              const filteredValue = inputValue.replace(/[^a-zA-Z0-9.\s]/g, '');
+              // Limitar a 30 caracteres
+              const truncatedValue = filteredValue.slice(0, 30);
+              setValues({ ...values, name: truncatedValue });
+            }}
+            placeholder="Nome de Usuário"
+            required
+          /> <i className="fa-regular fa-user Icon"></i>
 
-            <input
-              type="email"
-              id="email"
-              name="email"
-              onChange={e => setValues({ ...values, email: e.target.value })}
-              placeholder="Email"
-              required
-            />
-            <i className="fa-solid fa-envelope" id="Icon_User"></i>
+
+          <input
+            type="email"
+            id="email"
+            name="email"
+            onChange={(e) => {
+              const inputValue = e.target.value;
+              // Remover caracteres não permitidos no e-mail
+              const filteredValue = inputValue.replace(/[^a-zA-Z0-9@.]/g, '');
+              setValues({ ...values, email: filteredValue });
+            }}
+            placeholder="Email"
+            required
+          /> <i className="fa-solid fa-envelope" id="Icon_User"></i>
           </div>
 
           {step >= 2 && (
@@ -115,8 +120,7 @@ function SignUp() {
                 onChange={(e) => setValues({ ...values, celular: e.target.value })}
                 placeholder="(99) 9 9999-9999"
                 required
-              />
-              <span className="material-symbols-outlined" id="Icon_Barbearia">phone_iphone</span>
+              /> <span className="material-symbols-outlined" id="Icon_Barbearia">phone_iphone</span>
 
               <input
                 type="password"
