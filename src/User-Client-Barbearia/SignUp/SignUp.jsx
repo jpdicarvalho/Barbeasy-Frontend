@@ -88,7 +88,7 @@ function SignUp() {
             onChange={(e) => {
               const inputValue = e.target.value;
               // Remover caracteres não alfanuméricos, ponto e espaço
-              const filteredValue = inputValue.replace(/[^a-zA-Z0-9.\s]/g, '');
+              const filteredValue = inputValue.replace(/[^a-zA-Z0-9\sçéúíóáõãèòìàêôâ.]/g, '');
               // Limitar a 30 caracteres
               const truncatedValue = filteredValue.slice(0, 30);
               setValues({ ...values, name: truncatedValue });
