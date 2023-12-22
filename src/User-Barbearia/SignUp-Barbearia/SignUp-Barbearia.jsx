@@ -82,10 +82,13 @@ function SignUpBarbearia() {
         <h2 id="HeaderSignUp">Barbeasy</h2>
         <span>Cadastro de Barbearia</span>
         {message === "Cadastro realizado!" ? (
-          <p className="success">{message}</p>
-        ) : (
-          <p className="error">{message}</p>
-        )}
+            <p className="success">{message}</p>
+          ) : message === "E-mail já cadastrado. Por favor, escolha outro e-mail." ? (
+            <p className="error">{message}</p>
+          ) : (
+            <p className="error">{message}</p>
+          )}
+
 
         <animated.div style={props}>
           {step >= 1 && (
