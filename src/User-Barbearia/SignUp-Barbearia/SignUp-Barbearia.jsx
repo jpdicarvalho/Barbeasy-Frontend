@@ -7,8 +7,8 @@ import barberLogo from './barber-logo.png';
 
 function SignUpBarbearia() {
   const [values, setValues] = useState({
-    barbearia_name: '',
-    user_name: '',
+    name: '',
+    usuario: '',
     email: '',
     senha: ''
   });
@@ -86,16 +86,16 @@ function SignUpBarbearia() {
           <div className="inputBox">
             <input
             type="text"
-            id="barbearia_name"
-            name="barbearia_name"
-            value={values.barbearia_name}
+            id="name"
+            name="name"
+            value={values.name}
             onChange={(e) => {
               const inputValue = e.target.value;
               // Remover caracteres não alfanuméricos, ponto e espaço
               const filteredValue = inputValue.replace(/[^a-zA-Z0-9\sçéúíóáõãèòìàêôâ.]/g, '');
               // Limitar a 30 caracteres
               const truncatedValue = filteredValue.slice(0, 30);
-              setValues({ ...values, barbearia_name: truncatedValue });
+              setValues({ ...values, name: truncatedValue });
             }}
             placeholder="Nome da Barbearia"
             required
@@ -180,16 +180,16 @@ function SignUpBarbearia() {
               <p id="tittle_p">Informações de Login</p>
               <input
                 type="text"
-                id="user_name"
-                name="user_name"
-                value={values.user_name}
+                id="usuario"
+                name="usuario"
+                value={values.usuario}
                 onChange={(e) => {
                   const inputValue = e.target.value;
                   // Remover caracteres não alfanuméricos
                   const filteredValue = inputValue.replace(/[^a-zA-Z0-9.\s]/g, '');
                   // Limitar a 30 caracteres
                   const truncatedValue = filteredValue.slice(0, 30);
-                setValues({ ...values, user_name: truncatedValue });
+                setValues({ ...values, usuario: truncatedValue });
                 }}
                 placeholder="Nome de Usuário"
                 required
