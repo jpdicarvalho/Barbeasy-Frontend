@@ -61,7 +61,7 @@ function SignInBarbearia() {
             <h2 id='HeaderSignIn'>Barbeasy</h2>
             <span>Login</span>
             {message === "Seja Bem Vindo!" ? (
-                <p className="sucess">{message}</p>
+                <p className="success">{message}</p>
                 ) : (
                 <p className="error">{message}</p>
             )}
