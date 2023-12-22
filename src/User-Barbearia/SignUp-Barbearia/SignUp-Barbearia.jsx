@@ -45,11 +45,11 @@ function SignUpBarbearia() {
             navigate('/SignInBarbearia');
           }, 2000);
 
-        } else if (res.status === 400 && res.data.includes('E-mail já cadastrado')) {
+        }else if(res.status === 400){
           setMessage('E-mail já cadastrado. Por favor, escolha outro e-mail.');
           setTimeout(() => {
             setMessage(null);
-          }, 3000);
+          }, 2000);
 
         } else {
           setMessage('Erro ao realizar o cadastro!');
@@ -71,7 +71,7 @@ function SignUpBarbearia() {
   const nextStep = () => {
     setStep(step + 1);
   };
-
+  console.log(message)
   return (
     <>
       <form onSubmit={handleSubmit} className="container">
