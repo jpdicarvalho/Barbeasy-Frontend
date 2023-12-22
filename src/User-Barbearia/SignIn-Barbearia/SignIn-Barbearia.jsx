@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import './style.css'
+import './style.css';
 import barberLogo from './barber-logo.png';
 
 function SignInBarbearia() {
@@ -58,12 +58,12 @@ function SignInBarbearia() {
                 <p className="error">{message}</p>
             )}
                 <div className="inputBox">
-                    <input type="text" id="email" name="email" onChange={e => setEmail(e.target.value)} placeholder='Email'/>
-                    <i className="fa-regular fa-user"></i>
+                    <input type="email" id="email" name="email" onChange={e => setEmail(e.target.value)} placeholder='Email'/>
+                    <i className="fa-solid fa-envelope Icon"></i>
                 </div>
                 <div className="inputBox">
                     <input type="password" id="password" name="password" onChange={e => setPassword(e.target.value)} placeholder='Password' />
-                    <i className="fa-solid fa-lock"></i>
+                    <i className="fa-solid fa-lock Icon"></i>
                 </div>
                 <div className='inputBox'>
                     <input type="submit" value="Entrar"/>

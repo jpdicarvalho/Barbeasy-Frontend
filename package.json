@@ -19,10 +19,12 @@
     "react": "^18.2.0",
     "react-calendar": "^4.6.1",
     "react-dom": "^18.2.0",
+    "react-input-mask": "^2.0.4",
     "react-modal": "^3.16.1",
     "react-rating-stars-component": "^2.2.0",
     "react-router-dom": "^6.17.0",
     "react-slick": "^0.29.0",
+    "react-spring": "^9.7.3",
     "slick-carousel": "^1.8.1"
   },
   "devDependencies": {
