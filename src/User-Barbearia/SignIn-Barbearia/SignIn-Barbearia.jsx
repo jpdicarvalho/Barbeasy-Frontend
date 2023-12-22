@@ -29,7 +29,7 @@ function SignInBarbearia() {
             const dataBarbearia = await response.json();
             //Salvando dados do usuário no LocalStorage
             localStorage.setItem('token', dataBarbearia.token);
-            localStorage.setItem('userData', JSON.stringify(dataBarbearia));
+            localStorage.setItem('dataBarbearia', JSON.stringify(dataBarbearia));
 
             setMessage('Seja Bem Vindo!');
             setTimeout(() => {
