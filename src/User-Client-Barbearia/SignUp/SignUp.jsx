@@ -58,7 +58,7 @@ function SignUp() {
   const nextStep = () => {
     setStep(step + 1);
   };
-console.log(values)
+
   return (
     <>
       <form onSubmit={handleSubmit} className="container">
@@ -68,7 +68,7 @@ console.log(values)
 
         <h2 id="HeaderSignUp">Barbeasy</h2>
         <span>Cadastro de Usuário</span>
-        {message === "Cadastro realizado!" ? (
+        {message === 'Cadastro realizado!' ? (
           <p className="success">{message}</p>
         ) : (
           <p className="error">{message}</p>
