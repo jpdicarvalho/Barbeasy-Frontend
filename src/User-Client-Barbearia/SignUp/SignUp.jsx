@@ -45,11 +45,15 @@ function SignUp() {
           }
         })
         .catch(err => {
-          setMessage('Erro ao realizar o cadastro!');
+          if (err.response && err.response.status === 400) {
+            setMessage('E-mail já cadastrado. Por favor, escolha outro e-mail.');
+          } else {
+            setMessage('Erro ao realizar o cadastro!');
+            console.error(err);
+          }
           setTimeout(() => {
             setMessage(null);
           }, 3000);
-          console.error(err);
         });
     } else {
       setStep(step + 1);
@@ -68,9 +72,9 @@ function SignUp() {
 
         <h2 id="HeaderSignUp">Barbeasy</h2>
         <span>Cadastro de Usuário</span>
-        {message === 'Cadastro realizado!' ? (
+        {message === "Cadastro realizado!" ? (
           <p className="success">{message}</p>
-        ) : (
+          ) : (
           <p className="error">{message}</p>
         )}
 
