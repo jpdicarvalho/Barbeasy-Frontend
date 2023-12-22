@@ -8,6 +8,7 @@ import barberLogo from './barber-logo.png';
 function SignUpBarbearia() {
   const [values, setValues] = useState({
     barbearia_name: '',
+    user_name: '',
     email: '',
     senha: ''
   });
@@ -24,13 +25,24 @@ function SignUpBarbearia() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    axios.post('', values)
+    // Concatenar os dados de endereço
+    const endereco = `${values.street}, Nº ${values.number}, ${values.neighborhood} - ${values.city}.`;
+
+    // Adicionar a variável endereco aos valores a serem enviados
+    const dataBarbearia = {
+    ...values,
+    endereco,  // Adicionando a variável endereco
+    };
+
+    console.log(dataBarbearia)
+
+    axios.post('https://api-user-barbeasy.up.railway.app/SignUp_Barbearia', dataBarbearia)
       .then(res => {
         if (res.status === 201) {
           setMessage('Cadastro realizado!');
           setTimeout(() => {
             setMessage(null);
-            navigate('/SignIn');
+            navigate('/SignInBarbearia');
           }, 2000);
 
         } else {
@@ -80,7 +92,7 @@ function SignUpBarbearia() {
             onChange={(e) => {
               const inputValue = e.target.value;
               // Remover caracteres não alfanuméricos, ponto e espaço
-              const filteredValue = inputValue.replace(/[^a-zA-Z0-9\sçéúíóáõãèòìàêôâ]/g, '');
+              const filteredValue = inputValue.replace(/[^a-zA-Z0-9\sçéúíóáõãèòìàêôâ.]/g, '');
               // Limitar a 30 caracteres
               const truncatedValue = filteredValue.slice(0, 30);
               setValues({ ...values, barbearia_name: truncatedValue });
