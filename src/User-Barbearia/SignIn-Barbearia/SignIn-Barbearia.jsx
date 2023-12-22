@@ -12,37 +12,46 @@ function SignInBarbearia() {
         senha: ''
       });
 
-    async function sendForm(e) {
+      async function sendForm(e) {
         e.preventDefault();
-
-        let dataUser = await fetch('https://api-user-barbeasy.up.railway.app/SignIn', {
+    
+        try {
+          const response = await fetch('https://api-user-barbeasy.up.railway.app/SignIn_Barbearia', {
             method: 'POST',
             headers: {
-                Accept: 'application/json',
-                'Content-type': 'application/json'
+              'Accept': 'application/json',
+              'Content-type': 'application/json',
             },
-            body: JSON.stringify(values), // Passar os valores do estado no corpo da requisição
-        });
-        
-        dataUser = await dataUser.json();
-        console.log(dataUser)
-        if (dataUser.success) {
-            // Armazene o token no localStorage
-            localStorage.setItem('token', dataUser.token);
-            localStorage.setItem('userData', JSON.stringify(dataUser));
+            body: JSON.stringify(values),
+          });
+    
+          if (response.ok) {
+            const dataBarbearia = await response.json();
+            //Salvando dados do usuário no LocalStorage
+            localStorage.setItem('token', dataBarbearia.token);
+            localStorage.setItem('userData', JSON.stringify(dataBarbearia));
+
             setMessage('Seja Bem Vindo!');
-              setTimeout(() => {
-                setMessage(null);
-                //mandando dados do usuáriopara a Home Page
-               navigate('/Home');
-              }, 2000);
-        } else {
+            setTimeout(() => {
+              setMessage(null);
+              navigate('/profileBarbearia');
+            }, 2000);
+
+          } else {
             setMessage('Erro ao realizar o Login!');
-                setTimeout(() => {
-                    setMessage(null);
-                  }, 2000);
+            setTimeout(() => {
+              setMessage(null);
+            }, 2000);
+          }
+
+        } catch (error) {
+          console.error('Erro na requisição:', error);
+          setMessage('Erro ao realizar o Login!');
+          setTimeout(() => {
+            setMessage(null);
+          }, 2000);
         }
-    }
+      }
 
     return (
         <form onSubmit={sendForm} className="container">

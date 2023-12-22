@@ -68,7 +68,7 @@ function SignUpBarbearia() {
   const nextStep = () => {
     setStep(step + 1);
   };
-  console.log(message)
+
   return (
     <>
       <form onSubmit={handleSubmit} className="container">
