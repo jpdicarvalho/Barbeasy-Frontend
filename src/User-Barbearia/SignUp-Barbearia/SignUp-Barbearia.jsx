@@ -44,13 +44,6 @@ function SignUpBarbearia() {
             setMessage(null);
             navigate('/SignInBarbearia');
           }, 2000);
-
-        }else if(res.status === 400){
-          setMessage('E-mail já cadastrado. Por favor, escolha outro e-mail.');
-          setTimeout(() => {
-            setMessage(null);
-          }, 2000);
-
         } else {
           setMessage('Erro ao realizar o cadastro!');
           setTimeout(() => {
@@ -60,11 +53,15 @@ function SignUpBarbearia() {
         }
       })
       .catch(err => {
-        setMessage('Erro ao realizar o cadastro!');
+        if (err.response && err.response.status === 400) {
+          setMessage('E-mail já cadastrado. Por favor, escolha outro e-mail.');
+        } else {
+          setMessage('Erro ao realizar o cadastro!');
+          console.error(err);
+        }
         setTimeout(() => {
           setMessage(null);
         }, 3000);
-        console.error(err);
       });
   };
 
@@ -81,13 +78,12 @@ function SignUpBarbearia() {
 
         <h2 id="HeaderSignUp">Barbeasy</h2>
         <span>Cadastro de Barbearia</span>
+
         {message === "Cadastro realizado!" ? (
-            <p className="success">{message}</p>
-          ) : message === "E-mail já cadastrado. Por favor, escolha outro e-mail." ? (
-            <p className="error">{message}</p>
+          <p className="success">{message}</p>
           ) : (
-            <p className="error">{message}</p>
-          )}
+          <p className="error">{message}</p>
+        )}
 
 
         <animated.div style={props}>
