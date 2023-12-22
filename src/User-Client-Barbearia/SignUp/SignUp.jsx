@@ -134,13 +134,13 @@ function SignUp() {
               /> <i className="fa-solid fa-lock" id="Icon_User"></i>
             </div>
           )}
-          {step < 2 && (
+          {step < 3 && (
             <div className='inputBox'>
               <button type="button" onClick={nextStep} id="button_next">Continuar</button>
             </div>
           )}
 
-          {step === 2 && (
+          {step === 3 && (
             <div className='inputBox'>
               <input type="submit" value="Cadastrar" />
             </div>
