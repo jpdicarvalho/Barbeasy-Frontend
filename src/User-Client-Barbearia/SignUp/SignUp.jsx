@@ -46,7 +46,7 @@ function SignUp() {
         })
         .catch(err => {
           if (err.response && err.response.status === 400) {
-            setMessage('E-mail já cadastrado. Por favor, escolha outro e-mail.');
+            setMessage('E-mail ou Celular já cadastrado');
           } else {
             setMessage('Erro ao realizar o cadastro!');
             console.error(err);
