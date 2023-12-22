@@ -8,9 +8,9 @@ import barberLogo from './barber-logo.png';
 
 function SignUp() {
   const [values, setValues] = useState({
-    user_name: '',
+    name: '',
     email: '',
-    phone_number: '',
+    celular: '',
     senha: ''
   });
   const [message, setMessage] = useState(null);
@@ -58,7 +58,7 @@ function SignUp() {
   const nextStep = () => {
     setStep(step + 1);
   };
-
+console.log(values)
   return (
     <>
       <form onSubmit={handleSubmit} className="container">
@@ -78,16 +78,16 @@ function SignUp() {
           <div className="inputBox">
             <input
               type="text"
-              id="user_name"
-              name="user_name"
-              value={values.user_name}
+              id="name"
+              name="name"
+              value={values.name}
               onChange={(e) => {
                 const inputValue = e.target.value;
                 // Remover caracteres não alfanuméricos
                 const filteredValue = inputValue.replace(/[^a-zA-Z0-9]/g, '');
                 // Limitar a 30 caracteres
                 const truncatedValue = filteredValue.slice(0, 30);
-                setValues({ ...values, user_name: truncatedValue });
+                setValues({ ...values, name: truncatedValue });
               }}
               placeholder="Nome de Usuário"
               required
@@ -108,11 +108,11 @@ function SignUp() {
             <div className="inputBox">
               <InputMask
                 type="tel"
-                id="phone_number"
-                name="phone_number"
+                id="celular"
+                name="celular"
                 mask="(99) 9 9999-9999"
-                value={values.phone_number}
-                onChange={(e) => setValues({ ...values, phone_number: e.target.value })}
+                value={values.celular}
+                onChange={(e) => setValues({ ...values, celular: e.target.value })}
                 placeholder="(99) 9 9999-9999"
                 required
               />
