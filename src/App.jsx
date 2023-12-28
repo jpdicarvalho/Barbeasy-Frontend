@@ -9,6 +9,8 @@ import SignInBarbearia from '../src/User-Barbearia/SignIn-Barbearia/SignIn-Barbe
 import SignUpBarbearia from '../src/User-Barbearia/SignUp-Barbearia/SignUp-Barbearia';
 
 import Home from '../src/User-Client-Barbearia/Home/Home';
+import HomeBarbearia from './User-Barbearia/Home/HomeBarbearia';
+
 import BarbeariaDetails from '../src/User-Client-Barbearia/BarbeariaDetails/BarbeariaDetails';
 import Checkout from './Checkout';
 import Widget from './Widget';
@@ -41,6 +43,7 @@ const App = () => {
   return (
     <Router>
       <Routes>
+      <Route path="/HomeBarbearia" element={<HomeBarbearia />} />
         <Route path="/" element={<GetStartedPage />} />
         
         <Route path="/SignIn" element={<SignIn />} />
