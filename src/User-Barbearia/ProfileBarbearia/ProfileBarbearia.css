@@ -21,7 +21,7 @@
     height: 100%;
     padding-left: 10px;
     padding-right: 10px;
-    background: black;
+    background: #000000;
 }
 .img__user_edit{
     width: 80px;
@@ -46,8 +46,18 @@
 }
 .menu__main{
     color: #fff;
+    display: flex;
+    justify-content: space-between;
     margin-top: 5px;
     margin-bottom: 5px;
+}
+.arrow{
+    font-size: 30px;
+    color: #f6f6f6;
+    transition: transform 0.3s ease;
+}
+.girar {
+    transform: rotate(180deg);
 }
 .divSelected{
     position: relative;
@@ -68,19 +78,43 @@
 .label{
     margin-right: 3px;
 }
-#input__name{
+.divSelected .inputBox input{
     outline: none;
     background: transparent;
     border-radius: 5px;
     font-size: 1em;
     margin-bottom: 10px;
     width: 300px;
-    padding-left: 10px;
+    padding-left: 27px;
     height: 35px;
     border: 1px solid #7849f4;
     color: #f6f6fc;
 }
-button{
+.icon_input{
+    position: absolute;
+    top: 5px;
+    left: 2px;
+    color: #f6f6fc;
+}
+#icon_street_number{
+    position: absolute;
+    top: 50px;
+    left: 2px;
+    color: #f6f6f6;
+}
+#icon_input_neighborhood{
+    position: absolute;
+    top: 95px;
+    left: 2px;
+    color: #f6f6f6;
+}
+#icon_input_city{
+    position: absolute;
+    top: 142px;
+    left: 2px;
+    color: #f6f6f6;
+}
+.button__change{
     border: none;
     width: 100px;
     height: 30px;
@@ -91,7 +125,7 @@ button{
     border: 1px solid #7849f4;
     transition: 0.5s;
 }
-button:hover{
+.button__change:hover{
     background: #7849f4;
     transition: 0.5s;
 }
