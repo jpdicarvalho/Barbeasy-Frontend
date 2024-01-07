@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import './ProfileBarbearia.css';
 function ProfileBarbearia() {
 
+  const [uploadedImages, setUploadedImages] = useState([]);
+
   const [mostrarStatus, setMostrarStatus] = useState(false);
   const [statusSelecionado, setStatusSelecionado] = useState('');
 
@@ -59,6 +61,23 @@ function ProfileBarbearia() {
   };
 
 //pegando o click nas divis
+  const handleImageBannerUpload = (event) => {
+  const files = event.target.files;
+
+  // Limitar o número de imagens a serem carregadas para 5
+  if (files.length > 5) {
+    alert('Por favor, selecione no máximo 5 imagens.');
+    return;
+  }
+
+  // Converter a lista de File objects para URLs de objetos
+  const newImages = Array.from(files).map((file) => URL.createObjectURL(file));
+
+  // Atualizar o estado das imagens carregadas
+  setUploadedImages((prevImages) => [...prevImages, ...newImages]);
+};
+
+
   const handleStatusChange = (event) => {
     setStatusSelecionado(event.target.value);
   };
@@ -132,6 +151,19 @@ function ProfileBarbearia() {
 
         <div className="banners">
             <h1>Banners</h1>
+             {/* Input para fazer upload de imagens */}
+          <input
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={handleImageBannerUpload}
+          />
+          {/* Exibição das imagens carregadas */}
+          <div className="uploaded-images">
+            {uploadedImages.map((image, index) => (
+              <img key={index} src={image} alt={`Uploaded ${index + 1}`} />
+            ))}
+          </div>
         </div>
 
         <div className="section_information">
@@ -443,11 +475,53 @@ function ProfileBarbearia() {
           {mostrarServico && (
             <div className="divSelected">
 
+              <div className='container__servicos'>
+                Nenhum Serviço Cadastrado
+              </div>
+
+              <div className='add_Service'>
+              <span class="material-symbols-outlined">add</span>
+                Adicionar Serviço
+              </div>
             
 
             </div>
           )}
 
+        </div>
+
+        <div className='tittle_menu'>
+            <h3>Informações de Usuário</h3>
+        </div>
+
+        <div className="container__menu">
+
+          <div className="menu__main" onClick={alternarStatus}>
+          <span class="material-symbols-outlined icon_menu">person</span>
+            Nome
+            <span className={`material-symbols-outlined arrow ${mostrarStatus ? 'girar' : ''}`} id='arrow'>expand_more</span>
+          </div>
+          
+<hr className='hr_menu'/>
+
+          <div className="menu__main" onClick={alternarNome} >
+          <span class="material-symbols-outlined icon_menu">mail</span>
+            Email
+            <span className={`material-symbols-outlined arrow ${mostrarNome ? 'girar' : ''}`} id='arrow'>expand_more</span>
+          </div>
+
+<hr className='hr_menu' />
+
+          <div className="menu__main" onClick={alternarEndereco} >
+          <span class="material-symbols-outlined icon_menu">password</span>
+            Senha
+            <span className={`material-symbols-outlined arrow ${mostrarEndereco ? 'girar' : ''}`} id='arrow'>expand_more</span>
+          </div>
+
+        </div>
+
+        <div className='Delete_account'>
+          Apagar Conta
         </div>
 
         </div>

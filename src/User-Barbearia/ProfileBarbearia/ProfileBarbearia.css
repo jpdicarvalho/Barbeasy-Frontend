@@ -177,3 +177,36 @@
     background: #7849f4;
     transition: 0.5s;
 }
+.container__servicos{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+}
+.add_Service{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5px;
+    width: 100%;
+    color: #1AEE07;
+    padding: 10px;
+    border: 1px solid #1AEE07;
+}
+.add_Service span{
+    color: #1AEE07;
+}
+.Delete_account{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    margin-top: 30px;
+    color: darkred;
+    border: 1px solid darkred;
+}
+.Delete_account:hover{
+    border-radius: 10px;
+    background: darkred;
+    color: #f6f6fc;
+}
