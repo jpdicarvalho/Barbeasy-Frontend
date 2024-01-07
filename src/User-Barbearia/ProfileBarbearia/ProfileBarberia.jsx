@@ -13,9 +13,21 @@ function ProfileBarbearia() {
   
   const [mostrarDiasSemana, setMostrarDiasSemana] = useState(false);
   const [DiasSemanaSelecionado, setDiasSemanaSelecionado] = useState([]);
-
   const [QntDiasTrabalhoSelecionado, setQntDiasTrabalhoSelecionado] = useState('');
-console.log(DiasSemanaSelecionado)
+
+  const [mostrarHorario, setMostrarHorario] = useState(false);
+  const [HorarioSelecionadoManha, setHorarioSelecionadoManha] = useState('');
+  const [HorarioSelecionadoTarde, setHorarioSelecionadoTarde] = useState('');
+  const [HorarioSelecionadoNoite, setHorarioSelecionadoNoite] = useState('');
+  const [DuracaoServicoSelecionado, setDuracaoServicoSelecionado] = useState('');
+  
+  console.log(statusSelecionado)
+  console.log(HorarioSelecionadoManha)
+  console.log(HorarioSelecionadoTarde)
+  console.log(HorarioSelecionadoNoite)
+  console.log(DuracaoServicoSelecionado)
+  console.log(DiasSemanaSelecionado)
+  console.log(QntDiasTrabalhoSelecionado)
 
   const [values, setValues] = useState({
     name: ''
@@ -36,6 +48,9 @@ console.log(DiasSemanaSelecionado)
 
   const alternarDiasTrabalho = () => {
     setMostrarDiasSemana(!mostrarDiasSemana);
+  };
+  const alternarHorario = () => {
+    setMostrarHorario(!mostrarHorario);
   };
 
 //pegando o click nas divis
@@ -83,12 +98,28 @@ console.log(DiasSemanaSelecionado)
   const handleQntDiasTrabalhoChange = (event) => {
     setQntDiasTrabalhoSelecionado(event.target.value);
   };
+
   const handleTodosDiasSemana = () => {
     setDiasSemanaSelecionado(['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']);
   };
+
   const handleDiasDeSegSab = () => {
     setDiasSemanaSelecionado(['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']);
   };
+
+  const handleHorarioManhaChange = (event) => {
+    setHorarioSelecionadoManha(event.target.value);
+  };
+  const handleHorarioTardeChange = (event) => {
+    setHorarioSelecionadoTarde(event.target.value);
+  };
+  const handleHorarioNoiteChange = (event) => {
+    setHorarioSelecionadoNoite(event.target.value);
+  };
+  const handleDuracaoServicoChange = (event) => {
+    setDuracaoServicoSelecionado(event.target.value);
+  };
+
 
   return (
     <>
@@ -117,31 +148,25 @@ console.log(DiasSemanaSelecionado)
 
           {mostrarStatus && (
             <div className="divSelected">
-            <span id='aberta'>
-                <input
-                  className="input_Select"
-                  type="radio"
-                  value="aberto"
-                  checked={statusSelecionado === 'aberto'}
-                  onChange={handleStatusChange}
-                />
-                Aberta
-                </span>
 
-                <span id='fechada'>
+            {['Aberta', 'Fechada'].map(status => (
+              <span key={status} className='Dias_Trabalho_Rapido'>
                 <input
                   className="input_Select"
                   type="radio"
-                  value="fechado"
-                  checked={statusSelecionado === 'fechado'}
+                  name="status"
+                  value={status}
+                  checked={statusSelecionado === status}
                   onChange={handleStatusChange}
                 />
-                Fechada
-                </span>
+                {`${status.charAt(0).toUpperCase()}${status.slice(1)}`}
+              </span>
+            ))}
+
             </div>
           )}
           
-          <hr className='hr_menu'/>
+<hr className='hr_menu'/>
 
           <div className="menu__main" onClick={alternarNome} >
             Nome
@@ -176,92 +201,92 @@ console.log(DiasSemanaSelecionado)
             </button>
          </div>
          
-      )}
+          )}
 
-      <hr className='hr_menu' />
+<hr className='hr_menu' />
 
-      <div className="menu__main" onClick={alternarEndereco} >
-        Endereço
-        <span className={`material-symbols-outlined arrow ${mostrarEndereco ? 'girar' : ''}`} id='arrow'>expand_more</span>
-      </div>
+          <div className="menu__main" onClick={alternarEndereco} >
+            Endereço
+            <span className={`material-symbols-outlined arrow ${mostrarEndereco ? 'girar' : ''}`} id='arrow'>expand_more</span>
+          </div>
 
-      {mostrarEndereco && (
-              <div className="divSelected">
-                <p className='information__span'>Altere o endereço da Barbearia</p>
+          {mostrarEndereco && (
+                  <div className="divSelected">
+                    <p className='information__span'>Altere o endereço da Barbearia</p>
 
-                <div className="inputBox">
+                    <div className="inputBox">
+                      <input
+                      type="text"
+                      id="street"
+                      name="street"
+                      onChange={(e) => {
+                        const inputValue = e.target.value;
+                        // Remover caracteres especiais
+                        const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9\sçéúíóáõãèòìàêôâ]/g, '');
+
+                        // Limitar a 50 caracteres
+                        const truncatedValue = sanitizedValue.slice(0, 50);
+                        setValues({ ...values, street: truncatedValue });
+                      }}
+                      placeholder="Rua"
+                      required
+                    /> <span className="material-symbols-outlined icon_input">add_road</span>
+
                   <input
-                  type="text"
-                  id="street"
-                  name="street"
-                  onChange={(e) => {
-                    const inputValue = e.target.value;
-                    // Remover caracteres especiais
-                    const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9\sçéúíóáõãèòìàêôâ]/g, '');
+                    type="text"
+                    id="number"
+                    name="number"
+                    onChange={(e) => {
+                      const inputValue = e.target.value;
+                      // Remover caracteres não numéricos
+                      const numericValue = inputValue.replace(/\D/g, '');
+                      // Limitar a 10 caracteres
+                      const truncatedValue = numericValue.slice(0, 5);
+                      setValues({ ...values, number: truncatedValue });
+                    }}
+                    placeholder="Nº"
+                    required
+                  />{' '} <span className="material-symbols-outlined" id="icon_street_number">home_pin</span>
+                  
+                  <input
+                    type="text"
+                    id="neighborhood"
+                    name="neighborhood"
+                    onChange={(e) => {
+                      const inputValue = e.target.value;
+                      // Remover caracteres especiais
+                      const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9\sçéúíóáõãèòìàêôâ]/g, '');
+                      // Limitar a 50 caracteres
+                      const truncatedValue = sanitizedValue.slice(0, 50);
+                      setValues({ ...values, neighborhood: truncatedValue });
+                    }}
+                    placeholder="Bairro"
+                    required
+                  /><span className="material-symbols-outlined" id="icon_input_neighborhood">route</span>
+                  
+                  <input
+                    type="text"
+                    id="city"
+                    name="city"
+                    onChange={(e) => {
+                      const inputValue = e.target.value;
+                      // Remover caracteres especiais
+                      const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9\sçéúíóáõãèòìàêôâ]/g, '');
+                      // Limitar a 50 caracteres
+                      const truncatedValue = sanitizedValue.slice(0, 30);
+                      setValues({ ...values, city: truncatedValue });
+                    }}
+                    placeholder="Cidade"
+                    required
+                  />{' '} <span className="material-symbols-outlined" id="icon_input_city">map</span>
+                    </div>
 
-                    // Limitar a 50 caracteres
-                    const truncatedValue = sanitizedValue.slice(0, 50);
-                    setValues({ ...values, street: truncatedValue });
-                  }}
-                  placeholder="Rua"
-                  required
-                /> <span className="material-symbols-outlined icon_input">add_road</span>
-
-              <input
-                type="text"
-                id="number"
-                name="number"
-                onChange={(e) => {
-                  const inputValue = e.target.value;
-                  // Remover caracteres não numéricos
-                  const numericValue = inputValue.replace(/\D/g, '');
-                  // Limitar a 10 caracteres
-                  const truncatedValue = numericValue.slice(0, 5);
-                  setValues({ ...values, number: truncatedValue });
-                }}
-                placeholder="Nº"
-                required
-              />{' '} <span className="material-symbols-outlined" id="icon_street_number">home_pin</span>
-              
-              <input
-                type="text"
-                id="neighborhood"
-                name="neighborhood"
-                onChange={(e) => {
-                  const inputValue = e.target.value;
-                  // Remover caracteres especiais
-                  const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9\sçéúíóáõãèòìàêôâ]/g, '');
-                  // Limitar a 50 caracteres
-                  const truncatedValue = sanitizedValue.slice(0, 50);
-                  setValues({ ...values, neighborhood: truncatedValue });
-                }}
-                placeholder="Bairro"
-                required
-              /><span className="material-symbols-outlined" id="icon_input_neighborhood">route</span>
-              
-              <input
-                type="text"
-                id="city"
-                name="city"
-                onChange={(e) => {
-                  const inputValue = e.target.value;
-                  // Remover caracteres especiais
-                  const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9\sçéúíóáõãèòìàêôâ]/g, '');
-                  // Limitar a 50 caracteres
-                  const truncatedValue = sanitizedValue.slice(0, 30);
-                  setValues({ ...values, city: truncatedValue });
-                }}
-                placeholder="Cidade"
-                required
-              />{' '} <span className="material-symbols-outlined" id="icon_input_city">map</span>
-                </div>
-
-                  <button className='button__change'>
-                    Alterar
-                  </button>
-              </div>
-              
-      )}
+                      <button className='button__change'>
+                        Alterar
+                      </button>
+                  </div>
+                  
+          )}
         </div>
 
         <div className="container__menu">
@@ -318,12 +343,83 @@ console.log(DiasSemanaSelecionado)
             
           )}
 
-          <hr className='hr_menu'/>
+<hr className='hr_menu'/>
 
-          <div >
+          <div className="menu__main" onClick={alternarHorario}>
               Definir Horários de Trabalho
-              <span className={`material-symbols-outlined arrow ${mostrarDiasSemana ? 'girar' : ''}`} id='arrow'>expand_more</span>
+              <span className={`material-symbols-outlined arrow ${mostrarHorario ? 'girar' : ''}`} id='arrow'>expand_more</span>
           </div>
+
+          {mostrarHorario && (
+            <div className="divSelected">
+
+            <p className='information__span' style={{ fontWeight: '600' }}>Início do Expediente</p>
+            <p className='information__span'>Defina os horários de agendamento para todos os dias definidos anteriormente:</p>
+            <span>Manhã</span>
+
+            {['Às 07:30.', 'Às 08:00.', 'Às 08:30.'].map(horarioManha => (
+              <span key={horarioManha} className='Dias_Trabalho_Rapido'>
+                <input
+                  className="input_Select"
+                  type="radio"
+                  name="Manha"
+                  value={horarioManha}
+                  checked={HorarioSelecionadoManha === horarioManha}
+                  onChange={handleHorarioManhaChange}
+                />
+                {`${horarioManha.charAt(0).toUpperCase()}${horarioManha.slice(1)}`}
+              </span>
+            ))}
+            <span>Tarde</span>
+            {['Às 13:00.', 'Às 13:30.', 'Às 14:00.'].map(horarioTarde => (
+              <span key={horarioTarde} className='Dias_Trabalho_Rapido'>
+                <input
+                  className="input_Select"
+                  type="radio"
+                  name="Tarde"
+                  value={horarioTarde}
+                  checked={HorarioSelecionadoTarde === horarioTarde}
+                  onChange={handleHorarioTardeChange}
+                />
+                {`${horarioTarde.charAt(0).toUpperCase()}${horarioTarde.slice(1)}`}
+              </span>
+            ))}
+            <span>Noite</span>
+            {['Às 19:00.', 'Às 19:15.', 'Às 19:30.'].map(horarioNoite => (
+              <span key={horarioNoite} className='Dias_Trabalho_Rapido'>
+                <input
+                  className="input_Select"
+                  type="radio"
+                  name="Noite"
+                  value={horarioNoite}
+                  checked={HorarioSelecionadoNoite === horarioNoite}
+                  onChange={handleHorarioNoiteChange}
+                />
+                {`${horarioNoite.charAt(0).toUpperCase()}${horarioNoite.slice(1)}`}
+              </span>
+            ))}
+
+            <p className='information__span' style={{ fontWeight: '600' }}>
+              Tempo de Atendimento
+            </p>
+            <p className='information__span'>Defina o tempo de duração do serviço:</p>
+
+            {['15 Minutos.', '30 Minutos.', '45 Minutos.', '1 Hora.'].map(duracaoServico => (
+              <span key={duracaoServico} className='Dias_Trabalho_Rapido'>
+                <input
+                  className="input_Select"
+                  type="radio"
+                  name="Inicio_Expediente"
+                  value={duracaoServico}
+                  checked={DuracaoServicoSelecionado === duracaoServico}
+                  onChange={handleDuracaoServicoChange}
+                />
+                {`${duracaoServico.charAt(0).toUpperCase()}${duracaoServico.slice(1)}`}
+              </span>
+            ))}
+            </div>
+            
+          )}
         </div>
 
         </div>

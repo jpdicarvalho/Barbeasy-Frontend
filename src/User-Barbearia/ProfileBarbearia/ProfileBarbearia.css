@@ -21,7 +21,7 @@
     height: 100%;
     padding-left: 10px;
     padding-right: 10px;
-    background: #000;
+    background: #0c0e19;
 }
 .img__user_edit{
     width: 80px;
@@ -45,7 +45,7 @@
     height: auto;
     padding: 10px;
     margin-bottom: 10px;
-    background: #070708;
+    background: #1c2035;
 }
 .menu__main{
     color: #354249;
@@ -95,7 +95,7 @@
     font-weight: 400;
 }
 .hr_menu{
- border: 1px solid #101111;
+ border: 1px solid #354249;
 }
 .divSelected .inputBox input{
     outline: none;
