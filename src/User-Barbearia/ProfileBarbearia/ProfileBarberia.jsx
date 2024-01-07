@@ -11,7 +11,7 @@ function ProfileBarbearia() {
   const [mostrarEndereco, setMostrarEndereco] = useState(false);
   const [novoEndereco, setNovoEndereco] = useState('');
   
-  const [mostrarDiasRapido, setMostrarDiasRapido] = useState(false);
+  const [mostrarDiasSemana, setMostrarDiasSemana] = useState(false);
   const [DiasSemanaSelecionado, setDiasSemanaSelecionado] = useState([]);
 
   const [QntDiasTrabalhoSelecionado, setQntDiasTrabalhoSelecionado] = useState('');
@@ -35,7 +35,7 @@ console.log(DiasSemanaSelecionado)
   };
 
   const alternarDiasTrabalho = () => {
-    setMostrarDiasRapido(!mostrarDiasRapido);
+    setMostrarDiasSemana(!mostrarDiasSemana);
   };
 
 //pegando o click nas divis
@@ -140,7 +140,9 @@ console.log(DiasSemanaSelecionado)
                 </span>
             </div>
           )}
+          
           <hr className='hr_menu'/>
+
           <div className="menu__main" onClick={alternarNome} >
             Nome
             <span className={`material-symbols-outlined arrow ${mostrarNome ? 'girar' : ''}`} id='arrow'>expand_more</span>
@@ -266,10 +268,10 @@ console.log(DiasSemanaSelecionado)
 
           <div className="menu__main" onClick={alternarDiasTrabalho}>
               Definir Dias de Trabalho
-              <span className={`material-symbols-outlined arrow ${mostrarDiasRapido ? 'girar' : ''}`} id='arrow'>expand_more</span>
+              <span className={`material-symbols-outlined arrow ${mostrarDiasSemana ? 'girar' : ''}`} id='arrow'>expand_more</span>
           </div>
           
-          {mostrarDiasRapido && (
+          {mostrarDiasSemana && (
             <div className="divSelected">
 
             <p className='information__span'>Selecione os dias da semana em que deseja trabalhar:</p>
@@ -315,6 +317,13 @@ console.log(DiasSemanaSelecionado)
             </div>
             
           )}
+
+          <hr className='hr_menu'/>
+
+          <div >
+              Definir Horários de Trabalho
+              <span className={`material-symbols-outlined arrow ${mostrarDiasSemana ? 'girar' : ''}`} id='arrow'>expand_more</span>
+          </div>
         </div>
 
         </div>
