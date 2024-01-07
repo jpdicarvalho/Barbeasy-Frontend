@@ -20,14 +20,16 @@ function ProfileBarbearia() {
   const [HorarioSelecionadoTarde, setHorarioSelecionadoTarde] = useState('');
   const [HorarioSelecionadoNoite, setHorarioSelecionadoNoite] = useState('');
   const [DuracaoServicoSelecionado, setDuracaoServicoSelecionado] = useState('');
+
+  const [mostrarServico, setMostrarServico] = useState(false);
   
-  console.log(statusSelecionado)
+  /*console.log(statusSelecionado)
   console.log(HorarioSelecionadoManha)
   console.log(HorarioSelecionadoTarde)
   console.log(HorarioSelecionadoNoite)
   console.log(DuracaoServicoSelecionado)
   console.log(DiasSemanaSelecionado)
-  console.log(QntDiasTrabalhoSelecionado)
+  console.log(QntDiasTrabalhoSelecionado)*/
 
   const [values, setValues] = useState({
     name: ''
@@ -51,6 +53,9 @@ function ProfileBarbearia() {
   };
   const alternarHorario = () => {
     setMostrarHorario(!mostrarHorario);
+  };
+  const alternarServico = () => {
+    setMostrarServico(!mostrarServico);
   };
 
 //pegando o click nas divis
@@ -420,6 +425,21 @@ function ProfileBarbearia() {
             </div>
             
           )}
+<hr className='hr_menu'/>
+
+          <div className="menu__main" onClick={alternarServico}>
+              Definir Serviços
+              <span className={`material-symbols-outlined arrow ${mostrarServico ? 'girar' : ''}`} id='arrow'>expand_more</span>
+          </div>
+
+          {mostrarServico && (
+            <div className="divSelected">
+
+            
+
+            </div>
+          )}
+
         </div>
 
         </div>
