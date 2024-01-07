@@ -151,3 +151,19 @@
     background: #7849f4;
     transition: 0.5s;
 }
+.Dias_Semana{
+    border: none;
+    width: 100%;
+    height: 30px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #f6f6f6;
+    background: transparent;
+    border: 1px solid #7849f4;
+    transition: 0.5s;
+}
+.Dias_Semana:hover{
+    border-radius: 10px;
+    background: #7849f4;
+    transition: 0.5s;
+}

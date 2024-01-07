@@ -274,11 +274,11 @@ console.log(DiasSemanaSelecionado)
 
             <p className='information__span'>Selecione os dias da semana em que deseja trabalhar:</p>
             
-            <button onClick={handleTodosDiasSemana}>
+            <button onClick={handleTodosDiasSemana} className="Dias_Semana">
               Todos os dias da Semana
             </button>
 
-            <button onClick={handleDiasDeSegSab}>
+            <button onClick={handleDiasDeSegSab} className="Dias_Semana">
             De Seg à Sáb
             </button>
 
