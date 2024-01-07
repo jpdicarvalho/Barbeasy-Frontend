@@ -21,7 +21,7 @@
     height: 100%;
     padding-left: 10px;
     padding-right: 10px;
-    background: #000000;
+    background: #000;
 }
 .img__user_edit{
     width: 80px;
@@ -31,10 +31,12 @@
     margin-bottom: 20px;
 }
 .tittle_menu{
+    color: #354249;
+    font-weight: 800;
     width: 100%;
     margin-bottom: 10px;
 }
-.container__menu__one{
+.container__menu{
     position: relative;
     display: flex;
     flex-direction: column;
@@ -42,19 +44,24 @@
     width: 100%;
     height: auto;
     padding: 10px;
-    background: #1C2035;
+    margin-bottom: 10px;
+    background: #070708;
 }
 .menu__main{
-    color: #fff;
+    color: #354249;
     display: flex;
     justify-content: space-between;
+    font-weight: bold;
     margin-top: 5px;
     margin-bottom: 5px;
+    cursor: pointer;
 }
+
 .arrow{
     font-size: 30px;
-    color: #f6f6f6;
+    color: #354249;
     transition: transform 0.3s ease;
+    cursor: pointer;
 }
 .girar {
     transform: rotate(180deg);
@@ -64,19 +71,31 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    padding-top: 5px;
     padding-left: 10px;
     padding-bottom: 10px;
     border-radius: 12px;
-    color: #354249;
-    background: black;
+    color: #f6f6f6;
 }
 .information__span{
-    margin-top: 5px;
+    color: #354249;
+    font-weight:400;
+    margin-top: 10px;
     margin-bottom: 5px;
 }
-.label{
-    margin-right: 3px;
+.input_Select{
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+#aberta{
+    color: #1AEE07;
+    font-weight: 400;
+}
+#fechada{
+    color: rgb(234, 37, 37);
+    font-weight: 400;
+}
+.hr_menu{
+ border: 1px solid #101111;
 }
 .divSelected .inputBox input{
     outline: none;
@@ -113,6 +132,9 @@
     top: 142px;
     left: 2px;
     color: #f6f6f6;
+}
+.Dias_Trabalho_Rapido{
+    font-weight: 400;
 }
 .button__change{
     border: none;
