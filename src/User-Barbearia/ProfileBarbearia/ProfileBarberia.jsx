@@ -147,15 +147,18 @@ function ProfileBarbearia() {
         <div className="container__menu">
 
           <div className="menu__main" onClick={alternarStatus}>
+          <span class="material-symbols-outlined icon_menu">radio_button_checked</span>
             Status
             <span className={`material-symbols-outlined arrow ${mostrarStatus ? 'girar' : ''}`} id='arrow'>expand_more</span>
           </div>
+          
 
           {mostrarStatus && (
             <div className="divSelected">
-
+  
             {['Aberta', 'Fechada'].map(status => (
               <span key={status} className='Dias_Trabalho_Rapido'>
+                
                 <input
                   className="input_Select"
                   type="radio"
@@ -174,6 +177,7 @@ function ProfileBarbearia() {
 <hr className='hr_menu'/>
 
           <div className="menu__main" onClick={alternarNome} >
+          <span className="material-symbols-outlined icon_menu">store</span>
             Nome
             <span className={`material-symbols-outlined arrow ${mostrarNome ? 'girar' : ''}`} id='arrow'>expand_more</span>
           </div>
@@ -198,7 +202,7 @@ function ProfileBarbearia() {
               }}
               placeholder="Nome da Barbearia"
               required
-            /> <span className="material-symbols-outlined icon_input">store</span>
+            /> <span class="material-symbols-outlined icon_input">add_business</span>
             </div>
 
             <button className='button__change'>
@@ -211,6 +215,7 @@ function ProfileBarbearia() {
 <hr className='hr_menu' />
 
           <div className="menu__main" onClick={alternarEndereco} >
+          <span class="material-symbols-outlined icon_menu">pin_drop</span>
             Endereço
             <span className={`material-symbols-outlined arrow ${mostrarEndereco ? 'girar' : ''}`} id='arrow'>expand_more</span>
           </div>
@@ -297,6 +302,7 @@ function ProfileBarbearia() {
         <div className="container__menu">
 
           <div className="menu__main" onClick={alternarDiasTrabalho}>
+          <span class="material-symbols-outlined icon_menu">calendar_clock</span>
               Definir Dias de Trabalho
               <span className={`material-symbols-outlined arrow ${mostrarDiasSemana ? 'girar' : ''}`} id='arrow'>expand_more</span>
           </div>
@@ -351,6 +357,7 @@ function ProfileBarbearia() {
 <hr className='hr_menu'/>
 
           <div className="menu__main" onClick={alternarHorario}>
+          <span class="material-symbols-outlined icon_menu">schedule</span>
               Definir Horários de Trabalho
               <span className={`material-symbols-outlined arrow ${mostrarHorario ? 'girar' : ''}`} id='arrow'>expand_more</span>
           </div>
@@ -428,6 +435,7 @@ function ProfileBarbearia() {
 <hr className='hr_menu'/>
 
           <div className="menu__main" onClick={alternarServico}>
+          <span class="material-symbols-outlined icon_menu">cut</span>
               Definir Serviços
               <span className={`material-symbols-outlined arrow ${mostrarServico ? 'girar' : ''}`} id='arrow'>expand_more</span>
           </div>
