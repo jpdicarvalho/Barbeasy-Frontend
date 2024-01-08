@@ -5,19 +5,48 @@
     box-sizing: border-box;
     font-family: 'Noto Sans', sans-serif;
 }
-
-.banners{
+.banner{
     position: relative;
-    width: 100%;
+    width: 385px;
+    height: 220px;
+    padding: 5px;
+    text-align: center;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+.container__banner{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.img-view{
+    position: relative;
+    width: 300px;
     height: 200px;
-    background: yellow;
-    color: black;
+    border-radius: 20px;
+    border: 2px dashed #f7f8ff;
+    margin-right: 10px;
+    
+}
+.container-img-upload{
+    width: 385px;
+    height: 200px;
+    margin-left: 3px;
+}
+.img-uploaded{
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    object-fit: cover;
+}
+.icon_upload{
+    font-size: 100px;
 }
 .section_information{
     position: relative;
     display: flex;
     flex-direction: column;
-    width: 400px;
+    width: 390px;
     height: 100%;
     padding-left: 10px;
     padding-right: 10px;

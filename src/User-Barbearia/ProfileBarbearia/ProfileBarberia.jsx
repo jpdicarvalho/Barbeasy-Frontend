@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {motion} from 'framer-motion';
 import './ProfileBarbearia.css';
 function ProfileBarbearia() {
 
@@ -60,23 +61,23 @@ function ProfileBarbearia() {
     setMostrarServico(!mostrarServico);
   };
 
-//pegando o click nas divis
   const handleImageBannerUpload = (event) => {
-  const files = event.target.files;
+    const files = event.target.files;
+    
+    // Verifica se o número de imagens excede 5
+    if (files.length > 5) {
+      alert('Selecione no máximo 5 imagens.');
+      window.location.reload()
+      return;
+    }
+  
+    // Atualiza o estado apenas com as primeiras 5 imagens
+    const imagesArray = Array.from(files).map((file) => URL.createObjectURL(file)).slice(0, 5);
+    setUploadedImages(imagesArray);
+  };
+  console.log(uploadedImages)
 
-  // Limitar o número de imagens a serem carregadas para 5
-  if (files.length > 5) {
-    alert('Por favor, selecione no máximo 5 imagens.');
-    return;
-  }
-
-  // Converter a lista de File objects para URLs de objetos
-  const newImages = Array.from(files).map((file) => URL.createObjectURL(file));
-
-  // Atualizar o estado das imagens carregadas
-  setUploadedImages((prevImages) => [...prevImages, ...newImages]);
-};
-
+//pegando o click nas divis
 
   const handleStatusChange = (event) => {
     setStatusSelecionado(event.target.value);
@@ -147,24 +148,32 @@ function ProfileBarbearia() {
 
   return (
     <>
-    <div className="main">
+    <div className="main-settings">
 
-        <div className="banners">
-            <h1>Banners</h1>
-             {/* Input para fazer upload de imagens */}
-          <input
-            type="file"
-            accept="image/*"
-            multiple
-            onChange={handleImageBannerUpload}
-          />
-          {/* Exibição das imagens carregadas */}
-          <div className="uploaded-images">
-            {uploadedImages.map((image, index) => (
-              <img key={index} src={image} alt={`Uploaded ${index + 1}`} />
-            ))}
-          </div>
-        </div>
+        <motion.div  className="banner">
+          <motion.div className="container__banner" drag="x">
+          {uploadedImages.map((image, index) => (
+                  <motion.div key={index} className='container-img-upload'>
+                    <img src={image} alt="" className='img-uploaded' />
+                  </motion.div>
+                ))}
+            <label htmlFor="input-file" id='drop-area'>
+              <input
+                type="file"
+                accept="image/*"
+                id='input-file'
+                hidden
+                multiple
+                onChange={handleImageBannerUpload}
+              />
+              <motion.div className="img-view">
+                    <span className="material-symbols-outlined icon_upload">backup</span>
+                    <p>Faça upload da imagem <br/> de sua barbearia</p>
+              </motion.div>
+            </label>
+          </motion.div>
+          
+        </motion.div>
 
         <div className="section_information">
 
@@ -179,7 +188,7 @@ function ProfileBarbearia() {
         <div className="container__menu">
 
           <div className="menu__main" onClick={alternarStatus}>
-          <span class="material-symbols-outlined icon_menu">radio_button_checked</span>
+          <span className="material-symbols-outlined icon_menu">radio_button_checked</span>
             Status
             <span className={`material-symbols-outlined arrow ${mostrarStatus ? 'girar' : ''}`} id='arrow'>expand_more</span>
           </div>
@@ -247,7 +256,7 @@ function ProfileBarbearia() {
 <hr className='hr_menu' />
 
           <div className="menu__main" onClick={alternarEndereco} >
-          <span class="material-symbols-outlined icon_menu">pin_drop</span>
+          <span className="material-symbols-outlined icon_menu">pin_drop</span>
             Endereço
             <span className={`material-symbols-outlined arrow ${mostrarEndereco ? 'girar' : ''}`} id='arrow'>expand_more</span>
           </div>
@@ -334,7 +343,7 @@ function ProfileBarbearia() {
         <div className="container__menu">
 
           <div className="menu__main" onClick={alternarDiasTrabalho}>
-          <span class="material-symbols-outlined icon_menu">calendar_clock</span>
+          <span className="material-symbols-outlined icon_menu">calendar_clock</span>
               Definir Dias de Trabalho
               <span className={`material-symbols-outlined arrow ${mostrarDiasSemana ? 'girar' : ''}`} id='arrow'>expand_more</span>
           </div>
@@ -389,7 +398,7 @@ function ProfileBarbearia() {
 <hr className='hr_menu'/>
 
           <div className="menu__main" onClick={alternarHorario}>
-          <span class="material-symbols-outlined icon_menu">schedule</span>
+          <span className="material-symbols-outlined icon_menu">schedule</span>
               Definir Horários de Trabalho
               <span className={`material-symbols-outlined arrow ${mostrarHorario ? 'girar' : ''}`} id='arrow'>expand_more</span>
           </div>
@@ -467,7 +476,7 @@ function ProfileBarbearia() {
 <hr className='hr_menu'/>
 
           <div className="menu__main" onClick={alternarServico}>
-          <span class="material-symbols-outlined icon_menu">cut</span>
+          <span className="material-symbols-outlined icon_menu">cut</span>
               Definir Serviços
               <span className={`material-symbols-outlined arrow ${mostrarServico ? 'girar' : ''}`} id='arrow'>expand_more</span>
           </div>
@@ -497,7 +506,7 @@ function ProfileBarbearia() {
         <div className="container__menu">
 
           <div className="menu__main" onClick={alternarStatus}>
-          <span class="material-symbols-outlined icon_menu">person</span>
+          <span className="material-symbols-outlined icon_menu">person</span>
             Nome
             <span className={`material-symbols-outlined arrow ${mostrarStatus ? 'girar' : ''}`} id='arrow'>expand_more</span>
           </div>
@@ -505,15 +514,15 @@ function ProfileBarbearia() {
 <hr className='hr_menu'/>
 
           <div className="menu__main" onClick={alternarNome} >
-          <span class="material-symbols-outlined icon_menu">mail</span>
+          <span className="material-symbols-outlined icon_menu">mail</span>
             Email
             <span className={`material-symbols-outlined arrow ${mostrarNome ? 'girar' : ''}`} id='arrow'>expand_more</span>
           </div>
 
 <hr className='hr_menu' />
 
-          <div className="menu__main" onClick={alternarEndereco} >
-          <span class="material-symbols-outlined icon_menu">password</span>
+          <div className="menu__main" >
+          <span className="material-symbols-outlined icon_menu">password</span>
             Senha
             <span className={`material-symbols-outlined arrow ${mostrarEndereco ? 'girar' : ''}`} id='arrow'>expand_more</span>
           </div>
