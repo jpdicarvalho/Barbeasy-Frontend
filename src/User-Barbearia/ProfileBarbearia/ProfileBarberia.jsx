@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {motion} from 'framer-motion';
 import './ProfileBarbearia.css';
 function ProfileBarbearia() {
 
   const [uploadedImages, setUploadedImages] = useState([]);
+
+  const carousel = useRef(0);
+  const [widthCarouselImg, setWidthCarouselImg] = useState(0);
 
   const [mostrarStatus, setMostrarStatus] = useState(false);
   const [statusSelecionado, setStatusSelecionado] = useState('');
@@ -37,6 +40,11 @@ function ProfileBarbearia() {
   const [values, setValues] = useState({
     name: ''
   });
+
+  useEffect(() => {
+    console.log(carousel.current?.scrollWidth, carousel.current?.offsetWidth)
+    setWidthCarouselImg(carousel.current?.scrollWidth - carousel.current?.offsetWidth)
+  }, [])
 
   // Função para alternar a visibilidade da div de status
   const alternarStatus = () => {
@@ -151,9 +159,20 @@ function ProfileBarbearia() {
     <div className="main-settings">
 
         <motion.div  className="banner">
-          <motion.div className="container__banner" drag="x">
+          <motion.div
+          ref={carousel}
+          className="container__banner"
+          whileTap={{cursor:"grabbing"}}
+          drag="x"
+          dragConstraints={uploadedImages.length === 5 ? { right: 0, left: -1600}:
+                           uploadedImages.length === 4 ? { right: 0, left: -1400}:
+                           uploadedImages.length === 3 ? { right: 0, left: -1000}:
+                           uploadedImages.length === 2 ? { right: 0, left: -600}:
+                           uploadedImages.length === 1 ? { right: 0, left: -200}:{ right: 0, left: 0}}
+
+          >
           {uploadedImages.map((image, index) => (
-                  <motion.div key={index} className='container-img-upload'>
+                  <motion.div key={index} className='container-img-upload' whileTap={{cursor:"grabbing"}}>
                     <img src={image} alt="" className='img-uploaded' />
                   </motion.div>
                 ))}
@@ -166,17 +185,17 @@ function ProfileBarbearia() {
                 multiple
                 onChange={handleImageBannerUpload}
               />
-              <motion.div className="img-view">
-                    <span className="material-symbols-outlined icon_upload">backup</span>
-                    <p>Faça upload da imagem <br/> de sua barbearia</p>
+              <motion.div className="img-view" style={{ width: uploadedImages.length > 0 ? '150px' : '380px' }}>
+                <span className="material-symbols-outlined icon_upload">backup</span>
+                <p>Incluir Imagem <br/>da Barbearia</p>
               </motion.div>
+
             </label>
           </motion.div>
           
         </motion.div>
 
         <div className="section_information">
-
         <div className="img__user_edit">
           <img src="" alt="" />
         </div>
