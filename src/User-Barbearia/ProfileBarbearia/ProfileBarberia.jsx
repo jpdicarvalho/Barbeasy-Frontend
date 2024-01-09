@@ -1,12 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import {motion} from 'framer-motion';
 import './ProfileBarbearia.css';
 function ProfileBarbearia() {
 
   const [uploadedImages, setUploadedImages] = useState([]);
 
-  const carousel = useRef(0);
-  const [widthCarouselImg, setWidthCarouselImg] = useState(0);
+  const [uploadedUserImage, setUploadedUserImage] = useState('');
 
   const [mostrarStatus, setMostrarStatus] = useState(false);
   const [statusSelecionado, setStatusSelecionado] = useState('');
@@ -41,11 +40,6 @@ function ProfileBarbearia() {
     name: ''
   });
 
-  useEffect(() => {
-    console.log(carousel.current?.scrollWidth, carousel.current?.offsetWidth)
-    setWidthCarouselImg(carousel.current?.scrollWidth - carousel.current?.offsetWidth)
-  }, [])
-
   // Função para alternar a visibilidade da div de status
   const alternarStatus = () => {
     setMostrarStatus(!mostrarStatus);
@@ -78,12 +72,19 @@ function ProfileBarbearia() {
       window.location.reload()
       return;
     }
-  
     // Atualiza o estado apenas com as primeiras 5 imagens
     const imagesArray = Array.from(files).map((file) => URL.createObjectURL(file)).slice(0, 5);
     setUploadedImages(imagesArray);
   };
-  console.log(uploadedImages)
+ //Pegando a img de usuário
+ const handleUserImage = (event) => {
+  const file = event.target.files[0];
+
+  if (file) {
+    const imageUrl = URL.createObjectURL(file);
+    setUploadedUserImage(imageUrl);
+  }
+};
 
 //pegando o click nas divis
 
@@ -153,14 +154,12 @@ function ProfileBarbearia() {
     setDuracaoServicoSelecionado(event.target.value);
   };
 
-
   return (
     <>
     <div className="main-settings">
 
         <motion.div  className="banner">
           <motion.div
-          ref={carousel}
           className="container__banner"
           whileTap={{cursor:"grabbing"}}
           drag="x"
@@ -197,31 +196,37 @@ function ProfileBarbearia() {
 
         <div className="section_information">
 
-        <div className="img__user_edit">
+          <div className="container__profile">
+            <div className="img__user_edit">
 
-          <label htmlFor="input-file" id='drop-area-user'>
+              {uploadedUserImage ? (
+                  <div className="img-view-profile">
+                    <img src={uploadedUserImage} alt="Imagem de perfil de usuário" id='img-profile' />
+                  </div>
+                ) : (
+                  <motion.div className="img-view-user">
+                  <span className="material-symbols-outlined icon_user_edit">person</span>
+                  <span id="editar">Editar</span>
+                </motion.div>
+                )}
+                
+                <label htmlFor="input-file-user" id="drop-area-user">
                 <input
                   type="file"
                   accept="image/*"
-                  id='input-file-user'
+                  id="input-file-user"
                   hidden
-                  multiple
-                  
+                  onChange={handleUserImage}
                 />
-                {/*onchange do input*/}
-                <motion.div className="img-view-user">
-                <span className="material-symbols-outlined icon_user_edit">person</span>
-                <span id='editar'>Editar</span>
-                </motion.div>
-
-
+                
               </label>
-              <div>
-                  teste
-                </div>
               
-          <img src="" alt="" />
+              {/* Mostra a imagem selecionada */}
+            </div>
 
+            <div className="section__userName">
+              Olá, [name user]!<br/>Boa Noite!
+            </div>
         </div>
 
         <div className='tittle_menu'>
