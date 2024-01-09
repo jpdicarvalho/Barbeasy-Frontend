@@ -196,8 +196,32 @@ function ProfileBarbearia() {
         </motion.div>
 
         <div className="section_information">
+
         <div className="img__user_edit">
+
+          <label htmlFor="input-file" id='drop-area-user'>
+                <input
+                  type="file"
+                  accept="image/*"
+                  id='input-file-user'
+                  hidden
+                  multiple
+                  
+                />
+                {/*onchange do input*/}
+                <motion.div className="img-view-user">
+                <span className="material-symbols-outlined icon_user_edit">person</span>
+                <span id='editar'>Editar</span>
+                </motion.div>
+
+
+              </label>
+              <div>
+                  teste
+                </div>
+              
           <img src="" alt="" />
+
         </div>
 
         <div className='tittle_menu'>
