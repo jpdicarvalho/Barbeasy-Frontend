@@ -8,7 +8,7 @@
 .banner{
     position: relative;
     width: 390px;
-    height: 220px;
+    height: 210px;
     text-align: center;
     margin-bottom: 10px;
     background: #141728;
@@ -28,8 +28,8 @@
     flex-direction: column;
     height: 200px;
     border-radius: 20px;
-    border: 2px dashed #f7f8ff;
-    color: #52626b;
+    border: 2px dashed #4a17d5;
+    color: #4a17d5;
     font-weight: bold;
     margin-right: 10px;
 }
@@ -49,6 +49,7 @@
     object-fit: cover;
 }
 .icon_upload{
+    color: #4a17d5;
     font-size: 80px;
 }
 .section_information{
@@ -64,31 +65,43 @@
     background: #0c0e19;
 }
 .container__profile{
+    padding-left: 10px;
+    padding-top: 10px;
     display: flex;
     width: 100%;
+
 }
 .img__user_edit{
     position: relative;
     width: 80px;
     height: 80px;
     margin-right: 10px;
-    border-radius: 50%;
+    border-radius: 12px;
     background: #141728;
     margin-bottom: 20px;
+    cursor: pointer;
     overflow: hidden;
 }
 .section__userName{
+    width: 250px;
+    color: #f6f6f6;
+    padding-top: 10px;
+    height: 50px;
     font-size: 14px;
+}
+.icon_close{
+    color: #4a17d5;
+    font-size: 30px;
 }
 .img-view-profile{
     width: 100%;
     height: 100%;
-    object-fit: cover;
     overflow: hidden;
 }
 #img-profile{
     width: 100%;
     height: 100%;
+    object-fit: cover;
 }
 .img-view-user{
     display: flex;
@@ -99,21 +112,24 @@
     height: 100%;
 }
 .icon_user_edit{
-    font-weight: 500;
+    color: #f6f6f6;
+    font-weight: 300;
     font-size: 50px;
 }
 #editar{
     text-align: center;
     height: 20px;
     width: 100%;
-    color: #141728;
+    margin-top: 7px;
+    color: #f6f6f6;
     font-weight: 500;
-    background: #52626b;
+    background: #4a17d5;
 }
 .tittle_menu{
     color: #354249;
     font-weight: 800;
     width: 100%;
+    margin-top: 10px;
     margin-bottom: 10px;
 }
 .container__menu{
@@ -280,6 +296,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
     padding: 10px;
     margin-top: 30px;
     color: darkred;

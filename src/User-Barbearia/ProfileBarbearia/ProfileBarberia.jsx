@@ -157,6 +157,39 @@ function ProfileBarbearia() {
   return (
     <>
     <div className="main-settings">
+      <div className="container__profile">
+              <div className="img__user_edit"> 
+                  <label htmlFor="input-file-user" id="drop-area-user">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    id="input-file-user"
+                    hidden
+                    onChange={handleUserImage}
+                  />
+
+                  {uploadedUserImage ? (
+                    <div className="img-view-profile">
+                      <img src={uploadedUserImage} alt="Imagem de perfil de usuário" id='img-profile' />
+                    </div>
+                  ) : (
+                    <motion.div className="img-view-user">
+                    <span className="material-symbols-outlined icon_user_edit">person</span>
+                    <span id="editar">Editar</span>
+                  </motion.div>
+                  )}
+
+                </label>
+      
+              </div>
+              
+              <div className="section__userName">
+                Olá, jp.dicarvalho!<br/>Boa Noite!
+              </div>
+              
+              <span className="material-symbols-outlined icon_close">close</span>
+
+          </div>
 
         <motion.div  className="banner">
           <motion.div
@@ -196,38 +229,8 @@ function ProfileBarbearia() {
 
         <div className="section_information">
 
-          <div className="container__profile">
-            <div className="img__user_edit">
-
-              {uploadedUserImage ? (
-                  <div className="img-view-profile">
-                    <img src={uploadedUserImage} alt="Imagem de perfil de usuário" id='img-profile' />
-                  </div>
-                ) : (
-                  <motion.div className="img-view-user">
-                  <span className="material-symbols-outlined icon_user_edit">person</span>
-                  <span id="editar">Editar</span>
-                </motion.div>
-                )}
-                
-                <label htmlFor="input-file-user" id="drop-area-user">
-                <input
-                  type="file"
-                  accept="image/*"
-                  id="input-file-user"
-                  hidden
-                  onChange={handleUserImage}
-                />
-                
-              </label>
-              
-              {/* Mostra a imagem selecionada */}
-            </div>
-
-            <div className="section__userName">
-              Olá, [name user]!<br/>Boa Noite!
-            </div>
-        </div>
+          
+<hr />
 
         <div className='tittle_menu'>
             <h3>Informações da Barbearia</h3>
