@@ -377,14 +377,7 @@ function ProfileBarbearia() {
 
               {['Próximos 7 dias.', 'Próximos 15 dias.', 'Próximos 30 dias.'].map(dia => (
               <span key={dia} className='Dias_Trabalho_Rapido'>
-                <input
-                  className="input_Select" // Mude a classe para "input_radial"
-                  type="radio" // Mude o tipo para "radio"
-                  name="QntDiasTrabalho" // Dê o mesmo nome para todos os radios para que eles sejam mutuamente exclusivos
-                  value={dia}
-                  onChange={handleQntDiasTrabalhoChange}
-                />
-                {`${dia.charAt(0).toUpperCase()}${dia.slice(1)}`}
+                <button className='Dias_Semana'>{dia}</button>
               </span>
             ))}
 
@@ -405,47 +398,23 @@ function ProfileBarbearia() {
 
             <p className='information__span' style={{ fontWeight: '600' }}>Início do Expediente</p>
             <p className='information__span'>Defina os horários de agendamento para todos os dias definidos anteriormente:</p>
-            <span>Manhã</span>
+            <p>Manhã</p>
 
-            {['Às 07:30.', 'Às 08:00.', 'Às 08:30.'].map(horarioManha => (
+            {['07:30', '08:00', '08:30'].map(horarioManha => (
               <span key={horarioManha} className='Dias_Trabalho_Rapido'>
-                <input
-                  className="input_Select"
-                  type="radio"
-                  name="Manha"
-                  value={horarioManha}
-                  checked={HorarioSelecionadoManha === horarioManha}
-                  onChange={handleHorarioManhaChange}
-                />
-                {`${horarioManha.charAt(0).toUpperCase()}${horarioManha.slice(1)}`}
+                <button className='Dias_Semana'>{horarioManha}</button>
               </span>
             ))}
-            <span>Tarde</span>
-            {['Às 13:00.', 'Às 13:30.', 'Às 14:00.'].map(horarioTarde => (
+            <p>Tarde</p>
+            {['13:00', '13:30', '14:00'].map(horarioTarde => (
               <span key={horarioTarde} className='Dias_Trabalho_Rapido'>
-                <input
-                  className="input_Select"
-                  type="radio"
-                  name="Tarde"
-                  value={horarioTarde}
-                  checked={HorarioSelecionadoTarde === horarioTarde}
-                  onChange={handleHorarioTardeChange}
-                />
-                {`${horarioTarde.charAt(0).toUpperCase()}${horarioTarde.slice(1)}`}
+                <button className='Dias_Semana'>{horarioTarde}</button>
               </span>
             ))}
-            <span>Noite</span>
-            {['Às 19:00.', 'Às 19:15.', 'Às 19:30.'].map(horarioNoite => (
+            <p>Noite</p>
+            {['19:00', '19:15', '19:30'].map(horarioNoite => (
               <span key={horarioNoite} className='Dias_Trabalho_Rapido'>
-                <input
-                  className="input_Select"
-                  type="radio"
-                  name="Noite"
-                  value={horarioNoite}
-                  checked={HorarioSelecionadoNoite === horarioNoite}
-                  onChange={handleHorarioNoiteChange}
-                />
-                {`${horarioNoite.charAt(0).toUpperCase()}${horarioNoite.slice(1)}`}
+                <button className='Dias_Semana'>{horarioNoite}</button>
               </span>
             ))}
 
@@ -454,17 +423,9 @@ function ProfileBarbearia() {
             </p>
             <p className='information__span'>Defina o tempo de duração do serviço:</p>
 
-            {['15 Minutos.', '30 Minutos.', '45 Minutos.', '1 Hora.'].map(duracaoServico => (
+            {['15 Minutos', '30 Minutos', '45 Minutos', '1 Hora'].map(duracaoServico => (
               <span key={duracaoServico} className='Dias_Trabalho_Rapido'>
-                <input
-                  className="input_Select"
-                  type="radio"
-                  name="Inicio_Expediente"
-                  value={duracaoServico}
-                  checked={DuracaoServicoSelecionado === duracaoServico}
-                  onChange={handleDuracaoServicoChange}
-                />
-                {`${duracaoServico.charAt(0).toUpperCase()}${duracaoServico.slice(1)}`}
+                <button className='Dias_Semana'>{duracaoServico}</button>
               </span>
             ))}
             </div>
