@@ -10,7 +10,7 @@ function ProfileBarbearia() {
   const [mostrarStatus, setMostrarStatus] = useState(false);
   const [statusSelecionado, setStatusSelecionado] = useState('');
 
-  const [mostrarNome, setMostrarNome] = useState(false);
+  const [mostrarNomeBarbearia, setMostrarNomeBarbearia] = useState(false);
   const [novoNome, setNovoNome] = useState('');
   
   const [mostrarEndereco, setMostrarEndereco] = useState(false);
@@ -35,6 +35,10 @@ function ProfileBarbearia() {
   console.log(DuracaoServicoSelecionado)
   console.log(DiasSemanaSelecionado)
   console.log(QntDiasTrabalhoSelecionado)*/
+  const [values, setValues] = useState({
+    name: '',
+    
+  });
 
   // Função para alternar a visibilidade da div de status
   const alternarStatus = () => {
@@ -42,7 +46,7 @@ function ProfileBarbearia() {
   };
 
   const alternarNome = () => {
-    setMostrarNome(!mostrarNome);
+    setMostrarNomeBarbearia(!mostrarNomeBarbearia);
   };
 
   const alternarEndereco = () => {
@@ -104,19 +108,6 @@ function ProfileBarbearia() {
 
   const handleDiasDeSegSab = () => {
     setDiasSemanaSelecionado(['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']);
-  };
-
-  const handleHorarioManhaChange = (event) => {
-    setHorarioSelecionadoManha(event.target.value);
-  };
-  const handleHorarioTardeChange = (event) => {
-    setHorarioSelecionadoTarde(event.target.value);
-  };
-  const handleHorarioNoiteChange = (event) => {
-    setHorarioSelecionadoNoite(event.target.value);
-  };
-  const handleDuracaoServicoChange = (event) => {
-    setDuracaoServicoSelecionado(event.target.value);
   };
 
   return (
@@ -210,13 +201,15 @@ function ProfileBarbearia() {
           {mostrarStatus && (
             <div className="divSelected">
 
-              <button id='Button_Aberta'>
-                Aberta
-              </button>
+              <div className="conatiner_button_status">
+                <button id='Button_Aberta'>
+                  Aberta
+                </button>
 
-              <button id='Button_Fechada'>
-                Fechada
-              </button>
+                <button id='Button_Fechada'>
+                  Fechada
+                </button>
+              </div>
 
             </div>
           )}
@@ -226,10 +219,10 @@ function ProfileBarbearia() {
           <div className="menu__main" onClick={alternarNome} >
           <span className="material-symbols-outlined icon_menu">store</span>
             Nome
-            <span className={`material-symbols-outlined arrow ${mostrarNome ? 'girar' : ''}`} id='arrow'>expand_more</span>
+            <span className={`material-symbols-outlined arrow ${mostrarNomeBarbearia ? 'girar' : ''}`} id='arrow'>expand_more</span>
           </div>
 
-          {mostrarNome && (
+          {mostrarNomeBarbearia && (
             <div className="divSelected">
               <p className='information__span'>Altere o nome da Barbearia</p>
 
@@ -375,7 +368,7 @@ function ProfileBarbearia() {
 
               <p className='information__span'>Escolha a quantidade de dias a serem disponibilizados para agendamento:</p>
 
-              {['Próximos 7 dias.', 'Próximos 15 dias.', 'Próximos 30 dias.'].map(dia => (
+              {['Próximos 7 dias', 'Próximos 15 dias', 'Próximos 30 dias'].map(dia => (
               <span key={dia} className='Dias_Trabalho_Rapido'>
                 <button className='Dias_Semana'>{dia}</button>
               </span>
@@ -398,20 +391,20 @@ function ProfileBarbearia() {
 
             <p className='information__span' style={{ fontWeight: '600' }}>Início do Expediente</p>
             <p className='information__span'>Defina os horários de agendamento para todos os dias definidos anteriormente:</p>
-            <p>Manhã</p>
+            <span className='tittle_horario'>Manhã</span>
 
             {['07:30', '08:00', '08:30'].map(horarioManha => (
               <span key={horarioManha} className='Dias_Trabalho_Rapido'>
                 <button className='Dias_Semana'>{horarioManha}</button>
               </span>
             ))}
-            <p>Tarde</p>
+            <span className='tittle_horario'>Tarde</span>
             {['13:00', '13:30', '14:00'].map(horarioTarde => (
               <span key={horarioTarde} className='Dias_Trabalho_Rapido'>
                 <button className='Dias_Semana'>{horarioTarde}</button>
               </span>
             ))}
-            <p>Noite</p>
+            <span className='tittle_horario'>Noite</span>
             {['19:00', '19:15', '19:30'].map(horarioNoite => (
               <span key={horarioNoite} className='Dias_Trabalho_Rapido'>
                 <button className='Dias_Semana'>{horarioNoite}</button>
@@ -447,7 +440,7 @@ function ProfileBarbearia() {
               </div>
 
               <div className='add_Service'>
-              <span class="material-symbols-outlined">add</span>
+              <span className="material-symbols-outlined">add</span>
                 Adicionar Serviço
               </div>
             
@@ -474,7 +467,7 @@ function ProfileBarbearia() {
           <div className="menu__main" onClick={alternarNome} >
           <span className="material-symbols-outlined icon_menu">mail</span>
             Email
-            <span className={`material-symbols-outlined arrow ${mostrarNome ? 'girar' : ''}`} id='arrow'>expand_more</span>
+            <span className={`material-symbols-outlined arrow ${mostrarNomeBarbearia ? 'girar' : ''}`} id='arrow'>expand_more</span>
           </div>
 
 <hr className='hr_menu' />
