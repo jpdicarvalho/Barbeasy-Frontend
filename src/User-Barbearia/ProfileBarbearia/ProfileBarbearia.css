@@ -76,22 +76,22 @@
 }
 .img__user_edit{
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 80px;
     height: 80px;
-    margin-right: 10px;
     border-radius: 12px;
     background: #141728;
-    margin-bottom: 10px;
     cursor: pointer;
-    overflow: hidden;
 }
 .section__userName{
-    width: 100%;
     text-align: center;
+    width: 100%;
     color: #f6f6f6;
-    margin-bottom: 10px;
-    height: 20px;
-    font-size: 18px;
+    padding-top: 5px;
+    padding-bottom: 15px;
+    font-size: 20px;
 }
 .icon_back{
     width: 100%;
@@ -99,8 +99,9 @@
     font-size: 30px;
 }
 .img-view-profile{
-    width: 100%;
-    height: 100%;
+    width: 80px;
+    height: 80px;
+    border-radius: 12px;
     overflow: hidden;
 }
 #img-profile{
@@ -115,6 +116,7 @@
     flex-direction: column;
     width: 100%;
     height: 100%;
+    cursor: pointer;
 }
 .icon_user_edit{
     color: #f6f6f6;
@@ -122,14 +124,20 @@
     font-size: 50px;
 }
 #editar{
-    text-align: center;
-    height: 30px;
-    width: 130px;
-    padding: 5px;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    padding: 3px;
     border-radius: 5px;
     color: #f6f6f6;
+    font-size: 20px;
     font-weight: 500;
-    background: transparent;
+    background: #354249;
+    top: -5px;
+    right: -5px;
+    z-index: 10;
+    cursor: pointer;
 }
 .tittle_menu{
     color: #354249;
@@ -152,7 +160,6 @@
 .menu__main{
     color: #f6f6fc;
     display: flex;
-    
     font-weight: bold;
     margin-top: 5px;
     margin-bottom: 5px;
