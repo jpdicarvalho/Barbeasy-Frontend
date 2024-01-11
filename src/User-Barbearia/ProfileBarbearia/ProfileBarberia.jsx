@@ -114,6 +114,7 @@ function ProfileBarbearia() {
     <>
     <div className="main-settings">
       <div className="container__profile">
+        <span className="material-symbols-outlined icon_back">arrow_back_ios_new</span>
               <div className="img__user_edit"> 
                   <label htmlFor="input-file-user" id="drop-area-user">
                   <input
@@ -131,19 +132,18 @@ function ProfileBarbearia() {
                   ) : (
                     <motion.div className="img-view-user">
                     <span className="material-symbols-outlined icon_user_edit">person</span>
-                    <span id="editar">Editar</span>
                   </motion.div>
                   )}
-
                 </label>
       
               </div>
+              <motion.div className="img-view-user">
+                    <span id="editar">Editar</span>
+                  </motion.div>
               
               <div className="section__userName">
-                Olá, jp.dicarvalho!<br/>Boa Noite!
+                jp.dicarvalho
               </div>
-              
-              <span className="material-symbols-outlined icon_close">close</span>
 
           </div>
 
