@@ -189,13 +189,35 @@
     margin-bottom: 10px;
     margin-right: 10px;
 }
-#aberta{
+#Button_Aberta{
+    padding: 10px;
     color: #1AEE07;
-    font-weight: 400;
+    border: 1px solid #1AEE07;
+    width: 100%;
+    margin-bottom: 10px;
+    background: transparent;
+    transition: 0.5s;
 }
-#fechada{
-    color: rgb(234, 37, 37);
-    font-weight: 400;
+#Button_Aberta:hover{
+    color: #f6f6f6;
+    background: #1AEE07;
+    border-radius: 12px;
+    font-weight: bold;
+}
+#Button_Fechada{
+    text-align: center;
+    padding: 10px;
+    color: darkred;
+    border: 1px solid darkred;
+    width: 100%;
+    background: transparent;
+    transition: 0.5s;
+}
+#Button_Fechada:hover{
+    color: #f6f6f6;
+    background: darkred;
+    border-radius: 12px;
+    font-weight: bold;
 }
 .hr_menu{
     margin-left: 34px;

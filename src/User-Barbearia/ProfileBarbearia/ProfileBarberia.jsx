@@ -36,10 +36,6 @@ function ProfileBarbearia() {
   console.log(DiasSemanaSelecionado)
   console.log(QntDiasTrabalhoSelecionado)*/
 
-  const [values, setValues] = useState({
-    name: ''
-  });
-
   // Função para alternar a visibilidade da div de status
   const alternarStatus = () => {
     setMostrarStatus(!mostrarStatus);
@@ -56,9 +52,11 @@ function ProfileBarbearia() {
   const alternarDiasTrabalho = () => {
     setMostrarDiasSemana(!mostrarDiasSemana);
   };
+
   const alternarHorario = () => {
     setMostrarHorario(!mostrarHorario);
   };
+
   const alternarServico = () => {
     setMostrarServico(!mostrarServico);
   };
@@ -88,45 +86,12 @@ function ProfileBarbearia() {
 
 //pegando o click nas divis
 
-  const handleStatusChange = (event) => {
-    setStatusSelecionado(event.target.value);
-  };
-
   const handleNomeChange = (event) => {
     setNovoNome(event.target.value);
   };
 
   const handleEnderecoChange = (event) => {
     setNovoEndereco(event.target.value);
-  };
-
-  const handleDiasTrabalhoChange = (event) => {
-    // Obtém o valor (dia selecionado) do evento do clique
-    const diaSelecionado = event.target.value;
-  
-    // Verifica se a opção selecionada é 'Todos os dias da Semana'
-    if (diaSelecionado === 'Todos os dias da Semana') {
-      // Se 'Todos os dias da semana' for selecionado, atualiza o estado para incluir todos os dias da semana
-      setDiasSemanaSelecionado(['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']);
-    } else if (diaSelecionado === 'De Seg à Sáb') {
-      // Se 'De Seg à Sáb' for selecionado, atualiza o estado correspondente para incluir os dias de segunda a sábado
-      setDiasSemanaSelecionado([ 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']);
-    } else {
-      // Se um dia específico for selecionado, verifica se ele já está no estado
-      if (DiasSemanaSelecionado.includes(diaSelecionado)) {
-        // Se estiver presente, remove o dia do estado
-        setDiasSemanaSelecionado(DiasSemanaSelecionado.filter(dia => dia !== diaSelecionado));
-      } else {
-        // Se não estiver presente, adiciona o dia ao estado
-        setDiasSemanaSelecionado([...DiasSemanaSelecionado, diaSelecionado]);
-      }
-    }
-  
-    // Verifica novamente se 'Todos os dias da semana' foi selecionado (útil se o estado foi alterado nas condições anteriores)
-    if (diaSelecionado === 'Todos os dias da Semana') {
-      // Se 'Todos os dias da semana' for selecionado, atualiza o estado para incluir todos os dias da semana
-      setDiasSemanaSelecionado(['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']);
-    }
   };
 
   const handleQntDiasTrabalhoChange = (event) => {
@@ -227,11 +192,8 @@ function ProfileBarbearia() {
           
         </motion.div>
 
-        <div className="section_information">
-
-          
+        <div className="section_information">       
 <hr />
-
         <div className='tittle_menu'>
             <h3>Informações da Barbearia</h3>
         </div>
@@ -239,29 +201,22 @@ function ProfileBarbearia() {
         <div className="container__menu">
 
           <div className="menu__main" onClick={alternarStatus}>
-          <span className="material-symbols-outlined icon_menu">radio_button_checked</span>
-            Status
+            <span className="material-symbols-outlined icon_menu">radio_button_checked</span>
+              Status
             <span className={`material-symbols-outlined arrow ${mostrarStatus ? 'girar' : ''}`} id='arrow'>expand_more</span>
           </div>
           
 
           {mostrarStatus && (
             <div className="divSelected">
-  
-            {['Aberta', 'Fechada'].map(status => (
-              <span key={status} className='Dias_Trabalho_Rapido'>
-                
-                <input
-                  className="input_Select"
-                  type="radio"
-                  name="status"
-                  value={status}
-                  checked={statusSelecionado === status}
-                  onChange={handleStatusChange}
-                />
-                {`${status.charAt(0).toUpperCase()}${status.slice(1)}`}
-              </span>
-            ))}
+
+              <button id='Button_Aberta'>
+                Aberta
+              </button>
+
+              <button id='Button_Fechada'>
+                Fechada
+              </button>
 
             </div>
           )}
@@ -414,16 +369,7 @@ function ProfileBarbearia() {
 
               {['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'].map(dia => (
                 <span key={dia} className='Dias_Trabalho_Rapido'>
-                  <input
-                    className="input_Select"
-                    type="checkbox"
-                    name="diasTrabalho"
-                    value={dia}
-                    checked={DiasSemanaSelecionado.includes(dia)}
-                    onChange={handleDiasTrabalhoChange}
-                    disabled={DiasSemanaSelecionado.includes('todos_dias') || DiasSemanaSelecionado.includes('seg_sab')}
-                  />
-                  {`${dia.charAt(0).toUpperCase()}${dia.slice(1)}`}
+                 <button className='Dias_Semana'>{dia}</button>
                 </span>
               ))}
 
