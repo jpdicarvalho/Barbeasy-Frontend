@@ -415,7 +415,7 @@ function ProfileBarbearia() {
             <div className="divSelected">
 
             <p className='information__span' style={{ fontWeight: '600' }}>Início do Expediente</p>
-            <p className='information__span'>Defina os horários de agendamento para todos os dias definidos anteriormente:</p>
+            <p className='information__span'>Defina os horários de atendimento para todos os dias definidos anteriormente:</p>
             
             <div style={{textAlign: 'center', fontWeight: 'bold'}}>
               <p >Manhã</p>
