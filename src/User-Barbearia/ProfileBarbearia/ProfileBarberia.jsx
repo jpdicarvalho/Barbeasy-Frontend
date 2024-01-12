@@ -29,6 +29,8 @@ function ProfileBarbearia() {
   const [mostrarServico, setMostrarServico] = useState(false);
 
   const [mostrarNome, setMostrarNome] = useState(false);
+  const [mostrarEmail, setMostrarEmail] = useState(false);
+  const [mostrarSenha, setMostrarSenha] = useState(false);
 
   
   /*console.log(statusSelecionado)
@@ -70,6 +72,13 @@ function ProfileBarbearia() {
 
   const alternarNome = () => {
     setMostrarNome(!mostrarNome);
+  };
+
+  const alternarEmail = () => {
+    setMostrarEmail(!mostrarEmail);
+  };
+  const alternarSenha = () => {
+    setMostrarSenha(!mostrarSenha);
   };
 
   const handleImageBannerUpload = (event) => {
@@ -360,6 +369,7 @@ function ProfileBarbearia() {
 
             <p className='information__span'>Selecione os dias da semana em que deseja trabalhar:</p>
             
+            <span className='tittle_horario'>Rápido</span>
             <button onClick={handleTodosDiasSemana} className="Dias_Semana">
               Todos os dias da Semana
             </button>
@@ -368,7 +378,8 @@ function ProfileBarbearia() {
             De Seg à Sáb
             </button>
 
-              {['Domingo', 'Segunda-feria', 'Terça-feria', 'Quata--feria', 'Quita-feria', 'Sexta-feria', 'Sábado'].map(dia => (
+            <span className='tittle_horario'>Personalizado</span>
+              {['Domingo', 'Segunda-feria', 'Terça-feria', 'Quata-feria', 'Quita-feria', 'Sexta-feria', 'Sábado'].map(dia => (
                 <span key={dia} className='Dias_Trabalho_Rapido'>
                  <button className='Dias_Semana'>{dia}</button>
                 </span>
@@ -472,7 +483,7 @@ function ProfileBarbearia() {
 
           {mostrarNome && (
             <div className="divSelected">
-              <p className='information__span'>Altere o nome de usuário</p>
+              <p className='information__span'>Alterar Nome de usuário</p>
 
             <div className="inputBox">
             <input
@@ -502,19 +513,76 @@ function ProfileBarbearia() {
           
 <hr className='hr_menu'/>
 
-          <div className="menu__main" onClick={alternarNome} >
+          <div className="menu__main" onClick={alternarEmail} >
           <span className="material-symbols-outlined icon_menu">mail</span>
             Email
-            <span className={`material-symbols-outlined arrow ${mostrarNomeBarbearia ? 'girar' : ''}`} id='arrow'>expand_more</span>
+            <span className={`material-symbols-outlined arrow ${mostrarEmail ? 'girar' : ''}`} id='arrow'>expand_more</span>
           </div>
+
+          {mostrarEmail && (
+            <div className="divSelected">
+              <p className='information__span'>Alterar Email</p>
+
+            <div className="inputBox">
+            <input
+                type="email"
+                id="email"
+                name="email"
+                onChange={(e) => {
+                  const inputValue = e.target.value;
+                  // Substituir o conteúdo do campo para conter apenas números, letras, "@" e "."
+                  const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9@.]/g, '');
+                  // Limitar a 50 caracteres
+                  const truncatedValue = sanitizedValue.slice(0, 50);
+                  setValues({ ...values, email: truncatedValue });
+                }}
+                placeholder="Email"
+                required
+              />{' '}<span className="material-symbols-outlined icon_input">alternate_email</span>
+            </div>
+
+            <button className='button__change'>
+              Alterar
+            </button>
+         </div>
+         
+          )}          
 
 <hr className='hr_menu' />
 
-          <div className="menu__main" >
+          <div className="menu__main" onClick={alternarSenha}>
           <span className="material-symbols-outlined icon_menu">password</span>
             Senha
-            <span className={`material-symbols-outlined arrow ${mostrarEndereco ? 'girar' : ''}`} id='arrow'>expand_more</span>
+            <span className={`material-symbols-outlined arrow ${mostrarSenha ? 'girar' : ''}`} id='arrow'>expand_more</span>
           </div>
+
+          {mostrarSenha && (
+            <div className="divSelected">
+              <p className='information__span'>Alterar Senha</p>
+
+            <div className="inputBox">
+            <input
+                type="password"
+                id="senha"
+                name="senha"
+                value={values.senha}
+                onChange={(e) => {
+                  const inputValue = e.target.value;
+                  // Limitar a 8 caracteres
+                  const truncatedValue = inputValue.slice(0, 8);
+                  setValues({ ...values, senha: truncatedValue });
+                }}
+                placeholder="Nova Senha"
+                required
+                />{' '} <span className="material-symbols-outlined icon_input">lock_reset</span>
+            </div>
+
+            <button className='button__change'>
+              Alterar
+            </button>
+         </div>
+         
+          )}
 
         </div>
 

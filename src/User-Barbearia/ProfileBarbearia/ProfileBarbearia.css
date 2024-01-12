@@ -253,7 +253,7 @@
     font-size: 1em;
     margin-bottom: 10px;
     width: 300px;
-    padding-left: 27px;
+    padding-left: 35px;
     height: 35px;
     border: 1px solid #7849f4;
     color: #f6f6fc;
@@ -261,7 +261,7 @@
 .icon_input{
     position: absolute;
     top: 5px;
-    left: 2px;
+    left: 5px;
     color: #f6f6fc;
 }
 #icon_street_number{
