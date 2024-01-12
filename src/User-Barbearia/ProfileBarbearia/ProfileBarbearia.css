@@ -207,7 +207,8 @@
 }
 #Button_Aberta{
     font-size: 16px;
-    padding: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
     color: #f6f6f6;
     border: 1px solid #1AEE07;
     width: 100%;
@@ -225,7 +226,8 @@
 #Button_Fechada{
     font-size: 16px;
     text-align: center;
-    padding: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
     color: #f6f6f6;
     border: 1px solid darkred;
     width: 100%;

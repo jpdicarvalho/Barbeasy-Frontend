@@ -23,10 +23,13 @@ function ProfileBarbearia() {
   const [mostrarHorario, setMostrarHorario] = useState(false);
   const [HorarioSelecionadoManha, setHorarioSelecionadoManha] = useState('');
   const [HorarioSelecionadoTarde, setHorarioSelecionadoTarde] = useState('');
-  const [HorarioSelecionadoNoite, setHorarioSelecionadoNoite] = useState('');
+  const [HorarioSelecionadoNoite, setHorarioSelecionadoNoite] = useState('');  
   const [DuracaoServicoSelecionado, setDuracaoServicoSelecionado] = useState('');
 
   const [mostrarServico, setMostrarServico] = useState(false);
+
+  const [mostrarNome, setMostrarNome] = useState(false);
+
   
   /*console.log(statusSelecionado)
   console.log(HorarioSelecionadoManha)
@@ -45,7 +48,7 @@ function ProfileBarbearia() {
     setMostrarStatus(!mostrarStatus);
   };
 
-  const alternarNome = () => {
+  const alternarNomeBarbearia = () => {
     setMostrarNomeBarbearia(!mostrarNomeBarbearia);
   };
 
@@ -63,6 +66,10 @@ function ProfileBarbearia() {
 
   const alternarServico = () => {
     setMostrarServico(!mostrarServico);
+  };
+
+  const alternarNome = () => {
+    setMostrarNome(!mostrarNome);
   };
 
   const handleImageBannerUpload = (event) => {
@@ -217,7 +224,7 @@ function ProfileBarbearia() {
           
 <hr className='hr_menu'/>
 
-          <div className="menu__main" onClick={alternarNome} >
+          <div className="menu__main" onClick={alternarNomeBarbearia} >
           <span className="material-symbols-outlined icon_menu">store</span>
             Nome
             <span className={`material-symbols-outlined arrow ${mostrarNomeBarbearia ? 'girar' : ''}`} id='arrow'>expand_more</span>
@@ -361,7 +368,7 @@ function ProfileBarbearia() {
             De Seg à Sáb
             </button>
 
-              {['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'].map(dia => (
+              {['Domingo', 'Segunda-feria', 'Terça-feria', 'Quata--feria', 'Quita-feria', 'Sexta-feria', 'Sábado'].map(dia => (
                 <span key={dia} className='Dias_Trabalho_Rapido'>
                  <button className='Dias_Semana'>{dia}</button>
                 </span>
@@ -457,11 +464,41 @@ function ProfileBarbearia() {
 
         <div className="container__menu">
 
-          <div className="menu__main" onClick={alternarStatus}>
+          <div className="menu__main" onClick={alternarNome}>
           <span className="material-symbols-outlined icon_menu">person</span>
             Nome
             <span className={`material-symbols-outlined arrow ${mostrarStatus ? 'girar' : ''}`} id='arrow'>expand_more</span>
           </div>
+
+          {mostrarNome && (
+            <div className="divSelected">
+              <p className='information__span'>Altere o nome de usuário</p>
+
+            <div className="inputBox">
+            <input
+                type="text"
+                id="usuario"
+                name="usuario"
+                value={values.usuario}
+                onChange={(e) => {
+                  const inputValue = e.target.value;
+                  // Remover caracteres não alfanuméricos
+                  const filteredValue = inputValue.replace(/[^a-zA-Z0-9.\s]/g, '');
+                  // Limitar a 30 caracteres
+                  const truncatedValue = filteredValue.slice(0, 30);
+                setValues({ ...values, usuario: truncatedValue });
+                }}
+                placeholder="Nome de Usuário"
+                required
+              />{' '}<span className="material-symbols-outlined icon_input">person_edit</span>
+            </div>
+
+            <button className='button__change'>
+              Alterar
+            </button>
+         </div>
+         
+          )}
           
 <hr className='hr_menu'/>
 
