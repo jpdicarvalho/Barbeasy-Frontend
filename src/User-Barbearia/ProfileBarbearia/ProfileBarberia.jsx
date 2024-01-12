@@ -203,7 +203,8 @@ function ProfileBarbearia() {
         <div className="section_information">       
 <hr />
         <div className='tittle_menu'>
-            <h3>Informações da Barbearia</h3>
+            <h3>Barbearia</h3>
+            <hr id='sublime'/>
         </div>
 
         <div className="container__menu">
@@ -217,15 +218,13 @@ function ProfileBarbearia() {
 
           {mostrarStatus && (
             <div className="divSelected">
-
-              <div className="conatiner_button_status">
-                <button id='Button_Aberta'>
-                  Aberta
-                </button>
-
-                <button id='Button_Fechada'>
-                  Fechada
-                </button>
+              
+              <div className="container__checkBox">
+                <span>Aberta</span>
+                <input type="checkbox" id='status'/>
+                <label htmlFor="status" className='switch'>
+                  <span className='slider'></span>
+                </label>
               </div>
 
             </div>
@@ -368,8 +367,12 @@ function ProfileBarbearia() {
             <div className="divSelected">
 
             <p className='information__span'>Selecione os dias da semana em que deseja trabalhar:</p>
-            
-            <span className='tittle_horario'>Rápido</span>
+
+            <div className="container__tittle">
+              <p >Rápido</p>
+              <hr id='sublime'/>
+            </div>
+
             <button onClick={handleTodosDiasSemana} className="Dias_Semana">
               Todos os dias da Semana
             </button>
@@ -378,7 +381,10 @@ function ProfileBarbearia() {
             De Seg à Sáb
             </button>
 
-            <span className='tittle_horario'>Personalizado</span>
+           <div className="container__tittle">
+              <p>Personalizado</p>
+              <hr id='sublime'/>
+            </div>
               {['Domingo', 'Segunda-feria', 'Terça-feria', 'Quata-feria', 'Quita-feria', 'Sexta-feria', 'Sábado'].map(dia => (
                 <span key={dia} className='Dias_Trabalho_Rapido'>
                  <button className='Dias_Semana'>{dia}</button>
@@ -410,20 +416,31 @@ function ProfileBarbearia() {
 
             <p className='information__span' style={{ fontWeight: '600' }}>Início do Expediente</p>
             <p className='information__span'>Defina os horários de agendamento para todos os dias definidos anteriormente:</p>
-            <span className='tittle_horario'>Manhã</span>
+            
+            <div style={{textAlign: 'center', fontWeight: 'bold'}}>
+              <p >Manhã</p>
+            </div>
 
             {['07:30', '08:00', '08:30'].map(horarioManha => (
               <span key={horarioManha} className='Dias_Trabalho_Rapido'>
                 <button className='Dias_Semana'>{horarioManha}</button>
               </span>
             ))}
-            <span className='tittle_horario'>Tarde</span>
+            
+            <div style={{textAlign: 'center', fontWeight: 'bold'}}>
+              <p >Tarde</p>
+            </div>
+
             {['13:00', '13:30', '14:00'].map(horarioTarde => (
               <span key={horarioTarde} className='Dias_Trabalho_Rapido'>
                 <button className='Dias_Semana'>{horarioTarde}</button>
               </span>
             ))}
-            <span className='tittle_horario'>Noite</span>
+            
+            <div style={{textAlign: 'center', fontWeight: 'bold'}}>
+              <p >Noite </p>
+            </div>
+            
             {['19:00', '19:15', '19:30'].map(horarioNoite => (
               <span key={horarioNoite} className='Dias_Trabalho_Rapido'>
                 <button className='Dias_Semana'>{horarioNoite}</button>
@@ -470,7 +487,8 @@ function ProfileBarbearia() {
         </div>
 
         <div className='tittle_menu'>
-            <h3>Informações de Usuário</h3>
+            <h3>Usuário</h3>
+            <hr id='sublime'/>
         </div>
 
         <div className="container__menu">
@@ -561,7 +579,7 @@ function ProfileBarbearia() {
               <p className='information__span'>Alterar Senha</p>
 
             <div className="inputBox">
-            <input
+              <input
                 type="password"
                 id="senha"
                 name="senha"
@@ -571,6 +589,23 @@ function ProfileBarbearia() {
                   // Limitar a 8 caracteres
                   const truncatedValue = inputValue.slice(0, 8);
                   setValues({ ...values, senha: truncatedValue });
+                }}
+                placeholder="Senha Atual"
+                required
+                />{' '} <span className="material-symbols-outlined icon_input">lock</span>
+            </div>
+
+            <div className="inputBox">
+            <input
+                type="password"
+                id="NovaSenha"
+                name="NovaSenha"
+                value={values.NovaSenha}
+                onChange={(e) => {
+                  const inputValue = e.target.value;
+                  // Limitar a 8 caracteres
+                  const truncatedValue = inputValue.slice(0, 8);
+                  setValues({ ...values, NovaSenha: truncatedValue });
                 }}
                 placeholder="Nova Senha"
                 required

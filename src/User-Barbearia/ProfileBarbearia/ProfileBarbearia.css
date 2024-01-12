@@ -139,8 +139,17 @@
     z-index: 10;
     cursor: pointer;
 }
+.container__tittle{
+    font-weight: bold;
+    padding-bottom: 10px;
+}
+#sublime{
+    width: 40px;
+    border-radius: 20px;
+    border: 3px solid #f6f6f6;
+}
 .tittle_menu{
-    color: #354249;
+    color: #f6f6fc;
     font-weight: 800;
     width: 100%;
     margin-top: 10px;
@@ -202,44 +211,39 @@
     margin-bottom: 10px;
     margin-right: 10px;
 }
-.conatiner_button_status{
+.container__checkBox{
     display: flex;
-}
-#Button_Aberta{
-    font-size: 16px;
+    justify-content: space-between;
     padding-top: 5px;
-    padding-bottom: 5px;
-    color: #f6f6f6;
-    border: 1px solid #1AEE07;
-    width: 100%;
-    height: 40px;
-    margin-right: 10px;
-    background: transparent;
-    transition: 0.5s;
 }
-#Button_Aberta:hover{
-    color: #f6f6f6;
+#status{
+    display: none;
+}
+.switch{
+   position: relative;
+   display: flex;
+   align-items: center;
+   background: #777;
+   width: 45px;
+   height: 25px;
+   padding: 3px;
+   transition: all .5s ease-in-out;
+   border-radius: 40px;
+   cursor: pointer;
+}
+.slider{
+    position: absolute;
+    background: #f6f6f6;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    transition: all .5s ease-in-out;
+}
+#status:checked ~ .switch{
     background: #1AEE07;
-    border-radius: 12px;
-    font-weight: bold;
 }
-#Button_Fechada{
-    font-size: 16px;
-    text-align: center;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    color: #f6f6f6;
-    border: 1px solid darkred;
-    width: 100%;
-    height: 40px;
-    background: transparent;
-    transition: 0.5s;
-}
-#Button_Fechada:hover{
-    color: #f6f6f6;
-    background: darkred;
-    border-radius: 12px;
-    font-weight: bold;
+#status:checked ~ .switch .slider{
+    transform: translateX(19px);
 }
 .hr_menu{
     margin-left: 34px;
@@ -307,14 +311,15 @@
     margin-bottom: 10px;
     font-size: 16px;
     font-weight: bold;
-    color: #f6f6f6;
+    color: #4a17d5;
     background: transparent;
-    border: 1px solid #7849f4;
+    border: 1px solid #4a17d5;
     transition: 0.5s;
 }
 .Dias_Semana:hover{
     border-radius: 10px;
-    background: #7849f4;
+    color: #f6f6f6;
+    background: #4a17d5;
     transition: 0.5s;
 }
 .tittle_horario{
