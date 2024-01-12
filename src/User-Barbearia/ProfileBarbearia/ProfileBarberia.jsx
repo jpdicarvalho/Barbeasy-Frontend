@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import {motion} from 'framer-motion';
 import './ProfileBarbearia.css';
 function ProfileBarbearia() {
+  
+  const [uploadedUserImage, setUploadedUserImage] = useState('');
 
   const [uploadedImages, setUploadedImages] = useState([]);
-
-  const [uploadedUserImage, setUploadedUserImage] = useState('');
 
   const [mostrarStatus, setMostrarStatus] = useState(false);
   const [statusSelecionado, setStatusSelecionado] = useState('');
@@ -32,14 +32,6 @@ function ProfileBarbearia() {
   const [mostrarEmail, setMostrarEmail] = useState(false);
   const [mostrarSenha, setMostrarSenha] = useState(false);
 
-  
-  /*console.log(statusSelecionado)
-  console.log(HorarioSelecionadoManha)
-  console.log(HorarioSelecionadoTarde)
-  console.log(HorarioSelecionadoNoite)
-  console.log(DuracaoServicoSelecionado)
-  console.log(DiasSemanaSelecionado)
-  console.log(QntDiasTrabalhoSelecionado)*/
   const [values, setValues] = useState({
     name: '',
     
@@ -94,15 +86,35 @@ function ProfileBarbearia() {
     const imagesArray = Array.from(files).map((file) => URL.createObjectURL(file)).slice(0, 5);
     setUploadedImages(imagesArray);
   };
- //Pegando a img de usuário
- const handleUserImage = (event) => {
-  const file = event.target.files[0];
 
-  if (file) {
-    const imageUrl = URL.createObjectURL(file);
-    setUploadedUserImage(imageUrl);
-  }
-};
+// Função para lidar com a mudança na imagem do usuário
+  const handleUserImage = async (event) => {
+    const file = event.target.files[0];
+
+    if (file) {
+      const formData = new FormData();
+      formData.append('userImage', file);
+
+      try {
+        // Faça a requisição para o endpoint de upload no seu servidor
+        const response = await axios.post('https://api-user-barbeasy.up.railway.app/uploadImageUser', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+
+        // A resposta do servidor deve conter a URL da imagem
+        const imageUrl = response.data.imageUrl;
+
+        // Atualize o estado com a URL da imagem
+        setUploadedUserImage(imageUrl);
+
+        // Você também pode querer salvar a URL da imagem no seu estado global ou no seu banco de dados
+      } catch (error) {
+        console.error('Erro ao enviar a imagem:', error);
+      }
+    }
+  };
 
 //pegando o click nas divis
 
