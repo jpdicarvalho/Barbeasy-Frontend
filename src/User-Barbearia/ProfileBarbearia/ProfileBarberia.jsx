@@ -104,7 +104,7 @@ function ProfileBarbearia() {
     const renamedFile = new File([fileUserImage], `userBarbeariaId_${barbeariaId}.${fileExtension}`, { type: fileUserImage.type });
     formdata.append('image', renamedFile);
 
-    axios.post('http://localhost:8000/api/upload-image-user-barbearia', formdata)
+    axios.post('https://api-user-barbeasy.up.railway.app/api/upload-image-user-barbearia', formdata)
     .then(res => {
       if(res.data.Status === "Success"){
         window.location.reload();
