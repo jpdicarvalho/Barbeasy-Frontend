@@ -3,8 +3,10 @@ import {motion} from 'framer-motion';
 import axios from 'axios';
 import './ProfileBarbearia.css';
 function ProfileBarbearia() {
-  
-  const [uploadedUserImage, setUploadedUserImage] = useState('');
+  //Constantes de Upload de imagem de usuário
+  const [fileUserImage, setFileUserImage] = useState();
+  const [messageValidationImage, setMessageValidationImage] = useState('');
+  const [uploadedUserImage, setUploadedUserImage] = useState([]);//imagem de usuário atual
 
   const [uploadedImages, setUploadedImages] = useState([]);
 
@@ -74,51 +76,47 @@ function ProfileBarbearia() {
     setMostrarSenha(!mostrarSenha);
   };
 
-  const handleImageBannerUpload = (event) => {
-    const files = event.target.files;
-    
-    // Verifica se o número de imagens excede 5
-    if (files.length > 5) {
-      alert('Selecione no máximo 5 imagens.');
-      window.location.reload()
-      return;
-    }
-    // Atualiza o estado apenas com as primeiras 5 imagens
-    const imagesArray = Array.from(files).map((file) => URL.createObjectURL(file)).slice(0, 5);
-    setUploadedImages(imagesArray);
-  };
+  //Upload de imagem de Usuário
+  const handleFile = (e) => {
+    setfile(e.target.files[0])
+  }
 
-// Função para lidar com a mudança na imagem do usuário
-  const handleUserImage = async (event) => {
-    const file = event.target.files[0];
+  const handleUpload = () => {
+    //Buscando informações do usuário logado
+    const userData = localStorage.getItem('dataBarbearia');//Obtendo os dados salvo no localStorage
+    const userInformation = JSON.parse(userData);//trasnformando os dados para JSON
+    const barbeariaId = userInformation.barbearia[0].id;//pegando apenas o ID do usuário logado
 
-    if (file) {
-      const formData = new FormData();
-      formData.append('userImage', file);
+    const allowedExtensions = ['jpg', 'jpeg', 'png'];
 
-      try {
-        // Faça a requisição para o endpoint de upload no seu servidor
-        const response = await axios.post('https://api-user-barbeasy.up.railway.app/uploadImageUser', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
+    const formdata = new FormData();
 
-        // A resposta do servidor deve conter a URL da imagem
-        const imageUrl = response.data.imageUrl;
+    // Obtém a extensão do arquivo original
+    const fileExtension = fileUserImage.name.split('.').pop();
 
-        // Atualize o estado com a URL da imagem
-        setUploadedUserImage(imageUrl);
+    // Verifica se a extensão é permitida
+    if (!allowedExtensions.includes(fileExtension)) {
+      setMessageValidationImage("Extensão de arquivo não permitida. Use 'jpg', 'jpeg' ou 'png'.");
+    return;
+  }
 
-        // Você também pode querer salvar a URL da imagem no seu estado global ou no seu banco de dados
-      } catch (error) {
-        console.error('Erro ao enviar a imagem:', error);
+    // Renomeia a imagem com o ID do usuário mantendo a extensão original
+    const renamedFile = new File([fileUserImage], `userBarbeariaId_${barbeariaId}.${fileExtension}`, { type: fileUserImage.type });
+    formdata.append('image', renamedFile);
+
+    axios.post('http://localhost:8000/api/upload-image-user-barbearia', formdata)
+    .then(res => {
+      if(res.data.Status === "Success"){
+        window.location.reload();
+      }else{
+        console.log('faled')
       }
-    }
-  };
+    })
+    .catch(err => console.log(err));
+  }
+
 
 //pegando o click nas divis
-
   const handleNomeChange = (event) => {
     setNovoNome(event.target.value);
   };
@@ -154,7 +152,7 @@ function ProfileBarbearia() {
                     accept="image/*"
                     id="input-file-user"
                     hidden
-                    onChange={handleUserImage}
+                    onChange={handleFile}
                   />
 
                   {uploadedUserImage ? (
@@ -170,6 +168,7 @@ function ProfileBarbearia() {
                 </label>
       
               </div>
+              <button onClick={handleUpload}>upload</button>
               
               <div className="section__userName">
                 João Pedro
@@ -201,7 +200,7 @@ function ProfileBarbearia() {
                 id='input-file'
                 hidden
                 multiple
-                onChange={handleImageBannerUpload}
+                
               />
               <motion.div className="img-view" style={{ width: uploadedImages.length > 0 ? '150px' : '380px' }}>
                 <span className="material-symbols-outlined icon_upload">backup</span>
