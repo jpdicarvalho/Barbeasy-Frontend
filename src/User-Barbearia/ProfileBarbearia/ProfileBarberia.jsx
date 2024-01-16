@@ -106,6 +106,7 @@ console.log('id da barbearia',barbeariaId)
     // Renomeia a imagem com o ID do usuário mantendo a extensão original
     const renamedFile = new File([fileUserImage], `userBarbeariaId_${barbeariaId}.${fileExtension}`, { type: fileUserImage.type });
     formdata.append('image', renamedFile);
+    formdata.append('barbeariaId', barbeariaId);
 
     axios.post('https://api-user-barbeasy.up.railway.app/api/upload-image-user-barbearia', formdata)
     .then(res => {
