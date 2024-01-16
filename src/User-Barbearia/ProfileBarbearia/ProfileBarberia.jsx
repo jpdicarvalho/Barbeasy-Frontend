@@ -128,6 +128,7 @@ function ProfileBarbearia() {
     })
     .then(res => {
       setUploadedUserImage(res.data.url);
+      window.location.reload();
     })
     .catch(err => console.log(err));
   }, [barbeariaId]);
