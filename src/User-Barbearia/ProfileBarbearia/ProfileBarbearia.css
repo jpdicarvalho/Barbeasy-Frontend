@@ -85,6 +85,14 @@
     background: #141728;
     cursor: pointer;
 }
+.error-message {
+    background-color: rgba(255, 0, 0, 0.1); 
+    color: #800000; 
+    padding: 10px; 
+    border: 1px solid #800000;
+    border-radius: 5px; 
+    margin-bottom: 10px;
+  }
 .section__userName{
     text-align: center;
     width: 100%;
