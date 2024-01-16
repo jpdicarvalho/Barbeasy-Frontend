@@ -3,6 +3,12 @@ import {motion} from 'framer-motion';
 import axios from 'axios';
 import './ProfileBarbearia.css';
 function ProfileBarbearia() {
+
+  //Buscando informações do usuário logado
+  const userData = localStorage.getItem('dataBarbearia');//Obtendo os dados salvo no localStorage
+  const userInformation = JSON.parse(userData);//trasnformando os dados para JSON
+  const barbeariaId = userInformation.barbearia[0].id;//pegando apenas o ID do usuário logado
+
   //Constantes de Upload de imagem de usuário
   const [fileUserImage, setFileUserImage] = useState();
   const [messageValidationImage, setMessageValidationImage] = useState('');
@@ -39,14 +45,7 @@ function ProfileBarbearia() {
     name: '',
     
   });
-  //Buscando informações do usuário logado
-  const userData = localStorage.getItem('dataBarbearia');//Obtendo os dados salvo no localStorage
-  const userInformation = JSON.parse(userData);//trasnformando os dados para JSON
-  const barbeariaId = userInformation.barbearia[0].id;//pegando apenas o ID do usuário logado
-
-  console.log('informações do usuário local...',userData)
-console.log('informaçoes do usuário em json:',userInformation)
-console.log('id da barbearia',barbeariaId)
+  
 
   // Função para alternar a visibilidade da div de status
   const alternarStatus = () => {
@@ -99,7 +98,6 @@ console.log('id da barbearia',barbeariaId)
 
     // Verifica se a extensão é permitida
     if (!allowedExtensions.includes(fileExtension)) {
-
       setMessageValidationImage("Extensão de arquivo não permitida. Use 'jpg', 'jpeg' ou 'png'.");
     return;
   }
@@ -185,6 +183,7 @@ console.log('id da barbearia',barbeariaId)
                 </label>
       
               </div>
+              <p>{messageValidationImage}</p>
               <button onClick={handleUpload}>upload</button>
               
               <div className="section__userName">
