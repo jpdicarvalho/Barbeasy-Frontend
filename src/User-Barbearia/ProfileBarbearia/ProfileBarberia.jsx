@@ -13,6 +13,7 @@ function ProfileBarbearia() {
   const [fileUserImage, setFileUserImage] = useState();
   const [messageValidationImage, setMessageValidationImage] = useState('');
   const [uploadedUserImage, setUploadedUserImage] = useState([]);//imagem de usuário atual
+  const [showUploadButton, setShowUploadButton] = useState(false);
 
   const [uploadedImages, setUploadedImages] = useState([]);
 
@@ -86,6 +87,7 @@ function ProfileBarbearia() {
   //Upload de imagem de Usuário
   const handleFile = (e) => {
     setFileUserImage(e.target.files[0])
+    setShowUploadButton(!!e.target.files.length);
   }
 
   const handleUpload = () => {
@@ -184,8 +186,8 @@ function ProfileBarbearia() {
       
               </div>
               <div className='error-message'>{messageValidationImage}</div>
-              <button onClick={handleUpload}>upload</button>
-              
+              {showUploadButton && <button onClick={handleUpload}>upload</button>}
+                            
               <div className="section__userName">
                 João Pedro
               </div>
