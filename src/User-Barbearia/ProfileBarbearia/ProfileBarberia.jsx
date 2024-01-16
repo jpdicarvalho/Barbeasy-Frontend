@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {motion} from 'framer-motion';
 import axios from 'axios';
 import './ProfileBarbearia.css';
@@ -120,13 +120,17 @@ console.log('id da barbearia',barbeariaId)
     .catch(err => console.log(err));
   }
 
-  useEffect(() =>{
-    axios.get('https://api-user-barbeasy.up.railway.app/api/image-user-barbearia')
+  useEffect(() => {
+    axios.get('https://api-user-barbeasy.up.railway.app/api/image-user-barbearia', {
+      params: {
+        barbeariaId: barbeariaId
+      }
+    })
     .then(res => {
       setUploadedUserImage(res.data.url);
     })
     .catch(err => console.log(err));
-  }, [])
+  }, [barbeariaId]);
 
 
 //pegando o click nas divis
