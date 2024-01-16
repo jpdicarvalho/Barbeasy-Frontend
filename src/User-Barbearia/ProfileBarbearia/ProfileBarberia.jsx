@@ -78,7 +78,7 @@ function ProfileBarbearia() {
 
   //Upload de imagem de Usuário
   const handleFile = (e) => {
-    setfile(e.target.files[0])
+    setFileUserImage(e.target.files[0])
   }
 
   const handleUpload = () => {
