@@ -172,7 +172,7 @@ function ProfileBarbearia() {
                     onChange={handleFile}
                   />
 
-                  {uploadedUserImage ? (
+                  {uploadedUserImage.length > 0 ? (
                     <div className="img-view-profile">
                       <img src={uploadedUserImage} id='img-profile' />
                     </div>
