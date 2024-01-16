@@ -185,9 +185,9 @@ function ProfileBarbearia() {
                 </label>
       
               </div>
-              <div className='error-message'>{messageValidationImage}</div>
-              {showUploadButton && <button onClick={handleUpload}>upload</button>}
-                            
+              {/*<div className='error-message'>{messageValidationImage}</div>*/}
+              {showUploadButton && <button className='button__change' onClick={handleUpload}>Alterar Imagem</button>}
+
               <div className="section__userName">
                 João Pedro
               </div>
