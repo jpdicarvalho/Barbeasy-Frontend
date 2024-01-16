@@ -183,7 +183,7 @@ function ProfileBarbearia() {
                 </label>
       
               </div>
-              <div className='error-message'>{messageValidationImage}</div>
+              <div className='notification-container error-message'>{messageValidationImage}</div>
               <button onClick={handleUpload}>upload</button>
               
               <div className="section__userName">
