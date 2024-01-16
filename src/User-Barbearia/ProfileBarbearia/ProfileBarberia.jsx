@@ -99,6 +99,7 @@ console.log('id da barbearia',barbeariaId)
 
     // Verifica se a extensão é permitida
     if (!allowedExtensions.includes(fileExtension)) {
+
       setMessageValidationImage("Extensão de arquivo não permitida. Use 'jpg', 'jpeg' ou 'png'.");
     return;
   }
@@ -118,6 +119,14 @@ console.log('id da barbearia',barbeariaId)
     })
     .catch(err => console.log(err));
   }
+
+  useEffect(() =>{
+    axios.get('https://api-user-barbeasy.up.railway.app/api/image-user-barbearia')
+    .then(res => {
+      setUploadedUserImage(res.data.url);
+    })
+    .catch(err => console.log(err));
+  }, [])
 
 
 //pegando o click nas divis
@@ -161,7 +170,7 @@ console.log('id da barbearia',barbeariaId)
 
                   {uploadedUserImage ? (
                     <div className="img-view-profile">
-                      <img src={uploadedUserImage} alt="Imagem de perfil de usuário" id='img-profile' />
+                      <img src={uploadedUserImage} id='img-profile' />
                     </div>
                   ) : (
                     <motion.div className="img-view-user">
