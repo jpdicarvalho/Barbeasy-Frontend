@@ -39,6 +39,14 @@ function ProfileBarbearia() {
     name: '',
     
   });
+  //Buscando informações do usuário logado
+  const userData = localStorage.getItem('dataBarbearia');//Obtendo os dados salvo no localStorage
+  const userInformation = JSON.parse(userData);//trasnformando os dados para JSON
+  const barbeariaId = userInformation.barbearia[0].id;//pegando apenas o ID do usuário logado
+
+  console.log('informações do usuário local...',userData)
+console.log('informaçoes do usuário em json:',userInformation)
+console.log('id da barbearia',barbeariaId)
 
   // Função para alternar a visibilidade da div de status
   const alternarStatus = () => {
@@ -82,11 +90,6 @@ function ProfileBarbearia() {
   }
 
   const handleUpload = () => {
-    //Buscando informações do usuário logado
-    const userData = localStorage.getItem('dataBarbearia');//Obtendo os dados salvo no localStorage
-    const userInformation = JSON.parse(userData);//trasnformando os dados para JSON
-    const barbeariaId = userInformation.barbearia[0].id;//pegando apenas o ID do usuário logado
-
     const allowedExtensions = ['jpg', 'jpeg', 'png'];
 
     const formdata = new FormData();
