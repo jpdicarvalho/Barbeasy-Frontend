@@ -15,7 +15,11 @@ function ProfileBarbearia() {
   const [uploadedUserImage, setUploadedUserImage] = useState([]);//imagem de usuário atual
   const [showUploadButton, setShowUploadButton] = useState(false);
 
-  const [uploadedImages, setUploadedImages] = useState([]);
+  //Constantes de Upload de Imagens para o Banner
+  const [bannerFiles, setBannerFiles] = useState([]);
+  const [bannerImages, setBannerImages] = useState([]);
+  const [bannerMessage, setBannerMessage] = useState('');
+
 
   const [mostrarStatus, setMostrarStatus] = useState(false);
   const [statusSelecionado, setStatusSelecionado] = useState('');
@@ -131,7 +135,61 @@ function ProfileBarbearia() {
     })
     .catch(err => console.log(err));
   }, [barbeariaId]);
+/*----------------------------------*/
 
+  //Upload banner images
+  const handleBannerImages = (e) => {
+    const selectedFiles = Array.from(e.target.files);
+    setBannerFiles(selectedFiles);
+  }
+
+  const handleBannerImagesUpload = () => {
+    const allowedExtensions = ['jpg', 'jpeg', 'png'];
+
+    const bannerFormData = new FormData();
+
+    if (bannerFiles.length === 0) {
+      setBannerMessage("Selecione pelo menos uma imagem.");
+      return;
+    }
+    if(bannerFiles.length > 5){
+      setBannerMessage("Selecione apenas 5 imagens");
+      return;
+    }
+
+    // Itera sobre os arquivos selecionados
+    for (let i = 0; i < bannerFiles.length; i++) {
+      const file = bannerFiles[i];
+
+      // Obtém a extensão do arquivo original
+      const fileExtension = file.name.split('.').pop();
+
+      // Verifica se a extensão é permitida
+      if (!allowedExtensions.includes(fileExtension)) {
+        setBannerMessage("Extensão de arquivo não permitida. Use 'jpg', 'jpeg' ou 'png'.");
+        return;
+      }
+
+      // Renomeia a imagem com o ID do usuário mantendo a extensão original
+      const renamedFile = new File([file], `barbeariaId_${barbeariaId}_banner_${i + 1}.${fileExtension}`, { type: file.type });
+
+      // Adiciona o arquivo ao FormData
+      bannerFormData.append(`images`, renamedFile);
+      bannerFormData.append('barbeariaId', barbeariaId);
+    }
+
+    axios.post('https://api-user-barbeasy.up.railway.app/api/upload-banners-images', bannerFormData)
+      .then(res => {
+        if (res.data.Status === "Success") {
+          console.log('Banner Images Uploaded Successfully');
+          window.location.reload();
+        } else {
+          console.log('Banner Images Upload Failed');
+        }
+      })
+      .catch(err => console.log(err));
+  }
+/*----------------------------------*/
 
 //pegando o click nas divis
   const handleNomeChange = (event) => {
@@ -205,14 +263,14 @@ console.log(uploadedUserImage.length)
           className="container__banner"
           whileTap={{cursor:"grabbing"}}
           drag="x"
-          dragConstraints={uploadedImages.length === 5 ? { right: 0, left: -1600}:
-                           uploadedImages.length === 4 ? { right: 0, left: -1400}:
-                           uploadedImages.length === 3 ? { right: 0, left: -1000}:
-                           uploadedImages.length === 2 ? { right: 0, left: -600}:
-                           uploadedImages.length === 1 ? { right: 0, left: -200}:{ right: 0, left: 0}}
+          dragConstraints={bannerImages.length === 5 ? { right: 0, left: -1600}:
+                           bannerImages.length === 4 ? { right: 0, left: -1400}:
+                           bannerImages.length === 3 ? { right: 0, left: -1000}:
+                           bannerImages.length === 2 ? { right: 0, left: -600}:
+                           bannerImages.length === 1 ? { right: 0, left: -200}:{ right: 0, left: 0}}
 
           >
-          {uploadedImages.map((image, index) => (
+          {bannerImages.map((image, index) => (
                   <motion.div key={index} className='container-img-upload' whileTap={{cursor:"grabbing"}}>
                     <img src={image} alt="" className='img-uploaded' />
                   </motion.div>
@@ -222,11 +280,11 @@ console.log(uploadedUserImage.length)
                 type="file"
                 accept="image/*"
                 id='input-file'
+                onChange={handleBannerImages}
                 hidden
                 multiple
-                
               />
-              <motion.div className="img-view" style={{ width: uploadedImages.length > 0 ? '150px' : '380px' }}>
+              <motion.div className="img-view" style={{ width: bannerImages.length > 0 ? '150px' : '380px' }}>
                 <span className="material-symbols-outlined icon_upload">backup</span>
                 <p>Incluir Imagem <br/>da Barbearia</p>
               </motion.div>
@@ -235,6 +293,7 @@ console.log(uploadedUserImage.length)
           </motion.div>
           
         </motion.div>
+        <button onClick={handleBannerImagesUpload}>Upload Banners Images</button>
 
         <div className="section_information">       
 <hr />
