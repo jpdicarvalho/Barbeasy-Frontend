@@ -190,6 +190,17 @@ function ProfileBarbearia() {
   }
 
   useEffect(() => {
+    // Configura um temporizador para esperar 1 segundo após a última mudança no input de arquivo
+    const timeout = setTimeout(() => {
+      // Executa a função de upload após o período de espera
+      handleBannerImagesUpload();
+    }, 1000);
+
+    // Limpa o temporizador se o componente for desmontado ou se houver uma nova mudança no input de arquivo
+    return () => clearTimeout(timeout);
+  }, [bannerFiles]); // Adapte conforme necessário
+
+  useEffect(() => {
     axios.get('https://api-user-barbeasy.up.railway.app/api/banner-images', {
       params: {
         barbeariaId: barbeariaId
@@ -200,7 +211,6 @@ function ProfileBarbearia() {
     })
     .catch(error => console.log(error));
   }, [barbeariaId]);
-  console.log(bannerImages)
 /*----------------------------------*/
 
 //pegando o click nas divis
@@ -301,12 +311,9 @@ function ProfileBarbearia() {
                 <span className="material-symbols-outlined icon_upload">backup</span>
                 <p>Incluir Imagem <br/>da Barbearia</p>
               </motion.div>
-
             </label>
           </motion.div>
-          
         </motion.div>
-        <button onClick={handleBannerImagesUpload}>Upload Banners Images</button>
 
         <div className="section_information">       
 <hr />
