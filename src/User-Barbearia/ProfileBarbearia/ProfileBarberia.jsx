@@ -192,7 +192,7 @@ function ProfileBarbearia() {
   useEffect(() => {
     axios.get('https://api-user-barbeasy.up.railway.app/api/banner-images', {
       params: {
-        barbearia_Id: barbeariaId
+        barbeariaId: barbeariaId
       }
     })
     .then(result => {
@@ -200,6 +200,7 @@ function ProfileBarbearia() {
     })
     .catch(error => console.log(error));
   }, [barbeariaId]);
+  console.log(bannerImages)
 /*----------------------------------*/
 
 //pegando o click nas divis
