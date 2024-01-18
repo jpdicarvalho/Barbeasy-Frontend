@@ -174,10 +174,8 @@ function ProfileBarbearia() {
 
       // Adiciona o arquivo ao FormData
       bannerFormData.append(`images`, renamedFile);
+      bannerFormData.append('barbeariaId', barbeariaId);
     }
-
-    bannerFormData.append('barbeariaId', barbeariaId);
-    console.log(bannerFormData)
 
     axios.post('https://api-user-barbeasy.up.railway.app/api/upload-banners-images', bannerFormData)
       .then(res => {
