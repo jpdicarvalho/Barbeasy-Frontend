@@ -136,7 +136,6 @@ function ProfileBarbearia() {
     .catch(err => console.log(err));
   }, [barbeariaId]);
 /*----------------------------------*/
-
   //Upload banner images
   const handleBannerImages = (e) => {
     const selectedFiles = Array.from(e.target.files);
