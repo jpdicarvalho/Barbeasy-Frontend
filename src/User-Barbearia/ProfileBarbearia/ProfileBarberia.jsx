@@ -90,7 +90,6 @@ function ProfileBarbearia() {
   //Upload de imagem de Usuário
   const handleFile = (e) => {
     setFileUserImage(e.target.files[0])
-    setShowUploadButton(!!e.target.files.length);
   }
 
   const handleUserImageUpload = () => {
@@ -198,7 +197,7 @@ function ProfileBarbearia() {
       })
       .catch(err => console.log(err));
   }
-  
+
   //Send Images auto
   useEffect(() => {
     // Configura um temporizador para esperar 1 segundo após a última mudança no input de arquivo
