@@ -188,6 +188,18 @@ function ProfileBarbearia() {
       })
       .catch(err => console.log(err));
   }
+
+  useEffect(() => {
+    axios.get('https://api-user-barbeasy.up.railway.app/api/banner-images', {
+      params: {
+        barbeariaId: barbeariaId
+      }
+    })
+    .then(result => {
+      setBannerImages(result.data.urls);
+    })
+    .catch(error => console.log(error));
+  }, [barbeariaId]);
 /*----------------------------------*/
 
 //pegando o click nas divis
