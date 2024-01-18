@@ -13,7 +13,6 @@ function ProfileBarbearia() {
   const [fileUserImage, setFileUserImage] = useState();
   const [messageValidationImage, setMessageValidationImage] = useState('');
   const [uploadedUserImage, setUploadedUserImage] = useState([]);//imagem de usuário atual
-  const [showUploadButton, setShowUploadButton] = useState(false);
 
   //Constantes de Upload de Imagens para o Banner
   const [bannerFiles, setBannerFiles] = useState([]);
@@ -94,7 +93,7 @@ function ProfileBarbearia() {
     setShowUploadButton(!!e.target.files.length);
   }
 
-  const handleUpload = () => {
+  const handleUserImageUpload = () => {
     const allowedExtensions = ['jpg', 'jpeg', 'png'];
 
     const formdata = new FormData();
@@ -123,6 +122,17 @@ function ProfileBarbearia() {
     })
     .catch(err => console.log(err));
   }
+  //Send Images auto
+  useEffect(() => {
+    // Configura um temporizador para esperar 1 segundo após a última mudança no input de arquivo
+    const timeout = setTimeout(() => {
+      // Executa a função de upload após o período de espera
+      handleUserImageUpload();
+    }, 1000);
+
+    // Limpa o temporizador se o componente for desmontado ou se houver uma nova mudança no input de arquivo
+    return () => clearTimeout(timeout);
+  }, [fileUserImage]);
 
   useEffect(() => {
     axios.get('https://api-user-barbeasy.up.railway.app/api/image-user-barbearia', {
@@ -188,7 +198,8 @@ function ProfileBarbearia() {
       })
       .catch(err => console.log(err));
   }
-
+  
+  //Send Images auto
   useEffect(() => {
     // Configura um temporizador para esperar 1 segundo após a última mudança no input de arquivo
     const timeout = setTimeout(() => {
@@ -266,14 +277,6 @@ function ProfileBarbearia() {
                 </label>
       
               </div>
-              {/*<div className='error-message'>{messageValidationImage}</div>*/}
-              {showUploadButton &&
-                <button
-                  className='button__change'
-                  style={{width: 'auto', padding: '5px', marginTop: '10px'}}
-                  onClick={handleUpload}>
-                    Alterar Imagem
-                </button>}
 
               <div className="section__userName">
                 João Pedro
