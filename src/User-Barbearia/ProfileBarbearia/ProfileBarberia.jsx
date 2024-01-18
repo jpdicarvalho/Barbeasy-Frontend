@@ -153,7 +153,7 @@ function ProfileBarbearia() {
   const handleDiasDeSegSab = () => {
     setDiasSemanaSelecionado(['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']);
   };
-
+console.log(uploadedUserImage.length)
   return (
     <>
     <div className="main-settings">
