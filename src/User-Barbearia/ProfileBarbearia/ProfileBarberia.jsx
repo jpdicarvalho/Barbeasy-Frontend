@@ -194,11 +194,11 @@ function ProfileBarbearia() {
     const timeout = setTimeout(() => {
       // Executa a função de upload após o período de espera
       handleBannerImagesUpload();
-    }, 1000);
+    }, 3000);
 
     // Limpa o temporizador se o componente for desmontado ou se houver uma nova mudança no input de arquivo
     return () => clearTimeout(timeout);
-  }, [bannerFiles]); // Adapte conforme necessário
+  }, [bannerFiles]);
 
   useEffect(() => {
     axios.get('https://api-user-barbeasy.up.railway.app/api/banner-images', {
