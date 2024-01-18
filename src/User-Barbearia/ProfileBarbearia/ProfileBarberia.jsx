@@ -143,7 +143,6 @@ function ProfileBarbearia() {
   }
 
   const handleBannerImagesUpload = () => {
-    const barbearia_Id = userInformation.barbearia[0].id;
     const allowedExtensions = ['jpg', 'jpeg', 'png'];
 
     const bannerFormData = new FormData();
@@ -171,12 +170,14 @@ function ProfileBarbearia() {
       }
 
       // Renomeia a imagem com o ID do usuário mantendo a extensão original
-      const renamedFile = new File([file], `barbeariaId_${barbearia_Id}_banner_${i + 1}.${fileExtension}`, { type: file.type });
+      const renamedFile = new File([file], `barbeariaId_${barbeariaId}_banner_${i + 1}.${fileExtension}`, { type: file.type });
 
       // Adiciona o arquivo ao FormData
       bannerFormData.append(`images`, renamedFile);
-      bannerFormData.append('barbearia_Id', barbearia_Id);
     }
+
+    bannerFormData.append('barbeariaId', barbeariaId);
+    console.log(bannerFormData)
 
     axios.post('https://api-user-barbeasy.up.railway.app/api/upload-banners-images', bannerFormData)
       .then(res => {
