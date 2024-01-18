@@ -7,7 +7,6 @@ function ProfileBarbearia() {
   //Buscando informações do usuário logado
   const userData = localStorage.getItem('dataBarbearia');//Obtendo os dados salvo no localStorage
   const userInformation = JSON.parse(userData);//trasnformando os dados para JSON
-  const barbeariaId = userInformation.barbearia[0].id;//pegando apenas o ID do usuário logado
 
   //Constantes de Upload de imagem de usuário
   const [fileUserImage, setFileUserImage] = useState();
@@ -95,6 +94,8 @@ function ProfileBarbearia() {
   }
 
   const handleUpload = () => {
+    const barbeariaId = userInformation.barbearia[0].id;
+    console.log(barbeariaId)
     const allowedExtensions = ['jpg', 'jpeg', 'png'];
 
     const formdata = new FormData();
@@ -143,6 +144,8 @@ function ProfileBarbearia() {
   }
 
   const handleBannerImagesUpload = () => {
+    const barbearia_Id = userInformation.barbearia[0].id;
+    console.log(barbearia_Id)
     const allowedExtensions = ['jpg', 'jpeg', 'png'];
 
     const bannerFormData = new FormData();
@@ -174,7 +177,7 @@ function ProfileBarbearia() {
 
       // Adiciona o arquivo ao FormData
       bannerFormData.append(`images`, renamedFile);
-      bannerFormData.append('barbeariaId', barbeariaId);
+      bannerFormData.append('barbearia_Id', barbearia_Id);
     }
 
     axios.post('https://api-user-barbeasy.up.railway.app/api/upload-banners-images', bannerFormData)
@@ -222,7 +225,8 @@ function ProfileBarbearia() {
   const handleDiasDeSegSab = () => {
     setDiasSemanaSelecionado(['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']);
   };
-console.log(uploadedUserImage.length)
+
+
   return (
     <>
     <div className="main-settings">
