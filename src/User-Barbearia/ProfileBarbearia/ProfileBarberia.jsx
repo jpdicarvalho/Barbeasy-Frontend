@@ -172,14 +172,14 @@ console.log(uploadedUserImage.length)
                     onChange={handleFile}
                   />
 
-                  {uploadedUserImage.length > 0 ? (
+                  {uploadedUserImage.length === 0 ? (
+                    <motion.div className="img-view-user">
+                      <span className="material-symbols-outlined icon_user_edit">person</span>
+                    </motion.div>
+                  ) : (
                     <div className="img-view-profile">
                       <img src={uploadedUserImage} id='img-profile' />
                     </div>
-                  ) : (
-                    <motion.div className="img-view-user">
-                    <span className="material-symbols-outlined icon_user_edit">person</span>
-                  </motion.div>
                   )}
 
                 </label>
