@@ -7,6 +7,7 @@ function ProfileBarbearia() {
   //Buscando informações do usuário logado
   const userData = localStorage.getItem('dataBarbearia');//Obtendo os dados salvo no localStorage
   const userInformation = JSON.parse(userData);//trasnformando os dados para JSON
+  const barbeariaId = userInformation.barbearia[0].id;
 
   //Constantes de Upload de imagem de usuário
   const [fileUserImage, setFileUserImage] = useState();
@@ -94,8 +95,6 @@ function ProfileBarbearia() {
   }
 
   const handleUpload = () => {
-    const barbeariaId = userInformation.barbearia[0].id;
-    console.log(barbeariaId)
     const allowedExtensions = ['jpg', 'jpeg', 'png'];
 
     const formdata = new FormData();
@@ -145,7 +144,6 @@ function ProfileBarbearia() {
 
   const handleBannerImagesUpload = () => {
     const barbearia_Id = userInformation.barbearia[0].id;
-    console.log(barbearia_Id)
     const allowedExtensions = ['jpg', 'jpeg', 'png'];
 
     const bannerFormData = new FormData();
@@ -173,7 +171,7 @@ function ProfileBarbearia() {
       }
 
       // Renomeia a imagem com o ID do usuário mantendo a extensão original
-      const renamedFile = new File([file], `barbeariaId_${barbeariaId}_banner_${i + 1}.${fileExtension}`, { type: file.type });
+      const renamedFile = new File([file], `barbeariaId_${barbearia_Id}_banner_${i + 1}.${fileExtension}`, { type: file.type });
 
       // Adiciona o arquivo ao FormData
       bannerFormData.append(`images`, renamedFile);
@@ -195,7 +193,7 @@ function ProfileBarbearia() {
   useEffect(() => {
     axios.get('https://api-user-barbeasy.up.railway.app/api/banner-images', {
       params: {
-        barbeariaId: barbeariaId
+        barbearia_Id: barbeariaId
       }
     })
     .then(result => {
