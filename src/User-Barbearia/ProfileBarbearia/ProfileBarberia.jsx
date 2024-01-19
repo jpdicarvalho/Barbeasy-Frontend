@@ -93,8 +93,6 @@ function ProfileBarbearia() {
     
     // Obtém a extensão do arquivo original
     const fileExtension = fileUserImage.name.split('.').pop();
-    console.log(fileUserImage)
-    console.log(fileExtension)
 
     // Verifica se a extensão é permitida
     if (!allowedExtensions.includes(fileExtension)) {
@@ -259,7 +257,7 @@ function ProfileBarbearia() {
 
                   {uploadedUserImage.length > 0 ? (
                     <div className="img-view-profile">
-                      <img src={uploadedUserImage} alt="" id='img-profile' />
+                      <img src={uploadedUserImage[0]} alt="" id='img-profile' />
                     </div>
                   ) : (
                     <motion.div className="img-view-user">
@@ -268,7 +266,6 @@ function ProfileBarbearia() {
                   )}
 
                 </label>
-                    <img src={uploadedUserImage} alt="" />
               </div>
 
               <div className="section__userName">
