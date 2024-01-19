@@ -287,7 +287,7 @@ function ProfileBarbearia() {
 
           >
           {bannerImages.map((image, index) => (
-                  <motion.div key={index} className='container-img-upload' whileTap={{cursor:"grabbing"}}>
+                  <motion.div key={index} className='container-img-upload' whileTap={{cursor:"grabbing"}} drag="x">
                     <img src={image} alt="" className='img-uploaded' />
                   </motion.div>
                 ))}
