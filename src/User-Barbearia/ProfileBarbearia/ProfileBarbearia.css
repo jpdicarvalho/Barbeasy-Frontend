@@ -194,6 +194,7 @@
 .icon_menu{
     color: #f6f6fc;
     margin-right: 10px;
+    transition: 0.5s;
 }
 .girar {
     transform: rotate(180deg);

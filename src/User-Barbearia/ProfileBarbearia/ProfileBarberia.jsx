@@ -352,7 +352,11 @@ function ProfileBarbearia() {
           {mostrarStatus && (
             <div className="divSelected">
               <div className="container__checkBox">
-                <span>Aberta</span>
+                {status === 'Aberta' ?
+                  <span style={{fontWeight: '500', transition: '0.5', color: '#1AEE07'}}>Aberta</span>
+                :
+                  <span style={{fontWeight: '500', transition: '0.5'}}>Aberta</span>
+                }
                 <input
                   type="checkbox"
                   id='status'
