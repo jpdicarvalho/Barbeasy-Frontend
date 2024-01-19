@@ -56,31 +56,24 @@ function ProfileBarbearia() {
   const alternarStatus = () => {
     setMostrarStatus(!mostrarStatus);
   };
-
   const alternarNomeBarbearia = () => {
     setMostrarNomeBarbearia(!mostrarNomeBarbearia);
   };
-
   const alternarEndereco = () => {
     setMostrarEndereco(!mostrarEndereco);
   };
-
   const alternarDiasTrabalho = () => {
     setMostrarDiasSemana(!mostrarDiasSemana);
   };
-
   const alternarHorario = () => {
     setMostrarHorario(!mostrarHorario);
   };
-
   const alternarServico = () => {
     setMostrarServico(!mostrarServico);
   };
-
   const alternarNome = () => {
     setMostrarNome(!mostrarNome);
   };
-
   const alternarEmail = () => {
     setMostrarEmail(!mostrarEmail);
   };
@@ -91,7 +84,6 @@ function ProfileBarbearia() {
   //Upload de imagem de Usuário
   const handleFile = (e) => {
     setFileUserImage(e.target.files[0])
-    setShowUploadButton(!!e.target.files.length);
   }
 
   const handleUpload = () => {
@@ -141,7 +133,7 @@ function ProfileBarbearia() {
     const selectedFiles = Array.from(e.target.files);
     setBannerFiles(selectedFiles);
   }
-
+  //Preparando as imagens selecionadas para serem enviadas ao back-end
   const handleBannerImagesUpload = () => {
     const allowedExtensions = ['jpg', 'jpeg', 'png'];
 
@@ -188,7 +180,7 @@ function ProfileBarbearia() {
       })
       .catch(err => console.log(err));
   }
-
+  //Metodo para mandar as imagens automaticamente para o back-end
   useEffect(() => {
     // Configura um temporizador para esperar 1 segundo após a última mudança no input de arquivo
     const timeout = setTimeout(() => {
@@ -199,7 +191,7 @@ function ProfileBarbearia() {
     // Limpa o temporizador se o componente for desmontado ou se houver uma nova mudança no input de arquivo
     return () => clearTimeout(timeout);
   }, [bannerFiles]);
-
+  //Função para obter as imagens cadastradas
   useEffect(() => {
     axios.get('https://api-user-barbeasy.up.railway.app/api/banner-images', {
       params: {
@@ -211,6 +203,7 @@ function ProfileBarbearia() {
     })
     .catch(error => console.log(error));
   }, [barbeariaId]);
+  console.log('fileUserImage: ',fileUserImage)
 /*----------------------------------*/
 
 //pegando o click nas divis
@@ -233,8 +226,7 @@ function ProfileBarbearia() {
   const handleDiasDeSegSab = () => {
     setDiasSemanaSelecionado(['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']);
   };
-
-
+console.log('uploadedUserImage: ', uploadedUserImage)
   return (
     <>
     <div className="main-settings">
@@ -266,14 +258,6 @@ function ProfileBarbearia() {
                 </label>
       
               </div>
-              {/*<div className='error-message'>{messageValidationImage}</div>*/}
-              {showUploadButton &&
-                <button
-                  className='button__change'
-                  style={{width: 'auto', padding: '5px', marginTop: '10px'}}
-                  onClick={handleUpload}>
-                    Alterar Imagem
-                </button>}
 
               <div className="section__userName">
                 João Pedro
