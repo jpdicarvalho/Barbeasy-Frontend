@@ -10,10 +10,9 @@ function ProfileBarbearia() {
   const barbeariaId = userInformation.barbearia[0].id;
 
   //Constantes de Upload de imagem de usuário
-  const [fileUserImage, setFileUserImage] = useState();
-  const [messageValidationImage, setMessageValidationImage] = useState('');
-  const [uploadedUserImage, setUploadedUserImage] = useState([]);//imagem de usuário atual
-  const [showUploadButton, setShowUploadButton] = useState(false);
+  const [file, setfile] = useState();
+  const [imageUser, setImageUser] = useState([]);
+  const [message, setMessage] = useState('');
 
   //Constantes de Upload de Imagens para o Banner
   const [bannerFiles, setBannerFiles] = useState([]);
@@ -81,33 +80,34 @@ function ProfileBarbearia() {
     setMostrarSenha(!mostrarSenha);
   };
 /*-----------------------------------*/
-  //Upload de imagem de Usuário
-  const handleFile = (e) => {
-    setFileUserImage(e.target.files[0])
-  }
+ //Upload user image
+ const handleFile = (e) => {
+  setfile(e.target.files[0])
+}
   //Preparando as imagens selecionadas para serem enviadas ao back-end
-  const handleUserImageUpload = () => {
+  const handleUpload = () => {
     const allowedExtensions = ['jpg', 'jpeg', 'png'];
 
     const formdata = new FormData();
-    
+
     // Obtém a extensão do arquivo original
-    const fileExtension = fileUserImage ? fileUserImage.name.split('.').pop() : '';
+    const fileExtension = file.name.split('.').pop();
 
     // Verifica se a extensão é permitida
     if (!allowedExtensions.includes(fileExtension)) {
-      setMessageValidationImage("Extensão de arquivo não permitida. Use 'jpg', 'jpeg' ou 'png'.");
-    return;
-  }
+      setMessage("Extensão de arquivo não permitida. Use 'jpg', 'jpeg' ou 'png'.");
+      return;
+    }
 
     // Renomeia a imagem com o ID do usuário mantendo a extensão original
-    const renamedFile = new File([fileUserImage], `userBarbeariaId_${barbeariaId}.${fileExtension}`, { type: fileUserImage.type });
+    const renamedFile = new File([file], `userBarbeariaId_${barbeariaId}.${fileExtension}`, { type: file.type });
     formdata.append('image', renamedFile);
     formdata.append('barbeariaId', barbeariaId);
 
     axios.post('https://api-user-barbeasy.up.railway.app/api/upload-image-user-barbearia', formdata)
     .then(res => {
       if(res.data.Status === "Success"){
+        console.log('Succeded')
         window.location.reload();
       }else{
         console.log('faled')
@@ -115,17 +115,7 @@ function ProfileBarbearia() {
     })
     .catch(err => console.log(err));
   }
-  //Metodo para mandar as imagens automaticamente para o back-end
-  useEffect(() => {
-    // Configura um temporizador para esperar 1 segundo após a última mudança no input de arquivo
-    const timeout = setTimeout(() => {
-      // Executa a função de upload após o período de espera
-      handleUserImageUpload();
-    }, 1000);
-
-    // Limpa o temporizador se o componente for desmontado ou se houver uma nova mudança no input de arquivo
-    return () => clearTimeout(timeout);
-  }, [fileUserImage]);
+  
   //Função para obter as imagens cadastradas
   useEffect(() => {
     axios.get('https://api-user-barbeasy.up.railway.app/api/image-user-barbearia', {
@@ -134,7 +124,7 @@ function ProfileBarbearia() {
       }
     })
     .then(res => {
-      setUploadedUserImage(res.data.url);
+      setImageUser(res.data.url);
     })
     .catch(err => console.log(err));
   }, [barbeariaId]);
@@ -255,9 +245,9 @@ function ProfileBarbearia() {
                     onChange={handleFile}
                   />
 
-                  {uploadedUserImage.length > 0 ? (
+                  {imageUser.length > 0 ? (
                     <div className="img-view-profile">
-                      <img src={uploadedUserImage} alt="" id='img-profile' />
+                      <img src={imageUser} alt="" id='img-profile' />
                     </div>
                   ) : (
                     <motion.div className="img-view-user">
@@ -266,6 +256,7 @@ function ProfileBarbearia() {
                   )}
 
                 </label>
+                <button onClick={handleUpload}>upload</button>
               </div>
 
               <div className="section__userName">
