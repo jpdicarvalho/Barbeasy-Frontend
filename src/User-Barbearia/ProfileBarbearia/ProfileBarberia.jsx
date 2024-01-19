@@ -199,7 +199,7 @@ function ProfileBarbearia() {
     const timeout = setTimeout(() => {
       // Executa a função de upload após o período de espera
       handleBannerImagesUpload();
-    }, 10);
+    }, 9000);
 
     // Limpa o temporizador se o componente for desmontado ou se houver uma nova mudança no input de arquivo
     return () => clearTimeout(timeout);
