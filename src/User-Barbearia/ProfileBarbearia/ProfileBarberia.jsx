@@ -9,9 +9,6 @@ function ProfileBarbearia() {
   const userInformation = JSON.parse(userData);//trasnformando os dados para JSON
   const barbeariaId = userInformation.barbearia[0].id;
 
-  const [mostrarStatus, setMostrarStatus] = useState(false);
-  const [statusSelecionado, setStatusSelecionado] = useState('');
-
   const [mostrarNomeBarbearia, setMostrarNomeBarbearia] = useState(false);
   const [novoNome, setNovoNome] = useState('');
   
@@ -39,11 +36,6 @@ function ProfileBarbearia() {
     
   });
   
-
-  // Função para alternar a visibilidade da div de status
-  const alternarStatus = () => {
-    setMostrarStatus(!mostrarStatus);
-  };
   const alternarNomeBarbearia = () => {
     setMostrarNomeBarbearia(!mostrarNomeBarbearia);
   };
@@ -216,6 +208,36 @@ function ProfileBarbearia() {
   }, [barbeariaId]);
 
 /*----------------------------------*/
+//Constantes para atualizar o status da barbearia
+  const [mostrarStatus, setMostrarStatus] = useState(false);
+  const [status, setStatus] = useState();
+
+  const alternarStatus = () => {
+    setMostrarStatus(!mostrarStatus);
+  };
+  const statusUpdate = () => {
+    // Aqui você pode fazer uma solicitação para o backend usando o axios
+    axios.post(`https://api-user-barbeasy.up.railway.app/api/status-update/${barbeariaId}`, { Status: status })
+    .then(res => {
+        if(res.data.Success === 'Success'){
+          console.log('Status atualizado!');
+        }
+      })
+      .catch(error => {
+        // Lógica a ser executada em caso de erro na solicitação
+        console.error('Erro ao atualizar o status:', error);
+      });
+  };
+  useEffect(() => {
+    axios.get(`https://api-user-barbeasy.up.railway.app/api/status-barbearia/${barbeariaId}`)
+      .then(res => {
+        console.log(res.data.StatusBarbearia)
+        setStatus(res.data.StatusBarbearia)
+      })
+      .catch(error => console.log(error));
+  }, [])
+/*----------------------------------*/
+
 //pegando o click nas divis
   const handleNomeChange = (event) => {
     setNovoNome(event.target.value);
@@ -318,18 +340,29 @@ function ProfileBarbearia() {
         <div className="container__menu">
 
           <div className="menu__main" onClick={alternarStatus}>
+          {status === 'Aberta' ?
+            <span className="material-symbols-outlined icon_menu" style={{color: '#1AEE07'}}>radio_button_checked</span>
+            :
             <span className="material-symbols-outlined icon_menu">radio_button_checked</span>
-              Status
+            } Status
             <span className={`material-symbols-outlined arrow ${mostrarStatus ? 'girar' : ''}`} id='arrow'>expand_more</span>
           </div>
           
 
           {mostrarStatus && (
             <div className="divSelected">
-              
               <div className="container__checkBox">
                 <span>Aberta</span>
-                <input type="checkbox" id='status'/>
+                <input
+                  type="checkbox"
+                  id='status'
+                  checked={status === 'Aberta'} // Marca o input se o status for 'Aberta'
+                  onChange={() => {
+                    const novoStatus = status === 'Aberta' ? 'Fechada' : 'Aberta'; // Inverte o estado atual
+                    setStatus(novoStatus); // Atualiza o estado 'status'
+                    statusUpdate(); // Chama a função para atualizar o status no backend
+                  }}
+                />
                 <label htmlFor="status" className='switch'>
                   <span className='slider'></span>
                 </label>
