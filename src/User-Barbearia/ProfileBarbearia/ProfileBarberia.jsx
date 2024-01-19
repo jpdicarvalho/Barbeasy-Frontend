@@ -80,13 +80,13 @@ function ProfileBarbearia() {
   const alternarSenha = () => {
     setMostrarSenha(!mostrarSenha);
   };
-
+/*-----------------------------------*/
   //Upload de imagem de Usuário
   const handleFile = (e) => {
     setFileUserImage(e.target.files[0])
   }
-
-  const handleUpload = () => {
+  //Preparando as imagens selecionadas para serem enviadas ao back-end
+  const handleUserImageUpload = () => {
     const allowedExtensions = ['jpg', 'jpeg', 'png'];
 
     const formdata = new FormData();
@@ -115,7 +115,17 @@ function ProfileBarbearia() {
     })
     .catch(err => console.log(err));
   }
+  //Metodo para mandar as imagens automaticamente para o back-end
+  useEffect(() => {
+    // Configura um temporizador para esperar 1 segundo após a última mudança no input de arquivo
+    const timeout = setTimeout(() => {
+      // Executa a função de upload após o período de espera
+      handleUserImageUpload();
+    }, 1000);
 
+    // Limpa o temporizador se o componente for desmontado ou se houver uma nova mudança no input de arquivo
+    return () => clearTimeout(timeout);
+  }, [fileUserImage]);
   useEffect(() => {
     axios.get('https://api-user-barbeasy.up.railway.app/api/image-user-barbearia', {
       params: {
@@ -127,6 +137,7 @@ function ProfileBarbearia() {
     })
     .catch(err => console.log(err));
   }, [barbeariaId]);
+  
 /*----------------------------------*/
   //Upload banner images
   const handleBannerImages = (e) => {
@@ -245,7 +256,7 @@ console.log('uploadedUserImage: ', uploadedUserImage)
                     onChange={handleFile}
                   />
 
-                  {uploadedUserImage.length === 0 ? (
+                  {uploadedUserImage.length > 0 ? (
                     <motion.div className="img-view-user">
                       <span className="material-symbols-outlined icon_user_edit">person</span>
                     </motion.div>
