@@ -92,7 +92,7 @@ function ProfileBarbearia() {
     const formdata = new FormData();
     
     // Obtém a extensão do arquivo original
-    const fileExtension = fileUserImage.name.split('.').pop();
+    const fileExtension = fileUserImage ? fileUserImage.name.split('.').pop() : '';
 
     // Verifica se a extensão é permitida
     if (!allowedExtensions.includes(fileExtension)) {
