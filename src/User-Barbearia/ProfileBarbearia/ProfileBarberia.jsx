@@ -288,7 +288,7 @@ function ProfileBarbearia() {
           >
           {bannerImages.map((image, index) => (
                   <motion.div key={index} className='container-img-upload' whileTap={{cursor:"grabbing"}} >
-                    <motion.img src={image} alt="" className='img-uploaded' drag="x" />
+                    <img src={image} alt="" className='img-uploaded' />
                   </motion.div>
                 ))}
             <label htmlFor="input-file" id='drop-area'>
