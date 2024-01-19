@@ -126,6 +126,7 @@ function ProfileBarbearia() {
     // Limpa o temporizador se o componente for desmontado ou se houver uma nova mudança no input de arquivo
     return () => clearTimeout(timeout);
   }, [fileUserImage]);
+  //Função para obter as imagens cadastradas
   useEffect(() => {
     axios.get('https://api-user-barbeasy.up.railway.app/api/image-user-barbearia', {
       params: {
@@ -137,7 +138,6 @@ function ProfileBarbearia() {
     })
     .catch(err => console.log(err));
   }, [barbeariaId]);
-  
 /*----------------------------------*/
   //Upload banner images
   const handleBannerImages = (e) => {
@@ -214,7 +214,6 @@ function ProfileBarbearia() {
     })
     .catch(error => console.log(error));
   }, [barbeariaId]);
-  console.log('fileUserImage: ',fileUserImage)
 /*----------------------------------*/
 
 //pegando o click nas divis
@@ -237,7 +236,7 @@ function ProfileBarbearia() {
   const handleDiasDeSegSab = () => {
     setDiasSemanaSelecionado(['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']);
   };
-console.log('uploadedUserImage: ', uploadedUserImage)
+
   return (
     <>
     <div className="main-settings">
@@ -257,13 +256,13 @@ console.log('uploadedUserImage: ', uploadedUserImage)
                   />
 
                   {uploadedUserImage.length > 0 ? (
-                    <motion.div className="img-view-user">
-                      <span className="material-symbols-outlined icon_user_edit">person</span>
-                    </motion.div>
-                  ) : (
                     <div className="img-view-profile">
                       <img src={uploadedUserImage} id='img-profile' />
                     </div>
+                  ) : (
+                    <motion.div className="img-view-user">
+                      <span className="material-symbols-outlined icon_user_edit">person</span>
+                    </motion.div>
                   )}
 
                 </label>
