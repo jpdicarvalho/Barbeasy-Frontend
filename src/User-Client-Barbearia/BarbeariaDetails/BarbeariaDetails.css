@@ -201,6 +201,7 @@ h4{
 span{
     color: #354249;
     font-weight: 800;
+    transition: 0.5s;
 }
 .horarioDiv {
     position: relative;
