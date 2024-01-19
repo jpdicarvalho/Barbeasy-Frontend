@@ -9,17 +9,6 @@ function ProfileBarbearia() {
   const userInformation = JSON.parse(userData);//trasnformando os dados para JSON
   const barbeariaId = userInformation.barbearia[0].id;
 
-  //Constantes de Upload de imagem de usuário
-  const [file, setfile] = useState();
-  const [imageUser, setImageUser] = useState([]);
-  const [message, setMessage] = useState('');
-
-  //Constantes de Upload de Imagens para o Banner
-  const [bannerFiles, setBannerFiles] = useState([]);
-  const [bannerImages, setBannerImages] = useState([]);
-  const [bannerMessage, setBannerMessage] = useState('');
-
-
   const [mostrarStatus, setMostrarStatus] = useState(false);
   const [statusSelecionado, setStatusSelecionado] = useState('');
 
@@ -80,10 +69,15 @@ function ProfileBarbearia() {
     setMostrarSenha(!mostrarSenha);
   };
 /*-----------------------------------*/
- //Upload user image
- const handleFile = (e) => {
-  setfile(e.target.files[0])
-}
+  //Constantes de Upload de imagem de usuário
+  const [file, setfile] = useState();
+  const [imageUser, setImageUser] = useState([]);
+  const [message, setMessage] = useState('');
+
+  //Upload user image
+  const handleFile = (e) => {
+    setfile(e.target.files[0])
+  }
   //Preparando as imagens selecionadas para serem enviadas ao back-end
   const handleUpload = () => {
     const allowedExtensions = ['jpg', 'jpeg', 'png'];
@@ -115,7 +109,17 @@ function ProfileBarbearia() {
     })
     .catch(err => console.log(err));
   }
-  
+   //Metodo para mandar as imagens automaticamente para o back-end
+   useEffect(() => {
+    // Configura um temporizador para esperar 1 segundo após a última mudança no input de arquivo
+    const timeout = setTimeout(() => {
+      // Executa a função de upload após o período de espera
+      handleUpload();
+    }, 1000);
+
+    // Limpa o temporizador se o componente for desmontado ou se houver uma nova mudança no input de arquivo
+    return () => clearTimeout(timeout);
+  }, [file]);
   //Função para obter as imagens cadastradas
   useEffect(() => {
     axios.get('https://api-user-barbeasy.up.railway.app/api/image-user-barbearia', {
@@ -128,7 +132,13 @@ function ProfileBarbearia() {
     })
     .catch(err => console.log(err));
   }, [barbeariaId]);
+
 /*----------------------------------*/
+  //Constantes de Upload de Imagens para o Banner
+  const [bannerFiles, setBannerFiles] = useState([]);
+  const [bannerImages, setBannerImages] = useState([]);
+  const [bannerMessage, setBannerMessage] = useState('');
+
   //Upload banner images
   const handleBannerImages = (e) => {
     const selectedFiles = Array.from(e.target.files);
@@ -204,8 +214,8 @@ function ProfileBarbearia() {
     })
     .catch(error => console.log(error));
   }, [barbeariaId]);
-/*----------------------------------*/
 
+/*----------------------------------*/
 //pegando o click nas divis
   const handleNomeChange = (event) => {
     setNovoNome(event.target.value);
@@ -226,7 +236,6 @@ function ProfileBarbearia() {
   const handleDiasDeSegSab = () => {
     setDiasSemanaSelecionado(['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']);
   };
-  console.log(imageUser)
 
   return (
     <>
@@ -257,7 +266,6 @@ function ProfileBarbearia() {
                   )}
 
                 </label>
-                <button onClick={handleUpload}>upload</button>
               </div>
 
               <div className="section__userName">
