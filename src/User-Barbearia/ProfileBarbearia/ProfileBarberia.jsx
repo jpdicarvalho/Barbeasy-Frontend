@@ -257,7 +257,7 @@ function ProfileBarbearia() {
 
                   {uploadedUserImage.length > 0 ? (
                     <div className="img-view-profile">
-                      <img src={uploadedUserImage[0]} alt="" id='img-profile' />
+                      <img src={uploadedUserImage} alt="" id='img-profile' />
                     </div>
                   ) : (
                     <motion.div className="img-view-user">
