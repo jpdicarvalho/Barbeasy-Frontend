@@ -266,7 +266,7 @@ function ProfileBarbearia() {
                   )}
 
                 </label>
-      
+                    <img src={uploadedUserImage} alt="" />
               </div>
 
               <div className="section__userName">
