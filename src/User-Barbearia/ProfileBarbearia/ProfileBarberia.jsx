@@ -85,8 +85,14 @@ function ProfileBarbearia() {
       return;
     }
 
-    // Renomeia a imagem com o ID do usuário mantendo a extensão original
-    const renamedFile = new File([file], `userBarbeariaId_${barbeariaId}.${fileExtension}`, { type: file.type });
+    // Obtém a data e hora atual
+    const currentDateTime = new Date();
+
+    // Formata a data e hora no formato desejado (por exemplo: YYYYMMDD_HHMMSS)
+    const formattedDateTime = `${currentDateTime.getFullYear()}${(currentDateTime.getMonth() + 1).toString().padStart(2, '0')}${currentDateTime.getDate().toString().padStart(2, '0')}_${currentDateTime.getHours().toString().padStart(2, '0')}${currentDateTime.getMinutes().toString().padStart(2, '0')}${currentDateTime.getSeconds().toString().padStart(2, '0')}`;
+  
+    // Renomeia a imagem com o ID do usuário, número aleatório e a data/hora
+    const renamedFile = new File([file], `userBarbeariaId_${barbeariaId}_${formattedDateTime}.${fileExtension}`, { type: file.type });
     formdata.append('image', renamedFile);
     formdata.append('barbeariaId', barbeariaId);
 
