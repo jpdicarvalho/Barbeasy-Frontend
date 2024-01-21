@@ -8,9 +8,6 @@ function ProfileBarbearia() {
   const userData = localStorage.getItem('dataBarbearia');//Obtendo os dados salvo no localStorage
   const userInformation = JSON.parse(userData);//trasnformando os dados para JSON
   const barbeariaId = userInformation.barbearia[0].id;
-
-  const [mostrarNomeBarbearia, setMostrarNomeBarbearia] = useState(false);
-  const [novoNome, setNovoNome] = useState('');
   
   const [mostrarEndereco, setMostrarEndereco] = useState(false);
   const [novoEndereco, setNovoEndereco] = useState('');
@@ -36,9 +33,6 @@ function ProfileBarbearia() {
     
   });
   
-  const alternarNomeBarbearia = () => {
-    setMostrarNomeBarbearia(!mostrarNomeBarbearia);
-  };
   const alternarEndereco = () => {
     setMostrarEndereco(!mostrarEndereco);
   };
@@ -185,7 +179,7 @@ function ProfileBarbearia() {
     axios.post('https://api-user-barbeasy.up.railway.app/api/upload-banners-images', bannerFormData)
       .then(res => {
         if (res.data.Status === "Success") {
-          console.log('Banner Images Uploaded Successfully');
+          //console.log('Banner Images Uploaded Successfully');
           window.location.reload();
         } else {
           console.log('Banner Images Upload Failed');
@@ -222,9 +216,11 @@ function ProfileBarbearia() {
   const [mostrarStatus, setMostrarStatus] = useState(false);
   const [status, setStatus] = useState();
 
+  //Função para mostrar o input de alteração do status
   const alternarStatus = () => {
     setMostrarStatus(!mostrarStatus);
   };
+  //Função para atualizar o status da barbearia
   const statusUpdate = () => {
     // Aqui você pode fazer uma solicitação para o backend usando o axios
     axios.post(`https://api-user-barbeasy.up.railway.app/api/status-update/${barbeariaId}`, { Status: status })
@@ -238,20 +234,45 @@ function ProfileBarbearia() {
         console.error('Erro ao atualizar o status:', error);
       });
   };
+  //Função para obter o status da barbearia
   useEffect(() => {
     axios.get(`https://api-user-barbeasy.up.railway.app/api/status-barbearia/${barbeariaId}`)
       .then(res => {
-        console.log(res.data.StatusBarbearia)
         setStatus(res.data.StatusBarbearia)
       })
       .catch(error => console.log(error));
-  }, [])
+  }, [barbeariaId])
 /*----------------------------------*/
+  //Constantes para atualizar o nome da Barbearia
+  const [mostrarNomeBarbearia, setMostrarNomeBarbearia] = useState(false);
+  const [novoNomeBarbearia, setNovoNomeBarbearia] = useState('');
+  const [NomeBarbeariaAtual, setNovoNomeBarbeariaAtual] = useState('');
 
-//pegando o click nas divis
-  const handleNomeChange = (event) => {
-    setNovoNome(event.target.value);
+  //Função para mostrar o input de alteração do nome
+  const alternarNomeBarbearia = () => {
+    setMostrarNomeBarbearia(!mostrarNomeBarbearia);
   };
+  //Função para mandar o novo nome da barbearia
+  const alterarNomeBarbearia = () => {
+    axios.post(`https://api-user-barbeasy.up.railway.app/api/update-barbearia-name/${barbeariaId}`, {novoNome: novoNomeBarbearia})
+    .then(res => {
+        if(res.data.Success === 'Success'){
+          window.location.reload()
+        }
+      })
+      .catch(error => {
+        // Lógica a ser executada em caso de erro na solicitação
+        console.error('Erro ao atualizar o nome da barbearia:', error);
+      });
+  };
+  //Função para obter o nome atual da barbearia
+  useEffect(() => {
+    axios.get(`https://api-user-barbeasy.up.railway.app/api/status-barbearia/${barbeariaId}`)
+      .then(res => {
+        setNovoNomeBarbeariaAtual(res.data.NomeBarbearia)
+      })
+      .catch(error => console.log(error));
+  }, [barbeariaId])
 
   const handleEnderecoChange = (event) => {
     setNovoEndereco(event.target.value);
@@ -387,7 +408,7 @@ function ProfileBarbearia() {
           
 <hr className='hr_menu'/>
 
-          <div className="menu__main" onClick={alternarNomeBarbearia} >
+        <div className="menu__main" onClick={alternarNomeBarbearia} >
           <span className="material-symbols-outlined icon_menu">store</span>
             Nome
             <span className={`material-symbols-outlined arrow ${mostrarNomeBarbearia ? 'girar' : ''}`} id='arrow'>expand_more</span>
@@ -395,31 +416,25 @@ function ProfileBarbearia() {
 
           {mostrarNomeBarbearia && (
             <div className="divSelected">
-              <p className='information__span'>Altere o nome da Barbearia</p>
-
+            <p className='information__span'>Altere o nome da Barbearia</p>
+          
             <div className="inputBox">
               <input
-              type="text"
-              id="name"
-              name="name"
-              value={values.name}
-              onChange={(e) => {
-                const inputValue = e.target.value;
-                // Remover caracteres não alfanuméricos, ponto e espaço
-                const filteredValue = inputValue.replace(/[^a-zA-Z0-9\sçéúíóáõãèòìàêôâ.]/g, '');
-                // Limitar a 30 caracteres
-                const truncatedValue = filteredValue.slice(0, 30);
-                setValues({ ...values, name: truncatedValue });
-              }}
-              placeholder="Nome da Barbearia"
-              required
-            /> <span class="material-symbols-outlined icon_input">add_business</span>
+                type="text"
+                id="name"
+                name="name"
+                onChange={(e) => setNovoNomeBarbearia(e.target.value)}
+                placeholder={NomeBarbeariaAtual}
+                className="white-placeholder"
+                required
+              />
+              <span className="material-symbols-outlined icon_input">add_business</span>
             </div>
-
-            <button className='button__change'>
+          
+            <button className='button__change' onClick={alterarNomeBarbearia}>
               Alterar
             </button>
-         </div>
+          </div>          
          
           )}
 
