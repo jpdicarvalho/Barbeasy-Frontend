@@ -246,7 +246,7 @@ function ProfileBarbearia() {
   //Constantes para atualizar o nome da Barbearia
   const [mostrarNomeBarbearia, setMostrarNomeBarbearia] = useState(false);
   const [novoNomeBarbearia, setNovoNomeBarbearia] = useState('');
-  const [NomeBarbeariaAtual, setNovoNomeBarbeariaAtual] = useState('');
+  const [NomeBarbeariaAtual, setNomeBarbeariaAtual] = useState('');
 
   //Função para mostrar o input de alteração do nome
   const alternarNomeBarbearia = () => {
@@ -267,13 +267,14 @@ function ProfileBarbearia() {
   };
   //Função para obter o nome atual da barbearia
   useEffect(() => {
-    axios.get(`https://api-user-barbeasy.up.railway.app/api/status-barbearia/${barbeariaId}`)
+    axios.get(`https://api-user-barbeasy.up.railway.app/api/nome-barbearia/${barbeariaId}`)
       .then(res => {
-        setNovoNomeBarbeariaAtual(res.data.NomeBarbearia)
+        setNomeBarbeariaAtual(res.data.NomeBarbearia)
       })
       .catch(error => console.log(error));
   }, [barbeariaId])
-
+  console.log(NomeBarbeariaAtual)
+/*----------------------------------*/
   const handleEnderecoChange = (event) => {
     setNovoEndereco(event.target.value);
   };
