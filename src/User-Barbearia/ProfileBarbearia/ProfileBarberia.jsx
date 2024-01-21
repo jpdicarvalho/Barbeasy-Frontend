@@ -273,7 +273,6 @@ function ProfileBarbearia() {
       })
       .catch(error => console.log(error));
   }, [barbeariaId])
-  console.log(NomeBarbeariaAtual)
 /*----------------------------------*/
   const handleEnderecoChange = (event) => {
     setNovoEndereco(event.target.value);
