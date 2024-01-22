@@ -334,29 +334,38 @@ function ProfileBarbearia() {
 /*----------------------------------*/
   const [mostrarNome, setMostrarNome] = useState(false);
   const [novoUserName, setNovoUserName] = useState('');
+  const [userNameBarbearia, setUserNameBarbearia] = useState('');
   const [messageUserName, setMessageUserName] = useState('');
 
   const alternarNome = () => {
       setMostrarNome(!mostrarNome);
-    };
-
-const alterarUserName = () => {
-  axios.post(`https://api-user-barbeasy.up.railway.app/api/upload-user-name-barbearia/${barbeariaId}`, {newUserName: novoUserName})
-    .then(res => {
-        if(res.data.Success === 'Success'){
-          setMessageUserName("Nome de Usuário Alterado com Sucesso!")
-          // Limpar a mensagem após 3 segundos (3000 milissegundos)
-          setTimeout(() => {
-            setMessageUserName('');
-            window.location.reload();
-          }, 3000);
-        }
-      })
-      .catch(error => {
-        // Lógica a ser executada em caso de erro na solicitação
-        console.error('Erro ao atualizar o nome de usuário:', error);
-      });
   };
+  //Função responsável por enviar o novo nome de usuário ao back-end
+  const alterarUserName = () => {
+    axios.post(`https://api-user-barbeasy.up.railway.app/api/upload-user-name-barbearia/${barbeariaId}`, {newUserName: novoUserName})
+      .then(res => {
+          if(res.data.Success === 'Success'){
+            setMessageUserName("Nome de Usuário Alterado com Sucesso!")
+            // Limpar a mensagem após 3 segundos (3000 milissegundos)
+            setTimeout(() => {
+              setMessageUserName('');
+              window.location.reload();
+            }, 3000);
+          }
+        })
+        .catch(error => {
+          // Lógica a ser executada em caso de erro na solicitação
+          console.error('Erro ao atualizar o nome de usuário:', error);
+        });
+  };
+  //Função para obter o nome de usuário atual da barbearia
+  useEffect(() => {
+    axios.get(`https://api-user-barbeasy.up.railway.app/api/user-name-barbearia/${barbeariaId}`)
+      .then(res => {
+        setUserNameBarbearia(res.data.UserNameBarbearia)
+      })
+      .catch(error => console.log(error));
+  }, [barbeariaId])
 /*----------------------------------*/
   const handleQntDiasTrabalhoChange = (event) => {
     setQntDiasTrabalhoSelecionado(event.target.value);
@@ -777,7 +786,8 @@ const alterarUserName = () => {
                   const userName = filteredValue.slice(0, 30);
                 setNovoUserName({ userName });
                 }}
-                placeholder="Nome de Usuário"
+                placeholder={userNameBarbearia}
+                className="white-placeholder"
                 required
               />{' '}<span className="material-symbols-outlined icon_input">person_edit</span>
             </div>
