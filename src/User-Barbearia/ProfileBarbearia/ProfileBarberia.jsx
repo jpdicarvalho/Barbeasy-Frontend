@@ -271,7 +271,7 @@ function ProfileBarbearia() {
 /*----------------------------------*/
   const [mostrarEndereco, setMostrarEndereco] = useState(false);
   const [messageEndereco, setMessageEndereco] = useState('');
-  const [Endereco, setEndereco] = useState('');
+  const [endereco, setEndereco] = useState('');
 
   //Função para mostrar os inputs de alteração de endereço
   const alternarEndereco = () => {
@@ -332,7 +332,6 @@ function ProfileBarbearia() {
       })
       .catch(error => console.log(error));
   }, [barbeariaId])
-  console.log(Endereco)
 /*----------------------------------*/
   const handleQntDiasTrabalhoChange = (event) => {
     setQntDiasTrabalhoSelecionado(event.target.value);
@@ -526,7 +525,7 @@ function ProfileBarbearia() {
                           const truncatedValue = sanitizedValue.slice(0, 50);
                           setValuesEndereco({ ...valuesEndereco, street: truncatedValue });
                         }}
-                        placeholder="Rua"
+                        placeholder={endereco[0]}
                         required
                       /> <span className="material-symbols-outlined icon_input">add_road</span>
 
@@ -542,7 +541,7 @@ function ProfileBarbearia() {
                         const truncatedValue = numericValue.slice(0, 5);
                         setValuesEndereco({ ...valuesEndereco, number: truncatedValue });
                       }}
-                      placeholder="Nº"
+                      placeholder={endereco[1]}
                       required
                     />{' '} <span className="material-symbols-outlined" id="icon_street_number">home_pin</span>
                     
@@ -558,7 +557,7 @@ function ProfileBarbearia() {
                         const truncatedValue = sanitizedValue.slice(0, 50);
                         setValuesEndereco({ ...valuesEndereco, neighborhood: truncatedValue });
                       }}
-                      placeholder="Bairro"
+                      placeholder={endereco[2]}
                       required
                     /><span className="material-symbols-outlined" id="icon_input_neighborhood">route</span>
                     
@@ -574,7 +573,7 @@ function ProfileBarbearia() {
                         const truncatedValue = sanitizedValue.slice(0, 30);
                         setValuesEndereco({ ...valuesEndereco, city: truncatedValue });
                       }}
-                      placeholder="Cidade"
+                      placeholder={endereco[3]}
                       required
                     />{' '} <span className="material-symbols-outlined" id="icon_input_city">map</span>
                       </div>
