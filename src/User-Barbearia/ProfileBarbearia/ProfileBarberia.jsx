@@ -526,6 +526,7 @@ function ProfileBarbearia() {
                           setValuesEndereco({ ...valuesEndereco, street: truncatedValue });
                         }}
                         placeholder={endereco[0]}
+                        className="white-placeholder"
                         required
                       /> <span className="material-symbols-outlined icon_input">add_road</span>
 
@@ -542,6 +543,7 @@ function ProfileBarbearia() {
                         setValuesEndereco({ ...valuesEndereco, number: truncatedValue });
                       }}
                       placeholder={endereco[1]}
+                      className="white-placeholder"
                       required
                     />{' '} <span className="material-symbols-outlined" id="icon_street_number">home_pin</span>
                     
@@ -558,6 +560,7 @@ function ProfileBarbearia() {
                         setValuesEndereco({ ...valuesEndereco, neighborhood: truncatedValue });
                       }}
                       placeholder={endereco[2]}
+                      className="white-placeholder"
                       required
                     /><span className="material-symbols-outlined" id="icon_input_neighborhood">route</span>
                     
@@ -574,6 +577,7 @@ function ProfileBarbearia() {
                         setValuesEndereco({ ...valuesEndereco, city: truncatedValue });
                       }}
                       placeholder={endereco[3]}
+                      className="white-placeholder"
                       required
                     />{' '} <span className="material-symbols-outlined" id="icon_input_city">map</span>
                       </div>
