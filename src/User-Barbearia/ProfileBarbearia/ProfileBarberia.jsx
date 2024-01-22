@@ -486,7 +486,7 @@ function ProfileBarbearia() {
               <span className="material-symbols-outlined icon_input">add_business</span>
             </div>
           
-            <button className='button__change' onClick={alterarNomeBarbearia}>
+            <button className={`button__change ${novoNomeBarbearia ? 'show' : ''}`} onClick={alterarNomeBarbearia}>
               Alterar
             </button>
           </div>          
@@ -582,9 +582,9 @@ function ProfileBarbearia() {
                     />{' '} <span className="material-symbols-outlined" id="icon_input_city">map</span>
                       </div>
 
-                        <button className='button__change' onClick={alterarEndereco}>
-                          Alterar
-                        </button>
+                      <button className={`button__change ${endereco[3] ? 'show' : ''}`} onClick={alterarNomeBarbearia}>
+                        Alterar
+                      </button>
                     </div>
                     
         )}

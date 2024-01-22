@@ -306,7 +306,10 @@
     color: #f6f6f6;
     background: transparent;
     border: 1px solid #7849f4;
-    transition: 0.5s;
+    transition: opacity 0.5s ease;
+}
+.button__change.show {
+    opacity: 1;
 }
 .button__change:hover{
     background: #7849f4;
