@@ -286,8 +286,8 @@ function ProfileBarbearia() {
   });
   //Função para vericicar se há algum input vazio
   const verificarValoresPreenchidos = () => {
-    for (const key in values) {
-      if (values.hasOwnProperty(key) && !values[key]) {
+    for (const key in valuesEndereco) {
+      if (valuesEndereco.hasOwnProperty(key) && !valuesEndereco[key]) {
         return false; // Retorna falso se algum valor não estiver preenchido
       }
     }
