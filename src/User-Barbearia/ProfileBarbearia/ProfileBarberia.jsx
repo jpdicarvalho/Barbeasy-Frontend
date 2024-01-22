@@ -582,7 +582,7 @@ function ProfileBarbearia() {
                     />{' '} <span className="material-symbols-outlined" id="icon_input_city">map</span>
                       </div>
 
-                      <button className={`button__change ${valuesEndereco.city ? 'show' : ''}`} onClick={alterarNomeBarbearia}>
+                      <button className={`button__change ${valuesEndereco.city ? 'show' : ''}`} onClick={alterarEndereco}>
                         Alterar
                       </button>
                     </div>
