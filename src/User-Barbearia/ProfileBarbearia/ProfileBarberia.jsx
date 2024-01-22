@@ -517,7 +517,7 @@ function ProfileBarbearia() {
 
                           // Limitar a 50 caracteres
                           const truncatedValue = sanitizedValue.slice(0, 50);
-                          setValuesEndereco({ ...values, street: truncatedValue });
+                          setValuesEndereco({ ...valuesEndereco, street: truncatedValue });
                         }}
                         placeholder="Rua"
                         required
@@ -533,7 +533,7 @@ function ProfileBarbearia() {
                         const numericValue = inputValue.replace(/\D/g, '');
                         // Limitar a 10 caracteres
                         const truncatedValue = numericValue.slice(0, 5);
-                        setValuesEndereco({ ...values, number: truncatedValue });
+                        setValuesEndereco({ ...valuesEndereco, number: truncatedValue });
                       }}
                       placeholder="Nº"
                       required
@@ -549,7 +549,7 @@ function ProfileBarbearia() {
                         const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9\sçéúíóáõãèòìàêôâ]/g, '');
                         // Limitar a 50 caracteres
                         const truncatedValue = sanitizedValue.slice(0, 50);
-                        setValuesEndereco({ ...values, neighborhood: truncatedValue });
+                        setValuesEndereco({ ...valuesEndereco, neighborhood: truncatedValue });
                       }}
                       placeholder="Bairro"
                       required
@@ -565,7 +565,7 @@ function ProfileBarbearia() {
                         const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9\sçéúíóáõãèòìàêôâ]/g, '');
                         // Limitar a 50 caracteres
                         const truncatedValue = sanitizedValue.slice(0, 30);
-                        setValuesEndereco({ ...values, city: truncatedValue });
+                        setValuesEndereco({ ...valuesEndereco, city: truncatedValue });
                       }}
                       placeholder="Cidade"
                       required
