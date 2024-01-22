@@ -271,7 +271,7 @@ function ProfileBarbearia() {
 /*----------------------------------*/
   const [mostrarEndereco, setMostrarEndereco] = useState(false);
   const [messageEndereco, setMessageEndereco] = useState('');
-  const [novoEndereco, setNovoEndereco] = useState('');
+  const [Endereco, setEndereco] = useState('');
 
   //Função para mostrar os inputs de alteração de endereço
   const alternarEndereco = () => {
@@ -296,7 +296,7 @@ function ProfileBarbearia() {
   //Função responsável por enviar os valores ao back-end
   const alterarEndereco = () => {
     if (verificarValoresPreenchidos()) {
-      axios.post(`https://api-user-barbeasy.up.railway.app/api/update-endereco/${barbeariaId}`, { Values: values })
+      axios.post(`https://api-user-barbeasy.up.railway.app/api/update-endereco/${barbeariaId}`, { Values: valuesEndereco })
         .then(res => {
           if (res.data.Success === 'Success') {
             setMessageEndereco("Endereço Alterado com Sucesso!")
@@ -324,6 +324,7 @@ function ProfileBarbearia() {
       }, 3000);
     }
   };
+  
 /*----------------------------------*/
  
   const handleQntDiasTrabalhoChange = (event) => {
