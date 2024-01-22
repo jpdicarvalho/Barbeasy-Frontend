@@ -9,9 +9,6 @@ function ProfileBarbearia() {
   const userInformation = JSON.parse(userData);//trasnformando os dados para JSON
   const barbeariaId = userInformation.barbearia[0].id;
   
-  const [mostrarEndereco, setMostrarEndereco] = useState(false);
-  const [novoEndereco, setNovoEndereco] = useState('');
-  
   const [mostrarDiasSemana, setMostrarDiasSemana] = useState(false);
   const [DiasSemanaSelecionado, setDiasSemanaSelecionado] = useState([]);
   const [QntDiasTrabalhoSelecionado, setQntDiasTrabalhoSelecionado] = useState('');
@@ -33,9 +30,7 @@ function ProfileBarbearia() {
     
   });
   
-  const alternarEndereco = () => {
-    setMostrarEndereco(!mostrarEndereco);
-  };
+  
   const alternarDiasTrabalho = () => {
     setMostrarDiasSemana(!mostrarDiasSemana);
   };
@@ -274,10 +269,63 @@ function ProfileBarbearia() {
       .catch(error => console.log(error));
   }, [barbeariaId])
 /*----------------------------------*/
-  const handleEnderecoChange = (event) => {
-    setNovoEndereco(event.target.value);
-  };
+  const [mostrarEndereco, setMostrarEndereco] = useState(false);
+  const [messageEndereco, setMessageEndereco] = useState('');
+  const [novoEndereco, setNovoEndereco] = useState('');
 
+  //Função para mostrar os inputs de alteração de endereço
+  const alternarEndereco = () => {
+    setMostrarEndereco(!mostrarEndereco);
+  };
+  //Obtendo os valores dos inputs
+  const [valuesEndereco, setValuesEndereco] = useState({
+    street: '',
+    number:'',
+    neighborhood:'',
+    city:''
+  });
+  //Função para vericicar se há algum input vazio
+  const verificarValoresPreenchidos = () => {
+    for (const key in values) {
+      if (values.hasOwnProperty(key) && !values[key]) {
+        return false; // Retorna falso se algum valor não estiver preenchido
+      }
+    }
+    return true; // Retorna verdadeiro se todos os valores estiverem preenchidos
+  };
+  //Função responsável por enviar os valores ao back-end
+  const alterarEndereco = () => {
+    if (verificarValoresPreenchidos()) {
+      axios.post(`https://api-user-barbeasy.up.railway.app/api/update-endereco/${barbeariaId}`, { Values: values })
+        .then(res => {
+          if (res.data.Success === 'Success') {
+            setMessageEndereco("Endereço Alterado com Sucesso!")
+            // Limpar a mensagem após 3 segundos (3000 milissegundos)
+            setTimeout(() => {
+              setMessageEndereco('');
+              window.location.reload();
+            }, 3000);
+          }
+        })
+        .catch(error => {
+          setMessageEndereco('Erro ao atualizar o endereço.');
+          // Limpar a mensagem de erro após 3 segundos (3000 milissegundos)
+          setTimeout(() => {
+            setMessageEndereco('');
+          }, 3000);
+          // Lógica a ser executada em caso de erro na solicitação
+          console.error('Erro ao atualizar o nome da barbearia:', error);
+        });
+    } else {
+      setMessageEndereco('Preencha todos os campos de endereço.');
+
+      setTimeout(() => {
+        setMessageEndereco('');
+      }, 3000);
+    }
+  };
+/*----------------------------------*/
+ 
   const handleQntDiasTrabalhoChange = (event) => {
     setQntDiasTrabalhoSelecionado(event.target.value);
   };
@@ -440,89 +488,95 @@ function ProfileBarbearia() {
 
 <hr className='hr_menu' />
 
-          <div className="menu__main" onClick={alternarEndereco} >
-          <span className="material-symbols-outlined icon_menu">pin_drop</span>
-            Endereço
-            <span className={`material-symbols-outlined arrow ${mostrarEndereco ? 'girar' : ''}`} id='arrow'>expand_more</span>
-          </div>
+        <div className="menu__main" onClick={alternarEndereco} >
+            <span className="material-symbols-outlined icon_menu">pin_drop</span>
+              Endereço
+              <span className={`material-symbols-outlined arrow ${mostrarEndereco ? 'girar' : ''}`} id='arrow'>expand_more</span>
+        </div>
 
-          {mostrarEndereco && (
-                  <div className="divSelected">
-                    <p className='information__span'>Altere o endereço da Barbearia</p>
+        {mostrarEndereco && (
+                    <div className="divSelected">
+                      <p className='information__span'>Altere o endereço da Barbearia</p>
 
-                    <div className="inputBox">
-                      <input
+                      {messageEndereco === 'Endereço Alterado com Sucesso!' ?
+                        <p className="mensagem-sucesso">{messageEndereco}</p>
+                        :
+                        <p className="mensagem-erro">{messageEndereco}</p>
+                      }
+                      
+                      <div className="inputBox">
+                        <input
+                        type="text"
+                        id="street"
+                        name="street"
+                        onChange={(e) => {
+                          const inputValue = e.target.value;
+                          // Remover caracteres especiais
+                          const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9\sçéúíóáõãèòìàêôâ]/g, '');
+
+                          // Limitar a 50 caracteres
+                          const truncatedValue = sanitizedValue.slice(0, 50);
+                          setValuesEndereco({ ...values, street: truncatedValue });
+                        }}
+                        placeholder="Rua"
+                        required
+                      /> <span className="material-symbols-outlined icon_input">add_road</span>
+
+                    <input
                       type="text"
-                      id="street"
-                      name="street"
+                      id="number"
+                      name="number"
+                      onChange={(e) => {
+                        const inputValue = e.target.value;
+                        // Remover caracteres não numéricos
+                        const numericValue = inputValue.replace(/\D/g, '');
+                        // Limitar a 10 caracteres
+                        const truncatedValue = numericValue.slice(0, 5);
+                        setValuesEndereco({ ...values, number: truncatedValue });
+                      }}
+                      placeholder="Nº"
+                      required
+                    />{' '} <span className="material-symbols-outlined" id="icon_street_number">home_pin</span>
+                    
+                    <input
+                      type="text"
+                      id="neighborhood"
+                      name="neighborhood"
                       onChange={(e) => {
                         const inputValue = e.target.value;
                         // Remover caracteres especiais
                         const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9\sçéúíóáõãèòìàêôâ]/g, '');
-
                         // Limitar a 50 caracteres
                         const truncatedValue = sanitizedValue.slice(0, 50);
-                        setValues({ ...values, street: truncatedValue });
+                        setValuesEndereco({ ...values, neighborhood: truncatedValue });
                       }}
-                      placeholder="Rua"
+                      placeholder="Bairro"
                       required
-                    /> <span className="material-symbols-outlined icon_input">add_road</span>
+                    /><span className="material-symbols-outlined" id="icon_input_neighborhood">route</span>
+                    
+                    <input
+                      type="text"
+                      id="city"
+                      name="city"
+                      onChange={(e) => {
+                        const inputValue = e.target.value;
+                        // Remover caracteres especiais
+                        const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9\sçéúíóáõãèòìàêôâ]/g, '');
+                        // Limitar a 50 caracteres
+                        const truncatedValue = sanitizedValue.slice(0, 30);
+                        setValuesEndereco({ ...values, city: truncatedValue });
+                      }}
+                      placeholder="Cidade"
+                      required
+                    />{' '} <span className="material-symbols-outlined" id="icon_input_city">map</span>
+                      </div>
 
-                  <input
-                    type="text"
-                    id="number"
-                    name="number"
-                    onChange={(e) => {
-                      const inputValue = e.target.value;
-                      // Remover caracteres não numéricos
-                      const numericValue = inputValue.replace(/\D/g, '');
-                      // Limitar a 10 caracteres
-                      const truncatedValue = numericValue.slice(0, 5);
-                      setValues({ ...values, number: truncatedValue });
-                    }}
-                    placeholder="Nº"
-                    required
-                  />{' '} <span className="material-symbols-outlined" id="icon_street_number">home_pin</span>
-                  
-                  <input
-                    type="text"
-                    id="neighborhood"
-                    name="neighborhood"
-                    onChange={(e) => {
-                      const inputValue = e.target.value;
-                      // Remover caracteres especiais
-                      const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9\sçéúíóáõãèòìàêôâ]/g, '');
-                      // Limitar a 50 caracteres
-                      const truncatedValue = sanitizedValue.slice(0, 50);
-                      setValues({ ...values, neighborhood: truncatedValue });
-                    }}
-                    placeholder="Bairro"
-                    required
-                  /><span className="material-symbols-outlined" id="icon_input_neighborhood">route</span>
-                  
-                  <input
-                    type="text"
-                    id="city"
-                    name="city"
-                    onChange={(e) => {
-                      const inputValue = e.target.value;
-                      // Remover caracteres especiais
-                      const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9\sçéúíóáõãèòìàêôâ]/g, '');
-                      // Limitar a 50 caracteres
-                      const truncatedValue = sanitizedValue.slice(0, 30);
-                      setValues({ ...values, city: truncatedValue });
-                    }}
-                    placeholder="Cidade"
-                    required
-                  />{' '} <span className="material-symbols-outlined" id="icon_input_city">map</span>
+                        <button className='button__change' onClick={alterarEndereco}>
+                          Alterar
+                        </button>
                     </div>
-
-                      <button className='button__change'>
-                        Alterar
-                      </button>
-                  </div>
-                  
-          )}
+                    
+        )}
         </div>
 
         <div className="container__menu">
