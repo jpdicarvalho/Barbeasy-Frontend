@@ -332,8 +332,8 @@ function ProfileBarbearia() {
       })
       .catch(error => console.log(error));
   }, [barbeariaId])
+  console.log(Endereco)
 /*----------------------------------*/
-console.log(Endereco);
   const handleQntDiasTrabalhoChange = (event) => {
     setQntDiasTrabalhoSelecionado(event.target.value);
   };
