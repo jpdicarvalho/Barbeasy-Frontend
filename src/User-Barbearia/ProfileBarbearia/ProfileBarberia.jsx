@@ -21,7 +21,7 @@ function ProfileBarbearia() {
 
   const [mostrarServico, setMostrarServico] = useState(false);
 
-  const [mostrarNome, setMostrarNome] = useState(false);
+  
   const [mostrarEmail, setMostrarEmail] = useState(false);
   const [mostrarSenha, setMostrarSenha] = useState(false);
 
@@ -40,9 +40,8 @@ function ProfileBarbearia() {
   const alternarServico = () => {
     setMostrarServico(!mostrarServico);
   };
-  const alternarNome = () => {
-    setMostrarNome(!mostrarNome);
-  };
+  
+
   const alternarEmail = () => {
     setMostrarEmail(!mostrarEmail);
   };
@@ -317,7 +316,7 @@ function ProfileBarbearia() {
           console.error('Erro ao atualizar o nome da barbearia:', error);
         });
     } else {
-      setMessageEndereco('Preencha todos os campos de endereço.');
+      setMessageEndereco('Altere todos os campos de endereço.');
 
       setTimeout(() => {
         setMessageEndereco('');
@@ -332,6 +331,32 @@ function ProfileBarbearia() {
       })
       .catch(error => console.log(error));
   }, [barbeariaId])
+/*----------------------------------*/
+  const [mostrarNome, setMostrarNome] = useState(false);
+  const [novoUserName, setNovoUserName] = useState('');
+  const [messageUserName, setMessageUserName] = useState('');
+
+  const alternarNome = () => {
+      setMostrarNome(!mostrarNome);
+    };
+
+const alterarUserName = () => {
+  axios.post(`https://api-user-barbeasy.up.railway.app/api/upload-user-name-barbearia/${barbeariaId}`, {newUserName: novoUserName})
+    .then(res => {
+        if(res.data.Success === 'Success'){
+          setMessageUserName("Nome de Usuário Alterado com Sucesso!")
+          // Limpar a mensagem após 3 segundos (3000 milissegundos)
+          setTimeout(() => {
+            setMessageUserName('');
+            window.location.reload();
+          }, 3000);
+        }
+      })
+      .catch(error => {
+        // Lógica a ser executada em caso de erro na solicitação
+        console.error('Erro ao atualizar o nome de usuário:', error);
+      });
+  };
 /*----------------------------------*/
   const handleQntDiasTrabalhoChange = (event) => {
     setQntDiasTrabalhoSelecionado(event.target.value);
@@ -728,36 +753,36 @@ function ProfileBarbearia() {
 
         <div className="container__menu">
 
-          <div className="menu__main" onClick={alternarNome}>
+        <div className="menu__main" onClick={alternarNome}>
           <span className="material-symbols-outlined icon_menu">person</span>
             Nome
-            <span className={`material-symbols-outlined arrow ${mostrarStatus ? 'girar' : ''}`} id='arrow'>expand_more</span>
+            <span className={`material-symbols-outlined arrow ${mostrarNome ? 'girar' : ''}`} id='arrow'>expand_more</span>
           </div>
 
           {mostrarNome && (
             <div className="divSelected">
               <p className='information__span'>Alterar Nome de usuário</p>
+              <p className="mensagem-sucesso">{messageUserName}</p>
 
             <div className="inputBox">
             <input
                 type="text"
                 id="usuario"
                 name="usuario"
-                value={values.usuario}
                 onChange={(e) => {
                   const inputValue = e.target.value;
                   // Remover caracteres não alfanuméricos
                   const filteredValue = inputValue.replace(/[^a-zA-Z0-9.\s]/g, '');
                   // Limitar a 30 caracteres
-                  const truncatedValue = filteredValue.slice(0, 30);
-                setValues({ ...values, usuario: truncatedValue });
+                  const userName = filteredValue.slice(0, 30);
+                setNovoUserName({ userName });
                 }}
                 placeholder="Nome de Usuário"
                 required
               />{' '}<span className="material-symbols-outlined icon_input">person_edit</span>
             </div>
 
-            <button className='button__change'>
+            <button className={`button__change ${novoUserName ? 'show' : ''}`} onClick={alterarUserName}>
               Alterar
             </button>
          </div>
