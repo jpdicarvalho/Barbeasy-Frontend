@@ -451,7 +451,7 @@ function ProfileBarbearia() {
               </div>
 
               <div className="section__userName">
-                João Pedro
+                {userNameBarbearia}
               </div>
 
           </div>
