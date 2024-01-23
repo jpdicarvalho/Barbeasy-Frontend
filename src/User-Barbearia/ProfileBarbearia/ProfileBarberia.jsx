@@ -22,7 +22,6 @@ function ProfileBarbearia() {
   const [mostrarServico, setMostrarServico] = useState(false);
 
   
-  const [mostrarEmail, setMostrarEmail] = useState(false);
   const [mostrarSenha, setMostrarSenha] = useState(false);
 
   const [values, setValues] = useState({
@@ -41,10 +40,6 @@ function ProfileBarbearia() {
     setMostrarServico(!mostrarServico);
   };
   
-
-  const alternarEmail = () => {
-    setMostrarEmail(!mostrarEmail);
-  };
   const alternarSenha = () => {
     setMostrarSenha(!mostrarSenha);
   };
@@ -355,7 +350,12 @@ function ProfileBarbearia() {
           }
         })
         .catch(error => {
-          // Lógica a ser executada em caso de erro na solicitação
+          setMessageUserName("Erro ao atualizar o nome de usuário.")
+            // Limpar a mensagem após 3 segundos (3000 milissegundos)
+            setTimeout(() => {
+              setMessageUserName('');
+              window.location.reload();
+            }, 3000);
           console.error('Erro ao atualizar o nome de usuário:', error);
         });
   };
@@ -364,6 +364,45 @@ function ProfileBarbearia() {
     axios.get(`https://api-user-barbeasy.up.railway.app/api/user-name-barbearia/${barbeariaId}`)
       .then(res => {
         setUserNameBarbearia(res.data.UserNameBarbearia)
+      })
+      .catch(error => console.log(error));
+  }, [barbeariaId])
+/*----------------------------------*/
+  const [mostrarEmail, setMostrarEmail] = useState(false);
+  const [newEmail, setNewEmail] = useState('');
+  const [currentEmail, setCurrentEmail] = useState('');
+  const [messageEmail, setMessageEmail] = useState('');
+
+  const alternarEmail = () => {
+    setMostrarEmail(!mostrarEmail);
+  };
+  const alterarEmail = () => {
+    axios.post(`https://api-user-barbeasy.up.railway.app/api/upload-email-barbearia/${barbeariaId}`, {NewEmail: newEmail})
+    .then(res => {
+        if(res.data.Success === 'Success'){
+          setMessageEmail("Email Alterado com Sucesso!")
+            // Limpar a mensagem após 3 segundos (3000 milissegundos)
+            setTimeout(() => {
+              setMessageEmail('');
+              window.location.reload();
+            }, 3000);
+        }
+      })
+      .catch(error => {
+        setMessageEmail("Erro ao atualizar o email de usuário")
+            // Limpar a mensagem após 3 segundos (3000 milissegundos)
+            setTimeout(() => {
+              setMessageEmail('');
+              window.location.reload();
+            }, 3000);
+        // Lógica a ser executada em caso de erro na solicitação
+        console.error('Erro ao atualizar o email de usuário:', error);
+      });
+  };
+  useEffect(() => {
+    axios.get(`https://api-user-barbeasy.up.railway.app/api/email-barbearia/${barbeariaId}`)
+      .then(result => {
+        setCurrentEmail(result.data.EmailBarbearia);
       })
       .catch(error => console.log(error));
   }, [barbeariaId])
@@ -507,6 +546,11 @@ function ProfileBarbearia() {
           {mostrarNomeBarbearia && (
             <div className="divSelected">
             <p className='information__span'>Altere o nome da Barbearia</p>
+            {messageUserName === 'Nome de Usuário Alterado com Sucesso!' ?
+                <p className="mensagem-sucesso">{messageUserName}</p>
+                  :
+                <p className="mensagem-erro">{messageUserName}</p>
+            }
           
             <div className="inputBox">
               <input
