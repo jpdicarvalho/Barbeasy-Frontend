@@ -855,17 +855,22 @@ function ProfileBarbearia() {
 <hr className='hr_menu'/>
 
           <div className="menu__main" onClick={alternarEmail} >
-          <span className="material-symbols-outlined icon_menu">mail</span>
-            Email
+            <span className="material-symbols-outlined icon_menu">mail</span>
+              Email
             <span className={`material-symbols-outlined arrow ${mostrarEmail ? 'girar' : ''}`} id='arrow'>expand_more</span>
           </div>
 
           {mostrarEmail && (
             <div className="divSelected">
               <p className='information__span'>Alterar Email</p>
+              {messageEmail === 'Email Alterado com Sucesso!' ?
+                <p className="mensagem-sucesso">{messageEmail}</p>
+                  :
+                <p className="mensagem-erro">{messageEmail}</p>
+            }
 
             <div className="inputBox">
-            <input
+              <input
                 type="email"
                 id="email"
                 name="email"
@@ -875,14 +880,22 @@ function ProfileBarbearia() {
                   const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9@.]/g, '');
                   // Limitar a 50 caracteres
                   const truncatedValue = sanitizedValue.slice(0, 50);
-                  setValues({ ...values, email: truncatedValue });
+
+                  // Validar se o valor atende ao formato de email esperado
+                  const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(truncatedValue);
+
+                  // Atualizar o estado apenas se o email for válido
+                  if (isValidEmail) {
+                    setNewEmail(truncatedValue);
+                  }
                 }}
-                placeholder="Email"
+                placeholder={currentEmail}
+                className="white-placeholder"
                 required
               />{' '}<span className="material-symbols-outlined icon_input">alternate_email</span>
             </div>
 
-            <button className='button__change'>
+            <button className={`button__change ${newEmail ? 'show' : ''}`} onClick={alterarEmail}>
               Alterar
             </button>
          </div>
