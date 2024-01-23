@@ -934,7 +934,7 @@ function ProfileBarbearia() {
 
 <hr className='hr_menu' />
 
-        <div className="menu__main" onClick={alternarSenha}>
+<div className="menu__main" onClick={alternarSenha}>
           <span className="material-symbols-outlined icon_menu">password</span>
             Senha
             <span className={`material-symbols-outlined arrow ${mostrarSenha ? 'girar' : ''}`} id='arrow'>expand_more</span>
