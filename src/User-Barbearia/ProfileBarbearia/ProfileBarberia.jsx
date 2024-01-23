@@ -21,8 +21,6 @@ function ProfileBarbearia() {
 
   const [mostrarServico, setMostrarServico] = useState(false);
 
-  
-  const [mostrarSenha, setMostrarSenha] = useState(false);
 
   const [values, setValues] = useState({
     name: '',
@@ -39,10 +37,7 @@ function ProfileBarbearia() {
   const alternarServico = () => {
     setMostrarServico(!mostrarServico);
   };
-  
-  const alternarSenha = () => {
-    setMostrarSenha(!mostrarSenha);
-  };
+
 /*-----------------------------------*/
   //Constantes de Upload de imagem de usuário
   const [file, setfile] = useState();
@@ -406,6 +401,41 @@ function ProfileBarbearia() {
       })
       .catch(error => console.log(error));
   }, [barbeariaId])
+/*----------------------------------*/
+  const [mostrarSenha, setMostrarSenha] = useState(false);
+  const [passwordConfirm, setPasswordConfirm] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [messagePassword, setMessagePassword] = useState('');
+
+  const alternarSenha = () => {
+    setMostrarSenha(!mostrarSenha);
+  };
+
+  const alterarSenha = () => {
+    axios.get('https://api-user-barbeasy.up.railway.app/api/update-password-barbearia', {
+      params: {
+        barbeariaId: barbeariaId,
+        passwordConfirm: passwordConfirm,
+        newPassword: newPassword
+      }
+    }).then(res => {
+      if(res.data.Success === 'Success'){
+        setMessagePassword("Senha Alterada com Sucesso!")
+          // Limpar a mensagem após 3 segundos (3000 milissegundos)
+          setTimeout(() => {
+            setMessagePassword('');
+            window.location.reload();
+          }, 3000);
+      }
+    }).catch(error => {
+      setMessagePassword("Senha atual não confirmada!")
+          // Limpar a mensagem após 3 segundos (3000 milissegundos)
+          setTimeout(() => {
+            setMessagePassword('');
+            //window.location.reload();
+          }, 5000);
+    });
+  };
 /*----------------------------------*/
   const handleQntDiasTrabalhoChange = (event) => {
     setQntDiasTrabalhoSelecionado(event.target.value);
@@ -904,7 +934,7 @@ function ProfileBarbearia() {
 
 <hr className='hr_menu' />
 
-          <div className="menu__main" onClick={alternarSenha}>
+        <div className="menu__main" onClick={alternarSenha}>
           <span className="material-symbols-outlined icon_menu">password</span>
             Senha
             <span className={`material-symbols-outlined arrow ${mostrarSenha ? 'girar' : ''}`} id='arrow'>expand_more</span>
@@ -913,18 +943,24 @@ function ProfileBarbearia() {
           {mostrarSenha && (
             <div className="divSelected">
               <p className='information__span'>Alterar Senha</p>
+              {messagePassword === 'Senha Alterada com Sucesso!' ?
+                <p className="mensagem-sucesso">{messagePassword}</p>
+                  :
+                <p className="mensagem-erro">{messagePassword}</p>
+              }
 
             <div className="inputBox">
+              <p>{}</p>
               <input
                 type="password"
                 id="senha"
                 name="senha"
-                value={values.senha}
+                maxlength="10"
                 onChange={(e) => {
                   const inputValue = e.target.value;
-                  // Limitar a 8 caracteres
-                  const truncatedValue = inputValue.slice(0, 8);
-                  setValues({ ...values, senha: truncatedValue });
+                  // Limitar a 10 caracteres
+                  const truncatedPasswordConfirm = inputValue.slice(0, 10);
+                  setPasswordConfirm(truncatedPasswordConfirm);
                 }}
                 placeholder="Senha Atual"
                 required
@@ -936,19 +972,19 @@ function ProfileBarbearia() {
                 type="password"
                 id="NovaSenha"
                 name="NovaSenha"
-                value={values.NovaSenha}
+                maxlength="10"
                 onChange={(e) => {
                   const inputValue = e.target.value;
                   // Limitar a 8 caracteres
                   const truncatedValue = inputValue.slice(0, 8);
-                  setValues({ ...values, NovaSenha: truncatedValue });
+                  setNewPassword(truncatedValue);
                 }}
                 placeholder="Nova Senha"
                 required
                 />{' '} <span className="material-symbols-outlined icon_input">lock_reset</span>
             </div>
 
-            <button className='button__change'>
+            <button className={`button__change ${newPassword ? 'show' : ''}`} onClick={alterarSenha}>
               Alterar
             </button>
          </div>
