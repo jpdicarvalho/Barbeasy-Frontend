@@ -576,24 +576,22 @@ function ProfileBarbearia() {
             }
           
             <div className="inputBox">
-              <input
+            <input
                 type="text"
                 id="name"
                 name="name"
                 onChange={(e) => {
                   const inputValue = e.target.value;
-                  // Remover caracteres indesejados
-                  const regex = /^[^!@#$%¨&*()_\-+=;:?/]{0,50}$/;
-                  // Aplicar a regex para filtrar os caracteres indesejados
-                  const filteredValue = inputValue.replace(regex, '');
-                  // Atualizar o estado com o valor filtrado
+                  // Remover caracteres não alfanuméricos
+                  const filteredValue = inputValue.replace(/[^a-zA-Z0-9.\s]/g, '');
+                  // Limitar a 30 caracteres
                   setNovoNomeBarbearia(filteredValue);
                 }}
                 placeholder={NomeBarbeariaAtual}
                 className="white-placeholder"
+                maxLength={30}
                 required
-              />
-              <span className="material-symbols-outlined icon_input">add_business</span>
+              /> <span className="material-symbols-outlined icon_input">add_business</span>
             </div>
           
             <button className={`button__change ${novoNomeBarbearia ? 'show' : ''}`} onClick={alterarNomeBarbearia}>
