@@ -250,6 +250,7 @@ function ProfileBarbearia() {
       })
       .catch(error => console.log(error));
   }, [barbeariaId])
+  console.log(novoNomeBarbearia)
 /*----------------------------------*/
   const [mostrarEndereco, setMostrarEndereco] = useState(false);
   const [messageEndereco, setMessageEndereco] = useState('');
@@ -354,7 +355,6 @@ function ProfileBarbearia() {
       })
       .catch(error => console.log(error));
   }, [barbeariaId])
-  console.log(novoNomeBarbearia)
 /*----------------------------------*/
   const [mostrarEmail, setMostrarEmail] = useState(false);
   const [newEmail, setNewEmail] = useState('');
