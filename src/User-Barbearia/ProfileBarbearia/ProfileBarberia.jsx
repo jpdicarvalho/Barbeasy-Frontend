@@ -224,6 +224,7 @@ function ProfileBarbearia() {
   const [mostrarNomeBarbearia, setMostrarNomeBarbearia] = useState(false);
   const [novoNomeBarbearia, setNovoNomeBarbearia] = useState('');
   const [NomeBarbeariaAtual, setNomeBarbeariaAtual] = useState('');
+  const [messageNameBarbearia, setMessageNameBarbearia] = useState('');
 
   //Função para mostrar o input de alteração do nome
   const alternarNomeBarbearia = () => {
@@ -234,10 +235,21 @@ function ProfileBarbearia() {
     axios.post(`https://api-user-barbeasy.up.railway.app/api/update-barbearia-name/${barbeariaId}`, {novoNome: novoNomeBarbearia})
     .then(res => {
         if(res.data.Success === 'Success'){
-          window.location.reload()
+          setMessageNameBarbearia("Nome da Barbearia Alterado com Sucesso!")
+            // Limpar a mensagem após 3 segundos (3000 milissegundos)
+            setTimeout(() => {
+              setMessageNameBarbearia('');
+              window.location.reload();
+            }, 3000);
         }
       })
       .catch(error => {
+        setMessageNameBarbearia("Não foi possível alterar o nome da Barbearia.")
+            // Limpar a mensagem após 3 segundos (3000 milissegundos)
+            setTimeout(() => {
+              setMessageNameBarbearia('');
+              window.location.reload();
+            }, 3000);
         // Lógica a ser executada em caso de erro na solicitação
         console.error('Erro ao atualizar o nome da barbearia:', error);
       });
@@ -568,11 +580,11 @@ function ProfileBarbearia() {
           {mostrarNomeBarbearia && (
             <div className="divSelected">
             <p className='information__span'>Altere o nome da Barbearia</p>
-            {messageUserName === 'Nome de Usuário Alterado com Sucesso!' ?
-                <p className="mensagem-sucesso">{messageUserName}</p>
-                  :
-                <p className="mensagem-erro">{messageUserName}</p>
-            }
+            {messageNameBarbearia === 'Nome da Barbearia Alterado com Sucesso!' ?
+                        <p className="mensagem-sucesso">{messageNameBarbearia}</p>
+                        :
+                        <p className="mensagem-erro">{messageNameBarbearia}</p>
+                      }
           
             <div className="inputBox">
             <input
