@@ -20,12 +20,6 @@ function ProfileBarbearia() {
   const [DuracaoServicoSelecionado, setDuracaoServicoSelecionado] = useState('');
 
   const [mostrarServico, setMostrarServico] = useState(false);
-
-
-  const [values, setValues] = useState({
-    name: '',
-    
-  });
   
   
   const alternarDiasTrabalho = () => {
@@ -163,7 +157,6 @@ function ProfileBarbearia() {
     axios.post('https://api-user-barbeasy.up.railway.app/api/upload-banners-images', bannerFormData)
       .then(res => {
         if (res.data.Status === "Success") {
-          //console.log('Banner Images Uploaded Successfully');
           window.location.reload();
         } else {
           console.log('Banner Images Upload Failed');
@@ -257,7 +250,6 @@ function ProfileBarbearia() {
       })
       .catch(error => console.log(error));
   }, [barbeariaId])
-  console.log(novoNomeBarbearia)
 /*----------------------------------*/
   const [mostrarEndereco, setMostrarEndereco] = useState(false);
   const [messageEndereco, setMessageEndereco] = useState('');
@@ -362,6 +354,7 @@ function ProfileBarbearia() {
       })
       .catch(error => console.log(error));
   }, [barbeariaId])
+  console.log(novoNomeBarbearia)
 /*----------------------------------*/
   const [mostrarEmail, setMostrarEmail] = useState(false);
   const [newEmail, setNewEmail] = useState('');
@@ -861,13 +854,14 @@ function ProfileBarbearia() {
                 type="text"
                 id="usuario"
                 name="usuario"
+                maxLength={30}
                 onChange={(e) => {
                   const inputValue = e.target.value;
                   // Remover caracteres não alfanuméricos
                   const filteredValue = inputValue.replace(/[^a-zA-Z0-9.\s]/g, '');
                   // Limitar a 30 caracteres
                   const userName = filteredValue.slice(0, 30);
-                setNovoUserName({ userName });
+                setNovoUserName({userName});
                 }}
                 placeholder={userNameBarbearia}
                 className="white-placeholder"
@@ -950,7 +944,6 @@ function ProfileBarbearia() {
               }
 
             <div className="inputBox">
-              <p>{}</p>
               <input
                 type="password"
                 id="senha"
