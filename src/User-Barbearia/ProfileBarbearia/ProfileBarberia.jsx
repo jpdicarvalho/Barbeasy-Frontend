@@ -250,7 +250,6 @@ function ProfileBarbearia() {
       })
       .catch(error => console.log(error));
   }, [barbeariaId])
-  console.log(novoNomeBarbearia)
 /*----------------------------------*/
   const [mostrarEndereco, setMostrarEndereco] = useState(false);
   const [messageEndereco, setMessageEndereco] = useState('');
@@ -583,8 +582,7 @@ function ProfileBarbearia() {
                 onChange={(e) => {
                   const inputValue = e.target.value;
                   // Remover caracteres não alfanuméricos
-                  const filteredValue = inputValue.replace(/[^a-zA-Z0-9.\s]/g, '');
-                  // Limitar a 30 caracteres
+                  const filteredValue = inputValue.replace(/[^a-zA-ZÀ-ú0-9.\s]/g, '');
                   setNovoNomeBarbearia(filteredValue);
                 }}
                 placeholder={NomeBarbeariaAtual}
