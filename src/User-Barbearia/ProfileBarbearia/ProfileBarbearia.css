@@ -223,6 +223,7 @@
     display: flex;
     justify-content: space-between;
     padding-top: 5px;
+    padding-bottom: 5px;
 }
 /*Referente ao input status*/
 #status{
@@ -324,6 +325,9 @@
 }
 .button__change.show {
     opacity: 1;
+    margin-top: 15px;
+    width: 100%;
+    height: 40px;
 }
 .button__change:hover{
     background: #7849f4;
