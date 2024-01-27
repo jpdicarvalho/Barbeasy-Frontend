@@ -9,7 +9,7 @@ function ProfileBarbearia() {
   const userInformation = JSON.parse(userData);//trasnformando os dados para JSON
   const barbeariaId = userInformation.barbearia[0].id;
   
-  const [mostrarDiasSemana, setMostrarDiasSemana] = useState(false);
+  
   const [DiasSemanaSelecionado, setDiasSemanaSelecionado] = useState([]);
   const [QntDiasTrabalhoSelecionado, setQntDiasTrabalhoSelecionado] = useState('');
 
@@ -21,10 +21,6 @@ function ProfileBarbearia() {
 
   const [mostrarServico, setMostrarServico] = useState(false);
   
-  
-  const alternarDiasTrabalho = () => {
-    setMostrarDiasSemana(!mostrarDiasSemana);
-  };
   const alternarHorario = () => {
     setMostrarHorario(!mostrarHorario);
   };
@@ -327,6 +323,88 @@ function ProfileBarbearia() {
       .catch(error => console.log(error));
   }, [barbeariaId])
 /*----------------------------------*/
+const [daysWeekSelected, setDaysWeekSelected] = useState([]);
+const [QntDaysSelected, setQntDaysSelected] = useState([]);
+const diasSemana = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
+const [mostrarDiasSemana, setMostrarDiasSemana] = useState(false);
+const [messageAgenda, setMessageAgenda] = useState('');
+
+  const alternarDiasTrabalho = () => {
+    setMostrarDiasSemana(!mostrarDiasSemana);
+  };
+  const handleCheckboxChange = (dia) => {
+    if (daysWeekSelected.includes(dia)) {
+      // Se o dia já estiver selecionado, remova-o
+      setDaysWeekSelected(daysWeekSelected.filter((selectedDia) => selectedDia !== dia));
+    } else {
+      // Se o dia não estiver selecionado, adicione-o
+      setDaysWeekSelected([...daysWeekSelected, dia]);
+    }
+  };
+  const Checkbox = ({ dia }) => {
+    return (
+      <>
+        <input
+          type="checkbox"
+          id={dia}
+          checked={daysWeekSelected.includes(dia)}
+          onChange={() => handleCheckboxChange(dia)}
+          className="days-switch" // Adicione a classe aqui
+        />
+        <label htmlFor={dia} className="switch">
+          <span className="slider"></span>
+        </label>
+      </>
+    );
+  };
+  const CheckboxQntDias = ({ value }) => {
+    return (
+      <>
+        <input
+          type="checkbox"
+          id={value}
+          checked={QntDaysSelected === value}
+          onChange={() => {
+            if (QntDaysSelected === value) {
+              // Se a opção já estiver selecionada, desmarque-a
+              setQntDaysSelected('');
+            } else {
+              // Caso contrário, selecione a opção
+              setQntDaysSelected(value);
+            }
+          }}
+          className="days-switch"
+        />
+        <label htmlFor={value} className="switch">
+          <span className="slider"></span>
+        </label>
+      </>
+    );
+  };
+  const updateAgenda = () =>{
+    axios.post(`https://api-user-barbeasy.up.railway.app/api/update-agenda/${barbeariaId}`, {daysWeek: daysWeekSelected, qntDays: QntDaysSelected})
+    .then(res => {
+      if(res.data.Success === 'Success'){
+        setMessageAgenda("Agenda Atualizada com Sucesso!")
+        // Limpar a mensagem após 3 segundos (3000 milissegundos)
+        setTimeout(() => {
+          setMessageAgenda('');
+          window.location.reload();
+        }, 3000);
+      }
+    }).catch(error => {
+      setMessageAgenda("Não foi possível atualizar sua agenda.")
+        // Limpar a mensagem após 3 segundos (3000 milissegundos)
+        setTimeout(() => {
+          setMessageAgenda('');
+          window.location.reload();
+        }, 3000);
+      console.error('erro ao atualizar a agenda', error)
+    })
+  }
+/*----------------------------------*/
+
+
   const [mostrarNome, setMostrarNome] = useState(false);
   const [novoUserName, setNovoUserName] = useState('');
   const [userNameBarbearia, setUserNameBarbearia] = useState('');
@@ -710,51 +788,46 @@ function ProfileBarbearia() {
 
         <div className="container__menu">
 
-          <div className="menu__main" onClick={alternarDiasTrabalho}>
+        <div className="menu__main" onClick={alternarDiasTrabalho}>
           <span className="material-symbols-outlined icon_menu">calendar_clock</span>
-              Definir Dias de Trabalho
-              <span className={`material-symbols-outlined arrow ${mostrarDiasSemana ? 'girar' : ''}`} id='arrow'>expand_more</span>
-          </div>
+            Definir Dias de Trabalho
+          <span className={`material-symbols-outlined arrow`} id='arrow'>expand_more</span>
+        </div>
           
-          {mostrarDiasSemana && (
-            <div className="divSelected">
+        {mostrarDiasSemana && (
+        <div className="divSelected">
+          {messageAgenda === 'Agenda Atualizada com Sucesso!' ?
+                <p className="mensagem-sucesso">{messageAgenda}</p>
+                  :
+                <p className="mensagem-erro">{messageAgenda}</p>
+              }
+        <p className='information__span'>Selecione os dias da semana em que deseja trabalhar:</p>
+        {diasSemana.map((dia, index) => (
+          <div className="container__checkBox" key={index}>
+            <span>{dia}</span>
+            <Checkbox dia={dia} />
+          </div>
+        ))}
 
-            <p className='information__span'>Selecione os dias da semana em que deseja trabalhar:</p>
+        <p className='information__span'>Escolha a quantidade de dias a serem disponibilizados para agendamento:</p>
+        <div className="container__checkBox">
+          <span>Próximos 7 dias</span>
+          <CheckboxQntDias value="7" />
+        </div>
+        <div className="container__checkBox">
+          <span>Próximos 15 dias</span>
+          <CheckboxQntDias value="15" />
+        </div>
+        <div className="container__checkBox">
+          <span>Próximos 30 dias</span>
+          <CheckboxQntDias value="30" />
+        </div>
+        <button className={`button__change ${QntDaysSelected.length > 0 && daysWeekSelected.length > 0 ? 'show' : ''}`} onClick={updateAgenda}>
+          Alterar
+        </button>
 
-            <div className="container__tittle">
-              <p >Rápido</p>
-              <hr id='sublime'/>
-            </div>
-
-            <button onClick={handleTodosDiasSemana} className="Dias_Semana">
-              Todos os dias da Semana
-            </button>
-
-            <button onClick={handleDiasDeSegSab} className="Dias_Semana">
-            De Seg à Sáb
-            </button>
-
-           <div className="container__tittle">
-              <p>Personalizado</p>
-              <hr id='sublime'/>
-            </div>
-              {['Domingo', 'Segunda-feria', 'Terça-feria', 'Quata-feria', 'Quita-feria', 'Sexta-feria', 'Sábado'].map(dia => (
-                <span key={dia} className='Dias_Trabalho_Rapido'>
-                 <button className='Dias_Semana'>{dia}</button>
-                </span>
-              ))}
-
-              <p className='information__span'>Escolha a quantidade de dias a serem disponibilizados para agendamento:</p>
-
-              {['Próximos 7 dias', 'Próximos 15 dias', 'Próximos 30 dias'].map(dia => (
-              <span key={dia} className='Dias_Trabalho_Rapido'>
-                <button className='Dias_Semana'>{dia}</button>
-              </span>
-            ))}
-
-            </div>
-            
-          )}
+      </div>
+      )}
 
 <hr className='hr_menu'/>
 

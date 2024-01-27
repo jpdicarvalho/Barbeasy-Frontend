@@ -224,20 +224,38 @@
     justify-content: space-between;
     padding-top: 5px;
 }
+/*Referente ao input status*/
 #status{
     display: none;
 }
+#status:checked ~ .switch{
+    background: #1AEE07;
+}
+#status:checked ~ .switch .slider{
+    transform: translateX(19px);
+}
+/*referente aos inputs de definição de dias a serem trabalhados*/
+.days-switch {
+    display: none;
+}
+.days-switch:checked ~ .switch {
+    background: #1AEE07;
+}
+.days-switch:checked ~ .switch .slider {
+    transform: translateX(19px);
+}
+/*para todos os inputs anteriores*/
 .switch{
-   position: relative;
-   display: flex;
-   align-items: center;
-   background: #777;
-   width: 45px;
-   height: 25px;
-   padding: 3px;
-   transition: all .5s ease-in-out;
-   border-radius: 40px;
-   cursor: pointer;
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: #777;
+    width: 45px;
+    height: 25px;
+    padding: 3px;
+    transition: all .5s ease-in-out;
+    border-radius: 40px;
+    cursor: pointer;
 }
 .slider{
     position: absolute;
@@ -247,12 +265,7 @@
     height: 20px;
     transition: all .5s ease-in-out;
 }
-#status:checked ~ .switch{
-    background: #1AEE07;
-}
-#status:checked ~ .switch .slider{
-    transform: translateX(19px);
-}
+/*divisória dos menus*/
 .hr_menu{
     margin-left: 34px;
     border-bottom: 1px solid #354249;
@@ -311,11 +324,11 @@
 }
 .button__change.show {
     opacity: 1;
-  }
-  .button__change:hover{
-      background: #7849f4;
-      transition: 0.5s;
-  }
+}
+.button__change:hover{
+    background: #7849f4;
+    transition: 0.5s;
+}
 .Dias_Semana{
     border: none;
     width: 100%;
