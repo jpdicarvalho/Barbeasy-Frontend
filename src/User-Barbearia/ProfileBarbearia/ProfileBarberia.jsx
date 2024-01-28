@@ -323,15 +323,18 @@ function ProfileBarbearia() {
       .catch(error => console.log(error));
   }, [barbeariaId])
 /*----------------------------------*/
-const [daysWeekSelected, setDaysWeekSelected] = useState([]);
-const [QntDaysSelected, setQntDaysSelected] = useState([]);
-const diasSemana = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
-const [mostrarDiasSemana, setMostrarDiasSemana] = useState(false);
-const [messageAgenda, setMessageAgenda] = useState('');
+  const [mostrarDiasSemana, setMostrarDiasSemana] = useState(false);
+  const [daysWeekSelected, setDaysWeekSelected] = useState([]);
+  const [QntDaysSelected, setQntDaysSelected] = useState([]);
+  const [agenda, setAgenda] = useState([]);
+  const diasSemana = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
+  const [messageAgenda, setMessageAgenda] = useState('');
 
+  //Mostrando a div com os inputs Cheked
   const alternarDiasTrabalho = () => {
     setMostrarDiasSemana(!mostrarDiasSemana);
   };
+  //Obtendo os valores selecionados pelo usuário
   const handleCheckboxChange = (dia) => {
     if (daysWeekSelected.includes(dia)) {
       // Se o dia já estiver selecionado, remova-o
@@ -341,6 +344,7 @@ const [messageAgenda, setMessageAgenda] = useState('');
       setDaysWeekSelected([...daysWeekSelected, dia]);
     }
   };
+  //Passando os valores para o input Dias da Semanas
   const Checkbox = ({ dia }) => {
     return (
       <>
@@ -357,6 +361,7 @@ const [messageAgenda, setMessageAgenda] = useState('');
       </>
     );
   };
+  //Passando os valores para o input Quantidade de dias
   const CheckboxQntDias = ({ value }) => {
     return (
       <>
@@ -381,6 +386,7 @@ const [messageAgenda, setMessageAgenda] = useState('');
       </>
     );
   };
+  //Cadastrando os valores na agenda da barbearia
   const updateAgenda = () =>{
     axios.post(`https://api-user-barbeasy.up.railway.app/api/update-agenda/${barbeariaId}`, {daysWeek: daysWeekSelected, qntDays: QntDaysSelected})
     .then(res => {
@@ -402,9 +408,26 @@ const [messageAgenda, setMessageAgenda] = useState('');
       console.error('erro ao atualizar a agenda', error)
     })
   }
+  //Obtendo os dados da agenda da barbearia
+  useEffect(() => {
+    axios.get(`https://api-user-barbeasy.up.railway.app/api/agenda/${barbeariaId}`)
+    .then(res => {
+      if(res.status === 200){
+        setAgenda(res.data.Agenda)
+      }
+    }).catch(error => {
+      console.error('Erro ao buscar informações da agenda da barbearia', error)
+    })
+  }, [barbeariaId])
+  //Iniciando os inputs Checked com os valores cadastrados na agenda
+  useEffect(() => {
+    if (agenda[0] && agenda[1].length > 0) {
+      const daysFromAgenda = agenda[0].split(',')
+      setDaysWeekSelected(daysFromAgenda)
+      setQntDaysSelected(agenda[1].toString());
+    }
+  }, [agenda]);
 /*----------------------------------*/
-
-
   const [mostrarNome, setMostrarNome] = useState(false);
   const [novoUserName, setNovoUserName] = useState('');
   const [userNameBarbearia, setUserNameBarbearia] = useState('');
@@ -519,17 +542,6 @@ const [messageAgenda, setMessageAgenda] = useState('');
     });
   };
 /*----------------------------------*/
-  const handleQntDiasTrabalhoChange = (event) => {
-    setQntDiasTrabalhoSelecionado(event.target.value);
-  };
-
-  const handleTodosDiasSemana = () => {
-    setDiasSemanaSelecionado(['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']);
-  };
-
-  const handleDiasDeSegSab = () => {
-    setDiasSemanaSelecionado(['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']);
-  };
 
   return (
     <>
