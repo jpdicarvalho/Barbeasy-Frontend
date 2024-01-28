@@ -422,12 +422,12 @@ function ProfileBarbearia() {
   //Iniciando os inputs Checked com os valores cadastrados na agenda
   useEffect(() => {
     if (agenda[0] && agenda[1].length > 0) {
-      const daysFromAgenda = agenda[0].split(',')
-      setDaysWeekSelected(daysFromAgenda)
+      setDaysWeekSelected(agenda[0].split(','))
       setQntDaysSelected(agenda[1].toString());
     }
   }, [agenda]);
-  console.log(agenda)
+  console.log(agenda[0].split(','))
+  console.log(agenda[1].toString())
 /*----------------------------------*/
   const [mostrarNome, setMostrarNome] = useState(false);
   const [novoUserName, setNovoUserName] = useState('');
