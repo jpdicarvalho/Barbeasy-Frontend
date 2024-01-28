@@ -421,13 +421,15 @@ function ProfileBarbearia() {
   }, [barbeariaId])
   //Iniciando os inputs Checked com os valores cadastrados na agenda
   useEffect(() => {
-    if (agenda[0] && agenda[1].length > 0) {
-      setDaysWeekSelected(agenda[0].split(','))
+    if (Array.isArray(agenda) && agenda.length >= 2) {
+      const daysFromAgenda = agenda[0].split(',');
+      console.log(daysFromAgenda)
+      setDaysWeekSelected(daysFromAgenda);
+      console.log(agenda[1].toString())
       setQntDaysSelected(agenda[1].toString());
     }
-  }, [agenda]);
-  console.log(agenda[0].split(','))
-  console.log(agenda[1].toString())
+  }, [agenda]);  
+  
 /*----------------------------------*/
   const [mostrarNome, setMostrarNome] = useState(false);
   const [novoUserName, setNovoUserName] = useState('');
