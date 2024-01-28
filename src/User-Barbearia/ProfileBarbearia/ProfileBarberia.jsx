@@ -427,6 +427,7 @@ function ProfileBarbearia() {
       setQntDaysSelected(agenda[1].toString());
     }
   }, [agenda]);
+  console.log(agenda)
 /*----------------------------------*/
   const [mostrarNome, setMostrarNome] = useState(false);
   const [novoUserName, setNovoUserName] = useState('');
