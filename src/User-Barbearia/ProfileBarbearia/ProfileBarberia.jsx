@@ -8,10 +8,6 @@ function ProfileBarbearia() {
   const userData = localStorage.getItem('dataBarbearia');//Obtendo os dados salvo no localStorage
   const userInformation = JSON.parse(userData);//trasnformando os dados para JSON
   const barbeariaId = userInformation.barbearia[0].id;
-  
-  
-  const [DiasSemanaSelecionado, setDiasSemanaSelecionado] = useState([]);
-  const [QntDiasTrabalhoSelecionado, setQntDiasTrabalhoSelecionado] = useState('');
 
   const [mostrarHorario, setMostrarHorario] = useState(false);
   const [HorarioSelecionadoManha, setHorarioSelecionadoManha] = useState('');
@@ -422,14 +418,11 @@ function ProfileBarbearia() {
   //Iniciando os inputs Checked com os valores cadastrados na agenda
   useEffect(() => {
     if (Array.isArray(agenda) && agenda.length >= 2) {
-      const daysFromAgenda = agenda[0].split(',');
-      console.log(daysFromAgenda)
-      setDaysWeekSelected(daysFromAgenda);
-      console.log(agenda[1].toString())
-      setQntDaysSelected(agenda[1].toString());
+      const daysFromAgenda = agenda[0].split(',');// Separando o array com os dias da semana por dias
+      setDaysWeekSelected(daysFromAgenda);//Iniciando a variável dos inputs dias da semana
+      setQntDaysSelected(agenda[1].toString());//Iniciando a variável do input quantidade de dias
     }
   }, [agenda]);  
-  
 /*----------------------------------*/
   const [mostrarNome, setMostrarNome] = useState(false);
   const [novoUserName, setNovoUserName] = useState('');
