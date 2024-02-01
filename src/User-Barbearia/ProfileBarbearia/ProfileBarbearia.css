@@ -351,6 +351,40 @@
     background: #4a17d5;
     transition: 0.5s;
 }
+.inputs-horarios{
+    display: flex;
+    background: transparent;
+    width: 250px;
+    padding: 10px;
+    overflow: auto;
+    cursor: grab;
+}
+.inputs-horarios::-webkit-scrollbar {
+    height: 5px;
+}
+.inputs-horarios::-webkit-scrollbar-thumb {
+    background: #4a17d5; 
+    border-radius: 5px;
+}
+.inputs-horarios::-webkit-scrollbar-thumb:hover {
+    background: #f6f6f6; 
+}
+.horario-item{
+    display: flex;
+    padding: 3px;
+    margin-right: 5px;
+    border: 1px solid #4a17d5;
+    text-align: center;
+    transition: 0.5s;
+}
+.Horario-selecionado{
+    border-radius: 10px;
+    color: #f6f6fc;
+    background: #4a17d5;
+    transition: 0.5s;
+}
+
+
 .tittle_horario{
     border-radius: 5px;
     padding: 5px;
