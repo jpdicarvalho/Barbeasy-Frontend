@@ -912,7 +912,7 @@ function ProfileBarbearia() {
         </button>
 
       </div>
-      )}
+        )}
 
 <hr className='hr_menu'/>
 
