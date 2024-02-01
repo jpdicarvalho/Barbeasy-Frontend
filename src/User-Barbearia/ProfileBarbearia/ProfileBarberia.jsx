@@ -406,7 +406,7 @@ function ProfileBarbearia() {
     }).catch(error => {
       console.error('Erro ao buscar informações da agenda da barbearia', error)
     })
-  }, [barbeariaId])
+  }, [])
    //Iniciando os inputs Checked com os valores cadastrados na agenda
    useEffect(() => {
     if (Array.isArray(agenda) && agenda.length >= 2) {
