@@ -409,13 +409,14 @@ function ProfileBarbearia() {
   //Iniciando os inputs Checked com os valores cadastrados na agenda
   useEffect(() => {
     if (Array.isArray(agenda) && agenda.length >= 2) {
-      const daysFromAgenda = agenda[0].split(',');// Separando o array com os dias da semana por dias
+      setDaysFromAgenda(agenda[0].split(','));// Separando o array com os dias da semana por dias
       setDaysWeekSelected(daysFromAgenda);//Iniciando a variável dos inputs dias da semana
       setQntDaysSelected(agenda[1].toString());//Iniciando a variável do input quantidade de dias
     }
   }, [agenda]);  
 /*----------------------------------*/
   const [mostrarHorario, setMostrarHorario] = useState(false);
+  const [daysFromAgenda, setDaysFromAgenda] = useState([]);
   const [diaSelecionado, setDiaSelecionado] = useState(null);
   const [HorarioFuncionamento, setHorarioFuncionamento] = useState([]);
   const [tempoAtendimentoSelected, setTempoAtendimentoSelected] = useState([]);
