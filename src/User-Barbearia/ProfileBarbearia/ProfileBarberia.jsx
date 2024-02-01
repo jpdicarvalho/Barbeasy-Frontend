@@ -407,14 +407,16 @@ const [messageAgenda, setMessageAgenda] = useState('');
       console.error('Erro ao buscar informações da agenda da barbearia', error)
     })
   }, [])
-   //Iniciando os inputs Checked com os valores cadastrados na agenda
   useEffect(() => {
     if (Array.isArray(agenda) && agenda.length >= 2) {
       setDaysFromAgenda(agenda[0].split(','));
-      setDaysWeekSelected(daysFromAgenda);
       setQntDaysSelected(agenda[1].toString());
     }
   }, [agenda]);
+  
+  useEffect(() => {
+    setDaysWeekSelected(daysFromAgenda);
+  }, [daysFromAgenda]);  
 /*----------------------------------*/
   const [mostrarHorario, setMostrarHorario] = useState(false);
   const [diaSelecionado, setDiaSelecionado] = useState(null);
