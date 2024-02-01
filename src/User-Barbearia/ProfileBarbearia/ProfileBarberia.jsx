@@ -310,13 +310,13 @@ function ProfileBarbearia() {
       .catch(error => console.log(error));
   }, [barbeariaId])
 /*----------------------------------*/
-  const [mostrarDiasSemana, setMostrarDiasSemana] = useState(false);
-  const [daysWeekSelected, setDaysWeekSelected] = useState([]);
-  const [QntDaysSelected, setQntDaysSelected] = useState([]);
-  const [agenda, setAgenda] = useState([]);
-  const [daysFromAgenda, setDaysFromAgenda] = useState([]);
-  const diasSemana = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
-  const [messageAgenda, setMessageAgenda] = useState('');
+const [mostrarDiasSemana, setMostrarDiasSemana] = useState(false);
+const [daysWeekSelected, setDaysWeekSelected] = useState([]);
+const [QntDaysSelected, setQntDaysSelected] = useState([]);
+const [agenda, setAgenda] = useState([]);
+const [daysFromAgenda, setDaysFromAgenda] = useState([]);
+const diasSemana = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
+const [messageAgenda, setMessageAgenda] = useState('');
 
   //Mostrando a div com os inputs Cheked
   const alternarDiasTrabalho = () => {
