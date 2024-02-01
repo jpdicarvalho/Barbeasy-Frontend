@@ -408,7 +408,7 @@ function ProfileBarbearia() {
     })
   }, [])
    //Iniciando os inputs Checked com os valores cadastrados na agenda
-   useEffect(() => {
+  useEffect(() => {
     if (Array.isArray(agenda) && agenda.length >= 2) {
       setDaysFromAgenda(agenda[0].split(','));
       setDaysWeekSelected(daysFromAgenda);
