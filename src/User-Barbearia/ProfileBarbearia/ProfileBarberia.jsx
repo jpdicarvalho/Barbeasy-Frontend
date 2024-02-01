@@ -314,6 +314,7 @@ function ProfileBarbearia() {
   const [daysWeekSelected, setDaysWeekSelected] = useState([]);
   const [QntDaysSelected, setQntDaysSelected] = useState([]);
   const [agenda, setAgenda] = useState([]);
+  const [daysFromAgenda, setDaysFromAgenda] = useState([]);
   const diasSemana = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
   const [messageAgenda, setMessageAgenda] = useState('');
 
@@ -406,17 +407,16 @@ function ProfileBarbearia() {
       console.error('Erro ao buscar informações da agenda da barbearia', error)
     })
   }, [barbeariaId])
-  //Iniciando os inputs Checked com os valores cadastrados na agenda
-  useEffect(() => {
+   //Iniciando os inputs Checked com os valores cadastrados na agenda
+   useEffect(() => {
     if (Array.isArray(agenda) && agenda.length >= 2) {
-      setDaysFromAgenda(agenda[0].split(','));// Separando o array com os dias da semana por dias
-      setDaysWeekSelected(daysFromAgenda);//Iniciando a variável dos inputs dias da semana
-      setQntDaysSelected(agenda[1].toString());//Iniciando a variável do input quantidade de dias
+      setDaysFromAgenda(agenda[0].split(','));
+      setDaysWeekSelected(daysFromAgenda);
+      setQntDaysSelected(agenda[1].toString());
     }
-  }, [agenda]);  
+  }, [agenda]);
 /*----------------------------------*/
   const [mostrarHorario, setMostrarHorario] = useState(false);
-  const [daysFromAgenda, setDaysFromAgenda] = useState([]);
   const [diaSelecionado, setDiaSelecionado] = useState(null);
   const [HorarioFuncionamento, setHorarioFuncionamento] = useState([]);
   const [tempoAtendimentoSelected, setTempoAtendimentoSelected] = useState([]);
