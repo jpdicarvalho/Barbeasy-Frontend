@@ -238,15 +238,15 @@
 /*referente aos inputs de definição de dias a serem trabalhados*/
 .days-switch {
     display: none;
-}
+} 
 .days-switch:checked ~ .switch {
     background: #1AEE07;
-}
+} 
 .days-switch:checked ~ .switch .slider {
     transform: translateX(19px);
 }
 /*para todos os inputs anteriores*/
-.switch{
+.switch {
     position: relative;
     display: flex;
     align-items: center;
@@ -258,7 +258,7 @@
     border-radius: 40px;
     cursor: pointer;
 }
-.slider{
+.slider {
     position: absolute;
     background: #f6f6f6;
     border-radius: 50%;
