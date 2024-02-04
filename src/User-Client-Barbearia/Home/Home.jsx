@@ -37,7 +37,7 @@ const userName = userInformation.user[0].name;
 useEffect(() => {
   const fetchData = async () => {
     try {
-        const response = await fetch('https://api-user-barbeasy.up.railway.app/listBarbearia', {
+        const response = await fetch('https://api-user-barbeasy.up.railway.app/api/listBarbearia', {
           headers: {
             'Content-Type': 'application/json',
           },
@@ -97,7 +97,7 @@ obterSaudacao();
 useEffect(() => {
   const SearchAvaliation = async () => {
     try {
-      const response = await fetch('https://api-user-barbeasy.up.railway.app/SearchAvaliation');
+      const response = await fetch('https://api-user-barbeasy.up.railway.app/api/SearchAvaliation');
       const data = await response.json();
       setAllAvaliation(data);
     } catch (error) {

@@ -28,7 +28,7 @@ function SignUp() {
     event.preventDefault();
 
     if (step === 3) {
-      axios.post('https://api-user-barbeasy.up.railway.app/SignUp', values) // <-- Ajuste aqui
+      axios.post('https://api-user-barbeasy.up.railway.app/api/SignUp', values) // <-- Ajuste aqui
         .then(res => {
           if (res.status === 201) {
             setMessage('Cadastro realizado!');

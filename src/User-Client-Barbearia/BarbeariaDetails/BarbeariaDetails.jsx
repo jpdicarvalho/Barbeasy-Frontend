@@ -76,7 +76,7 @@ const logoutClick = () => {
 useEffect(() => {  
   const fetchData = async () => {
           try {
-            const response = await fetch('https://api-user-barbeasy.up.railway.app/listServico');
+            const response = await fetch('https://api-user-barbeasy.up.railway.app/api/listServico');
             const data = await response.json();
             setServicos(data);
           } catch (error) {
@@ -94,7 +94,7 @@ const pagamento = async () => {
       //Passando o nome da barbearia selecionada para a descrição da compra
       const DescricaoServico = `Agendamento de serviço para a barbearia ${barbearia.name}`;
 
-      const response = await fetch('https://api-user-barbeasy.up.railway.app/Checkout', {
+      const response = await fetch('https://api-user-barbeasy.up.railway.app/api/Checkout', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -124,7 +124,7 @@ const urlMercadoPago = () => {
 // Cadastrando a avaliação/comentário do usuário do usuário
 const enviarAvaliacao = async () => {
     try {
-      const response = await fetch('https://api-user-barbeasy.up.railway.app/avaliacao', {
+      const response = await fetch('https://api-user-barbeasy.up.railway.app/api/avaliacao', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -150,7 +150,7 @@ const enviarAvaliacao = async () => {
 useEffect(() => {
     const SearchAvaliation = async () => {
       try {
-        const response = await fetch('https://api-user-barbeasy.up.railway.app/SearchAvaliation');
+        const response = await fetch('https://api-user-barbeasy.up.railway.app/api/SearchAvaliation');
         const data = await response.json();
         setAllAvaliation(data);
       } catch (error) {

@@ -15,7 +15,7 @@ function SignIn() {
     e.preventDefault();
 
     try {
-      const dataUser = await fetch('https://api-user-barbeasy.up.railway.app/SignIn', {
+      const dataUser = await fetch('https://api-user-barbeasy.up.railway.app/api/SignIn', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
