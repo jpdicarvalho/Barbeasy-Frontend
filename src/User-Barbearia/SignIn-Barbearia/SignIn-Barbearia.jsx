@@ -16,7 +16,7 @@ function SignInBarbearia() {
         e.preventDefault();
     
         try {
-          const response = await fetch('https://api-user-barbeasy.up.railway.app/SignIn_Barbearia', {
+          const response = await fetch('https://api-user-barbeasy.up.railway.app/api/SignIn-Barbearia', {
             method: 'POST',
             headers: {
               'Accept': 'application/json',

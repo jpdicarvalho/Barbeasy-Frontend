@@ -36,7 +36,7 @@ function SignUpBarbearia() {
 
     console.log(dataBarbearia)
 
-    axios.post('https://api-user-barbeasy.up.railway.app/SignUp_Barbearia', dataBarbearia)
+    axios.post('https://api-user-barbeasy.up.railway.app/api/SignUp-Barbearia', dataBarbearia)
       .then(res => {
         if (res.status === 201) {
           setMessage('Cadastro realizado!');
