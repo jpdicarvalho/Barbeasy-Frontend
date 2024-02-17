@@ -1148,7 +1148,6 @@ const getHorariosPorDia = (dia) => {
                 daysFromAgenda.map(day => (
                   <div key={day} className='Dias_Trabalho_Rapido'>
                     <div className='Dias_Semana' onClick={() => handleDiaClick(day)}>{day}
-                    
                       {diaSelecionado === day && (
                         <div><p className='information__span'>Defina o seu horário de funcionamento:</p>
                           <div className="inputs-horarios">
@@ -1180,19 +1179,41 @@ const getHorariosPorDia = (dia) => {
                         
                       </div>
                       )}
-                      {diaSelecionado === day && horarioDefinido.length > 0 && (
+                      {diaSelecionado === day && (
+                          <div>
+                              <p className='information__span'>Horários já definidos para esse dia:</p>
+                              <div className="inputs-horarios">
+                                  {/* Renderizar o array de horários correspondente */}
+                                  {getHorariosPorDia(day)}
+                              </div>
+                          </div>
+                      )}
+                      {diaSelecionado === day && agendaDoDiaSelecionado.length > 2 && (
                         <div>
                           <p className='information__span'>Deseja remover algum horário?</p>
                           <div className="inputs-horarios">
-                            {horarioDefinido.map((horario, index) => (
-                              <div
-                                key={index}
-                                className={`horario-item ${horarioDefinido.includes(horario) ? 'Horario-selecionado' : ''}`}
-                                onClick={() => handleIntervalo(horario)}
-                              >
-                                <p>{horario}</p>
-                              </div>
-                            ))}
+                              {agendaDoDiaSelecionado.map((value, index) => (
+                              // Comece a partir do índice 1
+                                index > 0 && (
+                                  <div
+                                      key={index}
+                                      className={`horario-item ${agendaDoDiaSelecionado.includes(value) ? 'Horario-selecionado' : ''}`}
+                                      onClick={() => handleIntervalo(value)}
+                                  >
+                                      <p>{value}</p>
+                                      
+                                  </div>
+                                )
+                              ))}
+                          </div>
+                            {messageAgendaHorarios === 'Horários Salvos com Sucesso!' ?
+                              <p className="mensagem-sucesso">{messageAgendaHorarios}</p>
+                                :
+                              <p className="mensagem-erro">{messageAgendaHorarios}</p>
+                            }
+                          <div className="container_button">
+                            <button className="add_Service" onClick={salvarHorariosDiaSelecionado}>Salvar</button>
+                            <button className="add_Service" onClick={salvarHorariosTodosOsDias}>Salvar para todos os outros dias</button>
                           </div>
                         </div>
                       )}
