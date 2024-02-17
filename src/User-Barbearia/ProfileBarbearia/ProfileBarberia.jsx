@@ -599,7 +599,7 @@ useEffect(() => {
     let arrayHorariosPadrao = res.data.horariosDiaEspecifico;
     let verifyIndexArray;
 
-    if(arrayHorariosPadrao.length > 0){
+    if(arrayHorariosPadrao.length > 0 && arrayHorariosPadrao[0] != null || '') {
       verifyIndexArray = arrayHorariosPadrao[0].split(',')
       if(verifyIndexArray[0] === 'horarioPadrao'){
         verifyIndexArray.shift();
