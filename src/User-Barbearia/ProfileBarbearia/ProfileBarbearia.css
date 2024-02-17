@@ -404,9 +404,18 @@
     justify-content: center;
     margin-top: 5px;
     width: 100%;
+    background: transparent;
     color: #1AEE07;
     padding: 10px;
     border: 1px solid #1AEE07;
+}
+.add_Service:hover{
+    border-radius: 5px;
+    color: #141728;
+    font-size: 15px;
+    font-weight: 700;
+    background: #1AEE07;
+    transition: 0.5s;
 }
 .add_Service span{
     color: #1AEE07;
