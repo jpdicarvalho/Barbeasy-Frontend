@@ -416,92 +416,307 @@ const [messageAgenda, setMessageAgenda] = useState('');
   
   useEffect(() => {
     setDaysWeekSelected(daysFromAgenda);
-  }, [daysFromAgenda]);  
-/*----------------------------------*/
-  const [mostrarHorario, setMostrarHorario] = useState(false);
-  const [diaSelecionado, setDiaSelecionado] = useState(null);
-  const [HorarioFuncionamento, setHorarioFuncionamento] = useState([]);
-  const [tempoAtendimentoSelected, setTempoAtendimentoSelected] = useState([]);
-  const [horarioDefinido, setHorarioDefinido] = useState([]);
+  }, [daysFromAgenda]);
+/*-------------------------------------------*/
+const [mostrarHorario, setMostrarHorario] = useState(false);
+const [diaSelecionado, setDiaSelecionado] = useState(null);
+const [HorarioFuncionamento, setHorarioFuncionamento] = useState([]);
+const [tempoAtendimentoSelected, setTempoAtendimentoSelected] = useState([]);
+const [horarioDefinido, setHorarioDefinido] = useState([]);
+const [agendaDoDiaSelecionado, setAgendaDoDiaSelecionado] = useState([]);
 
-  //Função para mostra as opções de dias definidos
-  const alternarHorario = () => {
-    setMostrarHorario(!mostrarHorario);
-  };
-  //Função para mostrar as opções de definição de horário
-  const handleDiaClick = (dia) => {
-    setDiaSelecionado(dia);
-  };
-  //Função para gerar as opções de horários
-  function generateHorarios(inicio, termino, intervalo) {
-    const horarios = [];
-    let horaAtual = inicio;
+//Declaração dos array de horários padronizados e de cada dia da semana
+const [horariosPadronizados, setHorariosPadronizados] = useState([]);
+const [horariosDom, setHorariosDom] = useState([]);
+const [horariosSeg, setHorariosSeg] = useState([]);
+const [horariosTer, setHorariosTer] = useState([]);
+const [horariosQua, setHorariosQua] = useState([]);
+const [horariosQui, setHorariosQui] = useState([]);
+const [horariosSex, setHorariosSex] = useState([]);
+const [horariosSab, setHorariosSab] = useState([]);
 
-    while (horaAtual <= termino) {
+const [messageAgendaHorarios, setMessageAgendaHorarios] = useState('');
+
+//Função para alternar o estado de 'mostrarHorario' (variável booleana), responsável por mostrar os horários a serem definidos
+const alternarHorario = () => {
+  setMostrarHorario(!mostrarHorario);
+};
+
+//Função responsável por atualizar o estado 'diaSelecionado' com o dia que foi selecionado.
+const handleDiaClick = (dia) => {
+  setDiaSelecionado(dia);
+};
+
+// Função responsável por gerar uma lista de horários com base no horário de início, término e intervalo fornecidos como parâmetros.
+function generateHorarios(inicio, termino, intervalo) {
+  // Array para armazenar os horários gerados
+  const horarios = [];
+  // Inicializa a hora atual com o horário de início
+  let horaAtual = inicio;
+
+  // Loop para gerar os horários até alcançar o horário de término
+  while (horaAtual <= termino) {
+      // Adiciona o horário atual ao array de horários
       horarios.push(horaAtual);
 
+      // Calcula o total de minutos
       const totalMinutos = parseInt(horaAtual.substring(0, 2)) * 60 + parseInt(horaAtual.substring(3)) + intervalo;
+      // Calcula a nova hora e os novos minutos com base no total de minutos
       const novaHora = Math.floor(totalMinutos / 60).toString().padStart(2, '0');
       const novosMinutos = (totalMinutos % 60).toString().padStart(2, '0');
+      // Atualiza a hora atual para o próximo horário
       horaAtual = `${novaHora}:${novosMinutos}`;
-    }
-    return horarios;
   }
-  const horarios = generateHorarios('07:30', '22:30', 15);
-  // Função para lidar com a seleção de um horário
-  const handleHorarioFuncionamento = (horario) => {
-      if (HorarioFuncionamento.length === 2 && !HorarioFuncionamento.includes(horario)) {
-          // Já existem dois horários selecionados e o horário clicado não está entre eles
-          return;
-      }
-      // Verifica se o horário já está selecionado
-      if (HorarioFuncionamento.includes(horario)) {
-          // Remove o horário da seleção
-          setHorarioFuncionamento(HorarioFuncionamento.filter(item => item !== horario));
-      } else {
-          // Adiciona o horário à seleção
-          setHorarioFuncionamento([...HorarioFuncionamento, horario]);
-      }
-  };
-  // Função para lidar com a seleção de um horário
-  const handleIntervalo = (horario) => {
-    if (horarioDefinido.includes(horario)) {
-      // Remove o horário da seleção
+  // Retorna a lista de horários gerados
+  return horarios;
+}
+
+//Esta linha gera os horários com base nos parâmetros fornecidos
+const horarios = generateHorarios('07:30', '22:30', 15);
+
+// Função responsável por adicionar ou remover o horário selecionado
+const handleHorarioFuncionamento = (horario) => {
+  // Verifica se já existem dois horários selecionados e se o horário clicado não está entre eles
+  if (HorarioFuncionamento.length === 2 && !HorarioFuncionamento.includes(horario)) {
+      // Caso positivo, não faz nada e retorna
+      return;
+  }
+  
+  // Verifica se o horário já está selecionado
+  if (HorarioFuncionamento.includes(horario)) {
+      // Se o horário já estiver selecionado, remove-o da seleção
+      setHorarioFuncionamento(HorarioFuncionamento.filter(item => item !== horario));
+  } else {
+      // Se o horário não estiver selecionado, adiciona-o à seleção
+      setHorarioFuncionamento([...HorarioFuncionamento, horario]);
+  }
+};
+
+// Função para definir o tempo de atendimento
+const handleAtendimento = (atendimento) => {
+  // Verifica se já há um tempo de atendimento selecionado e se o tempo atual não está incluído nele
+  if (tempoAtendimentoSelected.length === 1 && !tempoAtendimentoSelected.includes(atendimento)) {
+      // Se sim, não faz nada e retorna
+      return;
+  }
+
+  // Verifica se o tempo de atendimento já está selecionado
+  if (tempoAtendimentoSelected.includes(atendimento)) {
+      // Se estiver selecionado, remove-o da seleção
+      setTempoAtendimentoSelected(tempoAtendimentoSelected.filter(item => item !== atendimento));      
+  } else {
+      // Se não estiver selecionado, adiciona-o à seleção
+      setTempoAtendimentoSelected([...tempoAtendimentoSelected, atendimento]);
+  }
+};
+
+// Função para remover horários do array horarioDefinido
+const handleIntervalo = (horario) => {
+  // Verifica se o horário já está presente no array horarioDefinido
+  if (horarioDefinido.includes(horario)) {
+      // Se estiver presente, remove-o da seleção
       const novosIntervalos = horarioDefinido.filter(item => item !== horario);
       setHorarioDefinido(novosIntervalos);
-    } else {
-      // Adiciona o horário à seleção
+  } else {
+      // Se não estiver presente, adiciona-o à seleção
       setHorarioDefinido([...horarioDefinido, horario]);
-    }
-  };
-  // Função para lidar com a seleção de um horário
-  const handleAtendimento = (atendimento) => {
-    if (tempoAtendimentoSelected.length === 1 && !tempoAtendimentoSelected.includes(atendimento)) {
-        return;
-    }
-    // Verifica se o horário já está selecionado
-    if (tempoAtendimentoSelected.includes(atendimento)) {
-        setTempoAtendimentoSelected(tempoAtendimentoSelected.filter(item => item !== atendimento));      
-    } else {
-        setTempoAtendimentoSelected([...tempoAtendimentoSelected, atendimento]);
-    }
-  };
-  //Função para gerar o período de funcionamento
-  const handleHorariosDefinidos = () => {
-    if(HorarioFuncionamento && tempoAtendimentoSelected.length > 0){
+  }
+};
+
+// Função para gerar o período de funcionamento
+const handleHorariosDefinidos = () => {
+  // Verifica se os horários de funcionamento e o tempo de atendimento estão definidos
+  if (HorarioFuncionamento && tempoAtendimentoSelected.length > 0) {
+      // Extrai o tempo de atendimento do formato 'Xmin' e converte para um número inteiro
       const tempAtendimento = parseInt(tempoAtendimentoSelected[0].split('min')[0]);
+      
+      // Gera os horários definidos com base no horário de funcionamento, tempo de atendimento e intervalo
       const horariosDefinido = generateHorarios(HorarioFuncionamento[0], HorarioFuncionamento[1], tempAtendimento);
-      return setHorarioDefinido(horariosDefinido)
+      
+      // Define os horários definidos
+      return setHorarioDefinido(horariosDefinido);
+  }
+};
+
+//Função para adicionar o dia selecionado e o horario definido a um novo array
+const diaSelecionadoFormat = () => {
+  //Adicionando o dia da semana selecionado no array de horários
+  horarioDefinido.unshift(diaSelecionado);
+  
+  // Filtra o array horarioDefinido para remover duplicatas e armazena o resultado em uniqueArray
+  let uniqueArray = horarioDefinido.filter((value, index, self) => {
+    return self.indexOf(value) === index;
+  });
+
+  //Função para formatar o nome do dia da semana
+  if(uniqueArray[0]){
+    uniqueArray[0] = uniqueArray[0].substring(0, 3); // Limita a string para três letras
+    uniqueArray[0] = uniqueArray[0].charAt(0).toUpperCase() + uniqueArray[0].slice(1); // Transforma a primeira letra em maiúscula
+    return setAgendaDoDiaSelecionado(uniqueArray);
+  }
+};
+
+//Função para configurar a agenda de horários do dia selecionado
+const configAgendaDiaSelecionado = () => {
+  if (agendaDoDiaSelecionado && agendaDoDiaSelecionado.length > 1) {
+    for (let i = 0; i < agendaDoDiaSelecionado.length; i++) {
+      if (agendaDoDiaSelecionado[i] && agendaDoDiaSelecionado[i].length > 5) {
+          let arrayClear = agendaDoDiaSelecionado.splice(agendaDoDiaSelecionado[i], 1);
+          return setAgendaDoDiaSelecionado(arrayClear);
+      }
     }
   }
-  //Função para gerar automaticamente os horários de funcionamento
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      handleHorariosDefinidos();
-    }, 1000);
-    return () => clearTimeout(timeout);
+};
 
-  }, [HorarioFuncionamento, tempoAtendimentoSelected]);
+//Função para salvar os horários definidos para o dia selecionado
+const salvarHorariosDiaSelecionado = () =>{
+  let strAgendaDiaSelecionado = agendaDoDiaSelecionado.join(',');
+  
+  axios.post(`https://api-user-barbeasy.up.railway.app/api/update-agendaDiaSelecionado/${barbeariaId}`, {StrAgenda: strAgendaDiaSelecionado})
+  .then(res => {
+    if(res.data.Success === 'Success'){
+      setMessageAgendaHorarios("Horários Salvos com Sucesso!")
+        // Limpar a mensagem após 3 segundos (3000 milissegundos)
+        setTimeout(() => {
+          setMessageAgendaHorarios('');
+          window.location.reload();
+        }, 3000);
+    }
+  }).catch(error => {
+    setMessageAgendaHorarios("Erro ao Salvar Horários, tente novamente mais tarde.")
+        // Limpar a mensagem após 3 segundos (3000 milissegundos)
+        setTimeout(() => {
+          setMessageAgendaHorarios('');
+          window.location.reload();
+        }, 3000);
+  })
+}
+
+//Função para obter os horários definidos do dia selecionado
+useEffect(() => {
+  axios.get(`https://api-user-barbeasy.up.railway.app/api/agendaDiaSelecionado/${barbeariaId}`)
+  .then(res => {
+    let arrayHorariosPadrao = res.data.horariosDiaEspecifico;
+    let verifyIndexArray;
+
+    if(arrayHorariosPadrao.length > 0){
+      verifyIndexArray = arrayHorariosPadrao[0].split(',')
+      if(verifyIndexArray[0] === 'horarioPadrao'){
+        verifyIndexArray.shift();
+        setHorariosPadronizados(verifyIndexArray);
+      }
+      for(let i=0; i < arrayHorariosPadrao.length; i++){
+        verifyIndexArray = arrayHorariosPadrao[i].substring(0, 3)
+
+          if (verifyIndexArray === 'Dom'){
+            setHorariosDom (arrayHorariosPadrao[i].split(','));
+          }
+          if (verifyIndexArray === 'Seg'){
+            setHorariosSeg (arrayHorariosPadrao[i].split(','));
+          }
+          if (verifyIndexArray === 'Ter'){
+            setHorariosTer (arrayHorariosPadrao[i].split(','));
+          }
+          if (verifyIndexArray === 'Qua'){
+            setHorariosQua (arrayHorariosPadrao[i].split(','));
+          }
+          if (verifyIndexArray === 'Qui'){
+            setHorariosQui (arrayHorariosPadrao[i].split(','));
+          }
+          if (verifyIndexArray === 'Sex'){
+            setHorariosSex (arrayHorariosPadrao[i].split(','));
+          }
+          if (verifyIndexArray === 'Sáb'){
+            setHorariosSab (arrayHorariosPadrao[i].split(','));
+          }
+        
+      }
+      
+    }
+    
+  }).catch(error => {
+    console.error('Erro ao buscar informações da agenda da barbearia', error)
+  })
+}, [])
+
+//Função para salvar os horários definidos para todos os dias
+const salvarHorariosTodosOsDias = () =>{
+  let arrayEdited = agendaDoDiaSelecionado;
+  arrayEdited[0] = 'horarioPadrao';
+
+  let strHorariosTodosOsDias = arrayEdited.join(',');
+  
+  axios.post(`https://api-user-barbeasy.up.railway.app/api/update-horariosTodosOsDias/${barbeariaId}`, {StrAgenda: strHorariosTodosOsDias})
+  .then(res => {
+    if(res.data.Success === 'Success'){
+      setMessageAgendaHorarios("Horários Salvos com Sucesso!")
+        // Limpar a mensagem após 3 segundos (3000 milissegundos)
+        setTimeout(() => {
+          setMessageAgendaHorarios('');
+          window.location.reload();
+        }, 3000);
+    }
+  }).catch(error => {
+    setMessageAgendaHorarios("Erro ao Salvar Horários, tente novamente mais tarde.")
+        // Limpar a mensagem após 3 segundos (3000 milissegundos)
+        setTimeout(() => {
+          setMessageAgendaHorarios('');
+        }, 3000);
+  })
+}
+
+// useEffect para gerar automaticamente os horários de funcionamento
+useEffect(() => {
+  // Configura um timeout para executar handleHorariosDefinidos após 1 segundo
+  const timeout = setTimeout(() => {
+      handleHorariosDefinidos();
+  }, 1000);
+  
+  // Retorna uma função de limpeza para limpar o timeout
+  return () => clearTimeout(timeout);
+}, [HorarioFuncionamento, tempoAtendimentoSelected]);
+
+// useEffect para configurar a agenda do dia selecionado
+useEffect(() => {
+  // Executa diaSelecionadoFormat sempre que horarioDefinido ou diaSelecionado mudarem
+  diaSelecionadoFormat();
+}, [horarioDefinido, diaSelecionado]);
+
+// useEffect para configurar a agenda do dia selecionado
+useEffect(() => {
+  // Executa diaSelecionadoFormat sempre que horarioDefinido ou diaSelecionado mudarem
+  configAgendaDiaSelecionado();
+}, [agendaDoDiaSelecionado]);
+
+const getHorariosPorDia = (dia) => {
+  const horariosPorDia = {
+    'Domingo': horariosDom,
+    'Segunda-feira': horariosSeg,
+    'Terça-feira': horariosTer,
+    'Quarta-feira': horariosQua,
+    'Quinta-feira': horariosQui,
+    'Sexta-feira': horariosSex,
+    'Sábado': horariosSab
+  };
+
+  const horariosParaRenderizar = horariosPorDia[dia];
+
+  if (horariosParaRenderizar && horariosParaRenderizar.length > 0) {
+    return horariosParaRenderizar.map((horario, index) => (
+      <div className="horario-item" key={`${dia}-${index}`}>
+        <p>{horario}</p>
+      </div>
+    ));
+  } else if (horariosPadronizados.length > 0) {
+    return horariosPadronizados.map((horario, index) => (
+      <div className="horario-item" key={`padrao-${index}`}>
+        <p>{horario}</p>
+      </div>
+    ));
+  } else {
+    return <p>Não há horários definidos para este dia.</p>;
+  }
+};
 /*----------------------------------*/
   const [mostrarNome, setMostrarNome] = useState(false);
   const [novoUserName, setNovoUserName] = useState('');
