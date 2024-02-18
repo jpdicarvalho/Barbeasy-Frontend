@@ -1280,7 +1280,7 @@ const getHorariosPorDia = (dia) => {
                   const filteredValue = inputValue.replace(/[^a-zA-Z0-9.\s]/g, '');
                   // Limitar a 30 caracteres
                   const userName = filteredValue.slice(0, 30);
-                setNovoUserName({userName});
+                setNovoUserName(userName);
                 }}
                 placeholder={userNameBarbearia}
                 className="white-placeholder"
