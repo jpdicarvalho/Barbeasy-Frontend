@@ -913,7 +913,6 @@ const adicionarServico = () => {
 
   return (
     <>
-    <div className={` ${showAddServico ? 'background-desfocado' : ''}`}></div>
     
       <div className="container__profile">
 
