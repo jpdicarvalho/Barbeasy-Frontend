@@ -402,12 +402,23 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 5px;
+    margin-top: 10px;
     width: 100%;
-    background: transparent;
     color: #1AEE07;
     padding: 10px;
+    background: transparent;
+    margin-right: 5px;
     border: 1px solid #1AEE07;
+    transition: 0.5s;
+}
+.add_Service.expandir {
+    color: #4a17d5;
+    border: 1px solid #4a17d5;
+    background: #0c0e19;
+    position: absolute;
+    transition: 0.5s;
+    width: 100%;
+    height: 200px;
 }
 .add_Service:hover{
     border-radius: 5px;
