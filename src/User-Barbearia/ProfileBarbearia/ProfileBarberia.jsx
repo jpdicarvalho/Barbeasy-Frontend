@@ -766,7 +766,7 @@ const handleTempoDuracao = (tempo) => {
 
 const adicionarServico = () => {
     if(nomeServiço && precoServiço && tempoDuracao[0]){
-      axios.post(`http://localhost:8000/api/add-service/${barbeariaId}`, {nameService: nomeServiço, priceService: precoServiço, time: tempoDuracao[0]})
+      axios.post(`https://api-user-barbeasy.up.railway.app/api/add-service/${barbeariaId}`, {nameService: nomeServiço, priceService: precoServiço, time: tempoDuracao[0]})
           .then(res => {
             if (res.data.Success === "Success") {
               setMessageAddService("Serviço adicionado com sucesso!");
@@ -913,6 +913,7 @@ const adicionarServico = () => {
 
   return (
     <>
+    <div className={` ${showAddServico ? 'background-desfocado' : ''}`}></div>
     <div className="main-settings">
       <div className="container__profile">
 
