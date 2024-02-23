@@ -430,10 +430,8 @@
 }
 .add_Service:hover{
     border-radius: 5px;
-    color: #141728;
     font-size: 15px;
     font-weight: 700;
-    background: #1AEE07;
     transition: 0.5s;
 }
 .add_Service span{
