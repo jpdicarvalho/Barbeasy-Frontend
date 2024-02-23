@@ -913,7 +913,7 @@ const adicionarServico = () => {
 
   return (
     <>
-    <div className={` ${showAddServico ? 'background-desfocado' : ''}`}>
+    <div className={` ${showAddServico ? 'background-desfocado' : ''}`}></div>
     <div className="main-settings">
       <div className="container__profile">
 
@@ -1538,7 +1538,6 @@ const adicionarServico = () => {
         </div>
 
         </div>
-    </div>
     </div>
     </>
   );
