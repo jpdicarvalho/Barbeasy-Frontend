@@ -914,7 +914,7 @@ const adicionarServico = () => {
   return (
     <>
     <div className={` ${showAddServico ? 'background-desfocado' : ''}`}></div>
-    <div className="main-settings">
+    
       <div className="container__profile">
 
         <span className="material-symbols-outlined icon_back">arrow_back_ios_new</span>
@@ -1538,7 +1538,7 @@ const adicionarServico = () => {
         </div>
 
         </div>
-    </div>
+  
     </>
   );
 }
