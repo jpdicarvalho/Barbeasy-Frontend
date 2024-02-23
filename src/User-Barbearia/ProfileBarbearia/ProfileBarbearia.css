@@ -431,6 +431,31 @@
 .add_Service span{
     color: #1AEE07;
 }
+/*------------------------------*/
+.input_Container{
+    position: absolute;
+    padding: 10px;
+    width: 320px;
+    height: auto;
+    background: #0c0e19;
+    border: 1px solid #4a17d5;
+    border-radius: 10px;
+    color: #4a17d5;
+}
+.input_AddService{
+    outline: none;
+    background: transparent;
+    border-radius: 5px;
+    font-size: 1em;
+    margin-bottom: 10px;
+    width: 300px;
+    height: 35px;
+    border: 1px solid #7849f4;
+    border-radius: 5px;
+    color: #f6f6fc;
+    padding-left: 5px;
+}
+/*------------------------------*/
 .Delete_account{
     display: flex;
     justify-content: center;
