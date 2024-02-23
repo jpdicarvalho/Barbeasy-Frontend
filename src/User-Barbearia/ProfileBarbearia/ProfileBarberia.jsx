@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {motion} from 'framer-motion';
 import axios from 'axios';
 import './ProfileBarbearia.css';
+
 function ProfileBarbearia() {
 
   //Buscando informações do usuário logado
