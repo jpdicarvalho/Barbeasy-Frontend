@@ -421,9 +421,7 @@
     transition: 0.5s;
 }
 .add_Service.expandir {
-    color: #4a17d5;
-    border: 1px solid #4a17d5;
-    background: #0c0e19;
+    border: none;
     position: absolute;
     transition: 0.5s;
     width: 100%;
@@ -447,6 +445,8 @@
     padding: 10px;
     width: 320px;
     height: auto;
+    background: #0c0e19;
+    border: 1px solid #4a17d5;
     border-radius: 10px;
     color: #4a17d5;
 }
