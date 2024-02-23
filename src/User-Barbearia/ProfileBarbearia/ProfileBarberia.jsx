@@ -731,6 +731,28 @@ const alternarAddServico = () => {
   setShowAddServico(true);
 };
 
+//Função para fechar o menu Adicionar Serviço
+const fecharExpandir = () => {
+  setShowAddServico(false);
+};
+
+// Adiciona um event listener para detectar cliques fora da div expandir
+useEffect(() => {
+  const handleOutsideClick = (event) => {
+    const expandirDiv = document.querySelector('.expandir');
+    if (expandirDiv && !expandirDiv.contains(event.target)) {
+      fecharExpandir();
+    }
+  };
+
+  document.addEventListener('mousedown', handleOutsideClick);
+
+  // Remove o event listener quando o componente é desmontado
+  return () => {
+    document.removeEventListener('mousedown', handleOutsideClick);
+  };
+}, []); // Executado apenas uma vez após a montagem do componente
+
 //Função para formartar o preço do serviço
 const formatarPreco = (valor) => {
   const numero = valor.replace(/\D/g, ''); // Remove caracteres não numéricos
