@@ -444,14 +444,6 @@
     border: 1px solid #1AEE07;
     transition: 0.5s;
 }
-.add_Service.expandir {
-    border: none;
-    position: absolute;
-    transition: 0.5s;
-    width: 100%;
-    height: 200px;
-    z-index: 11;
-}
 .add_Service:hover{
     border-radius: 5px;
     font-size: 15px;
@@ -462,25 +454,36 @@
     color: #1AEE07;
 }
 /*------------------------------*/
+.expandir {
+    position: relative;
+    transition: 0.5s;
+    width: 100%;
+    border-radius: 10px;
+    height: 100%;
+}
 .input_Container{
     position: absolute;
-    padding: 10px;
-    width: 320px;
+    padding: 5px;
+    width: 100%;
     height: auto;
-    background: #0c0e19;
+    background: #141728;
     border: 1px solid #4a17d5;
     border-radius: 10px;
-    color: #4a17d5;
+    color: #fff;
+    font-weight: bold;
+    font-size: 15px;
+    z-index: 5;
 }
 .input_AddService{
     outline: none;
     background: transparent;
     border-radius: 5px;
     font-size: 1em;
-    margin-bottom: 10px;
-    width: 300px;
+    margin-bottom: 6px;
+    margin-top: 6px;
+    width: 100%;
     height: 35px;
-    border: 1px solid #7849f4;
+    border: 1px solid #52626b;
     border-radius: 5px;
     color: #f6f6fc;
     padding-left: 5px;
@@ -489,15 +492,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 10px;
+    margin-top: 5px;
     width: 100%;
     color: #1AEE07;
     padding: 10px;
     background: transparent;
     margin-right: 5px;
     border: 1px solid #1AEE07;
-    font-size: 15px;
-    font-weight: 700;
     transition: 0.5s;
 }
 .button__Salve__Service:hover{

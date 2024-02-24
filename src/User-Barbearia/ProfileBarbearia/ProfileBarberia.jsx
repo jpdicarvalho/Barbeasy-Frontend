@@ -1354,79 +1354,77 @@ useEffect(() => {
           </div>
 
           {mostrarServico && (
-          <div className="divSelected">
+         <div className={`${showAddServico ? 'expandir' : ''}`}>
+          {showAddServico &&(
+            <div className="input_Container">
 
-          <div className='container__servicos'>
-            <div className='section__service'>
-            {servicos.length > 0 ?
-              servicos.map((servico, index) => (
-                <div key={index} className="box__service" 
-                >
-                  <p>{servico.name}</p>
-                </div>
-              )):
-              <p>Nenhum serviço cadastrado</p>
-            }
-            </div>
-          </div>
-
-          <div className={`add_Service ${showAddServico ? 'expandir' : ''}`} onClick={alternarAddServico}>
-            {showAddServico &&(
-              <div className="input_Container">
-                    <p className='information__span'>Qual o nome do serviço?</p>
-
-                    <input
-                    className="input_AddService"
-                    type="text"
-                    id="serviceName"
-                    name="serviceName"
-                    maxLength={30}
-                    onChange={e => setNomeServiço(e.target.value)}
-                    placeholder='Ex. Corte Social'
-                    />
-
-                    <p className='information__span'>Quanto vai custar?</p>
-                    <input
-                    className="input_AddService"
-                    type="text"
-                    id="precoServico"
-                    name="precoServico"
-                    value={precoServiço}
-                    onChange={handleChangePreco}
-                    maxLength={9}
-                    placeholder="R$ 00,00"
-                    required
+                  <p>Qual o nome do serviço?</p>
+                  <input
+                  className="input_AddService"
+                  type="text"
+                  id="serviceName"
+                  name="serviceName"
+                  maxLength={30}
+                  onChange={e => setNomeServiço(e.target.value)}
+                  placeholder='Ex. Corte Social'
                   />
 
-                    <p className='information__span'>Qual o tempo de duração?</p>
-                    <div className="inputs-horarios">
-                      {['15min','30min','45min','60min','75min', '90min'].map((tempo, index) => (
-                        <div
-                          key={index}
-                          className={`horario-item ${tempoDuracao.includes(tempo) ? 'Horario-selecionado' : ''}`}
-                          onClick={() => handleTempoDuracao(tempo)}
-                        >
-                          <p>{tempo}</p>
-                        </div>
-                      ))}
-                    </div>
-                    {messageAddService === "Serviço adicionado com sucesso!" ? (
-                        <p className="mensagem-sucesso">{messageAddService}</p>
-                        ) : (
-                        <p className="mensagem-erro">{messageAddService}</p>
-                    )}
-                     <button className="button__Salve__Service" onClick={adicionarServico}>
-                      Adicionar Serviço
-                    </button>
+                  <p>Quanto vai custar?</p>
+                  <input
+                  className="input_AddService"
+                  type="text"
+                  id="precoServico"
+                  name="precoServico"
+                  value={precoServiço}
+                  onChange={handleChangePreco}
+                  maxLength={9}
+                  placeholder="R$ 00,00"
+                  required
+                />
+
+                  <p style={{marginTop: '10px'}}>Qual o tempo de duração?</p>
+                  <div className="inputs-horarios">
+                    {['15min','30min','45min','60min','75min', '90min'].map((tempo, index) => (
+                      <div
+                        key={index}
+                        className={`horario-item ${tempoDuracao.includes(tempo) ? 'Horario-selecionado' : ''}`}
+                        onClick={() => handleTempoDuracao(tempo)}
+                      >
+                        <p>{tempo}</p>
+                      </div>
+                    ))}
+                  </div>
+                  {messageAddService === "Serviço adicionado com sucesso!" ? (
+                      <p className="mensagem-sucesso">{messageAddService}</p>
+                      ) : (
+                      <p className="mensagem-erro">{messageAddService}</p>
+                  )}
+                    <button className="button__Salve__Service" onClick={adicionarServico}>
+                    Adicionar Serviço
+                  </button>
+            </div>
+          )}
+          <div className="divSelected">
+            <div className='container__servicos'>
+              <div className='section__service'>
+              {servicos.length > 0 ?
+                servicos.map((servico, index) => (
+                  <div key={index} className="box__service" 
+                  >
+                    <p>{servico.name}</p>
+                  </div>
+                )):
+                <p>Nenhum serviço cadastrado</p>
+              }
               </div>
-            )}
-           
-              <span className="material-symbols-outlined">add</span>
-              Adicionar Serviço
-              
+            </div>
+
+            <button className="button__Salve__Service" onClick={ShowAddService}>
+                    Adicionar Serviço
+            </button>
           </div>
         </div>
-      )}
+          )}
 
         </div>
 
