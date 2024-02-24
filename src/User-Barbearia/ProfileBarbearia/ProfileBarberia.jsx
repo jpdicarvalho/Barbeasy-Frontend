@@ -730,7 +730,7 @@ const alternarServico = () => {
 };
 
 //Função para mostar o menu Adicionar Serviço
-const alternarAddServico = () => {
+const ShowAddService = () => {
   setShowAddServico(true);
 };
 
