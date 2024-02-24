@@ -1415,7 +1415,7 @@ useEffect(() => {
                         ) : (
                         <p className="mensagem-erro">{messageAddService}</p>
                     )}
-                     <button className="add_Service" onClick={adicionarServico}>
+                     <button className="button__Salve__Service" onClick={adicionarServico}>
                       Adicionar Serviço
                     </button>
               </div>

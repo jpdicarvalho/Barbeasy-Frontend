@@ -410,6 +410,7 @@
 }
 .section__service{
     width: 100%;
+    padding-top: 10px;
     overflow-y: scroll;
 }
 .section__service::-webkit-scrollbar {
@@ -495,6 +496,8 @@
     background: transparent;
     margin-right: 5px;
     border: 1px solid #1AEE07;
+    font-size: 15px;
+    font-weight: 700;
     transition: 0.5s;
 }
 .button__Salve__Service:hover{
