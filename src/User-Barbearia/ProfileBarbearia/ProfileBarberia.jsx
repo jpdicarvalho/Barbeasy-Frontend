@@ -719,6 +719,9 @@ const [showAddServico, setShowAddServico] = useState(false);
 const [nomeServiço, setNomeServiço] = useState('');
 const [precoServiço, setPrecoServiço] = useState('');
 const [tempoDuracao, setTempoDuracao] = useState([]);
+
+const [servicos, setServicos] = useState([]);
+
 const [messageAddService, setMessageAddService] = useState('');
 
 //Função para mostar o menu Serviço
@@ -815,8 +818,26 @@ const adicionarServico = () => {
           setMessageAddService(null);
         }, 3000);
     }
-  };
+};
 
+//Função para buscar os serviços cadastrados
+useEffect(() => {
+  axios.get(`https://api-user-barbeasy.up.railway.app/api/get-service/${barbeariaId}`)
+  .then(res => {
+    if (res.data.Success === "Success") {
+      setServicos(res.data.result);
+    }
+  })
+  .catch(err => {
+    setMessageAddService("Erro ao adicionar serviço!");
+
+    setTimeout(() => {
+      setMessageAddService(null);
+      setShowAddServico(false);
+      }, 3000);
+    console.error(err);
+  });
+}, []);
 /*----------------------------------*/
   const [mostrarNome, setMostrarNome] = useState(false);
   const [novoUserName, setNovoUserName] = useState('');
@@ -1333,10 +1354,20 @@ const adicionarServico = () => {
           </div>
 
           {mostrarServico && (
-        <div className="divSelected">
+          <div className="divSelected">
 
           <div className='container__servicos'>
-            
+            <div className='section__service'>
+            {servicos.length > 0 ?
+              servicos.map((servico, index) => (
+                <div key={index} className="box__service" 
+                >
+                  <p>{servico.name}</p>
+                </div>
+              )):
+              <p>Nenhum serviço cadastrado</p>
+            }
+            </div>
           </div>
 
           <div className={`add_Service ${showAddServico ? 'expandir' : ''}`} onClick={alternarAddServico}>
