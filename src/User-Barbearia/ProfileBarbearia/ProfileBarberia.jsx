@@ -1364,7 +1364,7 @@ useEffect(() => {
                   type="text"
                   id="serviceName"
                   name="serviceName"
-                  maxLength={30}
+                  maxLength={100}
                   onChange={e => setNomeServiço(e.target.value)}
                   placeholder='Ex. Corte Social'
                   />
