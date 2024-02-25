@@ -406,7 +406,7 @@
     flex-direction: column;
     overflow: hidden;
     width: 100%;
-    height: 250px;
+    height: 400px;
 }
 .section__service{
     width: 100%;
@@ -546,8 +546,9 @@
 .input_Container{
     position: absolute;
     padding: 5px;
+    padding-top: 30px;
     width: 100%;
-    height: auto;
+    height: 100%;
     background: #1c2035;
     border: 2px solid #4a17d5;
     border-radius: 6px;
