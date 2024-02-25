@@ -49,7 +49,6 @@ function ProfileBarbearia() {
     axios.post('https://api-user-barbeasy.up.railway.app/api/upload-image-user-barbearia', formdata)
     .then(res => {
       if(res.data.Status === "Success"){
-        console.log('Succeded')
         window.location.reload();
       }else{
         console.log('faled')
@@ -722,7 +721,7 @@ const [mostrarServico, setMostrarServico] = useState(false);
 
   const [newNomeServiço, setNewNomeServiço] = useState('');
   const [newPrecoServiço, setNewPrecoServiço] = useState('');
-  console.log(newNomeServiço, newPrecoServiço)
+
   const [servicos, setServicos] = useState([]);
   const [servicoClicado, setServicoClicado] = useState(null);
 
@@ -754,20 +753,27 @@ const [mostrarServico, setMostrarServico] = useState(false);
     setConfirmDeleteServico(!confirmDeleteServico);
   };
 
-  const fecharExpandir = () => {
-    setShowAddServico(false);
-    setConfirmDeleteServico(false)
-  };
+  //Função para fechar o menu Adicionar Serviço
+const fecharExpandir = () => {
+  setShowAddServico(false);
+};
 
-  // Adiciona um event listener para detectar cliques fora da div expandir
-  useEffect(() => {
+//Função para fechar o botão ConfirmDelete Serviço
+const fecharConfirmDeleteService = () => {
+  setConfirmDeleteServico(false)
+};
+
+// Adiciona um event listener para detectar cliques fora da div expandir
+useEffect(() => {
   const handleOutsideClick = (event) => {
     const expandirDiv = document.querySelector('.expandir');
     const sectionServiceButton = document.querySelector('.section__service__button');
 
-    if (expandirDiv && !expandirDiv.contains(event.target) || 
-        sectionServiceButton && !sectionServiceButton.contains(event.target)) {
+    if (expandirDiv && !expandirDiv.contains(event.target)){
       fecharExpandir();
+    }
+    if(sectionServiceButton && !sectionServiceButton.contains(event.target)){
+      fecharConfirmDeleteService();
     }
   };
 
@@ -777,7 +783,7 @@ const [mostrarServico, setMostrarServico] = useState(false);
   return () => {
     document.removeEventListener('mousedown', handleOutsideClick);
   };
-  }, []); // Executado apenas uma vez após a montagem do componente
+}, []); // Executado apenas uma vez após a montagem do componente
 
 //Função para formartar o preço do serviço
 const formatarPreco = (valor) => {
