@@ -434,7 +434,7 @@
     overflow: hidden;
 }
 .box__service.expandir__Service{
-    width: 300px;
+    width: 100%;
     height: auto;
     border-radius: 8px;
 }
@@ -448,6 +448,7 @@
     border: 1px solid red;
     color: #f6f6f6;
     border-radius: 8px;
+    font-size: 14px;
     width: 100px;
     height: 30px;
     transition: 0.5s;
@@ -503,6 +504,7 @@
     margin-right: 10px;
     background-color: transparent;
     border: 1px solid #7849f4;
+    font-size: 14px;
     color: #f6f6f6;
     transition: 0.5s;
 }
