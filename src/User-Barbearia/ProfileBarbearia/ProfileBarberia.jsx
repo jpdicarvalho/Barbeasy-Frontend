@@ -786,8 +786,8 @@ const formatarPreco = (valor) => {
   return `R$ ${valorFormatado}`;
 };
 
-//Função para adicionar o valor do serviço a variável definida
-const handleChangePreco = (event) => {
+  //Função para adicionar o valor do serviço a variável definida
+  const handleChangePreco = (event) => {
   const valor = event.target.value;
   // Filtrar apenas os números
   const numero = valor.replace(/\D/g, '');//Regex para aceitar apenas números no input
@@ -1444,8 +1444,8 @@ useEffect(() => {
                   <input
                   className="input_AddService"
                   type="text"
-                  id="serviceName"
-                  name="serviceName"
+                  id="AlterServiceName"
+                  name="AlterServiceName"
                   maxLength={30}
                   onChange={e => setNewNomeServiço(e.target.value)}
                   placeholder={servico.name}
@@ -1455,8 +1455,8 @@ useEffect(() => {
                   <input
                   className="input_AddService"
                   type="text"
-                  id="precoServico"
-                  name="precoServico"
+                  id="AlterPrecoServico"
+                  name="AlterPrecoServico"
                   value={precoServiço}
                   onChange={handleChangePreco}
                   maxLength={9}
