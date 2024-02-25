@@ -714,36 +714,59 @@ const getHorariosPorDia = (dia) => {
 };
 /*----------------------------------*/
 const [mostrarServico, setMostrarServico] = useState(false);
-const [showAddServico, setShowAddServico] = useState(false);
+  const [showAddServico, setShowAddServico] = useState(false);
 
-const [nomeServiço, setNomeServiço] = useState('');
-const [precoServiço, setPrecoServiço] = useState('');
-const [tempoDuracao, setTempoDuracao] = useState([]);
+  const [nomeServiço, setNomeServiço] = useState('');
+  const [precoServiço, setPrecoServiço] = useState('');
+  const [tempoDuracao, setTempoDuracao] = useState([]);
 
-const [servicos, setServicos] = useState([]);
+  const [newNomeServiço, setNewNomeServiço] = useState('');
+  const [newPrecoServiço, setNewPrecoServiço] = useState('');
+  console.log(newNomeServiço, newPrecoServiço)
+  const [servicos, setServicos] = useState([]);
+  const [servicoClicado, setServicoClicado] = useState(null);
 
-const [messageAddService, setMessageAddService] = useState('');
+  const [confirmDeleteServico, setConfirmDeleteServico] = useState(false);
 
-//Função para mostar o menu Serviço
-const alternarServico = () => {
-  setMostrarServico(!mostrarServico);
-};
+  const [messageAddService, setMessageAddService] = useState('');
 
-//Função para mostar o menu Adicionar Serviço
-const ShowAddService = () => {
-  setShowAddServico(true);
-};
+  //Função para mostar o menu Serviço
+  const alternarServico = () => {
+    setMostrarServico(!mostrarServico);
+  };
 
-//Função para fechar o menu Adicionar Serviço
-const fecharExpandir = () => {
-  setShowAddServico(false);
-};
+  //Função para mostar o menu Adicionar Serviço
+  const ShowAddService = () => {
+    setShowAddServico(true);
+  };
 
-// Adiciona um event listener para detectar cliques fora da div expandir
-useEffect(() => {
+  //Função para mostar o menu Adicionar Serviço
+  const ShowService = (index) => {
+    setServicoClicado(index);
+  };  
+
+  
+  const showConfirmDeleteService = () => {
+    setConfirmDeleteServico(!confirmDeleteServico);
+  };
+
+  const hideConfirmDeleteService = () => {
+    setConfirmDeleteServico(!confirmDeleteServico);
+  };
+
+  const fecharExpandir = () => {
+    setShowAddServico(false);
+    setConfirmDeleteServico(false)
+  };
+
+  // Adiciona um event listener para detectar cliques fora da div expandir
+  useEffect(() => {
   const handleOutsideClick = (event) => {
     const expandirDiv = document.querySelector('.expandir');
-    if (expandirDiv && !expandirDiv.contains(event.target)) {
+    const sectionServiceButton = document.querySelector('.section__service__button');
+
+    if (expandirDiv && !expandirDiv.contains(event.target) || 
+        sectionServiceButton && !sectionServiceButton.contains(event.target)) {
       fecharExpandir();
     }
   };
@@ -754,7 +777,7 @@ useEffect(() => {
   return () => {
     document.removeEventListener('mousedown', handleOutsideClick);
   };
-}, []); // Executado apenas uma vez após a montagem do componente
+  }, []); // Executado apenas uma vez após a montagem do componente
 
 //Função para formartar o preço do serviço
 const formatarPreco = (valor) => {
@@ -769,6 +792,7 @@ const handleChangePreco = (event) => {
   // Filtrar apenas os números
   const numero = valor.replace(/\D/g, '');//Regex para aceitar apenas números no input
   setPrecoServiço(formatarPreco(numero));
+  setNewPrecoServiço(formatarPreco(numero));
 };
 
 // Função responsável por adicionar ou remover o tempo de duração selecionado
@@ -1364,7 +1388,7 @@ useEffect(() => {
                   type="text"
                   id="serviceName"
                   name="serviceName"
-                  maxLength={100}
+                  maxLength={30}
                   onChange={e => setNomeServiço(e.target.value)}
                   placeholder='Ex. Corte Social'
                   />
@@ -1409,10 +1433,57 @@ useEffect(() => {
               <div className='section__service'>
               {servicos.length > 0 ?
                 servicos.map((servico, index) => (
-                  <div key={index} className="box__service" 
-                  >
-                    <p>{servico.name}</p>
+                  <div 
+                  key={index}
+                  className={`box__service ${servicoClicado === index ? 'expandir__Service' : ''}`}
+                  onClick={() => ShowService(index)}
+                >
+                  <p style={{marginBottom: '10px'}}>{servico.name}</p>
+                  
+                  <p>Deseja alterar o nome do serviço?</p>
+                  <input
+                  className="input_AddService"
+                  type="text"
+                  id="serviceName"
+                  name="serviceName"
+                  maxLength={30}
+                  onChange={e => setNewNomeServiço(e.target.value)}
+                  placeholder={servico.name}
+                  />
+
+                  <p>Deseja alterar o preço do serviço?</p>
+                  <input
+                  className="input_AddService"
+                  type="text"
+                  id="precoServico"
+                  name="precoServico"
+                  value={precoServiço}
+                  onChange={handleChangePreco}
+                  maxLength={9}
+                  placeholder={servico.preco}
+                  required
+                />
+                
+                  <div className="section__service__button">
+                    <button className={`button_ocult ${confirmDeleteServico ? 'section__confirm__delete' : ''}`}>
+                      Confirmar
+                    </button>
+
+                        <button className={`buttonChange__service ${confirmDeleteServico ? 'button_ocult' : ''}`}>
+                      Alterar
+                    </button>
+
+                    <button className={`delete__Service ${confirmDeleteServico ? 'button_ocult' : ''}`} onClick={showConfirmDeleteService}>
+                      Excluir
+                    </button>
+
+                    <button className={`button_ocult ${confirmDeleteServico ? 'section__cancel' : ''}`} onClick={hideConfirmDeleteService}>
+                      Cancelar
+                    </button>
+
                   </div>
+
+                </div>
                 )):
                 <p>Nenhum serviço cadastrado</p>
               }
@@ -1424,7 +1495,7 @@ useEffect(() => {
             </button>
           </div>
         </div>
-          )}
+      )}
 
         </div>
 
