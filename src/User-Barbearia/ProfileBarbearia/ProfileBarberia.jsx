@@ -801,7 +801,7 @@ const adicionarServico = () => {
             setTimeout(() => {
               setMessageAddService(null);
               window.location.reload()
-            }, 2000);
+            }, 1000);
             
           }
         })
@@ -877,7 +877,7 @@ const alterarDadosServico = (servicoId) =>{
             setTimeout(() => {
               setMessageChangeService(null);
               window.location.reload()
-            }, 2000);
+            }, 1000);
             
           }
         })
@@ -901,7 +901,7 @@ const deleteServico = (servicoId) => {
         setTimeout(() => {
           setMessageChangeService(null);
           window.location.reload()
-        }, 2000);
+        }, 1000);
 
       }
     })
