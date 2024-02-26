@@ -923,10 +923,11 @@ setShowAddServico(false);
 useEffect(() => {
 const handleOutsideClick = (event) => {
   const expandirDiv = document.querySelector('.expandir');
-  
+
   if (expandirDiv && !expandirDiv.contains(event.target)){
     fecharExpandir();
   }
+  
 };
 
 document.addEventListener('mousedown', handleOutsideClick);
