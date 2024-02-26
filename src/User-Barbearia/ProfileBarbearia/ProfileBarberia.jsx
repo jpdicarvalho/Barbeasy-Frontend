@@ -892,6 +892,28 @@ const alterarDadosServico = (servicoId) =>{
   }
 }
 
+//Função para apagar um serviço
+const deleteServico = (servicoId) => {
+  axios.delete(`https://api-user-barbeasy.up.railway.app/api/delete-service/${barbeariaId}/${servicoId}`)
+    .then(res => {
+      if (res.data.Success === "Success") {
+        setMessageChangeService("Serviço apagado com sucesso!");
+        setTimeout(() => {
+          setMessageChangeService(null);
+          window.location.reload()
+        }, 2000);
+
+      }
+    })
+    .catch(err => {
+      console.log("Erro ao apagar o serviço.", err);
+      setMessageChangeService("Erro ao apagar o serviço.");
+        setTimeout(() => {
+          setMessageChangeService(null);
+        }, 2000);
+    });
+}
+
 //Função para fechar o menu Adicionar Serviço
 const fecharExpandir = () => {
 setShowAddServico(false);
@@ -1536,14 +1558,15 @@ return () => {
                     ))}
                   </div>
                   <p style={{marginTop: '10px'}}>Duração Atual • {servico.duracao}</p>
-                  {messageChangeService === "Serviço alterado com sucesso!" ? (
+
+                  {messageChangeService === "Serviço alterado com sucesso!" || messageChangeService === "Serviço apagado com sucesso!" ? (
                       <p className="mensagem-sucesso">{messageChangeService}</p>
-                      ) : (
+                  ) : (
                       <p className="mensagem-erro">{messageChangeService}</p>
                   )}
                 
                   <div className="section__service__button">
-                    <button className={`button_ocult ${confirmDeleteServico ? 'section__confirm__delete' : ''}`}>
+                    <button className={`button_ocult ${confirmDeleteServico ? 'section__confirm__delete' : ''}`} onClick={() => deleteServico(servico.id)}>
                       Confirmar
                     </button>
 
