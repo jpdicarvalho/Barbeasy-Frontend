@@ -811,7 +811,7 @@ const adicionarServico = () => {
           setTimeout(() => {
             setMessageAddService(null);
             setShowAddServico(false);
-            }, 3000);
+            }, 2000);
           console.error(err);
         });
   }else{
@@ -877,7 +877,7 @@ const alterarDadosServico = (servicoId) =>{
             setTimeout(() => {
               setMessageChangeService(null);
               window.location.reload()
-            }, 3000);
+            }, 2000);
             
           }
         })
@@ -923,11 +923,9 @@ setShowAddServico(false);
 useEffect(() => {
 const handleOutsideClick = (event) => {
   const expandirDiv = document.querySelector('.expandir');
-
   if (expandirDiv && !expandirDiv.contains(event.target)){
     fecharExpandir();
   }
-  
 };
 
 document.addEventListener('mousedown', handleOutsideClick);
@@ -1052,7 +1050,6 @@ return () => {
     });
   };
 /*----------------------------------*/
-console.log(servicos)
   return (
     <>
     
@@ -1513,7 +1510,7 @@ console.log(servicos)
                   className={`box__service ${servicoClicado === index ? 'expandir__Service' : ''}`}
                   onClick={() => ShowService(index)}
                 >
-                  <p style={{marginBottom: '10px'}}>{servico.name} {servico.duracao}</p>
+                  <p style={{marginBottom: '10px'}}>{servico.name}</p>
                   
                   <p>Deseja alterar o nome do serviço?</p>
                   <input
