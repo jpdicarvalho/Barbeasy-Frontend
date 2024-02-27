@@ -7,7 +7,7 @@ import { MdOutlineEdit } from "react-icons/md";
 import { IoPersonOutline } from "react-icons/io5";
 import { MdOutlineBackup } from "react-icons/md";
 import { RiRadioButtonLine } from "react-icons/ri";
-import { BsShop } from "react-icons/bs";
+import { RiStore3Line } from "react-icons/ri";
 import { MdOutlineAddBusiness } from "react-icons/md";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import { MdAddRoad } from "react-icons/md";
@@ -1185,7 +1185,7 @@ return () => {
 <hr className='hr_menu'/>
 
         <div className="menu__main" onClick={alternarNomeBarbearia} >
-          <BsShop className='icon_menu'/>
+          <RiStore3Line className='icon_menu'/>
             Nome
             <IoIosArrowDown className={`arrow ${mostrarNomeBarbearia ? 'girar' : ''}`} id='arrow'/>
           </div>
