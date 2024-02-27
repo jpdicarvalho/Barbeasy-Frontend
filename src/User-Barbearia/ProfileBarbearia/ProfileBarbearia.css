@@ -201,6 +201,7 @@
     cursor: pointer;
 }
 .icon_menu{
+    font-size: 22px;
     color: #f6f6fc;
     margin-right: 10px;
     transition: 0.5s;
@@ -298,12 +299,14 @@
     top: 5px;
     left: 5px;
     color: #f6f6fc;
+    font-size: 25px;
 }
 #icon_street_number{
     position: absolute;
     top: 50px;
-    left: 2px;
+    left: 5px;
     color: #f6f6f6;
+    font-size: 25px;
 }
 #icon_input_neighborhood{
     position: absolute;
@@ -314,8 +317,9 @@
 #icon_input_city{
     position: absolute;
     top: 142px;
-    left: 2px;
+    left: 5px;
     color: #f6f6f6;
+    font-size: 21px;
 }
 .Dias_Trabalho_Rapido{
     font-weight: 600;

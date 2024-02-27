@@ -1293,7 +1293,7 @@ return () => {
                       placeholder={endereco[2]}
                       className="white-placeholder"
                       required
-                    /><GrMapLocation className='id="icon_input_neighborhood"'/>
+                    /><GrMapLocation id="icon_input_neighborhood"/>
                     
                     <input
                       type="text"
