@@ -14,6 +14,7 @@ import { MdAddRoad } from "react-icons/md";
 import { AiOutlineFieldNumber } from "react-icons/ai";
 import { GrMapLocation } from "react-icons/gr";
 import { IoMdLocate } from "react-icons/io";
+import { BsCalendar2Day } from "react-icons/bs";
 
 
 import './ProfileBarbearia.css';
@@ -1324,9 +1325,9 @@ return () => {
         <div className="container__menu">
 
         <div className="menu__main" onClick={alternarDiasTrabalho}>
-          <span className="material-symbols-outlined icon_menu">calendar_clock</span>
+          <BsCalendar2Day className='icon_menu'/>
             Definir Dias de Trabalho
-          <span className={`material-symbols-outlined arrow`} id='arrow'>expand_more</span>
+            <IoIosArrowDown className={`arrow ${mostrarDiasSemana ? 'girar' : ''}`} id='arrow'/>
         </div>
           
         {mostrarDiasSemana && (
