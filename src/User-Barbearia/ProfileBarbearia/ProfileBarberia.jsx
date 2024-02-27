@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import {motion} from 'framer-motion';
 import axios from 'axios';
+//Icons
+import { IoIosArrowDown } from "react-icons/io";
+import { MdOutlineEdit } from "react-icons/md";
+import { IoPersonOutline } from "react-icons/io5";
+import { MdOutlineBackup } from "react-icons/md";
+
+
 import './ProfileBarbearia.css';
 
 function ProfileBarbearia() {
@@ -1055,11 +1062,11 @@ return () => {
     
       <div className="container__profile">
 
-        <span className="material-symbols-outlined icon_back">arrow_back_ios_new</span>
+        <IoIosArrowDown className='icon_back'/>
 
               <div className="img__user_edit"> 
                   <label htmlFor="input-file-user" id="drop-area-user">
-                  <span className='material-symbols-outlined' id="editar">edit</span>
+                  <MdOutlineEdit id="editar"/>
                   <input
                     type="file"
                     accept="image/*"
@@ -1074,7 +1081,7 @@ return () => {
                     </div>
                   ) : (
                     <motion.div className="img-view-user">
-                      <span className="material-symbols-outlined icon_user_edit">person</span>
+                     <IoPersonOutline className='icon_user_edit'/>
                     </motion.div>
                   )}
 
@@ -1114,7 +1121,7 @@ return () => {
                 multiple
               />
               <motion.div className="img-view" style={{ width: bannerImages.length > 0 ? '150px' : '380px' }}>
-                <span className="material-symbols-outlined icon_upload">backup</span>
+                <MdOutlineBackup className='icon_upload'/>
                 <p>Incluir Imagem <br/>da Barbearia</p>
               </motion.div>
             </label>
