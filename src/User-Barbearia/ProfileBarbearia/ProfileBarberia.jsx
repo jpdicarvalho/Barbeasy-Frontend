@@ -6,6 +6,15 @@ import { IoIosArrowDown } from "react-icons/io";
 import { MdOutlineEdit } from "react-icons/md";
 import { IoPersonOutline } from "react-icons/io5";
 import { MdOutlineBackup } from "react-icons/md";
+import { RiRadioButtonLine } from "react-icons/ri";
+import { IoIosArrowDown } from "react-icons/io";
+import { BsShop } from "react-icons/bs";
+import { MdOutlineAddBusiness } from "react-icons/md";
+import { HiOutlineLocationMarker } from "react-icons/hi";
+import { MdAddRoad } from "react-icons/md";
+import { AiOutlineFieldNumber } from "react-icons/ai";
+import { GrMapLocation } from "react-icons/gr";
+import { IoMdLocate } from "react-icons/io";
 
 
 import './ProfileBarbearia.css';
@@ -1139,11 +1148,12 @@ return () => {
 
           <div className="menu__main" onClick={alternarStatus}>
           {status === 'Aberta' ?
-            <span className="material-symbols-outlined icon_menu" style={{color: '#1AEE07'}}>radio_button_checked</span>
+            <RiRadioButtonLine className='icon_menu' style={{color: '#1AEE07'}}/>
             :
-            <span className="material-symbols-outlined icon_menu">radio_button_checked</span>
+            <RiRadioButtonLine className='icon_menu'/>
             } Status
-            <span className={`material-symbols-outlined arrow ${mostrarStatus ? 'girar' : ''}`} id='arrow'>expand_more</span>
+            <IoIosArrowDown className={`arrow ${mostrarStatus ? 'girar' : ''}`} id='arrow'/>
+
           </div>
           
 
@@ -1176,9 +1186,9 @@ return () => {
 <hr className='hr_menu'/>
 
         <div className="menu__main" onClick={alternarNomeBarbearia} >
-          <span className="material-symbols-outlined icon_menu">store</span>
+          <BsShop className='icon_menu'/>
             Nome
-            <span className={`material-symbols-outlined arrow ${mostrarNomeBarbearia ? 'girar' : ''}`} id='arrow'>expand_more</span>
+            <IoIosArrowDown className={`arrow ${mostrarNomeBarbearia ? 'girar' : ''}`} id='arrow'/>
           </div>
 
           {mostrarNomeBarbearia && (
@@ -1205,7 +1215,7 @@ return () => {
                 className="white-placeholder"
                 maxLength={30}
                 required
-              /> <span className="material-symbols-outlined icon_input">add_business</span>
+              /> <MdOutlineAddBusiness className='icon_input'/>
             </div>
           
             <button className={`button__change ${novoNomeBarbearia ? 'show' : ''}`} onClick={alterarNomeBarbearia}>
@@ -1218,9 +1228,9 @@ return () => {
 <hr className='hr_menu' />
 
         <div className="menu__main" onClick={alternarEndereco} >
-            <span className="material-symbols-outlined icon_menu">pin_drop</span>
+            <HiOutlineLocationMarker className='icon_menu'/>
               Endereço
-              <span className={`material-symbols-outlined arrow ${mostrarEndereco ? 'girar' : ''}`} id='arrow'>expand_more</span>
+              <IoIosArrowDown className={`arrow ${mostrarEndereco ? 'girar' : ''}`} id='arrow'/>
         </div>
 
         {mostrarEndereco && (
@@ -1250,7 +1260,7 @@ return () => {
                         placeholder={endereco[0]}
                         className="white-placeholder"
                         required
-                      /> <span className="material-symbols-outlined icon_input">add_road</span>
+                      /> <MdAddRoad className='icon_input'/>
 
                     <input
                       type="text"
@@ -1267,7 +1277,7 @@ return () => {
                       placeholder={endereco[1]}
                       className="white-placeholder"
                       required
-                    />{' '} <span className="material-symbols-outlined" id="icon_street_number">home_pin</span>
+                    />{' '} <AiOutlineFieldNumber id="icon_street_number"/>
                     
                     <input
                       type="text"
@@ -1284,7 +1294,7 @@ return () => {
                       placeholder={endereco[2]}
                       className="white-placeholder"
                       required
-                    /><span className="material-symbols-outlined" id="icon_input_neighborhood">route</span>
+                    /><GrMapLocation className='id="icon_input_neighborhood"'/>
                     
                     <input
                       type="text"
@@ -1301,7 +1311,7 @@ return () => {
                       placeholder={endereco[3]}
                       className="white-placeholder"
                       required
-                    />{' '} <span className="material-symbols-outlined" id="icon_input_city">map</span>
+                    />{' '} <IoMdLocate id="icon_input_city"/>
                       </div>
 
                       <button className={`button__change ${valuesEndereco.city ? 'show' : ''}`} onClick={alterarEndereco}>
