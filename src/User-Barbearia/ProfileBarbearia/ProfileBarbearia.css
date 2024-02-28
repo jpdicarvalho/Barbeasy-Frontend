@@ -239,6 +239,9 @@
     color: white;
     transition: 0.5s;
 }
+.selectedOption {
+    color: white;
+  }
 /*Referente ao input status*/
 #status{
     display: none;

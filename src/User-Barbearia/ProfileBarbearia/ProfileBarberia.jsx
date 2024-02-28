@@ -361,7 +361,7 @@ const [messageAgenda, setMessageAgenda] = useState('');
           id={dia}
           checked={daysWeekSelected.includes(dia)}
           onChange={() => handleCheckboxChange(dia)}
-          className="days-switch" // Adicione a classe aqui
+          className="days-switch" 
         />
         <label htmlFor={dia} className="switch">
           <span className="slider"></span>
@@ -1357,15 +1357,15 @@ return () => {
 
         <p className='information__span'>Escolha a quantidade de dias a serem disponibilizados para agendamento:</p>
         <div className="container__checkBox">
-          <span>Próximos 7 dias</span>
+          <span className={QntDaysSelected === '7' ? 'selectedOption' : ''}>Próximos 7 dias</span>
           <CheckboxQntDias value="7" />
         </div>
         <div className="container__checkBox">
-          <span>Próximos 15 dias</span>
+          <span className={QntDaysSelected === '15' ? 'selectedOption' : ''}>Próximos 15 dias</span>
           <CheckboxQntDias value="15" />
         </div>
         <div className="container__checkBox">
-          <span>Próximos 30 dias</span>
+          <span className={QntDaysSelected === '30' ? 'selectedOption' : ''}>Próximos 30 dias</span>
           <CheckboxQntDias value="30" />
         </div>
         <button className={`button__change ${QntDaysSelected.length > 0 && daysWeekSelected.length > 0 ? 'show' : ''}`} onClick={updateAgenda}>
