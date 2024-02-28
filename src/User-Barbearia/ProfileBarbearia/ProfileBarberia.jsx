@@ -15,6 +15,9 @@ import { AiOutlineFieldNumber } from "react-icons/ai";
 import { GrMapLocation } from "react-icons/gr";
 import { IoMdLocate } from "react-icons/io";
 import { BsCalendar2Day } from "react-icons/bs";
+import { TbClockHour4 } from "react-icons/tb";
+import { GiRazor } from "react-icons/gi";
+import { RiDeleteBin6Line } from "react-icons/ri";
 
 
 import './ProfileBarbearia.css';
@@ -1368,9 +1371,9 @@ return () => {
 <hr className='hr_menu'/>
 
       <div className="menu__main" onClick={alternarHorario}>
-          <span className="material-symbols-outlined icon_menu">schedule</span>
-              Definir Horários de Trabalho
-              <span className={`material-symbols-outlined arrow ${mostrarHorario ? 'girar' : ''}`} id='arrow'>expand_more</span>
+          <TbClockHour4 className='icon_menu'/>
+            Definir Horários de Trabalho
+          <IoIosArrowDown className={`arrow ${mostrarHorario ? 'girar' : ''}`} id='arrow'/>
       </div>
 
       {mostrarHorario && (
@@ -1461,9 +1464,9 @@ return () => {
 <hr className='hr_menu'/>
 
           <div className="menu__main" onClick={alternarServico}>
-          <span className="material-symbols-outlined icon_menu">cut</span>
+            <GiRazor className='icon_menu'/>
               Definir Serviços
-              <span className={`material-symbols-outlined arrow ${mostrarServico ? 'girar' : ''}`} id='arrow'>expand_more</span>
+            <IoIosArrowDown className={`arrow ${mostrarServico ? 'girar' : ''}`} id='arrow'/>
           </div>
 
           {mostrarServico && (
@@ -1582,7 +1585,7 @@ return () => {
                     </button>
 
                     <button className={`delete__Service ${confirmDeleteServico ? 'button_ocult' : ''}`} onClick={showConfirmDeleteService}>
-                      Excluir
+                    <RiDeleteBin6Line />
                     </button>
 
                     <button className={`button_ocult ${confirmDeleteServico ? 'section__cancel' : ''}`} onClick={hideConfirmDeleteService}>
