@@ -18,6 +18,13 @@ import { BsCalendar2Day } from "react-icons/bs";
 import { TbClockHour4 } from "react-icons/tb";
 import { GiRazor } from "react-icons/gi";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { FaRegUser } from "react-icons/fa6";
+import { FaUserEdit } from "react-icons/fa";
+import { MdOutlineEmail } from "react-icons/md";
+import { MdOutlineAlternateEmail } from "react-icons/md";
+import { MdPassword } from "react-icons/md";
+import { PiPassword } from "react-icons/pi";
+import { PiPasswordDuotone } from "react-icons/pi";
 
 
 import './ProfileBarbearia.css';
@@ -1585,7 +1592,7 @@ return () => {
                     </button>
 
                     <button className={`delete__Service ${confirmDeleteServico ? 'button_ocult' : ''}`} onClick={showConfirmDeleteService}>
-                    <RiDeleteBin6Line />
+                      <RiDeleteBin6Line />
                     </button>
 
                     <button className={`button_ocult ${confirmDeleteServico ? 'section__cancel' : ''}`} onClick={hideConfirmDeleteService}>
@@ -1618,9 +1625,9 @@ return () => {
         <div className="container__menu">
 
         <div className="menu__main" onClick={alternarNome}>
-          <span className="material-symbols-outlined icon_menu">person</span>
+          <FaRegUser className='icon_menu'/>
             Nome
-            <span className={`material-symbols-outlined arrow ${mostrarNome ? 'girar' : ''}`} id='arrow'>expand_more</span>
+          <IoIosArrowDown className={`arrow ${mostrarNome ? 'girar' : ''}`} id='arrow'/>
           </div>
 
           {mostrarNome && (
@@ -1645,7 +1652,7 @@ return () => {
                 placeholder={userNameBarbearia}
                 className="white-placeholder"
                 required
-              />{' '}<span className="material-symbols-outlined icon_input">person_edit</span>
+              />{' '}<FaUserEdit className='icon_input'/>
             </div>
 
             <button className={`button__change ${novoUserName ? 'show' : ''}`} onClick={alterarUserName}>
@@ -1658,9 +1665,9 @@ return () => {
 <hr className='hr_menu'/>
 
           <div className="menu__main" onClick={alternarEmail} >
-            <span className="material-symbols-outlined icon_menu">mail</span>
+            <MdOutlineEmail className='icon_menu'/>
               Email
-            <span className={`material-symbols-outlined arrow ${mostrarEmail ? 'girar' : ''}`} id='arrow'>expand_more</span>
+            <IoIosArrowDown className={`arrow ${mostrarEmail ? 'girar' : ''}`} id='arrow'/>
           </div>
 
           {mostrarEmail && (
@@ -1695,7 +1702,7 @@ return () => {
                 placeholder={currentEmail}
                 className="white-placeholder"
                 required
-              />{' '}<span className="material-symbols-outlined icon_input">alternate_email</span>
+              />{' '}<MdOutlineAlternateEmail className='icon_input'/>
             </div>
 
             <button className={`button__change ${newEmail ? 'show' : ''}`} onClick={alterarEmail}>
@@ -1708,10 +1715,10 @@ return () => {
 <hr className='hr_menu' />
 
 <div className="menu__main" onClick={alternarSenha}>
-          <span className="material-symbols-outlined icon_menu">password</span>
+          <MdPassword className='icon_menu'/>
             Senha
-            <span className={`material-symbols-outlined arrow ${mostrarSenha ? 'girar' : ''}`} id='arrow'>expand_more</span>
-          </div>
+          <IoIosArrowDown className={`arrow ${mostrarSenha ? 'girar' : ''}`} id='arrow'/>
+            </div>
 
           {mostrarSenha && (
             <div className="divSelected">
@@ -1736,7 +1743,7 @@ return () => {
                 }}
                 placeholder="Senha Atual"
                 required
-                />{' '} <span className="material-symbols-outlined icon_input">lock</span>
+                />{' '}<PiPassword className='icon_input'/>
             </div>
 
             <div className="inputBox">
@@ -1753,7 +1760,7 @@ return () => {
                 }}
                 placeholder="Nova Senha"
                 required
-                />{' '} <span className="material-symbols-outlined icon_input">lock_reset</span>
+                />{' '} <PiPasswordDuotone className='icon_input'/>
             </div>
 
             <button className={`button__change ${newPassword ? 'show' : ''}`} onClick={alterarSenha}>

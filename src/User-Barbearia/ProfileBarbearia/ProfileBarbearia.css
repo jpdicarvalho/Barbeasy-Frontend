@@ -416,6 +416,7 @@
 .section__service{
     width: 100%;
     padding-top: 10px;
+    border-radius: 5px;
     overflow-y: scroll;
 }
 .section__service::-webkit-scrollbar {
@@ -441,7 +442,7 @@
 .box__service.expandir__Service{
     width: 100%;
     height: auto;
-    border-radius: 8px;
+    border-radius: 9px;
 }
 .section__service__button{
     margin-top: 10px;
@@ -453,9 +454,9 @@
     border: 1px solid red;
     color: #f6f6f6;
     border-radius: 8px;
-    font-size: 14px;
-    width: 100px;
-    height: 30px;
+    font-size: 20px;
+    width: 40px;
+    height: auto;
     transition: 0.5s;
 }
 .buttonChange__service.button_ocult{
