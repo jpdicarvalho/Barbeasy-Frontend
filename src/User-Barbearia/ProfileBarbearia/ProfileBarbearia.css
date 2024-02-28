@@ -310,9 +310,10 @@
 }
 #icon_input_neighborhood{
     position: absolute;
-    top: 95px;
-    left: 2px;
+    top: 98px;
+    left: 6px;
     color: #f6f6f6;
+    font-size: 20px;
 }
 #icon_input_city{
     position: absolute;
