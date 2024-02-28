@@ -1350,7 +1350,7 @@ return () => {
         <p className='information__span'>Selecione os dias da semana em que deseja trabalhar:</p>
         {diasSemana.map((dia, index) => (
           <div className="container__checkBox" key={index}>
-            <span>{dia}</span>
+            <span className={daysWeekSelected.includes(dia) ? 'selectedDay' : ''}>{dia}</span>
             <Checkbox dia={dia} />
           </div>
         ))}

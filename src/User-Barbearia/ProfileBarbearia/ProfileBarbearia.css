@@ -235,6 +235,9 @@
     padding-top: 5px;
     padding-bottom: 5px;
 }
+.selectedDay {
+    color: white; /* Define a cor do texto como branco */
+}
 /*Referente ao input status*/
 #status{
     display: none;
