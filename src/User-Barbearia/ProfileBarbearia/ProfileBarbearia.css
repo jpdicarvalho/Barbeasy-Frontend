@@ -235,8 +235,9 @@
     padding-top: 5px;
     padding-bottom: 5px;
 }
-.selectedDay {
-    color: white; /* Define a cor do texto como branco */
+.defined__day {
+    color: white;
+    transition: 0.5s;
 }
 /*Referente ao input status*/
 #status{
