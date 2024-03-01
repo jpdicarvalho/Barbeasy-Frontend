@@ -886,37 +886,44 @@ const handleNewTempoDuracao = (tempo) => {
 }
 
 //Função responsável por mandar as alterações do serviço cadastrado
-const alterarDadosServico = (servicoId) =>{
-
-  if(newNomeServiço.length > 0 || newPrecoServiço.length > 0 || newTempoDuracao.length > 0){
-
+const alterarDadosServico = (servicoId) => {
+  if (newNomeServiço.length > 0 || newPrecoServiço.length > 0 || newTempoDuracao.length > 0) {
     const newServico = {
       newNomeServiço,
       newPrecoServiço,
       servico_Id: servicoId,
       newTempoDuracao: newTempoDuracao[0]
-    }
+    };
     axios.post(`https://api-user-barbeasy.up.railway.app/api/update-service/${barbeariaId}`, newServico)
-        .then(res => {
-          if (res.data.Success === "Success") {
-            setMessageChangeService("Serviço alterado com sucesso!");
-            setTimeout(() => {
-              setMessageChangeService(null);
-              window.location.reload()
-            }, 1000);
-            
-          }
-        })
-        .catch(err => {
-          console.log("Erro ao alterar informação do serviço.", err);
-        });
-  }else{
+      .then(res => {
+        if (res.data.Success === "Success") {
+          setMessageChangeService("Serviço alterado com sucesso!");
+          setTimeout(() => {
+            setMessageChangeService(null);
+            // Atualiza dinamicamente a lista de serviços após a alteração
+            axios.get(`https://api-user-barbeasy.up.railway.app/api/get-service/${barbeariaId}`)
+              .then(res => {
+                if (res.data.Success === "Success") {
+                  setServicos(res.data.result);
+                  setServicoClicado(null);
+                }
+              })
+              .catch(err => {
+                console.error("Erro ao buscar serviços:", err);
+              });
+          }, 2000);
+        }
+      })
+      .catch(err => {
+        console.log("Erro ao alterar informação do serviço.", err);
+      });
+  } else {
     setMessageChangeService("Nenhuma alteração identificada.");
     setTimeout(() => {
-       setMessageChangeService(null);
+      setMessageChangeService(null);
     }, 2000);
   }
-}
+};
 
 //Função para apagar um serviço
 const deleteServico = (servicoId) => {
