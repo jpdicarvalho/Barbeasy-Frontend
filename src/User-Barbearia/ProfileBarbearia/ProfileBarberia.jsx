@@ -738,49 +738,33 @@ const getHorariosPorDia = (dia) => {
   }
 };
 /*----------------------------------*/
-const [mostrarServico, setMostrarServico] = useState(false);
-const [showAddServico, setShowAddServico] = useState(false);
-
-const [nomeServiço, setNomeServiço] = useState('');
-const [precoServiço, setPrecoServiço] = useState('');
-const [tempoDuracao, setTempoDuracao] = useState([]);
-
-const [newNomeServiço, setNewNomeServiço] = useState('');
-const [newPrecoServiço, setNewPrecoServiço] = useState('');
-const [newTempoDuracao, setNewTempoDuracao] = useState([]);
-
-const [servicos, setServicos] = useState([]);
-const [servicoClicado, setServicoClicado] = useState(null);
-
-const [confirmDeleteServico, setConfirmDeleteServico] = useState(false);
-
-const [messageAddService, setMessageAddService] = useState('');
-const [messageChangeService, setMessageChangeService] = useState('');
-
+/*===== Functions for all functions ======*/
 //Função para mostar o menu Serviço
-const alternarServico = () => {
-  setMostrarServico(!mostrarServico);
-};
+const [mostrarServico, setMostrarServico] = useState(false);
+const [servicos, setServicos] = useState([]);
 
-//Função para mostar o menu Adicionar Serviço
-const ShowAddService = () => {
-  setShowAddServico(true);
-};
+  //Função para mostra os serviços cadastrados
+  const alternarServico = () => {
+    setMostrarServico(!mostrarServico);
+  };
 
-//Função para mostar o menu Adicionar Serviço
-const ShowService = (index) => {
-  setServicoClicado(index);
-};  
+  //Função para buscar os serviços cadastrados
+  const obterServicos = () =>{
+    axios.get(`https://api-user-barbeasy.up.railway.app/api/get-service/${barbeariaId}`)
+  .then(res => {
+    if (res.data.Success === "Success") {
+      setServicos(res.data.result);
+    }
+  })
+  .catch(err => {
+    console.error("Erro ao buscar serviços!", err);
+  });
+  }
 
-//Função para alterar o estado da variável que mostra o botão ConfirmDelete
-const showConfirmDeleteService = () => {
-  setConfirmDeleteServico(!confirmDeleteServico);
-};
-
-//Função para alterar o estado da variável que oculta o botão ConfirmDelete
-const hideConfirmDeleteService = () => {
-  setConfirmDeleteServico(!confirmDeleteServico);
-};
+  //hook para chamar a função de obtersServiço
+  useEffect(() => {
+    obterServicos()
+  }, []);
 
 //Função para formartar o preço do serviço
 const formatarPreco = (valor) => {
@@ -788,129 +772,173 @@ const formatarPreco = (valor) => {
   const valorFormatado = (Number(numero) / 100).toFixed(2).replace('.', ',').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
   return `R$ ${valorFormatado}`;
 };
+/*===== Section to add a new service ======*/
+  const [showAddServico, setShowAddServico] = useState(false);
 
-//Função para adicionar o valor do serviço a variável definida
-const handleChangePreco = (event) => {
-  const valor = event.target.value;
-  // Filtrar apenas os números
-  const numero = valor.replace(/\D/g, '');//Regex para aceitar apenas números no input
-  setPrecoServiço(formatarPreco(numero));
-  setNewPrecoServiço(formatarPreco(numero));
-};
+  const [newNameService, setNewNameService] = useState('');
+  const [newPriceService, setNewPriceService] = useState('');
+  const [newServiceDuration, setNewServiceDuration] = useState([]);
 
-// Função responsável por adicionar ou remover o tempo de duração selecionado
-const handleTempoDuracao = (tempo) => {
+  const [messageAddService, setMessageAddService] = useState('');
+
+  //Função para mostar o menu Adicionar Serviço
+  const ShowAddService = () => {
+    setShowAddServico(true);
+  };
+  //Função para fechar o menu Adicionar Serviço
+  const fecharExpandir = () => {
+    setShowAddServico(false);
+  };
+
+  //Função para adicionar o valor do serviço a variável definida
+  const AddNewPriceService = (event) => {
+    const valor = event.target.value;
+    // Filtrar apenas os números
+    const numero = valor.replace(/\D/g, '');//Regex para aceitar apenas números no input
+    setNewPriceService(formatarPreco(numero));
+  };
+
+  // Função responsável por adicionar ou remover o novo tempo de duração do serviço a ser cadastrado
+  const handleNewServiceDuration = (tempo) => {
   // Verifica se já existem dois tempos selecionados e se o tempo clicado não está entre eles
-  if (tempoDuracao.length === 1 && !tempoDuracao.includes(tempo)) {
+  if (newServiceDuration.length === 1 && !newServiceDuration.includes(tempo)) {
       // Caso positivo, não faz nada e retorna
       return;
     }
 
       // Verifica se o tempo já está selecionado
-    if (tempoDuracao.includes(tempo)) {
+    if (newServiceDuration.includes(tempo)) {
       // Se o tempo já estiver selecionado, remove-o da seleção
-      setTempoDuracao(tempoDuracao.filter(item => item !== tempo));
+      setNewServiceDuration(newServiceDuration.filter(item => item !== tempo));
     } else {
         // Se o tempo não estiver selecionado, adiciona-o à seleção
-        setTempoDuracao([...tempoDuracao, tempo]);
+        setNewServiceDuration([...newServiceDuration, tempo]);
     }
-}
+  }
 
-//Função para cadastrar um novo serviço
-const adicionarServico = () => {
-  if(nomeServiço && precoServiço && tempoDuracao[0]){
-    axios.post(`https://api-user-barbeasy.up.railway.app/api/add-service/${barbeariaId}`, {nameService: nomeServiço, priceService: precoServiço, time: tempoDuracao[0]})
-        .then(res => {
-          if (res.data.Success === "Success") {
-            setMessageAddService("Serviço adicionado com sucesso!");
+  //Função para cadastrar um novo serviço
+  const addNewService = () => {
+    // Verifica se os campos obrigatórios estão preenchidos
+    if(newNameService && newPriceService && newServiceDuration[0]){
+      // Cria um objeto com os dados do serviço a serem enviados
+      const newServiceData = {
+        newNameService,
+        newPriceService,
+        newDuration: newServiceDuration[0]
+      };
+
+      axios.post(`https://api-user-barbeasy.up.railway.app/api/add-service/${barbeariaId}`, newServiceData)
+          .then(res => {
+            if (res.data.Success === "Success") {
+              setMessageAddService("Serviço adicionado com sucesso!");
+              obterServicos()
+              setTimeout(() => {
+                setMessageAddService(null);
+                setNewNameService('')
+                setNewPriceService('')
+                setNewServiceDuration('')
+                fecharExpandir()
+              }, 2000);
+              
+            }
+          })
+          .catch(err => {
+            setMessageAddService("Erro ao adicionar serviço!");
 
             setTimeout(() => {
               setMessageAddService(null);
-              window.location.reload()
-            }, 1000);
-            
-          }
-        })
-        .catch(err => {
-          setMessageAddService("Erro ao adicionar serviço!");
-
-          setTimeout(() => {
-            setMessageAddService(null);
-            setShowAddServico(false);
-            }, 2000);
-          console.error(err);
-        });
-  }else{
-    setMessageAddService("Preencha todos os campos!");
-      setTimeout(() => {
-        setMessageAddService(null);
-      }, 3000);
-  }
-};
-
-//Função para buscar os serviços cadastrados
-useEffect(() => {
-  axios.get(`https://api-user-barbeasy.up.railway.app/api/get-service/${barbeariaId}`)
-  .then(res => {
-    if (res.data.Success === "Success") {
-      setServicos(res.data.result);
+              setShowAddServico(false);
+              }, 3000);
+            console.error(err);
+          });
+    }else{
+      setMessageAddService("Preencha todos os campos!");
+        setTimeout(() => {
+          setMessageAddService(null);
+        }, 3000);
     }
-  })
-  .catch(err => {
-    setMessageAddService("Erro ao adicionar serviço!");
+  };
 
-    setTimeout(() => {
-      setMessageAddService(null);
-      setShowAddServico(false);
-      }, 3000);
-    console.error(err);
-  });
-}, []);
+  // Adiciona um event listener para detectar cliques fora da div expandir
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      const expandirDiv = document.querySelector('.expandir');
 
-// Função responsável por adicionar ou remover o tempo de duração selecionado
-const handleNewTempoDuracao = (tempo) => {
-  // Verifica se já existem dois tempos selecionados e se o tempo clicado não está entre eles
-  if (newTempoDuracao.length === 1 && !newTempoDuracao.includes(tempo)) {
-      // Caso positivo, não faz nada e retorna
-      return;
-    }
-
-      // Verifica se o tempo já está selecionado
-    if (newTempoDuracao.includes(tempo)) {
-      // Se o tempo já estiver selecionado, remove-o da seleção
-      setNewTempoDuracao(newTempoDuracao.filter(item => item !== tempo));
-    } else {
-        // Se o tempo não estiver selecionado, adiciona-o à seleção
-        setNewTempoDuracao([...newTempoDuracao, tempo]);
-    }
-}
-
-//Função responsável por mandar as alterações do serviço cadastrado
-const alterarDadosServico = (servicoId) => {
-  if (newNomeServiço.length > 0 || newPrecoServiço.length > 0 || newTempoDuracao.length > 0) {
-    const newServico = {
-      newNomeServiço,
-      newPrecoServiço,
-      servico_Id: servicoId,
-      newTempoDuracao: newTempoDuracao[0]
+      if (expandirDiv && !expandirDiv.contains(event.target)){
+        fecharExpandir();
+      }
     };
-    axios.post(`https://api-user-barbeasy.up.railway.app/api/update-service/${barbeariaId}`, newServico)
+
+    document.addEventListener('mousedown', handleOutsideClick);
+
+    // Remove o event listener quando o componente é desmontado
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, []);
+
+/*===== Section to edit a current service ======*/
+//Função para mostar o menu de edição de um serviço
+  const [selectedService, setSelectedService] = useState(null);
+
+  const [editedServiceName, setEditedServiceName] = useState('');
+  const [editedServicePrice, setEditedServicePrice] = useState('');
+  const [editedServiceDuration, setEditedServiceDuration] = useState([]);
+
+  const [messageEditedService, setMessageEditedService] = useState('');
+
+  //Função para mostrar o menu de edição de um serviço selecionado
+  const ShowServiceEditMenu = (index) => {
+    setSelectedService(index);
+  }; 
+
+  //Função para adicionar o preço editado do serviço, a variável definida
+  const handleEditedServicePrice = (event) => {
+    const valor = event.target.value;
+    // Filtrar apenas os números
+    const numero = valor.replace(/\D/g, '');//Regex para aceitar apenas números no input
+    setEditedServicePrice(formatarPreco(numero));
+  };
+
+  // Função responsável por adicionar ou remover o tempo de duração selecionado, no menu de edição do serviço
+  const handleEditedServiceDuration = (timeDurationEdited) => {
+    // Verifica se já existem dois tempos selecionados e se o tempo clicado não está entre eles
+    if (editedServiceDuration.length === 1 && !editedServiceDuration.includes(timeDurationEdited)) {
+        // Caso positivo, não faz nada e retorna
+        return;
+      }
+
+        // Verifica se o tempo já está selecionado
+      if (editedServiceDuration.includes(timeDurationEdited)) {
+        // Se o tempo já estiver selecionado, remove-o da seleção
+        setEditedServiceDuration(editedServiceDuration.filter(item => item !== timeDurationEdited));
+      } else {
+          // Se o tempo não estiver selecionado, adiciona-o à seleção
+          setEditedServiceDuration([...editedServiceDuration, timeDurationEdited]);
+      }
+  }
+  //Função para enviar as informações do serviço alterado
+  const changeServiceData = (servicoId) => {
+    // Verifica se os campos obrigatórios estão preenchidos
+    if (editedServiceName || editedServicePrice || editedServiceDuration[0]) {
+      // Cria um objeto com os dados do serviço a serem enviados
+      const editedService = {
+        editedServiceName,
+        editedServicePrice,
+        servico_Id: servicoId,
+        editedDuration: editedServiceDuration[0]
+      };
+      axios.post(`https://api-user-barbeasy.up.railway.app/api/update-service/${barbeariaId}`, editedService)
       .then(res => {
         if (res.data.Success === "Success") {
-          setMessageChangeService("Serviço alterado com sucesso!");
+          setMessageEditedService("Serviço alterado com sucesso!");
+          obterServicos()
           setTimeout(() => {
-            setMessageChangeService(null);
-            // Atualiza dinamicamente a lista de serviços após a alteração
-            axios.get(`https://api-user-barbeasy.up.railway.app/api/get-service/${barbeariaId}`)
-              .then(res => {
-                if (res.data.Success === "Success") {
-                  setServicos(res.data.result);
-                  setServicoClicado(null);
-                }
-              })
-              .catch(err => {
-                console.error("Erro ao buscar serviços:", err);
-              });
+            setMessageEditedService(null);
+            setEditedServiceName('')
+            setEditedServicePrice('')
+            setEditedServiceDuration('')
+            setSelectedService(null)
           }, 2000);
         }
       })
@@ -918,57 +946,49 @@ const alterarDadosServico = (servicoId) => {
         console.log("Erro ao alterar informação do serviço.", err);
       });
   } else {
-    setMessageChangeService("Nenhuma alteração identificada.");
+    setMessageEditedService("Nenhuma alteração identificada.");
     setTimeout(() => {
-      setMessageChangeService(null);
+       setMessageEditedService(null);
     }, 2000);
   }
-};
-
-//Função para apagar um serviço
-const deleteServico = (servicoId) => {
-  axios.delete(`https://api-user-barbeasy.up.railway.app/api/delete-service/${barbeariaId}/${servicoId}`)
-    .then(res => {
-      if (res.data.Success === "Success") {
-        setMessageChangeService("Serviço apagado com sucesso!");
-        setTimeout(() => {
-          setMessageChangeService(null);
-          window.location.reload()
-        }, 1000);
-
-      }
-    })
-    .catch(err => {
-      console.log("Erro ao apagar o serviço.", err);
-      setMessageChangeService("Erro ao apagar o serviço.");
-        setTimeout(() => {
-          setMessageChangeService(null);
-        }, 2000);
-    });
-}
-
-//Função para fechar o menu Adicionar Serviço
-const fecharExpandir = () => {
-setShowAddServico(false);
-};
-
-// Adiciona um event listener para detectar cliques fora da div expandir
-useEffect(() => {
-const handleOutsideClick = (event) => {
-  const expandirDiv = document.querySelector('.expandir');
-  if (expandirDiv && !expandirDiv.contains(event.target)){
-    fecharExpandir();
   }
-};
 
-document.addEventListener('mousedown', handleOutsideClick);
+/*===== Section to delete a current service ======*/
+  const [confirmDeleteServico, setConfirmDeleteServico] = useState(false);
 
-// Remove o event listener quando o componente é desmontado
-return () => {
-  document.removeEventListener('mousedown', handleOutsideClick);
-};
-}, []);
-/*----------------------------------*/
+  //Função para alterar o estado da variável que mostra o botão ConfirmDelete
+  const showConfirmDeleteService = () => {
+    setConfirmDeleteServico(!confirmDeleteServico);
+  };
+
+  //Função para alterar o estado da variável que oculta o botão ConfirmDelete
+  const hideConfirmDeleteService = () => {
+    setConfirmDeleteServico(!confirmDeleteServico);
+  };
+
+  //Função para apagar um serviço
+  const deleteServico = (servicoId) => {
+    axios.delete(`https://api-user-barbeasy.up.railway.app/api/delete-service/${barbeariaId}/${servicoId}`)
+      .then(res => {
+        if (res.data.Success === "Success") {
+          setMessageEditedService("Serviço apagado com sucesso!");
+          setTimeout(() => {
+            setMessageEditedService(null);
+            obterServicos()
+            setConfirmDeleteServico(false);
+            setSelectedService(null)
+          }, 2000);
+        }
+      })
+      .catch(err => {
+        console.log("Erro ao apagar o serviço.", err);
+        setMessageEditedService("Erro ao apagar o serviço.");
+        setTimeout(() => {
+          setMessageEditedService(null);
+        }, 2000);
+      });
+  }
+/*=================================================*/
   const [mostrarNome, setMostrarNome] = useState(false);
   const [novoUserName, setNovoUserName] = useState('');
   const [userNameBarbearia, setUserNameBarbearia] = useState('');
@@ -1495,7 +1515,7 @@ return () => {
                   id="serviceName"
                   name="serviceName"
                   maxLength={30}
-                  onChange={e => setNomeServiço(e.target.value)}
+                  onChange={e => setNewNameService(e.target.value)}
                   placeholder='Ex. Corte Social'
                   />
 
@@ -1505,8 +1525,8 @@ return () => {
                   type="text"
                   id="precoServico"
                   name="precoServico"
-                  value={precoServiço}
-                  onChange={handleChangePreco}
+                  value={newPriceService}
+                  onChange={AddNewPriceService}
                   maxLength={9}
                   placeholder="R$ 00,00"
                   required
@@ -1517,8 +1537,8 @@ return () => {
                     {['15min','30min','45min','60min','75min', '90min'].map((tempo, index) => (
                       <div
                         key={index}
-                        className={`horario-item ${tempoDuracao.includes(tempo) ? 'Horario-selecionado' : ''}`}
-                        onClick={() => handleTempoDuracao(tempo)}
+                        className={`horario-item ${newServiceDuration.includes(tempo) ? 'Horario-selecionado' : ''}`}
+                        onClick={() => handleNewServiceDuration(tempo)}
                       >
                         <p>{tempo}</p>
                       </div>
@@ -1529,11 +1549,12 @@ return () => {
                       ) : (
                       <p className="mensagem-erro">{messageAddService}</p>
                   )}
-                    <button className="button__Salve__Service" onClick={adicionarServico}>
+                    <button className="button__Salve__Service" onClick={addNewService}>
                     Adicionar Serviço
                   </button>
             </div>
           )}
+
           <div className="divSelected">
             <div className='container__servicos'>
               <div className='section__service'>
@@ -1541,19 +1562,19 @@ return () => {
                 servicos.map((servico, index) => (
                   <div 
                   key={index}
-                  className={`box__service ${servicoClicado === index ? 'expandir__Service' : ''}`}
-                  onClick={() => ShowService(index)}
+                  className={`box__service ${selectedService === index ? 'expandir__Service' : ''}`}
+                  onClick={() => ShowServiceEditMenu(index)}
                 >
-                  <p style={{marginBottom: '10px'}}>{servico.name}</p>
-                  
+                  <p style={{marginBottom: '10px', width: '100%'}}>{servico.name}</p>
+
                   <p>Deseja alterar o nome do serviço?</p>
                   <input
                   className="input_AddService"
                   type="text"
-                  id="AlterServiceName"
-                  name="AlterServiceName"
+                  id="EditedServiceName"
+                  name="EditedServiceName"
                   maxLength={30}
-                  onChange={e => setNewNomeServiço(e.target.value)}
+                  onChange={e => setEditedServiceName(e.target.value)}
                   placeholder={servico.name}
                   />
 
@@ -1561,32 +1582,31 @@ return () => {
                   <input
                   className="input_AddService"
                   type="text"
-                  id="AlterPrecoServico"
-                  name="AlterPrecoServico"
-                  value={precoServiço}
-                  onChange={handleChangePreco}
+                  id="EditedServicePrice"
+                  name="EditedServicePrice"
+                  value={editedServicePrice}
+                  onChange={handleEditedServicePrice}
                   maxLength={9}
                   placeholder={servico.preco}
                 />
 
                 <p style={{marginTop: '10px'}}>Deseja alterar o tempo de duração?</p>
                   <div className="inputs-horarios">
-                    {['15min','30min','45min','60min','75min', '90min'].map((tempo, index) => (
+                    {['15min','30min','45min','60min','75min', '90min'].map((timeDurationEdited, index) => (
                       <div
                         key={index}
-                        className={`horario-item ${newTempoDuracao.includes(tempo) ? 'Horario-selecionado' : ''}`}
-                        onClick={() => handleNewTempoDuracao(tempo)}
+                        className={`horario-item ${editedServiceDuration.includes(timeDurationEdited) ? 'Horario-selecionado' : ''}`}
+                        onClick={() => handleEditedServiceDuration(timeDurationEdited)}
                       >
-                        <p>{tempo}</p>
+                        <p>{timeDurationEdited}</p>
                       </div>
                     ))}
                   </div>
                   <p style={{marginTop: '10px'}}>Duração Atual • {servico.duracao}</p>
-
-                  {messageChangeService === "Serviço alterado com sucesso!" || messageChangeService === "Serviço apagado com sucesso!" ? (
-                      <p className="mensagem-sucesso">{messageChangeService}</p>
-                  ) : (
-                      <p className="mensagem-erro">{messageChangeService}</p>
+                  {messageEditedService === "Serviço alterado com sucesso!" ? (
+                      <p className="mensagem-sucesso">{messageEditedService}</p>
+                      ) : (
+                      <p className="mensagem-erro">{messageEditedService}</p>
                   )}
                 
                   <div className="section__service__button">
@@ -1594,12 +1614,12 @@ return () => {
                       Confirmar
                     </button>
 
-                    <button className={`buttonChange__service ${confirmDeleteServico ? 'button_ocult' : ''}`} onClick={() => alterarDadosServico(servico.id)}>
+                    <button className={`buttonChange__service ${confirmDeleteServico ? 'button_ocult' : ''}`} onClick={() => changeServiceData(servico.id)}>
                       Alterar
                     </button>
 
                     <button className={`delete__Service ${confirmDeleteServico ? 'button_ocult' : ''}`} onClick={showConfirmDeleteService}>
-                      <RiDeleteBin6Line />
+                      Excluir
                     </button>
 
                     <button className={`button_ocult ${confirmDeleteServico ? 'section__cancel' : ''}`} onClick={hideConfirmDeleteService}>

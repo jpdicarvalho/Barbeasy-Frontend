@@ -439,10 +439,12 @@
 .box__service{
     display: flex;
     padding: 5px;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     flex-direction: column;
+    border-radius: 10px;
     border: 1px solid #4a17d5;
     width: 100%;
+    background-color: rgb(59, 20, 216, 0.1);
     height: 35px;
     overflow: hidden;
 }
