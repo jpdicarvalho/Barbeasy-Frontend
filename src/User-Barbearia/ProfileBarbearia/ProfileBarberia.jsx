@@ -25,7 +25,7 @@ import { MdOutlineAlternateEmail } from "react-icons/md";
 import { MdPassword } from "react-icons/md";
 import { PiPassword } from "react-icons/pi";
 import { PiPasswordDuotone } from "react-icons/pi";
-
+import { VscError } from "react-icons/vsc";
 
 import './ProfileBarbearia.css';
 
@@ -830,7 +830,7 @@ const formatarPreco = (valor) => {
       axios.post(`https://api-user-barbeasy.up.railway.app/api/add-service/${barbeariaId}`, newServiceData)
           .then(res => {
             if (res.data.Success === "Success") {
-              setMessageAddService("Serviço adicionado com sucesso!");
+              setMessageAddService("Serviço adicionado com sucesso.");
               obterServicos()
               setTimeout(() => {
                 setMessageAddService(null);
@@ -852,7 +852,7 @@ const formatarPreco = (valor) => {
             console.error(err);
           });
     }else{
-      setMessageAddService("Preencha todos os campos!");
+      setMessageAddService("Preencha todos os campos.");
         setTimeout(() => {
           setMessageAddService(null);
         }, 3000);
@@ -931,7 +931,7 @@ const formatarPreco = (valor) => {
       axios.post(`https://api-user-barbeasy.up.railway.app/api/update-service/${barbeariaId}`, editedService)
       .then(res => {
         if (res.data.Success === "Success") {
-          setMessageEditedService("Serviço alterado com sucesso!");
+          setMessageEditedService("Serviço alterado com sucesso.");
           obterServicos()
           setTimeout(() => {
             setMessageEditedService(null);
@@ -971,7 +971,7 @@ const formatarPreco = (valor) => {
     axios.delete(`https://api-user-barbeasy.up.railway.app/api/delete-service/${barbeariaId}/${servicoId}`)
       .then(res => {
         if (res.data.Success === "Success") {
-          setMessageEditedService("Serviço apagado com sucesso!");
+          setMessageEditedService("Serviço apagado com sucesso.");
           setTimeout(() => {
             setMessageEditedService(null);
             obterServicos()
@@ -1544,10 +1544,16 @@ const formatarPreco = (valor) => {
                       </div>
                     ))}
                   </div>
-                  {messageAddService === "Serviço adicionado com sucesso!" ? (
-                      <p className="mensagem-sucesso">{messageAddService}</p>
+                  {messageAddService === "Serviço adicionado com sucesso." ? (
+                    <div className="mensagem-sucesso">
+                      <MdOutlineDone className="icon__success"/>
+                      <p className="text__message">{messageAddService}</p>
+                    </div>
                       ) : (
-                      <p className="mensagem-erro">{messageAddService}</p>
+                      <div className={` ${messageAddService ? 'mensagem-erro' : ''}`}>
+                        <VscError className={`hide_icon__error ${messageAddService ? 'icon__error' : ''}`}/>
+                        <p className="text__message">{messageAddService}</p>
+                    </div>
                   )}
                     <button className="button__Salve__Service" onClick={addNewService}>
                     Adicionar Serviço
@@ -1603,10 +1609,16 @@ const formatarPreco = (valor) => {
                     ))}
                   </div>
                   <p style={{marginTop: '10px'}}>Duração Atual • {servico.duracao}</p>
-                  {messageEditedService === "Serviço alterado com sucesso!" ? (
-                      <p className="mensagem-sucesso">{messageEditedService}</p>
+                  {messageEditedService === "Nenhuma alteração identificada." ? (
+                    <div className={` ${messageEditedService ? 'mensagem-erro' : ''}`}>
+                      <VscError className={`hide_icon__error ${messageEditedService ? 'icon__error' : ''}`}/>
+                      <p className="text__message">{messageEditedService}</p>
+                    </div>
                       ) : (
-                      <p className="mensagem-erro">{messageEditedService}</p>
+                      <div className={`hide__message ${messageEditedService ? 'mensagem-sucesso' : ''}`}>
+                        <MdOutlineDone className="icon__success"/>
+                        <p className="text__message">{messageEditedService}</p>
+                      </div>
                   )}
                 
                   <div className="section__service__button">
@@ -1619,7 +1631,7 @@ const formatarPreco = (valor) => {
                     </button>
 
                     <button className={`delete__Service ${confirmDeleteServico ? 'button_ocult' : ''}`} onClick={showConfirmDeleteService}>
-                      <RiDeleteBin6Line />
+                      Excluir
                     </button>
 
                     <button className={`button_ocult ${confirmDeleteServico ? 'section__cancel' : ''}`} onClick={hideConfirmDeleteService}>

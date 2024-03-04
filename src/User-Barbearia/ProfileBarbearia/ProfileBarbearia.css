@@ -627,15 +627,50 @@
 .white-placeholder::placeholder {
     color: white;
 }
-.mensagem-sucesso {
+.hide__message{
+    opacity: 0;
+}
+.hide__message.mensagem-sucesso {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: auto;
-    color: green;
-    padding: 10px;
+    background-color: rgba(67, 210, 45, 0.1);
+    color: #0f0;
+    padding: 5px;
     border-radius: 5px;
+    margin-top: 10px;
     margin-bottom: 10px;
+    opacity: 1;
+}
+.icon__success{
+    border-radius: 50%;
+    font-size: 15px;
+    font-weight: bold;
+    color: #fff;
+    background: #0f0;
+}
+.text__message{
+    width: 100%;
+    padding-left: 5px;
+    font-size: 14px;
+    font-weight: 100;
 }
 .mensagem-erro {
-    color: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+    background-color: rgba(210, 23, 23, 0.1);
+    color: rgb(255, 0, 0);
     padding: 10px;
     border-radius: 5px;
+    margin-top: 5px;
+    opacity: 1;
+}
+.hide_icon__error{
+    opacity: 0;
+}
+.hide_icon__error.icon__error{
+    opacity: 1;
 }
