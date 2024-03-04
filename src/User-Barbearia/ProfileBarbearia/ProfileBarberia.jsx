@@ -85,7 +85,6 @@ function ProfileBarbearia() {
         setUserImageMessage('Erro ao atualizar a imagem. Tente novamente mais tarde.')
         setTimeout(() => {
           setUserImageMessage(null);
-         
         }, 3000);
       }
     })
@@ -138,7 +137,7 @@ function ProfileBarbearia() {
       setBannerMessage("Selecione pelo menos uma imagem.");
         setTimeout(() => {
           setBannerMessage(null);
-          window.location.reload();
+          
         }, 3000);
       return;
     }
@@ -146,7 +145,7 @@ function ProfileBarbearia() {
       setBannerMessage("Selecione no máximo 5 imagens.");
       setTimeout(() => {
         setBannerMessage(null);
-        window.location.reload();
+        
       }, 3000);
       return;
     }
@@ -163,7 +162,7 @@ function ProfileBarbearia() {
         setBannerMessage("Extensão de arquivo não permitida. Use imagens 'jpg', 'jpeg' ou 'png'.");
         setTimeout(() => {
           setBannerMessage(null);
-          window.location.reload();
+          
         }, 3000);
         return;
       }
@@ -186,13 +185,13 @@ function ProfileBarbearia() {
           setBannerMessage("Alteração realizada com sucesso.");
           setTimeout(() => {
             setBannerMessage(null);
-            window.location.reload();
+            
           }, 3000);
         } else {
           setBannerMessage("Erro ao realizar alteração.");
           setTimeout(() => {
             setBannerMessage(null);
-            window.location.reload();
+            
           }, 3000);
         }
       })
