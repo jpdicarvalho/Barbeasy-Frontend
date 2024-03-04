@@ -25,6 +25,7 @@ import { MdOutlineAlternateEmail } from "react-icons/md";
 import { MdPassword } from "react-icons/md";
 import { PiPassword } from "react-icons/pi";
 import { PiPasswordDuotone } from "react-icons/pi";
+import { MdOutlineDone } from "react-icons/md";
 import { VscError } from "react-icons/vsc";
 
 import './ProfileBarbearia.css';
@@ -40,7 +41,7 @@ function ProfileBarbearia() {
   //Constantes de Upload de imagem de usuário
   const [file, setfile] = useState();
   const [imageUser, setImageUser] = useState([]);
-  const [message, setMessage] = useState('');
+  const [userImageMessage, setUserImageMessage] = useState('');
 
   //Upload user image
   const handleFile = (e) => {
@@ -48,7 +49,7 @@ function ProfileBarbearia() {
   }
   //Preparando as imagens selecionadas para serem enviadas ao back-end
   const handleUpload = () => {
-    const allowedExtensions = ['jpg', 'jpeg', 'png'];
+    const allowedExtensions = ['jpg', 'jpeg', 'png', 'heif', 'HEIF'];
 
     const formdata = new FormData();
 
@@ -57,7 +58,11 @@ function ProfileBarbearia() {
 
     // Verifica se a extensão é permitida
     if (!allowedExtensions.includes(fileExtension)) {
-      setMessage("Extensão de arquivo não permitida. Use 'jpg', 'jpeg' ou 'png'.");
+      setUserImageMessage("Extensão de arquivo não permitida. Use imagem 'jpg', 'jpeg' ou 'png'.");
+      setTimeout(() => {
+        setUserImageMessage(null);
+        window.location.reload();
+      }, 3000);
       return;
     }
 
@@ -75,13 +80,22 @@ function ProfileBarbearia() {
     axios.post('https://api-user-barbeasy.up.railway.app/api/upload-image-user-barbearia', formdata)
     .then(res => {
       if(res.data.Status === "Success"){
-        window.location.reload();
+        setUserImageMessage("Imagem atualizada com sucesso.");
+        setTimeout(() => {
+          setUserImageMessage(null);
+          window.location.reload();
+        }, 3000);
       }else{
-        console.log('faled')
+        setUserImageMessage('Erro ao atualizar a imagem. Tente novamente mais tarde.')
+        setTimeout(() => {
+          setUserImageMessage(null);
+          window.location.reload();
+        }, 3000);
       }
     })
     .catch(err => console.log(err));
   }
+
    //Metodo para mandar as imagens automaticamente para o back-end
    useEffect(() => {
     // Configura um temporizador para esperar 1 segundo após a última mudança no input de arquivo
@@ -93,6 +107,7 @@ function ProfileBarbearia() {
     // Limpa o temporizador se o componente for desmontado ou se houver uma nova mudança no input de arquivo
     return () => clearTimeout(timeout);
   }, [file]);
+
   //Função para obter as imagens cadastradas
   useEffect(() => {
     axios.get('https://api-user-barbeasy.up.railway.app/api/image-user-barbearia', {
@@ -110,7 +125,7 @@ function ProfileBarbearia() {
   //Constantes de Upload de Imagens para o Banner
   const [bannerFiles, setBannerFiles] = useState([]);
   const [bannerImages, setBannerImages] = useState([]);
-  const [bannerMessage, setBannerMessage] = useState('');
+  const [bannerMessage, setBannerMessage] = useState(null);
 
   //Upload banner images
   const handleBannerImages = (e) => {
@@ -119,16 +134,24 @@ function ProfileBarbearia() {
   }
   //Preparando as imagens selecionadas para serem enviadas ao back-end
   const handleBannerImagesUpload = () => {
-    const allowedExtensions = ['jpg', 'jpeg', 'png'];
+    const allowedExtensions = ['jpg', 'jpeg', 'png', 'heif', 'HEIF'];
 
     const bannerFormData = new FormData();
 
     if (bannerFiles.length === 0) {
       setBannerMessage("Selecione pelo menos uma imagem.");
+        setTimeout(() => {
+          setBannerMessage(null);
+          window.location.reload();
+        }, 3000);
       return;
     }
     if(bannerFiles.length > 5){
-      setBannerMessage("Selecione apenas 5 imagens");
+      setBannerMessage("Selecione no máximo 5 imagens.");
+      setTimeout(() => {
+        setBannerMessage(null);
+        window.location.reload();
+      }, 3000);
       return;
     }
 
@@ -141,7 +164,11 @@ function ProfileBarbearia() {
 
       // Verifica se a extensão é permitida
       if (!allowedExtensions.includes(fileExtension)) {
-        setBannerMessage("Extensão de arquivo não permitida. Use 'jpg', 'jpeg' ou 'png'.");
+        setBannerMessage("Extensão de arquivo não permitida. Use imagens 'jpg', 'jpeg' ou 'png'.");
+        setTimeout(() => {
+          setBannerMessage(null);
+          window.location.reload();
+        }, 3000);
         return;
       }
 
@@ -160,13 +187,22 @@ function ProfileBarbearia() {
     axios.post('https://api-user-barbeasy.up.railway.app/api/upload-banners-images', bannerFormData)
       .then(res => {
         if (res.data.Status === "Success") {
-          window.location.reload();
+          setBannerMessage("Alteração realizada com sucesso.");
+          setTimeout(() => {
+            setBannerMessage(null);
+            window.location.reload();
+          }, 3000);
         } else {
-          console.log('Banner Images Upload Failed');
+          setBannerMessage("Erro ao realizar alteração.");
+          setTimeout(() => {
+            setBannerMessage(null);
+            window.location.reload();
+          }, 3000);
         }
       })
       .catch(err => console.log(err));
   }
+
   //Metodo para mandar as imagens automaticamente para o back-end
   useEffect(() => {
     // Configura um temporizador para esperar 1 segundo após a última mudança no input de arquivo
@@ -178,6 +214,7 @@ function ProfileBarbearia() {
     // Limpa o temporizador se o componente for desmontado ou se houver uma nova mudança no input de arquivo
     return () => clearTimeout(timeout);
   }, [bannerFiles]);
+
   //Função para obter as imagens cadastradas
   useEffect(() => {
     axios.get('https://api-user-barbeasy.up.railway.app/api/banner-images', {
@@ -1137,7 +1174,17 @@ const formatarPreco = (valor) => {
               <div className="section__userName">
                 {userNameBarbearia}
               </div>
-
+              {userImageMessage === "Imagem atualizada com sucesso." ? (
+                <div className="mensagem-sucesso">
+                <MdOutlineDone className="icon__success"/>
+                <p className="text__message">{userImageMessage}</p>
+              </div>
+              ) : (
+                <div className={` ${userImageMessage ? 'mensagem-erro' : ''}`}>
+                  <VscError className={`hide_icon__error ${userImageMessage ? 'icon__error' : ''}`}/>
+                  <p className="text__message">{userImageMessage}</p>
+              </div>
+              )}
           </div>
 
         <motion.div  className="banner">
