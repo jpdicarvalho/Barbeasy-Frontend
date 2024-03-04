@@ -3,7 +3,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Noto Sans', sans-serif;
+    font-family: 'Poppis', sans-serif;
 }
 .background-desfocado{
     position: absolute;
@@ -185,7 +185,7 @@
 .menu__main{
     color: #f6f6fc;
     display: flex;
-    font-weight: bold;
+    font-weight: 400;
     margin-top: 5px;
     margin-bottom: 5px;
     cursor: pointer;
@@ -361,8 +361,9 @@
     margin-bottom: 10px;
     font-size: 16px;
     font-weight: bold;
-    color: #4a17d5;
-    background: transparent;
+    color: #fff;
+    background: rgba(59, 20, 216, 0.1);
+    border-radius: 10px;
     border: 1px solid #4a17d5;
     transition: 0.5s;
 }

@@ -1619,7 +1619,7 @@ const formatarPreco = (valor) => {
                     </button>
 
                     <button className={`delete__Service ${confirmDeleteServico ? 'button_ocult' : ''}`} onClick={showConfirmDeleteService}>
-                      Excluir
+                      <RiDeleteBin6Line />
                     </button>
 
                     <button className={`button_ocult ${confirmDeleteServico ? 'section__cancel' : ''}`} onClick={hideConfirmDeleteService}>
