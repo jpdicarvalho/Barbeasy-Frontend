@@ -59,7 +59,6 @@ function ProfileBarbearia() {
     // Verifica se a extensão é permitida
     if (!allowedExtensions.includes(fileExtension)) {
       setUserImageMessage("Extensão de arquivo não permitida. Use imagem 'jpg', 'jpeg' ou 'png'.");
-      
       return;
     }
 
@@ -80,13 +79,13 @@ function ProfileBarbearia() {
         setUserImageMessage("Imagem atualizada com sucesso.");
         setTimeout(() => {
           setUserImageMessage(null);
-          window.location.reload();
+          
         }, 3000);
       }else{
         setUserImageMessage('Erro ao atualizar a imagem. Tente novamente mais tarde.')
         setTimeout(() => {
           setUserImageMessage(null);
-          window.location.reload();
+         
         }, 3000);
       }
     })
