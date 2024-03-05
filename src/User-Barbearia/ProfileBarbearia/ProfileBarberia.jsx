@@ -439,6 +439,7 @@ const [messageAgenda, setMessageAgenda] = useState('');
         setTimeout(() => {
           setMessageAgenda('');
           getAgenda()
+          setMostrarDiasSemana(!mostrarDiasSemana);
         }, 3000);
       }
     }).catch(error => {
@@ -653,7 +654,7 @@ const salvarHorariosDiaSelecionado = () =>{
 }
 
 //Função para obter os horários definidos do dia selecionado
-useEffect(() => {
+const getHorariosDefinidos = () =>{
   axios.get(`https://api-user-barbeasy.up.railway.app/api/agendaDiaSelecionado/${barbeariaId}`)
   .then(res => {
     let arrayHorariosPadrao = res.data.horariosDiaEspecifico;
@@ -697,6 +698,9 @@ useEffect(() => {
   }).catch(error => {
     console.error('Erro ao buscar informações da agenda da barbearia', error)
   })
+}
+useEffect(() => {
+  getHorariosDefinidos()
 }, [])
 
 //Função para salvar os horários definidos para todos os dias
@@ -709,12 +713,13 @@ const salvarHorariosTodosOsDias = () =>{
   axios.post(`https://api-user-barbeasy.up.railway.app/api/update-horariosTodosOsDias/${barbeariaId}`, {StrAgenda: strHorariosTodosOsDias})
   .then(res => {
     if(res.data.Success === 'Success'){
-      setMessageAgendaHorarios("Horários Salvos com Sucesso!")
+      setMessageAgendaHorarios("Horários Salvos com Sucesso.")
         // Limpar a mensagem após 3 segundos (3000 milissegundos)
         setTimeout(() => {
           setMessageAgendaHorarios('');
-          window.location.reload();
-        }, 3000);
+          getHorariosDefinidos()
+          setDiaSelecionado(null);
+        }, 2000);
     }
   }).catch(error => {
     setMessageAgendaHorarios("Erro ao Salvar Horários, tente novamente mais tarde.")
@@ -777,7 +782,7 @@ const getHorariosPorDia = (dia) => {
     return <p>Não há horários definidos para este dia.</p>;
   }
 };
-/*----------------------------------*/
+
 /*===== Functions for all functions ======*/
 //Função para mostar o menu Serviço
 const [mostrarServico, setMostrarServico] = useState(false);
@@ -1558,11 +1563,19 @@ const formatarPreco = (valor) => {
                                 )
                               ))}
                           </div>
-                            {messageAgendaHorarios === 'Horários Salvos com Sucesso!' ?
-                              <p className="mensagem-sucesso">{messageAgendaHorarios}</p>
-                                :
-                              <p className="mensagem-erro">{messageAgendaHorarios}</p>
-                            }
+
+                          {messageAgendaHorarios === 'Horários Salvos com Sucesso.' ?(
+                            <div className="mensagem-sucesso">
+                              <MdOutlineDone className="icon__success"/>
+                              <p className="text__message">{messageAgendaHorarios}</p>
+                            </div>
+                            ) : (
+                            <div className={` ${messageAgendaHorarios ? 'mensagem-erro' : ''}`}>
+                              <VscError className={`hide_icon__error ${messageAgendaHorarios ? 'icon__error' : ''}`}/>
+                              <p className="text__message">{messageAgendaHorarios}</p>
+                            </div>
+                          )}
+          
                           <div className="container_button">
                             <button className="add_Service" onClick={salvarHorariosDiaSelecionado}>Salvar</button>
                             <button className="add_Service" onClick={salvarHorariosTodosOsDias}>Salvar para todos os outros dias</button>
