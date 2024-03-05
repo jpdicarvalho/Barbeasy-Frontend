@@ -139,7 +139,6 @@ function ProfileBarbearia() {
       setBannerMessage("Selecione no máximo 5 imagens.");
       setTimeout(() => {
         setBannerMessage(null);
-        
       }, 3000);
       return;
     }
@@ -1279,11 +1278,18 @@ const formatarPreco = (valor) => {
           {mostrarNomeBarbearia && (
             <div className="divSelected">
             <p className='information__span'>Altere o nome da Barbearia</p>
-            {messageNameBarbearia === 'Nome da Barbearia Alterado com Sucesso!' ?
-                        <p className="mensagem-sucesso">{messageNameBarbearia}</p>
-                        :
-                        <p className="mensagem-erro">{messageNameBarbearia}</p>
-                      }
+                
+            {messageNameBarbearia === 'Nome da Barbearia Alterado com Sucesso!' ?(
+                <div className="mensagem-sucesso">
+                  <MdOutlineDone className="icon__success"/>
+                  <p className="text__message">{messageNameBarbearia}</p>
+                </div>
+              ) : (
+                <div className={` ${messageNameBarbearia ? 'mensagem-erro' : ''}`}>
+                  <VscError className={`hide_icon__error ${messageNameBarbearia ? 'icon__error' : ''}`}/>
+                  <p className="text__message">{messageNameBarbearia}</p>
+              </div>
+              )}
           
             <div className="inputBox">
             <input
@@ -1321,12 +1327,17 @@ const formatarPreco = (valor) => {
         {mostrarEndereco && (
                     <div className="divSelected">
                       <p className='information__span'>Altere o endereço da Barbearia</p>
-
-                      {messageEndereco === 'Endereço Alterado com Sucesso!' ?
-                        <p className="mensagem-sucesso">{messageEndereco}</p>
-                        :
-                        <p className="mensagem-erro">{messageEndereco}</p>
-                      }
+                      {messageEndereco === 'Endereço Alterado com Sucesso!' ?(
+                        <div className="mensagem-sucesso">
+                          <MdOutlineDone className="icon__success"/>
+                          <p className="text__message">{messageEndereco}</p>
+                        </div>
+                      ) : (
+                        <div className={` ${messageEndereco ? 'mensagem-erro' : ''}`}>
+                          <VscError className={`hide_icon__error ${messageEndereco ? 'icon__error' : ''}`}/>
+                          <p className="text__message">{messageEndereco}</p>
+                      </div>
+                      )}
                       
                       <div className="inputBox">
                         <input
