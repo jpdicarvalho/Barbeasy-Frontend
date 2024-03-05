@@ -630,7 +630,7 @@
 .hide__message{
     opacity: 0;
 }
-.hide__message.mensagem-sucesso {
+.mensagem-sucesso {
     display: flex;
     justify-content: center;
     align-items: center;

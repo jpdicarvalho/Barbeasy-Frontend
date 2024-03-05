@@ -49,17 +49,19 @@ function ProfileBarbearia() {
   }
   //Preparando as imagens selecionadas para serem enviadas ao back-end
   const handleUpload = () => {
-    const allowedExtensions = ['jpg', 'jpeg', 'png', 'heif', 'HEIF'];
+    const allowedExtensions = ['jpg', 'jpeg', 'png'];
 
     const formdata = new FormData();
 
     // Obtém a extensão do arquivo original
     const fileExtension = file ? file.name.split('.').pop() : '';//operador ternário para garantir que name não seja vazio
 
-    // Verifica se a extensão é permitida
+    if(fileExtension.length > 0){
+      // Verifica se a extensão é permitida
     if (!allowedExtensions.includes(fileExtension)) {
       setUserImageMessage("Extensão de arquivo não permitida. Use imagem 'jpg', 'jpeg' ou 'png'.");
       return;
+    }
     }
 
     // Obtém a data e hora atual
@@ -79,8 +81,8 @@ function ProfileBarbearia() {
         setUserImageMessage("Imagem atualizada com sucesso.");
         setTimeout(() => {
           setUserImageMessage(null);
-          
-        }, 3000);
+          window.location.reload()
+        }, 2000);
       }else{
         setUserImageMessage('Erro ao atualizar a imagem. Tente novamente mais tarde.')
         setTimeout(() => {
@@ -1673,7 +1675,7 @@ const formatarPreco = (valor) => {
                     </button>
 
                     <button className={`delete__Service ${confirmDeleteServico ? 'button_ocult' : ''}`} onClick={showConfirmDeleteService}>
-                      Excluir
+                      <RiDeleteBin6Line/>
                     </button>
 
                     <button className={`button_ocult ${confirmDeleteServico ? 'section__cancel' : ''}`} onClick={hideConfirmDeleteService}>
