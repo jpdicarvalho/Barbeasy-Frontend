@@ -49,6 +49,11 @@ function ProfileBarbearia() {
   }
   //Preparando as imagens selecionadas para serem enviadas ao back-end
   const handleUpload = () => {
+    if (!file) {
+      console.error("No file selected."); // Caso nenhum arquivo seja selecionado
+      return;
+    }
+
     const allowedExtensions = ['jpg', 'jpeg', 'png'];
 
     const formdata = new FormData();
@@ -58,10 +63,10 @@ function ProfileBarbearia() {
 
     if(fileExtension.length > 0){
       // Verifica se a extensão é permitida
-    if (!allowedExtensions.includes(fileExtension)) {
-      setUserImageMessage("Extensão de arquivo não permitida. Use imagem 'jpg', 'jpeg' ou 'png'.");
-      return;
-    }
+      if (!allowedExtensions.includes(fileExtension)) {
+        setUserImageMessage("Extensão de arquivo não permitida. Use imagem 'jpg', 'jpeg' ou 'png'.");
+        return;
+      }
     }
 
     // Obtém a data e hora atual
@@ -430,7 +435,6 @@ const [messageAgenda, setMessageAgenda] = useState('');
     .then(res => {
       if(res.data.Success === 'Success'){
         setMessageAgenda("Agenda Atualizada com Sucesso!")
-        // Limpar a mensagem após 3 segundos (3000 milissegundos)
         setTimeout(() => {
           setMessageAgenda('');
           window.location.reload();
@@ -1433,11 +1437,18 @@ const formatarPreco = (valor) => {
           
         {mostrarDiasSemana && (
         <div className="divSelected">
-          {messageAgenda === 'Agenda Atualizada com Sucesso!' ?
-                <p className="mensagem-sucesso">{messageAgenda}</p>
-                  :
-                <p className="mensagem-erro">{messageAgenda}</p>
-              }
+          {messageAgenda === 'Agenda Atualizada com Sucesso!' ?(
+            <div className="mensagem-sucesso">
+              <MdOutlineDone className="icon__success"/>
+              <p className="text__message">{messageAgenda}</p>
+            </div>
+            ) : (
+            <div className={` ${messageAgenda ? 'mensagem-erro' : ''}`}>
+              <VscError className={`hide_icon__error ${messageAgenda ? 'icon__error' : ''}`}/>
+              <p className="text__message">{messageAgenda}</p>
+            </div>
+            )}
+  
         <p className='information__span'>Selecione os dias da semana em que deseja trabalhar:</p>
         {diasSemana.map((dia, index) => (
           <div className="container__checkBox" key={index}>
