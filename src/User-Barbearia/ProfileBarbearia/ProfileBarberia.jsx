@@ -184,16 +184,16 @@ function ProfileBarbearia() {
     axios.post('https://api-user-barbeasy.up.railway.app/api/upload-banners-images', bannerFormData)
       .then(res => {
         if (res.data.Status === "Success") {
-          setBannerMessage("Alteração realizada com sucesso.");
+          setBannerMessage("Banner alterado com sucesso.");
           setTimeout(() => {
             setBannerMessage(null);
-            
-          }, 3000);
+            window.location.reload()
+          }, 2000);
         } else {
           setBannerMessage("Erro ao realizar alteração.");
           setTimeout(() => {
             setBannerMessage(null);
-            
+            window.location.reload()
           }, 3000);
         }
       })
@@ -1181,6 +1181,18 @@ const formatarPreco = (valor) => {
                   <VscError className={`hide_icon__error ${userImageMessage ? 'icon__error' : ''}`}/>
                   <p className="text__message">{userImageMessage}</p>
               </div>
+              )}
+
+            {bannerMessage === "Banner alterado com sucesso." ? (
+                <div className="mensagem-sucesso">
+                  <MdOutlineDone className="icon__success"/>
+                  <p className="text__message">{bannerMessage}</p>
+                </div>
+              ) : (
+                <div className={` ${bannerMessage ? 'mensagem-erro' : ''}`}>
+                  <VscError className={`hide_icon__error ${bannerMessage ? 'icon__error' : ''}`}/>
+                  <p className="text__message">{bannerMessage}</p>
+                </div>
               )}
           </div>
 
