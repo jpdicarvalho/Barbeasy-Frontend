@@ -135,11 +135,17 @@ function ProfileBarbearia() {
     const selectedFiles = Array.from(e.target.files);
     setBannerFiles(selectedFiles);
   }
+  
   //Preparando as imagens selecionadas para serem enviadas ao back-end
   const handleBannerImagesUpload = () => {
     const allowedExtensions = ['jpg', 'jpeg', 'png', 'heif', 'HEIF'];
 
     const bannerFormData = new FormData();
+
+    if (!bannerFiles) {
+      console.error("No file selected."); // Caso nenhum arquivo seja selecionado
+      return;
+    }
 
     if(bannerFiles.length > 5){
       setBannerMessage("Selecione no máximo 5 imagens.");
