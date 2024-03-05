@@ -325,10 +325,9 @@ function ProfileBarbearia() {
         .then(res => {
           if (res.data.Success === 'Success') {
             setMessageEndereco("Endereço Alterado com Sucesso!")
-            // Limpar a mensagem após 3 segundos (3000 milissegundos)
             setTimeout(() => {
               setMessageEndereco('');
-              window.location.reload();
+              getAdressBarbearia()
             }, 3000);
           }
         })
@@ -350,12 +349,15 @@ function ProfileBarbearia() {
     }
   };
   //Função para obter o nome atual da barbearia
-  useEffect(() => {
+  const getAdressBarbearia = () => {
     axios.get(`https://api-user-barbeasy.up.railway.app/api/endereco/${barbeariaId}`)
       .then(res => {
         setEndereco(res.data.Endereco)
       })
       .catch(error => console.log(error));
+  }
+  useEffect(() => {
+    getAdressBarbearia()
   }, [barbeariaId])
 /*----------------------------------*/
 const [mostrarDiasSemana, setMostrarDiasSemana] = useState(false);
