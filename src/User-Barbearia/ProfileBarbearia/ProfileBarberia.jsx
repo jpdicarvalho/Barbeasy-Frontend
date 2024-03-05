@@ -636,11 +636,12 @@ const salvarHorariosDiaSelecionado = () =>{
   axios.post(`https://api-user-barbeasy.up.railway.app/api/update-agendaDiaSelecionado/${barbeariaId}`, {StrAgenda: strAgendaDiaSelecionado})
   .then(res => {
     if(res.data.Success === 'Success'){
-      setMessageAgendaHorarios("Horários Salvos com Sucesso!")
+      setMessageAgendaHorarios("Horários Salvos com Sucesso.")
         // Limpar a mensagem após 3 segundos (3000 milissegundos)
         setTimeout(() => {
           setMessageAgendaHorarios('');
-          window.location.reload();
+          getHorariosDefinidos()
+          setDiaSelecionado(null);
         }, 3000);
     }
   }).catch(error => {
@@ -726,6 +727,7 @@ const salvarHorariosTodosOsDias = () =>{
         // Limpar a mensagem após 3 segundos (3000 milissegundos)
         setTimeout(() => {
           setMessageAgendaHorarios('');
+          window.location.reload()
         }, 3000);
   })
 }
