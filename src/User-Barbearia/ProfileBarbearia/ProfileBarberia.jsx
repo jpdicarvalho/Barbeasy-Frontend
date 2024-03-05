@@ -47,6 +47,7 @@ function ProfileBarbearia() {
   const handleFile = (e) => {
     setfile(e.target.files[0])
   }
+
   //Preparando as imagens selecionadas para serem enviadas ao back-end
   const handleUpload = () => {
     if (!file) {
@@ -98,8 +99,8 @@ function ProfileBarbearia() {
     .catch(err => console.log(err));
   }
 
-   //Metodo para mandar as imagens automaticamente para o back-end
-   useEffect(() => {
+  //Metodo para mandar as imagens automaticamente para o back-end
+  useEffect(() => {
     // Configura um temporizador para esperar 1 segundo após a última mudança no input de arquivo
     const timeout = setTimeout(() => {
       // Executa a função de upload após o período de espera
@@ -437,7 +438,7 @@ const [messageAgenda, setMessageAgenda] = useState('');
         setMessageAgenda("Agenda Atualizada com Sucesso!")
         setTimeout(() => {
           setMessageAgenda('');
-          window.location.reload();
+          getAgenda()
         }, 3000);
       }
     }).catch(error => {
@@ -451,7 +452,7 @@ const [messageAgenda, setMessageAgenda] = useState('');
     })
   }
   //Obtendo os dados da agenda da barbearia
-  useEffect(() => {
+  const getAgenda = () =>{
     axios.get(`https://api-user-barbeasy.up.railway.app/api/agenda/${barbeariaId}`)
     .then(res => {
       if(res.status === 200){
@@ -460,7 +461,12 @@ const [messageAgenda, setMessageAgenda] = useState('');
     }).catch(error => {
       console.error('Erro ao buscar informações da agenda da barbearia', error)
     })
+  }
+  //Chamando a função para obter os dados da agenda da barbearia
+  useEffect(() => {
+    getAgenda()
   }, [])
+
   useEffect(() => {
     if (Array.isArray(agenda) && agenda.length >= 2) {
       setDaysFromAgenda(agenda[0].split(','));

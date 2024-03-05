@@ -642,6 +642,7 @@
     margin-top: 10px;
     margin-bottom: 10px;
     opacity: 1;
+    transition: 0.5s;
 }
 .icon__success{
     border-radius: 50%;
