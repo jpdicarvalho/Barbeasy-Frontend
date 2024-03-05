@@ -39,7 +39,7 @@ function ProfileBarbearia() {
 
 /*-----------------------------------*/
   //Constantes de Upload de imagem de usuário
-  const [file, setfile] = useState();
+  const [file, setfile] = useState(null);
   const [imageUser, setImageUser] = useState([]);
   const [userImageMessage, setUserImageMessage] = useState('');
 
