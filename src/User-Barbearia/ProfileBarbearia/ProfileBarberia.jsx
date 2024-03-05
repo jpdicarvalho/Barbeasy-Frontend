@@ -1057,7 +1057,7 @@ const formatarPreco = (valor) => {
             // Limpar a mensagem após 3 segundos (3000 milissegundos)
             setTimeout(() => {
               setMessageUserName('');
-              window.location.reload();
+              getUserName()
             }, 3000);
           }
         })
@@ -1072,12 +1072,16 @@ const formatarPreco = (valor) => {
         });
   };
   //Função para obter o nome de usuário atual da barbearia
-  useEffect(() => {
+  const getUserName = () =>{
     axios.get(`https://api-user-barbeasy.up.railway.app/api/user-name-barbearia/${barbeariaId}`)
       .then(res => {
         setUserNameBarbearia(res.data.UserNameBarbearia)
       })
       .catch(error => console.log(error));
+  }
+  //Hook para chamar a função getUserName()
+  useEffect(() => {
+    getUserName()
   }, [barbeariaId])
 /*----------------------------------*/
   const [mostrarEmail, setMostrarEmail] = useState(false);
@@ -1088,6 +1092,7 @@ const formatarPreco = (valor) => {
   const alternarEmail = () => {
     setMostrarEmail(!mostrarEmail);
   };
+
   const alterarEmail = () => {
     axios.post(`https://api-user-barbeasy.up.railway.app/api/upload-email-barbearia/${barbeariaId}`, {NewEmail: newEmail})
     .then(res => {
@@ -1096,7 +1101,7 @@ const formatarPreco = (valor) => {
             // Limpar a mensagem após 3 segundos (3000 milissegundos)
             setTimeout(() => {
               setMessageEmail('');
-              window.location.reload();
+              getEmail()
             }, 3000);
         }
       })
@@ -1111,12 +1116,17 @@ const formatarPreco = (valor) => {
         console.error('Erro ao atualizar o email de usuário:', error);
       });
   };
-  useEffect(() => {
+
+  const getEmail = () =>{
     axios.get(`https://api-user-barbeasy.up.railway.app/api/email-barbearia/${barbeariaId}`)
       .then(result => {
         setCurrentEmail(result.data.EmailBarbearia);
       })
       .catch(error => console.log(error));
+  }
+
+  useEffect(() => {
+    getEmail()
   }, [barbeariaId])
 /*----------------------------------*/
   const [mostrarSenha, setMostrarSenha] = useState(false);
