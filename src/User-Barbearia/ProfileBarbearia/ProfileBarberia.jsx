@@ -1101,6 +1101,7 @@ const formatarPreco = (valor) => {
             // Limpar a mensagem após 3 segundos (3000 milissegundos)
             setTimeout(() => {
               setMessageEmail('');
+              setNewEmail('')
               getEmail()
             }, 3000);
         }
