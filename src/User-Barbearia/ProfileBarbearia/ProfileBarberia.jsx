@@ -333,7 +333,9 @@ function ProfileBarbearia() {
             setMessageEndereco("Endereço Alterado com Sucesso!")
             setTimeout(() => {
               setMessageEndereco('');
+              setValuesEndereco({city: ''})
               getAdressBarbearia()
+              setMostrarEndereco(!mostrarEndereco);
             }, 3000);
           }
         })
@@ -1057,7 +1059,9 @@ const formatarPreco = (valor) => {
             // Limpar a mensagem após 3 segundos (3000 milissegundos)
             setTimeout(() => {
               setMessageUserName('');
+              setNovoUserName('')
               getUserName()
+              setMostrarNome(!mostrarNome);
             }, 3000);
           }
         })
@@ -1103,6 +1107,7 @@ const formatarPreco = (valor) => {
               setMessageEmail('');
               setNewEmail('')
               getEmail()
+              setMostrarEmail(!mostrarEmail);
             }, 3000);
         }
       })
