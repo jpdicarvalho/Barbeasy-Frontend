@@ -267,7 +267,7 @@ function ProfileBarbearia() {
             // Limpar a mensagem após 3 segundos (3000 milissegundos)
             setTimeout(() => {
               setMessageNameBarbearia('');
-              window.location.reload();
+              getNameBarbearia()
             }, 3000);
         }
       })
@@ -283,12 +283,15 @@ function ProfileBarbearia() {
       });
   };
   //Função para obter o nome atual da barbearia
-  useEffect(() => {
+  const getNameBarbearia = () =>{
     axios.get(`https://api-user-barbeasy.up.railway.app/api/nome-barbearia/${barbeariaId}`)
       .then(res => {
         setNomeBarbeariaAtual(res.data.NomeBarbearia)
       })
       .catch(error => console.log(error));
+  }
+  useEffect(() => {
+    getNameBarbearia()
   }, [barbeariaId])
 /*----------------------------------*/
   const [mostrarEndereco, setMostrarEndereco] = useState(false);
