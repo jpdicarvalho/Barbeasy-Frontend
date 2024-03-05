@@ -642,6 +642,8 @@ const salvarHorariosDiaSelecionado = () =>{
           setMessageAgendaHorarios('');
           getHorariosDefinidos()
           setDiaSelecionado(null);
+          setHorarioFuncionamento('')
+          setTempoAtendimentoSelected('')
         }, 3000);
     }
   }).catch(error => {
@@ -720,6 +722,8 @@ const salvarHorariosTodosOsDias = () =>{
           setMessageAgendaHorarios('');
           getHorariosDefinidos()
           setDiaSelecionado(null);
+          setHorarioFuncionamento('')
+          setTempoAtendimentoSelected('')
         }, 2000);
     }
   }).catch(error => {
@@ -1049,7 +1053,7 @@ const formatarPreco = (valor) => {
     axios.post(`https://api-user-barbeasy.up.railway.app/api/upload-user-name-barbearia/${barbeariaId}`, {newUserName: novoUserName})
       .then(res => {
           if(res.data.Success === 'Success'){
-            setMessageUserName("Nome de Usuário Alterado com Sucesso!")
+            setMessageUserName("Nome de usuário alterado com sucesso.")
             // Limpar a mensagem após 3 segundos (3000 milissegundos)
             setTimeout(() => {
               setMessageUserName('');
@@ -1088,7 +1092,7 @@ const formatarPreco = (valor) => {
     axios.post(`https://api-user-barbeasy.up.railway.app/api/upload-email-barbearia/${barbeariaId}`, {NewEmail: newEmail})
     .then(res => {
         if(res.data.Success === 'Success'){
-          setMessageEmail("Email Alterado com Sucesso!")
+          setMessageEmail("Email alterado com sucesso.")
             // Limpar a mensagem após 3 segundos (3000 milissegundos)
             setTimeout(() => {
               setMessageEmail('');
@@ -1133,7 +1137,7 @@ const formatarPreco = (valor) => {
       }
     }).then(res => {
       if(res.data.Success === 'Success'){
-        setMessagePassword("Senha Alterada com Sucesso!")
+        setMessagePassword("Senha alterada com sucesso.")
           // Limpar a mensagem após 3 segundos (3000 milissegundos)
           setTimeout(() => {
             setMessagePassword('');
@@ -1768,7 +1772,17 @@ const formatarPreco = (valor) => {
           {mostrarNome && (
             <div className="divSelected">
               <p className='information__span'>Alterar Nome de usuário</p>
-              <p className="mensagem-sucesso">{messageUserName}</p>
+              {messageUserName === 'Nome de usuário alterado com sucesso.' ?(
+                            <div className="mensagem-sucesso">
+                              <MdOutlineDone className="icon__success"/>
+                              <p className="text__message">{messageUserName}</p>
+                            </div>
+                            ) : (
+                            <div className={` ${messageUserName ? 'mensagem-erro' : ''}`}>
+                              <VscError className={`hide_icon__error ${messageUserName ? 'icon__error' : ''}`}/>
+                              <p className="text__message">{messageUserName}</p>
+                            </div>
+                          )}
 
             <div className="inputBox">
             <input
@@ -1808,12 +1822,18 @@ const formatarPreco = (valor) => {
           {mostrarEmail && (
             <div className="divSelected">
               <p className='information__span'>Alterar Email</p>
-              {messageEmail === 'Email Alterado com Sucesso!' ?
-                <p className="mensagem-sucesso">{messageEmail}</p>
-                  :
-                <p className="mensagem-erro">{messageEmail}</p>
-            }
-
+              {messageEmail === 'Email alterado com sucesso.' ?(
+                            <div className="mensagem-sucesso">
+                              <MdOutlineDone className="icon__success"/>
+                              <p className="text__message">{messageEmail}</p>
+                            </div>
+                            ) : (
+                            <div className={` ${messageEmail ? 'mensagem-erro' : ''}`}>
+                              <VscError className={`hide_icon__error ${messageEmail ? 'icon__error' : ''}`}/>
+                              <p className="text__message">{messageEmail}</p>
+                            </div>
+                          )}
+          
             <div className="inputBox">
               <input
                 type="email"
@@ -1858,11 +1878,17 @@ const formatarPreco = (valor) => {
           {mostrarSenha && (
             <div className="divSelected">
               <p className='information__span'>Alterar Senha</p>
-              {messagePassword === 'Senha Alterada com Sucesso!' ?
-                <p className="mensagem-sucesso">{messagePassword}</p>
-                  :
-                <p className="mensagem-erro">{messagePassword}</p>
-              }
+              {messagePassword === 'Senha alterada com sucesso.' ?(
+                            <div className="mensagem-sucesso">
+                              <MdOutlineDone className="icon__success"/>
+                              <p className="text__message">{messagePassword}</p>
+                            </div>
+                            ) : (
+                            <div className={` ${messagePassword ? 'mensagem-erro' : ''}`}>
+                              <VscError className={`hide_icon__error ${messagePassword ? 'icon__error' : ''}`}/>
+                              <p className="text__message">{messagePassword}</p>
+                            </div>
+                          )}
 
             <div className="inputBox">
               <input
