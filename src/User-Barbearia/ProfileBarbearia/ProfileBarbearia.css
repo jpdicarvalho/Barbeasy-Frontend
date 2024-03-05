@@ -648,7 +648,9 @@
     font-size: 15px;
     font-weight: bold;
     color: #fff;
-    background: #0f0;
+    background: rgb(41, 130, 41);
+    width: 20px;
+    height: 20px;
 }
 .text__message{
     width: 100%;

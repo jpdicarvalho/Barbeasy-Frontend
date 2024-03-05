@@ -135,14 +135,6 @@ function ProfileBarbearia() {
 
     const bannerFormData = new FormData();
 
-    if (bannerFiles.length === 0) {
-      setBannerMessage("Selecione pelo menos uma imagem.");
-        setTimeout(() => {
-          setBannerMessage(null);
-          
-        }, 3000);
-      return;
-    }
     if(bannerFiles.length > 5){
       setBannerMessage("Selecione no máximo 5 imagens.");
       setTimeout(() => {
