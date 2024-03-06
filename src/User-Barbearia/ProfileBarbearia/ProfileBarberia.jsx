@@ -135,7 +135,7 @@ function ProfileBarbearia() {
     const selectedFiles = Array.from(e.target.files);
     setBannerFiles(selectedFiles);
   }
-  
+
   //Preparando as imagens selecionadas para serem enviadas ao back-end
   const handleBannerImagesUpload = () => {
     const allowedExtensions = ['jpg', 'jpeg', 'png', 'heif', 'HEIF'];
@@ -1027,12 +1027,16 @@ const formatarPreco = (valor) => {
 
   //Função para apagar um serviço
   const deleteServico = (servicoId) => {
+    let lastService = servicos.length;
     axios.delete(`https://api-user-barbeasy.up.railway.app/api/delete-service/${barbeariaId}/${servicoId}`)
       .then(res => {
         if (res.data.Success === "Success") {
           setMessageEditedService("Serviço apagado com sucesso.");
           setTimeout(() => {
             setMessageEditedService(null);
+            if(lastService === 1){
+              window.location.reload()
+            }
             obterServicos()
             setConfirmDeleteServico(false);
             setSelectedService(null)
