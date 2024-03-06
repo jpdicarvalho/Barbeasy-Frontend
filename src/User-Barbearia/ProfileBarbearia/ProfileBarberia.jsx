@@ -885,7 +885,7 @@ const formatarPreco = (valor) => {
         newPriceService,
         newDuration: newServiceDuration[0]
       };
-
+      let firstService = servicos.length;
       axios.post(`https://api-user-barbeasy.up.railway.app/api/add-service/${barbeariaId}`, newServiceData)
           .then(res => {
             if (res.data.Success === "Success") {
@@ -893,6 +893,9 @@ const formatarPreco = (valor) => {
               obterServicos()
               setTimeout(() => {
                 setMessageAddService(null);
+                if(firstService === 0){
+                  window.location.reload()
+                }
                 setNewNameService('')
                 setNewPriceService('')
                 setNewServiceDuration('')
