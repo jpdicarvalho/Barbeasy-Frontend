@@ -1201,7 +1201,7 @@ const formatarPreco = (valor) => {
                     onChange={handleFile}
                   />
 
-                  {imageUser[0] != 'https://d15o6h0uxpz56g.cloudfront.net/user_image' ? (
+                  {imageUser[0] != "https://d15o6h0uxpz56g.cloudfront.net/user_image" ? (
                     <div className="img-view-profile">
                       <img src={imageUser} alt="" id='img-profile' />
                     </div>
