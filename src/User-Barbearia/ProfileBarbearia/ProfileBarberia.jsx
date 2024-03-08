@@ -1201,7 +1201,7 @@ const formatarPreco = (valor) => {
                     onChange={handleFile}
                   />
 
-                  {imageUser.length > 10 ? (
+                  {imageUser[0] != 'https://d15o6h0uxpz56g.cloudfront.net/user_image' ? (
                     <div className="img-view-profile">
                       <img src={imageUser} alt="" id='img-profile' />
                     </div>
@@ -1254,8 +1254,8 @@ const formatarPreco = (valor) => {
                            bannerImages.length === 1 ? { right: 0, left: -200}:{ right: 0, left: 0}}
 
           >
-            {bannerImages.length > 0 && (
-  <>
+          {bannerImages.length > 0 && (
+          <>
           {bannerImages[0] != 'https://d15o6h0uxpz56g.cloudfront.net/banners' ? (
             // Se o nome da primeira imagem tiver mais de 11 letras
             bannerImages.map((image, index) => (
@@ -1278,7 +1278,7 @@ const formatarPreco = (valor) => {
                 hidden
                 multiple
               />
-              <motion.div className="img-view" style={{ width: bannerImages.length > 0 ? '150px' : '380px' }}>
+              <motion.div className="img-view" style={{ width: bannerImages[0] != 'https://d15o6h0uxpz56g.cloudfront.net/banners' ? '150px' : '380px' }}>
                 <MdOutlineBackup className='icon_upload'/>
                 <p>Incluir Imagem <br/>da Barbearia</p>
               </motion.div>
