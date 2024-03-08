@@ -124,7 +124,7 @@ const avaliacoesDaBarbearia = AllAvaliation.filter(avaliacao => avaliacao.barbea
   const media = somaNotas / avaliacoesDaBarbearia.length;
   return media.toFixed(1).replace('.', ',');
 };
-
+console.log(barbeariaSearch)
 return (
           <div className="containerHome">
 
