@@ -1256,7 +1256,7 @@ const formatarPreco = (valor) => {
           >
             {bannerImages.length > 0 && (
   <>
-          {bannerImages[0].length > 11 ? (
+          {bannerImages[0] != 'https://d15o6h0uxpz56g.cloudfront.net/user_image' ? (
             // Se o nome da primeira imagem tiver mais de 11 letras
             bannerImages.map((image, index) => (
               <motion.div key={index} className='container-img-upload' whileTap={{cursor:"grabbing"}} >
