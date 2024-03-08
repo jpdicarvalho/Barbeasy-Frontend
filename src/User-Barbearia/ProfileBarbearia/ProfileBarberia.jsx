@@ -1254,6 +1254,8 @@ const formatarPreco = (valor) => {
                            bannerImages.length === 1 ? { right: 0, left: -200}:{ right: 0, left: 0}}
 
           >
+            {bannerImages.length > 0 && (
+  <>
           {bannerImages[0].length > 11 ? (
             // Se o nome da primeira imagem tiver mais de 11 letras
             bannerImages.map((image, index) => (
@@ -1277,6 +1279,8 @@ const formatarPreco = (valor) => {
                 <p>Incluir Imagem <br/>da Barbearia</p>
               </motion.div>
             </label>
+          )}
+          </>
           )}
             
           </motion.div>
