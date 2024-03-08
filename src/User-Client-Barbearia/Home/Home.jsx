@@ -124,7 +124,7 @@ const avaliacoesDaBarbearia = AllAvaliation.filter(avaliacao => avaliacao.barbea
   const media = somaNotas / avaliacoesDaBarbearia.length;
   return media.toFixed(1).replace('.', ',');
 };
-console.log(barbeariaSearch)
+
 return (
           <div className="containerHome">
 
@@ -155,8 +155,7 @@ return (
                 <div key={barbearia.id} className="containerBarbearia" onClick={() => handleBarbeariaClick(barbearia)}>
                      
                      <div className="imgBoxSection">
-                     {console.log(barbearia.banner_main)}
-                     <img src={`https://d15o6h0uxpz56g.cloudfront.net/${barbearia.banner_main}`} alt="" />
+                     <img src={`https://d15o6h0uxpz56g.cloudfront.net/${barbearia.banner_main}`} alt="Imagem de capa da barbearia" />
                     </div>
 
                   <div className="section">
