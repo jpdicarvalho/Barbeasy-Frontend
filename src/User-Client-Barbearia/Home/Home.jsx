@@ -151,10 +151,12 @@ return (
               </div>
 
               {barbeariaSearch.map((barbearia) => (
+                
                 <div key={barbearia.id} className="containerBarbearia" onClick={() => handleBarbeariaClick(barbearia)}>
                      
                      <div className="imgBoxSection">
-                     <img src={`https://d15o6h0uxpz56g.cloudfront.net/${barbearia.banner__main}`} alt="" />
+                     {console.log(barbearia.banner_main)}
+                     <img src={`https://d15o6h0uxpz56g.cloudfront.net/${barbearia.banner_main}`} alt="" />
                     </div>
 
                   <div className="section">
