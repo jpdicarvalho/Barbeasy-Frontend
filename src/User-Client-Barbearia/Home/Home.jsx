@@ -33,6 +33,22 @@ const userInformation = JSON.parse(userData);
 //Fromatando cada letra inicial do nome do usuário para caixa-alta
 const userName = userInformation.user[0].name;
 
+//Função para pegar a rolagem do Scroll
+const [scrollPosition, setScrollPosition] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const position = window.scrollY;
+      setScrollPosition(position);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
 //listando as barbearias cadastradas
 useEffect(() => {
   const fetchData = async () => {
@@ -126,10 +142,9 @@ const avaliacoesDaBarbearia = AllAvaliation.filter(avaliacao => avaliacao.barbea
 };
 
 return (
-          <div className="containerHome">
-
-            <div className="header">
-                <div className="imgBoxSectionUser">
+  <>
+            <div className={`header ${scrollPosition > 200 ? 'scrolled' : ''}`}>
+                <div className={`imgBoxSectionUser ${scrollPosition > 200 ? 'hideDiv' : ''}`}>
                   <img src={imgUserDefault} alt="foto de perfil do usuário" />
                   <div className="spanUser">
                     <p>Olá, {userName}</p>
@@ -138,18 +153,18 @@ return (
                   </div>
                   
                 </div>
-                <div className="Barbeasy">
+                <div className={`Barbeasy ${scrollPosition > 200 ? 'hideDiv' : ''}`}>
                   <img id="logoBarbeasy" src={barberLogo} alt="lodo-Barbeasy"/>
                   <h1>Barbeasy</h1>
                 </div>
-                <div className="containerSearch">
+                <div className={`containerSearch ${scrollPosition > 200 ? 'header__Search' : ''}`}>
                   <div className="inputBoxSearch">
                     <i className="fa-solid fa-magnifying-glass lupa"></i>
-                    <input type="search" id="inputSearch" name="name" value={search} onChange={(e) => setSearch(e.target.value)} placeholder='Encontrar Barbearia'/>
+                    <input type="search" id="inputSearch" name="name" value={search} onChange={(e) => setSearch(e.target.value)} placeholder='Buscar Barbearia'/>
                   </div>
                 </div> 
-              </div>
-
+          </div>
+          <div className="containerHome">
               {barbeariaSearch.map((barbearia) => (
                 
                 <div key={barbearia.id} className="containerBarbearia" onClick={() => handleBarbeariaClick(barbearia)}>
@@ -188,6 +203,7 @@ return (
               <button onClick={handleMenuClick} className="toggleMenu glassmorphism"></button>
             </ul>
             </div>
+    </>
     )
 }
 export default Home  
