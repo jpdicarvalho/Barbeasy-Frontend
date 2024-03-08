@@ -154,7 +154,7 @@ return (
                   
                 </div>
                 <div className={`Barbeasy ${scrollPosition > 200 ? 'hideDiv' : ''}`}>
-                  <img id="logoBarbeasy" src={barberLogo} alt="lodo-Barbeasy"/>
+                  <img id="logo_Barbeasy" src={barberLogo} alt="lodo-Barbeasy"/>
                   <h1>Barbeasy</h1>
                 </div>
                 <div className={`containerSearch ${scrollPosition > 200 ? 'header__Search' : ''}`}>

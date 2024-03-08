@@ -1201,7 +1201,7 @@ const formatarPreco = (valor) => {
                     onChange={handleFile}
                   />
 
-                  {imageUser.length > 0 ? (
+                  {imageUser.length > 10 ? (
                     <div className="img-view-profile">
                       <img src={imageUser} alt="" id='img-profile' />
                     </div>
@@ -1254,11 +1254,15 @@ const formatarPreco = (valor) => {
                            bannerImages.length === 1 ? { right: 0, left: -200}:{ right: 0, left: 0}}
 
           >
-          {bannerImages.map((image, index) => (
-                  <motion.div key={index} className='container-img-upload' whileTap={{cursor:"grabbing"}} >
-                    <img src={image} alt="" className='img-uploaded'  />
-                  </motion.div>
-                ))}
+          {bannerImages[0].length > 11 ? (
+            // Se o nome da primeira imagem tiver mais de 11 letras
+            bannerImages.map((image, index) => (
+              <motion.div key={index} className='container-img-upload' whileTap={{cursor:"grabbing"}} >
+                <img src={image} alt="" className='img-uploaded'  />
+              </motion.div>
+            ))
+          ) : (
+            // Se o nome da primeira imagem não tiver mais de 11 letras
             <label htmlFor="input-file" id='drop-area'>
               <input
                 type="file"
@@ -1273,6 +1277,8 @@ const formatarPreco = (valor) => {
                 <p>Incluir Imagem <br/>da Barbearia</p>
               </motion.div>
             </label>
+          )}
+            
           </motion.div>
         </motion.div>
 
