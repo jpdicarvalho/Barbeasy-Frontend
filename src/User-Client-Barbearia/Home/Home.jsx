@@ -151,13 +151,15 @@ return (
               </div>
 
               {barbeariaSearch.map((barbearia) => (
-                <div key={barbearia.id} className="containerBarbearia">
-                      <div className="imgBoxSection">
-                        <img src={InteriorBarbearia} alt="frente da barbearia" />
-                      </div>
+                <div key={barbearia.id} className="containerBarbearia" onClick={() => handleBarbeariaClick(barbearia)}>
+                     
+                     <div className="imgBoxSection">
+                     <img src={`https://d15o6h0uxpz56g.cloudfront.net/${barbearia.banner__main}`} alt="" />
+                    </div>
+
                   <div className="section">
                   {barbearia.status === "Aberta" ? (
-                        <p className="aberto">{barbearia.status}</p>
+                        <p className="aberto"> {barbearia.status}</p>
                       ) : (
                         <p className="fechado">{barbearia.status}</p>
                       )}
@@ -173,12 +175,9 @@ return (
                       <p className="material-symbols-outlined location">location_on </p>
                       <p>{barbearia.endereco}</p>
                       </div>
-                      <button className="agendar"
-                        onClick={() => handleBarbeariaClick(barbearia)}>
-                        Agendar
-                      </button>
+                      
                   </div>
-                  
+                 
                 </div>
               ))}
             <ul className={`Navigation glassmorphism ${isMenuActive ? 'active' : ''}`}>

@@ -153,39 +153,39 @@
   top: 4px;
   z-index: 1;
 }
-.containerBarbearia{
+.containerBarbearia {
   position: relative;
-  width: 300px;
-  height: 300px;
-  border-radius: 20px;
-  padding: 10px;
+  width: 100%;
+  height: auto;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  border-bottom: 1px solid #1c2035;
   margin-bottom: 10px;
-  background: rgba(255, 255, 255, 0.1);
-  overflow: hidden;
+  padding-bottom: 10px;
 }
-.section{
-  background: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  position: relative;
+.section {
+  position: absolute;
+  bottom: 10px;
   display: flex;
-  flex-wrap: wrap;
+  justify-content: start;
+  align-items: flex-start;
+  flex-direction: column;
   width: 100%;
-  height: 160px;
-  margin-top: 5px ;
-  padding: 5px;
-  border-radius: 12px;
+  height: 85px;
+  padding-bottom: 20px;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  background: rgb(0 0 0 / 50%);
 }
-.imgBoxSection{
+.imgBoxSection {
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 280px;
-  height: 290px;
+  width: 100%;
+  height: 240px;
   border-radius: 12px;
   overflow: hidden;
 }
@@ -237,9 +237,11 @@
   width: 100%;
   height: 40px;
   border-radius: 10px;
-  color: white;
+  color: #0f0;
   border: none;
-  background:#100d2a;
+  font-size: 14px;
+  border: 1px solid #0f0;
+  background:transparent;
 }
 .glassmorphism {
   background: rgba(255, 255, 255, 0.1);
@@ -357,7 +359,7 @@
 }
 .fechado {
   position: relative;
-  color: #1c2035;
+  color: red;
   padding: 5px;
   width: auto;
   text-align: center;
