@@ -1265,6 +1265,10 @@ const formatarPreco = (valor) => {
             ))
           ) : (
             // Se o nome da primeira imagem não tiver mais de 11 letras
+            null
+          )}
+          </>
+          )}
             <label htmlFor="input-file" id='drop-area'>
               <input
                 type="file"
@@ -1279,10 +1283,6 @@ const formatarPreco = (valor) => {
                 <p>Incluir Imagem <br/>da Barbearia</p>
               </motion.div>
             </label>
-          )}
-          </>
-          )}
-            
           </motion.div>
         </motion.div>
 
