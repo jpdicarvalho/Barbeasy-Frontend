@@ -9,40 +9,10 @@
     font-family: 'Poppis', sans-serif;
     background: #0c0e19;
 }
-.Header{
-    position: fixed;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    flex-direction: row;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-    width: 100%;
-    padding: 10px;
-}
 #barbDetails{
     color: white;
     font-weight: bold;
     width: auto;
-}
-#logo-Barbeasy{
-    width: 50px;
-    height: 50px;
-}
-.userProfile img{
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    right: 5px;
-    margin-bottom: 10px;
-    width: 50px;
-    height: 50px;
-    border-radius: 30px;
-    overflow: hidden;
-
 }
 
 .Outdoor{

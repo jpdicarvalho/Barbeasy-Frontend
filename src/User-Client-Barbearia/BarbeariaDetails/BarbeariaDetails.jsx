@@ -21,7 +21,6 @@ import { isToday, isYesterday, differenceInDays, differenceInMonths } from 'date
 import logoMercadoPago from './logoMercadoPago.png'
 import { Calendar } from '../Calendar/Calendar';
 import './BarbeariaDetails.css'
-import imgBarbearia from './img-barbearia.jpg'
 //import barbeLogo from './barber-logo.png'
 import logoBarbeariaTeste from './logo-barbearia-teste.png'
 
@@ -44,7 +43,7 @@ const userName = userInformation.user[0].name;
 const[banners, setBanners] = useState([]);
 
 useEffect(() =>{
-  let namesBanners = barbearia.banner_images.split(',');
+  let namesBanners = barbearia.banners.split(',');
   setBanners(namesBanners)
 }, []);
 
@@ -235,7 +234,7 @@ useEffect(()=> {
    </div>
    <p></p>
     </div>
-    
+
     <div className="ContainerMain">      
       <hr />
 

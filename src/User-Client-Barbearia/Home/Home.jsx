@@ -7,7 +7,6 @@ import './home.css'
 import barberLogo from './barber-logo.png';
 import imgUserDefault from './img-user-default.jpg'
 //import frenteBarbearia from './frente-barbearia.jpeg'
-import InteriorBarbearia from './interior-barbearia.avif'
 //import axios from "axios";
 
 function Home() {
@@ -68,7 +67,7 @@ useEffect(() => {
 
   fetchData();
 },[]);
-
+console.log(barbearias)
 //Convertendo o value do search para minusculo
 const searchLowerCase = search.toLowerCase();
 
