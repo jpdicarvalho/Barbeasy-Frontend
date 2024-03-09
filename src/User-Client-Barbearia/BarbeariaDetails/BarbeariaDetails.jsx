@@ -1,7 +1,22 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { motion } from 'framer-motion';
+import { CiLocationOn } from "react-icons/ci";
+
+//Import for slide
+import { register } from 'swiper/element/bundle';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/effect-fade';
+import { Swiper, SwiperSlide } from "swiper/react";
+register();
+
+// import required modules
+import { EffectFade } from 'swiper/modules';
+
 import { isToday, isYesterday, differenceInDays, differenceInMonths } from 'date-fns';
+
 //import Calendar from 'react-calendar';
 import logoMercadoPago from './logoMercadoPago.png'
 import { Calendar } from '../Calendar/Calendar';
@@ -25,21 +40,34 @@ const userInformation = JSON.parse(userData);
 //const userId = userInformation.user[0].id;
 const userEmail = userInformation.user[0].email;
 const userName = userInformation.user[0].name;
+/*=========== Buscandos os nomes dos banners da barbearia selecionada ===========*/
+const[banners, setBanners] = useState([]);
 
+useEffect(() =>{
+  let namesBanners = barbearia.banner_images.split(',');
+  setBanners(namesBanners)
+}, []);
+
+/*=================== Section Menu ===================*/
+const [isMenuActive, setMenuActive] = useState(false);
+
+//função para navegarpara página home
+const navigateToHome = () =>{
+  navigate("/Home");
+}
+//Função LogOut
+const logoutClick = () => {
+  ['token', 'userData'].forEach(key => localStorage.removeItem(key));
+  navigate("/");
+};
+
+/*=================== Section Paymmant ===================*/
 const [selectedDate, setSelectedDate] = useState(null);
 const [selectedTime, setSelectedTime] = useState("");
 const [selectedService, setSelectedService] = useState("");
-
 const [servicos, setServicos] = useState([]);
-
-const [isMenuActive, setMenuActive] = useState(false);
 const [isAgendamentoConfirmed, setAgendamentoConfirmed] = useState(false);
-
 const [url, setUrl] = useState(null);
-
-const [avaliacao, setAvaliacao] = useState(0.5);
-const [comentario, setComentario] = useState("");
-const [AllAvaliation, setAllAvaliation] = useState([]);
 
 //Função para selecionar a data escolhida pelo usuário
 const handleDateChange = (date) => {
@@ -55,21 +83,6 @@ const handleTimeChange = (horario) => {
 //Função para selecionar o serviço escolhida pelo usuário
 const handleServiceChange = (servicoId) => {
     setSelectedService(servicoId);
-};
-
-//Ativação do menu principal
-const handleMenuClick = () => {
-      setMenuActive(!isMenuActive);
-}
-
-//função para navegarpara página home
-const navigateToHome = () =>{
-  navigate("/Home");
-}
-//Função LogOut
-const logoutClick = () => {
-  ['token', 'userData'].forEach(key => localStorage.removeItem(key));
-  navigate("/");
 };
 
 //buscando o serviço cadastrado pela barbearia
@@ -120,6 +133,15 @@ const pagamento = async () => {
 const urlMercadoPago = () => {
     window.open(url, 'modal');
 };
+/*=================== Section Avaliation Barbearia ===================*/
+const [avaliacao, setAvaliacao] = useState(0.5);
+const [comentario, setComentario] = useState("");
+const [AllAvaliation, setAllAvaliation] = useState([]);
+
+//Ativação do menu principal
+const handleMenuClick = () => {
+  setMenuActive(!isMenuActive);
+}
 
 // Cadastrando a avaliação/comentário do usuário do usuário
 const enviarAvaliacao = async () => {
@@ -180,6 +202,7 @@ const calcularMediaAvaliacoes = () => {
 
   return media.toFixed(1).replace('.', ',');
 };
+
 //Reviews settings
 const reviews = useRef();
 const [width, setWidth] = useState(0);
@@ -192,24 +215,6 @@ useEffect(()=> {
 
   return (
     <div className="ContainerMain">
-
-      <div className="Outdoor">
-        <div className="imgOutdoor">
-            <img src={imgBarbearia } alt="foto-barbearia" id="imgBarbearia" />
-        </div>
-        <div className="BarbeariaInformation">
-        <div className="imgBarbeariaProfile">
-          <img src={logoBarbeariaTeste} alt="logo-barbearia" id="barbeLogo" />
-        </div>
-            {barbearia.status === "Aberta" ? <p className="abertoBarbDetails">{barbearia.status}</p> : <p className="fechadoBarbDetails">{barbearia.status}</p>}
-            <h3 id="BarbeariaName">{barbearia.name} • {calcularMediaAvaliacoes()} <i className="fa-solid fa-star"/> ({totalAvaliacoes(barbearia.id)})</h3>
-            <div className="location">
-              <p className="material-symbols-outlined location">location_on </p>
-              <p>{barbearia.endereco}</p>
-            </div>
-        </div>
-        <p></p>
-      </div>
       
       <hr />
 
