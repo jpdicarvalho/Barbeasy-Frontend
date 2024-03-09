@@ -214,8 +214,29 @@ useEffect(()=> {
 }, [reviewsWidth])
 
   return (
-    <div className="ContainerMain">
-      
+    <>
+    <div className="Outdoor">
+       
+       <Swiper slidesPerView={1} effect={'fade'} modules={[EffectFade]} pagination={{clickable: true}} autoplay={{ delay: 3000 }}>
+         {banners.map((item) =>
+           <SwiperSlide key={item} className="Slide__Box">
+             <img className='slider__image' src={`https://d15o6h0uxpz56g.cloudfront.net/${item}`} alt="Imagem da Barbearia" />
+           </SwiperSlide>
+         )} 
+       </Swiper>
+    
+   <div className="BarbeariaInformation">
+       {barbearia.status === "Aberta" ? <p className="abertoBarbDetails">{barbearia.status}</p> : <p className="fechadoBarbDetails">{barbearia.status}</p>}
+       <h3 id="BarbeariaName">{barbearia.name} • {calcularMediaAvaliacoes()} <i className="fa-solid fa-star"/> ({totalAvaliacoes(barbearia.id)})</h3>
+       <div className="location">
+       <CiLocationOn className="location_icon"/>
+         <p>{barbearia.endereco}</p>
+       </div>
+   </div>
+   <p></p>
+    </div>
+    
+    <div className="ContainerMain">      
       <hr />
 
       <div className="tittle">
@@ -374,7 +395,7 @@ useEffect(()=> {
           </motion.div>
       </motion.div>
     </div>
-    
+  </>
   );
 }
 
