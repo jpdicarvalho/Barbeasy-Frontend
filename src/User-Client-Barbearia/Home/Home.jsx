@@ -67,7 +67,6 @@ useEffect(() => {
 
   fetchData();
 },[]);
-console.log(barbearias)
 //Convertendo o value do search para minusculo
 const searchLowerCase = search.toLowerCase();
 

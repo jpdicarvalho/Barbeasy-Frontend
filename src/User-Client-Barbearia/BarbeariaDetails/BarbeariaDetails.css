@@ -99,7 +99,7 @@ h4{
     width: 100%;
     padding-left: 13px;
     font-size: 15px;
-    color: #354249;
+    color: #f6f6fc;
     font-weight: 700;
     letter-spacing: 1px;
 
@@ -180,158 +180,6 @@ span{
     transition: 0.5s;
 }
 
-/* =-=-= Estilização do calendario para desktop*/
-.react-calendar {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    min-height: 220px;
-    min-width: 370px;
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-}
-.react-calendar__navigation{
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row;
-    width: 100%;
-    margin: 10px;
-    border: none;
-    text-decoration: none;
-}
-/*butão voltar Ano*/
-.react-calendar__navigation__arrow.react-calendar__navigation__prev2-button{
-    background: transparent;
-    border-radius: 10px;
-    color: #f6f6fc;
-    width: 40px;
-    height: 30px;
-    border: none;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 5px;
-    font-size: 30px;
-}
-/*butão voltar Mês*/
-.react-calendar__navigation__arrow.react-calendar__navigation__prev-button{
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: none;
-    border-radius: 10px;
-    background: transparent;
-    color: #f6f6fc;
-    width: 30px;
-    height: 30px;
-    font-size: 30px;
-    margin: 5px;
-}
-.react-calendar__navigation__label{
-    border: none;
-    background: transparent;
-}
-.react-calendar__navigation__label__labelText.react-calendar__navigation__label__labelText--from{
-    color: #f6f6fc;
-    font-size: 15px;
-}
-/*butão avançar Mês*/
-.react-calendar__navigation__arrow.react-calendar__navigation__next-button{
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: none;
-    border-radius: 10px;
-    background: transparent;
-    color: #f6f6fc;
-    width: 30px;
-    height: 30px;
-    font-size: 30px;
-    margin: 5px;
-}
-/*butão avançar Ano*/
-.react-calendar__navigation__arrow.react-calendar__navigation__next2-button{
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: none;
-    border-radius: 10px;
-    background: transparent;
-    width: 40px;
-    height: 30px;
-    font-size: 30px;
-    margin: 5px;
-    color: #f6f6fc;
-}
-/*Container dos dias da semana e mês*/
-.react-calendar__viewContainer{
-    background: transparent;
-    border-radius: 10px;
-}
-/*Sub-container dos dias da semana e mês*/
-.react-calendar__month-view{
-    background: transparent;
-    border-radius: 10px;
-}
-/*div dos dias da semana*/
-.react-calendar__month-view__weekdays{
-    background: transparent;
-    border-radius: 10px;
-}
-/*div especifica de cada dia da semana*/
-.react-calendar__month-view__weekdays__weekday{
-    background: transparent;
-    border-radius: 10px;
-    color: #f6f6fc;
-    font-weight: bold;
-    font-size: 12px;
-    height: 20px;
-    width: 25px;
-    margin-bottom: 5px;
-    text-align: center;
-}    
-/*Container dos dias do mês*/
-.react-calendar__month-view__days{
-    background: transparent;
-    border-radius: 10px;
-}
-/*butão dos dias finais e iniciais dos meses anteriores e posteriores, respectivamente. */
-.react-calendar__tile.react-calendar__month-view__days__day.react-calendar__month-view__days__day--neighboringMonth{
-    background: transparent;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 5px;
-}
-/*button dia 1 do mês*/
-.react-calendar__tile.react-calendar__tile--active.react-calendar__tile--range.react-calendar__tile--rangeStart.react-calendar__tile--rangeEnd.react-calendar__tile--rangeBothEnds.react-calendar__month-view__days__day{
-    background: #4a17d5;
-    color: aliceblue;
-    border-radius: 5px;
-    font-weight: bold;
-    padding: 3px;
-}
-/*todos os butões do dia do mês*/
-.react-calendar__tile.react-calendar__month-view__days__day{
-    background-color: transparent;
-    margin-bottom: 10px;
-    padding: 3px;
-    border: none;
-    border-radius: 5px;
-    text-align: center;
-}
-/* =-=-= Fim da estilização do calendario =-=-=*/
 #AgendamentoButton{
     border: none;
     background: transparent;
@@ -370,11 +218,12 @@ span{
 }
 .abertoBarbDetails {
     color: #0f0;
-    border-radius: 5px;
-    padding: 3px;
+    padding-top: 3px;
     width: 60px;
     text-align: left;
     font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 14px;
 }
 .fechadoBarbDetails {
     color: red;

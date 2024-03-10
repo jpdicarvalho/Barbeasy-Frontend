@@ -159,7 +159,6 @@ const enviarAvaliacao = async () => {
         }),
       });
       const data = await response.json();
-      console.log(data)
       // Recarrega a página após a avaliação ser feita com sucesso
       window.location.reload();
     } catch (error) {
@@ -208,7 +207,6 @@ const [width, setWidth] = useState(0);
 const reviewsWidth = reviews.current?.scrollWidth - reviews.current?.offsetWidth;
 
 useEffect(()=> {
-  console.log(reviewsWidth);
   setWidth(reviewsWidth);
 }, [reviewsWidth])
 
