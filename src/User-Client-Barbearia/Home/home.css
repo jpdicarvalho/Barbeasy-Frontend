@@ -18,7 +18,6 @@
   left: 0;
   width: 100%;
   padding-top: 2vh;
-  background: rgba(255, 255, 255, 0.1);
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
   backdrop-filter: blur(10px);
