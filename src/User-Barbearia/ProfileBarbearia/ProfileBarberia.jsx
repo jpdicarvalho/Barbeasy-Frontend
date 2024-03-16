@@ -494,15 +494,8 @@ const [tempoAtendimentoSelected, setTempoAtendimentoSelected] = useState([]);
 const [horarioDefinido, setHorarioDefinido] = useState([]);
 const [agendaDoDiaSelecionado, setAgendaDoDiaSelecionado] = useState([]);
 
-//Declaração dos array de horários padronizados e de cada dia da semana
-const [horariosPadronizados, setHorariosPadronizados] = useState([]);
-const [horariosDom, setHorariosDom] = useState([]);
-const [horariosSeg, setHorariosSeg] = useState([]);
-const [horariosTer, setHorariosTer] = useState([]);
-const [horariosQua, setHorariosQua] = useState([]);
-const [horariosQui, setHorariosQui] = useState([]);
-const [horariosSex, setHorariosSex] = useState([]);
-const [horariosSab, setHorariosSab] = useState([]);
+//Declaração do array de horários padronizados
+const [timesDays, setTimesDays] = useState('');
 
 const [messageAgendaHorarios, setMessageAgendaHorarios] = useState('');
 
@@ -668,43 +661,8 @@ const salvarHorariosDiaSelecionado = () =>{
 const getHorariosDefinidos = () =>{
   axios.get(`https://api-user-barbeasy.up.railway.app/api/agendaDiaSelecionado/${barbeariaId}`)
   .then(res => {
-    let arrayHorariosPadrao = res.data.horariosDiaEspecifico;
-    let verifyIndexArray;
-
-    if(arrayHorariosPadrao.length > 0 && arrayHorariosPadrao[0] != null || '') {
-      verifyIndexArray = arrayHorariosPadrao[0].split(',')
-      if(verifyIndexArray[0] === 'horarioPadrao'){
-        verifyIndexArray.shift();
-        setHorariosPadronizados(verifyIndexArray);
-      }
-      for(let i=0; i < arrayHorariosPadrao.length; i++){
-        verifyIndexArray = arrayHorariosPadrao[i].substring(0, 3)
-
-          if (verifyIndexArray === 'Dom'){
-            setHorariosDom (arrayHorariosPadrao[i].split(','));
-          }
-          if (verifyIndexArray === 'Seg'){
-            setHorariosSeg (arrayHorariosPadrao[i].split(','));
-          }
-          if (verifyIndexArray === 'Ter'){
-            setHorariosTer (arrayHorariosPadrao[i].split(','));
-          }
-          if (verifyIndexArray === 'Qua'){
-            setHorariosQua (arrayHorariosPadrao[i].split(','));
-          }
-          if (verifyIndexArray === 'Qui'){
-            setHorariosQui (arrayHorariosPadrao[i].split(','));
-          }
-          if (verifyIndexArray === 'Sex'){
-            setHorariosSex (arrayHorariosPadrao[i].split(','));
-          }
-          if (verifyIndexArray === 'Sáb'){
-            setHorariosSab (arrayHorariosPadrao[i].split(','));
-          }
-        
-      }
-      
-    }
+   //Armazenando o objeto com todos os horários definidos
+   setTimesDays(res.data.TimesDays)
     
   }).catch(error => {
     console.error('Erro ao buscar informações da agenda da barbearia', error)
@@ -716,16 +674,15 @@ useEffect(() => {
 
 //Função para salvar os horários definidos para todos os dias
 const salvarHorariosTodosOsDias = () =>{
-  let arrayEdited = agendaDoDiaSelecionado;
-  arrayEdited[0] = 'horarioPadrao';
-
-  let strHorariosTodosOsDias = arrayEdited.join(',');
+  //removing the index from the array as it contains the name of the selected day
+  agendaDoDiaSelecionado.shift();
+  let strHorariosTodosOsDias = agendaDoDiaSelecionado.join(',');
   
   axios.post(`https://api-user-barbeasy.up.railway.app/api/update-horariosTodosOsDias/${barbeariaId}`, {StrAgenda: strHorariosTodosOsDias})
   .then(res => {
     if(res.data.Success === 'Success'){
       setMessageAgendaHorarios("Horários Salvos com Sucesso.")
-        // Limpar a mensagem após 3 segundos (3000 milissegundos)
+        // Limpar a mensagem após 3 segundos (2000 milissegundos)
         setTimeout(() => {
           setMessageAgendaHorarios('');
           getHorariosDefinidos()
@@ -768,27 +725,17 @@ useEffect(() => {
 }, [agendaDoDiaSelecionado]);
 
 const getHorariosPorDia = (dia) => {
-  const horariosPorDia = {
-    'Domingo': horariosDom,
-    'Segunda-feira': horariosSeg,
-    'Terça-feira': horariosTer,
-    'Quarta-feira': horariosQua,
-    'Quinta-feira': horariosQui,
-    'Sexta-feira': horariosSex,
-    'Sábado': horariosSab
-  };
+  //Deixando apenas as três primeiras letras do dia selecionado
+  let nameDayFormated = dia.substring(0, 3);
+  //Buscando no objeto, os horários do dia selecionado
+  let arrayWithTimes = timesDays[nameDayFormated]
+  //separando a string de horários por vírgula
+  arrayWithTimes = arrayWithTimes.split(',');
 
-  const horariosParaRenderizar = horariosPorDia[dia];
-
-  if (horariosParaRenderizar && horariosParaRenderizar.length > 0) {
-    return horariosParaRenderizar.map((horario, index) => (
+  //Renderizando o horário do dia selecionado
+  if (arrayWithTimes && arrayWithTimes.length > 0) {
+    return arrayWithTimes.map((horario, index) => (
       <div className="horario-item" key={`${dia}-${index}`}>
-        <p>{horario}</p>
-      </div>
-    ));
-  } else if (horariosPadronizados.length > 0) {
-    return horariosPadronizados.map((horario, index) => (
-      <div className="horario-item" key={`padrao-${index}`}>
         <p>{horario}</p>
       </div>
     ));
