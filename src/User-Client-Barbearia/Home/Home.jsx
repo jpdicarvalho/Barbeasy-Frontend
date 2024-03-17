@@ -6,24 +6,17 @@ import './home.css'
 //imagens estáticas
 import barberLogo from './barber-logo.png';
 import imgUserDefault from './img-user-default.jpg'
-//import frenteBarbearia from './frente-barbearia.jpeg'
-//import axios from "axios";
 
 function Home() {
 
 const navigate = useNavigate();
 
-//const location = useLocation();
 
-const [barbearias, setBarbearias] = useState([]);
 const [isMenuActive, setMenuActive] = useState(false);
 const [saudacao, setSaudacao] = useState('');
 const [AllAvaliation, setAllAvaliation] = useState([]);
 const [search, setSearch] = useState('');
 
-/*componente API GOOGLE
-const [DistanciaBarbearias, setDistanciaBarbearias] = useState([]);*/
-//const [UserLocation, setUserLocation] = useState([]);
 
 //buscando informações do usuário logado
 const userData = localStorage.getItem('userData');
@@ -47,8 +40,11 @@ const [scrollPosition, setScrollPosition] = useState(0);
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+/*===============================================================*/
+//listando as barbearias e seus respectivos serviços
+const [barbearias, setBarbearias] = useState([]);
+const [services, setServices] = useState('')
 
-//listando as barbearias cadastradas
 useEffect(() => {
   const fetchData = async () => {
     try {
@@ -59,7 +55,10 @@ useEffect(() => {
         });
         //Armazenando a resposta da requisição
         const data = await response.json();
-        setBarbearias(data);
+
+        setBarbearias(data.barbearias);
+        setServices(data.services);
+
     } catch (error) {
       console.error('Erro ao obter os registros:', error);
     }
@@ -67,13 +66,34 @@ useEffect(() => {
 
   fetchData();
 },[]);
-//Convertendo o value do search para minusculo
+
+//hook para eecultar a função que junta a barbearia com seu respectivo serviço
+useEffect(() =>{
+  const barbeariaWithService = () =>{
+    if(barbearias && services){
+      // Percorra cada barbearia
+      for (const indexBarbearia of barbearias) {
+        // Filtrar os serviços que correspondem à barbearia atual
+        const servicosDaBarbearia = services
+            .filter(servico => servico.barbearia_id === indexBarbearia.id)
+            .map(servico => servico.name); // Pegar apenas o nome do serviço
+        
+        // Adicionar os nomes dos serviços à barbearia atual
+        indexBarbearia.servicos = servicosDaBarbearia;
+      }
+    }
+  };
+  barbeariaWithService()
+}, [barbearias])
+
+// Convertendo o valor do search para minúsculo
 const searchLowerCase = search.toLowerCase();
 
-//Buscando Barbearia pelo input Search
+// Buscando Barbearia pelo input Search
 const barbeariaSearch = barbearias.filter((barbearia) =>
   barbearia.name.toLowerCase().includes(searchLowerCase) ||
-  barbearia.status.toLowerCase().includes(searchLowerCase)
+  barbearia.status.toLowerCase().includes(searchLowerCase) ||
+  barbearia.servicos.some((servico) => servico.toLowerCase().includes(searchLowerCase))
 );
 
 //passando os dados da barbearia selecionada
