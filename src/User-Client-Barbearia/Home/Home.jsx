@@ -45,6 +45,7 @@ const [scrollPosition, setScrollPosition] = useState(0);
 const [barbearias, setBarbearias] = useState([]);
 const [services, setServices] = useState('')
 
+//listando as barbearias cadastradas
 useEffect(() => {
   const fetchData = async () => {
     try {
