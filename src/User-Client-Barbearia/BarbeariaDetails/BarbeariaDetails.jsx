@@ -310,7 +310,7 @@ useEffect(()=> {
         <Calendar onDateChange={handleDateChange} timeSelected={handleTimeSelected} QntDaysSelected={QntDaysSelected} timesDays={timesDays} />
         <hr />
 
-        {selectedService && selectedDate && selectedTime && !isAgendamentoConfirmed && (
+        {selectedService && selectedDate && !isAgendamentoConfirmed && (
           <button
             id="AgendamentoButton"
             onClick={pagamento}
