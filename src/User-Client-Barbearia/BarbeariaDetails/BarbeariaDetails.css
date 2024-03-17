@@ -118,7 +118,7 @@ h4{
     
 }
 .Servicos::-webkit-scrollbar {
-    height: 5px;
+    width: 5px;
 }
 .Servicos::-webkit-scrollbar-thumb {
     background: #4a17d5; 
