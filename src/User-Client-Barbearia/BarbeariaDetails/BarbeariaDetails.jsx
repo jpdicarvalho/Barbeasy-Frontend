@@ -1,5 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
+import axios from 'axios';
 import { motion } from 'framer-motion';
 import { CiLocationOn } from "react-icons/ci";
 
@@ -30,6 +31,7 @@ const navigate = useNavigate();
 const location = useLocation();
 
 const { barbearia } = location.state;
+const barbeariaId = barbearia.id;
 
 //buscando informações do usuário logado
 const userData = localStorage.getItem('userData');
@@ -60,43 +62,94 @@ const logoutClick = () => {
   navigate("/");
 };
 
-/*=================== Section Paymmant ===================*/
-const [selectedDate, setSelectedDate] = useState(null);
-const [selectedTime, setSelectedTime] = useState("");
-const [selectedService, setSelectedService] = useState("");
+/*=================== Section make appointmants ===================*/
 const [servicos, setServicos] = useState([]);
+const [selectedService, setSelectedService] = useState("");
+const [selectedDate, setSelectedDate] = useState(null);
+const [timeSelected, setTimeSelected] = useState("");
+
 const [isAgendamentoConfirmed, setAgendamentoConfirmed] = useState(false);
 const [url, setUrl] = useState(null);
 
+  //Função para buscar os serviços cadastrados
+  const obterServicos = () =>{
+    
+    axios.get(`https://api-user-barbeasy.up.railway.app/api/get-service/${barbeariaId}`)
+    .then(res => {
+      if (res.data.Success === "Success") {
+        setServicos(res.data.result);
+      }
+    })
+    .catch(err => {
+      console.error("Erro ao buscar serviços!", err);
+    });
+    }
+  //hook para chamar a função de obtersServiço
+  useEffect(() => {
+    obterServicos()
+  }, []);
+
+  //Buscando a quantidade de dias que a agenda vai ficar aberta
+  const [QntDaysSelected, setQntDaysSelected] = useState([]);
+  const [agenda, setAgenda] = useState([]);
+
+  //Obtendo os dados da agenda da barbearia
+  const getAgenda = () =>{
+    axios.get(`https://api-user-barbeasy.up.railway.app/api/agenda/${barbeariaId}`)
+    .then(res => {
+      if(res.status === 200){
+        setAgenda(res.data.Agenda)
+      }
+    }).catch(error => {
+      console.error('Erro ao buscar informações da agenda da barbearia', error)
+    })
+  }
+  //Chamando a função para obter os dados da agenda da barbearia
+  useEffect(() => {
+    getAgenda()
+  }, [])
+
+  useEffect(() => {
+    if (Array.isArray(agenda) && agenda.length >= 2) {
+      setQntDaysSelected(agenda[1].toString());
+    }
+  }, [agenda]);
+
+//Declaração do array com os horários de cada dia
+const [timesDays, setTimesDays] = useState('');
+
+//Função para obter os horários definidos do dia selecionado
+const getHorariosDefinidos = () =>{
+  axios.get(`https://api-user-barbeasy.up.railway.app/api/agendaDiaSelecionado/${barbeariaId}`)
+  .then(res => {
+    //Armazenando o objeto com todos os horários definidos
+    setTimesDays(res.data.TimesDays)
+
+  }).catch(error => {
+    console.error('Erro ao buscar informações da agenda da barbearia', error)
+  })
+}
+//Hook para chamar a função acima
+useEffect(() => {
+  getHorariosDefinidos()
+}, [])
+
+/*====== Lidando com as seleções do usuário ======*/
+//Função para obter o serviço escolhioa pelo usuário
+const handleServiceChange = (servicoId) => {
+  setSelectedService(servicoId);
+};
+
 //Função para selecionar a data escolhida pelo usuário
 const handleDateChange = (date) => {
-  //console.log('dia do agendamento', date);
   setSelectedDate(date);
 };
 
-//Função para selecionar a hora escolhida pelo usuário
-const handleTimeChange = (horario) => {
-    setSelectedTime(horario);
+//Função para obter o horário de preferência do usuário
+const handleTimeSelected = (time) => {
+  setTimeSelected(time);
 };
 
-//Função para selecionar o serviço escolhida pelo usuário
-const handleServiceChange = (servicoId) => {
-    setSelectedService(servicoId);
-};
-
-//buscando o serviço cadastrado pela barbearia
-useEffect(() => {  
-  const fetchData = async () => {
-          try {
-            const response = await fetch('https://api-user-barbeasy.up.railway.app/api/listServico');
-            const data = await response.json();
-            setServicos(data);
-          } catch (error) {
-            console.error('Erro ao obter os registros:', error);
-          }
-  };
-fetchData();
-}, []);
 
 //Mandan a requisição para a rota de Pagamento
 const pagamento = async () => {
@@ -213,7 +266,6 @@ useEffect(()=> {
   return (
     <>
     <div className="Outdoor">
-       
        <Swiper slidesPerView={1} effect={'fade'} modules={[EffectFade]} pagination={{clickable: true}} autoplay={{ delay: 3000 }}>
          {banners.map((item) =>
            <SwiperSlide key={item} className="Slide__Box">
@@ -230,7 +282,6 @@ useEffect(()=> {
          <p>{barbearia.endereco}</p>
        </div>
    </div>
-   <p></p>
     </div>
 
     <div className="ContainerMain">      
@@ -239,45 +290,25 @@ useEffect(()=> {
       <div className="tittle">
         <p>Serviços</p>
       </div>
-        <div className="Servicos">
+
+      <div className="Servicos">
           {servicos
             .filter(servico => servico.barbearia_id === barbearia.id)
             .map(servico => (
               <div key={servico.id} onClick={() => handleServiceChange(servico.id)} className={`servicoDiv ${selectedService === servico.id ? 'selected' : ''}`}>
-                <p>{servico.name} - R$ {servico.preco},00</p> 
+                <p>{servico.name} • {servico.preco}</p>
+                <p style={{color: 'gray'}}>Duração • {servico.duracao}</p>
               </div>
           ))}
         </div>
-
         <hr />
 
       <div className="tittle">
         Escolha um dia de sua preferência
       </div>
-      <div className="EscolhaDia">
-        <Calendar onDateChange={handleDateChange}/>
-      </div>
-
-      <hr />
-      <div className="tittle">
-        Horários Disponíveis
-      </div>
-      <span>Manhã</span>
-      <div className="Horarios">
-          {["08:00", "09:00", "10:00", "11:00", "12:00"].map(horario => (
-            <div key={horario} onClick={() => handleTimeChange(horario)} className={`horarioDiv ${selectedTime === horario ? 'selected' : ''}`}>
-              {horario}
-            </div>
-          ))}
-        </div>
-        <span>Tarde</span>
-        <div className="Horarios">
-          {["13:00", "14:00", "15:00", "16:00", "17:00"].map(horario => (
-            <div key={horario} onClick={() => handleTimeChange(horario)} className={`horarioDiv ${selectedTime === horario ? 'selected' : ''}`}>
-              {horario}
-            </div>
-          ))}
-        </div>
+     
+        <Calendar onDateChange={handleDateChange} timeSelected={handleTimeSelected} QntDaysSelected={QntDaysSelected} timesDays={timesDays} />
+        <hr />
 
         {selectedService && selectedDate && selectedTime && !isAgendamentoConfirmed && (
           <button
