@@ -117,6 +117,16 @@ h4{
     margin-top: 10px;
     
 }
+.Servicos::-webkit-scrollbar {
+    height: 5px;
+}
+.Servicos::-webkit-scrollbar-thumb {
+    background: #4a17d5; 
+    border-radius: 5px;
+}
+.Servicos::-webkit-scrollbar-thumb:hover {
+    background: #f6f6f6; 
+}
 .servicoDiv {
     text-align: center;
     height: 70px;
