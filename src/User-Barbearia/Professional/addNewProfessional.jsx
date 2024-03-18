@@ -104,10 +104,15 @@ const createNewProfessional = () =>{
 
     axios.post(`https://api-user-barbeasy.up.railway.app/api/create-professional/${barbeariaId}`, newProfessional)
     .then(res => {
-      if(res.data.Status === "Success"){
+      console.log(res)
+      if(res.data.Success === "Success"){
         setMessageAddProfessional("Profissional criado com sucesso.")
         setTimeout(() => {
           setMessageAddProfessional(null);
+          setNewNameProfessional('');
+          setNewPhoneProfessional('');
+          setNewEmailProfessional('');
+          setNewPasswordProfessional('');
         }, 2000);
       }else if(res.data.Unauthorized === "Unauthorized"){
         setMessageAddProfessional('Já existe um profissional cadastrado com esse email.')
