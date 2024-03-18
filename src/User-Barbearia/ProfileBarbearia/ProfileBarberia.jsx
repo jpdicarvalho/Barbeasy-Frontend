@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import {motion} from 'framer-motion';
 import axios from 'axios';
+//Components
+import AddNewProfessional from '../Professional/addNewProfessional';
+
 //Icons
 import { IoIosArrowDown } from "react-icons/io";
 import { MdOutlineEdit } from "react-icons/md";
@@ -27,6 +30,8 @@ import { PiPassword } from "react-icons/pi";
 import { PiPasswordDuotone } from "react-icons/pi";
 import { MdOutlineDone } from "react-icons/md";
 import { VscError } from "react-icons/vsc";
+import { GoPlus } from "react-icons/go";
+
 
 import './ProfileBarbearia.css';
 
@@ -783,11 +788,13 @@ const formatarPreco = (valor) => {
 
   const [newNameService, setNewNameService] = useState('');
   const [newPriceService, setNewPriceService] = useState('');
+  
   const [newServiceDuration, setNewServiceDuration] = useState([]);
 
   const [messageAddService, setMessageAddService] = useState('');
 
   //Função para mostar o menu Adicionar Serviço
+  
   const ShowAddService = () => {
     setShowAddServico(true);
   };
@@ -1130,11 +1137,13 @@ const formatarPreco = (valor) => {
     });
   };
 /*----------------------------------*/
+const [showAddNewProfessional, setShowAddNewProfessional] = useState(false);
+
   return (
     <>
     
       <div className="container__profile">
-
+      
         <IoIosArrowDown className='icon_back'/>
 
               <div className="img__user_edit"> 
@@ -1235,6 +1244,17 @@ const formatarPreco = (valor) => {
 
         <div className="section_information">       
 <hr />
+        <div className='tittle_menu'>
+            <h3>Professional</h3>
+            <hr id='sublime'/>
+        </div>
+        <div>
+          <button className='addNewProfessional' onClick={() => setShowAddNewProfessional(true)}>
+            <GoPlus className='icon_plus'/>
+          </button>
+        </div>
+
+      <AddNewProfessional openModal={showAddNewProfessional} setCloseModal={() => setShowAddNewProfessional(!showAddNewProfessional)}/>
         <div className='tittle_menu'>
             <h3>Barbearia</h3>
             <hr id='sublime'/>

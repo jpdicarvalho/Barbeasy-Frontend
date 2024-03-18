@@ -673,3 +673,19 @@
 .hide_icon__error.icon__error{
     opacity: 1;
 }
+/*==========================================================*/
+.addNewProfessional{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 1px solid #4a17d5;
+    background: transparent;
+    color: #4a17d5;
+}
+.icon_plus{
+    height: 30px;
+    width: 30px;
+}
