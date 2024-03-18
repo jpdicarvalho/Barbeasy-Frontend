@@ -5,7 +5,8 @@ import './addNewProfessional.css'
 //Icons
 import { IoClose } from "react-icons/io5";
 import { IoAdd } from "react-icons/io5";
-
+import { MdOutlineDone } from "react-icons/md";
+import { VscError } from "react-icons/vsc";
 
 
 export default function AddNewProfessional ({ openModal, setCloseModal }){
@@ -15,15 +16,11 @@ const userData = localStorage.getItem('dataBarbearia');//Obtendo os dados salvo 
 const userInformation = JSON.parse(userData);//trasnformando os dados para JSON
 const barbeariaId = userInformation.barbearia[0].id;
 
-const [newNameProfessional, setNewNameProfessional] = useState('');
-const [newPhoneProfessional, setNewPhoneProfessional] = useState('');
-const [newEmailProfessional, setNewEmailProfessional] = useState('');
-const [newPasswordProfessional, setNewPasswordProfessional] = useState('');
-
 //Section update image
 //Constantes de Upload de imagem de usuário
 const [file, setfile] = useState(null);
 const [selectedImage, setSelectedImage] = useState(null);
+
 const [userImageMessage, setUserImageMessage] = useState('');
 
 //Upload user image
@@ -70,7 +67,7 @@ const handleUpload = () => {
   formdata.append('image', renamedFile);
   formdata.append('barbeariaId', barbeariaId);
 
-  axios.post('https://api-user-barbeasy.up.railway.app/api/upload-image-user-barbearia', formdata)
+  axios.post('https://api-user-barbeasy.up.railway.app/api/upload-user-image-professional', formdata)
   .then(res => {
     if(res.data.Status === "Success"){
       setUserImageMessage("Imagem atualizada com sucesso.");
@@ -86,6 +83,42 @@ const handleUpload = () => {
     }
   })
   .catch(err => console.log(err));
+}
+// ===== Function to create a new professional ===== 
+const [newNameProfessional, setNewNameProfessional] = useState('');
+const [newPhoneProfessional, setNewPhoneProfessional] = useState('');
+const [newEmailProfessional, setNewEmailProfessional] = useState('');
+const [newPasswordProfessional, setNewPasswordProfessional] = useState('');
+const [messageAddProfessional, setMessageAddProfessional] = useState('');
+
+const createNewProfessional = () =>{
+
+  if(newNameProfessional && newPhoneProfessional && newEmailProfessional && newPasswordProfessional){
+
+    const newProfessional = {
+      newNameProfessional,
+      newPhoneProfessional,
+      newEmailProfessional,
+      newPasswordProfessional
+    }
+
+    axios.post(`https://api-user-barbeasy.up.railway.app/api/create-professional/${barbeariaId}`, newProfessional)
+    .then(res => {
+      if(res.data.Status === "Success"){
+        setMessageAddProfessional("Profissional criado com sucesso.")
+        setTimeout(() => {
+          setMessageAddProfessional(null);
+        }, 2000);
+      }else if(res.data.Unauthorized === "Unauthorized"){
+        setMessageAddProfessional('Já existe um profissional cadastrado com esse email.')
+        setTimeout(() => {
+          setMessageAddProfessional(null);
+          setNewEmailProfessional('')
+        }, 3000);
+      }
+    })
+    .catch(err => console.log(err));
+    }
 }
 
 /*
@@ -194,7 +227,18 @@ if(openModal){
                 placeholder='********'
                 />
 
-            <button className="button__Salve__Service" >
+              {messageAddProfessional === "Profissional criado com sucesso." ? (
+                <div className="mensagem-sucesso">
+                  <MdOutlineDone className="icon__success"/>
+                  <p className="text__message">{messageAddProfessional}</p>
+                </div>
+              ) : (
+                <div className={` ${messageAddProfessional ? 'mensagem-erro' : ''}`}>
+                  <VscError className={`hide_icon__error ${messageAddProfessional ? 'icon__error' : ''}`}/>
+                  <p className="text__message">{messageAddProfessional}</p>
+                </div>
+              )}
+            <button className="button__Salve__Service" onClick={createNewProfessional}>
                 Cadastrar
             </button>
 
