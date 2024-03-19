@@ -22,6 +22,17 @@
     padding-top: 10px;
     width: 390px;
 }
+.back{
+    cursor: pointer;
+    float: left;
+    width: 100%;
+}
+.Icon__Back{
+ color: #4a17d5;
+ width: 30px;
+ height: 30px;
+ cursor: pointer;
+}
 .Box__first__letter{
     width: 100px;
     height: 100px;

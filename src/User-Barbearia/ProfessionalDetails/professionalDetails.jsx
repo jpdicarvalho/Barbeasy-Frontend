@@ -4,6 +4,7 @@ import axios from 'axios';
 import './professionalDetails.css';
 
 //Icons
+import { IoArrowBackSharp } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";
 import { BsCalendar2Day } from "react-icons/bs";
 import { TbClockHour4 } from "react-icons/tb";
@@ -25,6 +26,11 @@ const firstLetter = professional.name.charAt(0).toUpperCase();
 const userData = localStorage.getItem('dataBarbearia');//Obtendo os dados salvo no localStorage
 const userInformation = JSON.parse(userData);//trasnformando os dados para JSON
 const barbeariaId = userInformation.barbearia[0].id;
+
+//passando os dados do profissional selecionado
+const handleBackClick = () => {
+  navigate("/ProfileBarbearia");
+};
 
 /*----------------------------------*/
 const [mostrarDiasSemana, setMostrarDiasSemana] = useState(false);
@@ -692,12 +698,17 @@ const formatarPorcentagem = (valor) => {
 return (
     <div className="main__professional">
     <div className="container__professional">
-        <div key={professional.id} className="header__professional"> 
+        <div key={professional.id} className="header__professional">
+          <div className="back" onClick={handleBackClick}>
+          <IoArrowBackSharp className="Icon__Back"/>
+          </div>
+
             <div className="Box__image  Box__first__letter">
                 <p className='firstLetter__professional'>{firstLetter}</p>
             </div>
             <p className='name__professional'>{professional.name}</p>
         </div>
+
         <div className="container__menu">
 
         <div className="menu__main" onClick={alternarDiasTrabalho}>
