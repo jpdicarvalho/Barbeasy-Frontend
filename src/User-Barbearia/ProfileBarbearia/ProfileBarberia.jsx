@@ -238,7 +238,7 @@ const [professional, setProfessional] = useState([])
   //Function to get all professionais
   useEffect(() => {
     const getProfessional = () =>{
-    axios.get(`http://localhost:8000/api/professional/${barbeariaId}`)
+    axios.get(`https://api-user-barbeasy.up.railway.app/api/professional/${barbeariaId}`)
       .then(res => {
         setProfessional(res.data.Professional)
       })
@@ -634,7 +634,7 @@ const handleProfessionalClick = (professional) => {
         <div className="section_information">       
 <hr />
         <div className='tittle_menu'>
-            <h3>Professional</h3>
+            <h3>Profissional</h3>
             <hr id='sublime'/>
         </div>
         <div className="section__professional">
