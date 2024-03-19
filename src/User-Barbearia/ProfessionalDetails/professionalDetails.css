@@ -1,0 +1,29 @@
+.main__professional{
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+.container__professional{
+    padding: 5px;
+    max-width: 390px;
+}
+.header__professional{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 20px;
+    padding-top: 10px;
+    width: 390px;
+}
+.Box__first__letter{
+    width: 100px;
+    height: 100px;
+}
+.firstLetter__professional{
+    font-size: 40px;
+}

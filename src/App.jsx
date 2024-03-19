@@ -14,6 +14,8 @@ import HomeBarbearia from './User-Barbearia/Home/HomeBarbearia';
 import BarbeariaDetails from '../src/User-Client-Barbearia/BarbeariaDetails/BarbeariaDetails';
 import ProfileBarbearia from './User-Barbearia/ProfileBarbearia/ProfileBarberia';
 
+import ProfessionalDetails from './User-Barbearia/ProfessionalDetails/professionalDetails';
+
 import Checkout from './Checkout';
 import Widget from './Widget';
 import PropTypes from 'prop-types';
@@ -48,6 +50,7 @@ const App = () => {
 
       <Route path="/HomeBarbearia" element={<HomeBarbearia />} />
       <Route path="/ProfileBarbearia" element={<ProfileBarbearia />} />
+      <Route path="/ProfessionalDetails" element={<ProfessionalDetails />} />
 
         <Route path="/" element={<GetStartedPage />} />
         

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {motion} from 'framer-motion';
+import { useNavigate } from "react-router-dom"
+
 import axios from 'axios';
 //Components
 import AddNewProfessional from '../Professional/addNewProfessional';
@@ -36,6 +38,7 @@ import { GoPlus } from "react-icons/go";
 import './ProfileBarbearia.css';
 
 function ProfileBarbearia() {
+  const navigate = useNavigate();
 
   //Buscando informações do usuário logado
   const userData = localStorage.getItem('dataBarbearia');//Obtendo os dados salvo no localStorage
@@ -244,6 +247,10 @@ const [professional, setProfessional] = useState([])
     getProfessional()
   }, [barbeariaId])
 
+//passando os dados do profissional selecionado
+const handleProfessionalClick = (professional) => {
+  navigate("/ProfessionalDetails", { state: { professional } });
+};
 /*----------------------------------*/
 //Constantes para atualizar o status da barbearia
   const [mostrarStatus, setMostrarStatus] = useState(false);
@@ -1274,7 +1281,7 @@ const formatarPreco = (valor) => {
             const firstLetter = professional.name.charAt(0).toUpperCase();
             
             return (
-              <div key={professional.id} className='Box__professional'> 
+              <div key={professional.id} className='Box__professional' onClick={() => handleProfessionalClick(professional)}> 
                 <div className="Box__image">
                   <p className='firstLetter'>{firstLetter}</p>
                 </div>

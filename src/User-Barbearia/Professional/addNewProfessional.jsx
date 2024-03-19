@@ -4,7 +4,6 @@ import './addNewProfessional.css'
 
 //Icons
 import { IoClose } from "react-icons/io5";
-import { IoAdd } from "react-icons/io5";
 import { MdOutlineDone } from "react-icons/md";
 import { VscError } from "react-icons/vsc";
 
@@ -16,74 +15,6 @@ const userData = localStorage.getItem('dataBarbearia');//Obtendo os dados salvo 
 const userInformation = JSON.parse(userData);//trasnformando os dados para JSON
 const barbeariaId = userInformation.barbearia[0].id;
 
-//Section update image
-//Constantes de Upload de imagem de usuário
-const [file, setfile] = useState(null);
-const [selectedImage, setSelectedImage] = useState(null);
-
-const [userImageMessage, setUserImageMessage] = useState('');
-
-//Upload user image
-const handleFile = (e) => {
-  setfile(e.target.files[0])
-  setSelectedImage(e.target.files[0])
-  const fileSelected = e.target.files[0];
-
-  if (fileSelected) {
-    const reader = new FileReader(); // Cria um leitor de arquivo
-    reader.onloadend = () => {
-      // Quando a leitura do arquivo estiver concluída
-      setSelectedImage(reader.result); // Define a imagem lida como estado
-    };
-    reader.readAsDataURL(fileSelected); // Lê o arquivo como uma URL de dados
-  }
-}
-
-//Preparando as imagens selecionadas para serem enviadas ao back-end
-const handleUpload = () => {
-  const allowedExtensions = ['jpg', 'jpeg', 'png'];
-
-  const formdata = new FormData();
-
-  // Obtém a extensão do arquivo original
-  const fileExtension = file ? file.name.split('.').pop() : '';//operador ternário para garantir que name não seja vazio
-
-  if(fileExtension.length > 0){
-    // Verifica se a extensão é permitida
-    if (!allowedExtensions.includes(fileExtension)) {
-      setUserImageMessage("Extensão de arquivo não permitida. Use imagem 'jpg', 'jpeg' ou 'png'.");
-      return;
-    }
-  }
-
-  // Obtém a data e hora atual
-  const currentDateTime = new Date();
-
-  // Formata a data e hora no formato desejado (por exemplo: YYYYMMDD_HHMMSS)
-  const formattedDateTime = `${currentDateTime.getFullYear()}${(currentDateTime.getMonth() + 1).toString().padStart(2, '0')}${currentDateTime.getDate().toString().padStart(2, '0')}_${currentDateTime.getHours().toString().padStart(2, '0')}${currentDateTime.getMinutes().toString().padStart(2, '0')}${currentDateTime.getSeconds().toString().padStart(2, '0')}`;
-
-  // Renomeia a imagem com o ID do usuário, número aleatório e a data/hora
-  const renamedFile = new File([file], `userProfessional_Barbearia_${barbeariaId}_${formattedDateTime}.${fileExtension}`, { type: file.type });
-  formdata.append('image', renamedFile);
-  formdata.append('barbeariaId', barbeariaId);
-
-  axios.post('https://api-user-barbeasy.up.railway.app/api/upload-user-image-professional', formdata)
-  .then(res => {
-    if(res.data.Status === "Success"){
-      setUserImageMessage("Imagem atualizada com sucesso.");
-      setTimeout(() => {
-        setUserImageMessage(null);
-        window.location.reload()
-      }, 2000);
-    }else{
-      setUserImageMessage('Erro ao atualizar a imagem. Tente novamente mais tarde.')
-      setTimeout(() => {
-        setUserImageMessage(null);
-      }, 3000);
-    }
-  })
-  .catch(err => console.log(err));
-}
 // ===== Function to create a new professional ===== 
 const [newNameProfessional, setNewNameProfessional] = useState('');
 const [newPhoneProfessional, setNewPhoneProfessional] = useState('');
@@ -155,33 +86,6 @@ if(openModal){
                     <button className="Btn__closeModal" onClick={setCloseModal}>
                         <IoClose className="icon_close"/>
                     </button>
-                </div>
-
-                <div className="section__addImageProfessional">
-                    <div className="addImageProfessional"> 
-                        <label htmlFor="input-file-professional" id="drop-area-professional">
-                        {selectedImage ? (
-                            <div className="Box__imageProfessional">
-                                <img src={selectedImage} alt="Imagem do profissional" className="Image__selected"/>
-                            </div>
-                            ):(
-                            <IoAdd className="icon_AddImage" />
-                            )
-                        }
-                        <input
-                            type="file"
-                            accept="image/*"
-                            id="input-file-professional"
-                            hidden
-                            onChange={handleFile}
-                        />
-                        </label>
-                        
-                    </div>
-                    {!selectedImage &&(
-                        <p>Adicionar Imagem</p>
-                    )}
-                    
                 </div>
 
                 <div className="coolinput">
