@@ -230,6 +230,19 @@ function ProfileBarbearia() {
 //==================================================
 //Variáveis para abrir o madal
 const [showAddNewProfessional, setShowAddNewProfessional] = useState(false);
+const [professional, setProfessional] = useState([])
+
+  //Function to get all professionais
+  useEffect(() => {
+    const getProfessional = () =>{
+    axios.get(`http://localhost:8000/api/professional/${barbeariaId}`)
+      .then(res => {
+        setProfessional(res.data.Professional)
+      })
+      .catch(error => console.log(error));
+    }
+    getProfessional()
+  }, [barbeariaId])
 
 /*----------------------------------*/
 //Constantes para atualizar o status da barbearia
@@ -1248,11 +1261,27 @@ const formatarPreco = (valor) => {
             <hr id='sublime'/>
         </div>
         <div className="section__professional">
-          <button className='addNewProfessional' onClick={() => setShowAddNewProfessional(true)}>
-            <GoPlus className='icon_plus'/>
-          </button>
-          
+          <div className='Box__addNewProfessional'>
+            <button className='addNewProfessional' onClick={() => setShowAddNewProfessional(true)}>
+              <GoPlus className='icon_plus'/>
+            </button>
+            Novo
+          </div>
           <AddNewProfessional openModal={showAddNewProfessional} setCloseModal={() => setShowAddNewProfessional(!showAddNewProfessional)}/>
+
+          {professional.map(professional => {
+            // Obtendo a primeira letra do nome do profissional
+            const firstLetter = professional.name.charAt(0).toUpperCase();
+            
+            return (
+              <div key={professional.id} className='Box__professional'> 
+                <div className="Box__image">
+                  <p className='firstLetter'>{firstLetter}</p>
+                </div>
+                <p className='name__professional'>{professional.name}</p>
+              </div>
+            );
+          })}
         </div>
 
         <div className='tittle_menu'>
