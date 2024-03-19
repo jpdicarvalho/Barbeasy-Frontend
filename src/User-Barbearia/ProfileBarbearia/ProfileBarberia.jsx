@@ -107,7 +107,10 @@ function ProfileBarbearia() {
     // Configura um temporizador para esperar 1 segundo após a última mudança no input de arquivo
     const timeout = setTimeout(() => {
       // Executa a função de upload após o período de espera
-      handleUpload();
+      if(file){
+        handleUpload();
+      }
+      
     }, 1000);
 
     // Limpa o temporizador se o componente for desmontado ou se houver uma nova mudança no input de arquivo
