@@ -55,11 +55,6 @@ function ProfileBarbearia() {
 
   //Preparando as imagens selecionadas para serem enviadas ao back-end
   const handleUpload = () => {
-    if (!file) {
-      console.error("No file selected."); // Caso nenhum arquivo seja selecionado
-      return;
-    }
-
     const allowedExtensions = ['jpg', 'jpeg', 'png'];
 
     const formdata = new FormData();
@@ -232,6 +227,9 @@ function ProfileBarbearia() {
     })
     .catch(error => console.log(error));
   }, [barbeariaId]);
+//==================================================
+//Variáveis para abrir o madal
+const [showAddNewProfessional, setShowAddNewProfessional] = useState(false);
 
 /*----------------------------------*/
 //Constantes para atualizar o status da barbearia
@@ -242,6 +240,7 @@ function ProfileBarbearia() {
   const alternarStatus = () => {
     setMostrarStatus(!mostrarStatus);
   };
+
   //Função para atualizar o status da barbearia
   const statusUpdate = () => {
     // Aqui você pode fazer uma solicitação para o backend usando o axios
@@ -256,6 +255,7 @@ function ProfileBarbearia() {
         console.error('Erro ao atualizar o status:', error);
       });
   };
+
   //Função para obter o status da barbearia
   useEffect(() => {
     axios.get(`https://api-user-barbeasy.up.railway.app/api/status-barbearia/${barbeariaId}`)
@@ -1137,7 +1137,6 @@ const formatarPreco = (valor) => {
     });
   };
 /*----------------------------------*/
-const [showAddNewProfessional, setShowAddNewProfessional] = useState(false);
 
   return (
     <>
@@ -1248,13 +1247,14 @@ const [showAddNewProfessional, setShowAddNewProfessional] = useState(false);
             <h3>Professional</h3>
             <hr id='sublime'/>
         </div>
-        <div>
+        <div className="section__professional">
           <button className='addNewProfessional' onClick={() => setShowAddNewProfessional(true)}>
             <GoPlus className='icon_plus'/>
           </button>
+          
+          <AddNewProfessional openModal={showAddNewProfessional} setCloseModal={() => setShowAddNewProfessional(!showAddNewProfessional)}/>
         </div>
 
-      <AddNewProfessional openModal={showAddNewProfessional} setCloseModal={() => setShowAddNewProfessional(!showAddNewProfessional)}/>
         <div className='tittle_menu'>
             <h3>Barbearia</h3>
             <hr id='sublime'/>

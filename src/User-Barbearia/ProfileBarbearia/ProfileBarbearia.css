@@ -191,7 +191,11 @@
     cursor: pointer;
     width: 100%;
 }
-
+.section__professional{
+    width: 370px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
 .arrow{
     position: absolute;
     right: 10px;

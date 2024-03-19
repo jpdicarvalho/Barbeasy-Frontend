@@ -114,15 +114,21 @@ const createNewProfessional = () =>{
           setNewEmailProfessional('');
           setNewPasswordProfessional('');
         }, 2000);
-      }else if(res.data.Unauthorized === "Unauthorized"){
-        setMessageAddProfessional('Já existe um profissional cadastrado com esse email.')
-        setTimeout(() => {
-          setMessageAddProfessional(null);
-          setNewEmailProfessional('')
-        }, 3000);
       }
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      setMessageAddProfessional('Erro ao cadastrar profissional. Verifique o email digitado e tente novamente.')
+      setTimeout(() => {
+        setMessageAddProfessional(null);
+        setNewEmailProfessional('')
+      }, 3000);
+      console.log(err)
+    });
+    }else{
+      setMessageAddProfessional('Preencha todos os campos.')
+      setTimeout(() => {
+        setMessageAddProfessional(null);
+      }, 3000);
     }
 }
 
@@ -138,8 +144,6 @@ useEffect(() => {
   // Limpa o temporizador se o componente for desmontado ou se houver uma nova mudança no input de arquivo
   return () => clearTimeout(timeout);
 }, [file]);*/
-    
-    
 
 if(openModal){
     return (
@@ -180,34 +184,41 @@ if(openModal){
                     
                 </div>
 
-                <p>Nome</p>
+                <div className="coolinput">
+                <label htmlFor="professionalName" className="text">Name:</label>
                 <input
-                className="input_AddService"
+                className="input"
                 type="text"
                 id="professionalName"
                 name="professionalName"
-                
+                value={newNameProfessional}
                 maxLength={100}
                 onChange={(e) => setNewNameProfessional(e.target.value)}
                 placeholder='Ex. João Pedro'
                 />
+                </div>
 
-                <p>Celular</p>
+                <div className="coolinput">
+                <label htmlFor="celularProfessional" className="text">Celular:</label>
                 <input
-                type="tel"
+                type="text"
                 id="celularProfessional"
                 name="celularProfessional"
-                className="input_AddService"
+                value={newPhoneProfessional}
+                className="input"
                 onChange={(e) => setNewPhoneProfessional(e.target.value)}
                 placeholder="Ex. 93 991121212"
-            />
+                />
+                </div>
 
-                <p>Email</p>
+                <div className="coolinput">
+                <label htmlFor="email" className="text">Email:</label>
                 <input
                 type="email"
                 id="email"
                 name="email"
-                className="input_AddService"
+                value={newEmailProfessional}
+                className="input"
                 maxLength={120}
                 onChange={(e) => {
                     const inputValue = e.target.value;
@@ -220,17 +231,21 @@ if(openModal){
                 placeholder="email.exemplo@gmail.com"
                 required
                 />
+                </div>
 
-                <p>Senha</p>
+                <div className="coolinput">
+                <label htmlFor="passwordProfessional" className="text">Senha:</label>
                 <input
-                className="input_AddService"
+                className="input"
                 type="password"
                 id="passwordProfessional"
                 name="passwordProfessional"
+                value={newPasswordProfessional}
                 maxLength={10}
                 onChange={(e) => setNewPasswordProfessional(e.target.value)}
                 placeholder='********'
                 />
+                </div>
 
               {messageAddProfessional === "Profissional criado com sucesso." ? (
                 <div className="mensagem-sucesso">
