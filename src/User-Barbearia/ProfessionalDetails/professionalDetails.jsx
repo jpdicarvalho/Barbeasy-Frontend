@@ -39,6 +39,7 @@ const [messageAgenda, setMessageAgenda] = useState('');
   const alternarDiasTrabalho = () => {
     setMostrarDiasSemana(!mostrarDiasSemana);
   };
+
   //Obtendo os valores selecionados pelo usuário
   const handleCheckboxChange = (dia) => {
     if (daysWeekSelected.includes(dia)) {
@@ -49,6 +50,7 @@ const [messageAgenda, setMessageAgenda] = useState('');
       setDaysWeekSelected([...daysWeekSelected, dia]);
     }
   };
+
   //Passando os valores para o input Dias da Semanas
   const Checkbox = ({ dia }) => {
     return (
@@ -66,6 +68,7 @@ const [messageAgenda, setMessageAgenda] = useState('');
       </>
     );
   };
+
   //Passando os valores para o input Quantidade de dias
   const CheckboxQntDias = ({ value }) => {
     return (
@@ -91,17 +94,18 @@ const [messageAgenda, setMessageAgenda] = useState('');
       </>
     );
   };
+
   //Cadastrando os valores na agenda da barbearia
   const updateAgenda = () =>{
-    axios.post(`https://api-user-barbeasy.up.railway.app/api/update-agenda/${barbeariaId}`, {daysWeek: daysWeekSelected, qntDays: QntDaysSelected})
+    axios.post(`https://api-user-barbeasy.up.railway.app/api/update-agenda/${barbeariaId}/${professionalId}`, {daysWeek: daysWeekSelected, qntDays: QntDaysSelected})
     .then(res => {
       if(res.data.Success === 'Success'){
-        setMessageAgenda("Agenda Atualizada com Sucesso!")
+        setMessageAgenda("Sua agenda foi atualizada! Lembre-se de ajustar seus horários de trabalho.")
         setTimeout(() => {
           setMessageAgenda('');
           getAgenda()
           setMostrarDiasSemana(!mostrarDiasSemana);
-        }, 3000);
+        }, 5000);
       }
     }).catch(error => {
       setMessageAgenda("Não foi possível atualizar sua agenda.")
@@ -115,7 +119,7 @@ const [messageAgenda, setMessageAgenda] = useState('');
   }
   //Obtendo os dados da agenda da barbearia
   const getAgenda = () =>{
-    axios.get(`https://api-user-barbeasy.up.railway.app/api/agenda/${barbeariaId}`)
+    axios.get(`https://api-user-barbeasy.up.railway.app/api/agenda/${barbeariaId}/${professionalId}`)
     .then(res => {
       if(res.status === 200){
         setAgenda(res.data.Agenda)
@@ -287,7 +291,7 @@ const configAgendaDiaSelecionado = () => {
 const salvarHorariosDiaSelecionado = () =>{
   let strAgendaDiaSelecionado = agendaDoDiaSelecionado.join(',');
   
-  axios.post(`https://api-user-barbeasy.up.railway.app/api/update-agendaDiaSelecionado/${barbeariaId}`, {StrAgenda: strAgendaDiaSelecionado})
+  axios.post(`https://api-user-barbeasy.up.railway.app/api/update-agendaDiaSelecionado/${barbeariaId}/${professionalId}`, {StrAgenda: strAgendaDiaSelecionado})
   .then(res => {
     if(res.data.Success === 'Success'){
       setMessageAgendaHorarios("Horários Salvos com Sucesso.")
@@ -312,7 +316,7 @@ const salvarHorariosDiaSelecionado = () =>{
 
 //Função para obter os horários definidos do dia selecionado
 const getHorariosDefinidos = () =>{
-  axios.get(`https://api-user-barbeasy.up.railway.app/api/agendaDiaSelecionado/${barbeariaId}`)
+  axios.get(`https://api-user-barbeasy.up.railway.app/api/agendaDiaSelecionado/${barbeariaId}/${professionalId}`)
   .then(res => {
    //Armazenando o objeto com todos os horários definidos
    setTimesDays(res.data.TimesDays)
@@ -321,9 +325,10 @@ const getHorariosDefinidos = () =>{
     console.error('Erro ao buscar informações da agenda da barbearia', error)
   })
 }
+
 useEffect(() => {
   getHorariosDefinidos()
-}, [])
+}, [timesDays])
 
 //Função para salvar os horários definidos para todos os dias
 const salvarHorariosTodosOsDias = () =>{
@@ -331,7 +336,7 @@ const salvarHorariosTodosOsDias = () =>{
   agendaDoDiaSelecionado.shift();
   let strHorariosTodosOsDias = agendaDoDiaSelecionado.join(',');
   
-  axios.post(`https://api-user-barbeasy.up.railway.app/api/update-horariosTodosOsDias/${barbeariaId}`, {StrAgenda: strHorariosTodosOsDias})
+  axios.post(`https://api-user-barbeasy.up.railway.app/api/update-horariosTodosOsDias/${barbeariaId}/${professionalId}`, {StrAgenda: strHorariosTodosOsDias})
   .then(res => {
     if(res.data.Success === 'Success'){
       setMessageAgendaHorarios("Horários Salvos com Sucesso.")
@@ -409,7 +414,7 @@ const [servicos, setServicos] = useState([]);
 
   //Função para buscar os serviços cadastrados
   const obterServicos = () =>{
-    axios.get(`https://api-user-barbeasy.up.railway.app/api/get-service/${barbeariaId}`)
+    axios.get(`https://api-user-barbeasy.up.railway.app/api/get-service/${barbeariaId}/${professionalId}`)
   .then(res => {
     if (res.data.Success === "Success") {
       setServicos(res.data.result);
@@ -431,12 +436,18 @@ const formatarPreco = (valor) => {
   const valorFormatado = (Number(numero) / 100).toFixed(2).replace('.', ',').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
   return `R$ ${valorFormatado}`;
 };
+//Função para formartar a taxa de comissão do serviço
+const formatarPorcentagem = (valor) => {
+  const numero = valor.replace(/\D/g, ''); // Remove caracteres não numéricos
+  const valorFormatado = (Number(numero) / 10).toFixed(1).replace('.', ',');
+  return `${valorFormatado}%`;
+};
 /*===== Section to add a new service ======*/
   const [showAddServico, setShowAddServico] = useState(false);
 
   const [newNameService, setNewNameService] = useState('');
   const [newPriceService, setNewPriceService] = useState('');
-  
+  const [newCommissionFee, setNewCommissionFee] = useState('');
   const [newServiceDuration, setNewServiceDuration] = useState([]);
 
   const [messageAddService, setMessageAddService] = useState('');
@@ -446,6 +457,7 @@ const formatarPreco = (valor) => {
   const ShowAddService = () => {
     setShowAddServico(true);
   };
+  
   //Função para fechar o menu Adicionar Serviço
   const fecharExpandir = () => {
     setShowAddServico(false);
@@ -458,6 +470,13 @@ const formatarPreco = (valor) => {
     const numero = valor.replace(/\D/g, '');//Regex para aceitar apenas números no input
     setNewPriceService(formatarPreco(numero));
   };
+
+  //Função para adicionar a taxa de comissão do serviço a variável definida
+  const AddNewCommissionFee = (event) =>{
+    const valor = event.target.value;
+    const numero = valor.replace(/\D/g, '');
+    setNewCommissionFee(formatarPorcentagem(numero))
+  }
 
   // Função responsável por adicionar ou remover o novo tempo de duração do serviço a ser cadastrado
   const handleNewServiceDuration = (tempo) => {
@@ -485,10 +504,11 @@ const formatarPreco = (valor) => {
       const newServiceData = {
         newNameService,
         newPriceService,
+        newCommissionFee,
         newDuration: newServiceDuration[0]
       };
       let firstService = servicos.length;
-      axios.post(`https://api-user-barbeasy.up.railway.app/api/add-service/${barbeariaId}`, newServiceData)
+      axios.post(`https://api-user-barbeasy.up.railway.app/api/add-service/${barbeariaId}/${professionalId}`, newServiceData)
           .then(res => {
             if (res.data.Success === "Success") {
               setMessageAddService("Serviço adicionado com sucesso.");
@@ -547,6 +567,7 @@ const formatarPreco = (valor) => {
 
   const [editedServiceName, setEditedServiceName] = useState('');
   const [editedServicePrice, setEditedServicePrice] = useState('');
+  const [editedCommissionFee, setEditedCommissionFee] = useState('');
   const [editedServiceDuration, setEditedServiceDuration] = useState([]);
 
   const [messageEditedService, setMessageEditedService] = useState('');
@@ -562,6 +583,14 @@ const formatarPreco = (valor) => {
     // Filtrar apenas os números
     const numero = valor.replace(/\D/g, '');//Regex para aceitar apenas números no input
     setEditedServicePrice(formatarPreco(numero));
+  };
+
+  //Função para adicionar a taxa de comissão editada do serviço, a variável definida
+  const handleEditedCommissionFee = (event) => {
+    const valor = event.target.value;
+    // Filtrar apenas os números
+    const numero = valor.replace(/\D/g, '');//Regex para aceitar apenas números no input
+    setEditedCommissionFee(formatarPorcentagem(numero));
   };
 
   // Função responsável por adicionar ou remover o tempo de duração selecionado, no menu de edição do serviço
@@ -584,15 +613,16 @@ const formatarPreco = (valor) => {
   //Função para enviar as informações do serviço alterado
   const changeServiceData = (servicoId) => {
     // Verifica se os campos obrigatórios estão preenchidos
-    if (editedServiceName || editedServicePrice || editedServiceDuration[0]) {
+    if (editedServiceName || editedServicePrice || editedCommissionFee || editedServiceDuration[0]) {
       // Cria um objeto com os dados do serviço a serem enviados
       const editedService = {
         editedServiceName,
         editedServicePrice,
+        editedCommissionFee,
         servico_Id: servicoId,
         editedDuration: editedServiceDuration[0]
       };
-      axios.post(`https://api-user-barbeasy.up.railway.app/api/update-service/${barbeariaId}`, editedService)
+      axios.post(`https://api-user-barbeasy.up.railway.app/api/update-service/${barbeariaId}/${professionalId}`, editedService)
       .then(res => {
         if (res.data.Success === "Success") {
           setMessageEditedService("Serviço alterado com sucesso.");
@@ -601,6 +631,7 @@ const formatarPreco = (valor) => {
             setMessageEditedService(null);
             setEditedServiceName('')
             setEditedServicePrice('')
+            setEditedCommissionFee('')
             setEditedServiceDuration('')
             setSelectedService(null)
           }, 2000);
@@ -633,7 +664,7 @@ const formatarPreco = (valor) => {
   //Função para apagar um serviço
   const deleteServico = (servicoId) => {
     let lastService = servicos.length;
-    axios.delete(`https://api-user-barbeasy.up.railway.app/api/delete-service/${barbeariaId}/${servicoId}`)
+    axios.delete(`https://api-user-barbeasy.up.railway.app/api/delete-service/${barbeariaId}/${professionalId}/${servicoId}`)
       .then(res => {
         if (res.data.Success === "Success") {
           setMessageEditedService("Serviço apagado com sucesso.");
@@ -658,11 +689,10 @@ const formatarPreco = (valor) => {
   }
 /*=================================================*/
 
-
 return (
     <div className="main__professional">
     <div className="container__professional">
-        <div key={professional.id} className="header__professional" onClick={() => handleProfessionalClick(professional)}> 
+        <div key={professional.id} className="header__professional"> 
             <div className="Box__image  Box__first__letter">
                 <p className='firstLetter__professional'>{firstLetter}</p>
             </div>
@@ -678,7 +708,7 @@ return (
           
         {mostrarDiasSemana && (
         <div className="divSelected">
-          {messageAgenda === 'Agenda Atualizada com Sucesso!' ?(
+          {messageAgenda === 'Sua agenda foi atualizada! Lembre-se de ajustar seus horários de trabalho.' ?(
             <div className="mensagem-sucesso">
               <MdOutlineDone className="icon__success"/>
               <p className="text__message">{messageAgenda}</p>
@@ -855,6 +885,18 @@ return (
                   placeholder="R$ 00,00"
                   required
                 />
+                <p>Qual a taxa de comissão para esse profissional?</p>
+                  <input
+                  className="input_AddService"
+                  type="text"
+                  id="commissionFee"
+                  name="commissionFee"
+                  value={newCommissionFee}
+                  onChange={AddNewCommissionFee}
+                  maxLength={6}
+                  placeholder="00,0%"
+                  required
+                />
 
                   <p style={{marginTop: '10px'}}>Qual o tempo de duração?</p>
                   <div className="inputs-horarios">
@@ -918,6 +960,18 @@ return (
                   onChange={handleEditedServicePrice}
                   maxLength={9}
                   placeholder={servico.preco}
+                />
+
+                  <p>Deseja alterar a taxa de comissão do serviço?</p>
+                  <input
+                  className="input_AddService"
+                  type="text"
+                  id="EditedCommissionFee"
+                  name="EditedCommissionFee"
+                  value={editedCommissionFee}
+                  onChange={handleEditedCommissionFee}
+                  maxLength={6}
+                  placeholder={servico.commission_fee}
                 />
 
                 <p style={{marginTop: '10px'}}>Deseja alterar o tempo de duração?</p>

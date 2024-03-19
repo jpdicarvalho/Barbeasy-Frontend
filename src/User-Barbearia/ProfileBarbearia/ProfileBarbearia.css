@@ -684,7 +684,7 @@
     align-items: center;
     width: auto;
     background-color: rgba(67, 210, 45, 0.1);
-    color: #0f0;
+    color: #1AEE07;
     padding: 5px;
     border-radius: 5px;
     margin-top: 10px;
@@ -697,7 +697,7 @@
     font-size: 15px;
     font-weight: bold;
     color: #fff;
-    background: rgb(40, 164, 40);
+    background: #1AEE07;
     width: 20px;
     height: 20px;
 }

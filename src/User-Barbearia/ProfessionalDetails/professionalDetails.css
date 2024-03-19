@@ -6,10 +6,12 @@
     bottom: 0;
     left: 0;
     right: 0;
+    overflow-y: scroll;
 }
 .container__professional{
     padding: 5px;
     max-width: 390px;
+    margin-bottom: 100px;
 }
 .header__professional{
     display: flex;
