@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import axios from 'axios';
-import './Calendar.css';
+import './Agendamento.css';
 import PropTypes from 'prop-types';
 
 const monthNames = [
@@ -11,8 +11,8 @@ const weekNames = [
   'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'
 ];
 
-export function Calendar({ barbeariaId, professionalId }) {
-  const [timeclicked, setTimeclicked] = useState(null);
+export function Agendamento({ userId, barbeariaId, professionalId, serviceId }) {
+
   const [horariosDiaSelecionado, setHorariosDiaSelecionado] = useState([]); // Estado para os horários do dia selecionado
 
   const date = new Date();
@@ -27,19 +27,21 @@ export function Calendar({ barbeariaId, professionalId }) {
   const [agenda, setAgenda] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [timeSelected, setTimeSelected] = useState("");
-
-
+  const currentDay = new Date(date);
+  const formattedDate = `${currentDay.getDate()}-${currentDay.getMonth() + 1}-${currentDay.getFullYear()}-${currentDay.getHours()}:${currentDay.getMinutes()}`;
 
   //Obtendo os dados da agenda da barbearia
   const getAgenda = () =>{
-    axios.get(`https://api-user-barbeasy.up.railway.app/api/agenda/${barbeariaId}/${professionalId}`)
-    .then(res => {
-      if(res.status === 200){
-        setAgenda(res.data.Agenda)
-      }
-    }).catch(error => {
-      console.error('Erro ao buscar informações da agenda da barbearia', error)
-    })
+    if(barbeariaId && professionalId){
+      axios.get(`https://api-user-barbeasy.up.railway.app/api/agenda/${barbeariaId}/${professionalId}`)
+      .then(res => {
+        if(res.status === 200){
+          setAgenda(res.data.Agenda)
+        }
+      }).catch(error => {
+        console.error('Erro ao buscar informações da agenda da barbearia', error)
+      })
+    }
   }
  
   //Chamando a função para obter os dados da agenda da barbearia
@@ -53,36 +55,26 @@ export function Calendar({ barbeariaId, professionalId }) {
     }
   }, [agenda]);
   
-//Declaração do array com os horários de cada dia
-const [timesDays, setTimesDays] = useState('');
+  //Declaração do array com os horários de cada dia
+  const [timesDays, setTimesDays] = useState('');
 
-//Função para obter os horários definidos do dia selecionado
-const getHorariosDefinidos = () =>{
-  axios.get(`https://api-user-barbeasy.up.railway.app/api/agendaDiaSelecionado/${barbeariaId}/${professionalId}`)
-  .then(res => {
-    //Armazenando o objeto com todos os horários definidos
-    setTimesDays(res.data.TimesDays)
+  //Função para obter os horários definidos do dia selecionado
+  const getHorariosDefinidos = () =>{
+    axios.get(`https://api-user-barbeasy.up.railway.app/api/agendaDiaSelecionado/${barbeariaId}/${professionalId}`)
+    .then(res => {
+      //Armazenando o objeto com todos os horários definidos
+      setTimesDays(res.data.TimesDays)
 
-  }).catch(error => {
-    console.error('Erro ao buscar informações da agenda da barbearia', error)
-  })
-}
+    }).catch(error => {
+      console.error('Erro ao buscar informações da agenda da barbearia', error)
+    })
+  }
 
-//Hook para chamar a função acima
-useEffect(() => {
-  getHorariosDefinidos()
-}, [agenda, selectedDate])
+  //Hook para chamar a função acima
+  useEffect(() => {
+    getHorariosDefinidos()
+  }, [agenda, selectedDate])
 
-//Função para selecionar a data escolhida pelo usuário
-const handleDateChange = (date) => {
-  setSelectedDate(date);
-};
-
-//Função para obter o horário de preferência do usuário
-const handleTimeSelected = (time) => {
-  setTimeSelected(time);
-};
- 
 
   function getWeeks() {
     const arrayWeeks = [];
@@ -124,7 +116,6 @@ const handleTimeSelected = (time) => {
     return numbersWeek;
   }
   
-  
   const weekDays = getWeeks();
   const numberDays = getNumber();
 
@@ -144,17 +135,15 @@ const handleTimeSelected = (time) => {
   };
 
   const hendleTimeClick = (time) => {
-    if (timeSelected) {
-      timeSelected(time);
-      setTimeclicked(time)
-    }
+      setTimeSelected(time);
   }
+
   const renderHorariosDiaSelecionado = () => {
     return (
       <>
         {horariosDiaSelecionado && (
           horariosDiaSelecionado.map(index => (
-            <div key={index} className={`horarios ${timeclicked === index ? 'selectedDay':''}`} onClick={() => hendleTimeClick(index)}>
+            <div key={index} className={`horarios ${timeSelected === index ? 'selectedDay':''}`} onClick={() => hendleTimeClick(index)}>
               <p>{index}</p>
             </div>
           ))
@@ -163,10 +152,13 @@ const handleTimeSelected = (time) => {
     );
   };
 
-  Calendar.propTypes = {
-    onDateChange: PropTypes.func,
+  Agendamento.propTypes = {
+    userId: PropTypes.number.isRequired,
+    barbeariaId: PropTypes.number.isRequired,
+    professionalId: PropTypes.number,
+    serviceId: PropTypes.number,
   };
-console.log(selectedDate)
+
   return (
   <>
     <div className='container__Calendar'>
@@ -190,8 +182,7 @@ console.log(selectedDate)
     </div>
     {selectedDate &&(
     <div className="tittle">
-       <hr />
-       <div >
+       <div style={{marginTop: '15px'}}>
         Horários Disponíveis
       </div>
     </div>

@@ -15,7 +15,7 @@
 }
 .sectionCalendar {
     width: 380px;
-    height: 100px;
+    height: 75px;
     overflow-x: auto; 
     overflow-y: hidden; 
     display: flex;
@@ -62,6 +62,7 @@
     display: flex;
     flex-direction: row;
     width: 385px;
+    padding-left: 5px;
     overflow-x: scroll;
     margin-bottom: 10px;
   }
@@ -73,10 +74,10 @@
   }
 
 .container__horarios::-webkit-scrollbar {
-    height: 5px;
+    height: 2px;
 }
 .container__horarios::-webkit-scrollbar-thumb {
-    background: #4a17d5; 
+    background: #354249; 
     border-radius: 5px;
 }
 .container__horarios::-webkit-scrollbar-thumb:hover {
@@ -95,10 +96,10 @@
     font-size: 12px;
 }
 .sectionCalendar::-webkit-scrollbar {
-    height: 5px;
+    height: 2px;
 }
 .sectionCalendar::-webkit-scrollbar-thumb {
-    background: #4a17d5; 
+    background: #354249; 
     border-radius: 5px;
 }
 .sectionCalendar::-webkit-scrollbar-thumb:hover {

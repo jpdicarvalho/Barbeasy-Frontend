@@ -20,9 +20,9 @@ import { EffectFade } from 'swiper/modules';
 
 import { isToday, isYesterday, differenceInDays, differenceInMonths } from 'date-fns';
 
-//import Calendar from 'react-calendar';
+//import Agendamento from 'react-Agendamento';
 import logoMercadoPago from './logoMercadoPago.png'
-import { Calendar } from '../Calendar/Calendar';
+import { Agendamento } from "../Agendamento/Agendamento";
 import './BarbeariaDetails.css'
 //import barbeLogo from './barber-logo.png'
 import logoBarbeariaTeste from './logo-barbearia-teste.png'
@@ -40,7 +40,7 @@ const userData = localStorage.getItem('userData');
 //trasnformando os dados para JSON
 const userInformation = JSON.parse(userData);
 //Buscando os dados do usuário
-//const userId = userInformation.user[0].id;
+const userId = userInformation.user[0].id;
 const userEmail = userInformation.user[0].email;
 const userName = userInformation.user[0].name;
 /*=========== Buscandos os nomes dos banners da barbearia selecionada ===========*/
@@ -66,7 +66,7 @@ const logoutClick = () => {
 
 /*=========================== Get professionals =======================*/
   const [professional, setProfessional] = useState([])
-  const[serviceProfessional, setServiceProfessional] = useState('')
+  const[serviceProfessional, setServiceProfessional] = useState()
 
   //Function to get all professionais
   useEffect(() => {
@@ -87,7 +87,7 @@ const handleServiceProfessional = (professionalId) => {
 
 // ====== Section get serivce ========
 const [servicos, setServicos] = useState([]);
-const [selectedService, setSelectedService] = useState("");
+const [selectedService, setSelectedService] = useState();
 
   //Função para buscar os serviços cadastrados
   const obterServicos = () =>{
@@ -107,7 +107,7 @@ const [selectedService, setSelectedService] = useState("");
     obterServicos()
   }, []);
 
-const handleServiceChange = (servicoId, professionalId) => {
+const handleServiceChange = (servicoId) => {
   setSelectedService(servicoId);
 };
 
@@ -296,19 +296,15 @@ useEffect(()=> {
               
             )}
         </div>
-        <div className="professionals">
-          
-        </div>
-        <hr />
 
-      <div className="tittle">
+      {serviceProfessional &&(
+        <div className="tittle">
         Escolha um dia de sua preferência
       </div>
-      <Calendar barbeariaId={barbeariaId} professionalId={serviceProfessional}/>
+      )}
+      <Agendamento userId={userId} barbeariaId={barbeariaId} professionalId={serviceProfessional} serviceId={selectedService}/>
 
-             <hr />
-
-        {selectedService && selectedDate && !isAgendamentoConfirmed && (
+        {selectedService && !isAgendamentoConfirmed && (
           <button
             id="AgendamentoButton"
             onClick={pagamento}

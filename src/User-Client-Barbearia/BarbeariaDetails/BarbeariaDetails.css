@@ -140,7 +140,7 @@ h4{
 }
 .Servicos {
     width: 350px;
-    height: 230px;
+    max-height: 230px;
     display: flex;
     flex-direction: column;
     margin-bottom: 20px;
