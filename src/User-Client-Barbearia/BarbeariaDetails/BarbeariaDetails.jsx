@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import axios from 'axios';
 import { motion } from 'framer-motion';
 import { CiLocationOn } from "react-icons/ci";
+import { IoIosInformationCircleOutline } from "react-icons/io";
 
 //Import for slide
 import { register } from 'swiper/element/bundle';
@@ -74,7 +75,7 @@ const [url, setUrl] = useState(null);
   //Função para buscar os serviços cadastrados
   const obterServicos = () =>{
     
-    axios.get(`https://api-user-barbeasy.up.railway.app/api/get-service/${barbeariaId}`)
+    axios.get(`http://localhost:8000/api/list-service/${barbeariaId}`)
     .then(res => {
       if (res.data.Success === "Success") {
         setServicos(res.data.result);
@@ -88,7 +89,22 @@ const [url, setUrl] = useState(null);
   useEffect(() => {
     obterServicos()
   }, []);
+/*=========================== Get professionals =======================*/
+  const [professional, setProfessional] = useState([])
 
+  //Function to get all professionais
+  useEffect(() => {
+    const getProfessional = () =>{
+    axios.get(`http://localhost:8000/api/professional/${barbeariaId}`)
+      .then(res => {
+        setProfessional(res.data.Professional)
+      })
+      .catch(error => console.log(error));
+    }
+    getProfessional()
+  }, [barbeariaId])
+
+  /*================== Get Agenda ======================*/
   //Buscando a quantidade de dias que a agenda vai ficar aberta
   const [QntDaysSelected, setQntDaysSelected] = useState([]);
   const [agenda, setAgenda] = useState([]);
@@ -133,10 +149,15 @@ const getHorariosDefinidos = () =>{
 useEffect(() => {
   getHorariosDefinidos()
 }, [])
+const[serviceProfessional, setServiceProfessional] = useState('')
 
 /*====== Lidando com as seleções do usuário ======*/
-//Função para obter o serviço escolhioa pelo usuário
-const handleServiceChange = (servicoId) => {
+
+const handleServiceProfessional = (professionalId) => {
+  setServiceProfessional(professionalId)
+};
+
+const handleServiceChange = (servicoId, professionalId) => {
   setSelectedService(servicoId);
 };
 
@@ -262,7 +283,8 @@ const reviewsWidth = reviews.current?.scrollWidth - reviews.current?.offsetWidth
 useEffect(()=> {
   setWidth(reviewsWidth);
 }, [reviewsWidth])
-
+console.log(servicos)
+console.log(serviceProfessional)
   return (
     <>
     <div className="Outdoor">
@@ -286,20 +308,54 @@ useEffect(()=> {
 
     <div className="ContainerMain">      
       <hr />
+      <div className="tittle">
+        <p>Profissionais({professional.length})</p>
+      </div>
+
+      <div className="professionals">
+        {professional && (
+              professional.map(professional => {
+                // Obtendo a primeira letra do nome do profissional
+                const firstLetter = professional.name.charAt(0).toUpperCase();
+                
+                return (
+                  <div key={professional.id} onClick={() => handleServiceProfessional(professional.id)} className={`Box__professional ${serviceProfessional === professional.id ? 'professionalSelected' : ''}`}> 
+                    <div className="Box__image">
+                      <p className='firstLetter'>{firstLetter}</p>
+                    </div>
+                    <p className='name__professional'>{professional.name}</p>
+                  </div>
+                );
+              })
+            )}
+      </div>
+      <hr />
 
       <div className="tittle">
-        <p>Serviços</p>
+        <p>Serviços({serviceProfessional &&(
+          servicos.length)})</p>
       </div>
 
       <div className="Servicos">
-          {servicos
-            .filter(servico => servico.barbearia_id === barbearia.id)
-            .map(servico => (
-              <div key={servico.id} onClick={() => handleServiceChange(servico.id)} className={`servicoDiv ${selectedService === servico.id ? 'selected' : ''}`}>
-                <p>{servico.name} • {servico.preco}</p>
-                <p style={{color: 'gray'}}>Duração • {servico.duracao}</p>
+      {serviceProfessional ? (
+              servicos.filter(servico => servico.professional_id === serviceProfessional)
+              .map(servico => (
+                <div key={servico.id} onClick={() => handleServiceChange(servico.id)} className={`servicoDiv ${selectedService === servico.id ? 'selected' : ''}`}>
+                  <p>{servico.name} • {servico.preco}</p>
+                  <p style={{color: 'gray'}}>Duração • {servico.duracao}</p>
+                </div>
+                
+            ))
+            ):(
+              <div className="inforService">
+              <IoIosInformationCircleOutline className="Icon__info"/>
+              <p >Selecione um profissional para visualizar os serviços.</p>
               </div>
-          ))}
+              
+            )}
+        </div>
+        <div className="professionals">
+          
         </div>
         <hr />
 

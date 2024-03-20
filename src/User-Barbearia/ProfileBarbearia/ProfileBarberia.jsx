@@ -148,11 +148,6 @@ function ProfileBarbearia() {
 
     const bannerFormData = new FormData();
 
-    if (!bannerFiles) {
-      console.error("No file selected."); // Caso nenhum arquivo seja selecionado
-      return;
-    }
-
     if(bannerFiles.length > 5){
       setBannerMessage("Selecione no máximo 5 imagens.");
       setTimeout(() => {
@@ -189,7 +184,6 @@ function ProfileBarbearia() {
       bannerFormData.append(`images`, renamedFile);
       bannerFormData.append('barbeariaId', barbeariaId);
     }
-
     axios.post('https://api-user-barbeasy.up.railway.app/api/upload-banners-images', bannerFormData)
       .then(res => {
         if (res.data.Status === "Success") {
@@ -213,9 +207,12 @@ function ProfileBarbearia() {
   useEffect(() => {
     // Configura um temporizador para esperar 1 segundo após a última mudança no input de arquivo
     const timeout = setTimeout(() => {
-      // Executa a função de upload após o período de espera
-      handleBannerImagesUpload();
+    if(bannerFiles){
+        // Executa a função de upload após o período de espera
+        handleBannerImagesUpload();
+      }
     }, 1000);
+    
 
     // Limpa o temporizador se o componente for desmontado ou se houver uma nova mudança no input de arquivo
     return () => clearTimeout(timeout);

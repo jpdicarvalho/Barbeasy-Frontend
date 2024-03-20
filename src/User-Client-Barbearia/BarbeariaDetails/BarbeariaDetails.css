@@ -104,18 +104,38 @@ h4{
     letter-spacing: 1px;
 
 }
+.professionals{
+    display: flex;
+    width: 380px;
+    margin-bottom: 10px;
+}
 
+.professionalSelected{
+    width: 120px;
+    border-radius: 10px;
+    background: #354249;
+}
+.inforService{
+    border-radius: 10px;
+    display: flex;
+    color: #f6f6f6;
+    padding: 5px;
+    background: rgb(53 66 73 / 37%);;
+}
+.Icon__info{
+    width: 30px;
+    height: 30px;
+    margin-right: 5px;
+}
 .Servicos {
     width: 350px;
-    height: 220px;
+    height: 230px;
     display: flex;
     flex-direction: column;
     margin-bottom: 20px;
-    border-radius: 10px;
     overflow-x: hidden; 
     overflow-y: auto;
     margin-top: 10px;
-    
 }
 .Servicos::-webkit-scrollbar {
     width: 5px;
