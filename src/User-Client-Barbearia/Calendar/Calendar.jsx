@@ -1,5 +1,6 @@
+import { useState, useEffect, useRef } from "react";
+import axios from 'axios';
 import './Calendar.css';
-import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 const monthNames = [
@@ -10,9 +11,8 @@ const weekNames = [
   'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'
 ];
 
-export function Calendar({ onDateChange, timeSelected, QntDaysSelected, timesDays }) {
+export function Calendar({ barbeariaId, professionalId }) {
   const [timeclicked, setTimeclicked] = useState(null);
-  const [selectedDateInfo, setSelectedDateInfo] = useState('');
   const [horariosDiaSelecionado, setHorariosDiaSelecionado] = useState([]); // Estado para os horários do dia selecionado
 
   const date = new Date();
@@ -21,6 +21,67 @@ export function Calendar({ onDateChange, timeSelected, QntDaysSelected, timesDay
   dayOfWeek = dayOfWeek.slice(0, -1);
   dayOfWeek = dayOfWeek.charAt(0).toUpperCase() + dayOfWeek.slice(1);
   const year = date.getFullYear();
+
+  //Buscando a quantidade de dias que a agenda vai ficar aberta
+  const [QntDaysSelected, setQntDaysSelected] = useState([]);
+  const [agenda, setAgenda] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [timeSelected, setTimeSelected] = useState("");
+
+
+
+  //Obtendo os dados da agenda da barbearia
+  const getAgenda = () =>{
+    axios.get(`https://api-user-barbeasy.up.railway.app/api/agenda/${barbeariaId}/${professionalId}`)
+    .then(res => {
+      if(res.status === 200){
+        setAgenda(res.data.Agenda)
+      }
+    }).catch(error => {
+      console.error('Erro ao buscar informações da agenda da barbearia', error)
+    })
+  }
+ 
+  //Chamando a função para obter os dados da agenda da barbearia
+  useEffect(() => {
+    getAgenda()
+  }, [professionalId])
+
+  useEffect(() => {
+    if (Array.isArray(agenda) && agenda.length >= 2) {
+      setQntDaysSelected(agenda[1].toString());
+    }
+  }, [agenda]);
+  
+//Declaração do array com os horários de cada dia
+const [timesDays, setTimesDays] = useState('');
+
+//Função para obter os horários definidos do dia selecionado
+const getHorariosDefinidos = () =>{
+  axios.get(`https://api-user-barbeasy.up.railway.app/api/agendaDiaSelecionado/${barbeariaId}/${professionalId}`)
+  .then(res => {
+    //Armazenando o objeto com todos os horários definidos
+    setTimesDays(res.data.TimesDays)
+
+  }).catch(error => {
+    console.error('Erro ao buscar informações da agenda da barbearia', error)
+  })
+}
+
+//Hook para chamar a função acima
+useEffect(() => {
+  getHorariosDefinidos()
+}, [agenda, selectedDate])
+
+//Função para selecionar a data escolhida pelo usuário
+const handleDateChange = (date) => {
+  setSelectedDate(date);
+};
+
+//Função para obter o horário de preferência do usuário
+const handleTimeSelected = (time) => {
+  setTimeSelected(time);
+};
  
 
   function getWeeks() {
@@ -69,10 +130,7 @@ export function Calendar({ onDateChange, timeSelected, QntDaysSelected, timesDay
 
   //Function to get and format selected day from user
   const handleDateClick = (dayOfWeek, day, month, year) => {
-    setSelectedDateInfo(`${dayOfWeek}, ${day} de ${month} de ${year}`);
-    if (onDateChange) {
-      onDateChange(`${dayOfWeek}, ${day} de ${month} de ${year}`);
-    }
+    setSelectedDate(`${dayOfWeek}, ${day} de ${month} de ${year}`);
   
     // Verifica se o dia selecionado está no objeto
     if (dayOfWeek in timesDays) {
@@ -108,7 +166,7 @@ export function Calendar({ onDateChange, timeSelected, QntDaysSelected, timesDay
   Calendar.propTypes = {
     onDateChange: PropTypes.func,
   };
-
+console.log(selectedDate)
   return (
   <>
     <div className='container__Calendar'>
@@ -118,7 +176,7 @@ export function Calendar({ onDateChange, timeSelected, QntDaysSelected, timesDay
         {weekDays.map((dayOfWeek, index) => (
             <div key={`weekDay-${index}`} className="list__name__Week">
               <div
-                className={`dayWeekCurrent ${selectedDateInfo === `${dayOfWeek}, ${numberDays[index].number} de ${numberDays[index].month} de ${year}` ? 'selectedDay' : ''} ${numberDays[index].isCurrentDay ? 'currentDay' : ''}`}
+                className={`dayWeekCurrent ${selectedDate === `${dayOfWeek}, ${numberDays[index].number} de ${numberDays[index].month} de ${year}` ? 'selectedDay' : ''} ${numberDays[index].isCurrentDay ? 'currentDay' : ''}`}
                 onClick={() => handleDateClick(dayOfWeek, numberDays[index].number, numberDays[index].month, year)}
               >
                 <p className='Box__day'>{dayOfWeek}</p>
@@ -130,7 +188,7 @@ export function Calendar({ onDateChange, timeSelected, QntDaysSelected, timesDay
         </div>
       </div>
     </div>
-    {selectedDateInfo &&(
+    {selectedDate &&(
     <div className="tittle">
        <hr />
        <div >

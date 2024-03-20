@@ -64,14 +64,30 @@ const logoutClick = () => {
   navigate("/");
 };
 
-/*=================== Section make appointmants ===================*/
+/*=========================== Get professionals =======================*/
+  const [professional, setProfessional] = useState([])
+  const[serviceProfessional, setServiceProfessional] = useState('')
+
+  //Function to get all professionais
+  useEffect(() => {
+    const getProfessional = () =>{
+    axios.get(`https://api-user-barbeasy.up.railway.app/api/professional/${barbeariaId}`)
+      .then(res => {
+        setProfessional(res.data.Professional)
+      })
+      .catch(error => console.log(error));
+    }
+    getProfessional()
+  }, [barbeariaId])
+
+
+const handleServiceProfessional = (professionalId) => {
+  setServiceProfessional(professionalId)
+};
+
+// ====== Section get serivce ========
 const [servicos, setServicos] = useState([]);
 const [selectedService, setSelectedService] = useState("");
-const [selectedDate, setSelectedDate] = useState(null);
-const [timeSelected, setTimeSelected] = useState("");
-
-const [isAgendamentoConfirmed, setAgendamentoConfirmed] = useState(false);
-const [url, setUrl] = useState(null);
 
   //Função para buscar os serviços cadastrados
   const obterServicos = () =>{
@@ -90,88 +106,14 @@ const [url, setUrl] = useState(null);
   useEffect(() => {
     obterServicos()
   }, []);
-/*=========================== Get professionals =======================*/
-  const [professional, setProfessional] = useState([])
-
-  //Function to get all professionais
-  useEffect(() => {
-    const getProfessional = () =>{
-    axios.get(`https://api-user-barbeasy.up.railway.app/api/professional/${barbeariaId}`)
-      .then(res => {
-        setProfessional(res.data.Professional)
-      })
-      .catch(error => console.log(error));
-    }
-    getProfessional()
-  }, [barbeariaId])
-
-  /*================== Get Agenda ======================*/
-  //Buscando a quantidade de dias que a agenda vai ficar aberta
-  const [QntDaysSelected, setQntDaysSelected] = useState([]);
-  const [agenda, setAgenda] = useState([]);
-
-  //Obtendo os dados da agenda da barbearia
-  const getAgenda = () =>{
-    axios.get(`https://api-user-barbeasy.up.railway.app/api/agenda/${barbeariaId}`)
-    .then(res => {
-      if(res.status === 200){
-        setAgenda(res.data.Agenda)
-      }
-    }).catch(error => {
-      console.error('Erro ao buscar informações da agenda da barbearia', error)
-    })
-  }
-  //Chamando a função para obter os dados da agenda da barbearia
-  useEffect(() => {
-    getAgenda()
-  }, [])
-
-  useEffect(() => {
-    if (Array.isArray(agenda) && agenda.length >= 2) {
-      setQntDaysSelected(agenda[1].toString());
-    }
-  }, [agenda]);
-
-//Declaração do array com os horários de cada dia
-const [timesDays, setTimesDays] = useState('');
-
-//Função para obter os horários definidos do dia selecionado
-const getHorariosDefinidos = () =>{
-  axios.get(`https://api-user-barbeasy.up.railway.app/api/agendaDiaSelecionado/${barbeariaId}`)
-  .then(res => {
-    //Armazenando o objeto com todos os horários definidos
-    setTimesDays(res.data.TimesDays)
-
-  }).catch(error => {
-    console.error('Erro ao buscar informações da agenda da barbearia', error)
-  })
-}
-//Hook para chamar a função acima
-useEffect(() => {
-  getHorariosDefinidos()
-}, [])
-const[serviceProfessional, setServiceProfessional] = useState('')
-
-/*====== Lidando com as seleções do usuário ======*/
-
-const handleServiceProfessional = (professionalId) => {
-  setServiceProfessional(professionalId)
-};
 
 const handleServiceChange = (servicoId, professionalId) => {
   setSelectedService(servicoId);
 };
 
-//Função para selecionar a data escolhida pelo usuário
-const handleDateChange = (date) => {
-  setSelectedDate(date);
-};
-
-//Função para obter o horário de preferência do usuário
-const handleTimeSelected = (time) => {
-  setTimeSelected(time);
-};
-
+/*================== Get Agenda ======================*/
+const [isAgendamentoConfirmed, setAgendamentoConfirmed] = useState(false);
+const [url, setUrl] = useState(null);
 
 //Mandan a requisição para a rota de Pagamento
 const pagamento = async () => {
@@ -284,8 +226,7 @@ const reviewsWidth = reviews.current?.scrollWidth - reviews.current?.offsetWidth
 useEffect(()=> {
   setWidth(reviewsWidth);
 }, [reviewsWidth])
-console.log(servicos)
-console.log(serviceProfessional)
+
   return (
     <>
     <div className="Outdoor">
@@ -363,9 +304,9 @@ console.log(serviceProfessional)
       <div className="tittle">
         Escolha um dia de sua preferência
       </div>
-     
-        <Calendar onDateChange={handleDateChange} timeSelected={handleTimeSelected} QntDaysSelected={QntDaysSelected} timesDays={timesDays} />
-        <hr />
+      <Calendar barbeariaId={barbeariaId} professionalId={serviceProfessional}/>
+
+             <hr />
 
         {selectedService && selectedDate && !isAgendamentoConfirmed && (
           <button

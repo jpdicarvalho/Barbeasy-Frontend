@@ -336,13 +336,30 @@ useEffect(() => {
   getHorariosDefinidos()
 }, [timesDays])
 
+const newArray = []
+const functionFormatDaysFromAgenda = () => {
+  let newIndex = '';
+  for(let i=0; i < daysFromAgenda.length; i++){
+    newIndex = daysFromAgenda[i].substring(0, 3);
+    newIndex = newIndex.toLowerCase();
+    if(newIndex === 'sáb'){
+      newIndex = 'sab'
+    }
+    newArray.push(newIndex);
+  }
+  return newArray;
+}
+
 //Função para salvar os horários definidos para todos os dias
 const salvarHorariosTodosOsDias = () =>{
+  //função que executa a formatação dos dias a serem padronizados
+  functionFormatDaysFromAgenda();
+
   //removing the index from the array as it contains the name of the selected day
   agendaDoDiaSelecionado.shift();
   let strHorariosTodosOsDias = agendaDoDiaSelecionado.join(',');
-  
-  axios.post(`https://api-user-barbeasy.up.railway.app/api/update-horariosTodosOsDias/${barbeariaId}/${professionalId}`, {StrAgenda: strHorariosTodosOsDias})
+
+  axios.post(`https://api-user-barbeasy.up.railway.app/api/update-horariosTodosOsDias/${barbeariaId}/${professionalId}`, {StrAgenda: strHorariosTodosOsDias, NamesDaysFormated: newArray})
   .then(res => {
     if(res.data.Success === 'Success'){
       setMessageAgendaHorarios("Horários Salvos com Sucesso.")
