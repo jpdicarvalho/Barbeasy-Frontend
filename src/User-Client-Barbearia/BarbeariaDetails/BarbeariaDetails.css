@@ -110,10 +110,21 @@ h4{
     margin-bottom: 10px;
 }
 
-.professionalSelected{
+.Box__professional.professionalSelected{
     width: 120px;
+    height: 90px;
     border-radius: 10px;
-    background: #354249;
+    margin-top: 2px;
+    background: #270683;
+    transition: 0.5s;
+}
+.professionalSelected .Box__image{
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    margin-top: 5px;
+    border: 1px solid #fff;
+    transition: 0.5s;
 }
 .inforService{
     border-radius: 10px;

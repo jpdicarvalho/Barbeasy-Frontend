@@ -4,6 +4,7 @@ import axios from 'axios';
 import { motion } from 'framer-motion';
 import { CiLocationOn } from "react-icons/ci";
 import { IoIosInformationCircleOutline } from "react-icons/io";
+import { GiSandsOfTime } from "react-icons/gi";
 
 //Import for slide
 import { register } from 'swiper/element/bundle';
@@ -342,7 +343,7 @@ console.log(serviceProfessional)
               .map(servico => (
                 <div key={servico.id} onClick={() => handleServiceChange(servico.id)} className={`servicoDiv ${selectedService === servico.id ? 'selected' : ''}`}>
                   <p>{servico.name} • {servico.preco}</p>
-                  <p style={{color: 'gray'}}>Duração • {servico.duracao}</p>
+                  <p style={{color: 'darkgray'}}><GiSandsOfTime /> • {servico.duracao}</p>
                 </div>
                 
             ))
