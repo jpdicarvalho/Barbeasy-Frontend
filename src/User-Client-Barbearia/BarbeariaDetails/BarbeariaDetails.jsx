@@ -75,7 +75,7 @@ const [url, setUrl] = useState(null);
   //Função para buscar os serviços cadastrados
   const obterServicos = () =>{
     
-    axios.get(`http://localhost:8000/api/list-service/${barbeariaId}`)
+    axios.get(`https://api-user-barbeasy.up.railway.app/api/list-service/${barbeariaId}`)
     .then(res => {
       if (res.data.Success === "Success") {
         setServicos(res.data.result);
@@ -95,7 +95,7 @@ const [url, setUrl] = useState(null);
   //Function to get all professionais
   useEffect(() => {
     const getProfessional = () =>{
-    axios.get(`http://localhost:8000/api/professional/${barbeariaId}`)
+    axios.get(`https://api-user-barbeasy.up.railway.app/api/professional/${barbeariaId}`)
       .then(res => {
         setProfessional(res.data.Professional)
       })
