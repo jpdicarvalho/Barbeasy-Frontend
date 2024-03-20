@@ -640,28 +640,33 @@ const handleProfessionalClick = (professional) => {
             <h3>Profissional</h3>
             <hr id='sublime'/>
         </div>
-        <div className="section__professional">
-          <div className='Box__addNewProfessional'>
-            <button className='addNewProfessional' onClick={() => setShowAddNewProfessional(true)}>
-              <GoPlus className='icon_plus'/>
-            </button>
-            Novo
-          </div>
-          <AddNewProfessional openModal={showAddNewProfessional} setCloseModal={() => setShowAddNewProfessional(!showAddNewProfessional)}/>
 
-          {professional.map(professional => {
-            // Obtendo a primeira letra do nome do profissional
-            const firstLetter = professional.name.charAt(0).toUpperCase();
-            
-            return (
-              <div key={professional.id} className='Box__professional' onClick={() => handleProfessionalClick(professional)}> 
-                <div className="Box__image">
-                  <p className='firstLetter'>{firstLetter}</p>
+        <div className="section__professional__barbearia">
+          <div className="section__professional">
+
+            <div className='Box__addNewProfessional'>
+              <button className='addNewProfessional' onClick={() => setShowAddNewProfessional(true)}>
+                <GoPlus className='icon_plus'/>
+              </button>
+              Novo
+            </div>
+            <AddNewProfessional openModal={showAddNewProfessional} setCloseModal={() => setShowAddNewProfessional(!showAddNewProfessional)}/>
+
+            {professional.map(professional => {
+              // Obtendo a primeira letra do nome do profissional
+              const firstLetter = professional.name.charAt(0).toUpperCase();
+              
+              return (
+                <div key={professional.id} className='Box__professional' onClick={() => handleProfessionalClick(professional)}> 
+                  <div className="Box__image">
+                    <p className='firstLetter'>{firstLetter}</p>
+                  </div>
+                  <p className='name__professional'>{professional.name}</p>
                 </div>
-                <p className='name__professional'>{professional.name}</p>
-              </div>
-            );
-          })}
+              );
+            })}
+
+          </div>
         </div>
 
         <div className='tittle_menu'>
