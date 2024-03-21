@@ -157,6 +157,9 @@ const [tempoAtendimentoSelected, setTempoAtendimentoSelected] = useState([]);
 const [horarioDefinido, setHorarioDefinido] = useState([]);
 const [agendaDoDiaSelecionado, setAgendaDoDiaSelecionado] = useState([]);
 
+//Array to storage de days from agenda formated
+const newArray = [];
+
 //Declaração do array de horários padronizados
 const [timesDays, setTimesDays] = useState('');
 
@@ -336,7 +339,7 @@ useEffect(() => {
   getHorariosDefinidos()
 }, [timesDays])
 
-const newArray = []
+//Function to format days from Agenda
 const functionFormatDaysFromAgenda = () => {
   let newIndex = '';
   for(let i=0; i < daysFromAgenda.length; i++){
@@ -354,6 +357,11 @@ const functionFormatDaysFromAgenda = () => {
 const salvarHorariosTodosOsDias = () =>{
   //função que executa a formatação dos dias a serem padronizados
   functionFormatDaysFromAgenda();
+  if(tempoAtendimentoSelected){
+    let timeTreatment = tempoAtendimentoSelected[0];
+    timeTreatment = timeTreatment.substring(0, 2);
+    console.log('allDaysDefined '+timeTreatment)
+  }
 
   //removing the index from the array as it contains the name of the selected day
   agendaDoDiaSelecionado.shift();
