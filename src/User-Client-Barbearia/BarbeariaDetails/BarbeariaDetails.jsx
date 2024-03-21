@@ -273,17 +273,18 @@ useEffect(()=> {
       </div>
       <hr />
 
+      
       <div className="tittle">
-        <p>Serviços({serviceProfessional &&(
-          servicos.length)})</p>
+        {serviceProfessional && servicos && (
+          <p>Serviços ({servicos.filter(servico => servico.professional_id === serviceProfessional).length})</p>
+        )}
       </div>
-
       <div className="Servicos">
       {serviceProfessional ? (
-              servicos.filter(servico => servico.professional_id === serviceProfessional)
+        servicos.filter(servico => servico.professional_id === serviceProfessional)  
               .map(servico => (
                 <div key={servico.id} onClick={() => handleServiceChange(servico.id)} className={`servicoDiv ${selectedService === servico.id ? 'selected' : ''}`}>
-                  <p>{servico.name} • {servico.preco}</p>
+                  <p>{servico.name} • {servico.preco} </p>
                   <p style={{color: 'darkgray'}}><GiSandsOfTime /> • {servico.duracao}</p>
                 </div>
                 
@@ -304,14 +305,14 @@ useEffect(()=> {
       )}
       <Agendamento userId={userId} barbeariaId={barbeariaId} professionalId={serviceProfessional} serviceId={selectedService}/>
 
-        {selectedService && !isAgendamentoConfirmed && (
+        {/*selectedService && !isAgendamentoConfirmed && (
           <button
-            id="AgendamentoButton"
+            
             onClick={pagamento}
           >
             Continuar
           </button>
-        )}
+        )*/}
        
        {isAgendamentoConfirmed && (
         <button onClick={urlMercadoPago} className="mercadoPagoButton">

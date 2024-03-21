@@ -47,13 +47,13 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId }) 
   //Chamando a função para obter os dados da agenda da barbearia
   useEffect(() => {
     getAgenda()
-  }, [professionalId])
+  }, [professionalId, selectedDate])
 
   useEffect(() => {
     if (Array.isArray(agenda) && agenda.length >= 2) {
       setQntDaysSelected(agenda[1].toString());
     }
-  }, [agenda]);
+  }, [agenda, professionalId, selectedDate]);
   
   //Declaração do array com os horários de cada dia
   const [timesDays, setTimesDays] = useState('');
@@ -73,7 +73,7 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId }) 
   //Hook para chamar a função acima
   useEffect(() => {
     getHorariosDefinidos()
-  }, [agenda, selectedDate])
+  }, [QntDaysSelected])
 
 
   function getWeeks() {
@@ -134,10 +134,19 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId }) 
     }
   };
 
+//Função para pegar o horário selecionado pelo usuário
   const hendleTimeClick = (time) => {
       setTimeSelected(time);
   }
 
+//Hook para resetar sa variáveis caso o usuário selecione outro profissional
+  useEffect(() =>{
+    setSelectedDate('')
+    setTimeSelected('')
+    setHorariosDiaSelecionado(null)
+  },[professionalId])
+
+//Function to render all times defined
   const renderHorariosDiaSelecionado = () => {
     return (
       <>
@@ -151,7 +160,33 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId }) 
       </>
     );
   };
+//Function make booking
+const [messageConfirmedBooking, setMessageConfirmedBooking] = useState('');
 
+const makeBooking = () =>{
+  if(userId && barbeariaId && professionalId && serviceId && selectedDate && timeSelected && formattedDate){
+    //Object to agroup all informations to make a new booking
+    const newBooking = {
+      userId,
+      barbeariaId,
+      professionalId,
+      serviceId,
+      selectedDate,
+      timeSelected,
+      formattedDate
+    }
+
+    axios.post('http://localhost:8000/api/create-booking/', newBooking)
+    .then(res => {
+      if(res.data.Success === 'Success'){
+        setMessageConfirmedBooking("Agendamento realizado.")
+      }
+
+    }).catch(error => {
+      console.error('Erro ao buscar informações da agenda da barbearia', error)
+    })
+  }
+}
   Agendamento.propTypes = {
     userId: PropTypes.number.isRequired,
     barbeariaId: PropTypes.number.isRequired,
@@ -191,6 +226,8 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId }) 
     <div className="container__horarios">
     {renderHorariosDiaSelecionado()}
     </div>
+    {messageConfirmedBooking}
+    <button onClick={makeBooking} id="AgendamentoButton">agendar</button>
     
   </>
   );
