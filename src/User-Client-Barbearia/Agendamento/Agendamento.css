@@ -105,3 +105,31 @@
 .sectionCalendar::-webkit-scrollbar-thumb:hover {
     background: #f6f6f6; 
 }
+.Btn__ocult{
+    opacity: 0;
+    
+    background: transparent;
+    border-radius: 10px;
+    border: 1px solid #4a17d5;
+    color: #4a17d5;
+    transition: 0.5s;
+}
+.AgendamentoButton{
+    width: 370px;
+    font-size: 18px;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    background: transparent;
+    padding: 10px;
+    border-radius: 3px;
+    border: 1px solid #4a17d5;
+    color: #4a17d5;
+    transition: 0.5s;
+    opacity: 1;
+}
+.AgendamentoButton:hover{
+    background:#4a17d5;
+    border-radius: 12px;
+    color: white;
+    transition: 0.5s;
+}

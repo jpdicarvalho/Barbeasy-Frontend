@@ -88,6 +88,7 @@ const handleServiceProfessional = (professionalId) => {
 // ====== Section get serivce ========
 const [servicos, setServicos] = useState([]);
 const [selectedService, setSelectedService] = useState();
+const [serviceDuration, setServiceDuration] = useState();
 
   //Função para buscar os serviços cadastrados
   const obterServicos = () =>{
@@ -107,8 +108,11 @@ const [selectedService, setSelectedService] = useState();
     obterServicos()
   }, []);
 
-const handleServiceChange = (servicoId) => {
+const handleServiceChange = (servicoId, duration) => {
   setSelectedService(servicoId);
+  let number = duration.substring(0, 2)
+  number = parseInt(number)
+  setServiceDuration(number)
 };
 
 /*================== Get Agenda ======================*/
@@ -283,7 +287,7 @@ useEffect(()=> {
       {serviceProfessional ? (
         servicos.filter(servico => servico.professional_id === serviceProfessional)  
               .map(servico => (
-                <div key={servico.id} onClick={() => handleServiceChange(servico.id)} className={`servicoDiv ${selectedService === servico.id ? 'selected' : ''}`}>
+                <div key={servico.id} onClick={() => handleServiceChange(servico.id, servico.duracao)} className={`servicoDiv ${selectedService === servico.id ? 'selected' : ''}`}>
                   <p>{servico.name} • {servico.preco} </p>
                   <p style={{color: 'darkgray'}}><GiSandsOfTime /> • {servico.duracao}</p>
                 </div>
@@ -303,7 +307,7 @@ useEffect(()=> {
         Escolha um dia de sua preferência
       </div>
       )}
-      <Agendamento userId={userId} barbeariaId={barbeariaId} professionalId={serviceProfessional} serviceId={selectedService}/>
+      <Agendamento userId={userId} barbeariaId={barbeariaId} professionalId={serviceProfessional} serviceId={selectedService} serviceDuration={serviceDuration}/>
 
         {/*selectedService && !isAgendamentoConfirmed && (
           <button

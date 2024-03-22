@@ -220,21 +220,6 @@ span{
     border-radius: 10px;
     transition: 0.5s;
 }
-
-#AgendamentoButton{
-    border: none;
-    background: transparent;
-    padding: 10px;
-    border-radius: 10px;
-    border: 1px solid #4a17d5;
-    color: #4a17d5;
-    transition: 0.5s;
-}
-#AgendamentoButton:hover{
-    background:#4a17d5;
-    color: white;
-    transition: 0.5s;
-}
 .mercadoPagoButton {
     display: flex;
     justify-content: center;

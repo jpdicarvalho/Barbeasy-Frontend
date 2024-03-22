@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import axios from 'axios';
 import './Agendamento.css';
 import PropTypes from 'prop-types';
+import { MdOutlineDone } from "react-icons/md";
+import { VscError } from "react-icons/vsc";
 
 const monthNames = [
   'Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun', 'Jul', 'Aug', 'Set', 'Out', 'Nov', 'Dez'
@@ -11,7 +13,7 @@ const weekNames = [
   'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'
 ];
 
-export function Agendamento({ userId, barbeariaId, professionalId, serviceId }) {
+export function Agendamento({ userId, barbeariaId, professionalId, serviceId, serviceDuration }) {
 
   const [horariosDiaSelecionado, setHorariosDiaSelecionado] = useState([]); // Estado para os horários do dia selecionado
 
@@ -136,15 +138,17 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId }) 
 
   const weekDays = getWeeks();
   const numberDays = getNumber();
-
-let firstTime = '';
-let lastTime = '';
-
+/*=============================================================== Don't Forget ===============================================================
+João, lembra de buscar apenas os agendamento da data atual para frente!! 
+Pois essa consulta abaixo, está puxando todos os agendamento feitos na históriaa!!
+==============================================================================================================================================*/
+//Função para buscar os agendamento do profissional em selecionado
 function getBookingOfProfessional (){
   let arrayBookingProfessional = bookings.filter(bookings => bookings.professional_id === professionalId);
   return arrayBookingProfessional;
 }
 const bookingProfessional = getBookingOfProfessional()
+console.log(bookingProfessional)
 
 //Função para buscar a lista de horários do dia selecionado
 const handleDateClick = (dayOfWeek, day, month, year) => {
@@ -174,6 +178,11 @@ const handleDateClick = (dayOfWeek, day, month, year) => {
       if(timesOfDaySelected[0].length === 5){
         const bookinOfDaySelected = bookingProfessional.filter(horarios => horarios.booking_date === selectedDay);
         const bookingsTimes = Object.values(bookinOfDaySelected).map(item => item.booking_time);
+        const bookingsTimesSplit = bookingsTimes.map(timeString => timeString.split(','));
+        timesOfDaySelected = timesOfDaySelected.filter(time => {
+          // Verifica se o horário atual não está presente em bookingsTimesSplit
+          return !bookingsTimesSplit.some(bookedTimes => bookedTimes.includes(time));
+        });
 
         // Converta os horários agendados para o mesmo formato dos horários disponíveis
         const bookingsTimesFormated = bookingsTimes.map(times => {
@@ -204,28 +213,93 @@ const handleDateClick = (dayOfWeek, day, month, year) => {
         setHorariosDiaSelecionado(['Não há horários disponíveis para esse dia']);
       }
     
-  }else{
-    if (dayOfWeek in timesDays) {
-      let timesOfDaySelected = timesDays[dayOfWeek];
-      timesOfDaySelected = timesOfDaySelected.split(',');
-      let arrayfiltered = timesOfDaySelected.filter(nameDay => nameDay.length != 3)
-      setHorariosDiaSelecionado(arrayfiltered);
+    }else{
+      const bookinOfDaySelected = bookingProfessional.filter(horarios => horarios.booking_date === selectedDay);
+      const bookingsTimes = Object.values(bookinOfDaySelected).map(item => item.booking_time);
+      console.log(bookingsTimes)
+        // Converta os horários agendados para o mesmo formato dos horários disponíveis
+        const bookingsTimesFormated = bookingsTimes.map(times => {
+          const [time, minute] = times.split(':');
+          return Number(`${time}${minute}`);
+        });
+
+        // Remova os horários agendados do array de horários disponíveis
+        timesOfDaySelected = timesOfDaySelected.filter(times => {
+          const [time, minute] = times.split(':');
+          const fullTime = Number(`${time}${minute}`);
+          return !bookingsTimesFormated.includes(fullTime);
+        });
+
+        let arrayfiltered = timesOfDaySelected.filter(nameDay => nameDay.length != 3);
+        
+        setHorariosDiaSelecionado(arrayfiltered);
     }
-  }
-    
   } else {
     setHorariosDiaSelecionado(['null']); // Define como null se o dia selecionado não estiver no objeto
   }
 };
 
-  useEffect(() =>{
-  if(horariosDiaSelecionado){
-      firstTime = horariosDiaSelecionado[0];
-      lastTime = horariosDiaSelecionado.length -1;
-      lastTime = horariosDiaSelecionado[lastTime];
-    }
-  },[selectedDate])
+function reservationTimes (timeSelected){
+  //Verifica se um horário foi selecionado
+  if(timeSelected){
+    //Verifica se o serviço selecionado tem um tempo de duração maior que 15min
+    if(serviceDuration > 15){
+      //Divide a duração do serviço por 15, para obter a quantidade de vezes que vamos gerar horários que serão ocupados
+      const cont = serviceDuration/15;
 
+      let [time, minute] = timeSelected.split(':');//divide a string do horário selecionado em horas e minutos
+      let newHour= Number(time);//horas
+      let newMinute = Number(minute);//minutos
+
+      //Array para armazenar os horários que serão o cupados pelo serviço
+      const timesBusy = []
+
+      //loop para calcular os horarios que serão ocupados pelo serviço selecionado
+      for(let i=0; i < cont; i++){
+        //Soma 15min nos minutos do horário selecionado
+        newMinute = newMinute + 15;
+        //Verifica se os minutos do horário gerado é maior ou igual a 60
+        if(newMinute >= 60){          
+            newHour = newHour + 1;//Se for, soma mais 1 hora
+            newMinute = newMinute - 60;//E zera os respectivos minutos
+            let newTime = Number(`${newHour}${newMinute}${0}`);//Concatena o novo horário
+            timesBusy.push(newTime)//Adiciona o novo horário no array
+        }else{
+          let newTime = Number(`${newHour}${newMinute}`);//Como os minutos são menores que 60, apenas concatena o horário gerado com 15min a mais
+          timesBusy.push(newTime)//Adiciona o novo horário no array
+        }
+      }
+
+      //João, esse array está armazenando os horários no seguinte formato string ("00:00") que o serviço vai ocupar.
+      const busyTimesFormated = []
+
+      for(let i=0; i<timesBusy.length; i++){
+        //Aqui você está passando o primeiro elemento do array 'timesBusy' que contém os horários em tipo inteiro, que o serviço vai ocupar.
+        let timesIntFormat = timesBusy[i].toString();
+        //Verificação se o horário contido em timesBusy é (800), ou seja, 8h da manhã
+        if(timesIntFormat.length === 3){
+          //Se for, você adiciona um '0' a esquerda (hhahahahhaha) para ficar no formato do array princpal de horários. Sendo assim, possibilitando a remoção desse horário do array principal.
+          timesIntFormat = '0' + timesIntFormat;
+          let hours = timesIntFormat.substring(0, 2);//Pegando os dois primeiros elementos da hora
+          let minutes =  timesIntFormat.substring(timesIntFormat.length - 2);//Pegando os dois primeiros elementos do minuto
+          let timeFormated = `${hours}:${minutes}`;// formatando
+          busyTimesFormated.push(timeFormated);//Adicionando ao array
+        }else{
+          //Caso o horário contido no array timesBusy tenha dois elementos, ou seja, 1315 (13:15)
+          let hours = timesIntFormat.substring(0, 2);//Pegando os dois primeiros elementos da hora
+          let minutes =  timesIntFormat.substring(timesIntFormat.length - 2);//Pegando os dois primeiros elementos do minuto
+          let timeFormated = `${hours}:${minutes}`;// formatando
+          busyTimesFormated.push(timeFormated);//Adicionando ao array
+        }
+      }
+      busyTimesFormated.pop();//Excluindo o último horário da lista, pois ele tem que ser disponibilizado para agendamento
+      busyTimesFormated.unshift(timeSelected)//Adicionando o horário selecionado, finalizando então, o mapeamento de todos os horários a serem ocupados pelo serviço selecionado.
+
+      return busyTimesFormated;
+    }  
+  }
+}
+const timesBusyByService = reservationTimes(timeSelected)
 //Função para pegar o horário selecionado pelo usuário
   const hendleTimeClick = (time) => {
       setTimeSelected(time);
@@ -258,6 +332,8 @@ const [messageConfirmedBooking, setMessageConfirmedBooking] = useState('');
 
 const makeBooking = () =>{
   if(userId && barbeariaId && professionalId && serviceId && selectedDate && timeSelected && formattedDate){
+    //Passando todos os horários que serão ocupados pelo serviço selecionado
+    let timeSelected = timesBusyByService.join(',');
     //Object to agroup all informations to make a new booking
     const newBooking = {
       userId,
@@ -272,7 +348,11 @@ const makeBooking = () =>{
     axios.post('https://api-user-barbeasy.up.railway.app/api/create-booking/', newBooking)
     .then(res => {
       if(res.data.Success === 'Success'){
-        setMessageConfirmedBooking("Agendamento realizado.")
+        setMessageConfirmedBooking("Seu agendamento foi realizado com sucesso!")
+        setTimeout(() => {
+          setMessageConfirmedBooking('');
+          window.location.reload()
+        }, 3000);
       }
 
     }).catch(error => {
@@ -285,6 +365,7 @@ const makeBooking = () =>{
     barbeariaId: PropTypes.number.isRequired,
     professionalId: PropTypes.number,
     serviceId: PropTypes.number,
+    serviceDuration: PropTypes.number
   };
 
   return (
@@ -319,9 +400,18 @@ const makeBooking = () =>{
     <div className="container__horarios">
       {renderHorariosDiaSelecionado()}
     </div>
-    {messageConfirmedBooking}
-    <button onClick={makeBooking} id="AgendamentoButton">agendar</button>
-    
+    {messageConfirmedBooking === 'Seu agendamento foi realizado com sucesso!' ?(
+      <div className="mensagem-sucesso">
+        <MdOutlineDone className="icon__success"/>
+        <p className="text__message">{messageConfirmedBooking}</p>
+      </div>
+      ) : (
+      <div className={` ${messageConfirmedBooking ? 'mensagem-erro' : ''}`}>
+        <VscError className={`hide_icon__error ${messageConfirmedBooking ? 'icon__error' : ''}`}/>
+        <p className="text__message">{messageConfirmedBooking}</p>
+      </div>
+    )}
+    <button onClick={makeBooking} className={`Btn__ocult ${serviceId && selectedDate && timeSelected ? 'AgendamentoButton': ''}`}>Finalizar Agendamento</button>
   </>
   );
 }
