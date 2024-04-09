@@ -37,6 +37,7 @@ Tanto para os clientes das barbearias quando para as proprias barbearias, basta 
 ## Modelo Entidade-Relacionamento
 ![modelo-entidade-relacionamento-upgrade (4)](https://github.com/jpdicarvalho/Barbeasy-Frontend/assets/114435447/a78252a0-73d7-4f5d-9787-7562769e9a66)
 ## Diagrama de Componentes
+![Diagrama de Componentes](https://github.com/jpdicarvalho/Barbeasy-Frontend/assets/114435447/7abcec67-4f2d-47ae-833e-a3d1907e76c1)
 
 ---
 
