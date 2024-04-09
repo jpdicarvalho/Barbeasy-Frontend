@@ -27,12 +27,15 @@ Tanto para os clientes das barbearias quando para as proprias barbearias, basta 
 # Especificações Técnicas
   
 ### Tecnologias usadas:
-- Front-End: React, Vite, HTML5 e CSS.
-- Back-End: JavaScript e Node.js.
-- Banco de Dados: MySQL e Xampp como servidor de Banco de Dados.
+- Front-End: React+Vite, HTML5, CSS & JavaScript.
+- Back-End: Node.js.
+- Banco de Dados: MySQL.
+- Serviços de Hospedagem:
+  - Railway: para API; e
+  - AWS: para armazenamento de imagens.
 
 ## Modelo Entidade-Relacionamento
-
+![modelo-entidade-relacionamento-upgrade (4)](https://github.com/jpdicarvalho/Barbeasy-Frontend/assets/114435447/a78252a0-73d7-4f5d-9787-7562769e9a66)
 ## Diagrama de Componentes
 
 ---
