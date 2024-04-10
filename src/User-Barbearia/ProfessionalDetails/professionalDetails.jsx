@@ -12,6 +12,8 @@ import { GiRazor } from "react-icons/gi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { MdOutlineDone } from "react-icons/md";
 import { VscError } from "react-icons/vsc";
+import { CiAlarmOff } from "react-icons/ci";
+
 
 function ProfessionalDetails (){
 
@@ -1024,6 +1026,14 @@ return (
           </div>
         </div>
           )}
+
+<hr className='hr_menu'/>
+
+<div className="menu__main" onClick={alternarServico}>
+  <CiAlarmOff className='icon_menu'/>
+    Adicionar Folga
+  <IoIosArrowDown className={`arrow ${mostrarServico ? 'girar' : ''}`} id='arrow'/>
+</div>
 
         </div>
     </div>
