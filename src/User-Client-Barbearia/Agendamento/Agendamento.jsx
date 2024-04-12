@@ -30,11 +30,12 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId, se
   const [selectedDate, setSelectedDate] = useState(null);
   const [timeSelected, setTimeSelected] = useState("");
 
-  const currentDay = new Date(date);
-  const formattedDate = `${currentDay.getDate()}-${currentDay.getMonth() + 1}-${currentDay.getFullYear()}-${currentDay.getHours()}:${currentDay.getMinutes()}`;
+  const currentDate = new Date(date);
+  const formattedDate = `${currentDate.getDate()}-${currentDate.getMonth() + 1}-${currentDate.getFullYear()}-${currentDate.getHours()}:${currentDate.getMinutes()}`;
 
   // Function to get all booking
   const [bookings, setBookings] = useState ([]);
+
   const getAllBookings = () =>{
     axios.get(`https://api-user-barbeasy.up.railway.app/api/bookings/${barbeariaId}`)
     .then(res =>{
@@ -136,8 +137,31 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId, se
     return numbersWeek;
   }
 
+  // Function to get current day in format: [Sex, 12 de Abr de 2024]
+  function getCurrentDayOfWeek(){
+    const currentDayOfWeek = weekNames[date.getDay()];//Dia atual da semana
+    const currentDayOfMonth = date.getDate();//Dia atua do mês
+    const currentNameMonth = monthNames[date.getMonth()];//Mês atual  
+    let currentDay = `${currentDayOfWeek}, ${currentDayOfMonth} de ${currentNameMonth} de ${year}`;// Monta a data no formato do dia selecionado
+    return currentDay;
+  }
+
+  //Function to get current time
+  function getCurrentTime(){
+    // get default current time
+    const currentTime = new Date().getHours();
+    const currentMinute = new Date().getMinutes();
+    const currentTimeStr = String(currentTime).padStart(2, '0');
+    const currentMinuteStr = String(currentMinute).padStart(2, '0');
+    const fullCurrentTime = Number(`${currentTimeStr}${currentMinuteStr}`);
+    return fullCurrentTime;
+  }
+
   const weekDays = getWeeks();
   const numberDays = getNumber();
+  const currentDay = getCurrentDayOfWeek()
+  const currentTime = getCurrentTime()
+
 /*=============================================================== Don't Forget ===============================================================
 João, lembra de buscar apenas os agendamento da data atual para frente!! 
 Pois essa consulta abaixo, está puxando todos os agendamento feitos na históriaa!!
@@ -147,17 +171,12 @@ function getBookingOfProfessional (){
   let arrayBookingProfessional = bookings.filter(bookings => bookings.professional_id === professionalId);
   return arrayBookingProfessional;
 }
-const bookingProfessional = getBookingOfProfessional()
+const bookingProfessional = getBookingOfProfessional();
 
 //Função para buscar a lista de horários disponíveis para agendamento, do dia selecionado
 const handleDateClick = (dayOfWeek, day, month, year) => {
   setSelectedDate(`${dayOfWeek}, ${day} de ${month} de ${year}`);//dia selecionado para registrar o agendamento
   let selectedDay = `${dayOfWeek}, ${day} de ${month} de ${year}`;//dia selecionado para filtrar array de horários
-
-  const currentDayOfWeek = weekNames[date.getDay()];//Dia atual da semana
-  const currentDayOfMonth = date.getDate();//Dia atua do mês
-  const currentNameMonth = monthNames[date.getMonth()];//Mês atual  
-  let currentDay = `${currentDayOfWeek}, ${currentDayOfMonth} de ${currentNameMonth} de ${year}`;// Monta a data no formato do dia selecionado
 
   // Verifica se o dia selecionado está no objeto
   if (dayOfWeek in timesDays) {
@@ -165,39 +184,18 @@ const handleDateClick = (dayOfWeek, day, month, year) => {
     let timesOfDaySelected = timesDays[dayOfWeek];
     //Separa os horários que estão concatenados
     timesOfDaySelected = timesOfDaySelected.split(',');
-    
-    // Obter a hora atual
-    const horaAtual = new Date().getHours();
-    const minutoAtual = new Date().getMinutes();
-    const horaAtualString = String(horaAtual).padStart(2, '0');
-    const minutoAtualString = String(minutoAtual).padStart(2, '0');
-    const horaAtualCompleta = Number(`${horaAtualString}${minutoAtualString}`);
+    console.log(timesOfDaySelected)
 
     if(selectedDay === currentDay){
       if(timesOfDaySelected[0].length === 5){
         const bookinOfDaySelected = bookingProfessional.filter(horarios => horarios.booking_date === selectedDay);
         const bookingsTimes = Object.values(bookinOfDaySelected).map(item => item.booking_time);
         const bookingsTimesSplit = bookingsTimes.map(timeString => timeString.split(','));
-        
+
         timesOfDaySelected = timesOfDaySelected.filter(time => {
-          // Verifica se o horário atual não está presente em bookingsTimesSplit
           return !bookingsTimesSplit.some(bookedTimes => bookedTimes.includes(time));
         });
-
-        // Converta os horários agendados para o mesmo formato dos horários disponíveis
-        const bookingsTimesFormated = bookingsTimes.map(times => {
-          const [time, minute] = times.split(':');
-          return Number(`${time}${minute}`);
-        });
-
-        // Remova os horários agendados do array de horários disponíveis
-        timesOfDaySelected = timesOfDaySelected.filter(times => {
-          const [time, minute] = times.split(':');
-          const fullTime = Number(`${time}${minute}`);
-          return !bookingsTimesFormated.includes(fullTime);
-        });
         
-
         // Filtra os horários que são maiores ou iguais ao horário atual
         const horariosFiltrados = timesOfDaySelected.filter(horario => {
           // Divide o horário em hora e minuto
@@ -205,7 +203,7 @@ const handleDateClick = (dayOfWeek, day, month, year) => {
           // Calcula o horário completo em formato de número para facilitar a comparação
           const horarioCompleto = Number(`${hora}${minuto}`);
           // Retorna verdadeiro se o horário completo for maior ou igual ao horário atual
-          return horarioCompleto >= horaAtualCompleta;
+          return horarioCompleto >= currentTime;
         });
         setHorariosDiaSelecionado(horariosFiltrados);
 
@@ -217,28 +215,12 @@ const handleDateClick = (dayOfWeek, day, month, year) => {
       const bookinOfDaySelected = bookingProfessional.filter(horarios => horarios.booking_date === selectedDay);
       const bookingsTimes = Object.values(bookinOfDaySelected).map(item => item.booking_time);
       const bookingsTimesSplit = bookingsTimes.map(timeString => timeString.split(','));
-      console.log('asasasa',bookingsTimesSplit)
-        timesOfDaySelected = timesOfDaySelected.filter(time => {
-          // Verifica se o horário atual não está presente em bookingsTimesSplit
-          return !bookingsTimesSplit.some(bookedTimes => bookedTimes.includes(time));
-        });
-
-        // Converta os horários agendados para o mesmo formato dos horários disponíveis
-        const bookingsTimesFormated = bookingsTimes.map(times => {
-          const [time, minute] = times.split(':');
-          return Number(`${time}${minute}`);
-        });
-
-        // Remova os horários agendados do array de horários disponíveis
-        timesOfDaySelected = timesOfDaySelected.filter(times => {
-          const [time, minute] = times.split(':');
-          const fullTime = Number(`${time}${minute}`);
-          return !bookingsTimesFormated.includes(fullTime);
-        });
-
-        let arrayfiltered = timesOfDaySelected.filter(nameDay => nameDay.length != 3);
         
-        setHorariosDiaSelecionado(arrayfiltered);
+      timesOfDaySelected = timesOfDaySelected.filter(time => {
+        return !bookingsTimesSplit.some(bookedTimes => bookedTimes.includes(time));
+      });
+
+      setHorariosDiaSelecionado(timesOfDaySelected);
     }
   } else {
     setHorariosDiaSelecionado(['null']); // Define como null se o dia selecionado não estiver no objeto

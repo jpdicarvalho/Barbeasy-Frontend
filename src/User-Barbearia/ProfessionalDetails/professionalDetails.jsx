@@ -37,17 +37,6 @@ const userData = localStorage.getItem('dataBarbearia');//Obtendo os dados salvo 
 const userInformation = JSON.parse(userData);//trasnformando os dados para JSON
 const barbeariaId = userInformation.barbearia[0].id;
 
-const date = new Date();
-const options = { weekday: 'short', locale: 'pt-BR' };
-let dayOfWeek = date.toLocaleDateString('pt-BR', options);
-dayOfWeek = dayOfWeek.slice(0, -1);
-dayOfWeek = dayOfWeek.charAt(0).toUpperCase() + dayOfWeek.slice(1);
-const year = date.getFullYear();
-
-const currentDay = new Date(date);
-const formattedDate = `${currentDay.getDate()}-${currentDay.getMonth() + 1}-${currentDay.getFullYear()}-${currentDay.getHours()}:${currentDay.getMinutes()}`;
-
-
 //passando os dados do profissional selecionado
 const handleBackClick = () => {
   navigate("/ProfileBarbearia");
@@ -718,6 +707,16 @@ const [selectedDate, setSelectedDate] = useState(null);
 const [timeSelected, setTimeSelected] = useState("");
 const [bookings, setBookings] = useState ([]);
 
+const date = new Date();
+const options = { weekday: 'short', locale: 'pt-BR' };
+let dayOfWeek = date.toLocaleDateString('pt-BR', options);
+dayOfWeek = dayOfWeek.slice(0, -1);
+dayOfWeek = dayOfWeek.charAt(0).toUpperCase() + dayOfWeek.slice(1);
+const year = date.getFullYear();
+
+const currentDate = new Date(date);
+const formattedDate = `${currentDate.getDate()}-${currentDate.getMonth() + 1}-${currentDate.getFullYear()}-${currentDate.getHours()}:${currentDate.getMinutes()}`;
+
 //Função para mostra calendario
 const alternarCalendar = () => {
   SetShowCalendar(!showCalendar);
@@ -765,8 +764,30 @@ function getNumber() {
   return numbersWeek;
 }
 
+// Function to get current day in format: [Sex, 12 de Abr de 2024]
+function getCurrentDayOfWeek(){
+  const currentDayOfWeek = weekNames[date.getDay()];//Dia atual da semana
+  const currentDayOfMonth = date.getDate();//Dia atua do mês
+  const currentNameMonth = monthNames[date.getMonth()];//Mês atual  
+  let currentDay = `${currentDayOfWeek}, ${currentDayOfMonth} de ${currentNameMonth} de ${year}`;// Monta a data no formato do dia selecionado
+  return currentDay;
+}
+
+//Function to get current time
+function getCurrentTime(){
+  // get default current time
+  const currentTime = new Date().getHours();
+  const currentMinute = new Date().getMinutes();
+  const currentTimeStr = String(currentTime).padStart(2, '0');
+  const currentMinuteStr = String(currentMinute).padStart(2, '0');
+  const fullCurrentTime = Number(`${currentTimeStr}${currentMinuteStr}`);
+  return fullCurrentTime;
+}
+
 const weekDays = getWeeks();
 const numberDays = getNumber();
+const currentDay = getCurrentDayOfWeek()
+const currentTime = getCurrentTime()
 
 //Função para adicionar o dia selecionado pelo usuário
 const handleDateClick = (dayOfWeek, day, month, year) => {
@@ -1170,6 +1191,7 @@ return (
             </div>
           )}
         </div>
+        
     </div>
   </div>
     )
