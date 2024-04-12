@@ -713,11 +713,12 @@ const formatarPorcentagem = (valor) => {
       });
   }
 /*======================Calendário===========================*/
+const [showCalendar, SetShowCalendar] = useState(false);
 const [selectedDate, setSelectedDate] = useState(null);
 const [timeSelected, setTimeSelected] = useState("");
-const [showCalendar, SetShowCalendar] = useState(false);
+const [bookings, setBookings] = useState ([]);
 
-//Função para mostra os serviços cadastrados
+//Função para mostra calendario
 const alternarCalendar = () => {
   SetShowCalendar(!showCalendar);
 };
@@ -767,11 +768,32 @@ function getNumber() {
 const weekDays = getWeeks();
 const numberDays = getNumber();
 
+//Função para adicionar o dia selecionado pelo usuário
 const handleDateClick = (dayOfWeek, day, month, year) => {
   setSelectedDate(`${dayOfWeek}, ${day} de ${month} de ${year}`);
 }
-console.log(selectedDate)
 
+// Function to get all booking
+const getAllBookings = () =>{
+  axios.get(`https://api-user-barbeasy.up.railway.app/api/bookings/${barbeariaId}`)
+  .then(res =>{
+    if(res.data.Success === 'Success'){
+      setBookings(res.data.allBookings);
+    }
+  }).catch(err =>{
+    console.error('Erro ao buscar agendamentos', err);
+  })
+}
+useEffect(() =>{
+  getAllBookings()
+}, [barbeariaId, professionalId, selectedDate])
+
+//Função para buscar os agendamento do profissional selecionado
+function getBookingOfProfessional (){
+  let arrayBookingProfessional = bookings.filter(bookings => bookings.professional_id === professionalId);
+  return arrayBookingProfessional;
+}
+const bookingProfessional = getBookingOfProfessional()
 return (
     <div className="main__professional">
     <div className="container__professional">
@@ -1112,7 +1134,7 @@ return (
               Adicionar Folga
             <IoIosArrowDown className={`arrow ${mostrarServico ? 'girar' : ''}`} id='arrow'/>
           </div>
-          
+
           {showCalendar &&(
             <div className='container__Calendar'>
             <div className='sectionCalendar'>
