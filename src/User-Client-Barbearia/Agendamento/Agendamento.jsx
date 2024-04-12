@@ -148,6 +148,7 @@ function getBookingOfProfessional (){
   return arrayBookingProfessional;
 }
 const bookingProfessional = getBookingOfProfessional()
+
 //Função para buscar a lista de horários do dia selecionado
 const handleDateClick = (dayOfWeek, day, month, year) => {
   setSelectedDate(`${dayOfWeek}, ${day} de ${month} de ${year}`);//dia selecionado para registrar o agendamento

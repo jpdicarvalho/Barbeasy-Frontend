@@ -15,6 +15,13 @@ import { MdOutlineDone } from "react-icons/md";
 import { VscError } from "react-icons/vsc";
 import { CiAlarmOff } from "react-icons/ci";
 
+const monthNames = [
+  'Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun', 'Jul', 'Aug', 'Set', 'Out', 'Nov', 'Dez'
+];
+
+const weekNames = [
+  'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'
+];
 
 function ProfessionalDetails (){
 
@@ -29,6 +36,17 @@ const firstLetter = professional.name.charAt(0).toUpperCase();
 const userData = localStorage.getItem('dataBarbearia');//Obtendo os dados salvo no localStorage
 const userInformation = JSON.parse(userData);//trasnformando os dados para JSON
 const barbeariaId = userInformation.barbearia[0].id;
+
+const date = new Date();
+const options = { weekday: 'short', locale: 'pt-BR' };
+let dayOfWeek = date.toLocaleDateString('pt-BR', options);
+dayOfWeek = dayOfWeek.slice(0, -1);
+dayOfWeek = dayOfWeek.charAt(0).toUpperCase() + dayOfWeek.slice(1);
+const year = date.getFullYear();
+
+const currentDay = new Date(date);
+const formattedDate = `${currentDay.getDate()}-${currentDay.getMonth() + 1}-${currentDay.getFullYear()}-${currentDay.getHours()}:${currentDay.getMinutes()}`;
+
 
 //passando os dados do profissional selecionado
 const handleBackClick = () => {
@@ -694,7 +712,59 @@ const formatarPorcentagem = (valor) => {
         }, 2000);
       });
   }
-/*=================================================*/
+/*======================Calendário===========================*/
+const [selectedDate, setSelectedDate] = useState(null);
+const [timeSelected, setTimeSelected] = useState("");
+
+//Função para pegar os dias da semana
+function getWeeks() {
+  const arrayWeeks = [];
+  const startIndex = weekNames.indexOf(dayOfWeek);
+  const lastDayToShow = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 30);
+
+  for (let i = 0; i < 30; i++) {
+    const currentDay = new Date(date.getFullYear(), date.getMonth(), date.getDate() + i);
+    const index = (startIndex + i) % 7;
+    const nameWeek = weekNames[index];
+
+    if (currentDay <= lastDayToShow) {
+      arrayWeeks.push(nameWeek);
+    }
+  }
+
+  return arrayWeeks;
+}
+
+//Função para gerar a quantidade de dias que a agenda vai ficar aberta
+function getNumber() {
+  const numbersWeek = [];
+  const lastDayToShow = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 30);
+
+  for (let i = 0; i < 30; i++) {
+    const currentDay = new Date(date.getFullYear(), date.getMonth(), date.getDate() + i);
+    const numberWeek = currentDay.getDate();
+    const isCurrentDay = currentDay.toDateString() === date.toDateString();
+    const month = monthNames[currentDay.getMonth()]; // Obtém o nome do mês
+
+    if (currentDay <= lastDayToShow) {
+      numbersWeek.push({
+        number: numberWeek,
+        isCurrentDay: isCurrentDay,
+        month: month, // Adiciona o nome do mês ao objeto
+      });
+    }
+  }
+
+  return numbersWeek;
+}
+
+const weekDays = getWeeks();
+const numberDays = getNumber();
+
+const handleDateClick = (dayOfWeek, day, month, year) => {
+  setSelectedDate(`${dayOfWeek}, ${day} de ${month} de ${year}`);
+}
+console.log(selectedDate)
 
 return (
     <div className="main__professional">
@@ -1030,13 +1100,45 @@ return (
           )}
 
 <hr className='hr_menu'/>
-<Agendamento/>
 
-<div className="menu__main" onClick={alternarServico}>
-  <CiAlarmOff className='icon_menu'/>
-    Adicionar Folga
-  <IoIosArrowDown className={`arrow ${mostrarServico ? 'girar' : ''}`} id='arrow'/>
-</div>
+          <div className="menu__main" onClick={alternarServico} style={{marginBottom: '15px'}}>
+            <CiAlarmOff className='icon_menu'/>
+              Adicionar Folga
+            <IoIosArrowDown className={`arrow ${mostrarServico ? 'girar' : ''}`} id='arrow'/>
+          </div>
+
+          <div className='container__Calendar'>
+            <div className='sectionCalendar'>
+                <div className="list__Names__Week__And__Day">
+                {weekDays.map((dayOfWeek, index) => (
+                    <div key={`weekDay-${index}`} className="list__name__Week">
+                      <div
+                        className={`dayWeekCurrent ${selectedDate === `${dayOfWeek}, ${numberDays[index].number} de ${numberDays[index].month} de ${year}` ? 'selectedDay' : ''} ${numberDays[index].isCurrentDay ? 'currentDay' : ''}`}
+                        onClick={() => handleDateClick(dayOfWeek, numberDays[index].number, numberDays[index].month, year)}
+                      >
+                        <p className='Box__day'>{dayOfWeek}</p>
+                        <p className='Box__NumDay'>{numberDays[index].number}</p>
+                        <p className='Box__month'>{numberDays[index].month}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+            </div>
+            <div className="times">
+              {selectedDate && (
+                <div className="tittle__times">
+                    Horários Disponíveis
+                </div>
+              )}
+
+              {selectedDate && (
+                <div className="section__times">
+                  {/* Renderizar os horários disponíveis para o dia selecionado */}
+                  {getHorariosPorDia(selectedDate)}
+                </div>
+              )}
+            </div>
+          </div>
         </div>
     </div>
     </div>

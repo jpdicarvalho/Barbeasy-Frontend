@@ -40,3 +40,27 @@
 .firstLetter__professional{
     font-size: 40px;
 }
+.tittle__times{
+    padding-top: 10px;
+    margin-bottom: 10px;
+    width: 360px;
+}
+
+.section__times{
+    display: flex;
+    background: transparent;
+    width: 360px;
+    padding: 10px;
+    overflow: auto;
+    cursor: grab;
+}
+.section__times::-webkit-scrollbar {
+    height: 2px;
+}
+.section__times::-webkit-scrollbar-thumb {
+    background: #354249; 
+    border-radius: 5px;
+}
+.section__times::-webkit-scrollbar-thumb:hover {
+    background: #f6f6f6; 
+}
