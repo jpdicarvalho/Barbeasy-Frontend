@@ -715,6 +715,12 @@ const formatarPorcentagem = (valor) => {
 /*======================Calendário===========================*/
 const [selectedDate, setSelectedDate] = useState(null);
 const [timeSelected, setTimeSelected] = useState("");
+const [showCalendar, SetShowCalendar] = useState(false);
+
+//Função para mostra os serviços cadastrados
+const alternarCalendar = () => {
+  SetShowCalendar(!showCalendar);
+};
 
 //Função para pegar os dias da semana
 function getWeeks() {
@@ -1101,13 +1107,14 @@ return (
 
 <hr className='hr_menu'/>
 
-          <div className="menu__main" onClick={alternarServico} style={{marginBottom: '15px'}}>
+          <div className="menu__main" onClick={alternarCalendar} style={{marginBottom: '15px'}}>
             <CiAlarmOff className='icon_menu'/>
               Adicionar Folga
             <IoIosArrowDown className={`arrow ${mostrarServico ? 'girar' : ''}`} id='arrow'/>
           </div>
-
-          <div className='container__Calendar'>
+          
+          {showCalendar &&(
+            <div className='container__Calendar'>
             <div className='sectionCalendar'>
                 <div className="list__Names__Week__And__Day">
                 {weekDays.map((dayOfWeek, index) => (
@@ -1138,10 +1145,11 @@ return (
                 </div>
               )}
             </div>
-          </div>
+            </div>
+          )}
         </div>
     </div>
-    </div>
+  </div>
     )
 }
 export default ProfessionalDetails
