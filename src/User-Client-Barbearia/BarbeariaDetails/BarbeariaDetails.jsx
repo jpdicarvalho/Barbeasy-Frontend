@@ -309,15 +309,6 @@ useEffect(()=> {
       )}
       <Agendamento userId={userId} barbeariaId={barbeariaId} professionalId={serviceProfessional} serviceId={selectedService} serviceDuration={serviceDuration}/>
 
-        {/*selectedService && !isAgendamentoConfirmed && (
-          <button
-            
-            onClick={pagamento}
-          >
-            Continuar
-          </button>
-        )*/}
-       
        {isAgendamentoConfirmed && (
         <button onClick={urlMercadoPago} className="mercadoPagoButton">
           <img src={logoMercadoPago} alt="logo Mercado Pago" className="mercadoPagoLogo" />
@@ -333,6 +324,7 @@ useEffect(()=> {
         </ul>
 
         <hr />
+
             <div className="AvaliacaoSection">
               <h4>Classificações e Avaliações</h4>
               <div className="Estrelas">

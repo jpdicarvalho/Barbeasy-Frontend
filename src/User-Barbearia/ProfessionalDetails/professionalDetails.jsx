@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from 'axios';
+import { Agendamento } from "../../User-Client-Barbearia/Agendamento/Agendamento";
 import './professionalDetails.css';
 
 //Icons
@@ -850,6 +851,7 @@ return (
             <GiRazor className='icon_menu'/>
               Definir Serviços
             <IoIosArrowDown className={`arrow ${mostrarServico ? 'girar' : ''}`} id='arrow'/>
+            
           </div>
 
           {mostrarServico && (
@@ -1028,13 +1030,13 @@ return (
           )}
 
 <hr className='hr_menu'/>
+<Agendamento/>
 
 <div className="menu__main" onClick={alternarServico}>
   <CiAlarmOff className='icon_menu'/>
     Adicionar Folga
   <IoIosArrowDown className={`arrow ${mostrarServico ? 'girar' : ''}`} id='arrow'/>
 </div>
-
         </div>
     </div>
     </div>
