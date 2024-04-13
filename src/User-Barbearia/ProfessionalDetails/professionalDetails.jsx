@@ -706,7 +706,7 @@ const [showCalendar, SetShowCalendar] = useState(false);
 const [selectedDate, setSelectedDate] = useState(null);
 const [bookings, setBookings] = useState ([]);
 const [horariosDiaSelecionado, setHorariosDiaSelecionado] = useState([]); // Estado para os horários do dia selecionado
-const [timeSelected, setTimeSelected] = useState("");
+const [timeSelected, setTimeSelected] = useState([  ]);
 
 const date = new Date();
 const options = { weekday: 'short', locale: 'pt-BR' };
@@ -870,22 +870,35 @@ const handleDateClick = (dayOfWeek, day, month, year) => {
 //const[timesLockedByProfessional, setTimesLockedByProfessional] = useState([])
 //Função para pegar os horários selecionados pelo usuário, para salvar na tabela day-off
 
-/*const hendleTimeClick = (time) => {
- //vou fazer ainda
-}*/
+const hendleTimeClick = (time) => {
+  setTimeSelected(time)
+}
+const[timesLockedByProfessional, setTimesLockedByProfessional] = useState([]);
+// Função para remover horários do array horarioDefinido
+const handleDayOff = (time) => {
+  // Verifica se o horário já está presente no array horarioDefinido
+  if (timesLockedByProfessional.includes(time)) {
+      // Se estiver presente, remove-o da seleção
+      const novosIntervalos = timesLockedByProfessional.filter(item => item !== time);
+      setTimesLockedByProfessional(novosIntervalos);
+  } else {
+      // Se não estiver presente, adiciona-o à seleção
+      setTimesLockedByProfessional([...timesLockedByProfessional, time]);
+  }
+};
 
 //Function to render all times defined
 const renderHorariosDiaSelecionado = () => {
   return (
     <>
-      {horariosDiaSelecionado && (
-        horariosDiaSelecionado.map(index => (
-          <div key={index} className={`horarios ${timeSelected === index ? 'selectedDay':''}`} onClick={() => hendleTimeClick(index)}>
-            <p>{index}</p>
-          </div>
-        ))
-      )}
-    </>
+        {horariosDiaSelecionado && (
+          horariosDiaSelecionado.map(index => (
+            <div key={index} className={`horarios ${timesLockedByProfessional.includes(index) ? 'selectedDay':''}`} onClick={() => handleDayOff(index)}>
+              <p>{index}</p>
+            </div>
+          ))
+        )}
+      </>
   );
 };
 
