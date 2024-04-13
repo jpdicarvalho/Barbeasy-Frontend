@@ -704,8 +704,9 @@ const formatarPorcentagem = (valor) => {
 /*======================Calendário===========================*/
 const [showCalendar, SetShowCalendar] = useState(false);
 const [selectedDate, setSelectedDate] = useState(null);
-const [timeSelected, setTimeSelected] = useState("");
 const [bookings, setBookings] = useState ([]);
+const [horariosDiaSelecionado, setHorariosDiaSelecionado] = useState([]); // Estado para os horários do dia selecionado
+const [timeSelected, setTimeSelected] = useState("");
 
 const date = new Date();
 const options = { weekday: 'short', locale: 'pt-BR' };
@@ -789,11 +790,6 @@ const numberDays = getNumber();
 const currentDay = getCurrentDayOfWeek()
 const currentTime = getCurrentTime()
 
-//Função para adicionar o dia selecionado pelo usuário
-const handleDateClick = (dayOfWeek, day, month, year) => {
-  setSelectedDate(`${dayOfWeek}, ${day} de ${month} de ${year}`);
-}
-
 // Function to get all booking
 const getAllBookings = () =>{
   axios.get(`https://api-user-barbeasy.up.railway.app/api/bookings/${barbeariaId}`)
@@ -805,6 +801,7 @@ const getAllBookings = () =>{
     console.error('Erro ao buscar agendamentos', err);
   })
 }
+
 useEffect(() =>{
   getAllBookings()
 }, [barbeariaId, professionalId, selectedDate])
@@ -815,6 +812,83 @@ function getBookingOfProfessional (){
   return arrayBookingProfessional;
 }
 const bookingProfessional = getBookingOfProfessional()
+
+//Função para buscar a lista de horários disponíveis para agendamento, do dia selecionado
+const handleDateClick = (dayOfWeek, day, month, year) => {
+  setSelectedDate(`${dayOfWeek}, ${day} de ${month} de ${year}`);//dia selecionado para registrar o agendamento
+  let selectedDay = `${dayOfWeek}, ${day} de ${month} de ${year}`;//dia selecionado para filtrar array de horários
+
+  // Verifica se o dia selecionado está no objeto
+  if (dayOfWeek in timesDays) {
+    //Passa o índice do objeto, correspondente ao dia selecionado
+    let timesOfDaySelected = timesDays[dayOfWeek];
+    //Separa os horários que estão concatenados
+    timesOfDaySelected = timesOfDaySelected.split(',');
+    console.log(timesOfDaySelected)
+
+    if(selectedDay === currentDay){
+      if(timesOfDaySelected[0].length === 5){
+        const bookinOfDaySelected = bookingProfessional.filter(horarios => horarios.booking_date === selectedDay);
+        const bookingsTimes = Object.values(bookinOfDaySelected).map(item => item.booking_time);
+        const bookingsTimesSplit = bookingsTimes.map(timeString => timeString.split(','));
+
+        timesOfDaySelected = timesOfDaySelected.filter(time => {
+          return !bookingsTimesSplit.some(bookedTimes => bookedTimes.includes(time));
+        });
+        
+        // Filtra os horários que são maiores ou iguais ao horário atual
+        const horariosFiltrados = timesOfDaySelected.filter(horario => {
+          // Divide o horário em hora e minuto
+          const [hora, minuto] = horario.split(':');
+          // Calcula o horário completo em formato de número para facilitar a comparação
+          const horarioCompleto = Number(`${hora}${minuto}`);
+          // Retorna verdadeiro se o horário completo for maior ou igual ao horário atual
+          return horarioCompleto >= currentTime;
+        });
+        setHorariosDiaSelecionado(horariosFiltrados);
+
+      }else{
+        setHorariosDiaSelecionado(['Não há horários disponíveis para esse dia']);
+      }
+    
+    }else{
+      const bookinOfDaySelected = bookingProfessional.filter(horarios => horarios.booking_date === selectedDay);
+      const bookingsTimes = Object.values(bookinOfDaySelected).map(item => item.booking_time);
+      const bookingsTimesSplit = bookingsTimes.map(timeString => timeString.split(','));
+        
+      timesOfDaySelected = timesOfDaySelected.filter(time => {
+        return !bookingsTimesSplit.some(bookedTimes => bookedTimes.includes(time));
+      });
+
+      setHorariosDiaSelecionado(timesOfDaySelected);
+    }
+  } else {
+    setHorariosDiaSelecionado(['null']); // Define como null se o dia selecionado não estiver no objeto
+  }
+};
+
+//const[timesLockedByProfessional, setTimesLockedByProfessional] = useState([])
+//Função para pegar os horários selecionados pelo usuário, para salvar na tabela day-off
+
+/*const hendleTimeClick = (time) => {
+ //vou fazer ainda
+}*/
+
+//Function to render all times defined
+const renderHorariosDiaSelecionado = () => {
+  return (
+    <>
+      {horariosDiaSelecionado && (
+        horariosDiaSelecionado.map(index => (
+          <div key={index} className={`horarios ${timeSelected === index ? 'selectedDay':''}`} onClick={() => hendleTimeClick(index)}>
+            <p>{index}</p>
+          </div>
+        ))
+      )}
+    </>
+  );
+};
+
 return (
     <div className="main__professional">
     <div className="container__professional">
@@ -1176,15 +1250,16 @@ return (
             </div>
             <div className="times">
               {selectedDate && (
-                <div className="tittle__times">
-                    Horários Disponíveis
-                </div>
+                <div className="tittle">
+                <div style={{marginTop: '15px'}}>
+                 Horários Disponíveis
+               </div>
+             </div>
               )}
 
               {selectedDate && (
                 <div className="section__times">
-                  {/* Renderizar os horários disponíveis para o dia selecionado */}
-                  {getHorariosPorDia(selectedDate)}
+                  {renderHorariosDiaSelecionado()}
                 </div>
               )}
             </div>
