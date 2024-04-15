@@ -898,8 +898,12 @@ const renderHorariosDiaSelecionado = () => {
 };
 
 const saveDayOff = () =>{
-  if(barbeariaId && professionalId && timesLockedByProfessional){
-    axios.post(`https://api-user-barbeasy.up.railway.app/api/update-dayOff/${barbeariaId}/${professionalId}`, timesLockedByProfessional)
+  if(barbeariaId && professionalId && selectedDate && timesLockedByProfessional){
+    const objectDayOff = {
+      selectedDate,
+      timesLockedByProfessional
+    }
+    axios.post(`https://api-user-barbeasy.up.railway.app/api/update-dayOff/${barbeariaId}/${professionalId}`, objectDayOff)
     .then(res =>{
       if(res.data.Success === 'Success'){
         setMessageSaveDayOff("Folga salva com sucesso!")
