@@ -706,7 +706,8 @@ const [showCalendar, SetShowCalendar] = useState(false);
 const [selectedDate, setSelectedDate] = useState(null);
 const [bookings, setBookings] = useState ([]);
 const [horariosDiaSelecionado, setHorariosDiaSelecionado] = useState([]); // Estado para os horários do dia selecionado
-const [timeSelected, setTimeSelected] = useState([  ]);
+
+const [messageSaveDayOff, setMessageSaveDayOff] = useState('');
 
 const date = new Date();
 const options = { weekday: 'short', locale: 'pt-BR' };
@@ -867,12 +868,6 @@ const handleDateClick = (dayOfWeek, day, month, year) => {
   }
 };
 
-//const[timesLockedByProfessional, setTimesLockedByProfessional] = useState([])
-//Função para pegar os horários selecionados pelo usuário, para salvar na tabela day-off
-
-const hendleTimeClick = (time) => {
-  setTimeSelected(time)
-}
 const[timesLockedByProfessional, setTimesLockedByProfessional] = useState([]);
 // Função para remover horários do array horarioDefinido
 const handleDayOff = (time) => {
@@ -901,6 +896,19 @@ const renderHorariosDiaSelecionado = () => {
       </>
   );
 };
+
+const saveDayOff = () =>{
+  if(barbeariaId && professionalId && timesLockedByProfessional){
+    axios.post(`https://api-user-barbeasy.up.railway.app/api/update-dayOff/${barbeariaId}/${professionalId}`, timesLockedByProfessional)
+    .then(res =>{
+      if(res.data.Success === 'Success'){
+        setMessageSaveDayOff("Folga salva com sucesso!")
+      }
+    }).catch(err =>{
+      console.error("Error ao salva folga", err)
+    })
+  }
+} 
 
 return (
     <div className="main__professional">
@@ -1239,10 +1247,11 @@ return (
 
           <div className="menu__main" onClick={alternarCalendar} style={{marginBottom: '15px'}}>
             <CiAlarmOff className='icon_menu'/>
-              Adicionar Folga
+              Definir Folga
             <IoIosArrowDown className={`arrow ${mostrarServico ? 'girar' : ''}`} id='arrow'/>
           </div>
 
+          <p className="information__span">Selecione o dia que deseja folgar:</p>
           {showCalendar &&(
             <div className='container__Calendar'>
             <div className='sectionCalendar'>
@@ -1263,11 +1272,7 @@ return (
             </div>
             <div className="times">
               {selectedDate && (
-                <div className="tittle">
-                <div style={{marginTop: '15px'}}>
-                 Horários Disponíveis
-               </div>
-             </div>
+                <p className="information__span">Selecione os horários que deseja fechar:</p>
               )}
 
               {selectedDate && (
@@ -1276,8 +1281,12 @@ return (
                 </div>
               )}
             </div>
+            {timesLockedByProfessional.length > 0 && (
+              <button className="add_Service" onClick={saveDayOff}>Salvar</button>
+            )}
             </div>
           )}
+          
         </div>
         
     </div>
