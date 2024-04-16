@@ -917,6 +917,11 @@ const saveDayOff = () =>{
     .then(res =>{
       if(res.data.Success === 'Success'){
         setMessageSaveDayOff("Folga salva com sucesso!")
+        setTimeout(() => {
+          setMessageSaveDayOff(null);
+          setTimesLockedByProfessional([])
+          setSelectedDate(null)
+        }, 2000);
       }
     }).catch(err =>{
       console.error("Error ao salva folga", err)
@@ -1298,13 +1303,22 @@ return (
                 </div>
               )}
             </div>
-            
+            {messageSaveDayOff === "Folga salva com sucesso!" ? (
+                    <div className="mensagem-sucesso">
+                      <MdOutlineDone className="icon__success"/>
+                      <p className="text__message">{messageSaveDayOff}</p>
+                    </div>
+                      ) : (
+                      <div className={` ${messageSaveDayOff ? 'mensagem-erro' : ''}`}>
+                        <VscError className={`hide_icon__error ${messageSaveDayOff ? 'icon__error' : ''}`}/>
+                        <p className="text__message">{messageSaveDayOff}</p>
+                    </div>
+              )}
               <button className={`button__change ${timesLockedByProfessional.length >= 1 && showButtonSaveDayOff === false ? 'show':''}`} onClick={openButtonSaveDayOff}>Continuar</button>
               <button className={`button__change ${showButtonSaveDayOff === true ? 'show':''}`} onClick={saveDayOff}>Salvar</button>
 
             </div>
           )}
-          {messageSaveDayOff}
         </div>
         
     </div>
