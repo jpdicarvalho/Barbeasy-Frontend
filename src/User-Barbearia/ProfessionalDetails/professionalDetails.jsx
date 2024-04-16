@@ -702,10 +702,13 @@ const formatarPorcentagem = (valor) => {
       });
   }
 /*======================Calendário===========================*/
-const [showCalendar, SetShowCalendar] = useState(false);
+const [showCalendar, setShowCalendar] = useState(false);
+const [showButtonSaveDayOff, setButtonSaveDayOff] = useState(false);
 const [selectedDate, setSelectedDate] = useState(null);
 const [bookings, setBookings] = useState ([]);
 const [horariosDiaSelecionado, setHorariosDiaSelecionado] = useState([]); // Estado para os horários do dia selecionado
+const[timesLockedByProfessional, setTimesLockedByProfessional] = useState([]);
+
 
 const [messageSaveDayOff, setMessageSaveDayOff] = useState('');
 
@@ -717,11 +720,19 @@ dayOfWeek = dayOfWeek.charAt(0).toUpperCase() + dayOfWeek.slice(1);
 const year = date.getFullYear();
 
 const currentDate = new Date(date);
-const formattedDate = `${currentDate.getDate()}-${currentDate.getMonth() + 1}-${currentDate.getFullYear()}-${currentDate.getHours()}:${currentDate.getMinutes()}`;
 
 //Função para mostra calendario
 const alternarCalendar = () => {
-  SetShowCalendar(!showCalendar);
+  setShowCalendar(!showCalendar);
+};
+//Função para mostra calendario
+const closeButtonSaveDayOff = () => {
+  setButtonSaveDayOff(false);
+};
+
+//Função para mostra calendario
+const openButtonSaveDayOff = () => {
+  setButtonSaveDayOff(true);
 };
 
 //Função para pegar os dias da semana
@@ -868,8 +879,7 @@ const handleDateClick = (dayOfWeek, day, month, year) => {
   }
 };
 
-const[timesLockedByProfessional, setTimesLockedByProfessional] = useState([]);
-// Função para remover horários do array horarioDefinido
+// Função para criar um array com os horários fechados pelo usuário
 const handleDayOff = (time) => {
   // Verifica se o horário já está presente no array horarioDefinido
   if (timesLockedByProfessional.includes(time)) {
@@ -888,8 +898,8 @@ const renderHorariosDiaSelecionado = () => {
     <>
         {horariosDiaSelecionado && (
           horariosDiaSelecionado.map(index => (
-            <div key={index} className={`horarios ${timesLockedByProfessional.includes(index) ? 'selectedDay':''}`} onClick={() => handleDayOff(index)}>
-              <p>{index}</p>
+            <div key={index} className={`horarios ${timesLockedByProfessional.includes(index) ? 'selectedDay':''}`} onClick={() =>{ handleDayOff(index); closeButtonSaveDayOff();}}>
+               <p>{index}</p>
             </div>
           ))
         )}
@@ -1255,7 +1265,10 @@ return (
             <IoIosArrowDown className={`arrow ${mostrarServico ? 'girar' : ''}`} id='arrow'/>
           </div>
 
-          <p className="information__span">Selecione o dia que deseja folgar:</p>
+          {selectedDate && (
+            <p className="information__span">Selecione o dia que deseja folgar:</p>
+          )}
+
           {showCalendar &&(
             <div className='container__Calendar'>
             <div className='sectionCalendar'>
@@ -1264,7 +1277,7 @@ return (
                     <div key={`weekDay-${index}`} className="list__name__Week">
                       <div
                         className={`dayWeekCurrent ${selectedDate === `${dayOfWeek}, ${numberDays[index].number} de ${numberDays[index].month} de ${year}` ? 'selectedDay' : ''} ${numberDays[index].isCurrentDay ? 'currentDay' : ''}`}
-                        onClick={() => handleDateClick(dayOfWeek, numberDays[index].number, numberDays[index].month, year)}
+                        onClick={() => {handleDateClick(dayOfWeek, numberDays[index].number, numberDays[index].month, year); closeButtonSaveDayOff()}}
                       >
                         <p className='Box__day'>{dayOfWeek}</p>
                         <p className='Box__NumDay'>{numberDays[index].number}</p>
@@ -1285,12 +1298,13 @@ return (
                 </div>
               )}
             </div>
-            {timesLockedByProfessional.length > 0 && (
-              <button className="add_Service" onClick={saveDayOff}>Salvar</button>
-            )}
+            
+              <button className={`button__change ${timesLockedByProfessional.length >= 1 && showButtonSaveDayOff === false ? 'show':''}`} onClick={openButtonSaveDayOff}>Continuar</button>
+              <button className={`button__change ${showButtonSaveDayOff === true ? 'show':''}`} onClick={saveDayOff}>Salvar</button>
+
             </div>
           )}
-          
+          {messageSaveDayOff}
         </div>
         
     </div>
