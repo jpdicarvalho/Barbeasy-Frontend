@@ -921,6 +921,7 @@ const saveDayOff = () =>{
           setMessageSaveDayOff(null);
           setTimesLockedByProfessional([])
           setSelectedDate(null)
+          window.location.reload()
         }, 2000);
       }
     }).catch(err =>{
