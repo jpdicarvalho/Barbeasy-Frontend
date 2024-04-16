@@ -817,7 +817,7 @@ const getAllBookings = () =>{
 
 // Function to get all booking
 const getAllDaysOffProfessional = () =>{
-  axios.get(`https://api-user-barbeasy.up.railway.app/api/DaysOff/${barbeariaId}/${professionalId}`, selectedDate)
+  axios.get(`https://api-user-barbeasy.up.railway.app/api/daysOff/${barbeariaId}/${professionalId}`, selectedDate)
   .then(res =>{
     if(res.data.Success === 'Success'){
       setDaysOff(res.data.allDaysOff);
@@ -831,7 +831,7 @@ useEffect(() =>{
   getAllBookings()
   getAllDaysOffProfessional()
 }, [selectedDate, barbeariaId, professionalId])
-
+console.log(daysOff)
 //Função para buscar os agendamento do profissional selecionado
 function getBookingOfProfessional (){
   let arrayBookingProfessional = bookings.filter(bookings => bookings.professional_id === professionalId);
