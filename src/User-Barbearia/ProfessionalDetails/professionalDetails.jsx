@@ -706,6 +706,7 @@ const [showCalendar, setShowCalendar] = useState(false);
 const [showButtonSaveDayOff, setButtonSaveDayOff] = useState(false);
 const [selectedDate, setSelectedDate] = useState(null);
 const [bookings, setBookings] = useState ([]);
+const [daysOff, setDaysOff] = useState ([]);
 const [horariosDiaSelecionado, setHorariosDiaSelecionado] = useState([]); // Estado para os horários do dia selecionado
 const[timesLockedByProfessional, setTimesLockedByProfessional] = useState([]);
 
@@ -814,9 +815,22 @@ const getAllBookings = () =>{
   })
 }
 
+// Function to get all booking
+const getAllDaysOffProfessional = () =>{
+  axios.get(`https://api-user-barbeasy.up.railway.app/api/DaysOff/${barbeariaId}/${professionalId}`, selectedDate)
+  .then(res =>{
+    if(res.data.Success === 'Success'){
+      setDaysOff(res.data.allDaysOff);
+    }
+  }).catch(err =>{
+    console.error('Error to get days off from professional', err);
+  })
+}
+
 useEffect(() =>{
   getAllBookings()
-}, [barbeariaId, professionalId, selectedDate])
+  getAllDaysOffProfessional()
+}, [selectedDate, barbeariaId, professionalId])
 
 //Função para buscar os agendamento do profissional selecionado
 function getBookingOfProfessional (){
