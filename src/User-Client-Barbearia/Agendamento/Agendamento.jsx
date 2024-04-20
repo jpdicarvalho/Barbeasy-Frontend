@@ -28,28 +28,83 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId, se
   //Buscando a quantidade de dias que a agenda vai ficar aberta
   const [QntDaysSelected, setQntDaysSelected] = useState([]);
   const [agenda, setAgenda] = useState([]);
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [timesDays, setTimesDays] = useState('');
+  const [selectedDay, setSelectedDay] = useState(null);
   const [timeSelected, setTimeSelected] = useState("");
 
   const currentDate = new Date(date);
   const formattedDate = `${currentDate.getDate()}-${currentDate.getMonth() + 1}-${currentDate.getFullYear()}-${currentDate.getHours()}:${currentDate.getMinutes()}`;
 
   // Function to get all booking
-  const [bookings, setBookings] = useState ([]);
+const handleDateClick = (dayOfWeek, day, month, year) => {
+  setSelectedDay(`${dayOfWeek}, ${day} de ${month} de ${year}`)
+  let selectedDate = `${dayOfWeek}, ${day} de ${month} de ${year}`;
+  
+  let timesOfDaySelected = timesDays[dayOfWeek]; //Passa o índice do objeto, correspondente ao dia selecionado
+  timesOfDaySelected = timesOfDaySelected.split(',');//Separa os horários que estão concatenados
 
-  const getAllBookings = () =>{
     axios.get(`https://api-user-barbeasy.up.railway.app/api/bookings/${barbeariaId}/${professionalId}/${selectedDate}`)
     .then(res =>{
-      if(res.data.Success === 'Success'){
-        setBookings(res.data.allBookings);
+      if(res.data.Message === 'true'){//Verifica se a consulta realizada, possuí algum registro
+        let bookings = res.data.timesLocked;//passando os registros obtidos na consulta
+
+        if (dayOfWeek in timesDays) {// Verifica se o dia selecionado está no objeto 'timesDays' que contém os horários dos dias definidos
+          if(selectedDate === currentDay){//Condição par verificar se o dia selecionado e o mesmo do dia atual
+            if(timesOfDaySelected[0].length === 5){//Condição par verificar se o primeiro elemento do array é um horário
+              const timesLockedStr = Object.values(bookings).map(item => item.timesLocked.split(','));//Separa os horários obtidos na consulta, já que eles são salvos concatenados
+             
+              //Function to remove all bookings
+              timesOfDaySelected = timesOfDaySelected.filter(time => {
+                // Verifica se o horário atual não está presente em bookingsTimesSplit
+                return !timesLockedStr.some(bookedTimes => bookedTimes.includes(time));
+              });
+
+              // Filtra os horários que são maiores ou iguais ao horário atual
+              const horariosFiltrados = timesOfDaySelected.filter(horario => {
+                // Divide o horário em hora e minuto
+                const [hora, minuto] = horario.split(':');
+                // Calcula o horário completo em formato de número para facilitar a comparação
+                const horarioCompleto = Number(`${hora}${minuto}`);
+                // Retorna verdadeiro se o horário completo for maior ou igual ao horário atual
+                return horarioCompleto >= currentTime;
+              });
+
+              setHorariosDiaSelecionado(horariosFiltrados);
+
+            }else{
+              setHorariosDiaSelecionado(['Não há horários disponíveis para esse dia']);
+            }
+          
+          }else{
+            //Condição par verificar se o primeiro elemento do array é um horário
+            if(timesOfDaySelected[0].length === 5){
+              const timesLockedStr = Object.values(bookings).map(item => item.timesLocked.split(','));
+             
+              //Function to remove all bookings
+              timesOfDaySelected = timesOfDaySelected.filter(time => {
+                // Verifica se o horário atual não está presente em bookingsTimesSplit
+                return !timesLockedStr.some(bookedTimes => bookedTimes.includes(time));
+              });
+
+              setHorariosDiaSelecionado(timesOfDaySelected);
+
+            }else{
+              setHorariosDiaSelecionado(['Não há horários disponíveis para esse dia']);
+            }
+          }
+        }
+      }else{
+        //Condição par verificar se o primeiro elemento do array é um horário
+        if(timesOfDaySelected[0].length === 5){
+          setHorariosDiaSelecionado(timesOfDaySelected);
+        }else{
+          setHorariosDiaSelecionado(['Não há horários disponíveis para esse dia']);
+        }
       }
     }).catch(err =>{
-      console.error('Erro ao buscar agendamentos', err);
+      console.error('Não há horários agendado/fechado para esse dia', err);
     })
-  }
-  useEffect(() =>{
-    getAllBookings()
-  }, [selectedDate])
+}
 
   //Obtendo os dados da agenda do profissional da barbearia
   const getAgenda = () =>{
@@ -74,11 +129,8 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId, se
     if (Array.isArray(agenda) && agenda.length >= 2) {
       setQntDaysSelected(agenda[1].toString());
     }
-  }, [barbeariaId, professionalId, serviceId, selectedDate]);
+  }, [barbeariaId, professionalId, serviceId, selectedDay]);
   
-  //Declaração do array com os horários de cada dia
-  const [timesDays, setTimesDays] = useState('');
-
   //Função para obter os horários definidos do dia selecionado
   const getHorariosDefinidos = () =>{
     axios.get(`https://api-user-barbeasy.up.railway.app/api/agendaDiaSelecionado/${barbeariaId}/${professionalId}`)
@@ -163,67 +215,6 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId, se
   const currentDay = getCurrentDayOfWeek()
   const currentTime = getCurrentTime()
 
-
-//Função para buscar os agendamento do profissional selecionado
-function getBookingOfProfessional (){
-  let arrayBookingProfessional = bookings.filter(bookings => bookings.professional_id === professionalId);
-  return arrayBookingProfessional;
-}
-
-const bookingProfessional = getBookingOfProfessional();
-//Função para buscar a lista de horários disponíveis para agendamento, do dia selecionado
-const handleDateClick = (dayOfWeek, day, month, year) => {
-  setSelectedDate(`${dayOfWeek}, ${day} de ${month} de ${year}`);//dia selecionado para registrar o agendamento
-  let selectedDay = `${dayOfWeek}, ${day} de ${month} de ${year}`;//dia selecionado para filtrar array de horários
-
-  // Verifica se o dia selecionado está no objeto
-  if (dayOfWeek in timesDays) {
-    //Passa o índice do objeto, correspondente ao dia selecionado
-    let timesOfDaySelected = timesDays[dayOfWeek];
-    //Separa os horários que estão concatenados
-    timesOfDaySelected = timesOfDaySelected.split(',');
-
-    if(selectedDay === currentDay){
-      if(timesOfDaySelected[0].length === 5){
-        const bookinOfDaySelected = bookingProfessional.filter(horarios => horarios.booking_date === selectedDay);
-        const bookingsTimes = Object.values(bookinOfDaySelected).map(item => item.booking_time);
-        const bookingsTimesSplit = bookingsTimes.map(timeString => timeString.split(','));
-
-        timesOfDaySelected = timesOfDaySelected.filter(time => {
-          return !bookingsTimesSplit.some(bookedTimes => bookedTimes.includes(time));
-        });
-        
-        // Filtra os horários que são maiores ou iguais ao horário atual
-        const horariosFiltrados = timesOfDaySelected.filter(horario => {
-          // Divide o horário em hora e minuto
-          const [hora, minuto] = horario.split(':');
-          // Calcula o horário completo em formato de número para facilitar a comparação
-          const horarioCompleto = Number(`${hora}${minuto}`);
-          // Retorna verdadeiro se o horário completo for maior ou igual ao horário atual
-          return horarioCompleto >= currentTime;
-        });
-        setHorariosDiaSelecionado(horariosFiltrados);
-
-      }else{
-        setHorariosDiaSelecionado(['Não há horários disponíveis para esse dia']);
-      }
-    
-    }else{
-      const bookinOfDaySelected = bookingProfessional.filter(horarios => horarios.booking_date === selectedDay);
-      const bookingsTimes = Object.values(bookinOfDaySelected).map(item => item.booking_time);
-      const bookingsTimesSplit = bookingsTimes.map(timeString => timeString.split(','));
-        
-      timesOfDaySelected = timesOfDaySelected.filter(time => {
-        return !bookingsTimesSplit.some(bookedTimes => bookedTimes.includes(time));
-      });
-
-      setHorariosDiaSelecionado(timesOfDaySelected);
-    }
-  } else {
-    setHorariosDiaSelecionado(['null']); // Define como null se o dia selecionado não estiver no objeto
-  }
-};
-
 function reservationTimes (timeSelected){
   //Verifica se um horário foi selecionado
   if(timeSelected){
@@ -286,6 +277,7 @@ function reservationTimes (timeSelected){
 }
 
 const timesBusyByService = reservationTimes(timeSelected)
+
 //Função para pegar o horário selecionado pelo usuário
 const hendleTimeClick = (time) => {
     setTimeSelected(time);
@@ -293,10 +285,10 @@ const hendleTimeClick = (time) => {
 
 //Hook para resetar sa variáveis caso o usuário selecione outro profissional
   useEffect(() =>{
-    setSelectedDate('')
+    setSelectedDay('')
     setTimeSelected('')
     setHorariosDiaSelecionado(null)
-  },[professionalId])
+  }, [professionalId])
 
 //Function to render all times defined
   const renderHorariosDiaSelecionado = () => {
@@ -316,8 +308,8 @@ const hendleTimeClick = (time) => {
 //=================== Function to make booking ===================
 const [messageConfirmedBooking, setMessageConfirmedBooking] = useState('');
 
-const makeBooking = () =>{
-  if(userId && barbeariaId && professionalId && serviceId && selectedDate && timeSelected && formattedDate){
+const saveBooking = () =>{
+  if(userId && barbeariaId && professionalId && serviceId && selectedDay && timeSelected && formattedDate){
     //Passando todos os horários que serão ocupados pelo serviço selecionado
     let timeSelected = timesBusyByService.join(',');
     //Object to agroup all informations to make a new booking
@@ -326,7 +318,7 @@ const makeBooking = () =>{
       barbeariaId,
       professionalId,
       serviceId,
-      selectedDate,
+      selectedDay,
       timeSelected,
       formattedDate
     }
@@ -346,13 +338,14 @@ const makeBooking = () =>{
     })
   }
 }
-  Agendamento.propTypes = {
-    userId: PropTypes.number,
-    barbeariaId: PropTypes.number,
-    professionalId: PropTypes.number,
-    serviceId: PropTypes.number,
-    serviceDuration: PropTypes.number
-  };
+//=========================================================================================
+Agendamento.propTypes = {
+  userId: PropTypes.number,
+  barbeariaId: PropTypes.number,
+  professionalId: PropTypes.number,
+  serviceId: PropTypes.number,
+  serviceDuration: PropTypes.number
+};
 
   return (
   <>
@@ -363,7 +356,7 @@ const makeBooking = () =>{
         {weekDays.map((dayOfWeek, index) => (
             <div key={`weekDay-${index}`} className="list__name__Week">
               <div
-                className={`dayWeekCurrent ${selectedDate === `${dayOfWeek}, ${numberDays[index].number} de ${numberDays[index].month} de ${year}` ? 'selectedDay' : ''} ${numberDays[index].isCurrentDay ? 'currentDay' : ''}`}
+                className={`dayWeekCurrent ${selectedDay === `${dayOfWeek}, ${numberDays[index].number} de ${numberDays[index].month} de ${year}` ? 'selectedDay' : ''} ${numberDays[index].isCurrentDay ? 'currentDay' : ''}`}
                 onClick={() => handleDateClick(dayOfWeek, numberDays[index].number, numberDays[index].month, year)}
               >
                 <p className='Box__day'>{dayOfWeek}</p>
@@ -375,7 +368,7 @@ const makeBooking = () =>{
         </div>
       </div>
     </div>
-    {selectedDate &&(
+    {selectedDay &&(
     <div className="tittle">
        <div style={{marginTop: '15px'}}>
         Horários Disponíveis
@@ -396,7 +389,7 @@ const makeBooking = () =>{
         <p className="text__message">{messageConfirmedBooking}</p>
       </div>
     )}
-    <button onClick={makeBooking} className={`Btn__ocult ${serviceId && selectedDate && timeSelected ? 'AgendamentoButton': ''}`}>Finalizar Agendamento</button>
+    <button onClick={saveBooking} className={`Btn__ocult ${serviceId && selectedDay && timeSelected ? 'AgendamentoButton': ''}`}>Finalizar Agendamento</button>
   </>
   );
 }

@@ -705,11 +705,8 @@ const formatarPorcentagem = (valor) => {
 const [showCalendar, setShowCalendar] = useState(false);
 const [showButtonSaveDayOff, setButtonSaveDayOff] = useState(false);
 const [selectedDay, setSelectedDay] = useState(null);
-const [bookings, setBookings] = useState ([]);
-const [daysOff, setDaysOff] = useState ([]);
 const [horariosDiaSelecionado, setHorariosDiaSelecionado] = useState([]); // Estado para os horários do dia selecionado
-const[timesLockedByProfessional, setTimesLockedByProfessional] = useState([]);
-
+const [timesLockedByProfessional, setTimesLockedByProfessional] = useState([]);
 
 const [messageSaveDayOff, setMessageSaveDayOff] = useState('');
 
@@ -719,8 +716,6 @@ let dayOfWeek = date.toLocaleDateString('pt-BR', options);
 dayOfWeek = dayOfWeek.slice(0, -1);
 dayOfWeek = dayOfWeek.charAt(0).toUpperCase() + dayOfWeek.slice(1);
 const year = date.getFullYear();
-
-const currentDate = new Date(date);
 
 //Função para mostra calendario
 const alternarCalendar = () => {
@@ -903,6 +898,7 @@ const renderHorariosDiaSelecionado = () => {
   );
 };
 
+//Função para salvar o folga do profissional
 const saveDayOff = () =>{
   if(barbeariaId && professionalId && selectedDay && timesLockedByProfessional){
     let timesLocked = timesLockedByProfessional.join(',');
