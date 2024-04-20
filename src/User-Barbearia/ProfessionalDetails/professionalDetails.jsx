@@ -827,8 +827,9 @@ const handleDateClick = (dayOfWeek, day, month, year) => {
 
               const bookingsTimesSplit = bookingsTimesStr.map(timeString => timeString.split(','));
               const daysOffTimesSplit = daysOffTimes.map(timeString => timeString.split(','));
-
               const combinedArray = [...bookingsTimesSplit, ...daysOffTimesSplit];
+console.log(combinedArray)
+
               //Function to remove all bookings
               timesOfDaySelected = timesOfDaySelected.filter(time => {
                 // Verifica se o horário atual não está presente em bookingsTimesSplit
