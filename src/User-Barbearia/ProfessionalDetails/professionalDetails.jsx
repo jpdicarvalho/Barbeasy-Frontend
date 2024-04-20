@@ -808,34 +808,26 @@ const currentTime = getCurrentTime()
 const handleDateClick = (dayOfWeek, day, month, year) => {
   setSelectedDay(`${dayOfWeek}, ${day} de ${month} de ${year}`)
   let selectedDate = `${dayOfWeek}, ${day} de ${month} de ${year}`;
+  
+  let timesOfDaySelected = timesDays[dayOfWeek]; //Passa o índice do objeto, correspondente ao dia selecionado
+  timesOfDaySelected = timesOfDaySelected.split(',');//Separa os horários que estão concatenados
+
     axios.get(`https://api-user-barbeasy.up.railway.app/api/bookings/${barbeariaId}/${professionalId}/${selectedDate}`)
     .then(res =>{
-      console.log(res.data)
-      if(res.data.Success === 'Success'){
-        let bookings = res.data.allBookings;
-        // Verifica se o dia selecionado está no objeto
-        if (dayOfWeek in timesDays) {
-          //Passa o índice do objeto, correspondente ao dia selecionado
-          let timesOfDaySelected = timesDays[dayOfWeek];
-          //Separa os horários que estão concatenados
-          timesOfDaySelected = timesOfDaySelected.split(',');
+      if(res.data.Message === 'true'){//Verifica se a consulta realizada, possuí algum registro
+        let bookings = res.data.timesLocked;//passando os registros obtidos na consulta
 
-          if(selectedDate === currentDay){
-            if(timesOfDaySelected[0].length === 5){
-              const bookingsTimesStr = Object.values(bookings).map(item => item.booking_time);
-              const daysOffTimes = Object.values(bookings).map(item => item.times);
-
-              const bookingsTimesSplit = bookingsTimesStr.map(timeString => timeString.split(','));
-              const daysOffTimesSplit = daysOffTimes.map(timeString => timeString.split(','));
-              const combinedArray = [...bookingsTimesSplit, ...daysOffTimesSplit];
-console.log(combinedArray)
-
+        if (dayOfWeek in timesDays) {// Verifica se o dia selecionado está no objeto 'timesDays' que contém os horários dos dias definidos
+          if(selectedDate === currentDay){//Condição par verificar se o dia selecionado e o mesmo do dia atual
+            if(timesOfDaySelected[0].length === 5){//Condição par verificar se o primeiro elemento do array é um horário
+              const timesLockedStr = Object.values(bookings).map(item => item.timesLocked.split(','));//Separa os horários obtidos na consulta, já que eles são salvos concatenados
+             
               //Function to remove all bookings
               timesOfDaySelected = timesOfDaySelected.filter(time => {
                 // Verifica se o horário atual não está presente em bookingsTimesSplit
-                return !combinedArray.some(bookedTimes => bookedTimes.includes(time));
+                return !timesLockedStr.some(bookedTimes => bookedTimes.includes(time));
               });
-              
+
               // Filtra os horários que são maiores ou iguais ao horário atual
               const horariosFiltrados = timesOfDaySelected.filter(horario => {
                 // Divide o horário em hora e minuto
@@ -853,31 +845,33 @@ console.log(combinedArray)
             }
           
           }else{
-              const bookingsTimesStr = Object.values(bookings).map(item => item.booking_time);
-              const daysOffTimes = Object.values(bookings).map(item => item.times);
-
-              const bookingsTimesSplit = bookingsTimesStr.map(timeString => timeString.split(','));
-              const daysOffTimesSplit = daysOffTimes.map(timeString => timeString.split(','));
-
-              const combinedArray = [...bookingsTimesSplit, ...daysOffTimesSplit];
-              console.log(combinedArray)
+            //Condição par verificar se o primeiro elemento do array é um horário
+            if(timesOfDaySelected[0].length === 5){
+              const timesLockedStr = Object.values(bookings).map(item => item.timesLocked.split(','));
+             
               //Function to remove all bookings
               timesOfDaySelected = timesOfDaySelected.filter(time => {
                 // Verifica se o horário atual não está presente em bookingsTimesSplit
-                return !combinedArray.some(bookedTimes => bookedTimes.includes(time));
+                return !timesLockedStr.some(bookedTimes => bookedTimes.includes(time));
               });
 
-            setHorariosDiaSelecionado(timesOfDaySelected);
+              setHorariosDiaSelecionado(timesOfDaySelected);
+
+            }else{
+              setHorariosDiaSelecionado(['Não há horários disponíveis para esse dia']);
+            }
           }
+        }
+      }else{
+        //Condição par verificar se o primeiro elemento do array é um horário
+        if(timesOfDaySelected[0].length === 5){
+          setHorariosDiaSelecionado(timesOfDaySelected);
+        }else{
+          setHorariosDiaSelecionado(['Não há horários disponíveis para esse dia']);
         }
       }
     }).catch(err =>{
       console.error('Não há horários agendado/fechado para esse dia', err);
-      //Passa o índice do objeto, correspondente ao dia selecionado
-      let timesOfDaySelected = timesDays[dayOfWeek];
-      //Separa os horários que estão concatenados
-      timesOfDaySelected = timesOfDaySelected.split(',');
-      setHorariosDiaSelecionado(timesOfDaySelected);
     })
 }
 
