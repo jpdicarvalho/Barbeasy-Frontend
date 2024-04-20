@@ -4,6 +4,7 @@ import './Agendamento.css';
 import PropTypes from 'prop-types';
 import { MdOutlineDone } from "react-icons/md";
 import { VscError } from "react-icons/vsc";
+import { set } from "date-fns";
 
 const monthNames = [
   'Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun', 'Jul', 'Aug', 'Set', 'Out', 'Nov', 'Dez'
@@ -37,7 +38,7 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId, se
   const [bookings, setBookings] = useState ([]);
 
   const getAllBookings = () =>{
-    axios.get(`https://api-user-barbeasy.up.railway.app/api/bookings/${barbeariaId}`)
+    axios.get(`https://api-user-barbeasy.up.railway.app/api/bookings/${barbeariaId}/${professionalId}/${selectedDate}`)
     .then(res =>{
       if(res.data.Success === 'Success'){
         setBookings(res.data.allBookings);
@@ -48,7 +49,7 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId, se
   }
   useEffect(() =>{
     getAllBookings()
-  }, [barbeariaId, professionalId, selectedDate])
+  }, [selectedDate])
 
   //Obtendo os dados da agenda do profissional da barbearia
   const getAgenda = () =>{
@@ -162,17 +163,14 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId, se
   const currentDay = getCurrentDayOfWeek()
   const currentTime = getCurrentTime()
 
-/*=============================================================== Don't Forget ===============================================================
-João, lembra de buscar apenas os agendamento da data atual para frente!! 
-Pois essa consulta abaixo, está puxando todos os agendamento feitos na históriaa!!
-==============================================================================================================================================*/
+
 //Função para buscar os agendamento do profissional selecionado
 function getBookingOfProfessional (){
   let arrayBookingProfessional = bookings.filter(bookings => bookings.professional_id === professionalId);
   return arrayBookingProfessional;
 }
-const bookingProfessional = getBookingOfProfessional();
 
+const bookingProfessional = getBookingOfProfessional();
 //Função para buscar a lista de horários disponíveis para agendamento, do dia selecionado
 const handleDateClick = (dayOfWeek, day, month, year) => {
   setSelectedDate(`${dayOfWeek}, ${day} de ${month} de ${year}`);//dia selecionado para registrar o agendamento
@@ -184,7 +182,6 @@ const handleDateClick = (dayOfWeek, day, month, year) => {
     let timesOfDaySelected = timesDays[dayOfWeek];
     //Separa os horários que estão concatenados
     timesOfDaySelected = timesOfDaySelected.split(',');
-    console.log(timesOfDaySelected)
 
     if(selectedDay === currentDay){
       if(timesOfDaySelected[0].length === 5){
@@ -287,11 +284,12 @@ function reservationTimes (timeSelected){
     }  
   }
 }
+
 const timesBusyByService = reservationTimes(timeSelected)
 //Função para pegar o horário selecionado pelo usuário
-  const hendleTimeClick = (time) => {
-      setTimeSelected(time);
-  }
+const hendleTimeClick = (time) => {
+    setTimeSelected(time);
+}
 
 //Hook para resetar sa variáveis caso o usuário selecione outro profissional
   useEffect(() =>{
@@ -383,8 +381,7 @@ const makeBooking = () =>{
         Horários Disponíveis
       </div>
     </div>
-      
-    )}
+    )}    
     <div className="container__horarios">
       {renderHorariosDiaSelecionado()}
     </div>

@@ -704,7 +704,7 @@ const formatarPorcentagem = (valor) => {
 /*======================Calendário===========================*/
 const [showCalendar, setShowCalendar] = useState(false);
 const [showButtonSaveDayOff, setButtonSaveDayOff] = useState(false);
-const [selectedDate, setSelectedDate] = useState(null);
+const [selectedDay, setSelectedDay] = useState(null);
 const [bookings, setBookings] = useState ([]);
 const [daysOff, setDaysOff] = useState ([]);
 const [horariosDiaSelecionado, setHorariosDiaSelecionado] = useState([]); // Estado para os horários do dia selecionado
@@ -803,95 +803,82 @@ const numberDays = getNumber();
 const currentDay = getCurrentDayOfWeek()
 const currentTime = getCurrentTime()
 
-// Function to get all booking
-const getAllBookings = () =>{
-  axios.get(`https://api-user-barbeasy.up.railway.app/api/bookings/${barbeariaId}`)
-  .then(res =>{
-    if(res.data.Success === 'Success'){
-      setBookings(res.data.allBookings);
-    }
-  }).catch(err =>{
-    console.error('Erro ao buscar agendamentos', err);
-  })
-}
 
 // Function to get all booking
-const getAllDaysOffProfessional = () =>{
-  axios.get(`https://api-user-barbeasy.up.railway.app/api/daysOff/${barbeariaId}/${professionalId}`, selectedDate)
-  .then(res =>{
-    if(res.data.Success === 'Success'){
-      setDaysOff(res.data.allDaysOff);
-    }
-  }).catch(err =>{
-    console.error('Error to get days off from professional', err);
-  })
-}
-
-useEffect(() =>{
-  getAllBookings()
-  getAllDaysOffProfessional()
-}, [selectedDate, barbeariaId, professionalId])
-console.log(daysOff)
-//Função para buscar os agendamento do profissional selecionado
-function getBookingOfProfessional (){
-  let arrayBookingProfessional = bookings.filter(bookings => bookings.professional_id === professionalId);
-  return arrayBookingProfessional;
-}
-const bookingProfessional = getBookingOfProfessional()
-
-//Função para buscar a lista de horários disponíveis para agendamento, do dia selecionado
 const handleDateClick = (dayOfWeek, day, month, year) => {
-  setSelectedDate(`${dayOfWeek}, ${day} de ${month} de ${year}`);//dia selecionado para registrar o agendamento
-  let selectedDay = `${dayOfWeek}, ${day} de ${month} de ${year}`;//dia selecionado para filtrar array de horários
+  setSelectedDay(`${dayOfWeek}, ${day} de ${month} de ${year}`)
+  let selectedDate = `${dayOfWeek}, ${day} de ${month} de ${year}`;
+    axios.get(`https://api-user-barbeasy.up.railway.app/api/bookings/${barbeariaId}/${professionalId}/${selectedDate}`)
+    .then(res =>{
+      console.log(res.data)
+      if(res.data.Success === 'Success'){
+        let bookings = res.data.allBookings;
+        // Verifica se o dia selecionado está no objeto
+        if (dayOfWeek in timesDays) {
+          //Passa o índice do objeto, correspondente ao dia selecionado
+          let timesOfDaySelected = timesDays[dayOfWeek];
+          //Separa os horários que estão concatenados
+          timesOfDaySelected = timesOfDaySelected.split(',');
 
-  // Verifica se o dia selecionado está no objeto
-  if (dayOfWeek in timesDays) {
-    //Passa o índice do objeto, correspondente ao dia selecionado
-    let timesOfDaySelected = timesDays[dayOfWeek];
-    //Separa os horários que estão concatenados
-    timesOfDaySelected = timesOfDaySelected.split(',');
-    console.log(timesOfDaySelected)
+          if(selectedDate === currentDay){
+            if(timesOfDaySelected[0].length === 5){
+              const bookingsTimesStr = Object.values(bookings).map(item => item.booking_time);
+              const daysOffTimes = Object.values(bookings).map(item => item.times);
 
-    if(selectedDay === currentDay){
-      if(timesOfDaySelected[0].length === 5){
-        const bookinOfDaySelected = bookingProfessional.filter(horarios => horarios.booking_date === selectedDay);
-        const bookingsTimes = Object.values(bookinOfDaySelected).map(item => item.booking_time);
-        const bookingsTimesSplit = bookingsTimes.map(timeString => timeString.split(','));
+              const bookingsTimesSplit = bookingsTimesStr.map(timeString => timeString.split(','));
+              const daysOffTimesSplit = daysOffTimes.map(timeString => timeString.split(','));
 
-        timesOfDaySelected = timesOfDaySelected.filter(time => {
-          return !bookingsTimesSplit.some(bookedTimes => bookedTimes.includes(time));
-        });
-        
-        // Filtra os horários que são maiores ou iguais ao horário atual
-        const horariosFiltrados = timesOfDaySelected.filter(horario => {
-          // Divide o horário em hora e minuto
-          const [hora, minuto] = horario.split(':');
-          // Calcula o horário completo em formato de número para facilitar a comparação
-          const horarioCompleto = Number(`${hora}${minuto}`);
-          // Retorna verdadeiro se o horário completo for maior ou igual ao horário atual
-          return horarioCompleto >= currentTime;
-        });
-        setHorariosDiaSelecionado(horariosFiltrados);
+              const combinedArray = [...bookingsTimesSplit, ...daysOffTimesSplit];
+              //Function to remove all bookings
+              timesOfDaySelected = timesOfDaySelected.filter(time => {
+                // Verifica se o horário atual não está presente em bookingsTimesSplit
+                return !combinedArray.some(bookedTimes => bookedTimes.includes(time));
+              });
+              
+              // Filtra os horários que são maiores ou iguais ao horário atual
+              const horariosFiltrados = timesOfDaySelected.filter(horario => {
+                // Divide o horário em hora e minuto
+                const [hora, minuto] = horario.split(':');
+                // Calcula o horário completo em formato de número para facilitar a comparação
+                const horarioCompleto = Number(`${hora}${minuto}`);
+                // Retorna verdadeiro se o horário completo for maior ou igual ao horário atual
+                return horarioCompleto >= currentTime;
+              });
 
-      }else{
-        setHorariosDiaSelecionado(['Não há horários disponíveis para esse dia']);
+              setHorariosDiaSelecionado(horariosFiltrados);
+
+            }else{
+              setHorariosDiaSelecionado(['Não há horários disponíveis para esse dia']);
+            }
+          
+          }else{
+              const bookingsTimesStr = Object.values(bookings).map(item => item.booking_time);
+              const daysOffTimes = Object.values(bookings).map(item => item.times);
+
+              const bookingsTimesSplit = bookingsTimesStr.map(timeString => timeString.split(','));
+              const daysOffTimesSplit = daysOffTimes.map(timeString => timeString.split(','));
+
+              const combinedArray = [...bookingsTimesSplit, ...daysOffTimesSplit];
+              console.log(combinedArray)
+              //Function to remove all bookings
+              timesOfDaySelected = timesOfDaySelected.filter(time => {
+                // Verifica se o horário atual não está presente em bookingsTimesSplit
+                return !combinedArray.some(bookedTimes => bookedTimes.includes(time));
+              });
+
+            setHorariosDiaSelecionado(timesOfDaySelected);
+          }
+        }
       }
-    
-    }else{
-      const bookinOfDaySelected = bookingProfessional.filter(horarios => horarios.booking_date === selectedDay);
-      const bookingsTimes = Object.values(bookinOfDaySelected).map(item => item.booking_time);
-      const bookingsTimesSplit = bookingsTimes.map(timeString => timeString.split(','));
-        
-      timesOfDaySelected = timesOfDaySelected.filter(time => {
-        return !bookingsTimesSplit.some(bookedTimes => bookedTimes.includes(time));
-      });
-
+    }).catch(err =>{
+      console.error('Não há horários agendado/fechado para esse dia', err);
+      //Passa o índice do objeto, correspondente ao dia selecionado
+      let timesOfDaySelected = timesDays[dayOfWeek];
+      //Separa os horários que estão concatenados
+      timesOfDaySelected = timesOfDaySelected.split(',');
       setHorariosDiaSelecionado(timesOfDaySelected);
-    }
-  } else {
-    setHorariosDiaSelecionado(['null']); // Define como null se o dia selecionado não estiver no objeto
-  }
-};
+    })
+}
 
 // Função para criar um array com os horários fechados pelo usuário
 const handleDayOff = (time) => {
@@ -922,10 +909,11 @@ const renderHorariosDiaSelecionado = () => {
 };
 
 const saveDayOff = () =>{
-  if(barbeariaId && professionalId && selectedDate && timesLockedByProfessional){
+  if(barbeariaId && professionalId && selectedDay && timesLockedByProfessional){
+    let timesLocked = timesLockedByProfessional.join(',');
     const objectDayOff = {
-      selectedDate,
-      timesLockedByProfessional
+      selectedDay,
+      timesLocked
     }
     axios.post(`https://api-user-barbeasy.up.railway.app/api/update-dayOff/${barbeariaId}/${professionalId}`, objectDayOff)
     .then(res =>{
@@ -934,7 +922,7 @@ const saveDayOff = () =>{
         setTimeout(() => {
           setMessageSaveDayOff(null);
           setTimesLockedByProfessional([])
-          setSelectedDate(null)
+          setSelectedDay(null)
           window.location.reload()
         }, 2000);
       }
@@ -1285,7 +1273,7 @@ return (
             <IoIosArrowDown className={`arrow ${mostrarServico ? 'girar' : ''}`} id='arrow'/>
           </div>
 
-          {selectedDate && (
+          {selectedDay && (
             <p className="information__span">Selecione o dia que deseja folgar:</p>
           )}
 
@@ -1296,7 +1284,7 @@ return (
                 {weekDays.map((dayOfWeek, index) => (
                     <div key={`weekDay-${index}`} className="list__name__Week">
                       <div
-                        className={`dayWeekCurrent ${selectedDate === `${dayOfWeek}, ${numberDays[index].number} de ${numberDays[index].month} de ${year}` ? 'selectedDay' : ''} ${numberDays[index].isCurrentDay ? 'currentDay' : ''}`}
+                        className={`dayWeekCurrent ${selectedDay === `${dayOfWeek}, ${numberDays[index].number} de ${numberDays[index].month} de ${year}` ? 'selectedDay' : ''} ${numberDays[index].isCurrentDay ? 'currentDay' : ''}`}
                         onClick={() => {handleDateClick(dayOfWeek, numberDays[index].number, numberDays[index].month, year); closeButtonSaveDayOff()}}
                       >
                         <p className='Box__day'>{dayOfWeek}</p>
@@ -1308,11 +1296,11 @@ return (
                 </div>
             </div>
             <div className="times">
-              {selectedDate && (
+              {selectedDay && (
                 <p className="information__span">Selecione os horários que deseja fechar:</p>
               )}
 
-              {selectedDate && (
+              {selectedDay && (
                 <div className="section__times">
                   {renderHorariosDiaSelecionado()}
                 </div>
