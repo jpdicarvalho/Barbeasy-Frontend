@@ -840,7 +840,12 @@ const handleDateClick = (dayOfWeek, day, month, year) => {
 
               // Chamando a função que filtra os horários menores que o horário atual
               const horariosFiltrados = filterTimesShorterCurrentTime(timesOfDaySelected, currentTime)
-              setHorariosDiaSelecionado(horariosFiltrados);
+
+              if(horariosFiltrados.length > 0){
+                setHorariosDiaSelecionado(horariosFiltrados);
+              }else{
+                setHorariosDiaSelecionado(['Não há horários disponíveis para esse dia']);
+              }
             }else{
               setHorariosDiaSelecionado(['Não há horários disponíveis para esse dia']);
             }
@@ -864,13 +869,29 @@ const handleDateClick = (dayOfWeek, day, month, year) => {
           }
         }
       }else{
-        //Condição par verificar se o primeiro elemento do array é um horário
-        if(timesOfDaySelected[0].length === 5){
-          // Chamando a função que filtra os horários menores que o horário atual
-          const horariosFiltrados = filterTimesShorterCurrentTime(timesOfDaySelected, currentTime)
-          setHorariosDiaSelecionado(horariosFiltrados);
-        }else{
-          setHorariosDiaSelecionado(['Não há horários disponíveis para esse dia']);
+        if (dayOfWeek in timesDays) {
+          if(selectedDate === currentDay){//Condição par verificar se o dia selecionado e o mesmo do dia atual
+            if(timesOfDaySelected[0].length === 5){//Condição par verificar se o primeiro elemento do array é um horário
+              // Chamando a função que filtra os horários menores que o horário atual
+              const horariosFiltrados = filterTimesShorterCurrentTime(timesOfDaySelected, currentTime)
+  
+              if(horariosFiltrados.length > 0){
+                setHorariosDiaSelecionado(horariosFiltrados);
+              }else{
+                setHorariosDiaSelecionado(['Não há horários disponíveis para esse dia']);
+              }
+  
+            }else{
+              setHorariosDiaSelecionado(['Não há horários disponíveis para esse dia']);
+            }
+          }else{
+            //Condição par verificar se o primeiro elemento do array é um horário
+            if(timesOfDaySelected[0].length === 5){              
+              setHorariosDiaSelecionado(timesOfDaySelected);
+            }else{
+              setHorariosDiaSelecionado(['Não há horários disponíveis para esse dia']);
+            }
+          }
         }
       }
     }).catch(err =>{
@@ -891,6 +912,7 @@ const handleDayOff = (time) => {
   }
 };
 
+//Function close all times of especific day
 const closeAllTimes = () => {
   setTimesLockedByProfessional(horariosDiaSelecionado)
 }
@@ -1275,7 +1297,7 @@ return (
             <IoIosArrowDown className={`arrow ${mostrarServico ? 'girar' : ''}`} id='arrow'/>
           </div>
 
-          {selectedDay && (
+          {showCalendar && (
             <p className="information__span">Selecione o dia que deseja folgar:</p>
           )}
 

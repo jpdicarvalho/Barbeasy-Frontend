@@ -97,6 +97,21 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId, se
     return currentDay;
   }
 
+  //Função para filtrar os horários menores que o horário atual
+  function filterTimesShorterCurrentTime (arrayWithTimes, currentTime) {
+    let arrayClear = []
+    // Filtra os horários que são maiores ou iguais ao horário atual
+    const arrayFiltaredTimes = arrayWithTimes.filter(horario => {
+      // Divide o horário em hora e minuto
+      const [hora, minuto] = horario.split(':');
+      // Calcula o horário completo em formato de número para facilitar a comparação
+      let horarioCompleto = Number(`${hora}${minuto}`);
+      // Retorna verdadeiro se o horário completo for maior ou igual ao horário atual
+      return horarioCompleto >= currentTime;
+    });
+    return arrayClear = arrayFiltaredTimes;
+  }
+
   const weekDays = getWeeks();
   const numberDays = getNumber();
   const currentDay = getCurrentDayOfWeek()
@@ -126,15 +141,8 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId, se
                 return !timesLockedStr.some(bookedTimes => bookedTimes.includes(time));
               });
 
-              // Filtra os horários que são maiores ou iguais ao horário atual
-              const horariosFiltrados = timesOfDaySelected.filter(horario => {
-                // Divide o horário em hora e minuto
-                const [hora, minuto] = horario.split(':');
-                // Calcula o horário completo em formato de número para facilitar a comparação
-                const horarioCompleto = Number(`${hora}${minuto}`);
-                // Retorna verdadeiro se o horário completo for maior ou igual ao horário atual
-                return horarioCompleto >= currentTime;
-              });
+              // Chamando a função que filtra os horários menores que o horário atual
+              const horariosFiltrados = filterTimesShorterCurrentTime(timesOfDaySelected, currentTime)
 
               if(horariosFiltrados.length > 0){
                 setHorariosDiaSelecionado(horariosFiltrados);
@@ -156,7 +164,6 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId, se
                 // Verifica se o horário atual não está presente em bookingsTimesSplit
                 return !timesLockedStr.some(bookedTimes => bookedTimes.includes(time));
               });
-              console.log(timesOfDaySelected)
 
               setHorariosDiaSelecionado(timesOfDaySelected);
 
@@ -166,27 +173,29 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId, se
           }
         }
       }else{
-        //Condição par verificar se o primeiro elemento do array é um horário
-        if(timesOfDaySelected[0].length === 5){
-
-          // Filtra os horários que são maiores ou iguais ao horário atual
-              const horariosFiltrados = timesOfDaySelected.filter(horario => {
-                // Divide o horário em hora e minuto
-                const [hora, minuto] = horario.split(':');
-                // Calcula o horário completo em formato de número para facilitar a comparação
-                const horarioCompleto = Number(`${hora}${minuto}`);
-                // Retorna verdadeiro se o horário completo for maior ou igual ao horário atual
-                return horarioCompleto >= currentTime;
-              });
-
+        if (dayOfWeek in timesDays) {
+          if(selectedDate === currentDay){//Condição par verificar se o dia selecionado e o mesmo do dia atual
+            if(timesOfDaySelected[0].length === 5){//Condição par verificar se o primeiro elemento do array é um horário
+              // Chamando a função que filtra os horários menores que o horário atual
+              const horariosFiltrados = filterTimesShorterCurrentTime(timesOfDaySelected, currentTime)
+  
               if(horariosFiltrados.length > 0){
                 setHorariosDiaSelecionado(horariosFiltrados);
               }else{
                 setHorariosDiaSelecionado(['Não há horários disponíveis para esse dia']);
               }
-              
-        }else{
-          setHorariosDiaSelecionado(['Não há horários disponíveis para esse dia']);
+  
+            }else{
+              setHorariosDiaSelecionado(['Não há horários disponíveis para esse dia']);
+            }
+          }else{
+            //Condição par verificar se o primeiro elemento do array é um horário
+            if(timesOfDaySelected[0].length === 5){              
+              setHorariosDiaSelecionado(timesOfDaySelected);
+            }else{
+              setHorariosDiaSelecionado(['Não há horários disponíveis para esse dia']);
+            }
+          }
         }
       }
     }).catch(err =>{
