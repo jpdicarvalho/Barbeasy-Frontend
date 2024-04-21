@@ -803,11 +803,11 @@ const currentTime = getCurrentTime()
 const handleDateClick = (dayOfWeek, day, month, year) => {
   setSelectedDay(`${dayOfWeek}, ${day} de ${month} de ${year}`)
   let selectedDate = `${dayOfWeek}, ${day} de ${month} de ${year}`;
-  
+
   let timesOfDaySelected = timesDays[dayOfWeek]; //Passa o índice do objeto, correspondente ao dia selecionado
   timesOfDaySelected = timesOfDaySelected.split(',');//Separa os horários que estão concatenados
 
-    axios.get(`https://api-user-barbeasy.up.railway.app/api/bookings/${barbeariaId}/${professionalId}/${selectedDate}`)
+  axios.get(`https://api-user-barbeasy.up.railway.app/api/bookings/${barbeariaId}/${professionalId}/${selectedDate}`)
     .then(res =>{
       if(res.data.Message === 'true'){//Verifica se a consulta realizada, possuí algum registro
         let bookings = res.data.timesLocked;//passando os registros obtidos na consulta
@@ -883,6 +883,9 @@ const handleDayOff = (time) => {
   }
 };
 
+const closeAllTimes = () => {
+  setTimesLockedByProfessional(horariosDiaSelecionado)
+}
 //Function to render all times defined
 const renderHorariosDiaSelecionado = () => {
   return (
@@ -1288,7 +1291,9 @@ return (
             </div>
             <div className="times">
               {selectedDay && (
-                <p className="information__span">Selecione os horários que deseja fechar:</p>
+                <div className="tesste">
+                  <p className="information__span">Selecione os horários que deseja fechar:</p>
+                </div>
               )}
 
               {selectedDay && (
@@ -1307,6 +1312,9 @@ return (
                         <VscError className={`hide_icon__error ${messageSaveDayOff ? 'icon__error' : ''}`}/>
                         <p className="text__message">{messageSaveDayOff}</p>
                     </div>
+              )}
+              {selectedDay && (
+                <button className={`button__change ${showButtonSaveDayOff === false ? 'show':''}`} onClick={closeAllTimes}>Fechar todos os horários</button>
               )}
               <button className={`button__change ${timesLockedByProfessional.length >= 1 && showButtonSaveDayOff === false ? 'show':''}`} onClick={openButtonSaveDayOff}>Continuar</button>
               <button className={`button__change ${showButtonSaveDayOff === true ? 'show':''}`} onClick={saveDayOff}>Salvar</button>

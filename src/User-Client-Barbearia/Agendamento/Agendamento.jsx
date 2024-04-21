@@ -16,8 +16,6 @@ const weekNames = [
 
 export function Agendamento({ userId, barbeariaId, professionalId, serviceId, serviceDuration }) {
 
-  const [horariosDiaSelecionado, setHorariosDiaSelecionado] = useState([]); // Estado para os horários do dia selecionado
-
   const date = new Date();
   const options = { weekday: 'short', locale: 'pt-BR' };
   let dayOfWeek = date.toLocaleDateString('pt-BR', options);
@@ -26,127 +24,27 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId, se
   const year = date.getFullYear();
 
   //Buscando a quantidade de dias que a agenda vai ficar aberta
+  const [horariosDiaSelecionado, setHorariosDiaSelecionado] = useState([]);
   const [QntDaysSelected, setQntDaysSelected] = useState([]);
   const [agenda, setAgenda] = useState([]);
   const [timesDays, setTimesDays] = useState('');
   const [selectedDay, setSelectedDay] = useState(null);
   const [timeSelected, setTimeSelected] = useState("");
+  const [messageConfirmedBooking, setMessageConfirmedBooking] = useState('');
 
   const currentDate = new Date(date);
   const formattedDate = `${currentDate.getDate()}-${currentDate.getMonth() + 1}-${currentDate.getFullYear()}-${currentDate.getHours()}:${currentDate.getMinutes()}`;
 
-  // Function to get all booking
-const handleDateClick = (dayOfWeek, day, month, year) => {
-  setSelectedDay(`${dayOfWeek}, ${day} de ${month} de ${year}`)
-  let selectedDate = `${dayOfWeek}, ${day} de ${month} de ${year}`;
-  
-  let timesOfDaySelected = timesDays[dayOfWeek]; //Passa o índice do objeto, correspondente ao dia selecionado
-  timesOfDaySelected = timesOfDaySelected.split(',');//Separa os horários que estão concatenados
-
-    axios.get(`https://api-user-barbeasy.up.railway.app/api/bookings/${barbeariaId}/${professionalId}/${selectedDate}`)
-    .then(res =>{
-      if(res.data.Message === 'true'){//Verifica se a consulta realizada, possuí algum registro
-        let bookings = res.data.timesLocked;//passando os registros obtidos na consulta
-
-        if (dayOfWeek in timesDays) {// Verifica se o dia selecionado está no objeto 'timesDays' que contém os horários dos dias definidos
-          if(selectedDate === currentDay){//Condição par verificar se o dia selecionado e o mesmo do dia atual
-            if(timesOfDaySelected[0].length === 5){//Condição par verificar se o primeiro elemento do array é um horário
-              const timesLockedStr = Object.values(bookings).map(item => item.timesLocked.split(','));//Separa os horários obtidos na consulta, já que eles são salvos concatenados
-             
-              //Function to remove all bookings
-              timesOfDaySelected = timesOfDaySelected.filter(time => {
-                // Verifica se o horário atual não está presente em bookingsTimesSplit
-                return !timesLockedStr.some(bookedTimes => bookedTimes.includes(time));
-              });
-
-              // Filtra os horários que são maiores ou iguais ao horário atual
-              const horariosFiltrados = timesOfDaySelected.filter(horario => {
-                // Divide o horário em hora e minuto
-                const [hora, minuto] = horario.split(':');
-                // Calcula o horário completo em formato de número para facilitar a comparação
-                const horarioCompleto = Number(`${hora}${minuto}`);
-                // Retorna verdadeiro se o horário completo for maior ou igual ao horário atual
-                return horarioCompleto >= currentTime;
-              });
-
-              setHorariosDiaSelecionado(horariosFiltrados);
-
-            }else{
-              setHorariosDiaSelecionado(['Não há horários disponíveis para esse dia']);
-            }
-          
-          }else{
-            //Condição par verificar se o primeiro elemento do array é um horário
-            if(timesOfDaySelected[0].length === 5){
-              const timesLockedStr = Object.values(bookings).map(item => item.timesLocked.split(','));
-             
-              //Function to remove all bookings
-              timesOfDaySelected = timesOfDaySelected.filter(time => {
-                // Verifica se o horário atual não está presente em bookingsTimesSplit
-                return !timesLockedStr.some(bookedTimes => bookedTimes.includes(time));
-              });
-
-              setHorariosDiaSelecionado(timesOfDaySelected);
-
-            }else{
-              setHorariosDiaSelecionado(['Não há horários disponíveis para esse dia']);
-            }
-          }
-        }
-      }else{
-        //Condição par verificar se o primeiro elemento do array é um horário
-        if(timesOfDaySelected[0].length === 5){
-          setHorariosDiaSelecionado(timesOfDaySelected);
-        }else{
-          setHorariosDiaSelecionado(['Não há horários disponíveis para esse dia']);
-        }
-      }
-    }).catch(err =>{
-      console.error('Não há horários agendado/fechado para esse dia', err);
-    })
-}
-
-  //Obtendo os dados da agenda do profissional da barbearia
-  const getAgenda = () =>{
-    if(barbeariaId && professionalId){
-      axios.get(`https://api-user-barbeasy.up.railway.app/api/agenda/${barbeariaId}/${professionalId}`)
-      .then(res => {
-        if(res.status === 200){
-          setAgenda(res.data.Agenda)
-        }
-      }).catch(error => {
-        console.error('Erro ao buscar informações da agenda da barbearia', error)
-      })
-    }
+  //Function to get current time
+  function getCurrentTime(){
+    // get default current time
+    const currentTime = new Date().getHours();
+    const currentMinute = new Date().getMinutes();
+    const currentTimeStr = String(currentTime).padStart(2, '0');
+    const currentMinuteStr = String(currentMinute).padStart(2, '0');
+    const fullCurrentTime = Number(`${currentTimeStr}${currentMinuteStr}`);
+    return fullCurrentTime;
   }
- 
-  //Chamando a função para obter os dados da agenda da barbearia
-  useEffect(() => {
-    getAgenda()
-  }, [barbeariaId, professionalId, serviceId])
-
-  useEffect(() => {
-    if (Array.isArray(agenda) && agenda.length >= 2) {
-      setQntDaysSelected(agenda[1].toString());
-    }
-  }, [barbeariaId, professionalId, serviceId, selectedDay]);
-  
-  //Função para obter os horários definidos do dia selecionado
-  const getHorariosDefinidos = () =>{
-    axios.get(`https://api-user-barbeasy.up.railway.app/api/agendaDiaSelecionado/${barbeariaId}/${professionalId}`)
-    .then(res => {
-      //Armazenando o objeto com todos os horários definidos
-      setTimesDays(res.data.TimesDays)
-
-    }).catch(error => {
-      console.error('Erro ao buscar informações da agenda da barbearia', error)
-    })
-  }
-
-  //Hook para chamar a função acima
-  useEffect(() => {
-    getHorariosDefinidos()
-  }, [barbeariaId, professionalId, serviceId, QntDaysSelected])
 
   //Função para pegar os dias da semana
   function getWeeks() {
@@ -199,98 +97,205 @@ const handleDateClick = (dayOfWeek, day, month, year) => {
     return currentDay;
   }
 
-  //Function to get current time
-  function getCurrentTime(){
-    // get default current time
-    const currentTime = new Date().getHours();
-    const currentMinute = new Date().getMinutes();
-    const currentTimeStr = String(currentTime).padStart(2, '0');
-    const currentMinuteStr = String(currentMinute).padStart(2, '0');
-    const fullCurrentTime = Number(`${currentTimeStr}${currentMinuteStr}`);
-    return fullCurrentTime;
-  }
-
   const weekDays = getWeeks();
   const numberDays = getNumber();
   const currentDay = getCurrentDayOfWeek()
   const currentTime = getCurrentTime()
 
-function reservationTimes (timeSelected){
-  //Verifica se um horário foi selecionado
-  if(timeSelected){
-    //Verifica se o serviço selecionado tem um tempo de duração maior que 15min
-    if(serviceDuration > 15){
-      //Divide a duração do serviço por 15, para obter a quantidade de vezes que vamos gerar horários que serão ocupados
-      const cont = serviceDuration/15;
+  // Function to get all booking
+  const handleDateClick = (dayOfWeek, day, month, year) => {
+  setSelectedDay(`${dayOfWeek}, ${day} de ${month} de ${year}`)
+  let selectedDate = `${dayOfWeek}, ${day} de ${month} de ${year}`;
 
-      let [time, minute] = timeSelected.split(':');//divide a string do horário selecionado em horas e minutos
-      let newHour= Number(time);//horas
-      let newMinute = Number(minute);//minutos
+  let timesOfDaySelected = timesDays[dayOfWeek]; //Passa o índice do objeto, correspondente ao dia selecionado
+  timesOfDaySelected = timesOfDaySelected.split(',');//Separa os horários que estão concatenados
 
-      //Array para armazenar os horários que serão o cupados pelo serviço
-      const timesBusy = []
+    axios.get(`https://api-user-barbeasy.up.railway.app/api/bookings/${barbeariaId}/${professionalId}/${selectedDate}`)
+    .then(res =>{
+      if(res.data.Message === 'true'){//Verifica se a consulta realizada, possuí algum registro
+        let bookings = res.data.timesLocked;//passando os registros obtidos na consulta
 
-      //loop para calcular os horarios que serão ocupados pelo serviço selecionado
-      for(let i=0; i < cont; i++){
-        //Soma 15min nos minutos do horário selecionado
-        newMinute = newMinute + 15;
-        //Verifica se os minutos do horário gerado é maior ou igual a 60
-        if(newMinute >= 60){          
-            newHour = newHour + 1;//Se for, soma mais 1 hora
-            newMinute = newMinute - 60;//E zera os respectivos minutos
-            let newTime = Number(`${newHour}${newMinute}${0}`);//Concatena o novo horário
-            timesBusy.push(newTime)//Adiciona o novo horário no array
+        if (dayOfWeek in timesDays) {// Verifica se o dia selecionado está no objeto 'timesDays' que contém os horários dos dias definidos
+          if(selectedDate === currentDay){//Condição par verificar se o dia selecionado e o mesmo do dia atual
+            if(timesOfDaySelected[0].length === 5){//Condição par verificar se o primeiro elemento do array é um horário
+              const timesLockedStr = Object.values(bookings).map(item => item.timesLocked.split(','));//Separa os horários obtidos na consulta, já que eles são salvos concatenados
+              
+              //Function to remove all bookings
+              timesOfDaySelected = timesOfDaySelected.filter(time => {
+                // Verifica se o horário atual não está presente em bookingsTimesSplit
+                return !timesLockedStr.some(bookedTimes => bookedTimes.includes(time));
+              });
+
+              // Filtra os horários que são maiores ou iguais ao horário atual
+              const horariosFiltrados = timesOfDaySelected.filter(horario => {
+                // Divide o horário em hora e minuto
+                const [hora, minuto] = horario.split(':');
+                // Calcula o horário completo em formato de número para facilitar a comparação
+                const horarioCompleto = Number(`${hora}${minuto}`);
+                // Retorna verdadeiro se o horário completo for maior ou igual ao horário atual
+                return horarioCompleto >= currentTime;
+              });
+
+              if(horariosFiltrados.length > 0){
+                setHorariosDiaSelecionado(horariosFiltrados);
+              }else{
+                setHorariosDiaSelecionado(['Não há horários disponíveis para esse dia']);
+              }
+
+            }else{
+              setHorariosDiaSelecionado(['Não há horários disponíveis para esse dia']);
+            }
+
+          }else{
+            //Condição par verificar se o primeiro elemento do array é um horário
+            if(timesOfDaySelected[0].length === 5){
+              const timesLockedStr = Object.values(bookings).map(item => item.timesLocked.split(','));
+              
+              //Function to remove all bookings
+              timesOfDaySelected = timesOfDaySelected.filter(time => {
+                // Verifica se o horário atual não está presente em bookingsTimesSplit
+                return !timesLockedStr.some(bookedTimes => bookedTimes.includes(time));
+              });
+
+              setHorariosDiaSelecionado(timesOfDaySelected);
+
+            }else{
+              setHorariosDiaSelecionado(['Não há horários disponíveis para esse dia']);
+            }
+          }
+        }
+      }else{
+        //Condição par verificar se o primeiro elemento do array é um horário
+        if(timesOfDaySelected[0].length === 5){
+          setHorariosDiaSelecionado(timesOfDaySelected);
         }else{
-          let newTime = Number(`${newHour}${newMinute}`);//Como os minutos são menores que 60, apenas concatena o horário gerado com 15min a mais
-          timesBusy.push(newTime)//Adiciona o novo horário no array
+          setHorariosDiaSelecionado(['Não há horários disponíveis para esse dia']);
         }
       }
-
-      //João, esse array está armazenando os horários no seguinte formato string ("00:00") que o serviço vai ocupar.
-      const busyTimesFormated = []
-
-      for(let i=0; i<timesBusy.length; i++){
-        //Aqui você está passando o primeiro elemento do array 'timesBusy' que contém os horários em tipo inteiro, que o serviço vai ocupar.
-        let timesIntFormat = timesBusy[i].toString();
-        //Verificação se o horário contido em timesBusy é (800), ou seja, 8h da manhã
-        if(timesIntFormat.length === 3){
-          //Se for, você adiciona um '0' a esquerda (hhahahahhaha) para ficar no formato do array princpal de horários. Sendo assim, possibilitando a remoção desse horário do array principal.
-          timesIntFormat = '0' + timesIntFormat;
-          let hours = timesIntFormat.substring(0, 2);//Pegando os dois primeiros elementos da hora
-          let minutes =  timesIntFormat.substring(timesIntFormat.length - 2);//Pegando os dois primeiros elementos do minuto
-          let timeFormated = `${hours}:${minutes}`;// formatando
-          busyTimesFormated.push(timeFormated);//Adicionando ao array
-        }else{
-          //Caso o horário contido no array timesBusy tenha dois elementos, ou seja, 1315 (13:15)
-          let hours = timesIntFormat.substring(0, 2);//Pegando os dois primeiros elementos da hora
-          let minutes =  timesIntFormat.substring(timesIntFormat.length - 2);//Pegando os dois primeiros elementos do minuto
-          let timeFormated = `${hours}:${minutes}`;// formatando
-          busyTimesFormated.push(timeFormated);//Adicionando ao array
-        }
-      }
-      busyTimesFormated.pop();//Excluindo o último horário da lista, pois ele tem que ser disponibilizado para agendamento
-      busyTimesFormated.unshift(timeSelected)//Adicionando o horário selecionado, finalizando então, o mapeamento de todos os horários a serem ocupados pelo serviço selecionado.
-
-      return busyTimesFormated;
-    }  
+    }).catch(err =>{
+      console.error('Não há horários agendado/fechado para esse dia', err);
+    })
   }
-}
 
-const timesBusyByService = reservationTimes(timeSelected)
+  //Obtendo os dados da agenda do profissional da barbearia
+  const getAgenda = () =>{
+    if(barbeariaId && professionalId){
+      axios.get(`https://api-user-barbeasy.up.railway.app/api/agenda/${barbeariaId}/${professionalId}`)
+      .then(res => {
+        if(res.status === 200){
+          setAgenda(res.data.Agenda)
+        }
+      }).catch(error => {
+        console.error('Erro ao buscar informações da agenda da barbearia', error)
+      })
+    }
+  }
+ 
+  //Chamando a função para obter os dados da agenda da barbearia
+  useEffect(() => {
+    getAgenda()
+  }, [professionalId, serviceId])
 
-//Função para pegar o horário selecionado pelo usuário
-const hendleTimeClick = (time) => {
-    setTimeSelected(time);
-}
+  useEffect(() => {
+    if (Array.isArray(agenda) && agenda.length >= 2) {
+      setQntDaysSelected(agenda[1].toString());
+    }
+  }, [professionalId, serviceId, selectedDay]);
+  
+  //Função para obter os horários definidos do dia selecionado
+  const getHorariosDefinidos = () =>{
+    axios.get(`https://api-user-barbeasy.up.railway.app/api/agendaDiaSelecionado/${barbeariaId}/${professionalId}`)
+    .then(res => {
+      //Armazenando o objeto com todos os horários definidos
+      setTimesDays(res.data.TimesDays)
 
-//Hook para resetar sa variáveis caso o usuário selecione outro profissional
+    }).catch(error => {
+      console.error('Erro ao buscar informações da agenda da barbearia', error)
+    })
+  }
+
+  //Hook para chamar a função acima
+  useEffect(() => {
+    getHorariosDefinidos()
+  }, [professionalId, serviceId, selectedDay])
+
+  //Função para calcular a quantidade de horários que serão ocupados, com base no serviço selecionado
+  function reservationTimes (timeSelected){
+    //Verifica se um horário foi selecionado
+    if(timeSelected){
+      //Verifica se o serviço selecionado tem um tempo de duração maior que 15min
+      if(serviceDuration > 15){
+        //Divide a duração do serviço por 15, para obter a quantidade de vezes que vamos gerar horários que serão ocupados
+        const cont = serviceDuration/15;
+
+        let [time, minute] = timeSelected.split(':');//divide a string do horário selecionado em horas e minutos
+        let newHour= Number(time);//horas
+        let newMinute = Number(minute);//minutos
+
+        //Array para armazenar os horários que serão o cupados pelo serviço
+        const timesBusy = []
+
+        //loop para calcular os horarios que serão ocupados pelo serviço selecionado
+        for(let i=0; i < cont; i++){
+          //Soma 15min nos minutos do horário selecionado
+          newMinute = newMinute + 15;
+          //Verifica se os minutos do horário gerado é maior ou igual a 60
+          if(newMinute >= 60){          
+              newHour = newHour + 1;//Se for, soma mais 1 hora
+              newMinute = newMinute - 60;//E zera os respectivos minutos
+              let newTime = Number(`${newHour}${newMinute}${0}`);//Concatena o novo horário
+              timesBusy.push(newTime)//Adiciona o novo horário no array
+          }else{
+            let newTime = Number(`${newHour}${newMinute}`);//Como os minutos são menores que 60, apenas concatena o horário gerado com 15min a mais
+            timesBusy.push(newTime)//Adiciona o novo horário no array
+          }
+        }
+
+        //João, esse array está armazenando os horários no seguinte formato string ("00:00") que o serviço vai ocupar.
+        const busyTimesFormated = []
+
+        for(let i=0; i<timesBusy.length; i++){
+          //Aqui você está passando o primeiro elemento do array 'timesBusy' que contém os horários em tipo inteiro, que o serviço vai ocupar.
+          let timesIntFormat = timesBusy[i].toString();
+          //Verificação se o horário contido em timesBusy é (800), ou seja, 8h da manhã
+          if(timesIntFormat.length === 3){
+            //Se for, você adiciona um '0' a esquerda (hhahahahhaha) para ficar no formato do array princpal de horários. Sendo assim, possibilitando a remoção desse horário do array principal.
+            timesIntFormat = '0' + timesIntFormat;
+            let hours = timesIntFormat.substring(0, 2);//Pegando os dois primeiros elementos da hora
+            let minutes =  timesIntFormat.substring(timesIntFormat.length - 2);//Pegando os dois primeiros elementos do minuto
+            let timeFormated = `${hours}:${minutes}`;// formatando
+            busyTimesFormated.push(timeFormated);//Adicionando ao array
+          }else{
+            //Caso o horário contido no array timesBusy tenha dois elementos, ou seja, 1315 (13:15)
+            let hours = timesIntFormat.substring(0, 2);//Pegando os dois primeiros elementos da hora
+            let minutes =  timesIntFormat.substring(timesIntFormat.length - 2);//Pegando os dois primeiros elementos do minuto
+            let timeFormated = `${hours}:${minutes}`;// formatando
+            busyTimesFormated.push(timeFormated);//Adicionando ao array
+          }
+        }
+        busyTimesFormated.pop();//Excluindo o último horário da lista, pois ele tem que ser disponibilizado para agendamento
+        busyTimesFormated.unshift(timeSelected)//Adicionando o horário selecionado, finalizando então, o mapeamento de todos os horários a serem ocupados pelo serviço selecionado.
+
+        return busyTimesFormated;
+      }  
+    }
+  }
+
+  const timesBusyByService = reservationTimes(timeSelected)
+
+  //Função para pegar o horário selecionado pelo usuário
+  const hendleTimeClick = (time) => {
+      setTimeSelected(time);
+  }
+
+  //Hook para resetar sa variáveis caso o usuário selecione outro profissional
   useEffect(() =>{
     setSelectedDay('')
     setTimeSelected('')
     setHorariosDiaSelecionado(null)
   }, [professionalId])
 
-//Function to render all times defined
+  //Function to render all times defined
   const renderHorariosDiaSelecionado = () => {
     return (
       <>
@@ -305,47 +310,45 @@ const hendleTimeClick = (time) => {
     );
   };
 
-//=================== Function to make booking ===================
-const [messageConfirmedBooking, setMessageConfirmedBooking] = useState('');
-
-const saveBooking = () =>{
-  if(userId && barbeariaId && professionalId && serviceId && selectedDay && timeSelected && formattedDate){
-    //Passando todos os horários que serão ocupados pelo serviço selecionado
-    let timeSelected = timesBusyByService.join(',');
-    //Object to agroup all informations to make a new booking
-    const newBooking = {
-      userId,
-      barbeariaId,
-      professionalId,
-      serviceId,
-      selectedDay,
-      timeSelected,
-      formattedDate
-    }
-
-    axios.post('https://api-user-barbeasy.up.railway.app/api/create-booking/', newBooking)
-    .then(res => {
-      if(res.data.Success === 'Success'){
-        setMessageConfirmedBooking("Seu agendamento foi realizado com sucesso!")
-        setTimeout(() => {
-          setMessageConfirmedBooking('');
-          window.location.reload()
-        }, 3000);
+  const saveBooking = () =>{
+    if(userId && barbeariaId && professionalId && serviceId && selectedDay && timeSelected && formattedDate){
+      //Passando todos os horários que serão ocupados pelo serviço selecionado
+      let timeSelected = timesBusyByService.join(',');
+      //Object to agroup all informations to make a new booking
+      const newBooking = {
+        userId,
+        barbeariaId,
+        professionalId,
+        serviceId,
+        selectedDay,
+        timeSelected,
+        formattedDate
       }
 
-    }).catch(error => {
-      console.error('Erro ao buscar informações da agenda da barbearia', error)
-    })
+      axios.post('https://api-user-barbeasy.up.railway.app/api/create-booking/', newBooking)
+      .then(res => {
+        if(res.data.Success === 'Success'){
+          setMessageConfirmedBooking("Seu agendamento foi realizado com sucesso!")
+          setTimeout(() => {
+            setMessageConfirmedBooking('');
+            window.location.reload()
+          }, 3000);
+        }
+
+      }).catch(error => {
+        console.error('Erro ao buscar informações da agenda da barbearia', error)
+      })
+    }
   }
-}
-//=========================================================================================
-Agendamento.propTypes = {
-  userId: PropTypes.number,
-  barbeariaId: PropTypes.number,
-  professionalId: PropTypes.number,
-  serviceId: PropTypes.number,
-  serviceDuration: PropTypes.number
-};
+  //=========================================================================================
+
+  Agendamento.propTypes = {
+    userId: PropTypes.number,
+    barbeariaId: PropTypes.number,
+    professionalId: PropTypes.number,
+    serviceId: PropTypes.number,
+    serviceDuration: PropTypes.number
+  };
 
   return (
   <>
