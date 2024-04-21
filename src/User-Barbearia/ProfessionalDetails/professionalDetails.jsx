@@ -793,6 +793,21 @@ function getCurrentTime(){
   return fullCurrentTime;
 }
 
+//Função para filtrar os horários menores que o horário atual
+function filterTimesShorterCurrentTime (arrayWithTimes, currentTime) {
+  let arrayClear = []
+  // Filtra os horários que são maiores ou iguais ao horário atual
+  const arrayFiltaredTimes = arrayWithTimes.filter(horario => {
+    // Divide o horário em hora e minuto
+    const [hora, minuto] = horario.split(':');
+    // Calcula o horário completo em formato de número para facilitar a comparação
+    let horarioCompleto = Number(`${hora}${minuto}`);
+    // Retorna verdadeiro se o horário completo for maior ou igual ao horário atual
+    return horarioCompleto >= currentTime;
+  });
+  return arrayClear = arrayFiltaredTimes;
+}
+
 const weekDays = getWeeks();
 const numberDays = getNumber();
 const currentDay = getCurrentDayOfWeek()
@@ -823,18 +838,9 @@ const handleDateClick = (dayOfWeek, day, month, year) => {
                 return !timesLockedStr.some(bookedTimes => bookedTimes.includes(time));
               });
 
-              // Filtra os horários que são maiores ou iguais ao horário atual
-              const horariosFiltrados = timesOfDaySelected.filter(horario => {
-                // Divide o horário em hora e minuto
-                const [hora, minuto] = horario.split(':');
-                // Calcula o horário completo em formato de número para facilitar a comparação
-                const horarioCompleto = Number(`${hora}${minuto}`);
-                // Retorna verdadeiro se o horário completo for maior ou igual ao horário atual
-                return horarioCompleto >= currentTime;
-              });
-
+              // Chamando a função que filtra os horários menores que o horário atual
+              const horariosFiltrados = filterTimesShorterCurrentTime(timesOfDaySelected, currentTime)
               setHorariosDiaSelecionado(horariosFiltrados);
-
             }else{
               setHorariosDiaSelecionado(['Não há horários disponíveis para esse dia']);
             }
@@ -860,7 +866,9 @@ const handleDateClick = (dayOfWeek, day, month, year) => {
       }else{
         //Condição par verificar se o primeiro elemento do array é um horário
         if(timesOfDaySelected[0].length === 5){
-          setHorariosDiaSelecionado(timesOfDaySelected);
+          // Chamando a função que filtra os horários menores que o horário atual
+          const horariosFiltrados = filterTimesShorterCurrentTime(timesOfDaySelected, currentTime)
+          setHorariosDiaSelecionado(horariosFiltrados);
         }else{
           setHorariosDiaSelecionado(['Não há horários disponíveis para esse dia']);
         }

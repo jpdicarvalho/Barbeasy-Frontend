@@ -156,6 +156,7 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId, se
                 // Verifica se o horário atual não está presente em bookingsTimesSplit
                 return !timesLockedStr.some(bookedTimes => bookedTimes.includes(time));
               });
+              console.log(timesOfDaySelected)
 
               setHorariosDiaSelecionado(timesOfDaySelected);
 
@@ -167,7 +168,23 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId, se
       }else{
         //Condição par verificar se o primeiro elemento do array é um horário
         if(timesOfDaySelected[0].length === 5){
-          setHorariosDiaSelecionado(timesOfDaySelected);
+
+          // Filtra os horários que são maiores ou iguais ao horário atual
+              const horariosFiltrados = timesOfDaySelected.filter(horario => {
+                // Divide o horário em hora e minuto
+                const [hora, minuto] = horario.split(':');
+                // Calcula o horário completo em formato de número para facilitar a comparação
+                const horarioCompleto = Number(`${hora}${minuto}`);
+                // Retorna verdadeiro se o horário completo for maior ou igual ao horário atual
+                return horarioCompleto >= currentTime;
+              });
+
+              if(horariosFiltrados.length > 0){
+                setHorariosDiaSelecionado(horariosFiltrados);
+              }else{
+                setHorariosDiaSelecionado(['Não há horários disponíveis para esse dia']);
+              }
+              
         }else{
           setHorariosDiaSelecionado(['Não há horários disponíveis para esse dia']);
         }
