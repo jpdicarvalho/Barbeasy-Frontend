@@ -302,7 +302,7 @@ useEffect(()=> {
             )}
         </div>
 
-      {serviceProfessional &&(
+      {selectedService &&(
         <div className="tittle">
         Escolha um dia de sua preferência
       </div>

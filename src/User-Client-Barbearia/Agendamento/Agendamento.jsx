@@ -240,7 +240,7 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId, se
     })
   }
 
-  //Hook para chamar a função acima
+  //Hook para chamar a função 'getHorariosDefinidos'
   useEffect(() => {
     getHorariosDefinidos()
   }, [professionalId, serviceId, selectedDay])
