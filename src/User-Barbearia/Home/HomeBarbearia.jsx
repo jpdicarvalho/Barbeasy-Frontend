@@ -69,6 +69,7 @@ obterSaudacao();
 //==================================================
 //Função para pegar os dias da semana
 const [selectedDay, setSelectedDay] = useState(null);
+const [bookings, setBookings] = useState([]);
 
 function getWeeks() {
   const arrayWeeks = [];
@@ -111,9 +112,31 @@ function getNumber() {
   return numbersWeek;
 }
 
+// Function to get current day in format: [Sex, 12 de Abr de 2024]
+function getCurrentDayOfWeek(){
+  const currentDayOfWeek = weekNames[date.getDay()];//Dia atual da semana
+  const currentDayOfMonth = date.getDate();//Dia atua do mês
+  const currentNameMonth = monthNames[date.getMonth()];//Mês atual  
+  let currentDay = `${currentDayOfWeek}, ${currentDayOfMonth} de ${currentNameMonth} de ${year}`;// Monta a data no formato do dia selecionado
+  return currentDay;
+}
+
 const weekDays = getWeeks();
 const numberDays = getNumber();
+const currentDay = getCurrentDayOfWeek()
 
+const handleDateClick = (dayOfWeek, day, month, year) => {
+  setSelectedDay(`${dayOfWeek}, ${day} de ${month} de ${year}`);
+  let selectedDate = `${dayOfWeek}, ${day} de ${month} de ${year}`;
+
+  useEffect(() => {
+    axios.get(`https://api-user-barbeasy.up.railway.app/api/bookings/${barbeariaId}/${selectedDate}`)
+    .then(res => {
+      setBookings(res.data.url);
+    })
+    .catch(err => console.log(err));
+  }, [barbeariaId]);
+}
   return (
       <div className="header_main">
         <div className='header_container'>

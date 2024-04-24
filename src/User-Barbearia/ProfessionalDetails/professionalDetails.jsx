@@ -822,7 +822,7 @@ const handleDateClick = (dayOfWeek, day, month, year) => {
   let timesOfDaySelected = timesDays[dayOfWeek]; //Passa o índice do objeto, correspondente ao dia selecionado
   timesOfDaySelected = timesOfDaySelected.split(',');//Separa os horários que estão concatenados
 
-  axios.get(`https://api-user-barbeasy.up.railway.app/api/bookings/${barbeariaId}/${professionalId}/${selectedDate}`)
+  axios.get(`https://api-user-barbeasy.up.railway.app/api/bookings-times/${barbeariaId}/${professionalId}/${selectedDate}`)
     .then(res =>{
       if(res.data.Message === 'true'){//Verifica se a consulta realizada, possuí algum registro
         let bookings = res.data.timesLocked;//passando os registros obtidos na consulta
