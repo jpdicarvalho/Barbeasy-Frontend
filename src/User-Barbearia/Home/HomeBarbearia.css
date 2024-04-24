@@ -18,32 +18,44 @@
   display: flex;
   align-items: center;
   width: 385px;
-  background: yellow;
-  color: black;
+  color: white;
   padding-left: 10px;
+  padding-top: 20px;
 }
 .img__user{
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  background: red;
+  margin-right: 15px;
+}
+.user__name{
+  width: 250px;
 }
 .settings{
   width: 30px;
   height: 30px;
-  border-radius: 50%;
-  text-align: center;
-  background: red;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 25px;
+  border: 1px solid #4a17d5;
 }
-.agendamentos{
-  color: black;
+.calendar__barbearia{
+  overflow-y: hidden;
+  overflow-x: auto;
   width: 385px;
+  height: 70px;
   margin-top: 15px;
-  background: black;
   padding-left: 10px;
 }
-.Dia__agendado{
-  border: 1px solid #4a17d5;
-  width: 45px;
-  color:aliceblue
+.calendar__barbearia::-webkit-scrollbar {
+  height: 2px;
+}
+.calendar__barbearia::-webkit-scrollbar-thumb {
+  background: #354249; 
+  border-radius: 5px;
+}
+.calendar__barbearia::-webkit-scrollbar-thumb:hover {
+  background: #f6f6f6; 
 }
