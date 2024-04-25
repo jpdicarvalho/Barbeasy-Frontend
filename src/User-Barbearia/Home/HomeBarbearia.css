@@ -3,21 +3,20 @@
   padding: 0;
   box-sizing: border-box;
 }
-.header_main{
-  position: absolute;
+
+.container__main{ 
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   width: 100%;
-  height: 200px;
-  top: 0;
-  left: 0;
+
 }
 .header_container{
   display: flex;
+  justify-content: center;
   align-items: center;
-  width: 385px;
+  width: 100%;
   color: white;
   padding-left: 10px;
   padding-top: 20px;
@@ -38,8 +37,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 25px;
-  border: 1px solid #4a17d5;
+  font-size: 35px;
 }
 .calendar__barbearia{
   overflow-y: hidden;
@@ -58,4 +56,35 @@
 }
 .calendar__barbearia::-webkit-scrollbar-thumb:hover {
   background: #f6f6f6; 
+}
+.section__bookings{
+  padding-top: 10px;
+  width: 385px;
+}
+.container__booking{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  width: 385px;
+}
+.booking{
+  padding-left: 5px;
+  background-color: #4a17d5;
+  background: rgba(59, 20, 216, 0.1);
+  border-left: 5px solid #0f0;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  width: 385px;
+  color: #354249;
+}
+.bookingTime{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-right: 5px;
+  text-align: left;
+  color: #354249;
+  width: 50px;
+  height: auto;
 }

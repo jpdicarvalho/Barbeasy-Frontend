@@ -121,6 +121,30 @@ function getCurrentDayOfWeek(){
   return currentDay;
 }
 
+function orderBookings(bookings) {
+  // Ordenação dos bookings por menor horário (booking_time)
+  bookings.sort((a, b) => {
+    const [horaA, minutoA] = a.booking_time.split(',')[0].split(':'); // Primeiro horário de a
+    const [horaB, minutoB] = b.booking_time.split(',')[0].split(':'); // Primeiro horário de b
+
+    const horarioCompletoA = Number(horaA) * 60 + Number(minutoA); // Horário completo em minutos para a
+    const horarioCompletoB = Number(horaB) * 60 + Number(minutoB); // Horário completo em minutos para b
+
+    // Comparação de horários completos (menor para maior)
+    if (horarioCompletoA < horarioCompletoB) {
+      return -1; // a vem antes de b
+    } else if (horarioCompletoA > horarioCompletoB) {
+      return 1; // b vem antes de a
+    } else {
+      return 0; // horários são iguais
+    }
+  });
+}
+
+// Chamando a função para ordenar os bookings por menor horário
+orderBookings(bookings);
+
+
 const weekDays = getWeeks();
 const numberDays = getNumber();
 const currentDay = getCurrentDayOfWeek()
@@ -129,60 +153,85 @@ const handleDateClick = (dayOfWeek, day, month, year) => {
   setSelectedDay(`${dayOfWeek}, ${day} de ${month} de ${year}`);
   let selectedDate = `${dayOfWeek}, ${day} de ${month} de ${year}`;
 
-  useEffect(() => {
     axios.get(`https://api-user-barbeasy.up.railway.app/api/bookings/${barbeariaId}/${selectedDate}`)
     .then(res => {
-      setBookings(res.data.url);
+      setBookings(res.data.bookings);
     })
     .catch(err => console.log(err));
-  }, [barbeariaId]);
 }
-  return (
-      <div className="header_main">
-        <div className='header_container'>
 
-          <div className="img__user">
-          {imageUser.length > 48 ? (
-                    <div className="img-view-profile">
-                      <img src={imageUser} alt="" id='img-profile' />
-                    </div>
-                  ) : (
-                    <motion.div className="img-view-user">
-                     <IoPersonOutline className='icon_user_edit'/>
-                    </motion.div>
-                  )}
-          </div>
+console.log(bookings)
+return (
+<main>
+    <div className="container__main">
+      <div className='header_container'>
 
-          <div className="user__name">
-            <p>Olá, {barbeariaUserName}</p>
-            <p>{saudacao}</p>
-          </div>
-
-          <div className="settings" onClick={navigateToProfileBarbearia}>
-            <CgMenuRightAlt />
-          </div>
-        </div>
-        
-        <div className="container__calendar__barbearia">
-        <div className='calendar__barbearia'>
-            <div className="list__Names__Week__And__Day">
-            {weekDays.map((dayOfWeek, index) => (
-                <div key={`weekDay-${index}`} className="list__name__Week">
-                  <div
-                    className={`dayWeekCurrent ${selectedDay === `${dayOfWeek}, ${numberDays[index].number} de ${numberDays[index].month} de ${year}` ? 'selectedDay' : ''} ${numberDays[index].isCurrentDay ? 'currentDay' : ''}`}
-                    onClick={() => handleDateClick(dayOfWeek, numberDays[index].number, numberDays[index].month, year)}
-                  >
-                    <p className='Box__day'>{dayOfWeek}</p>
-                    <p className='Box__NumDay'>{numberDays[index].number}</p>
-                    <p className='Box__month'>{numberDays[index].month}</p>
+        <div className="img__user">
+        {imageUser.length > 48 ? (
+                  <div className="img-view-profile">
+                    <img src={imageUser} alt="" id='img-profile' />
                   </div>
+                ) : (
+                  <motion.div className="img-view-user">
+                    <IoPersonOutline className='icon_user_edit'/>
+                  </motion.div>
+                )}
+        </div>
+
+        <div className="user__name">
+          <p>Olá, {barbeariaUserName}</p>
+          <p>{saudacao}</p>
+        </div>
+
+        <div className="settings" onClick={navigateToProfileBarbearia}>
+          <CgMenuRightAlt />
+        </div>
+      </div>
+      
+      <div className="container__calendar__barbearia">
+      <div className='calendar__barbearia'>
+          <div className="list__Names__Week__And__Day">
+          {weekDays.map((dayOfWeek, index) => (
+              <div key={`weekDay-${index}`} className="list__name__Week">
+                <div
+                  className={`dayWeekCurrent ${selectedDay === `${dayOfWeek}, ${numberDays[index].number} de ${numberDays[index].month} de ${year}` ? 'selectedDay' : ''} ${numberDays[index].isCurrentDay ? 'currentDay' : ''}`}
+                  onClick={() => handleDateClick(dayOfWeek, numberDays[index].number, numberDays[index].month, year)}
+                >
+                  <p className='Box__day'>{dayOfWeek}</p>
+                  <p className='Box__NumDay'>{numberDays[index].number}</p>
+                  <p className='Box__month'>{numberDays[index].month}</p>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
-  );
+      <div className="section__bookings">
+            {bookings.map((booking, index) => {
+              const bookingTimes = booking.booking_time.split(',');
+                return(
+                    <div key={index} className='container__booking'>
+                      <div className="bookingTime">
+                        {bookingTimes.map((time, index) =>(
+                          <div key={index} className="section__times">
+                              <p>{time}</p>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="booking">
+                        <p>Serviço • {booking.service_name}</p>
+                        <p>Profissional • {booking.professional_name}</p>
+                        <p>Preço do Serviço • {booking.service_price}</p>
+                        <p>Nome do Cliente • {booking.user_name}</p>
+                        <p>Telefone do Cliente • {booking.user_phone}</p>
+                    </div>
+                    </div>
+                );
+            })}
+        </div>
+    </div>
+    </main>
+);
 }
 
 export default HomeBarbearia;

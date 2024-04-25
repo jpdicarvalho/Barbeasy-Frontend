@@ -649,7 +649,7 @@ const handleProfessionalClick = (professional) => {
             </div>
             <AddNewProfessional openModal={showAddNewProfessional} setCloseModal={() => setShowAddNewProfessional(!showAddNewProfessional)}/>
 
-            {professional.map(professional => {
+            {professional.map(professional => { 
               // Obtendo a primeira letra do nome do profissional
               const firstLetter = professional.name.charAt(0).toUpperCase();
               

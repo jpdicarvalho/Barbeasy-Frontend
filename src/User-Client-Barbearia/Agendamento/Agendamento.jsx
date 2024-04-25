@@ -176,15 +176,7 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId, se
         if (dayOfWeek in timesDays) {
           if(selectedDate === currentDay){//Condição par verificar se o dia selecionado e o mesmo do dia atual
             if(timesOfDaySelected[0].length === 5){//Condição par verificar se o primeiro elemento do array é um horário
-              // Chamando a função que filtra os horários menores que o horário atual
-              const horariosFiltrados = filterTimesShorterCurrentTime(timesOfDaySelected, currentTime)
-  
-              if(horariosFiltrados.length > 0){
-                setHorariosDiaSelecionado(horariosFiltrados);
-              }else{
-                setHorariosDiaSelecionado(['Não há horários disponíveis para esse dia']);
-              }
-  
+                setHorariosDiaSelecionado(timesOfDaySelected);
             }else{
               setHorariosDiaSelecionado(['Não há horários disponíveis para esse dia']);
             }
