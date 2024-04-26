@@ -6,9 +6,13 @@
     font-family: 'Poppis', sans-serif;
 }
 .icon_back{
+    display: flex;
+    justify-content: end;
+    align-items: center;
     width: 100%;
     color: #4a17d5;
     font-size: 30px;
+    background: red;
 }
 .container__profile{
     display: flex;

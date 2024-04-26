@@ -7,6 +7,8 @@ import axios from 'axios';
 import AddNewProfessional from '../Professional/addNewProfessional';
 
 //Icons
+import { IoArrowBackSharp } from "react-icons/io5";
+
 import { IoIosArrowDown } from "react-icons/io";
 import { MdOutlineEdit } from "react-icons/md";
 import { IoPersonOutline } from "react-icons/io5";
@@ -45,6 +47,9 @@ function ProfileBarbearia() {
   const userInformation = JSON.parse(userData);//trasnformando os dados para JSON
   const barbeariaId = userInformation.barbearia[0].id;
 
+  const handleBackClick = () => {
+    navigate("/HomeBarbearia");
+  };
 /*-----------------------------------*/
   //Constantes de Upload de imagem de usuário
   const [file, setfile] = useState(null);
@@ -532,8 +537,9 @@ const handleProfessionalClick = (professional) => {
     <>
     
       <div className="container__profile">
-      
-        <IoIosArrowDown className='icon_back'/>
+      <div className="back" onClick={handleBackClick}>
+          <IoArrowBackSharp className="Icon__Back"/>
+          </div>
 
               <div className="img__user_edit"> 
                   <label htmlFor="input-file-user" id="drop-area-user">
