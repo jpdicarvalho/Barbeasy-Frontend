@@ -46,6 +46,7 @@
   height: 70px;
   margin-top: 15px;
   padding-left: 10px;
+  margin-bottom: 10px;
 }
 .calendar__barbearia::-webkit-scrollbar {
   height: 2px;
@@ -77,6 +78,7 @@
   margin-bottom: 10px;
   width: 385px;
   color: #354249;
+  overflow: hidden;
 }
 .bookingTime{
   display: flex;

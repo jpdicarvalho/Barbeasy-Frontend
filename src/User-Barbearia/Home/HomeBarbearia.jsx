@@ -6,6 +6,7 @@ import {motion} from 'framer-motion';
 import './HomeBarbearia.css';
 import { IoPersonOutline } from "react-icons/io5";
 import { CgMenuRightAlt } from "react-icons/cg";
+import { IoIosInformationCircleOutline } from "react-icons/io";
 
 const monthNames = [
   'Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun', 'Jul', 'Aug', 'Set', 'Out', 'Nov', 'Dez'
@@ -160,7 +161,6 @@ const handleDateClick = (dayOfWeek, day, month, year) => {
     .catch(err => console.log(err));
 }
 
-console.log(bookings)
 return (
 <main>
     <div className="container__main">
@@ -187,7 +187,7 @@ return (
           <CgMenuRightAlt />
         </div>
       </div>
-      
+    
       <div className="container__calendar__barbearia">
       <div className='calendar__barbearia'>
           <div className="list__Names__Week__And__Day">
@@ -206,29 +206,36 @@ return (
           </div>
         </div>
       </div>
-      <div className="section__bookings">
-            {bookings.map((booking, index) => {
-              const bookingTimes = booking.booking_time.split(',');
-                return(
-                    <div key={index} className='container__booking'>
-                      <div className="bookingTime">
-                        {bookingTimes.map((time, index) =>(
-                          <div key={index} className="section__times">
-                              <p>{time}</p>
-                          </div>
-                        ))}
+      {selectedDay ? (
+        <div className="section__bookings">
+        {bookings.map((booking, index) => {
+          const bookingTimes = booking.booking_time.split(',');
+            return(
+                <div key={index} className='container__booking'>
+                  <div className="bookingTime">
+                    {bookingTimes.map((time, index) =>(
+                      <div key={index} className="section__times">
+                          <p>{time}</p>
                       </div>
-                      <div className="booking">
-                        <p>Serviço • {booking.service_name}</p>
-                        <p>Profissional • {booking.professional_name}</p>
-                        <p>Preço do Serviço • {booking.service_price}</p>
-                        <p>Nome do Cliente • {booking.user_name}</p>
-                        <p>Telefone do Cliente • {booking.user_phone}</p>
-                    </div>
-                    </div>
-                );
-            })}
+                    ))}
+                  </div>
+                  <div className="booking">
+                    <p>Serviço • {booking.service_name}</p>
+                    <p>Profissional • {booking.professional_name}</p>
+                    <p>Preço • {booking.service_price}</p>
+                    <p>Cliente • {booking.user_name}</p>
+                    <p>Contato do Cliente • {booking.user_phone}</p>
+                </div>
+                </div>
+            );
+        })}
+    </div>
+      ):(
+        <div className="inforService">
+          <IoIosInformationCircleOutline className="Icon__info"/>
+          <p >Selecione um dia para visualizar os agendamentos.</p>
         </div>
+      )}
     </div>
     </main>
 );

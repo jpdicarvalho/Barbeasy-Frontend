@@ -295,8 +295,8 @@ useEffect(()=> {
             ))
             ):(
               <div className="inforService">
-              <IoIosInformationCircleOutline className="Icon__info"/>
-              <p >Selecione um profissional para visualizar os serviços.</p>
+                <IoIosInformationCircleOutline className="Icon__info"/>
+                <p >Selecione um profissional para visualizar os serviços.</p>
               </div>
               
             )}
