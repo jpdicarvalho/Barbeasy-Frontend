@@ -165,7 +165,9 @@ return (
 <main>
     <div className="container__main">
       <div className='header_container'>
-
+      <div className="settings" onClick={navigateToProfileBarbearia}>
+          <CgMenuRightAlt />
+        </div>
         <div className="img__user">
         {imageUser.length > 48 ? (
                   <div className="img-view-profile">
@@ -179,16 +181,11 @@ return (
         </div>
 
         <div className="user__name">
-          <p>Olá, {barbeariaUserName}</p>
-          <p>{saudacao}</p>
+          <p>Olá, {barbeariaUserName}!</p>
+          <p> {saudacao}</p>
         </div>
 
-        <div className="settings" onClick={navigateToProfileBarbearia}>
-          <CgMenuRightAlt />
-        </div>
-      </div>
-    
-      <div className="container__calendar__barbearia">
+        <div className="container__calendar__barbearia">
       <div className='calendar__barbearia'>
           <div className="list__Names__Week__And__Day">
           {weekDays.map((dayOfWeek, index) => (
@@ -206,6 +203,8 @@ return (
           </div>
         </div>
       </div>
+      </div>
+    
       {selectedDay ? (
         <div className="section__bookings">
         {bookings.map((booking, index) => {
