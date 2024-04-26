@@ -168,44 +168,42 @@ return (
 <main>
     <div className="container__main">
       <div className='header_container'>
-      <div className="settings" onClick={navigateToProfileBarbearia}>
-          <CgMenuRightAlt />
-        </div>
         <div className="img__user">
-        {imageUser.length > 48 ? (
-                  <div className="img-view-profile">
+            {imageUser.length > 48 ? (
+                  <div className="img-view-professional">
                     <img src={imageUser} alt="" id='img-profile' />
                   </div>
                 ) : (
                   <motion.div className="img-view-user">
                     <IoPersonOutline className='icon_user_edit'/>
                   </motion.div>
-                )}
+            )}
+            <div className="user__name">
+                <p>Olá, {barbeariaUserName}!</p>
+                <p> {saudacao}</p>
+            </div>
+            <div className="settings" onClick={navigateToProfileBarbearia}>
+              <CgMenuRightAlt />
+            </div>
         </div>
-
-        <div className="user__name">
-          <p>Olá, {barbeariaUserName}!</p>
-          <p> {saudacao}</p>
-        </div>
-
         <div className="container__calendar__barbearia">
-      <div className='calendar__barbearia'>
-          <div className="list__Names__Week__And__Day">
-          {weekDays.map((dayOfWeek, index) => (
-              <div key={`weekDay-${index}`} className="list__name__Week">
-                <div
-                  className={`dayWeekCurrent ${selectedDay === `${dayOfWeek}, ${numberDays[index].number} de ${numberDays[index].month} de ${year}` ? 'selectedDay' : ''} ${numberDays[index].isCurrentDay ? 'currentDay' : ''}`}
-                  onClick={() => handleDateClick(dayOfWeek, numberDays[index].number, numberDays[index].month, year)}
-                >
-                  <p className='Box__day'>{dayOfWeek}</p>
-                  <p className='Box__NumDay'>{numberDays[index].number}</p>
-                  <p className='Box__month'>{numberDays[index].month}</p>
+          <div className='calendar__barbearia'>
+            <div className="list__Names__Week__And__Day">
+            {weekDays.map((dayOfWeek, index) => (
+                <div key={`weekDay-${index}`} className="list__name__Week">
+                  <div
+                    className={`dayWeekCurrent ${selectedDay === `${dayOfWeek}, ${numberDays[index].number} de ${numberDays[index].month} de ${year}` ? 'selectedDay' : ''} ${numberDays[index].isCurrentDay ? 'currentDay' : ''}`}
+                    onClick={() => handleDateClick(dayOfWeek, numberDays[index].number, numberDays[index].month, year)}
+                  >
+                    <p className='Box__day'>{dayOfWeek}</p>
+                    <p className='Box__NumDay'>{numberDays[index].number}</p>
+                    <p className='Box__month'>{numberDays[index].month}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
-      </div>
       </div>
     
       {selectedDay ? (

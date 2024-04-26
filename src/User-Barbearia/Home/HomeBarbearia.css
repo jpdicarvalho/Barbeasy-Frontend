@@ -10,7 +10,6 @@
   align-items: center;
   flex-direction: column;
   width: 100%;
-
 }
 .header_container{
   position: fixed;
@@ -25,23 +24,33 @@
 }
 .img__user{
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  width: 100%;
+  width: 385px;
   height: 80px;
+}
+.img-view-professional{
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  overflow: hidden;
 }
 .user__name{
   display: flex;
-  justify-content: center;
+  justify-content: start;
   flex-direction: column;
-  align-items: center;
-  width: 100%;
+  width: 300px;
+  padding-left: 10px;
 }
 .settings{
-  width: 100%;
-  height: 35px;
+  width: 35px;
   font-size: 35px;
-  padding-bottom: 20px;
+}
+.barbeasy{
+  color: #354249;
+  width: 100%;
+  text-align: center;
+  font-size: 30px;
 }
 .calendar__barbearia{
   overflow-y: hidden;
