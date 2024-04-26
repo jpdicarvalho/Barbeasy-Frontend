@@ -34,7 +34,7 @@ function SignInBarbearia() {
             setMessage('Seja Bem Vindo!');
             setTimeout(() => {
               setMessage(null);
-              navigate('/profileBarbearia');
+              navigate('/HomeBarbearia');
             }, 2000);
 
           } else {

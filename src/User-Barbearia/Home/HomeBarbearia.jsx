@@ -7,6 +7,9 @@ import './HomeBarbearia.css';
 import { IoPersonOutline } from "react-icons/io5";
 import { CgMenuRightAlt } from "react-icons/cg";
 import { IoIosInformationCircleOutline } from "react-icons/io";
+import { GiRazorBlade } from "react-icons/gi";
+import { TfiTime } from "react-icons/tfi";
+
 
 const monthNames = [
   'Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun', 'Jul', 'Aug', 'Set', 'Out', 'Nov', 'Dez'
@@ -160,7 +163,7 @@ const handleDateClick = (dayOfWeek, day, month, year) => {
     })
     .catch(err => console.log(err));
 }
-
+console.log(bookings)
 return (
 <main>
     <div className="container__main">
@@ -211,17 +214,35 @@ return (
           const bookingTimes = booking.booking_time.split(',');
             return(
                 <div key={index} className='container__booking'>
-                  <div className="bookingTime">
-                    {bookingTimes.map((time, index) =>(
-                      <div key={index} className="section__times">
-                          <p>{time}</p>
-                      </div>
-                    ))}
-                  </div>
+                  
                   <div className="booking">
-                    <p>Serviço • {booking.service_name}</p>
-                    <p>Profissional • {booking.professional_name}</p>
-                    <p>Preço • {booking.service_price}</p>
+                    <div className="container_professional">
+                      <div className="Box__image  Box__first__letter__professional">
+                          <p className='firstLetter__professional_Span'>{booking.professional_name.charAt(0).toUpperCase()}</p>
+                      </div>
+                      <p className='name__Professional'>{booking.professional_name}</p>
+                      <div className="time__booking">
+                          <p className='time'>{booking.booking_time.split(',')[0]}</p>
+                      </div>
+                    </div>
+                    <div className="section__service__description">
+                      <div className="name__service">
+                        <p className='icon__Service'>
+                          <GiRazorBlade style={{marginRight:"5px"}}/>
+                          {booking.service_name}
+                        </p>
+                        <p>{booking.service_price}</p>
+                      </div>
+                      <div className="service__duration">
+                        <p className='icon__Service'>
+                          <TfiTime style={{marginRight:"5px"}}/>
+                          Duração
+                        </p>
+                        <p>{booking.service_duration}</p>
+                      </div>
+
+                    </div>
+                    
                     <p>Cliente • {booking.user_name}</p>
                     <p>Contato do Cliente • {booking.user_phone}</p>
                 </div>

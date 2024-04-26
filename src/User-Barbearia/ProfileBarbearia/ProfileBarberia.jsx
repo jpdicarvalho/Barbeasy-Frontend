@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom"
 
 import axios from 'axios';
 //Components
-import AddNewProfessional from '../Professional/addNewProfessional';
+import AddNewProfessional from '../AddNewProfessional/addNewProfessional';
 
 //Icons
 import { IoArrowBackSharp } from "react-icons/io5";
