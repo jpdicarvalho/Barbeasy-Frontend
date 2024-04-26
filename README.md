@@ -28,7 +28,7 @@ Tanto para clientes quanto para barbearias, basta acessar o site da plataforma [
 - **Back-End:** Node.js.
 - **Banco de Dados:** MySQL.
 - **Serviços de Hospedagem:**
-  - Railway: para a API;
+  - Railway: para a API e Banco de Dados;
   - AWS: para armazenamento de imagens.
 
 ## Modelo Entidade-Relacionamento
