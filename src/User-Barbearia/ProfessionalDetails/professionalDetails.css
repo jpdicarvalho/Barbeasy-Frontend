@@ -7,6 +7,8 @@
     left: 0;
     right: 0;
     overflow-y: scroll;
+    background: #0c0e19;
+
 }
 .container__professional{
     padding: 5px;

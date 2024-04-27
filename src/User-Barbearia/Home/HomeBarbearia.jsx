@@ -206,6 +206,12 @@ return (
         </div>
       </div>
     
+      {selectedDay &&(
+        <div className="tittle__bookings">
+          <p>Agendamentos • ({bookings.length})</p>
+        </div>
+      )}
+      
       {selectedDay ? (
         <div className="section__bookings">
         {bookings.map((booking, index) => {

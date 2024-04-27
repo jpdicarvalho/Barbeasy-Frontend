@@ -3,18 +3,14 @@
   padding: 0;
   box-sizing: border-box;
 }
-
 .container__main{ 
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
   width: 100%;
+  background: #0c0e19;
+  height: 750px;
 }
 .header_container{
-  position: fixed;
-  top: 0;
-  left: 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -28,6 +24,7 @@
   align-items: center;
   width: 385px;
   height: 80px;
+  padding-left: 5px;
 }
 .img-view-professional{
   width: 60px;
@@ -41,16 +38,11 @@
   flex-direction: column;
   width: 300px;
   padding-left: 10px;
+  font-size: 14px;
 }
 .settings{
   width: 35px;
   font-size: 35px;
-}
-.barbeasy{
-  color: #354249;
-  width: 100%;
-  text-align: center;
-  font-size: 30px;
 }
 .calendar__barbearia{
   overflow-y: hidden;
@@ -71,8 +63,27 @@
   background: #f6f6f6; 
 }
 .section__bookings{
-  padding-top: 260px;
   width: 385px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+.section__bookings::-webkit-scrollbar {
+  width: 5px;
+}
+.section__bookings::-webkit-scrollbar-thumb {
+  background: #4a17d5; 
+  border-radius: 5px;
+}
+.section__bookings::-webkit-scrollbar-thumb:hover {
+  background: #f6f6f6; 
+}
+.tittle__bookings{
+  padding-left: 5px;
+  font-size: 20px;
+  color: #fff;
+  font-weight: 400;
+  margin-top: 5px;
+  margin-bottom: 15px;
 }
 .container__booking{
   display: flex;
@@ -82,7 +93,6 @@
   width: 385px;
 }
 .booking{
-  padding-left: 5px;
   background-color: #4a17d5;
   background: rgba(59, 20, 216, 0.1);
   border-left: 5px solid #0f0;
