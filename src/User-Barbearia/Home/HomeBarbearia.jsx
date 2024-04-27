@@ -74,6 +74,8 @@ obterSaudacao();
 //Função para pegar os dias da semana
 const [selectedDay, setSelectedDay] = useState(null);
 const [bookings, setBookings] = useState([]);
+const [messagemNotFound, setMessagemNotFound] = useState("");
+
 
 function getWeeks() {
   const arrayWeeks = [];
@@ -145,10 +147,6 @@ function orderBookings(bookings) {
   });
 }
 
-// Chamando a função para ordenar os bookings por menor horário
-orderBookings(bookings);
-
-
 const weekDays = getWeeks();
 const numberDays = getNumber();
 const currentDay = getCurrentDayOfWeek()
@@ -159,11 +157,18 @@ const handleDateClick = (dayOfWeek, day, month, year) => {
 
     axios.get(`https://api-user-barbeasy.up.railway.app/api/bookings/${barbeariaId}/${selectedDate}`)
     .then(res => {
-      setBookings(res.data.bookings);
+      if(res.data.Message === "true"){
+        setBookings(res.data.bookings);
+        // Chamando a função para ordenar os bookings por menor horário
+        orderBookings(bookings);
+      }else{
+        setBookings([])
+        setMessagemNotFound("Nenhum agendamento encontrado")
+      }
     })
     .catch(err => console.log(err));
 }
-console.log(bookings)
+
 return (
 <main>
     <div className="container__main">
@@ -206,7 +211,7 @@ return (
         </div>
       </div>
     
-      {selectedDay &&(
+      {bookings.length > 0 && (
         <div className="tittle__bookings">
           <p>Agendamentos • ({bookings.length})</p>
         </div>
@@ -214,49 +219,56 @@ return (
       
       {selectedDay ? (
         <div className="section__bookings">
-        {bookings.map((booking, index) => {
-          const bookingTimes = booking.booking_time.split(',');
-            return(
-                <div key={index} className='container__booking'>
-                  
-                  <div className="booking">
-                    <div className="container_professional">
-                      <div className="Box__image  Box__first__letter__professional">
-                          <p className='firstLetter__professional_Span'>{booking.professional_name.charAt(0).toUpperCase()}</p>
-                      </div>
-                      <p className='name__Professional'>{booking.professional_name}</p>
-                      <div className="time__booking">
-                          <p className='time'>{booking.booking_time.split(',')[0]}</p>
-                      </div>
-                    </div>
-                    <div className="section__service__description">
-                      <div className="name__service">
-                        <p className='icon__Service'>
-                          <GiRazorBlade style={{marginRight:"5px"}}/>
-                          {booking.service_name}
-                        </p>
-                        <p>{booking.service_price}</p>
-                      </div>
-                      <div className="service__duration">
-                        <p className='icon__Service'>
-                          <TfiTime style={{marginRight:"5px"}}/>
-                          Duração
-                        </p>
-                        <p>{booking.service_duration}</p>
-                      </div>
-
-                    </div>
+        {bookings.length > 0 ? (
+          bookings.map((booking, index) => {
+            const bookingTimes = booking.booking_time.split(',');
+              return(
+                  <div key={index} className='container__booking'>
                     
-                    <p>Cliente • {booking.user_name}</p>
-                    <p>Contato do Cliente • {booking.user_phone}</p>
-                </div>
-                </div>
-            );
-        })}
+                    <div className="booking">
+                      <div className="container_professional">
+                        <div className="Box__image  Box__first__letter__professional">
+                            <p className='firstLetter__professional_Span'>{booking.professional_name.charAt(0).toUpperCase()}</p>
+                        </div>
+                        <p className='name__Professional'>{booking.professional_name}</p>
+                        <div className="time__booking">
+                            <p className='time'>{booking.booking_time.split(',')[0]}</p>
+                        </div>
+                      </div>
+                      <div className="section__service__description">
+                        <div className="name__service">
+                          <p className='icon__Service'>
+                            <GiRazorBlade style={{marginRight:"5px"}}/>
+                            {booking.service_name}
+                          </p>
+                          <p>{booking.service_price}</p>
+                        </div>
+                        <div className="service__duration">
+                          <p className='icon__Service'>
+                            <TfiTime style={{marginRight:"5px"}}/>
+                            Duração
+                          </p>
+                          <p>{booking.service_duration}</p>
+                        </div>
+  
+                      </div>
+                      
+                      <p>Cliente • {booking.user_name}</p>
+                      <p>Contato do Cliente • {booking.user_phone}</p>
+                  </div>
+                  </div>
+              );
+          })
+        ):(
+          <div className="message__notFound">
+          <p>{messagemNotFound}</p>
+          <p style={{fontSize:"30px"}}>:(</p>
+        </div>
+        )}
+
     </div>
       ):(
-        <div className="inforService">
-          <IoIosInformationCircleOutline className="Icon__info"/>
+        <div className="message__notFound">
           <p >Selecione um dia para visualizar os agendamentos.</p>
         </div>
       )}
