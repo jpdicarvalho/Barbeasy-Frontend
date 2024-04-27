@@ -16,6 +16,7 @@
   align-items: center;
   flex-direction: column;
   padding: 10px;
+  background: #0c0e19;
 }
 .header__container{
   display: flex;

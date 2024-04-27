@@ -110,15 +110,20 @@
   border-radius: 10px;
   margin-bottom: 10px;
   width: 375px;
-  height: 125px;
+  height: 155px;
   color: #354249;
+  transition: 0.5s;
   overflow: hidden;
+}
+.expandCard{
+  height: 200px;
+  transition: 0.5s;
 }
 .time__booking{
   display: flex;
   justify-content: end;
   color: black;
-  width: 230px;
+  width: 60px;
   padding-right: 5px;
 }
 .time{
@@ -136,6 +141,7 @@
   display: flex;
   padding-left: 5px;
   padding-top: 5px;
+  margin-bottom: 10px;
 }
 .Box__first__letter__professional {
   width: 20px;
@@ -146,20 +152,15 @@
 }
 .name__Professional{
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   margin-left: 10px;
+  width: 250px;
 }
-.section__service__description{
+.section__information__booking{
   padding-left: 5px;
-  padding-top: 10px;
 }
-.service__tittle{
-  font-weight: bold;
-  color: #354249;
-  margin-bottom: 3px;
-}
-.name__service{
+.tittle__information{
   display: flex;
   justify-content: space-between;
   padding-right: 5px;
@@ -167,18 +168,19 @@
   font-size: 14px;
   color: #354249;
 }
-.icon__Service{
+.section__icon{
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.service__duration{
+.icon__information{
   display: flex;
-  justify-content: space-between;
-  padding-right: 5px;
-  margin-bottom: 5px;
-  font-size: 14px;
-  color: #354249;
+  justify-content: center;
+  align-items: center;
+  margin-right: 5px;
+  font-size: 15px;
+  width: 15px;
+  height: 15px;
 }
 .bookingTime{
   display: flex;
@@ -189,4 +191,20 @@
   color: #354249;
   width: 50px;
   height: auto;
+}
+.view__more{
+  bottom: 5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #f6f6f6;
+  cursor: pointer;
+  font-size: 14px;
+  opacity: 1;
+  transition: 0.5s;
+}
+.view__shorter{
+  opacity: 0;
+  width: 0;
+  height: 0;
 }

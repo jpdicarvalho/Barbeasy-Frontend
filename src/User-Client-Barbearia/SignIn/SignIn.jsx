@@ -53,68 +53,70 @@ function SignIn() {
   }
 
   return (
-    <form onSubmit={sendForm} className="container">
+    <div className="container__default">
+      <form onSubmit={sendForm} className="container">
 
-      <div className="imgBox">
-        <img src={barberLogo} alt="" />
-      </div>
+<div className="imgBox">
+  <img src={barberLogo} alt="" />
+</div>
 
-      <h2 id="HeaderSignIn">Barbeasy</h2>
-      <span>Login</span>
-      {message === 'Seja Bem Vindo!' ? (
-        <p className="success">{message}</p>
-      ) : (
-        <p className="error">{message}</p>
-      )}
+<h2 id="HeaderSignIn">Barbeasy</h2>
+<span>Login</span>
+{message === 'Seja Bem Vindo!' ? (
+  <p className="success">{message}</p>
+) : (
+  <p className="error">{message}</p>
+)}
 
-      <div className="inputBox">
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value={values.email}
-          onChange={(e) => {
-            const inputValue = e.target.value;
-            // Substituir o conteúdo do campo para conter apenas números, letras, "@" e "."
-            const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9@.]/g, '');
-            // Limitar a 50 caracteres
-            const truncatedValue = sanitizedValue.slice(0, 50);
-            setValues({ ...values, email: truncatedValue });
-          }}
-          placeholder="Email"
-          required
-        />{' '} <i className="fa-solid fa-envelope Icon"></i>
-      </div>
+<div className="inputBox">
+  <input
+    type="email"
+    id="email"
+    name="email"
+    value={values.email}
+    onChange={(e) => {
+      const inputValue = e.target.value;
+      // Substituir o conteúdo do campo para conter apenas números, letras, "@" e "."
+      const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9@.]/g, '');
+      // Limitar a 50 caracteres
+      const truncatedValue = sanitizedValue.slice(0, 50);
+      setValues({ ...values, email: truncatedValue });
+    }}
+    placeholder="Email"
+    required
+  />{' '} <i className="fa-solid fa-envelope Icon"></i>
+</div>
 
-      <div className="inputBox">
-        <input
-          type="password"
-          id="senha"
-          name="senha"
-          value={values.senha}
-          onChange={(e) => {
-            const inputValue = e.target.value;
-            // Limitar a 8 caracteres
-            const truncatedValue = inputValue.slice(0, 8);
-            setValues({ ...values, senha: truncatedValue });
-          }}
-          placeholder="Password"
-          required
-        />{' '}
-        <i className="fa-solid fa-lock Icon"></i>
-      </div>
+<div className="inputBox">
+  <input
+    type="password"
+    id="senha"
+    name="senha"
+    value={values.senha}
+    onChange={(e) => {
+      const inputValue = e.target.value;
+      // Limitar a 8 caracteres
+      const truncatedValue = inputValue.slice(0, 8);
+      setValues({ ...values, senha: truncatedValue });
+    }}
+    placeholder="Password"
+    required
+  />{' '}
+  <i className="fa-solid fa-lock Icon"></i>
+</div>
 
-      <div className="inputBox">
-        <input type="submit" value="Entrar" />
-      </div>
+<div className="inputBox">
+  <input type="submit" value="Entrar" />
+</div>
 
-      <div className="link__signup">
-        <p>Não tem uma conta?</p>
-        <Link className="link" to="/SignUp">
-          Criar Conta
-        </Link>
-      </div>
-    </form>
+<div className="link__signup">
+  <p>Não tem uma conta?</p>
+  <Link className="link" to="/SignUp">
+    Criar Conta
+  </Link>
+</div>
+      </form>
+    </div>
   );
 }
 

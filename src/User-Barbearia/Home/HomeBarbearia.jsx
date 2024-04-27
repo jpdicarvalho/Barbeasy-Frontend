@@ -6,9 +6,10 @@ import {motion} from 'framer-motion';
 import './HomeBarbearia.css';
 import { IoPersonOutline } from "react-icons/io5";
 import { CgMenuRightAlt } from "react-icons/cg";
-import { IoIosInformationCircleOutline } from "react-icons/io";
 import { GiRazorBlade } from "react-icons/gi";
 import { TfiTime } from "react-icons/tfi";
+import { IoPersonCircleOutline } from "react-icons/io5";
+import { FaWhatsapp } from "react-icons/fa";
 
 
 const monthNames = [
@@ -74,6 +75,7 @@ obterSaudacao();
 //Função para pegar os dias da semana
 const [selectedDay, setSelectedDay] = useState(null);
 const [bookings, setBookings] = useState([]);
+const [expandedCardBooking, setExpandedCardBooking] = useState([]);
 const [messagemNotFound, setMessagemNotFound] = useState("");
 
 
@@ -169,6 +171,14 @@ const handleDateClick = (dayOfWeek, day, month, year) => {
     .catch(err => console.log(err));
 }
 
+//Function to expanded booking cards
+const toggleItem = (itemId) => {
+    if (expandedCardBooking.includes(itemId)) {
+      setExpandedCardBooking(expandedCardBooking.filter(id => id !== itemId));
+    } else {
+      setExpandedCardBooking([...expandedCardBooking, itemId]);
+    }
+};
 return (
 <main>
     <div className="container__main">
@@ -218,14 +228,13 @@ return (
       )}
       
       {selectedDay ? (
-        <div className="section__bookings">
+        <div className="section__bookings" >
         {bookings.length > 0 ? (
           bookings.map((booking, index) => {
             const bookingTimes = booking.booking_time.split(',');
               return(
                   <div key={index} className='container__booking'>
-                    
-                    <div className="booking">
+                    <div className={`booking ${expandedCardBooking.includes(booking.booking_id) ? 'expandCard':''}`}>
                       <div className="container_professional">
                         <div className="Box__image  Box__first__letter__professional">
                             <p className='firstLetter__professional_Span'>{booking.professional_name.charAt(0).toUpperCase()}</p>
@@ -235,26 +244,41 @@ return (
                             <p className='time'>{booking.booking_time.split(',')[0]}</p>
                         </div>
                       </div>
-                      <div className="section__service__description">
-                        <div className="name__service">
-                          <p className='icon__Service'>
-                            <GiRazorBlade style={{marginRight:"5px"}}/>
+                      <div className="section__information__booking">
+                        <div className="tittle__information">
+                          <p className='section__icon'>
+                            <GiRazorBlade className='icon__information'/>
                             {booking.service_name}
                           </p>
                           <p>{booking.service_price}</p>
                         </div>
-                        <div className="service__duration">
-                          <p className='icon__Service'>
-                            <TfiTime style={{marginRight:"5px"}}/>
+                        <div className="tittle__information">
+                          <p className='section__icon'>
+                            <TfiTime className='icon__information'/>
                             Duração
                           </p>
                           <p>{booking.service_duration}</p>
                         </div>
-  
                       </div>
-                      
-                      <p>Cliente • {booking.user_name}</p>
-                      <p>Contato do Cliente • {booking.user_phone}</p>
+                      <div onClick={() => toggleItem(booking.booking_id)} className={`view__more ${expandedCardBooking.includes(booking.booking_id) ? 'view__shorter':''}`}>
+                          Ver detalhes
+                      </div>
+                      <div className="section__information__booking">
+                        <div className="tittle__information">
+                          <p className='section__icon'>
+                            <IoPersonCircleOutline className='icon__information' />
+                            Cliente
+                          </p>
+                          <p>{booking.user_name}</p>
+                        </div>
+                        <div className="tittle__information">
+                          <p className='section__icon'>
+                            <FaWhatsapp className='icon__information'/>
+                            Contato
+                          </p>
+                          <p>{booking.user_phone}</p>
+                        </div>
+                      </div>
                   </div>
                   </div>
               );
@@ -273,6 +297,7 @@ return (
         </div>
       )}
     </div>
+    
     </main>
 );
 }

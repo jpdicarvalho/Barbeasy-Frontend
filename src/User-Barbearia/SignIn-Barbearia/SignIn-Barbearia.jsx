@@ -54,6 +54,7 @@ function SignInBarbearia() {
       }
 
     return (
+      <div className="container__default">
         <form onSubmit={sendForm} className="container">
             <div className="imgBox">
                 <img src={barberLogo} alt="" />
@@ -107,7 +108,8 @@ function SignInBarbearia() {
                 <div className="link__signup">
                     <p>Não tem uma conta?</p><Link className="link" to="/SignUpBarbearia">Criar Conta</Link>
                 </div>
-            </form>
+        </form>
+      </div>
     );
 }
 

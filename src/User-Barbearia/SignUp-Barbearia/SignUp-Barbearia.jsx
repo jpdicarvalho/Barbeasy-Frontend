@@ -71,7 +71,8 @@ function SignUpBarbearia() {
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="container">
+      <div className="container__default">
+          <form onSubmit={handleSubmit} className="container">
         <div className="imgBox">
           <img src={barberLogo} alt="" />
         </div>
@@ -249,7 +250,8 @@ function SignUpBarbearia() {
         <div className="link__login">
           <p>Você já tem uma conta?</p><Link className="link" to="/SignInBarbearia">Login</Link>
         </div>
-      </form>
+          </form>
+      </div>
     </>
   );
 }
