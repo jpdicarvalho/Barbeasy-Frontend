@@ -45,8 +45,14 @@ O Diagrama de Componentes do Barbeasy ilustra a arquitetura de software, destaca
 
 # Implementação
 
-### Para rodar esse projeto em seu ambiente de desenvolvimento, siga os passos abaixo:
-  - Baixar esse repositório;
-  - instalar o node.js; e
+## Para rodar esse projeto em seu ambiente de desenvolvimento, siga os passos abaixo:
+  ### Front-End:
+    - Baixar o presente repositório;
+    - instalar o node.js;
+    - abrir o projeto no ambiente de desenvolvimento (Ex.: VScode);
+    - baixar as dependencias necessárias, usando o comando ```npm install ``` no terminal do ambiente; e
+    - execultar o projeto usando o comando ```npm run dev ``` no terminal do ambiente.
+
+###  Back-end
 
 # Isso é tudo pessoal! Obrigado!
