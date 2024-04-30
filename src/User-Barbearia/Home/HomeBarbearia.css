@@ -110,13 +110,13 @@
   border-radius: 10px;
   margin-bottom: 10px;
   width: 375px;
-  height: 155px;
+  height: 125px;
   color: #354249;
   transition: 0.5s;
   overflow: hidden;
 }
 .expandCard{
-  height: 200px;
+  height: 180px;
   transition: 0.5s;
 }
 .time__booking{
@@ -149,6 +149,7 @@
 }
 .firstLetter__professional_Span{
   font-size: 30px;
+  color: #f6f6f6;
 }
 .name__Professional{
   display: flex;
@@ -156,6 +157,7 @@
   align-items: center;
   margin-left: 10px;
   width: 250px;
+  color: #f6f6f6;
 }
 .section__information__booking{
   padding-left: 5px;
@@ -164,9 +166,9 @@
   display: flex;
   justify-content: space-between;
   padding-right: 5px;
-  margin-bottom: 1px;
+  margin-bottom: 5px;
   font-size: 14px;
-  color: #354249;
+  color: #f6f6f6;
 }
 .section__icon{
   display: flex;
@@ -191,20 +193,4 @@
   color: #354249;
   width: 50px;
   height: auto;
-}
-.view__more{
-  bottom: 5;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #f6f6f6;
-  cursor: pointer;
-  font-size: 14px;
-  opacity: 1;
-  transition: 0.5s;
-}
-.view__shorter{
-  opacity: 0;
-  width: 0;
-  height: 0;
 }

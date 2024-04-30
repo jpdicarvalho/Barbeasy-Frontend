@@ -233,7 +233,7 @@ return (
           bookings.map((booking, index) => {
             const bookingTimes = booking.booking_time.split(',');
               return(
-                  <div key={index} className='container__booking'>
+                  <div key={index} className='container__booking' onClick={() => toggleItem(booking.booking_id)}>
                     <div className={`booking ${expandedCardBooking.includes(booking.booking_id) ? 'expandCard':''}`}>
                       <div className="container_professional">
                         <div className="Box__image  Box__first__letter__professional">
@@ -259,9 +259,6 @@ return (
                           </p>
                           <p>{booking.service_duration}</p>
                         </div>
-                      </div>
-                      <div onClick={() => toggleItem(booking.booking_id)} className={`view__more ${expandedCardBooking.includes(booking.booking_id) ? 'view__shorter':''}`}>
-                          Ver detalhes
                       </div>
                       <div className="section__information__booking">
                         <div className="tittle__information">
