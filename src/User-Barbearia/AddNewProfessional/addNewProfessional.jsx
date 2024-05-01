@@ -7,7 +7,7 @@ import { IoClose } from "react-icons/io5";
 import { MdOutlineDone } from "react-icons/md";
 import { VscError } from "react-icons/vsc";
 import { IoSearchOutline } from "react-icons/io5";
-
+import { IoMdClose } from "react-icons/io";
 
 export default function AddNewProfessional ({ openModal, setCloseModal }){
 
@@ -66,6 +66,8 @@ const createNewProfessional = () =>{
 
 //===== Function to get all professional =====
 const [professional, setProfessional] = useState([])
+const [searchProfessional, setSearchProfessional] = useState('');
+
 //Function to get all professionais
 useEffect(() => {
   const getProfessional = () =>{
@@ -90,7 +92,14 @@ if(openModal){
                 </div>
                 <div className="inputBox__search">
                   <IoSearchOutline className="icon__lupa"/>
-                  <input type="search" className="inputSearch" placeholder="Digite o nome do profissional"/>
+                  
+                  <input type="search"
+                  className="inputSearch"
+                  onChange={(e) => setSearchProfessional(e.target.value)}
+                  placeholder="Digite o nome do profissional"/>
+                  {searchProfessional.length > 0 &&(
+                    <IoMdClose className="icon__ClearInput"/>
+                  )}
                 </div>
                 {professional.map(professional => { 
                   // Obtendo a primeira letra do nome do profissional
