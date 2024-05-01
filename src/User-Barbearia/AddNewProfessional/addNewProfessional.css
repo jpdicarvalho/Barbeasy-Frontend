@@ -16,14 +16,30 @@
     background: #1c2035;
     padding: 10px;
     border-radius: 10px;
+    z-index: 1001;
 }
 .section_search_professional{
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  height: 100%; 
+}
+.Btn__closeModal{
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  border: none;
+  background: red;
+  color: #fff;
+}
+.icon_close{
+  width: 100%;
+  height: 100%;
 }
 .tittle__search__professional{
+  display: flex;
+  justify-content: space-between;
   width: 100%;
   padding-top: 5px;
   font-size: 20px;
@@ -78,117 +94,89 @@
   margin-bottom: 10px;
   padding: 5px;
 }
-.closeModal{
-    display: flex;
-    justify-content: flex-end;
-    width: 100%;
-}
-.Btn__closeModal{
-    width: 30px;
-    height: 30px;
-    border-radius: 10px;
-    border: none;
-    background: red;
-    color: #fff;
-}
-.icon_close{
-    width: 100%;
-    height: 100%;
-}
-.section__addImageProfessional{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    width: 100%;
-    margin-bottom: 15px;
-    cursor: pointer;
-    overflow: hidden;
-}
-.addImageProfessional{
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 75px;
-    height: 75px;
-    border-radius: 50%;
-    background: #141728;
-    border: 1px dashed #4a17d5;
-    cursor: pointer;
-    overflow: hidden;
-    object-fit: cover;
-}
-.Box__imageProfessional{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    overflow: hidden;
-}
-.Image__selected{
-   width: 100%;
-   height: 100%;
-    
-}
-.icon_AddImage{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 50px;
-    height: 50px;
-    color: #4a17d5;
-    cursor: pointer;
+.section__form{
+  opacity: 1;
+  height: 300px;
+  transition: 0.5s;
 }
 .coolinput {
-    display: flex;
-    flex-direction: column;
-    width: fit-content;
-    position: static;
-    width: 100%;
-  }
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  position: static;
+  width: 100%;
+}
   
-  .coolinput label.text {
-    font-size: 0.75rem;
-    color: #fff;
-    font-weight: 700;
-    position: relative;
-    top: 0.5rem;
-    margin: 0 0 0 7px;
-    padding: 0 3px;
-    background: #1c2035;
-    width: fit-content;
-  }
+.coolinput label.text {
+  font-size: 0.75rem;
+  color: #fff;
+  font-weight: 700;
+  position: relative;
+  top: 0.5rem;
+  margin: 0 0 0 7px;
+  padding: 0 3px;
+  background: #1c2035;
+  width: fit-content;
+}
+
+.coolinput input[type=text].input {
+  padding: 11px 10px;
+  font-size: 0.75rem;
+  border: 2px #4a17d5 solid;
+  border-radius: 5px;
+  background: #1c2035;
+}
+
+.coolinput input[type=text].input:focus {
+  outline: none;
+}
+.coolinput input[type=email].input {
+  padding: 11px 10px;
+  font-size: 0.75rem;
+  border: 2px #4a17d5 solid;
+  border-radius: 5px;
+  background: #1c2035;
+}
   
-  .coolinput input[type=text].input {
-    padding: 11px 10px;
-    font-size: 0.75rem;
-    border: 2px #4a17d5 solid;
-    border-radius: 5px;
-    background: #1c2035;
-  }
-  
-  .coolinput input[type=text].input:focus {
-    outline: none;
-  }
-  .coolinput input[type=email].input {
-    padding: 11px 10px;
-    font-size: 0.75rem;
-    border: 2px #4a17d5 solid;
-    border-radius: 5px;
-    background: #1c2035;
-  }
-  
-  .coolinput input[type=email].input:focus {
-    outline: none;
-  }
-  .coolinput input[type=password].input {
-    padding: 11px 10px;
-    font-size: 0.75rem;
-    border: 2px #4a17d5 solid;
-    border-radius: 5px;
-    background: #1c2035;
-  }
-  
-  .coolinput input[type=password].input:focus {
-    outline: none;
-  }
+.coolinput input[type=email].input:focus {
+  outline: none;
+}
+.coolinput input[type=password].input {
+  padding: 11px 10px;
+  font-size: 0.75rem;
+  border: 2px #4a17d5 solid;
+  border-radius: 5px;
+  background: #1c2035;
+}
+
+.coolinput input[type=password].input:focus {
+  outline: none;
+}
+.Box__Button{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.button__back__search{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  border: 2px #4a17d5 solid;
+  width: 50px;
+  height: 38px;
+  color: #fff;
+  font-size: 30px;
+  margin-top: 5px;
+}
+.button__addNewProfessional{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  border: 2px #4a17d5 solid;
+  width: 100%;
+  height: 38px;
+  color: #fff;
+  font-size: 15px;
+}
