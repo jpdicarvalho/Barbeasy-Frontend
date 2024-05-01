@@ -6,6 +6,7 @@ import './addNewProfessional.css'
 import { IoClose } from "react-icons/io5";
 import { MdOutlineDone } from "react-icons/md";
 import { VscError } from "react-icons/vsc";
+import { IoSearchOutline } from "react-icons/io5";
 
 
 export default function AddNewProfessional ({ openModal, setCloseModal }){
@@ -63,25 +64,48 @@ const createNewProfessional = () =>{
     }
 }
 
-/*
-//Metodo para mandar as imagens automaticamente para o back-end
+//===== Function to get all professional =====
+const [professional, setProfessional] = useState([])
+//Function to get all professionais
 useEffect(() => {
-  // Configura um temporizador para esperar 1 segundo após a última mudança no input de arquivo
-  const timeout = setTimeout(() => {
-    // Executa a função de upload após o período de espera
-    handleUpload();
-  }, 1000);
-
-  // Limpa o temporizador se o componente for desmontado ou se houver uma nova mudança no input de arquivo
-  return () => clearTimeout(timeout);
-}, [file]);*/
+  const getProfessional = () =>{
+  axios.get(`https://api-user-barbeasy.up.railway.app/api/professional/${barbeariaId}`)
+    .then(res => {
+      setProfessional(res.data.Professional)
+    })
+    .catch(error => console.log(error));
+  }
+  getProfessional()
+}, [barbeariaId])
 
 if(openModal){
     return (
         <>
         <div className="container__form">
-            <div className="section__form">
-
+          
+            <div className="section_professional">
+              <div className="section_search_professional">
+                <div className="tittle__search__professional">
+                  <p>Adicionar Profissional</p>
+                </div>
+                <div className="inputBox__search">
+                  <IoSearchOutline className="icon__lupa"/>
+                  <input type="search" className="inputSearch" placeholder="Digite o nome do profissional"/>
+                </div>
+                {professional.map(professional => { 
+                  // Obtendo a primeira letra do nome do profissional
+                  const firstLetter = professional.name.charAt(0).toUpperCase();
+                  
+                  return (
+                        <div key={professional.id} className='Box__search__professional'> 
+                          <div className="Box__image" style={{marginRight: '10px'}}>
+                            <p className='firstLetter'>{firstLetter}</p>
+                          </div>
+                          <p className='name__professional'>{professional.name}</p>
+                        </div>
+                      );
+                    })}
+                </div>
                 <div className="closeModal">
                     <button className="Btn__closeModal" onClick={setCloseModal}>
                         <IoClose className="icon_close"/>
@@ -168,7 +192,6 @@ if(openModal){
 
             </div>
         </div>
-            
         </>
     )
 }

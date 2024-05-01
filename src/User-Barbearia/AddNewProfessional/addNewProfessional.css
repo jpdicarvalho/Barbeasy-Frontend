@@ -9,12 +9,59 @@
     right: 0;
     background: rgba(0, 0, 0, 0.737);
     z-index: 1000;
+    opacity: 1;
 }
-.section__form{
+.section_professional{
     width: 350px;
     background: #1c2035;
-    padding: 5px;
+    padding: 10px;
     border-radius: 10px;
+}
+.section_search_professional{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.tittle__search__professional{
+  width: 100%;
+  padding-top: 5px;
+  font-size: 20px;
+  padding-left: 3px;
+  margin-bottom: 5px;
+  
+}
+.inputBox__search{
+  width: 100%;
+}
+.icon__lupa{
+  position: absolute;
+  margin-top: 10px;
+  font-size: 20px;
+  margin-left: 5px;
+}
+.inputSearch{
+  padding-left: 30px;
+  width: 100%;
+  height: 40px;
+  border-radius: 5px;
+  outline: none;
+  background: transparent;
+  border: 1px solid #4a17d5;
+  margin-bottom: 15px;
+  color: #fff;
+}
+.inputBox__search input[type="search"]::placeholder{
+  color: #fff;
+}
+.Box__search__professional{
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  width: 100%;
+  border: 1px solid #4a17d5;
+  margin-bottom: 10px;
+  padding: 5px;
 }
 .closeModal{
     display: flex;
