@@ -44,7 +44,7 @@
   padding-top: 5px;
   font-size: 20px;
   padding-left: 3px;
-  margin-bottom: 5px;
+  margin-bottom: 15px;
   
 }
 .inputBox__search{
@@ -60,7 +60,7 @@
   padding-left: 30px;
   width: 100%;
   height: 40px;
-  border-radius: 5px;
+  border-radius: 20px;
   outline: none;
   background: transparent;
   border: 1px solid #4a17d5;
@@ -90,9 +90,20 @@
   justify-content: start;
   align-items: center;
   width: 100%;
-  border: 1px solid #4a17d5;
+  box-shadow: -2px 3px 1px 2px #00000030;
+  border-radius: 12px;
   margin-bottom: 10px;
   padding: 5px;
+}
+.expandCard{
+  display: flex;
+  justify-content: center;
+  height: 80px;
+  justify-content: start;
+  align-items: center;
+  width: 100%;
+  border: 1px solid #4a17d5;
+  background: #1c2035;
 }
 .section__form{
   opacity: 1;

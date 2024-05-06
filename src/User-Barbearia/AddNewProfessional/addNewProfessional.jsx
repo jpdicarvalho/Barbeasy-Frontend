@@ -17,7 +17,8 @@ const userData = localStorage.getItem('dataBarbearia');//Obtendo os dados salvo 
 const userInformation = JSON.parse(userData);//trasnformando os dados para JSON
 const barbeariaId = userInformation.barbearia[0].id;
 
-// ===== Function to create a new professional ===== 
+// ===== Function to create a new professional =====
+const [expandedCardBooking, setExpandedCardBooking] = useState([]);
 const [showForm, setShowForm] = useState(false);
 const [showSearchProfessional, setShowSearchProfessional] = useState(true);
 
@@ -26,6 +27,7 @@ const [newPhoneProfessional, setNewPhoneProfessional] = useState('');
 const [newEmailProfessional, setNewEmailProfessional] = useState('');
 const [newPasswordProfessional, setNewPasswordProfessional] = useState('');
 const [messageAddProfessional, setMessageAddProfessional] = useState('');
+
 
 const alternarShowForm = () =>{
   setShowForm(!showForm)
@@ -79,14 +81,28 @@ const [searchProfessional, setSearchProfessional] = useState('');
 //Function to get all professionais
 useEffect(() => {
   const getProfessional = () =>{
-  axios.get(`https://api-user-barbeasy.up.railway.app/api/professional/${barbeariaId}`)
+  axios.get('https://api-user-barbeasy.up.railway.app/api/list-professional')
     .then(res => {
-      setProfessional(res.data.Professional)
+      if(res.data.Success === "Success"){
+        setProfessional(res.data.Professional)
+      }
     })
     .catch(error => console.log(error));
   }
   getProfessional()
-}, [barbeariaId])
+}, [])
+console.log(professional)
+
+
+//Function to expanded booking cards
+const toggleItem = (itemId) => {
+  if (expandedCardBooking.includes(itemId)) {
+    setExpandedCardBooking(expandedCardBooking.filter(id => id !== itemId));
+  } else {
+    setExpandedCardBooking([...expandedCardBooking, itemId]);
+  }
+};
+
 
 if(openModal){
     return (
@@ -117,7 +133,7 @@ if(openModal){
                                 const firstLetter = professional.name.charAt(0).toUpperCase();
                                 
                                 return (
-                                      <div key={professional.id} className='Box__search__professional'> 
+                                      <div key={professional.id} onClick={() => toggleItem(professional.id)} className={`Box__search__professional ${expandedCardBooking.includes(professional.id) ? 'expandCard':''}`}> 
                                         <div className="Box__image" style={{marginRight: '10px'}}>
                                           <p className='firstLetter'>{firstLetter}</p>
                                         </div>
@@ -126,7 +142,7 @@ if(openModal){
                                     );
                                   })}
                                 <button className="button__addNewProfessional" onClick={alternarShowForm}>
-                                  Adicionar Profissional
+                                  Cadastrar Profissional
                                 </button>
                             </div>
               )}
