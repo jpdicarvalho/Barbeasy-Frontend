@@ -9,6 +9,7 @@ import { VscError } from "react-icons/vsc";
 import { IoSearchOutline } from "react-icons/io5";
 import { IoMdClose } from "react-icons/io";
 import { IoIosArrowBack } from "react-icons/io";
+import { BsSearch } from "react-icons/bs";
 
 export default function AddNewProfessional ({ openModal, setCloseModal }){
 
@@ -77,18 +78,22 @@ const createNewProfessional = () =>{
 //===== Function to get all professional =====
 const [professional, setProfessional] = useState([])
 const [searchProfessional, setSearchProfessional] = useState('');
+const [messagemSearchProfessional, setMessagemSearchProfessional] = useState('');
 
 //Function to get all professionais
 const getProfessional = () => {
   axios.get(`https://api-user-barbeasy.up.railway.app/api/list-professional/${searchProfessional}`)
     .then(res => {
-      if(res.data.Success === "Success"){
+      if(res.data.Message === "True"){
         setProfessional(res.data.Professional)
+      }else{
+        setProfessional(res.data.Professional)
+        setMessagemSearchProfessional("Nenhum profissional encontrado")
       }
     })
     .catch(error => console.log(error));
   }
-
+console.log(professional.length)
 //Function to expanded booking cards
 const toggleItem = (itemId) => {
   if (expandedCardBooking.includes(itemId)) {
@@ -111,35 +116,55 @@ if(openModal){
                 </div>
               {showSearchProfessional &&(
                 <div className="section_search_professional">
-                              <div className="inputBox__search">
-                                <IoSearchOutline className="icon__lupa"/>
-                                
-                                <input type="search"
-                                className="inputSearch"
-                                onChange={(e) => setSearchProfessional(e.target.value)}
-                                placeholder="Digite o nome do profissional"/>
-                                {searchProfessional.length > 0 &&(
-                                  <IoMdClose className="icon__ClearInput"/>
-                                )}
-                              </div>
-                              {professional.map(professional => { 
-                                // Obtendo a primeira letra do nome do profissional
-                                const firstLetter = professional.name.charAt(0).toUpperCase();
-                                
-                                return (
-                                      <div key={professional.id} onClick={() => toggleItem(professional.id)} className={`Box__search__professional ${expandedCardBooking.includes(professional.id) ? 'expandCard':''}`}> 
-                                        <div className="Box__image" style={{marginRight: '10px'}}>
-                                          <p className='firstLetter'>{firstLetter}</p>
-                                        </div>
-                                        <p className='name__professional'>{professional.name}</p>
-                                      </div>
-                                    );
-                                  })}
-                                <button className="button__addNewProfessional" onClick={getProfessional}>
-                                  Buscar
-                                </button>
-                            </div>
+                    <div className="inputBox__search">
+                      <IoSearchOutline className="icon__lupa"/>
+                      
+                      <input type="search"
+                      className="inputSearch"
+                      onChange={(e) => setSearchProfessional(e.target.value)}
+                      placeholder="Digite o nome do profissional"/>
+                      {searchProfessional.length > 0 &&(
+                        <IoMdClose className="icon__ClearInput"/>
+                      )}
+                    </div>
+                    {professional.length > 0 ?(
+                        professional.map(professional => { 
+                          // Obtendo a primeira letra do nome do profissional
+                          const firstLetter = professional.name.charAt(0).toUpperCase();
+                          
+                          return (
+                                <div key={professional.id} onClick={() => toggleItem(professional.id)} className={`Box__search__professional ${expandedCardBooking.includes(professional.id) ? 'expandCard':''}`}> 
+                                  <div className="Box__image" style={{marginRight: '10px'}}>
+                                    <p className='firstLetter'>{firstLetter}</p>
+                                  </div>
+                                  <p className='name__professional'>{professional.name}</p>
+                                </div>
+                              );
+                        })
+                    ):(
+                      <div className="message__professional">
+                        {messagemSearchProfessional ? (
+                          <div>
+                            <p>{messagemSearchProfessional}</p>
+                            <p style={{fontSize:"30px"}}>:(</p>
+                          </div>
+                        ):(
+                          <div className="message__search__professional">
+                            <p>Encontrar profissional </p>
+                            <BsSearch style={{margin:"5px", fontSize:"25px"}}/>
+                          </div>
+                        )}
+                        
+                        
+                      </div>
+                    )}
+                    <button className="button__addNewProfessional" onClick={getProfessional}>
+                      Buscar
+                    </button>
+                </div>
+                
               )}
+              
               {showForm && (
                 <div className="section__form">
                               <div className="coolinput">
@@ -226,6 +251,7 @@ if(openModal){
                               </div>
                             </div>
               )}
+              
             </div>
         </div>
         </>
