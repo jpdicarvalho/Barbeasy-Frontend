@@ -79,9 +79,8 @@ const [professional, setProfessional] = useState([])
 const [searchProfessional, setSearchProfessional] = useState('');
 
 //Function to get all professionais
-useEffect(() => {
-  const getProfessional = () =>{
-  axios.get('https://api-user-barbeasy.up.railway.app/api/list-professional')
+const getProfessional = () => {
+  axios.get(`https://api-user-barbeasy.up.railway.app/api/list-professional/${searchProfessional}`)
     .then(res => {
       if(res.data.Success === "Success"){
         setProfessional(res.data.Professional)
@@ -89,10 +88,6 @@ useEffect(() => {
     })
     .catch(error => console.log(error));
   }
-  getProfessional()
-}, [])
-console.log(professional)
-
 
 //Function to expanded booking cards
 const toggleItem = (itemId) => {
@@ -102,7 +97,6 @@ const toggleItem = (itemId) => {
     setExpandedCardBooking([...expandedCardBooking, itemId]);
   }
 };
-
 
 if(openModal){
     return (
@@ -141,8 +135,8 @@ if(openModal){
                                       </div>
                                     );
                                   })}
-                                <button className="button__addNewProfessional" onClick={alternarShowForm}>
-                                  Cadastrar Profissional
+                                <button className="button__addNewProfessional" onClick={getProfessional}>
+                                  Buscar
                                 </button>
                             </div>
               )}
