@@ -127,40 +127,48 @@ if(openModal){
                         <IoMdClose className="icon__ClearInput"/>
                       )}
                     </div>
-                    {professional.length > 0 ?(
-                        professional.map(professional => { 
-                          // Obtendo a primeira letra do nome do profissional
-                          const firstLetter = professional.name.charAt(0).toUpperCase();
-                          
-                          return (
-                                <div key={professional.id} onClick={() => toggleItem(professional.id)} className={`Box__search__professional ${expandedCardBooking.includes(professional.id) ? 'expandCard':''}`}> 
-                                  <div className="Box__image" style={{marginRight: '10px'}}>
-                                    <p className='firstLetter'>{firstLetter}</p>
+                    <div className="container__search__professional">
+                      {professional.length > 0 ?(
+                          professional.map(professional => { 
+                            // Obtendo a primeira letra do nome do profissional
+                            const firstLetter = professional.name.charAt(0).toUpperCase();
+                            
+                            return (
+                                  <div key={professional.id} onClick={() => toggleItem(professional.id)} className={`Box__search__professional ${expandedCardBooking.includes(professional.id) ? 'expandCard':''}`}> 
+                                    <div className="Box__image" style={{marginRight: '10px'}}>
+                                      <p className='firstLetter'>{firstLetter}</p>
+                                    </div>
+                                    <p className='name__professional'>{professional.name}</p>
                                   </div>
-                                  <p className='name__professional'>{professional.name}</p>
-                                </div>
-                              );
-                        })
+                                );
+                          })
+                      ):(
+                        <div className="message__professional">
+                          {messagemSearchProfessional ? (
+                            <div>
+                              <p>{messagemSearchProfessional}</p>
+                              <p style={{fontSize:"30px"}}>:(</p>
+                            </div>
+                          ):(
+                            <div className="message__search__professional">
+                              <p>Encontrar profissional </p>
+                              <BsSearch style={{margin:"5px", fontSize:"25px"}}/>
+                            </div>
+                          )}
+                          
+                          
+                        </div>
+                      )}
+                    </div>
+                    {searchProfessional ? (
+                      <button className="button__addNewProfessional" onClick={getProfessional}>
+                        Buscar
+                      </button>
                     ):(
-                      <div className="message__professional">
-                        {messagemSearchProfessional ? (
-                          <div>
-                            <p>{messagemSearchProfessional}</p>
-                            <p style={{fontSize:"30px"}}>:(</p>
-                          </div>
-                        ):(
-                          <div className="message__search__professional">
-                            <p>Encontrar profissional </p>
-                            <BsSearch style={{margin:"5px", fontSize:"25px"}}/>
-                          </div>
-                        )}
-                        
-                        
-                      </div>
+                      <button className="button__Salve__Service" onClick={alternarShowForm}>
+                        Cadastrar
+                      </button>
                     )}
-                    <button className="button__addNewProfessional" onClick={getProfessional}>
-                      Buscar
-                    </button>
                 </div>
                 
               )}
@@ -242,11 +250,11 @@ if(openModal){
                               </div>
                             )}
                               <div className="Box__Button">
-                                  <button className="button__Salve__Service" onClick={createNewProfessional}>
-                                        Cadastrar
-                                    </button>
                                   <button className="button__back__search" onClick={alternarShowForm}>
                                       <IoIosArrowBack />
+                                  </button>
+                                  <button className="button__Salve__Service" onClick={createNewProfessional}>
+                                        Cadastrar
                                   </button>
                               </div>
                             </div>
