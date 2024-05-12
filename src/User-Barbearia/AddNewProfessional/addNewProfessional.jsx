@@ -116,7 +116,27 @@ const handleChangeTextRequest = (event) =>{
 }
 const sendRequesToProfessional = () =>{
   if(professionalId && barbeariaId && textRequest){
-    
+    //Create object to sendo all params
+    const values = {
+      professionalId,
+      barbeariaId,
+      textRequest
+    }
+
+    axios.post(`https://api-user-barbeasy.up.railway.app/api/send-request-barbeariaToprofessional/${values}`)
+    .then(res => {
+      if(res.data.Message === "True"){
+        setMessagemRequestProfessional("Solicitação enviada com sucesso!")
+        setTimeout(() => {
+          setMessagemRequestProfessional("")
+        }, 2000);
+      }
+    })
+    .catch(error => {
+      console.log(error)
+      setMessagemRequestProfessional("Não foi possível enviar a solicitação! Tente novamente mais tarde.")
+    });
+
   }else{
     setMessagemRequestProfessional("Não foi possível enviar a solicitação! Verifique os paramêtros informados.")
     setTimeout(() => {
@@ -124,7 +144,7 @@ const sendRequesToProfessional = () =>{
     }, 2000);
   }
 }
-console.log(professionalId)
+
 if(openModal){
     return (
         <>
