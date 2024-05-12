@@ -99,7 +99,7 @@
   margin-bottom: 10px;
   padding: 5px;
 }
-.expandCard{
+.expand__Search__Professional{
   display: flex;
   justify-content: center;
   height: 80px;
@@ -120,10 +120,11 @@
   width: fit-content;
   position: static;
   width: 100%;
+  height: 70px;
 }
   
 .coolinput label.text {
-  font-size: 0.75rem;
+  font-size: 14px;
   color: #fff;
   font-weight: 700;
   position: relative;
@@ -136,10 +137,11 @@
 
 .coolinput input[type=text].input {
   padding: 11px 10px;
-  font-size: 0.75rem;
+  font-size: 12px;
   border: 2px #4a17d5 solid;
   border-radius: 5px;
   background: #1c2035;
+  color: #fff
 }
 
 .coolinput input[type=text].input:focus {
@@ -147,10 +149,11 @@
 }
 .coolinput input[type=email].input {
   padding: 11px 10px;
-  font-size: 0.75rem;
+  font-size: 12px;
   border: 2px #4a17d5 solid;
   border-radius: 5px;
   background: #1c2035;
+  color: #fff
 }
   
 .coolinput input[type=email].input:focus {
@@ -158,20 +161,22 @@
 }
 .coolinput input[type=password].input {
   padding: 11px 10px;
-  font-size: 0.75rem;
+  font-size: 12px;
   border: 2px #4a17d5 solid;
   border-radius: 5px;
   background: #1c2035;
+  color: #fff
 }
 
 .coolinput input[type=password].input:focus {
   outline: none;
+  font-size: 12px;
 }
 .Box__Button{
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 75px;
+  margin-top: 35px;
 }
 .button__back__search{
   display: flex;

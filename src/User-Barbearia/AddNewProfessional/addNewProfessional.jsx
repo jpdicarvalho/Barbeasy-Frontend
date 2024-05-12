@@ -134,7 +134,7 @@ if(openModal){
                             const firstLetter = professional.name.charAt(0).toUpperCase();
                             
                             return (
-                                  <div key={professional.id} onClick={() => toggleItem(professional.id)} className={`Box__search__professional ${expandedCardBooking.includes(professional.id) ? 'expandCard':''}`}> 
+                                  <div key={professional.id} onClick={() => toggleItem(professional.id)} className={`Box__search__professional ${expandedCardBooking.includes(professional.id) ? 'expand__Search__Professional':''}`}> 
                                     <div className="Box__image" style={{marginRight: '10px'}}>
                                       <p className='firstLetter'>{firstLetter}</p>
                                     </div>
