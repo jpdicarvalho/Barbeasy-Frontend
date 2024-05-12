@@ -82,7 +82,6 @@ const [searchProfessional, setSearchProfessional] = useState('');
 const [messagemSearchProfessional, setMessagemSearchProfessional] = useState('');
 const [messagemRequestProfessional, setMessagemRequestProfessional] = useState('');
 
-
 //Function to get all professionais
 const getProfessional = () => {
   axios.get(`https://api-user-barbeasy.up.railway.app/api/list-professional/${searchProfessional}`)
@@ -97,7 +96,7 @@ const getProfessional = () => {
     .catch(error => console.log(error));
 }
 
-  //Function to expanded booking cards
+//Function to expanded booking cards
 const toggleItem = (itemId) => {
   setProfessionalId(itemId)
   if (expandedCardBooking.includes(itemId)) {
@@ -106,14 +105,31 @@ const toggleItem = (itemId) => {
     setExpandedCardBooking([...expandedCardBooking, itemId]);
   }
 };
-//===== Function to send request to professional =====
+
+//===== Section link between barbearia and professional =====
 const [textRequest, setTextRequest] = useState('');
 
+//function to filtred the text of request link
 const handleChangeTextRequest = (event) =>{
   // Remove caracteres não permitidos usando uma expressão regular
   const filteredText = event.target.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚâêîôûÂÊÎÔÛàèìòùÀÈÌÒÙãẽĩõũÃẼĨÕŨç0-9:,.\s]/g, '');
   setTextRequest(filteredText)
 }
+
+const getAllRequestOfLink = () =>{
+  axios.get(`https://api-user-barbeasy.up.railway.app/api/all-request-link/${barbeariaId}/${professionalId}`)
+    .then(res => {
+      if(res.data.Message === "True"){
+        setMessagemRequestProfessional("True")
+      }
+    })
+    .catch(error => console.log(error));
+}
+useEffect(()=>{
+  getAllRequestOfLink()
+}, [professionalId])
+console.log(messagemRequestProfessional)
+//Function to send request of link between barbearia and professional
 const sendRequesToProfessional = () =>{
   if(professionalId && barbeariaId && textRequest){
     //Create object to sendo all params
@@ -123,12 +139,13 @@ const sendRequesToProfessional = () =>{
       textRequest
     }
 
-    axios.post(`https://api-user-barbeasy.up.railway.app/api/send-request-barbeariaToprofessional/${values}`)
+    axios.post('https://api-user-barbeasy.up.railway.app/api/send-request-barbeariaToprofessional/', values)
     .then(res => {
       if(res.data.Message === "True"){
-        setMessagemRequestProfessional("Solicitação enviada com sucesso!")
+        setMessagemRequestProfessional("Solicitação enviada com sucesso!");
         setTimeout(() => {
-          setMessagemRequestProfessional("")
+          setMessagemRequestProfessional("");
+          window.location.reload();
         }, 2000);
       }
     })
@@ -195,7 +212,7 @@ if(openModal){
                                     >
                                     </textarea>
                                     {messagemRequestProfessional === 'Solicitação enviada com sucesso!' ?(
-                                      <div className="mensagem-sucesso">
+                                      <div className="mensagem-sucesso" style={{width: "100%"}}>
                                         <MdOutlineDone className="icon__success"/>
                                         <p className="text__message">{messagemRequestProfessional}</p>
                                       </div>
