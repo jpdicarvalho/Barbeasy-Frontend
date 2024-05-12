@@ -92,9 +92,9 @@ const getProfessional = () => {
       }
     })
     .catch(error => console.log(error));
-  }
-console.log(professional.length)
-//Function to expanded booking cards
+}
+
+  //Function to expanded booking cards
 const toggleItem = (itemId) => {
   if (expandedCardBooking.includes(itemId)) {
     setExpandedCardBooking(expandedCardBooking.filter(id => id !== itemId));
@@ -102,6 +102,14 @@ const toggleItem = (itemId) => {
     setExpandedCardBooking([...expandedCardBooking, itemId]);
   }
 };
+//===== Function to send request to professional =====
+const [textRequest, setTextRequest] = useState('');
+
+const handleChangeTextRequest = (event) =>{
+  // Remove caracteres não permitidos usando uma expressão regular
+  const filteredText = event.target.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚâêîôûÂÊÎÔÛàèìòùÀÈÌÒÙãẽĩõũÃẼĨÕŨç0-9:,.\s]/g, '');
+  setTextRequest(filteredText)
+}
 
 if(openModal){
     return (
@@ -134,11 +142,27 @@ if(openModal){
                             const firstLetter = professional.name.charAt(0).toUpperCase();
                             
                             return (
-                                  <div key={professional.id} onClick={() => toggleItem(professional.id)} className={`Box__search__professional ${expandedCardBooking.includes(professional.id) ? 'expand__Search__Professional':''}`}> 
-                                    <div className="Box__image" style={{marginRight: '10px'}}>
-                                      <p className='firstLetter'>{firstLetter}</p>
+                                  <div key={professional.id} className={`Box__search__professional ${expandedCardBooking.includes(professional.id) ? 'expand__Search__Professional':''}`}> 
+                                    <div className="header__searched__professional" onClick={() => toggleItem(professional.id)}>
+                                      <div className="Box__image" style={{marginRight: '10px'}}>
+                                        <p className='firstLetter'>{firstLetter}</p>
+                                      </div>
+                                      <p className='name__professional'>{professional.name}</p>
                                     </div>
-                                    <p className='name__professional'>{professional.name}</p>
+                                    <textarea 
+                                    className="text__request"
+                                    name="text__request"
+                                    id="text__request"
+                                    onChange={handleChangeTextRequest}
+                                    rows={4} 
+                                    cols={10} 
+                                    maxLength={160}
+                                    placeholder="Digite sua mensagem aqui..."
+                                    >
+                                    </textarea>
+                                      <button className="button__request_professional" onClick={alternarShowForm}>
+                                        Solicitar vínculo
+                                      </button>
                                   </div>
                                 );
                           })
