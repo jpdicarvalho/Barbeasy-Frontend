@@ -125,7 +125,7 @@
 .expand__Search__Professional{
   display: flex;
   justify-content: center;
-  height: 220px;
+  height: auto;
   justify-content: start;
   align-items: center;
   width: 100%;

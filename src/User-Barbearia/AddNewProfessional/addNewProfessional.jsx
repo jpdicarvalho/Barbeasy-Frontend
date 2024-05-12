@@ -76,9 +76,12 @@ const createNewProfessional = () =>{
 }
 
 //===== Function to get all professional =====
-const [professional, setProfessional] = useState([])
+const [professional, setProfessional] = useState([]);
+const [professionalId, setProfessionalId] = useState('');
 const [searchProfessional, setSearchProfessional] = useState('');
 const [messagemSearchProfessional, setMessagemSearchProfessional] = useState('');
+const [messagemRequestProfessional, setMessagemRequestProfessional] = useState('');
+
 
 //Function to get all professionais
 const getProfessional = () => {
@@ -96,6 +99,7 @@ const getProfessional = () => {
 
   //Function to expanded booking cards
 const toggleItem = (itemId) => {
+  setProfessionalId(itemId)
   if (expandedCardBooking.includes(itemId)) {
     setExpandedCardBooking(expandedCardBooking.filter(id => id !== itemId));
   } else {
@@ -110,7 +114,17 @@ const handleChangeTextRequest = (event) =>{
   const filteredText = event.target.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚâêîôûÂÊÎÔÛàèìòùÀÈÌÒÙãẽĩõũÃẼĨÕŨç0-9:,.\s]/g, '');
   setTextRequest(filteredText)
 }
-
+const sendRequesToProfessional = () =>{
+  if(professionalId && barbeariaId && textRequest){
+    
+  }else{
+    setMessagemRequestProfessional("Não foi possível enviar a solicitação! Verifique os paramêtros informados.")
+    setTimeout(() => {
+      setMessagemRequestProfessional("")
+    }, 2000);
+  }
+}
+console.log(professionalId)
 if(openModal){
     return (
         <>
@@ -160,7 +174,19 @@ if(openModal){
                                     placeholder="Digite sua mensagem aqui..."
                                     >
                                     </textarea>
-                                      <button className="button__request_professional" onClick={alternarShowForm}>
+                                    {messagemRequestProfessional === 'Solicitação enviada com sucesso!' ?(
+                                      <div className="mensagem-sucesso">
+                                        <MdOutlineDone className="icon__success"/>
+                                        <p className="text__message">{messagemRequestProfessional}</p>
+                                      </div>
+                                      ) : (
+                                      <div className={` ${messagemRequestProfessional ? 'mensagem-erro' : ''}`}>
+                                        <VscError className={`hide_icon__error ${messagemRequestProfessional ? 'icon__error' : ''}`}/>
+                                        <p className="text__message">{messagemRequestProfessional}</p>
+                                      </div>
+                                      )}
+                                    
+                                      <button className="button__request_professional" onClick={sendRequesToProfessional}>
                                         Solicitar vínculo
                                       </button>
                                   </div>
@@ -179,8 +205,6 @@ if(openModal){
                               <BsSearch style={{margin:"5px", fontSize:"25px"}}/>
                             </div>
                           )}
-                          
-                          
                         </div>
                       )}
                     </div>
