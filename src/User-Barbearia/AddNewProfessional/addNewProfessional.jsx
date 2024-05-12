@@ -116,19 +116,18 @@ const handleChangeTextRequest = (event) =>{
   setTextRequest(filteredText)
 }
 
-const getAllRequestOfLink = () =>{
-  axios.get(`https://api-user-barbeasy.up.railway.app/api/all-request-link/${barbeariaId}/${professionalId}`)
+const getAllRequestOfLink = (professional_id) =>{
+  if(barbeariaId && professional_id){
+    axios.get(`https://api-user-barbeasy.up.railway.app/api/all-request-link/${barbeariaId}/${professional_id}`)
     .then(res => {
       if(res.data.Message === "True"){
         setMessagemRequestProfessional("True")
       }
     })
     .catch(error => console.log(error));
+  }
 }
-useEffect(()=>{
-  getAllRequestOfLink()
-}, [professionalId])
-console.log(messagemRequestProfessional)
+
 //Function to send request of link between barbearia and professional
 const sendRequesToProfessional = () =>{
   if(professionalId && barbeariaId && textRequest){
@@ -193,39 +192,49 @@ if(openModal){
                             const firstLetter = professional.name.charAt(0).toUpperCase();
                             
                             return (
-                                  <div key={professional.id} className={`Box__search__professional ${expandedCardBooking.includes(professional.id) ? 'expand__Search__Professional':''}`}> 
+                                  <div key={professional.id} onClick={() => getAllRequestOfLink(professional.id)} className={`Box__search__professional ${expandedCardBooking.includes(professional.id) ? 'expand__Search__Professional':''}`}> 
                                     <div className="header__searched__professional" onClick={() => toggleItem(professional.id)}>
                                       <div className="Box__image" style={{marginRight: '10px'}}>
                                         <p className='firstLetter'>{firstLetter}</p>
                                       </div>
                                       <p className='name__professional'>{professional.name}</p>
                                     </div>
-                                    <textarea 
-                                    className="text__request"
-                                    name="text__request"
-                                    id="text__request"
-                                    onChange={handleChangeTextRequest}
-                                    rows={4} 
-                                    cols={10} 
-                                    maxLength={160}
-                                    placeholder="Digite sua mensagem aqui..."
-                                    >
-                                    </textarea>
-                                    {messagemRequestProfessional === 'Solicitação enviada com sucesso!' ?(
-                                      <div className="mensagem-sucesso" style={{width: "100%"}}>
-                                        <MdOutlineDone className="icon__success"/>
-                                        <p className="text__message">{messagemRequestProfessional}</p>
-                                      </div>
+
+                                    <div>
+                                      {messagemRequestProfessional === "True" ?(
+                                        <div>Aguardando resposta do profissional</div>
                                       ) : (
-                                      <div className={` ${messagemRequestProfessional ? 'mensagem-erro' : ''}`}>
-                                        <VscError className={`hide_icon__error ${messagemRequestProfessional ? 'icon__error' : ''}`}/>
-                                        <p className="text__message">{messagemRequestProfessional}</p>
-                                      </div>
+                                        <div>
+                                            <textarea 
+                                              className="text__request"
+                                              name="text__request"
+                                              id="text__request"
+                                              onChange={handleChangeTextRequest}
+                                              rows={4} 
+                                              cols={10} 
+                                              maxLength={160}
+                                              placeholder="Digite sua mensagem aqui..."
+                                              >
+                                            </textarea>
+                                            {messagemRequestProfessional === 'Solicitação enviada com sucesso!' ?(
+                                              <div className="mensagem-sucesso" style={{width: "100%"}}>
+                                                <MdOutlineDone className="icon__success"/>
+                                                <p className="text__message">{messagemRequestProfessional}</p>
+                                              </div>
+                                              ) : (
+                                              <div className={` ${messagemRequestProfessional ? 'mensagem-erro' : ''}`}>
+                                                <VscError className={`hide_icon__error ${messagemRequestProfessional ? 'icon__error' : ''}`}/>
+                                                <p className="text__message">{messagemRequestProfessional}</p>
+                                              </div>
+                                                  )
+                                            }
+                                            <button className="button__request_professional" onClick={sendRequesToProfessional}>
+                                              Solicitar vínculo
+                                            </button>
+                                        </div>
                                       )}
+                                    </div>
                                     
-                                      <button className="button__request_professional" onClick={sendRequesToProfessional}>
-                                        Solicitar vínculo
-                                      </button>
                                   </div>
                                 );
                           })

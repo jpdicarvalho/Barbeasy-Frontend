@@ -101,6 +101,7 @@
   height: 65px;
   overflow: hidden;
   transition: 0.9s;
+  transition-delay: 0.5s;
 }
 .header__searched__professional{
   display: flex;
