@@ -81,6 +81,8 @@ const [professionalId, setProfessionalId] = useState('');
 const [searchProfessional, setSearchProfessional] = useState('');
 const [messagemSearchProfessional, setMessagemSearchProfessional] = useState('');
 const [messagemRequestProfessional, setMessagemRequestProfessional] = useState('');
+const [messageLink, setMessageLink] = useState('');
+
 
 //Function to get all professionais
 const getProfessional = () => {
@@ -205,7 +207,7 @@ if(openModal){
                                     </div>
 
                                     <div>
-                                      {messagemRequestProfessional === "true" ?(
+                                      {messageLink === "true" ?(
                                         <div>Aguardando resposta do profissional</div>
                                       ) : (
                                         <div>
