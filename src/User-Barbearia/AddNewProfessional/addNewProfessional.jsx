@@ -117,11 +117,14 @@ const handleChangeTextRequest = (event) =>{
 }
 
 const getAllRequestOfLink = (professional_id) =>{
+  console.log(professional_id)
   if(barbeariaId && professional_id){
     axios.get(`https://api-user-barbeasy.up.railway.app/api/all-request-link/${barbeariaId}/${professional_id}`)
     .then(res => {
-      if(res.data.Message === "True"){
-        setMessagemRequestProfessional("True")
+      if(res.data.Success === "true"){
+        setMessageLink("true")
+      }else{
+        setMessageLink("false")
       }
     })
     .catch(error => console.log(error));
@@ -160,6 +163,7 @@ const sendRequesToProfessional = () =>{
     }, 2000);
   }
 }
+console.log(professionalId)
 
 if(openModal){
     return (
@@ -201,7 +205,7 @@ if(openModal){
                                     </div>
 
                                     <div>
-                                      {messagemRequestProfessional === "True" ?(
+                                      {messagemRequestProfessional === "true" ?(
                                         <div>Aguardando resposta do profissional</div>
                                       ) : (
                                         <div>
