@@ -81,6 +81,7 @@ function SignInBarbearia() {
                         setValues({ ...values, email: truncatedValue });
                     }}
                     placeholder="Email"
+                    maxLength={50}
                     required
                     />{' '} <i className="fa-solid fa-envelope Icon"></i>
                 </div>
@@ -98,6 +99,7 @@ function SignInBarbearia() {
                     setValues({ ...values, senha: truncatedValue });
                     }}
                     placeholder="Password"
+                    maxLength={8}
                     required
                     />{' '} <i className="fa-solid fa-lock Icon"></i>
                 </div>

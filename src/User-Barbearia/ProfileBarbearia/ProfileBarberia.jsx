@@ -804,6 +804,7 @@ const handleProfessionalClick = (professional) => {
                         }}
                         placeholder={endereco[0]}
                         className="white-placeholder"
+                        maxLength={50}
                         required
                       /> <MdAddRoad className='icon_input'/>
 
@@ -821,6 +822,7 @@ const handleProfessionalClick = (professional) => {
                       }}
                       placeholder={endereco[1]}
                       className="white-placeholder"
+                      maxLength={5}
                       required
                     />{' '} <AiOutlineFieldNumber id="icon_street_number"/>
                     
@@ -838,6 +840,7 @@ const handleProfessionalClick = (professional) => {
                       }}
                       placeholder={endereco[2]}
                       className="white-placeholder"
+                      maxLength={30}
                       required
                     /><GrMapLocation id="icon_input_neighborhood"/>
                     
@@ -855,6 +858,7 @@ const handleProfessionalClick = (professional) => {
                       }}
                       placeholder={endereco[3]}
                       className="white-placeholder"
+                      maxLength={20}
                       required
                     />{' '} <IoMdLocate id="icon_input_city"/>
                       </div>
@@ -967,6 +971,7 @@ const handleProfessionalClick = (professional) => {
                 }}
                 placeholder={currentEmail}
                 className="white-placeholder"
+                maxLength={50}
                 required
               />{' '}<MdOutlineAlternateEmail className='icon_input'/>
             </div>
@@ -1014,6 +1019,7 @@ const handleProfessionalClick = (professional) => {
                   setPasswordConfirm(truncatedPasswordConfirm);
                 }}
                 placeholder="Senha Atual"
+                maxLength={8}
                 required
                 />{' '}<PiPassword className='icon_input'/>
             </div>
@@ -1023,7 +1029,6 @@ const handleProfessionalClick = (professional) => {
                 type="password"
                 id="NovaSenha"
                 name="NovaSenha"
-                maxlength="10"
                 onChange={(e) => {
                   const inputValue = e.target.value;
                   // Limitar a 8 caracteres
@@ -1031,6 +1036,7 @@ const handleProfessionalClick = (professional) => {
                   setNewPassword(truncatedValue);
                 }}
                 placeholder="Nova Senha"
+                maxLength={8}
                 required
                 />{' '} <PiPasswordDuotone className='icon_input'/>
             </div>

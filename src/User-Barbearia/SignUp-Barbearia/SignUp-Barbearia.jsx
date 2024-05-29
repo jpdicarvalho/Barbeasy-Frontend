@@ -104,6 +104,7 @@ function SignUpBarbearia() {
               setValues({ ...values, name: truncatedValue });
             }}
             placeholder="Nome da Barbearia"
+            maxLength={50}
             required
           /> <span className="material-symbols-outlined" id="Icon_Barbearia">store</span>
           
@@ -128,6 +129,7 @@ function SignUpBarbearia() {
                 setValues({ ...values, street: truncatedValue });
               }}
               placeholder="Rua"
+              maxLength={30}
               required
             /> <span className="material-symbols-outlined" id="street_icon">add_road</span>
 
@@ -144,6 +146,7 @@ function SignUpBarbearia() {
                   setValues({ ...values, number: truncatedValue });
                 }}
                 placeholder="Nº"
+                maxLength={5}
                 required
               />{' '} <span className="material-symbols-outlined" id="street_number">home_pin</span>
               
@@ -160,6 +163,7 @@ function SignUpBarbearia() {
                   setValues({ ...values, neighborhood: truncatedValue });
                 }}
                 placeholder="Bairro"
+                maxLength={20}
                 required
               /><span className="material-symbols-outlined" id="neighborhood_icon">route</span>
               
@@ -176,6 +180,7 @@ function SignUpBarbearia() {
                   setValues({ ...values, city: truncatedValue });
                 }}
                 placeholder="Cidade"
+                maxLength={20}
                 required
               />{' '} <span className="material-symbols-outlined" id="city_icon">map</span>
             </div>
@@ -198,6 +203,7 @@ function SignUpBarbearia() {
                 setValues({ ...values, usuario: truncatedValue });
                 }}
                 placeholder="Nome de Usuário"
+                maxLength={15}
                 required
               />{' '} <i className="fa-regular fa-user" id="Icon_user_barbearia"></i>
 
@@ -214,6 +220,7 @@ function SignUpBarbearia() {
                   setValues({ ...values, email: truncatedValue });
                 }}
                 placeholder="Email"
+                maxLength={50}
                 required
               />{' '} <i className="fa-solid fa-envelope" id="icon_email"></i>
 
@@ -229,6 +236,7 @@ function SignUpBarbearia() {
                   setValues({ ...values, senha: truncatedValue });
                 }}
                 placeholder="Password"
+                maxLength={8}
                 required
                 />{' '} <i className="fa-solid fa-lock" id="icon_password"></i>
             </div>

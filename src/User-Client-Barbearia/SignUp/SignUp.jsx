@@ -85,6 +85,7 @@ function SignUp() {
             id="name"
             name="name"
             value={values.name}
+            maxLength={50}
             onChange={(e) => {
               const inputValue = e.target.value;
               // Remover caracteres não alfanuméricos, ponto e espaço
@@ -109,6 +110,7 @@ function SignUp() {
               setValues({ ...values, email: filteredValue });
             }}
             placeholder="Email"
+            maxLength={100}
             required
           /> <i className="fa-solid fa-envelope" id="Icon_User"></i>
           </div>
@@ -123,6 +125,7 @@ function SignUp() {
                 value={values.celular}
                 onChange={(e) => setValues({ ...values, celular: e.target.value })}
                 placeholder="(99) 9 9999-9999"
+                maxLength={16}
                 required
               /> <span className="material-symbols-outlined" id="Icon_Barbearia">phone_iphone</span>
 
@@ -138,6 +141,7 @@ function SignUp() {
                   setValues({ ...values, senha: truncatedValue });
                 }}
                 placeholder="Password"
+                maxLength={8}
                 required
               /> <i className="fa-solid fa-lock" id="Icon_User"></i>
             </div>

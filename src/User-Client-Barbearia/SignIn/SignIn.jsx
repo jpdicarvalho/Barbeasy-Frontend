@@ -83,6 +83,7 @@ function SignIn() {
       setValues({ ...values, email: truncatedValue });
     }}
     placeholder="Email"
+    maxLength={100}
     required
   />{' '} <i className="fa-solid fa-envelope Icon"></i>
 </div>
@@ -100,6 +101,7 @@ function SignIn() {
       setValues({ ...values, senha: truncatedValue });
     }}
     placeholder="Password"
+    maxLength={8}
     required
   />{' '}
   <i className="fa-solid fa-lock Icon"></i>
