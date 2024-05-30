@@ -47,7 +47,6 @@ const createNewProfessional = () =>{
 
     axios.post(`https://api-user-barbeasy.up.railway.app/api/create-professional/${barbeariaId}`, newProfessional)
     .then(res => {
-      console.log(res)
       if(res.data.Success === "Success"){
         setMessageAddProfessional("Profissional criado com sucesso.")
         setTimeout(() => {
@@ -119,7 +118,6 @@ const handleChangeTextRequest = (event) =>{
 }
 
 const getAllRequestOfLink = (professional_id) =>{
-  console.log(professional_id)
   if(barbeariaId && professional_id){
     axios.get(`https://api-user-barbeasy.up.railway.app/api/all-request-link/${barbeariaId}/${professional_id}`)
     .then(res => {
@@ -165,7 +163,6 @@ const sendRequesToProfessional = () =>{
     }, 2000);
   }
 }
-console.log(professionalId)
 
 if(openModal){
     return (
