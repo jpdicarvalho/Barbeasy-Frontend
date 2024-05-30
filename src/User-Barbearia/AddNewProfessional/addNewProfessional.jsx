@@ -81,7 +81,7 @@ const [professionalId, setProfessionalId] = useState('');
 const [searchProfessional, setSearchProfessional] = useState('');
 const [messagemSearchProfessional, setMessagemSearchProfessional] = useState('');
 const [messagemRequestProfessional, setMessagemRequestProfessional] = useState('');
-const [messageLink, setMessageLink] = useState('');
+const [messageLink, setMessageLink] = useState(false);
 
 
 //Function to get all professionais
@@ -123,9 +123,9 @@ const getAllRequestOfLink = (professional_id) =>{
     axios.get(`https://api-user-barbeasy.up.railway.app/api/all-request-link/${barbeariaId}/${professional_id}`)
     .then(res => {
       if(res.data.Success === "true"){
-        setMessageLink("true")
+        setMessageLink(true)
       }else{
-        setMessageLink("false")
+        setMessageLink(false)
       }
     })
     .catch(error => console.log(error));
@@ -203,12 +203,12 @@ if(openModal){
                                       </div>
                                       <p className='name__professional'>{professional.name}</p>
                                     </div>
-                                    <div>
-                                      {messageLink === "true" ?(
-                                        <div>
-                                          <Loader/>
+
+                                    <Loader/>
+                                      {messageLink === true ?(
+                                        <div className="container__send__request">
                                           <div className="box__waiting__response__professional">
-                                            Aguardando resposta do profissional
+                                            Aguardando resposta do profissional.
                                           </div>
                                         </div>
                                       ) : (
@@ -243,7 +243,6 @@ if(openModal){
                                       )}
                                     </div>
                                     
-                                  </div>
                                 );
                           })
                       ):(

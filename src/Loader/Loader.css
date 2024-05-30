@@ -14,7 +14,7 @@
     margin: 0 0.25em;
     border-radius: 50%;
     background-color: #4a17d5;
-    animation: wave 1.5s infinite ease-in-out, fadeOut 4s forwards ease;
+    animation: wave 1.5s infinite ease-in-out, fadeOut 3s forwards ease;
     transition: background-color 0.3s ease;
 }
 
