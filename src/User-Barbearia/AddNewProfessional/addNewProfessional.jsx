@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import './addNewProfessional.css'
+import Loader from "../../Loader/Loader";
 
 //Icons
 import { IoClose } from "react-icons/io5";
@@ -202,12 +203,16 @@ if(openModal){
                                       </div>
                                       <p className='name__professional'>{professional.name}</p>
                                     </div>
-
                                     <div>
                                       {messageLink === "true" ?(
-                                        <div>Aguardando resposta do profissional</div>
-                                      ) : (
                                         <div>
+                                          <Loader/>
+                                          <div className="box__waiting__response__professional">
+                                            Aguardando resposta do profissional
+                                          </div>
+                                        </div>
+                                      ) : (
+                                        <div className="container__send__request">
                                             <textarea 
                                               className="text__request"
                                               name="text__request"

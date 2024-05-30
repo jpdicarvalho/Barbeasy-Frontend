@@ -1,0 +1,59 @@
+/* Container for the loader */
+.loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 1em;
+    padding-top: 5px;
+}
+
+/* Circle elements */
+.circle {
+    width: 0.5em;
+    height: 0.5em;
+    margin: 0 0.25em;
+    border-radius: 50%;
+    background-color: #4a17d5;
+    animation: wave 1.5s infinite ease-in-out, fadeOut 4s forwards ease;
+    transition: background-color 0.3s ease;
+}
+
+/* Animation */
+@keyframes wave {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-1em);
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+/* Delay for each circle */
+.circle:nth-child(1) {
+    animation-delay: 0s, 0s;
+}
+
+.circle:nth-child(2) {
+    animation-delay: 0.2s, 0s;
+}
+
+.circle:nth-child(3) {
+    animation-delay: 0.4s, 0s;
+}
+
+.circle:nth-child(4) {
+    animation-delay: 0.6s, 0s;
+}
+
+.circle:nth-child(5) {
+    animation-delay: 0.8s, 0s;
+}
