@@ -64,7 +64,21 @@ function SignUp() {
   };
 
   return (
-    <div className="container__default">
+    <>
+    <h1>Not this time 'dude' :(</h1>
+    <h1>Not this time 'dude' :(</h1>
+    <h1>Not this time 'dude' :(</h1>
+    <h1>Not this time 'dude' :(</h1>
+    <h1>Not this time 'dude' :(</h1>
+    <h1>Not this time 'dude' :(</h1>
+    <h1>Not this time 'dude' :(</h1>
+    <h1>Not this time 'dude' :(</h1>
+    <h1>Not this time 'dude' :(</h1>
+    <h1>Not this time 'dude' :(</h1>
+    <h1>Not this time 'dude' :(</h1>
+    <h1>Not this time 'dude' :(</h1>
+    <h1>Not this time 'dude' :(</h1>  
+    {/* <div className="container__default">
       <form onSubmit={handleSubmit} className="container">
         <div className="imgBox">
           <img src={barberLogo} alt="" />
@@ -163,7 +177,9 @@ function SignUp() {
           <p>Você já tem uma conta?</p><Link className="link" to="/SignIn">Login</Link>
         </div>
       </form>
-    </div>
+    </div>*/}
+    </>
+    
   );
 }
 
