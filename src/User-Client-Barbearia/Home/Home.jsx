@@ -49,7 +49,7 @@ const [services, setServices] = useState('')
 useEffect(() => {
   const fetchData = async () => {
     try {
-        const response = await fetch('https://api-user-barbeasy.up.railway.app/api/listBarbearia', {
+        const response = await fetch('https://api-user-barbeasy.up.railway.app/v1/api/getAllBarbearias', {
           headers: {
             'Content-Type': 'application/json',
           },

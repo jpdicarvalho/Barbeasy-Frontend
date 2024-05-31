@@ -43,6 +43,7 @@ const userInformation = JSON.parse(userData);
 const userId = userInformation.user[0].id;
 const userEmail = userInformation.user[0].email;
 const userName = userInformation.user[0].name;
+const cloudFrontUrl = 'https://d15o6h0uxpz56g.cloudfront.net/'
 /*=========== Buscandos os nomes dos banners da barbearia selecionada ===========*/
 const[banners, setBanners] = useState([]);
 
@@ -237,7 +238,7 @@ useEffect(()=> {
        <Swiper slidesPerView={1} effect={'fade'} modules={[EffectFade]} pagination={{clickable: true}} autoplay={{ delay: 3000 }}>
          {banners.map((item) =>
            <SwiperSlide key={item} className="Slide__Box">
-             <img className='slider__image' src={`https://d15o6h0uxpz56g.cloudfront.net/${item}`} alt="Imagem da Barbearia" />
+             <img className='slider__image' src={`${cloudFrontUrl}${item}`} alt="Imagem da Barbearia" />
            </SwiperSlide>
          )} 
        </Swiper>
