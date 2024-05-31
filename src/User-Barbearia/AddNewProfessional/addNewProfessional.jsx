@@ -81,7 +81,6 @@ const [professionalId, setProfessionalId] = useState('');
 const [searchProfessional, setSearchProfessional] = useState('');
 const [messagemSearchProfessional, setMessagemSearchProfessional] = useState('');
 const [messagemRequestProfessional, setMessagemRequestProfessional] = useState('');
-const [messageLink, setMessageLink] = useState(false);
 
 
 //Function to get all professionais
@@ -109,23 +108,16 @@ const toggleItem = (itemId) => {
 };
 
 //===== Section link between barbearia and professional =====
-const [textRequest, setTextRequest] = useState('');
-
-//function to filtred the text of request link
-const handleChangeTextRequest = (event) =>{
-  // Remove caracteres não permitidos usando uma expressão regular
-  const filteredText = event.target.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚâêîôûÂÊÎÔÛàèìòùÀÈÌÒÙãẽĩõũÃẼĨÕŨç0-9:,.\s]/g, '');
-  setTextRequest(filteredText)
-}
+const [removeLoader, setRemoveLoader] = useState(false);
 
 const getAllRequestOfLink = (professional_id) =>{
   if(barbeariaId && professional_id){
     axios.get(`https://api-user-barbeasy.up.railway.app/api/all-request-link/${barbeariaId}/${professional_id}`)
     .then(res => {
       if(res.data.Success === "true"){
-        setMessageLink(true)
+        setRemoveLoader(true)
       }else{
-        setMessageLink(false)
+        setRemoveLoader(false)
       }
     })
     .catch(error => console.log(error));
@@ -134,8 +126,9 @@ const getAllRequestOfLink = (professional_id) =>{
 
 //Function to send request of link between barbearia and professional
 const sendRequesToProfessional = () =>{
-  if(professionalId && barbeariaId && textRequest){
-    //Create object to sendo all params
+  if(professionalId && barbeariaId){
+
+    const textRequest = 'solicitação de tabalho'
     const values = {
       professionalId,
       barbeariaId,
@@ -190,57 +183,49 @@ if(openModal){
                       )}
                     </div>
                     <div className="container__search__professional">
+                        {messagemRequestProfessional === 'Solicitação enviada com sucesso!' ?(
+                          <div className="mensagem-sucesso" style={{width: "100%"}}>
+                            <MdOutlineDone className="icon__success"/>
+                            <p className="text__message">{messagemRequestProfessional}</p>
+                          </div>
+                          ) : (
+                          <div className={` ${messagemRequestProfessional ? 'mensagem-erro' : ''}`}>
+                            <VscError className={`hide_icon__error ${messagemRequestProfessional ? 'icon__error' : ''}`}/>
+                            <p className="text__message">{messagemRequestProfessional}</p>
+                          </div>
+                              )
+                        }
                       {professional.length > 0 ?(
                           professional.map(professional => { 
                             // Obtendo a primeira letra do nome do profissional
                             const firstLetter = professional.name.charAt(0).toUpperCase();
                             
                             return (
-                                  <div key={professional.id} onClick={() => getAllRequestOfLink(professional.id)} className={`Box__search__professional ${expandedCardBooking.includes(professional.id) ? 'expand__Search__Professional':''}`}> 
-                                    <div className="header__searched__professional" onClick={() => toggleItem(professional.id)}>
-                                      <div className="Box__image" style={{marginRight: '10px'}}>
-                                        <p className='firstLetter'>{firstLetter}</p>
-                                      </div>
-                                      <p className='name__professional'>{professional.name}</p>
-                                    </div>
-
-                                    <Loader/>
-                                      {messageLink === true ?(
-                                        <div className="container__send__request">
-                                          <div className="box__waiting__response__professional">
-                                            Aguardando resposta do profissional.
-                                          </div>
+                                  <div key={professional.id} onClick={() => getAllRequestOfLink(professional.id)} className="Box__search__professional">
+                                      <div className="header__searched__professional" onClick={() => toggleItem(professional.id)} >
+                                        <div className="Box__image" style={{marginRight: '10px'}}>
+                                          <p className='firstLetter'>{firstLetter}</p>
                                         </div>
-                                      ) : (
-                                        <div className="container__send__request">
-                                            <textarea 
-                                              className="text__request"
-                                              name="text__request"
-                                              id="text__request"
-                                              onChange={handleChangeTextRequest}
-                                              rows={4} 
-                                              cols={10} 
-                                              maxLength={160}
-                                              placeholder="Digite sua mensagem aqui..."
-                                              >
-                                            </textarea>
-                                            {messagemRequestProfessional === 'Solicitação enviada com sucesso!' ?(
-                                              <div className="mensagem-sucesso" style={{width: "100%"}}>
-                                                <MdOutlineDone className="icon__success"/>
-                                                <p className="text__message">{messagemRequestProfessional}</p>
+                                        <p className='name__professional'>{professional.name}</p>
+                                      </div>
+
+                                      <div className={`teeesste ${expandedCardBooking.includes(professional.id) ? 'expand__Search__Professional':''}`}>
+                                        {removeLoader ?(
+                                          <div className="container__send__request">
+                                            <Loader/>
+                                              <div className="box__waiting__response__professional">
+                                                Aguardando resposta do profissional.
                                               </div>
-                                              ) : (
-                                              <div className={` ${messagemRequestProfessional ? 'mensagem-erro' : ''}`}>
-                                                <VscError className={`hide_icon__error ${messagemRequestProfessional ? 'icon__error' : ''}`}/>
-                                                <p className="text__message">{messagemRequestProfessional}</p>
-                                              </div>
-                                                  )
-                                            }
+                                          </div>
+                                        ):(
+                                          <div className="container__send__request">
                                             <button className="button__request_professional" onClick={sendRequesToProfessional}>
                                               Solicitar vínculo
                                             </button>
-                                        </div>
-                                      )}
+                                          </div>
+                                        )}
+                                       
+                                      </div>
                                     </div>
                                     
                                 );
