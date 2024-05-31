@@ -47,20 +47,20 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/barbeasy/" element={<GetStartedPage />} />
+        <Route path="/" element={<GetStartedPage />} />
 
-        <Route path="/barbeasy/SignInBarbearia" element={<SignInBarbearia />} />
+        <Route path="/SignInBarbearia" element={<SignInBarbearia />} />
         <Route path="/barbeasy/SignUpBarbearia" element={<SignUpBarbearia />} />
 
         <Route path="/HomeBarbearia" element={<PrivateRoute element={<HomeBarbearia />} />} />
         <Route path="/ProfileBarbearia" element={<PrivateRoute element={<ProfileBarbearia />}/>} />
         <Route path="/ProfessionalDetails" element={<PrivateRoute element={<ProfessionalDetails />} />} />
 
-        <Route path="/barbeasy/SignIn" element={<SignIn />} />
-        <Route path="/barbeasy/SignUp" element={<SignUp />} />
+        <Route path="/SignIn" element={<SignIn />} />
+        <Route path="/SignUp" element={<SignUp />} />
 
-        <Route path="/barbeasy/Home" element={<PrivateRoute element={<Home />} />} />
-        <Route path="/barbeasy/BarbeariaDetails" element={<PrivateRoute element={<BarbeariaDetails />} />} />
+        <Route path="/Home" element={<PrivateRoute element={<Home />} />} />
+        <Route path="/BarbeariaDetails" element={<PrivateRoute element={<BarbeariaDetails />} />} />
         <Route path="/Checkout" element={<PrivateRoute element={<Checkout />} />} />
         <Route path="/Widget" element={<PrivateRoute element={<Widget />} />} />
       </Routes>
