@@ -35,18 +35,47 @@ const alternarShowForm = () =>{
   setShowForm(!showForm)
   setShowSearchProfessional(!showSearchProfessional)
 }
+
+const handleNameChange = (e) => {
+  const value = e.target.value;
+  const regex = /^[a-zA-Z]*$/;
+  if (regex.test(value) && value.length <= 30) {
+    setNewNameProfessional(value);
+  }
+};
+console.log(newNameProfessional)
+
+const handlePhoneChange = (e) => {
+  const value = e.target.value;
+  const regex = /^[0-9]*$/;
+  if (regex.test(value) && value.length <= 11) {
+    setNewPhoneProfessional(value);
+  }
+};
+console.log(newPhoneProfessional)
+
+const handlePasswordChange = (e) => {
+  const value = e.target.value;
+  const regex = /^[a-zA-Z0-9]*$/;
+  if (regex.test(value) && value.length <= 8) {
+    setNewPasswordProfessional(value);
+  }
+};
+console.log(newPasswordProfessional)
+
 const createNewProfessional = () =>{
+  const userIP = window.location.hostname;
 
   if(newNameProfessional && newPhoneProfessional && newEmailProfessional && newPasswordProfessional){
-
     const newProfessional = {
       newNameProfessional,
       newPhoneProfessional,
       newEmailProfessional,
-      newPasswordProfessional
+      newPasswordProfessional,
+      token: userIP
     }
 
-    axios.post(`https://api-user-barbeasy.up.railway.app/api/create-professional/${barbeariaId}`, newProfessional)
+    axios.post(`https://api-user-barbeasy.up.railway.app/v1/api/create-professional/${barbeariaId}`, newProfessional)
     .then(res => {
       if(res.data.Success === "Success"){
         setMessageAddProfessional("Profissional criado com sucesso.")
@@ -82,7 +111,14 @@ const [searchProfessional, setSearchProfessional] = useState('');
 const [messagemSearchProfessional, setMessagemSearchProfessional] = useState('');
 const [messagemRequestProfessional, setMessagemRequestProfessional] = useState('');
 
-
+const handleSearchChange = (e) => {
+  const value = e.target.value;
+  const regex = /^[a-zA-Z]*$/;
+  if (regex.test(value) && value.length <= 30) {
+    setSearchProfessional(value);
+  }
+};
+console.log(searchProfessional)
 //Function to get all professionais
 const getProfessional = () => {
   axios.get(`https://api-user-barbeasy.up.railway.app/api/list-professional/${searchProfessional}`)
@@ -174,10 +210,13 @@ if(openModal){
                     <div className="inputBox__search">
                       <IoSearchOutline className="icon__lupa"/>
                       
-                      <input type="search"
-                      className="inputSearch"
-                      onChange={(e) => setSearchProfessional(e.target.value)}
-                      placeholder="Digite o nome do profissional"/>
+                      <input
+                        type="search"
+                        className="inputSearch"
+                        value={searchProfessional}
+                        onChange={handleSearchChange}
+                        placeholder="Digite o nome do profissional"
+                      />
                       {searchProfessional.length > 0 &&(
                         <IoMdClose className="icon__ClearInput"/>
                       )}
@@ -264,63 +303,65 @@ if(openModal){
                               <div className="coolinput">
                               <label htmlFor="professionalName" className="text">Name:</label>
                               <input
-                              className="input"
-                              type="text"
-                              id="professionalName"
-                              name="professionalName"
-                              value={newNameProfessional}
-                              maxLength={100}
-                              onChange={(e) => setNewNameProfessional(e.target.value)}
-                              placeholder='Ex. João Pedro'
+                                className="input"
+                                type="text"
+                                id="professionalName"
+                                name="professionalName"
+                                value={newNameProfessional}
+                                maxLength={30}
+                                pattern="[a-zA-Z]+"
+                                onChange={handleNameChange}
+                                placeholder="Ex. Marvin"
                               />
                               </div>
 
                               <div className="coolinput">
                               <label htmlFor="celularProfessional" className="text">Celular:</label>
                               <input
-                              type="text"
-                              id="celularProfessional"
-                              name="celularProfessional"
-                              value={newPhoneProfessional}
-                              className="input"
-                              onChange={(e) => setNewPhoneProfessional(e.target.value)}
-                              placeholder="Ex. 93 991121212"
+                                type="text"
+                                id="celularProfessional"
+                                name="celularProfessional"
+                                value={newPhoneProfessional}
+                                className="input"
+                                maxLength={11}
+                                onChange={handlePhoneChange}
+                                placeholder="Ex. 93 991121212"
                               />
                               </div>
 
                               <div className="coolinput">
                               <label htmlFor="email" className="text">Email:</label>
                               <input
-                              type="email"
-                              id="email"
-                              name="email"
-                              value={newEmailProfessional}
-                              className="input"
-                              maxLength={120}
-                              onChange={(e) => {
-                                  const inputValue = e.target.value;
-                                  // Substituir o conteúdo do campo para conter apenas números, letras, "@" e "."
-                                  const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9@.]/g, '');
-                                  // Limitar a 50 caracteres
-                                  const truncatedValue = sanitizedValue.slice(0, 50);
-                                  setNewEmailProfessional( truncatedValue );
-                              }}
-                              placeholder="email.exemplo@gmail.com"
-                              required
-                              />
+                                type="email"
+                                id="email"
+                                name="email"
+                                value={newEmailProfessional}
+                                className="input"
+                                maxLength={50}
+                                onChange={(e) => {
+                                    const inputValue = e.target.value;
+                                    // Substituir o conteúdo do campo para conter apenas números, letras, "@" e "."
+                                    const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9@.]/g, '');
+                                    // Limitar a 50 caracteres
+                                    const truncatedValue = sanitizedValue.slice(0, 50);
+                                    setNewEmailProfessional( truncatedValue );
+                                }}
+                                placeholder="email.exemplo@gmail.com"
+                                required
+                                />
                               </div>
 
                               <div className="coolinput">
                               <label htmlFor="passwordProfessional" className="text">Senha:</label>
                               <input
-                              className="input"
-                              type="password"
-                              id="passwordProfessional"
-                              name="passwordProfessional"
-                              value={newPasswordProfessional}
-                              maxLength={10}
-                              onChange={(e) => setNewPasswordProfessional(e.target.value)}
-                              placeholder='********'
+                                className="input"
+                                type="password"
+                                id="passwordProfessional"
+                                name="passwordProfessional"
+                                value={newPasswordProfessional}
+                                maxLength={8}
+                                onChange={handlePasswordChange}
+                                placeholder="********"
                               />
                               </div>
 
@@ -345,7 +386,6 @@ if(openModal){
                               </div>
                             </div>
               )}
-              
             </div>
         </div>
         </>

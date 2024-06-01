@@ -44,6 +44,7 @@ const userId = userInformation.user[0].id;
 const userEmail = userInformation.user[0].email;
 const userName = userInformation.user[0].name;
 const cloudFrontUrl = 'https://d15o6h0uxpz56g.cloudfront.net/'
+
 /*=========== Buscandos os nomes dos banners da barbearia selecionada ===========*/
 const[banners, setBanners] = useState([]);
 
