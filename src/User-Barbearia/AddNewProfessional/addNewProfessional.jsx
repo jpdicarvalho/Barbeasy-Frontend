@@ -62,7 +62,7 @@ const handlePasswordChange = (e) => {
   }
 };
 console.log(newPasswordProfessional)
-
+console.log(newEmailProfessional)
 const createNewProfessional = () =>{
   const userIP = window.location.hostname;
 
@@ -92,7 +92,10 @@ const createNewProfessional = () =>{
       setMessageAddProfessional('Erro ao cadastrar profissional. Verifique o email digitado e tente novamente.')
       setTimeout(() => {
         setMessageAddProfessional(null);
-        setNewEmailProfessional('')
+          setNewNameProfessional('');
+          setNewPhoneProfessional('');
+          setNewEmailProfessional('');
+          setNewPasswordProfessional('');
       }, 3000);
       console.log(err)
     });

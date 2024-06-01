@@ -149,7 +149,7 @@ function ProfileBarbearia() {
 
   //Preparando as imagens selecionadas para serem enviadas ao back-end
   const handleBannerImagesUpload = () => {
-    const allowedExtensions = ['jpg', 'jpeg', 'png', 'heif', 'HEIF'];
+    const allowedExtensions = ['jpg', 'jpeg', 'png'];
 
     const bannerFormData = new FormData();
 
@@ -166,7 +166,7 @@ function ProfileBarbearia() {
       const file = bannerFiles[i];
 
       // Obtém a extensão do arquivo original
-      const fileExtension = file.name.split('.').pop();
+      const fileExtension = file ? file.name.split('.').pop() : '';
 
       // Verifica se a extensão é permitida
       if (!allowedExtensions.includes(fileExtension)) {
@@ -337,6 +337,10 @@ const handleProfessionalClick = (professional) => {
   }, [barbeariaId])
 /*----------------------------------*/
   const [mostrarEndereco, setMostrarEndereco] = useState(false);
+  const [street, setStreet] = useState('');
+  const [number, setNumber] = useState('');
+  const [neighborhood, setNeighborhood] = useState('');
+  const [city, setCity] = useState('');
   const [messageEndereco, setMessageEndereco] = useState('');
   const [endereco, setEndereco] = useState('');
 
@@ -344,22 +348,9 @@ const handleProfessionalClick = (professional) => {
   const alternarEndereco = () => {
     setMostrarEndereco(!mostrarEndereco);
   };
-  //Obtendo os valores dos inputs
-  const [valuesEndereco, setValuesEndereco] = useState({
-    street: '',
-    number:'',
-    neighborhood:'',
-    city:''
-  });
+  console.log(street, number, neighborhood, city)
   //Função para vericicar se há algum input vazio
-  const verificarValoresPreenchidos = () => {
-    for (const key in valuesEndereco) {
-      if (valuesEndereco.hasOwnProperty(key) && !valuesEndereco[key]) {
-        return false; // Retorna falso se algum valor não estiver preenchido
-      }
-    }
-    return true; // Retorna verdadeiro se todos os valores estiverem preenchidos
-  };
+  
   //Função responsável por enviar os valores ao back-end
   const alterarEndereco = () => {
     if (verificarValoresPreenchidos()) {
@@ -789,24 +780,24 @@ const handleProfessionalClick = (professional) => {
                       )}
                       
                       <div className="inputBox">
-                        <input
+                      <input
                         type="text"
                         id="street"
                         name="street"
                         onChange={(e) => {
-                          const inputValue = e.target.value;
-                          // Remover caracteres especiais
-                          const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9\sçéúíóáõãèòìàêôâ]/g, '');
+                            const inputValue = e.target.value;
+                            // Remover caracteres especiais
+                            const sanitizedValue = inputValue.replace(/[^a-zA-Z\s]/g, '');
 
-                          // Limitar a 50 caracteres
-                          const truncatedValue = sanitizedValue.slice(0, 50);
-                          setValuesEndereco({ ...valuesEndereco, street: truncatedValue });
+                            // Limitar a 30 caracteres
+                            const truncatedValue = sanitizedValue.slice(0, 30);
+                            setStreet(truncatedValue);
                         }}
                         placeholder={endereco[0]}
                         className="white-placeholder"
-                        maxLength={50}
+                        maxLength={30}
                         required
-                      /> <MdAddRoad className='icon_input'/>
+                    /><MdAddRoad className='icon_input'/>
 
                     <input
                       type="text"
@@ -818,7 +809,7 @@ const handleProfessionalClick = (professional) => {
                         const numericValue = inputValue.replace(/\D/g, '');
                         // Limitar a 10 caracteres
                         const truncatedValue = numericValue.slice(0, 5);
-                        setValuesEndereco({ ...valuesEndereco, number: truncatedValue });
+                        setNumber(truncatedValue);
                       }}
                       placeholder={endereco[1]}
                       className="white-placeholder"
@@ -836,7 +827,7 @@ const handleProfessionalClick = (professional) => {
                         const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9\sçéúíóáõãèòìàêôâ]/g, '');
                         // Limitar a 50 caracteres
                         const truncatedValue = sanitizedValue.slice(0, 50);
-                        setValuesEndereco({ ...valuesEndereco, neighborhood: truncatedValue });
+                        setNeighborhood(truncatedValue);
                       }}
                       placeholder={endereco[2]}
                       className="white-placeholder"
@@ -854,7 +845,7 @@ const handleProfessionalClick = (professional) => {
                         const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9\sçéúíóáõãèòìàêôâ]/g, '');
                         // Limitar a 50 caracteres
                         const truncatedValue = sanitizedValue.slice(0, 30);
-                        setValuesEndereco({ ...valuesEndereco, city: truncatedValue });
+                        setCity(truncatedValue);
                       }}
                       placeholder={endereco[3]}
                       className="white-placeholder"
