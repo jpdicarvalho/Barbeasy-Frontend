@@ -2,16 +2,26 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useSpring, animated } from "react-spring";
+
 import './style.css';
+
 import barberLogo from './barber-logo.png';
 
 function SignUpBarbearia() {
+
+  const urlApi = 'https://barbeasy.up.railway.app'
+  
   const [values, setValues] = useState({
     name: '',
+    street: '',
+    number: '',
+    neighborhood: '',
+    city: '',
     usuario: '',
     email: '',
     senha: ''
   });
+
   const [step, setStep] = useState(1);
   const [message, setMessage] = useState(null);
 
@@ -23,20 +33,20 @@ function SignUpBarbearia() {
     from: { opacity: 0, transform: "translateX(-100%)" }
   });
 
+  //Function to verify if all values is not empty
+  const areAllFieldsFilled = () => {
+    for (const key in values) {
+      if (values.hasOwnProperty(key) && values[key].trim() === '') {
+        return false;
+      }
+    }
+    return true;
+  };
+
   const handleSubmit = (event) => {
-    event.preventDefault();
-    // Concatenar os dados de endereço
-    const endereco = `${values.street}, Nº ${values.number}, ${values.neighborhood} - ${values.city}.`;
-
-    // Adicionar a variável endereco aos valores a serem enviados
-    const dataBarbearia = {
-    ...values,
-    endereco,  // Adicionando a variável endereco
-    };
-
-    console.log(dataBarbearia)
-
-    axios.post('https://api-user-barbeasy.up.railway.app/api/SignUp-Barbearia', dataBarbearia)
+    event.preventDefault();//impede o navegador de recaregar a página ao enviar o formulário
+    if (areAllFieldsFilled()){
+      axios.post(`${urlApi}/v1/api/SignUpBarbearia`, values)
       .then(res => {
         if (res.status === 201) {
           setMessage('Cadastro realizado!');
@@ -53,9 +63,13 @@ function SignUpBarbearia() {
         }
       })
       .catch(err => {
-        if (err.response && err.response.status === 400) {
-          setMessage('E-mail já cadastrado. Por favor, escolha outro e-mail.');
-        } else {
+        if (err.response.status === 401) {
+          setMessage('E-mail ou endereço já cadastrado.');
+          console.error(err.data);
+        } else if(err.response.status === 400) {
+          setMessage('Erro ao realizar o cadastro! Verifique os campos preenchidos');
+          console.error(err);
+        }else{
           setMessage('Erro ao realizar o cadastro!');
           console.error(err);
         }
@@ -63,6 +77,9 @@ function SignUpBarbearia() {
           setMessage(null);
         }, 3000);
       });
+    }else{
+      setMessage('Preencha todos os campos.')
+    }
   };
 
   const nextStep = () => {
@@ -71,21 +88,7 @@ function SignUpBarbearia() {
 
   return (
     <>
-    <h1>Not this time 'dude' :(</h1>
-    <h1>Not this time 'dude' :(</h1>
-    <h1>Not this time 'dude' :(</h1>
-    <h1>Not this time 'dude' :(</h1>
-    <h1>Not this time 'dude' :(</h1>
-    <h1>Not this time 'dude' :(</h1>
-    <h1>Not this time 'dude' :(</h1>
-    <h1>Not this time 'dude' :(</h1>
-    <h1>Not this time 'dude' :(</h1>
-    <h1>Not this time 'dude' :(</h1>
-    <h1>Not this time 'dude' :(</h1>
-    <h1>Not this time 'dude' :(</h1>
-    <h1>Not this time 'dude' :(</h1>
-
-    {/* <div className="container__default">
+    <div className="container__default">
           <form onSubmit={handleSubmit} className="container">
         <div className="imgBox">
           <img src={barberLogo} alt="" />
@@ -112,7 +115,7 @@ function SignUpBarbearia() {
             onChange={(e) => {
               const inputValue = e.target.value;
               // Remover caracteres não alfanuméricos, ponto e espaço
-              const filteredValue = inputValue.replace(/[^a-zA-Z0-9\sçéúíóáõãèòìàêôâ.]/g, '');
+              const filteredValue = inputValue.replace(/[^a-zA-Z\sçéúíóáõãèòìàêôâ]/g, '');
               // Limitar a 30 caracteres
               const truncatedValue = filteredValue.slice(0, 30);
               setValues({ ...values, name: truncatedValue });
@@ -133,13 +136,14 @@ function SignUpBarbearia() {
               type="text"
               id="street"
               name="street"
+              value={values.street}
               onChange={(e) => {
                 const inputValue = e.target.value;
                 // Remover caracteres especiais
-                const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9\sçéúíóáõãèòìàêôâ]/g, '');
+                const filteredValue = inputValue.replace(/[^a-zA-Z\sçéúíóáõãèòìàêôâ]/g, '');
 
                 // Limitar a 50 caracteres
-                const truncatedValue = sanitizedValue.slice(0, 50);
+                const truncatedValue = filteredValue.slice(0, 30);
                 setValues({ ...values, street: truncatedValue });
               }}
               placeholder="Rua"
@@ -151,11 +155,12 @@ function SignUpBarbearia() {
                 type="text"
                 id="number"
                 name="number"
+                value={values.number}
                 onChange={(e) => {
                   const inputValue = e.target.value;
                   // Remover caracteres não numéricos
                   const numericValue = inputValue.replace(/\D/g, '');
-                  // Limitar a 10 caracteres
+                  // Limitar a 5 caracteres
                   const truncatedValue = numericValue.slice(0, 5);
                   setValues({ ...values, number: truncatedValue });
                 }}
@@ -168,12 +173,13 @@ function SignUpBarbearia() {
                 type="text"
                 id="neighborhood"
                 name="neighborhood"
+                value={values.neighborhood}
                 onChange={(e) => {
                   const inputValue = e.target.value;
                   // Remover caracteres especiais
-                  const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9\sçéúíóáõãèòìàêôâ]/g, '');
+                  const sanitizedValue = inputValue.replace(/[^a-zA-Z\sçéúíóáõãèòìàêôâ]/g, '');
                   // Limitar a 50 caracteres
-                  const truncatedValue = sanitizedValue.slice(0, 50);
+                  const truncatedValue = sanitizedValue.slice(0, 30);
                   setValues({ ...values, neighborhood: truncatedValue });
                 }}
                 placeholder="Bairro"
@@ -185,10 +191,11 @@ function SignUpBarbearia() {
                 type="text"
                 id="city"
                 name="city"
+                value={values.city}
                 onChange={(e) => {
                   const inputValue = e.target.value;
                   // Remover caracteres especiais
-                  const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9\sçéúíóáõãèòìàêôâ]/g, '');
+                  const sanitizedValue = inputValue.replace(/[^a-zA-Z\sçéúíóáõãèòìàêôâ]/g, '');
                   // Limitar a 50 caracteres
                   const truncatedValue = sanitizedValue.slice(0, 30);
                   setValues({ ...values, city: truncatedValue });
@@ -211,9 +218,9 @@ function SignUpBarbearia() {
                 onChange={(e) => {
                   const inputValue = e.target.value;
                   // Remover caracteres não alfanuméricos
-                  const filteredValue = inputValue.replace(/[^a-zA-Z0-9.\s]/g, '');
+                  const filteredValue = inputValue.replace(/[^a-zA-Z\s]/g, '');
                   // Limitar a 30 caracteres
-                  const truncatedValue = filteredValue.slice(0, 30);
+                  const truncatedValue = filteredValue.slice(0, 20);
                 setValues({ ...values, usuario: truncatedValue });
                 }}
                 placeholder="Nome de Usuário"
@@ -225,6 +232,7 @@ function SignUpBarbearia() {
                 type="email"
                 id="email"
                 name="email"
+                value={values.email}
                 onChange={(e) => {
                   const inputValue = e.target.value;
                   // Substituir o conteúdo do campo para conter apenas números, letras, "@" e "."
@@ -245,6 +253,8 @@ function SignUpBarbearia() {
                 value={values.senha}
                 onChange={(e) => {
                   const inputValue = e.target.value;
+
+                  const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9@.#%]/g, '');
                   // Limitar a 8 caracteres
                   const truncatedValue = inputValue.slice(0, 8);
                   setValues({ ...values, senha: truncatedValue });
@@ -273,7 +283,7 @@ function SignUpBarbearia() {
           <p>Você já tem uma conta?</p><Link className="link" to="/SignInBarbearia">Login</Link>
         </div>
           </form>
-      </div>*/}
+      </div>
       
     </>
   );

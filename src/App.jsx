@@ -50,7 +50,7 @@ const App = () => {
         <Route path="/" element={<GetStartedPage />} />
 
         <Route path="/SignInBarbearia" element={<SignInBarbearia />} />
-        <Route path="/barbeasy/SignUpBarbearia" element={<SignUpBarbearia />} />
+        <Route path="/SignUpBarbearia" element={<SignUpBarbearia />} />
 
         <Route path="/HomeBarbearia" element={<PrivateRoute element={<HomeBarbearia />} />} />
         <Route path="/ProfileBarbearia" element={<PrivateRoute element={<ProfileBarbearia />}/>} />

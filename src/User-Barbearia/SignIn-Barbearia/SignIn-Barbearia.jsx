@@ -4,8 +4,10 @@ import './style.css';
 import barberLogo from './barber-logo.png';
 
 function SignInBarbearia() {
+    const urlApi = 'https://barbeasy.up.railway.app'
 
     const navigate = useNavigate();
+
     const [message, setMessage] = useState(null);
     const [values, setValues] = useState({
         email: '',
@@ -16,7 +18,7 @@ function SignInBarbearia() {
         e.preventDefault();
     
         try {
-          const response = await fetch('https://api-user-barbeasy.up.railway.app/v1/api/SignInBarbearia', {
+          const response = await fetch(`${urlApi}/v1/api/SignInBarbearia`, {
             method: 'POST',
             headers: {
               'Accept': 'application/json',
@@ -52,7 +54,6 @@ function SignInBarbearia() {
           }, 2000);
         }
       }
-
     return (
       <div className="container__default">
         <form onSubmit={sendForm} className="container">
@@ -93,10 +94,15 @@ function SignInBarbearia() {
                     name="senha"
                     value={values.senha}
                     onChange={(e) => {
-                    const inputValue = e.target.value;
-                    // Limitar a 8 caracteres
-                    const truncatedValue = inputValue.slice(0, 8);
-                    setValues({ ...values, senha: truncatedValue });
+                      let inputValue = e.target.value;
+                      
+                      // Remover caracteres não permitidos
+                      inputValue = inputValue.replace(/[^a-zA-Z0-9]/g, '');
+                      
+                      // Limitar a 8 caracteres
+                      const truncatedValue = inputValue.slice(0, 8);
+                      
+                      setValues({ ...values, senha: truncatedValue });
                     }}
                     placeholder="Password"
                     maxLength={8}

@@ -21,6 +21,9 @@ const weekNames = [
 ];
 
 function HomeBarbearia() {
+
+  const urlApi = 'https://barbeasy.up.railway.app'
+
   const date = new Date();
   const options = { weekday: 'short', locale: 'pt-BR' };
   let dayOfWeek = date.toLocaleDateString('pt-BR', options);
@@ -31,6 +34,7 @@ function HomeBarbearia() {
   const navigate = useNavigate();
 
   //Buscando informações do usuário logado
+  const token = localStorage.getItem('token');
   const userData = localStorage.getItem('dataBarbearia');//Obtendo os dados salvo no localStorage
   const userInformation = JSON.parse(userData);//trasnformando os dados para JSON
   const barbeariaId = userInformation.barbearia[0].id;
@@ -43,9 +47,12 @@ const navigateToProfileBarbearia = () =>{
 const [imageUser, setImageUser] = useState([]);
 //Função para obter as imagens cadastradas
 useEffect(() => {
-  axios.get('https://api-user-barbeasy.up.railway.app/api/image-user-barbearia', {
+  axios.get(`${urlApi}/v1/api/userImageBarbearia`, {
     params: {
       barbeariaId: barbeariaId
+    },
+    headers: {
+      'Authorization': `Bearer ${token}`
     }
   })
   .then(res => {
@@ -53,7 +60,6 @@ useEffect(() => {
   })
   .catch(err => console.log(err));
 }, [barbeariaId]);
-
 //==================================================
 const [saudacao, setSaudacao] = useState('');
 //pegando a hora para saudar o usuário
@@ -120,14 +126,14 @@ function getNumber() {
   return numbersWeek;
 }
 
-// Function to get current day in format: [Sex, 12 de Abr de 2024]
+/* Function to get current day in format: [Sex, 12 de Abr de 2024]
 function getCurrentDayOfWeek(){
   const currentDayOfWeek = weekNames[date.getDay()];//Dia atual da semana
   const currentDayOfMonth = date.getDate();//Dia atua do mês
   const currentNameMonth = monthNames[date.getMonth()];//Mês atual  
   let currentDay = `${currentDayOfWeek}, ${currentDayOfMonth} de ${currentNameMonth} de ${year}`;// Monta a data no formato do dia selecionado
   return currentDay;
-}
+}*/
 
 function orderBookings(bookings) {
   // Ordenação dos bookings por menor horário (booking_time)
@@ -151,13 +157,17 @@ function orderBookings(bookings) {
 
 const weekDays = getWeeks();
 const numberDays = getNumber();
-const currentDay = getCurrentDayOfWeek()
+//const currentDay = getCurrentDayOfWeek()
 
 const handleDateClick = (dayOfWeek, day, month, year) => {
   setSelectedDay(`${dayOfWeek}, ${day} de ${month} de ${year}`);
   let selectedDate = `${dayOfWeek}, ${day} de ${month} de ${year}`;
 
-    axios.get(`https://api-user-barbeasy.up.railway.app/api/bookings/${barbeariaId}/${selectedDate}`)
+    axios.get(`${urlApi}/v1/api/bookings/${barbeariaId}/${selectedDate}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
     .then(res => {
       if(res.data.Message === "true"){
         setBookings(res.data.bookings);

@@ -40,9 +40,13 @@ import { GoPlus } from "react-icons/go";
 import './ProfileBarbearia.css';
 
 function ProfileBarbearia() {
+
+  const urlApi = 'https://barbeasy.up.railway.app'
+
   const navigate = useNavigate();
 
   //Buscando informações do usuário logado
+  const token = localStorage.getItem('token');
   const userData = localStorage.getItem('dataBarbearia');//Obtendo os dados salvo no localStorage
   const userInformation = JSON.parse(userData);//trasnformando os dados para JSON
   const barbeariaId = userInformation.barbearia[0].id;
@@ -50,6 +54,7 @@ function ProfileBarbearia() {
   const handleBackClick = () => {
     navigate("/HomeBarbearia");
   };
+
 /*-----------------------------------*/
   //Constantes de Upload de imagem de usuário
   const [file, setfile] = useState(null);
@@ -69,7 +74,6 @@ function ProfileBarbearia() {
 
     // Obtém a extensão do arquivo original
     const fileExtension = file ? file.name.split('.').pop() : '';//operador ternário para garantir que name não seja vazio
-
     if(fileExtension.length > 0){
       // Verifica se a extensão é permitida
       if (!allowedExtensions.includes(fileExtension)) {
@@ -89,7 +93,11 @@ function ProfileBarbearia() {
     formdata.append('image', renamedFile);
     formdata.append('barbeariaId', barbeariaId);
 
-    axios.post('https://api-user-barbeasy.up.railway.app/api/upload-image-user-barbearia', formdata)
+    axios.put(`${urlApi}/v1/api/updateUserImageBarbearia`, formdata, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
     .then(res => {
       if(res.data.Status === "Success"){
         setUserImageMessage("Imagem atualizada com sucesso.");
@@ -107,7 +115,7 @@ function ProfileBarbearia() {
     .catch(err => console.log(err));
   }
 
-  //Metodo para mandar as imagens automaticamente para o back-end
+  //Method to send images automatically
   useEffect(() => {
     // Configura um temporizador para esperar 1 segundo após a última mudança no input de arquivo
     const timeout = setTimeout(() => {
@@ -122,11 +130,14 @@ function ProfileBarbearia() {
     return () => clearTimeout(timeout);
   }, [file]);
 
-  //Função para obter as imagens cadastradas
+  //Function to get user image of barbearia
   useEffect(() => {
-    axios.get('https://api-user-barbeasy.up.railway.app/api/image-user-barbearia', {
+    axios.get(`${urlApi}/v1/api/userImageBarbearia`, {
       params: {
         barbeariaId: barbeariaId
+      },
+      headers: {
+        'Authorization': `Bearer ${token}`
       }
     })
     .then(res => {
@@ -157,7 +168,7 @@ function ProfileBarbearia() {
       setBannerMessage("Selecione no máximo 5 imagens.");
       setTimeout(() => {
         setBannerMessage(null);
-      }, 3000);
+      }, 1000);
       return;
     }
 
@@ -173,8 +184,7 @@ function ProfileBarbearia() {
         setBannerMessage("Extensão de arquivo não permitida. Use imagens 'jpg', 'jpeg' ou 'png'.");
         setTimeout(() => {
           setBannerMessage(null);
-          
-        }, 3000);
+        }, 1000);
         return;
       }
 
@@ -189,7 +199,11 @@ function ProfileBarbearia() {
       bannerFormData.append(`images`, renamedFile);
       bannerFormData.append('barbeariaId', barbeariaId);
     }
-    axios.post('https://api-user-barbeasy.up.railway.app/api/upload-banners-images', bannerFormData)
+    axios.put(`${urlApi}/v1/api/updateBannersImages`, bannerFormData, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
       .then(res => {
         if (res.data.Status === "Success") {
           setBannerMessage("Banner alterado com sucesso.");
@@ -225,7 +239,7 @@ function ProfileBarbearia() {
 
   //Função para obter as imagens cadastradas
   useEffect(() => {
-    axios.get('https://api-user-barbeasy.up.railway.app/api/banner-images', {
+    axios.get(`${urlApi}/v1/api/bannerImages`, {
       params: {
         barbeariaId: barbeariaId
       }
@@ -353,14 +367,13 @@ const handleProfessionalClick = (professional) => {
   
   //Função responsável por enviar os valores ao back-end
   const alterarEndereco = () => {
-    if (verificarValoresPreenchidos()) {
+    if (street || number || neighborhood || city) {
       axios.post(`https://api-user-barbeasy.up.railway.app/api/update-endereco/${barbeariaId}`, { Values: valuesEndereco })
         .then(res => {
           if (res.data.Success === 'Success') {
             setMessageEndereco("Endereço Alterado com Sucesso!")
             setTimeout(() => {
               setMessageEndereco('');
-              setValuesEndereco({city: ''})
               getAdressBarbearia()
               setMostrarEndereco(!mostrarEndereco);
             }, 3000);
