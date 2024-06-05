@@ -5,7 +5,8 @@ import { useNavigate } from "react-router-dom"
 import axios from 'axios';
 //Components
 import AddNewProfessional from '../AddNewProfessional/addNewProfessional';
-
+import AuthToUpdateData from '../../AuthToUpdateData/AuthToUpdateData';
+ 
 //Icons
 import { IoArrowBackSharp } from "react-icons/io5";
 
@@ -242,6 +243,9 @@ function ProfileBarbearia() {
     axios.get(`${urlApi}/v1/api/bannerImages`, {
       params: {
         barbeariaId: barbeariaId
+      },
+      headers: {
+        'Authorization': `Bearer ${token}`
       }
     })
     .then(result => {
@@ -640,7 +644,9 @@ const handleProfessionalClick = (professional) => {
             </label>
           </motion.div>
         </motion.div>
-
+        
+        <AuthToUpdateData/>
+        
         <div className="section_information">       
 <hr />
         <div className='tittle_menu'>
