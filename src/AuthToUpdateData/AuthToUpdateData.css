@@ -17,8 +17,8 @@
 .input__change__data{
     width: 100%;
     background: transparent;
-    border: 1px solid #4a17d5;
-    border-radius: 10px;
+    border: 1px solid #7849f4;
+    border-radius: 5px;
     padding: 3px;
     padding-left: 40px;
     outline: none;
@@ -27,19 +27,23 @@
 .Btn__confirm__changes{
     height: 50px;
     width: 85px;
-    border: 1px solid #4a17d5;
+    border: 1px solid #7849f4;
     background: transparent;
     border-radius: 5px;
     margin-left: 10px;
     transition: 0.5s;
     padding: 10px;
 }
+.input__valided{
+    border: 1px solid #4a17d5;
+    border-radius: 10px;
+    transition: 0.5s;
+}
 .Btn__valided{
     background: #4a17d5;
     border-radius: 10px;
     transition: 0.5s;
     cursor: pointer;
-    letter-spacing: 1px;
 }
 .icon__input__change__data{
     display: flex;

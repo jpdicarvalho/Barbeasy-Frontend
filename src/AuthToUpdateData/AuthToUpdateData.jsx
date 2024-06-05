@@ -16,7 +16,7 @@ export default function AuthToUpdateData (){
                 type="password"
                 id="senha"
                 name="senha"
-                className='input__change__data'
+                className={`input__change__data ${password ? 'input__valided':''}`}
                 maxlength="10"
                 onChange={(e) => {
                     const inputValue = e.target.value;
