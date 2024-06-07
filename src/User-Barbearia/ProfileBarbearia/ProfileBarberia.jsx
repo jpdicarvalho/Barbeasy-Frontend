@@ -22,10 +22,6 @@ import { MdAddRoad } from "react-icons/md";
 import { AiOutlineFieldNumber } from "react-icons/ai";
 import { GrMapLocation } from "react-icons/gr";
 import { IoMdLocate } from "react-icons/io";
-import { BsCalendar2Day } from "react-icons/bs";
-import { TbClockHour4 } from "react-icons/tb";
-import { GiRazor } from "react-icons/gi";
-import { RiDeleteBin6Line } from "react-icons/ri";
 import { FaRegUser } from "react-icons/fa6";
 import { FaUserEdit } from "react-icons/fa";
 import { MdOutlineEmail } from "react-icons/md";
@@ -202,6 +198,7 @@ function ProfileBarbearia() {
       bannerFormData.append(`images`, renamedFile);
       bannerFormData.append('barbeariaId', barbeariaId);
     }
+    
     axios.put(`${urlApi}/v1/api/updateBannersImages`, bannerFormData, {
       headers: {
         'Authorization': `Bearer ${token}`
@@ -225,20 +222,10 @@ function ProfileBarbearia() {
       .catch(err => console.log(err));
   }
 
-  //Metodo para mandar as imagens automaticamente para o back-end
-  useEffect(() => {
-    // Configura um temporizador para esperar 1 segundo após a última mudança no input de arquivo
-    const timeout = setTimeout(() => {
-    if(bannerFiles){
-        // Executa a função de upload após o período de espera
-        handleBannerImagesUpload();
-      }
-    }, 1000);
-    
-
-    // Limpa o temporizador se o componente for desmontado ou se houver uma nova mudança no input de arquivo
-    return () => clearTimeout(timeout);
-  }, [bannerFiles]);
+  //condition to run handleBannerImagesUpload (function to update banners images)
+  if(isPasswordVerified && bannerFiles){
+    handleBannerImagesUpload()
+  }
 
   //Função para obter as imagens cadastradas
   useEffect(() => {
@@ -646,12 +633,12 @@ const handleProfessionalClick = (professional) => {
           </motion.div>
         </motion.div>
 
-        {bannerFiles &&(
+        {bannerFiles.length > 0 &&(
           <div>
             <AuthToUpdateData onPasswordVerify={setIsPasswordVerified}/>
           </div>
         )}
-        
+
         <div className="section_information">       
 <hr />
         <div className='tittle_menu'>

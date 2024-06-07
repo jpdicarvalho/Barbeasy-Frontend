@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import axios from 'axios';
 
+import { VscError } from "react-icons/vsc";
 import { PiPassword } from "react-icons/pi";
 import './AuthToUpdateData.css';
 
@@ -16,6 +17,8 @@ export default function AuthToUpdateData ({ onPasswordVerify }){
     const urlApi = 'https://barbeasy.up.railway.app'
 
     const [password, setPassword] = useState('');
+    const [message, setMessage] = useState('');
+
 
     const AuthToUpdateData = () => {
         if(password){
@@ -28,25 +31,33 @@ export default function AuthToUpdateData ({ onPasswordVerify }){
                     'Authorization': `Bearer ${token}`
                   }
             }).then(res => {
-              if(res.data){
+              if(res.data.Success === 'true'){
                 onPasswordVerify(true);
                 setPassword('')
-                console.log('foi', res.data)
+              }else{
+                onPasswordVerify(false);
+                setMessage('Senha incorreta.')
+                window.location.reload()
               }
             }).catch(error => {
-                console.log('não foi')
-                console.error('Error', error)
                 onPasswordVerify(false);
+                setMessage('Erro ao verificar senha, tente novamente mais tarde')
+                setPassword('')
+                console.error('Error', error)
             });
         }
         
       };
-
+console.log(message.length)
     return(
         <div className="form__change__data">
             <div className='container__text__change__data'>
                 Digite sua senha para confirmar a alteração
             </div>
+            <div className={` ${message.length === 23 ? 'mensagem-erro' : ''}`}>
+                  <VscError className={`hide_icon__error ${message.length === 23 ? 'icon__error' : ''}`}/>
+                  <p className="text__message">{message}</p>
+              </div>
            <div className='container__form__change__data'>
             <input
                 type="password"

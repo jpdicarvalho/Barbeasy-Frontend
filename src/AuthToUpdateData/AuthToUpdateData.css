@@ -13,6 +13,7 @@
 .container__form__change__data{
     display: flex;
     flex-direction: row;
+    margin-top: 5px;
 }
 .input__change__data{
     width: 100%;
