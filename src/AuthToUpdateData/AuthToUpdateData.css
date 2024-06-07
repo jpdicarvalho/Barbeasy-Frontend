@@ -1,7 +1,7 @@
 .form__change__data {
     display: flex;
     flex-direction: column;
-    width: 390px;
+    max-width: 390px;
     padding-left: 10px;
     margin-bottom: 10px;
     font-family: 'Poppis', sans-serif;  

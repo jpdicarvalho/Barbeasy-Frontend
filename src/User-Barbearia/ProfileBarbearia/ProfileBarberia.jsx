@@ -307,11 +307,17 @@ const handleProfessionalClick = (professional) => {
   const alternarNomeBarbearia = () => {
     setMostrarNomeBarbearia(!mostrarNomeBarbearia);
   };
+
   //Função para mandar o novo nome da barbearia
   const alterarNomeBarbearia = () => {
-    axios.post(`https://api-user-barbeasy.up.railway.app/api/update-barbearia-name/${barbeariaId}`, {novoNome: novoNomeBarbearia})
+    axios.put(`${urlApi}/v1/api/updateBarbeariaName/${barbeariaId}`, {novoNome: novoNomeBarbearia}, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
     .then(res => {
         if(res.data.Success === 'Success'){
+          setNovoNomeBarbearia('')
           setMessageNameBarbearia("Nome da Barbearia Alterado com Sucesso!")
             // Limpar a mensagem após 3 segundos (3000 milissegundos)
             setTimeout(() => {
@@ -325,20 +331,29 @@ const handleProfessionalClick = (professional) => {
             // Limpar a mensagem após 3 segundos (3000 milissegundos)
             setTimeout(() => {
               setMessageNameBarbearia('');
-              window.location.reload();
             }, 3000);
         // Lógica a ser executada em caso de erro na solicitação
         console.error('Erro ao atualizar o nome da barbearia:', error);
       });
   };
+
+  //Function to run alterarNomeBarbearia (function to change name barbearia)
+  if(isPasswordVerified && novoNomeBarbearia){
+    alterarNomeBarbearia()
+  }
   //Função para obter o nome atual da barbearia
   const getNameBarbearia = () =>{
-    axios.get(`https://api-user-barbeasy.up.railway.app/api/nome-barbearia/${barbeariaId}`)
+    axios.get(`${urlApi}/v1/api/nameBarbearia/${barbeariaId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
       .then(res => {
         setNomeBarbeariaAtual(res.data.NomeBarbearia)
       })
       .catch(error => console.log(error));
   }
+
   useEffect(() => {
     getNameBarbearia()
   }, [barbeariaId])
@@ -759,10 +774,13 @@ const handleProfessionalClick = (professional) => {
                 required
               /> <MdOutlineAddBusiness className='icon_input'/>
             </div>
+
+            {novoNomeBarbearia.length > 0 &&(
+              <div>
+                <AuthToUpdateData onPasswordVerify={setIsPasswordVerified}/>
+              </div>
+            )}
           
-            <button className={`button__change ${novoNomeBarbearia ? 'show' : ''}`} onClick={alterarNomeBarbearia}>
-              Alterar
-            </button>
           </div>          
          
           )}
