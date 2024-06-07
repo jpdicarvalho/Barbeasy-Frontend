@@ -649,7 +649,7 @@ const handleProfessionalClick = (professional) => {
         </motion.div>
 
         {bannerFiles.length > 0 &&(
-          <div>
+          <div style={{paddingLeft: '10px'}}>
             <AuthToUpdateData onPasswordVerify={setIsPasswordVerified}/>
           </div>
         )}
