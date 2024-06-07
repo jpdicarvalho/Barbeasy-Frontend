@@ -708,10 +708,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: auto;
+    width: 100%;
     background-color: rgba(67, 210, 45, 0.1);
     color: #1AEE07;
-    padding: 5px;
+    padding: 10px;
     border-radius: 5px;
     margin-top: 10px;
     margin-bottom: 10px;

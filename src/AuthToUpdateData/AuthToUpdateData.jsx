@@ -37,7 +37,9 @@ export default function AuthToUpdateData ({ onPasswordVerify }){
               }else{
                 onPasswordVerify(false);
                 setMessage('Senha incorreta.')
-                window.location.reload()
+                setTimeout(() => {
+                    setMessage('');
+                  }, 2000);
               }
             }).catch(error => {
                 onPasswordVerify(false);
@@ -48,16 +50,17 @@ export default function AuthToUpdateData ({ onPasswordVerify }){
         }
         
       };
-console.log(message.length)
     return(
         <div className="form__change__data">
             <div className='container__text__change__data'>
                 Digite sua senha para confirmar a alteração
             </div>
-            <div className={` ${message.length === 23 ? 'mensagem-erro' : ''}`}>
-                  <VscError className={`hide_icon__error ${message.length === 23 ? 'icon__error' : ''}`}/>
-                  <p className="text__message">{message}</p>
-              </div>
+            {message.length > 7 &&(
+                <div className={` ${message.length > 7 ? 'mensagem-erro' : ''}`}>
+                <VscError className={`hide_icon__error ${message.length > 7 ? 'icon__error' : ''}`}/>
+                <p className="text__message">{message}</p>
+            </div>
+            )}
            <div className='container__form__change__data'>
             <input
                 type="password"
