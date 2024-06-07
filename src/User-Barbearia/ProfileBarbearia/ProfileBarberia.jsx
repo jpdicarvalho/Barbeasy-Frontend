@@ -56,6 +56,8 @@ function ProfileBarbearia() {
     navigate("/HomeBarbearia");
   };
 
+  const [isPasswordVerified, setIsPasswordVerified] = useState(false);
+
 /*-----------------------------------*/
   //Constantes de Upload de imagem de usuário
   const [file, setfile] = useState(null);
@@ -366,7 +368,6 @@ const handleProfessionalClick = (professional) => {
   const alternarEndereco = () => {
     setMostrarEndereco(!mostrarEndereco);
   };
-  console.log(street, number, neighborhood, city)
   //Função para vericicar se há algum input vazio
   
   //Função responsável por enviar os valores ao back-end
@@ -644,8 +645,12 @@ const handleProfessionalClick = (professional) => {
             </label>
           </motion.div>
         </motion.div>
-        
-        <AuthToUpdateData/>
+
+        {bannerFiles &&(
+          <div>
+            <AuthToUpdateData onPasswordVerify={setIsPasswordVerified}/>
+          </div>
+        )}
         
         <div className="section_information">       
 <hr />
