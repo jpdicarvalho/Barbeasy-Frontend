@@ -563,11 +563,14 @@ const handleProfessionalClick = (professional) => {
   };
 
   const alterarSenha = () => {
-    axios.get('https://api-user-barbeasy.up.railway.app/api/update-password-barbearia', {
+    axios.get(`${urlApi}/v1/api/updatePasswordBarbearia`, {
       params: {
         barbeariaId: barbeariaId,
         passwordConfirm: passwordConfirm,
         newPassword: newPassword
+      },
+      headers: {
+        'Authorization': `Bearer ${token}`
       }
     }).then(res => {
       if(res.data.Success === 'Success'){
@@ -1036,16 +1039,18 @@ const handleProfessionalClick = (professional) => {
                     setNewEmail(truncatedValue);
                   }
                 }}
-                placeholder={currentEmail}
+                placeholder={currentEmail[0] + "..." + currentEmail.split('@')[1]}
                 className="white-placeholder"
                 maxLength={50}
                 required
               />{' '}<MdOutlineAlternateEmail className='icon_input'/>
             </div>
 
-            <button className={`button__change ${newEmail ? 'show' : ''}`} onClick={alterarEmail}>
-              Alterar
-            </button>
+            {newEmail && newEmail.length > 4 &&(
+              <div>
+                <AuthToUpdateData onPasswordVerify={setIsPasswordVerified}/>
+              </div>
+            )}
          </div>
          
           )}          
@@ -1078,11 +1083,12 @@ const handleProfessionalClick = (professional) => {
                 type="password"
                 id="senha"
                 name="senha"
-                maxlength="10"
                 onChange={(e) => {
                   const inputValue = e.target.value;
+                  //regex to valided password
+                  const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9@.#%]/g, '');
                   // Limitar a 10 caracteres
-                  const truncatedPasswordConfirm = inputValue.slice(0, 10);
+                  const truncatedPasswordConfirm = sanitizedValue.slice(0, 8);
                   setPasswordConfirm(truncatedPasswordConfirm);
                 }}
                 placeholder="Senha Atual"
@@ -1098,8 +1104,10 @@ const handleProfessionalClick = (professional) => {
                 name="NovaSenha"
                 onChange={(e) => {
                   const inputValue = e.target.value;
+                  //regex to valided password
+                  const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9@.#%]/g, '');
                   // Limitar a 8 caracteres
-                  const truncatedValue = inputValue.slice(0, 8);
+                  const truncatedValue = sanitizedValue.slice(0, 8);
                   setNewPassword(truncatedValue);
                 }}
                 placeholder="Nova Senha"
