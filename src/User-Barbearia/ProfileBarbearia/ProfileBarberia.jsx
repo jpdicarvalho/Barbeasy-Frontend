@@ -475,7 +475,11 @@ const handleProfessionalClick = (professional) => {
   };
   //Função para obter o nome de usuário atual da barbearia
   const getUserName = () =>{
-    axios.get(`https://api-user-barbeasy.up.railway.app/api/user-name-barbearia/${barbeariaId}`)
+    axios.get(`${urlApi}/v1/api/userNameBarbearia/${barbeariaId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
       .then(res => {
         setUserNameBarbearia(res.data.UserNameBarbearia)
       })
