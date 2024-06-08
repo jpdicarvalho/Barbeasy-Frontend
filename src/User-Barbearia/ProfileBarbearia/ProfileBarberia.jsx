@@ -371,11 +371,11 @@ const handleProfessionalClick = (professional) => {
     setMostrarEndereco(!mostrarEndereco);
   };
   //Função para vericicar se há algum input vazio
-  const isValuesValided = street || number || neighborhood || city;
+  const isValuesAddressValided = street || number || neighborhood || city;
 
   //Função responsável por enviar os valores ao back-end
   const alterarEndereco = () => {
-    if (isValuesValided) {
+    if (isValuesAddressValided) {
       const ValuesAddress = {
         street,
         number,
@@ -899,9 +899,11 @@ const handleProfessionalClick = (professional) => {
                     />{' '} <IoMdLocate id="icon_input_city"/>
                       </div>
 
-                      <button className={`button__change ${valuesEndereco.city ? 'show' : ''}`} onClick={alterarEndereco}>
-                        Alterar
-                      </button>
+                      {isValuesAddressValided &&(
+                        <div>
+                          <AuthToUpdateData onPasswordVerify={setIsPasswordVerified}/>
+                        </div>
+                      )}
                     </div>
                     
         )}
