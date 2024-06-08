@@ -371,11 +371,22 @@ const handleProfessionalClick = (professional) => {
     setMostrarEndereco(!mostrarEndereco);
   };
   //Função para vericicar se há algum input vazio
-  
+  const isValuesValided = street || number || neighborhood || city;
+
   //Função responsável por enviar os valores ao back-end
   const alterarEndereco = () => {
-    if (street || number || neighborhood || city) {
-      axios.post(`https://api-user-barbeasy.up.railway.app/api/update-endereco/${barbeariaId}`, { Values: valuesEndereco })
+    if (isValuesValided) {
+      const ValuesAddress = {
+        street,
+        number,
+        neighborhood,
+        city
+      }
+      axios.put(`${urlApi}/v1/api/updateAddress/${barbeariaId}`, ValuesAddress, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
         .then(res => {
           if (res.data.Success === 'Success') {
             setMessageEndereco("Endereço Alterado com Sucesso!")
@@ -405,7 +416,11 @@ const handleProfessionalClick = (professional) => {
   };
   //Função para obter o nome atual da barbearia
   const getAdressBarbearia = () => {
-    axios.get(`https://api-user-barbeasy.up.railway.app/api/endereco/${barbeariaId}`)
+    axios.get(`${urlApi}/v1/api/address/${barbeariaId}`,{
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
       .then(res => {
         setEndereco(res.data.Endereco)
       })
@@ -414,6 +429,7 @@ const handleProfessionalClick = (professional) => {
   useEffect(() => {
     getAdressBarbearia()
   }, [barbeariaId])
+  console.log(endereco)
 /*=================================================*/
   const [mostrarNome, setMostrarNome] = useState(false);
   const [novoUserName, setNovoUserName] = useState('');
@@ -822,7 +838,7 @@ const handleProfessionalClick = (professional) => {
                             const truncatedValue = sanitizedValue.slice(0, 30);
                             setStreet(truncatedValue);
                         }}
-                        placeholder={endereco[0]}
+                        placeholder={endereco.rua}
                         className="white-placeholder"
                         maxLength={30}
                         required
@@ -840,7 +856,7 @@ const handleProfessionalClick = (professional) => {
                         const truncatedValue = numericValue.slice(0, 5);
                         setNumber(truncatedValue);
                       }}
-                      placeholder={endereco[1]}
+                      placeholder={endereco.N}
                       className="white-placeholder"
                       maxLength={5}
                       required
@@ -858,7 +874,7 @@ const handleProfessionalClick = (professional) => {
                         const truncatedValue = sanitizedValue.slice(0, 50);
                         setNeighborhood(truncatedValue);
                       }}
-                      placeholder={endereco[2]}
+                      placeholder={endereco.bairro}
                       className="white-placeholder"
                       maxLength={30}
                       required
@@ -876,7 +892,7 @@ const handleProfessionalClick = (professional) => {
                         const truncatedValue = sanitizedValue.slice(0, 30);
                         setCity(truncatedValue);
                       }}
-                      placeholder={endereco[3]}
+                      placeholder={endereco.cidade}
                       className="white-placeholder"
                       maxLength={20}
                       required
