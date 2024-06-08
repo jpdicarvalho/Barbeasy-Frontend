@@ -446,7 +446,7 @@ const handleProfessionalClick = (professional) => {
   };
   //Função responsável por enviar o novo nome de usuário ao back-end
   const alterarUserName = () => {
-    axios.put(`${urlApi}/v1/api/uploadUserNameBarbearia/${barbeariaId}`, {newUserName: novoUserName}, {
+    axios.put(`${urlApi}/v1/api/updateUserNameBarbearia/${barbeariaId}`, {newUserName: novoUserName}, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -495,12 +495,18 @@ const handleProfessionalClick = (professional) => {
   const [currentEmail, setCurrentEmail] = useState('');
   const [messageEmail, setMessageEmail] = useState('');
 
+  //Funtion to show input chanege email
   const alternarEmail = () => {
     setMostrarEmail(!mostrarEmail);
   };
 
+  //Function to update email
   const alterarEmail = () => {
-    axios.post(`https://api-user-barbeasy.up.railway.app/api/upload-email-barbearia/${barbeariaId}`, {NewEmail: newEmail})
+    axios.put(`${urlApi}/v1/api/updateEmailBarbearia/${barbeariaId}`, {NewEmail: newEmail}, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
     .then(res => {
         if(res.data.Success === 'Success'){
           setMessageEmail("Email alterado com sucesso.")
@@ -525,8 +531,18 @@ const handleProfessionalClick = (professional) => {
       });
   };
 
+  //Condition to execute alterarEmail
+  if(isPasswordVerified && newEmail){
+    alterarEmail()
+  }
+
+  //Function to get email
   const getEmail = () =>{
-    axios.get(`https://api-user-barbeasy.up.railway.app/api/email-barbearia/${barbeariaId}`)
+    axios.get(`${urlApi}/v1/api/emailBarbearia/${barbeariaId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
       .then(result => {
         setCurrentEmail(result.data.EmailBarbearia);
       })
