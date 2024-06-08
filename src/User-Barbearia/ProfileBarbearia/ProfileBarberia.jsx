@@ -414,6 +414,12 @@ const handleProfessionalClick = (professional) => {
       }, 3000);
     }
   };
+
+  //condition to execute alterarEndereco (function to update data of address)
+  if(isPasswordVerified && isValuesAddressValided){
+    alterarEndereco()
+  }
+  
   //Função para obter o nome atual da barbearia
   const getAdressBarbearia = () => {
     axios.get(`${urlApi}/v1/api/address/${barbeariaId}`,{
@@ -429,7 +435,7 @@ const handleProfessionalClick = (professional) => {
   useEffect(() => {
     getAdressBarbearia()
   }, [barbeariaId])
-  console.log(endereco)
+  console.log(number)
 /*=================================================*/
   const [mostrarNome, setMostrarNome] = useState(false);
   const [novoUserName, setNovoUserName] = useState('');

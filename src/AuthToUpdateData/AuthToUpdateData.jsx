@@ -34,6 +34,9 @@ export default function AuthToUpdateData ({ onPasswordVerify }){
               if(res.data.Success === 'true'){
                 onPasswordVerify(true);
                 setPassword('')
+                setTimeout(() => {
+                    onPasswordVerify(false)
+                  }, 3000);
               }else{
                 onPasswordVerify(false);
                 setMessage('Senha incorreta.')
