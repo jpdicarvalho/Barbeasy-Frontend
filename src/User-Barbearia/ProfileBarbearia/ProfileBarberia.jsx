@@ -876,7 +876,7 @@ const handleProfessionalClick = (professional) => {
                         // Remover caracteres especiais
                         const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9\sçéúíóáõãèòìàêôâ]/g, '');
                         // Limitar a 50 caracteres
-                        const truncatedValue = sanitizedValue.slice(0, 50);
+                        const truncatedValue = sanitizedValue.slice(0, 30);
                         setNeighborhood(truncatedValue);
                       }}
                       placeholder={endereco[0].bairro}
