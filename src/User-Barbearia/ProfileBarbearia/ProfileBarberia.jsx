@@ -446,7 +446,11 @@ const handleProfessionalClick = (professional) => {
   };
   //Função responsável por enviar o novo nome de usuário ao back-end
   const alterarUserName = () => {
-    axios.post(`https://api-user-barbeasy.up.railway.app/api/upload-user-name-barbearia/${barbeariaId}`, {newUserName: novoUserName})
+    axios.put(`${urlApi}/v1/api/uploadUserNameBarbearia/${barbeariaId}`, {newUserName: novoUserName}, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
       .then(res => {
           if(res.data.Success === 'Success'){
             setMessageUserName("Nome de usuário alterado com sucesso.")
@@ -951,7 +955,7 @@ const handleProfessionalClick = (professional) => {
                 onChange={(e) => {
                   const inputValue = e.target.value;
                   // Remover caracteres não alfanuméricos
-                  const filteredValue = inputValue.replace(/[^a-zA-Z0-9.\s]/g, '');
+                  const filteredValue = inputValue.replace(/[^a-zA-Z\s]/g, '');
                   // Limitar a 30 caracteres
                   const userName = filteredValue.slice(0, 30);
                 setNovoUserName(userName);
