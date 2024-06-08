@@ -419,7 +419,7 @@ const handleProfessionalClick = (professional) => {
   if(isPasswordVerified && isValuesAddressValided){
     alterarEndereco()
   }
-  
+
   //Função para obter o nome atual da barbearia
   const getAdressBarbearia = () => {
     axios.get(`${urlApi}/v1/api/address/${barbeariaId}`,{
@@ -435,7 +435,6 @@ const handleProfessionalClick = (professional) => {
   useEffect(() => {
     getAdressBarbearia()
   }, [barbeariaId])
-  console.log(number)
 /*=================================================*/
   const [mostrarNome, setMostrarNome] = useState(false);
   const [novoUserName, setNovoUserName] = useState('');
@@ -844,7 +843,7 @@ const handleProfessionalClick = (professional) => {
                             const truncatedValue = sanitizedValue.slice(0, 30);
                             setStreet(truncatedValue);
                         }}
-                        placeholder={endereco.rua}
+                        placeholder={endereco[0].rua}
                         className="white-placeholder"
                         maxLength={30}
                         required
@@ -862,7 +861,7 @@ const handleProfessionalClick = (professional) => {
                         const truncatedValue = numericValue.slice(0, 5);
                         setNumber(truncatedValue);
                       }}
-                      placeholder={endereco.N}
+                      placeholder={endereco[0].N}
                       className="white-placeholder"
                       maxLength={5}
                       required
@@ -880,7 +879,7 @@ const handleProfessionalClick = (professional) => {
                         const truncatedValue = sanitizedValue.slice(0, 50);
                         setNeighborhood(truncatedValue);
                       }}
-                      placeholder={endereco.bairro}
+                      placeholder={endereco[0].bairro}
                       className="white-placeholder"
                       maxLength={30}
                       required
@@ -898,7 +897,7 @@ const handleProfessionalClick = (professional) => {
                         const truncatedValue = sanitizedValue.slice(0, 30);
                         setCity(truncatedValue);
                       }}
-                      placeholder={endereco.cidade}
+                      placeholder={endereco[0].cidade}
                       className="white-placeholder"
                       maxLength={20}
                       required
