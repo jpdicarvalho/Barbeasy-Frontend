@@ -79,11 +79,15 @@ function SignInBarbearia() {
                         const inputValue = e.target.value;
                         // Substituir o conteúdo do campo para conter apenas números, letras, "@" e "."
                         const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9@.]/g, '');
+                        // Limitar a 50 caracteres
+                        const truncatedValue = sanitizedValue.slice(0, 50);
                         // Validar se o valor atende ao formato de email esperado
                         const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(truncatedValue);
-                        // Limitar a 50 caracteres
-                        const truncatedValue = isValidEmail.slice(0, 50);
-                        setValues({ ...values, email: truncatedValue });
+                        if(isValidEmail){
+                          setValues({ ...values, email: truncatedValue });
+                        }else{
+                          setValues({ ...values, email: '' });
+                        }
                     }}
                     placeholder="Email"
                     maxLength={50}
