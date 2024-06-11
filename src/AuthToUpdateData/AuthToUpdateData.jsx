@@ -22,7 +22,7 @@ export default function AuthToUpdateData ({ onPasswordVerify }){
 
     const AuthToUpdateData = () => {
         if(password){
-            axios.get(`${urlApi}/v1/api/AuthToUpdateData/`, {
+            axios.get(`${urlApi}/api/v1/AuthToUpdateData/`, {
                 params: {
                     barbeariaId: barbeariaId,
                     password: password

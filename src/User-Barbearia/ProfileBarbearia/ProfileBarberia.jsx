@@ -39,7 +39,6 @@ import './ProfileBarbearia.css';
 function ProfileBarbearia() {
 
   const urlApi = 'https://barbeasy.up.railway.app'
-
   const navigate = useNavigate();
 
   //Buscando informações do usuário logado
@@ -48,6 +47,13 @@ function ProfileBarbearia() {
   const userInformation = JSON.parse(userData);//trasnformando os dados para JSON
   const barbeariaId = userInformation.barbearia[0].id;
 
+
+  const currentDateTime = new Date();
+  const formdata = new FormData();
+
+  // Formata a data e hora no formato desejado (por exemplo: YYYYMMDD_HHMMSS)
+  const formattedDateTime = `${currentDateTime.getFullYear()}${(currentDateTime.getMonth() + 1).toString().padStart(2, '0')}${currentDateTime.getDate().toString().padStart(2, '0')}_${currentDateTime.getHours().toString().padStart(2, '0')}${currentDateTime.getMinutes().toString().padStart(2, '0')}${currentDateTime.getSeconds().toString().padStart(2, '0')}`;
+  
   const handleBackClick = () => {
     navigate("/HomeBarbearia");
   };
@@ -61,11 +67,6 @@ function ProfileBarbearia() {
   const [file, setfile] = useState(null);
   const [imageUser, setImageUser] = useState([]);
   const [userImageMessage, setUserImageMessage] = useState('');
-
-  const formdata = new FormData();
-
-  // Obtém a data e hora atual
-  const currentDateTime = new Date();
 
   //Upload user image
   const handleFile = (e) => {
@@ -91,15 +92,12 @@ function ProfileBarbearia() {
   //Preparando as imagens selecionadas para serem enviadas ao back-end
   const handleUpload = () => {
 
-    // Formata a data e hora no formato desejado (por exemplo: YYYYMMDD_HHMMSS)
-    const formattedDateTime = `${currentDateTime.getFullYear()}${(currentDateTime.getMonth() + 1).toString().padStart(2, '0')}${currentDateTime.getDate().toString().padStart(2, '0')}_${currentDateTime.getHours().toString().padStart(2, '0')}${currentDateTime.getMinutes().toString().padStart(2, '0')}${currentDateTime.getSeconds().toString().padStart(2, '0')}`;
-  
     // Renomeia a imagem com o ID do usuário, número aleatório e a data/hora
     const renamedFile = new File([file], `userBarbeariaId_${barbeariaId}_${formattedDateTime}.${fileExtension}`, { type: file.type });
     formdata.append('image', renamedFile);
     formdata.append('barbeariaId', barbeariaId);
 
-    axios.put(`${urlApi}/v1/api/updateUserImageBarbearia`, formdata, {
+    axios.put(`${urlApi}/api/v1/updateUserImageBarbearia`, formdata, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -138,7 +136,7 @@ function ProfileBarbearia() {
 
   //Function to get user image of barbearia
   useEffect(() => {
-    axios.get(`${urlApi}/v1/api/userImageBarbearia`, {
+    axios.get(`${urlApi}/api/v1/userImageBarbearia`, {
       params: {
         barbeariaId: barbeariaId
       },
@@ -195,16 +193,19 @@ function ProfileBarbearia() {
   //Preparando as imagens selecionadas para serem enviadas ao back-end
   const handleBannerImagesUpload = () => {
 
-    // Formata a data e hora no formato desejado (por exemplo: YYYYMMDD_HHMMSS)
-    const formattedDateTime = `${currentDateTime.getFullYear()}${(currentDateTime.getMonth() + 1).toString().padStart(2, '0')}${currentDateTime.getDate().toString().padStart(2, '0')}_${currentDateTime.getHours().toString().padStart(2, '0')}${currentDateTime.getMinutes().toString().padStart(2, '0')}${currentDateTime.getSeconds().toString().padStart(2, '0')}`;
+  // Itera sobre os arquivos selecionados
+  for (let i = 0; i < bannerFiles.length; i++) {
+    const file = bannerFiles[i];
+    // Obtém a extensão do arquivo original
+    const fileExtension = file ? file.name.split('.').pop() : '';
     // Renomeia a imagem com o ID do usuário mantendo a extensão original
     const renamedFile = new File([file], `barbeariaId_${barbeariaId}_banner_${i + 1}_${formattedDateTime}.${fileExtension}`, { type: file.type });
 
     // Adiciona o arquivo ao FormData
     bannerFormData.append(`images`, renamedFile);
     bannerFormData.append('barbeariaId', barbeariaId);
-    
-    axios.put(`${urlApi}/v1/api/updateBannersImages`, bannerFormData, {
+  }
+    axios.put(`${urlApi}/api/v1/updateBannersImages`, bannerFormData, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -235,7 +236,7 @@ function ProfileBarbearia() {
 
   //Função para obter as imagens cadastradas
   useEffect(() => {
-    axios.get(`${urlApi}/v1/api/bannerImages`, {
+    axios.get(`${urlApi}/api/v1/bannerImages`, {
       params: {
         barbeariaId: barbeariaId
       },
@@ -248,6 +249,7 @@ function ProfileBarbearia() {
     })
     .catch(error => console.log(error));
   }, [barbeariaId]);
+
 //==================================================
 //Variáveis para abrir o madal
 const [showAddNewProfessional, setShowAddNewProfessional] = useState(false);
@@ -256,7 +258,7 @@ const [professional, setProfessional] = useState([])
   //Function to get all professionais
   useEffect(() => {
     const getProfessional = () =>{
-    axios.get(`https://api-user-barbeasy.up.railway.app/api/professional/${barbeariaId}`)
+    axios.get(`${urlApi}/api/v1/professional/${barbeariaId}`)
       .then(res => {
         setProfessional(res.data.Professional)
       })
@@ -282,7 +284,7 @@ const handleProfessionalClick = (professional) => {
   //Função para atualizar o status da barbearia
   const statusUpdate = () => {
     // Aqui você pode fazer uma solicitação para o backend usando o axios
-    axios.post(`https://api-user-barbeasy.up.railway.app/api/status-update/${barbeariaId}`, { Status: status })
+    axios.put(`${urlApi}/api/v1/updateStatus/${barbeariaId}`, { Status: status })
     .then(res => {
         if(res.data.Success === 'Success'){
           console.log('Status atualizado!');
@@ -296,12 +298,13 @@ const handleProfessionalClick = (professional) => {
 
   //Função para obter o status da barbearia
   useEffect(() => {
-    axios.get(`https://api-user-barbeasy.up.railway.app/api/status-barbearia/${barbeariaId}`)
+    axios.get(`${urlApi}/api/v1/statusBarbearia/${barbeariaId}`)
       .then(res => {
         setStatus(res.data.StatusBarbearia)
       })
       .catch(error => console.log(error));
   }, [barbeariaId])
+
 /*----------------------------------*/
   //Constantes para atualizar o nome da Barbearia
   const [mostrarNomeBarbearia, setMostrarNomeBarbearia] = useState(false);
@@ -316,7 +319,7 @@ const handleProfessionalClick = (professional) => {
 
   //Função para mandar o novo nome da barbearia
   const alterarNomeBarbearia = () => {
-    axios.put(`${urlApi}/v1/api/updateBarbeariaName/${barbeariaId}`, {novoNome: novoNomeBarbearia}, {
+    axios.put(`${urlApi}/api/v1/updateBarbeariaName/${barbeariaId}`, {novoNome: novoNomeBarbearia}, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -349,7 +352,7 @@ const handleProfessionalClick = (professional) => {
   }
   //Função para obter o nome atual da barbearia
   const getNameBarbearia = () =>{
-    axios.get(`${urlApi}/v1/api/nameBarbearia/${barbeariaId}`, {
+    axios.get(`${urlApi}/api/v1/nameBarbearia/${barbeariaId}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -363,6 +366,7 @@ const handleProfessionalClick = (professional) => {
   useEffect(() => {
     getNameBarbearia()
   }, [barbeariaId])
+
 /*----------------------------------*/
   const [mostrarEndereco, setMostrarEndereco] = useState(false);
   const [street, setStreet] = useState('');
@@ -388,7 +392,7 @@ const handleProfessionalClick = (professional) => {
         neighborhood,
         city
       }
-      axios.put(`${urlApi}/v1/api/updateAddress/${barbeariaId}`, ValuesAddress, {
+      axios.put(`${urlApi}/api/v1/updateAddress/${barbeariaId}`, ValuesAddress, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -428,7 +432,7 @@ const handleProfessionalClick = (professional) => {
 
   //Função para obter o nome atual da barbearia
   const getAdressBarbearia = () => {
-    axios.get(`${urlApi}/v1/api/address/${barbeariaId}`,{
+    axios.get(`${urlApi}/api/v1/address/${barbeariaId}`,{
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -441,6 +445,7 @@ const handleProfessionalClick = (professional) => {
   useEffect(() => {
     getAdressBarbearia()
   }, [barbeariaId])
+
 /*=================================================*/
   const [mostrarNome, setMostrarNome] = useState(false);
   const [novoUserName, setNovoUserName] = useState('');
@@ -452,7 +457,7 @@ const handleProfessionalClick = (professional) => {
   };
   //Função responsável por enviar o novo nome de usuário ao back-end
   const alterarUserName = () => {
-    axios.put(`${urlApi}/v1/api/updateUserNameBarbearia/${barbeariaId}`, {newUserName: novoUserName}, {
+    axios.put(`${urlApi}/api/v1/updateUserNameBarbearia/${barbeariaId}`, {newUserName: novoUserName}, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -481,7 +486,7 @@ const handleProfessionalClick = (professional) => {
   };
   //Função para obter o nome de usuário atual da barbearia
   const getUserName = () =>{
-    axios.get(`${urlApi}/v1/api/userNameBarbearia/${barbeariaId}`, {
+    axios.get(`${urlApi}/api/v1/userNameBarbearia/${barbeariaId}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -495,6 +500,7 @@ const handleProfessionalClick = (professional) => {
   useEffect(() => {
     getUserName()
   }, [barbeariaId])
+
 /*----------------------------------*/
   const [mostrarEmail, setMostrarEmail] = useState(false);
   const [newEmail, setNewEmail] = useState('');
@@ -508,7 +514,7 @@ const handleProfessionalClick = (professional) => {
 
   //Function to update email
   const alterarEmail = () => {
-    axios.put(`${urlApi}/v1/api/updateEmailBarbearia/${barbeariaId}`, {NewEmail: newEmail}, {
+    axios.put(`${urlApi}/api/v1/updateEmailBarbearia/${barbeariaId}`, {NewEmail: newEmail}, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -544,7 +550,7 @@ const handleProfessionalClick = (professional) => {
 
   //Function to get email
   const getEmail = () =>{
-    axios.get(`${urlApi}/v1/api/emailBarbearia/${barbeariaId}`, {
+    axios.get(`${urlApi}/api/v1/emailBarbearia/${barbeariaId}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -569,7 +575,7 @@ const handleProfessionalClick = (professional) => {
   };
 
   const alterarSenha = () => {
-    axios.get(`${urlApi}/v1/api/updatePasswordBarbearia`, {
+    axios.get(`${urlApi}/api/v1/updatePasswordBarbearia`, {
       params: {
         barbeariaId: barbeariaId,
         passwordConfirm: passwordConfirm,
@@ -596,6 +602,7 @@ const handleProfessionalClick = (professional) => {
           }, 5000);
     });
   };
+
 /*----------------------------------*/
 
   return (

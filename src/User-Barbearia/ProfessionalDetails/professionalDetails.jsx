@@ -25,6 +25,8 @@ const weekNames = [
 
 function ProfessionalDetails (){
 
+const urlApi = 'https://barbeasy.up.railway.app'
+
 const navigate = useNavigate();
 const location = useLocation();
 
@@ -113,7 +115,7 @@ const [messageAgenda, setMessageAgenda] = useState('');
 
   //Cadastrando os valores na agenda da barbearia
   const updateAgenda = () =>{
-    axios.post(`https://api-user-barbeasy.up.railway.app/api/update-agenda/${barbeariaId}/${professionalId}`, {daysWeek: daysWeekSelected, qntDays: QntDaysSelected})
+    axios.put(`${urlApi}/api/v1/updateAgenda/${barbeariaId}/${professionalId}`, {daysWeek: daysWeekSelected, qntDays: QntDaysSelected})
     .then(res => {
       if(res.data.Success === 'Success'){
         setMessageAgenda("Sua agenda foi atualizada! Lembre-se de ajustar seus horários de trabalho.")
@@ -133,9 +135,10 @@ const [messageAgenda, setMessageAgenda] = useState('');
       console.error('erro ao atualizar a agenda', error)
     })
   }
+  
   //Obtendo os dados da agenda da barbearia
   const getAgenda = () =>{
-    axios.get(`https://api-user-barbeasy.up.railway.app/api/agenda/${barbeariaId}/${professionalId}`)
+    axios.get(`${urlApi}/api/v1/agenda/${barbeariaId}/${professionalId}`)
     .then(res => {
       if(res.status === 200){
         setAgenda(res.data.Agenda)
@@ -144,10 +147,11 @@ const [messageAgenda, setMessageAgenda] = useState('');
       console.error('Erro ao buscar informações da agenda da barbearia', error)
     })
   }
+
   //Chamando a função para obter os dados da agenda da barbearia
   useEffect(() => {
     getAgenda()
-  }, [])
+  }, [mostrarDiasSemana, barbeariaId, professionalId])
 
   useEffect(() => {
     if (Array.isArray(agenda) && agenda.length >= 2) {
@@ -159,6 +163,7 @@ const [messageAgenda, setMessageAgenda] = useState('');
   useEffect(() => {
     setDaysWeekSelected(daysFromAgenda);
   }, [daysFromAgenda]);
+  
 /*-------------------------------------------*/
 const [mostrarHorario, setMostrarHorario] = useState(false);
 const [diaSelecionado, setDiaSelecionado] = useState(null);
@@ -288,7 +293,7 @@ const configAgendaDiaSelecionado = () => {
 const salvarHorariosDiaSelecionado = () =>{
   let strAgendaDiaSelecionado = agendaDoDiaSelecionado.join(',');
   
-  axios.post(`https://api-user-barbeasy.up.railway.app/api/update-agendaDiaSelecionado/${barbeariaId}/${professionalId}`, {StrAgenda: strAgendaDiaSelecionado})
+  axios.put(`${urlApi}/api/v1/updateAgendaDiaSelecionado/${barbeariaId}/${professionalId}`, {StrAgenda: strAgendaDiaSelecionado})
   .then(res => {
     if(res.data.Success === 'Success'){
       setMessageAgendaHorarios("Horários Salvos com Sucesso.")
@@ -298,7 +303,6 @@ const salvarHorariosDiaSelecionado = () =>{
           getHorariosDefinidos()
           setDiaSelecionado(null);
           setHorarioFuncionamento('')
-          
         }, 3000);
     }
   }).catch(error => {
@@ -313,7 +317,7 @@ const salvarHorariosDiaSelecionado = () =>{
 
 //Função para obter os horários definidos do dia selecionado
 const getHorariosDefinidos = () =>{
-  axios.get(`https://api-user-barbeasy.up.railway.app/api/agendaDiaSelecionado/${barbeariaId}/${professionalId}`)
+  axios.get(`${urlApi}/api/v1/agendaDiaSelecionado/${barbeariaId}/${professionalId}`)
   .then(res => {
    //Armazenando o objeto com todos os horários definidos
    setTimesDays(res.data.TimesDays)
@@ -350,7 +354,7 @@ const salvarHorariosTodosOsDias = () =>{
   agendaDoDiaSelecionado.shift();
   let strHorariosTodosOsDias = agendaDoDiaSelecionado.join(',');
 
-  axios.post(`https://api-user-barbeasy.up.railway.app/api/update-horariosTodosOsDias/${barbeariaId}/${professionalId}`, {StrAgenda: strHorariosTodosOsDias, NamesDaysFormated: newArray})
+  axios.put(`${urlApi}/api/v1/updateHorariosTodosOsDias/${barbeariaId}/${professionalId}`, {StrAgenda: strHorariosTodosOsDias, NamesDaysFormated: newArray})
   .then(res => {
     if(res.data.Success === 'Success'){
       setMessageAgendaHorarios("Horários Salvos com Sucesso.")
@@ -428,34 +432,35 @@ const [servicos, setServicos] = useState([]);
 
   //Função para buscar os serviços cadastrados
   const obterServicos = () =>{
-    axios.get(`https://api-user-barbeasy.up.railway.app/api/get-service/${barbeariaId}/${professionalId}`)
-  .then(res => {
-    if (res.data.Success === "Success") {
-      setServicos(res.data.result);
+    axios.get(`${urlApi}/api/v1/getService/${barbeariaId}/${professionalId}`)
+      .then(res => {
+        if (res.data.Success === "Success") {
+          setServicos(res.data.result);
+        }
+      })
+      .catch(err => {
+        console.error("Erro ao buscar serviços!", err);
+      });
     }
-  })
-  .catch(err => {
-    console.error("Erro ao buscar serviços!", err);
-  });
-  }
 
   //hook para chamar a função de obtersServiço
   useEffect(() => {
     obterServicos()
-  }, []);
+  }, [mostrarServico, barbeariaId, professionalId]);
 
-//Função para formartar o preço do serviço
-const formatarPreco = (valor) => {
-  const numero = valor.replace(/\D/g, ''); // Remove caracteres não numéricos
-  const valorFormatado = (Number(numero) / 100).toFixed(2).replace('.', ',').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
-  return `R$ ${valorFormatado}`;
-};
-//Função para formartar a taxa de comissão do serviço
-const formatarPorcentagem = (valor) => {
-  const numero = valor.replace(/\D/g, ''); // Remove caracteres não numéricos
-  const valorFormatado = (Number(numero) / 10).toFixed(1).replace('.', ',');
-  return `${valorFormatado}%`;
-};
+  //Função para formartar o preço do serviço
+  const formatarPreco = (valor) => {
+    const numero = valor.replace(/\D/g, ''); // Remove caracteres não numéricos
+    const valorFormatado = (Number(numero) / 100).toFixed(2).replace('.', ',').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+    return `R$ ${valorFormatado}`;
+  };
+
+  //Função para formartar a taxa de comissão do serviço
+  const formatarPorcentagem = (valor) => {
+    const numero = valor.replace(/\D/g, ''); // Remove caracteres não numéricos
+    const valorFormatado = (Number(numero) / 10).toFixed(1).replace('.', ',');
+    return `${valorFormatado}%`;
+  };
 /*===== Section to add a new service ======*/
   const [showAddServico, setShowAddServico] = useState(false);
 
@@ -522,7 +527,7 @@ const formatarPorcentagem = (valor) => {
         newDuration: newServiceDuration[0]
       };
       let firstService = servicos.length;
-      axios.post(`https://api-user-barbeasy.up.railway.app/api/add-service/${barbeariaId}/${professionalId}`, newServiceData)
+      axios.post(`${urlApi}/api/v1/addService/${barbeariaId}/${professionalId}`, newServiceData)
           .then(res => {
             if (res.data.Success === "Success") {
               setMessageAddService("Serviço adicionado com sucesso.");
@@ -636,7 +641,7 @@ const formatarPorcentagem = (valor) => {
         servico_Id: servicoId,
         editedDuration: editedServiceDuration[0]
       };
-      axios.post(`https://api-user-barbeasy.up.railway.app/api/update-service/${barbeariaId}/${professionalId}`, editedService)
+      axios.put(`${urlApi}/api/v1/updateService/${barbeariaId}/${professionalId}`, editedService)
       .then(res => {
         if (res.data.Success === "Success") {
           setMessageEditedService("Serviço alterado com sucesso.");
@@ -678,7 +683,7 @@ const formatarPorcentagem = (valor) => {
   //Função para apagar um serviço
   const deleteServico = (servicoId) => {
     let lastService = servicos.length;
-    axios.delete(`https://api-user-barbeasy.up.railway.app/api/delete-service/${barbeariaId}/${professionalId}/${servicoId}`)
+    axios.delete(`${urlApi}/api/v1/deleteService/${barbeariaId}/${professionalId}/${servicoId}`)
       .then(res => {
         if (res.data.Success === "Success") {
           setMessageEditedService("Serviço apagado com sucesso.");

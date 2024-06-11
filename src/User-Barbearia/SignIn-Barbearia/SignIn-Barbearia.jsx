@@ -18,7 +18,7 @@ function SignInBarbearia() {
         e.preventDefault();
     
         try {
-          const response = await fetch(`${urlApi}/v1/api/SignInBarbearia`, {
+          const response = await fetch(`${urlApi}/api/v1/SignInBarbearia`, {
             method: 'POST',
             headers: {
               'Accept': 'application/json',

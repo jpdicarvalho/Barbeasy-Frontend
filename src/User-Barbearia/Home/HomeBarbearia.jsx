@@ -47,7 +47,7 @@ const navigateToProfileBarbearia = () =>{
 const [imageUser, setImageUser] = useState([]);
 //Função para obter as imagens cadastradas
 useEffect(() => {
-  axios.get(`${urlApi}/v1/api/userImageBarbearia`, {
+  axios.get(`${urlApi}/api/v1/userImageBarbearia`, {
     params: {
       barbeariaId: barbeariaId
     },
@@ -163,7 +163,7 @@ const handleDateClick = (dayOfWeek, day, month, year) => {
   setSelectedDay(`${dayOfWeek}, ${day} de ${month} de ${year}`);
   let selectedDate = `${dayOfWeek}, ${day} de ${month} de ${year}`;
 
-    axios.get(`${urlApi}/v1/api/bookings/${barbeariaId}/${selectedDate}`, {
+    axios.get(`${urlApi}/api/v1/bookings/${barbeariaId}/${selectedDate}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }

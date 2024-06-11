@@ -46,7 +46,7 @@ function SignUpBarbearia() {
   const handleSubmit = (event) => {
     event.preventDefault();//impede o navegador de recaregar a página ao enviar o formulário
     if (areAllFieldsFilled()){
-      axios.post(`${urlApi}/v1/api/SignUpBarbearia`, values)
+      axios.post(`${urlApi}/api/v1/SignUpBarbearia`, values)
       .then(res => {
         if (res.status === 201) {
           setMessage('Cadastro realizado!');
