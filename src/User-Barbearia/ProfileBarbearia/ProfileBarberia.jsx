@@ -54,35 +54,42 @@ function ProfileBarbearia() {
 
   const [isPasswordVerified, setIsPasswordVerified] = useState(false);
 
+  const allowedExtensions = ['jpg', 'jpeg', 'png'];
+
 /*-----------------------------------*/
   //Constantes de Upload de imagem de usuário
   const [file, setfile] = useState(null);
   const [imageUser, setImageUser] = useState([]);
   const [userImageMessage, setUserImageMessage] = useState('');
 
+  const formdata = new FormData();
+
+  // Obtém a data e hora atual
+  const currentDateTime = new Date();
+
   //Upload user image
   const handleFile = (e) => {
-    setfile(e.target.files[0])
+    
+    const selectedUseImage = e.target.files[0];
+    // Obtém a extensão do arquivo original
+    const fileExtension = selectedUseImage ? selectedUseImage.name.split('.').pop() : '';//operador ternário para garantir que name não seja vazio
+
+    if(fileExtension.length > 0){
+      // Verifica se a extensão é permitida
+      if (!allowedExtensions.includes(fileExtension)) {
+        setUserImageMessage("Erro: Use extensões 'jpg', 'jpeg' ou 'png'.");
+        setfile(null)
+        setTimeout(() => {
+          setUserImageMessage('');
+        }, 3000);
+        return
+      }
+      setfile(e.target.files[0])
+    }
   }
 
   //Preparando as imagens selecionadas para serem enviadas ao back-end
   const handleUpload = () => {
-    const allowedExtensions = ['jpg', 'jpeg', 'png'];
-
-    const formdata = new FormData();
-
-    // Obtém a extensão do arquivo original
-    const fileExtension = file ? file.name.split('.').pop() : '';//operador ternário para garantir que name não seja vazio
-    if(fileExtension.length > 0){
-      // Verifica se a extensão é permitida
-      if (!allowedExtensions.includes(fileExtension)) {
-        setUserImageMessage("Extensão de arquivo não permitida. Use imagem 'jpg', 'jpeg' ou 'png'.");
-        return;
-      }
-    }
-
-    // Obtém a data e hora atual
-    const currentDateTime = new Date();
 
     // Formata a data e hora no formato desejado (por exemplo: YYYYMMDD_HHMMSS)
     const formattedDateTime = `${currentDateTime.getFullYear()}${(currentDateTime.getMonth() + 1).toString().padStart(2, '0')}${currentDateTime.getDate().toString().padStart(2, '0')}_${currentDateTime.getHours().toString().padStart(2, '0')}${currentDateTime.getMinutes().toString().padStart(2, '0')}${currentDateTime.getSeconds().toString().padStart(2, '0')}`;
@@ -151,53 +158,51 @@ function ProfileBarbearia() {
   const [bannerImages, setBannerImages] = useState([]);
   const [bannerMessage, setBannerMessage] = useState(null);
 
+  const bannerFormData = new FormData();
+  
   //Upload banner images
   const handleBannerImages = (e) => {
     const selectedFiles = Array.from(e.target.files);
-    setBannerFiles(selectedFiles);
-  }
-
-  //Preparando as imagens selecionadas para serem enviadas ao back-end
-  const handleBannerImagesUpload = () => {
-    const allowedExtensions = ['jpg', 'jpeg', 'png'];
-
-    const bannerFormData = new FormData();
-
-    if(bannerFiles.length > 5){
+    
+    if(selectedFiles.length > 5){
       setBannerMessage("Selecione no máximo 5 imagens.");
+      setBannerFiles(0)
       setTimeout(() => {
         setBannerMessage(null);
-      }, 1000);
-      return;
+      }, 3000);
     }
 
     // Itera sobre os arquivos selecionados
-    for (let i = 0; i < bannerFiles.length; i++) {
-      const file = bannerFiles[i];
+    for (let i = 0; i < selectedFiles.length; i++) {
+      const file = selectedFiles[i];
 
       // Obtém a extensão do arquivo original
       const fileExtension = file ? file.name.split('.').pop() : '';
 
       // Verifica se a extensão é permitida
       if (!allowedExtensions.includes(fileExtension)) {
-        setBannerMessage("Extensão de arquivo não permitida. Use imagens 'jpg', 'jpeg' ou 'png'.");
+        setBannerMessage("Erro: Use imagens 'jpg', 'jpeg' ou 'png'.");
+        setBannerFiles(0)
         setTimeout(() => {
           setBannerMessage(null);
-        }, 1000);
-        return;
+        }, 3000);
+        return
       }
-
-      // Obtém a data e hora atual
-      const currentDateTime = new Date();
-      // Formata a data e hora no formato desejado (por exemplo: YYYYMMDD_HHMMSS)
-      const formattedDateTime = `${currentDateTime.getFullYear()}${(currentDateTime.getMonth() + 1).toString().padStart(2, '0')}${currentDateTime.getDate().toString().padStart(2, '0')}_${currentDateTime.getHours().toString().padStart(2, '0')}${currentDateTime.getMinutes().toString().padStart(2, '0')}${currentDateTime.getSeconds().toString().padStart(2, '0')}`;
-      // Renomeia a imagem com o ID do usuário mantendo a extensão original
-      const renamedFile = new File([file], `barbeariaId_${barbeariaId}_banner_${i + 1}_${formattedDateTime}.${fileExtension}`, { type: file.type });
-
-      // Adiciona o arquivo ao FormData
-      bannerFormData.append(`images`, renamedFile);
-      bannerFormData.append('barbeariaId', barbeariaId);
     }
+    setBannerFiles(selectedFiles);
+  }
+
+  //Preparando as imagens selecionadas para serem enviadas ao back-end
+  const handleBannerImagesUpload = () => {
+
+    // Formata a data e hora no formato desejado (por exemplo: YYYYMMDD_HHMMSS)
+    const formattedDateTime = `${currentDateTime.getFullYear()}${(currentDateTime.getMonth() + 1).toString().padStart(2, '0')}${currentDateTime.getDate().toString().padStart(2, '0')}_${currentDateTime.getHours().toString().padStart(2, '0')}${currentDateTime.getMinutes().toString().padStart(2, '0')}${currentDateTime.getSeconds().toString().padStart(2, '0')}`;
+    // Renomeia a imagem com o ID do usuário mantendo a extensão original
+    const renamedFile = new File([file], `barbeariaId_${barbeariaId}_banner_${i + 1}_${formattedDateTime}.${fileExtension}`, { type: file.type });
+
+    // Adiciona o arquivo ao FormData
+    bannerFormData.append(`images`, renamedFile);
+    bannerFormData.append('barbeariaId', barbeariaId);
     
     axios.put(`${urlApi}/v1/api/updateBannersImages`, bannerFormData, {
       headers: {
@@ -213,6 +218,7 @@ function ProfileBarbearia() {
           }, 2000);
         } else {
           setBannerMessage("Erro ao realizar alteração.");
+          setBannerFiles(0)
           setTimeout(() => {
             setBannerMessage(null);
             window.location.reload()

@@ -737,7 +737,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: auto;
+    width: 100%;
     background-color: rgba(210, 23, 23, 0.1);
     color: rgb(255, 0, 0);
     padding: 10px;
