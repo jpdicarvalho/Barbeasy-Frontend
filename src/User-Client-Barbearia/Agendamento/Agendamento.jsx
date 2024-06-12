@@ -17,12 +17,15 @@ const weekNames = [
 export function Agendamento({ userId, barbeariaId, professionalId, serviceId, serviceDuration }) {
 
   const date = new Date();
+  
   const options = { weekday: 'short', locale: 'pt-BR' };
   let dayOfWeek = date.toLocaleDateString('pt-BR', options);
   dayOfWeek = dayOfWeek.slice(0, -1);
   dayOfWeek = dayOfWeek.charAt(0).toUpperCase() + dayOfWeek.slice(1);
   const year = date.getFullYear();
 
+  const token = localStorage.getItem('token');
+  
   //Buscando a quantidade de dias que a agenda vai ficar aberta
   const [horariosDiaSelecionado, setHorariosDiaSelecionado] = useState([]);
   const [QntDaysSelected, setQntDaysSelected] = useState([]);
@@ -32,6 +35,8 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId, se
   const [timeSelected, setTimeSelected] = useState("");
   const [messageConfirmedBooking, setMessageConfirmedBooking] = useState('');
 
+  const urlApi = 'https://barbeasy.up.railway.app'
+  
   const currentDate = new Date(date);
   const formattedDate = `${currentDate.getDate()}-${currentDate.getMonth() + 1}-${currentDate.getFullYear()}-${currentDate.getHours()}:${currentDate.getMinutes()}`;
 
@@ -125,7 +130,11 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId, se
   let timesOfDaySelected = timesDays[dayOfWeek]; //Passa o índice do objeto, correspondente ao dia selecionado
   timesOfDaySelected = timesOfDaySelected.split(',');//Separa os horários que estão concatenados
 
-    axios.get(`https://api-user-barbeasy.up.railway.app/api/bookings-times/${barbeariaId}/${professionalId}/${selectedDate}`)
+    axios.get(`${urlApi}/api/v1/bookingsTimes/${barbeariaId}/${professionalId}/${selectedDate}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
     .then(res =>{
       if(res.data.Message === 'true'){//Verifica se a consulta realizada, possuí algum registro
         let bookings = res.data.timesLocked;//passando os registros obtidos na consulta
@@ -198,7 +207,11 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId, se
   //Obtendo os dados da agenda do profissional da barbearia
   const getAgenda = () =>{
     if(barbeariaId && professionalId){
-      axios.get(`https://api-user-barbeasy.up.railway.app/api/agenda/${barbeariaId}/${professionalId}`)
+      axios.get(`${urlApi}/api/v1/agenda/${barbeariaId}/${professionalId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
       .then(res => {
         if(res.status === 200){
           setAgenda(res.data.Agenda)
@@ -222,7 +235,11 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId, se
   
   //Função para obter os horários definidos do dia selecionado
   const getHorariosDefinidos = () =>{
-    axios.get(`https://api-user-barbeasy.up.railway.app/api/agendaDiaSelecionado/${barbeariaId}/${professionalId}`)
+    axios.get(`${urlApi}/api/v1/agendaDiaSelecionado/${barbeariaId}/${professionalId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
     .then(res => {
       //Armazenando o objeto com todos os horários definidos
       setTimesDays(res.data.TimesDays)
@@ -343,7 +360,11 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId, se
         formattedDate
       }
 
-      axios.post('https://api-user-barbeasy.up.railway.app/api/create-booking/', newBooking)
+      axios.post(`${urlApi}/api/v1/createBooking/`, newBooking, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
       .then(res => {
         if(res.data.Success === 'Success'){
           setMessageConfirmedBooking("Seu agendamento foi realizado com sucesso!")
