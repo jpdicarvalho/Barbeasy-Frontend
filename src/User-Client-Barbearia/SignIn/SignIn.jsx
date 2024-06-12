@@ -4,6 +4,9 @@ import './style.css';
 import barberLogo from './barber-logo.png';
 
 function SignIn() {
+  
+  const urlApi = 'https://barbeasy.up.railway.app'
+  
   const navigate = useNavigate();
   const [values, setValues] = useState({
     email: '',
@@ -15,7 +18,7 @@ function SignIn() {
     e.preventDefault();
 
     try {
-      const dataUser = await fetch('https://api-user-barbeasy.up.railway.app/api/SignIn', {
+      const dataUser = await fetch(`${urlApi}/api/v1/SignIn`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
