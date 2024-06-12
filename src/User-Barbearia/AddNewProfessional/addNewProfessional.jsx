@@ -19,6 +19,8 @@ const userData = localStorage.getItem('dataBarbearia');//Obtendo os dados salvo 
 const userInformation = JSON.parse(userData);//trasnformando os dados para JSON
 const barbeariaId = userInformation.barbearia[0].id;
 
+const urlApi = 'https://barbeasy.up.railway.app'
+
 // ===== Function to create a new professional =====
 const [expandedCardBooking, setExpandedCardBooking] = useState([]);
 const [showForm, setShowForm] = useState(false);
