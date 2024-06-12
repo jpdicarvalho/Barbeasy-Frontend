@@ -32,13 +32,18 @@ function BarbeariaDetails() {
 const navigate = useNavigate();
 const location = useLocation();
 
+const urlApi = 'https://barbeasy.up.railway.app'
+  
 const { barbearia } = location.state;
 const barbeariaId = barbearia.id;
 
 //buscando informações do usuário logado
+const token = localStorage.getItem('token');
 const userData = localStorage.getItem('userData');
+  
 //trasnformando os dados para JSON
 const userInformation = JSON.parse(userData);
+  
 //Buscando os dados do usuário
 const userId = userInformation.user[0].id;
 const userEmail = userInformation.user[0].email;
@@ -73,7 +78,11 @@ const logoutClick = () => {
   //Function to get all professionais
   useEffect(() => {
     const getProfessional = () =>{
-    axios.get(`https://api-user-barbeasy.up.railway.app/api/professional/${barbeariaId}`)
+    axios.get(`${urlApi}/api/v1/professional/${barbeariaId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
       .then(res => {
         setProfessional(res.data.Professional)
       })
@@ -95,7 +104,11 @@ const [serviceDuration, setServiceDuration] = useState();
   //Função para buscar os serviços cadastrados
   const obterServicos = () =>{
     
-    axios.get(`https://api-user-barbeasy.up.railway.app/api/list-service/${barbeariaId}`)
+    axios.get(`${urlApi}/api/v1/listService/${barbeariaId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
     .then(res => {
       if (res.data.Success === "Success") {
         setServicos(res.data.result);
@@ -168,10 +181,11 @@ const handleMenuClick = () => {
 // Cadastrando a avaliação/comentário do usuário do usuário
 const enviarAvaliacao = async () => {
     try {
-      const response = await fetch('https://api-user-barbeasy.up.railway.app/api/avaliacao', {
+      const response = await fetch(`${urlApi}/api/v1/avaliacao`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
           barbeariaId: barbearia.id,
@@ -193,7 +207,12 @@ const enviarAvaliacao = async () => {
 useEffect(() => {
     const SearchAvaliation = async () => {
       try {
-        const response = await fetch('https://api-user-barbeasy.up.railway.app/api/SearchAvaliation');
+        const response = await fetch(`${urlApi}/api/v1/SearchAvaliation`, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        );
         const data = await response.json();
         setAllAvaliation(data);
       } catch (error) {
