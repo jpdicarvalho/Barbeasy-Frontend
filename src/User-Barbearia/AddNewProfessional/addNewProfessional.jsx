@@ -45,7 +45,6 @@ const handleNameChange = (e) => {
     setNewNameProfessional(value);
   }
 };
-console.log(newNameProfessional)
 
 const handlePhoneChange = (e) => {
   const value = e.target.value;
@@ -54,7 +53,6 @@ const handlePhoneChange = (e) => {
     setNewPhoneProfessional(value);
   }
 };
-console.log(newPhoneProfessional)
 
 const handlePasswordChange = (e) => {
   const value = e.target.value;
@@ -63,8 +61,7 @@ const handlePasswordChange = (e) => {
     setNewPasswordProfessional(value);
   }
 };
-console.log(newPasswordProfessional)
-console.log(newEmailProfessional)
+
 const createNewProfessional = () =>{
   const userIP = window.location.hostname;
 
@@ -77,7 +74,11 @@ const createNewProfessional = () =>{
       token: userIP
     }
 
-    axios.post(`${urlApi}/api/v1/createProfessional/${barbeariaId}`, newProfessional)
+    axios.post(`${urlApi}/api/v1/createProfessional/${barbeariaId}`, newProfessional, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
     .then(res => {
       if(res.data.Success === "Success"){
         setMessageAddProfessional("Profissional criado com sucesso.")
@@ -126,7 +127,11 @@ const handleSearchChange = (e) => {
 console.log(searchProfessional)
 //Function to get all professionais
 const getProfessional = () => {
-  axios.get(`${urlApi}/api/v1/listProfessional/${searchProfessional}`)
+  axios.get(`${urlApi}/api/v1/listProfessional/${searchProfessional}`, {
+    headers: {
+        'Authorization': `Bearer ${token}`
+    }
+  })
     .then(res => {
       if(res.data.Message === "True"){
         setProfessional(res.data.Professional)
@@ -153,7 +158,11 @@ const [removeLoader, setRemoveLoader] = useState(false);
 
 const getAllRequestOfLink = (professional_id) =>{
   if(barbeariaId && professional_id){
-    axios.get(`${urlApi}/api/v1/allSolicitation/${barbeariaId}/${professional_id}`)
+    axios.get(`${urlApi}/api/v1/allSolicitation/${barbeariaId}/${professional_id}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
     .then(res => {
       if(res.data.Success === "true"){
         setRemoveLoader(true)
@@ -176,7 +185,11 @@ const sendRequesToProfessional = () =>{
       textRequest
     }
 
-    axios.post('${urlApi}/api/v1/sendSolicitation', values)
+    axios.post('${urlApi}/api/v1/sendSolicitation', values, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
     .then(res => {
       if(res.data.Message === "True"){
         setMessagemRequestProfessional("Solicitação enviada com sucesso!");
