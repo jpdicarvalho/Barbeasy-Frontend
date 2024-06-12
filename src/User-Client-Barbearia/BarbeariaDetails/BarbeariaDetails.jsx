@@ -212,7 +212,7 @@ useEffect(() => {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
           }
-        );
+        })
         const data = await response.json();
         setAllAvaliation(data);
       } catch (error) {

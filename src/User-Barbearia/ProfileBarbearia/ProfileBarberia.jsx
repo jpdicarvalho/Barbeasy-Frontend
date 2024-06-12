@@ -91,7 +91,8 @@ function ProfileBarbearia() {
 
   //Preparando as imagens selecionadas para serem enviadas ao back-end
   const handleUpload = () => {
-
+    const fileExtension = file ? file.name.split('.').pop() : '';
+    
     // Renomeia a imagem com o ID do usuário, número aleatório e a data/hora
     const renamedFile = new File([file], `userBarbeariaId_${barbeariaId}_${formattedDateTime}.${fileExtension}`, { type: file.type });
     formdata.append('image', renamedFile);
@@ -382,6 +383,8 @@ const handleProfessionalClick = (professional) => {
 
 /*----------------------------------*/
   const [mostrarEndereco, setMostrarEndereco] = useState(false);
+  const [isValuesAddressValided, setIsValuesAddressValided] = useState(false);
+
   const [street, setStreet] = useState('');
   const [number, setNumber] = useState('');
   const [neighborhood, setNeighborhood] = useState('');
@@ -394,7 +397,11 @@ const handleProfessionalClick = (professional) => {
     setMostrarEndereco(!mostrarEndereco);
   };
   //Função para vericicar se há algum input vazio
-  const isValuesAddressValided = street || number || neighborhood || city;
+  const isValuesValided = street || number || neighborhood || city;
+
+  useEffect(() =>{
+    setIsValuesAddressValided(isValuesValided)
+  }, [street, number, neighborhood, city])
 
   //Função responsável por enviar os valores ao back-end
   const alterarEndereco = () => {
@@ -413,6 +420,7 @@ const handleProfessionalClick = (professional) => {
         .then(res => {
           if (res.data.Success === 'Success') {
             setMessageEndereco("Endereço Alterado com Sucesso!")
+            setIsValuesAddressValided(false)
             setTimeout(() => {
               setMessageEndereco('');
               getAdressBarbearia()
@@ -890,7 +898,7 @@ const handleProfessionalClick = (professional) => {
                         onChange={(e) => {
                             const inputValue = e.target.value;
                             // Remover caracteres especiais
-                            const sanitizedValue = inputValue.replace(/[^a-zA-Z\s]/g, '');
+                            const sanitizedValue = inputValue.replace(/[^a-zA-Z\sçéúíóáõãèòìàêôâ]/g, '');
 
                             // Limitar a 30 caracteres
                             const truncatedValue = sanitizedValue.slice(0, 30);
