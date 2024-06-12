@@ -350,6 +350,7 @@ const handleProfessionalClick = (professional) => {
   if(isPasswordVerified && novoNomeBarbearia){
     alterarNomeBarbearia()
   }
+  
   //Função para obter o nome atual da barbearia
   const getNameBarbearia = () =>{
     axios.get(`${urlApi}/api/v1/nameBarbearia/${barbeariaId}`, {
