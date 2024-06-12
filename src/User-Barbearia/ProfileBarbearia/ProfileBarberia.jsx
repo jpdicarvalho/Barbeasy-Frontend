@@ -258,7 +258,11 @@ const [professional, setProfessional] = useState([])
   //Function to get all professionais
   useEffect(() => {
     const getProfessional = () =>{
-    axios.get(`${urlApi}/api/v1/professional/${barbeariaId}`)
+    axios.get(`${urlApi}/api/v1/professional/${barbeariaId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
       .then(res => {
         setProfessional(res.data.Professional)
       })
@@ -284,7 +288,11 @@ const handleProfessionalClick = (professional) => {
   //Função para atualizar o status da barbearia
   const statusUpdate = () => {
     // Aqui você pode fazer uma solicitação para o backend usando o axios
-    axios.put(`${urlApi}/api/v1/updateStatus/${barbeariaId}`, { Status: status })
+    axios.put(`${urlApi}/api/v1/updateStatus/${barbeariaId}`, { Status: status }, {
+     headers: {
+        'Authorization': `Bearer ${token}`
+     }
+    })
     .then(res => {
         if(res.data.Success === 'Success'){
           console.log('Status atualizado!');
@@ -298,7 +306,11 @@ const handleProfessionalClick = (professional) => {
 
   //Função para obter o status da barbearia
   useEffect(() => {
-    axios.get(`${urlApi}/api/v1/statusBarbearia/${barbeariaId}`)
+    axios.get(`${urlApi}/api/v1/statusBarbearia/${barbeariaId}`, {
+     headers: {
+        'Authorization': `Bearer ${token}`
+     }
+    })
       .then(res => {
         setStatus(res.data.StatusBarbearia)
       })
