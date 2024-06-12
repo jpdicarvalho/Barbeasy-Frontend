@@ -30,6 +30,8 @@ const urlApi = 'https://barbeasy.up.railway.app'
 const navigate = useNavigate();
 const location = useLocation();
 
+const token = localStorage.getItem('token');
+
 const { professional } = location.state;
 const professionalId = professional.id;
 const firstLetter = professional.name.charAt(0).toUpperCase();
@@ -115,7 +117,11 @@ const [messageAgenda, setMessageAgenda] = useState('');
 
   //Cadastrando os valores na agenda da barbearia
   const updateAgenda = () =>{
-    axios.put(`${urlApi}/api/v1/updateAgenda/${barbeariaId}/${professionalId}`, {daysWeek: daysWeekSelected, qntDays: QntDaysSelected})
+    axios.put(`${urlApi}/api/v1/updateAgenda/${barbeariaId}/${professionalId}`, {daysWeek: daysWeekSelected, qntDays: QntDaysSelected}, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
     .then(res => {
       if(res.data.Success === 'Success'){
         setMessageAgenda("Sua agenda foi atualizada! Lembre-se de ajustar seus horários de trabalho.")
@@ -138,7 +144,11 @@ const [messageAgenda, setMessageAgenda] = useState('');
   
   //Obtendo os dados da agenda da barbearia
   const getAgenda = () =>{
-    axios.get(`${urlApi}/api/v1/agenda/${barbeariaId}/${professionalId}`)
+    axios.get(`${urlApi}/api/v1/agenda/${barbeariaId}/${professionalId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
     .then(res => {
       if(res.status === 200){
         setAgenda(res.data.Agenda)
@@ -293,7 +303,11 @@ const configAgendaDiaSelecionado = () => {
 const salvarHorariosDiaSelecionado = () =>{
   let strAgendaDiaSelecionado = agendaDoDiaSelecionado.join(',');
   
-  axios.put(`${urlApi}/api/v1/updateAgendaDiaSelecionado/${barbeariaId}/${professionalId}`, {StrAgenda: strAgendaDiaSelecionado})
+  axios.put(`${urlApi}/api/v1/updateAgendaDiaSelecionado/${barbeariaId}/${professionalId}`, {StrAgenda: strAgendaDiaSelecionado}, {
+    headers: {
+        'Authorization': `Bearer ${token}`
+    }
+  })
   .then(res => {
     if(res.data.Success === 'Success'){
       setMessageAgendaHorarios("Horários Salvos com Sucesso.")
@@ -317,7 +331,11 @@ const salvarHorariosDiaSelecionado = () =>{
 
 //Função para obter os horários definidos do dia selecionado
 const getHorariosDefinidos = () =>{
-  axios.get(`${urlApi}/api/v1/agendaDiaSelecionado/${barbeariaId}/${professionalId}`)
+  axios.get(`${urlApi}/api/v1/agendaDiaSelecionado/${barbeariaId}/${professionalId}`, {
+    headers: {
+        'Authorization': `Bearer ${token}`
+    }
+  })
   .then(res => {
    //Armazenando o objeto com todos os horários definidos
    setTimesDays(res.data.TimesDays)
@@ -354,7 +372,11 @@ const salvarHorariosTodosOsDias = () =>{
   agendaDoDiaSelecionado.shift();
   let strHorariosTodosOsDias = agendaDoDiaSelecionado.join(',');
 
-  axios.put(`${urlApi}/api/v1/updateHorariosTodosOsDias/${barbeariaId}/${professionalId}`, {StrAgenda: strHorariosTodosOsDias, NamesDaysFormated: newArray})
+  axios.put(`${urlApi}/api/v1/updateHorariosTodosOsDias/${barbeariaId}/${professionalId}`, {StrAgenda: strHorariosTodosOsDias, NamesDaysFormated: newArray}, {
+    headers: {
+        'Authorization': `Bearer ${token}`
+    }
+  })
   .then(res => {
     if(res.data.Success === 'Success'){
       setMessageAgendaHorarios("Horários Salvos com Sucesso.")
@@ -432,7 +454,11 @@ const [servicos, setServicos] = useState([]);
 
   //Função para buscar os serviços cadastrados
   const obterServicos = () =>{
-    axios.get(`${urlApi}/api/v1/getService/${barbeariaId}/${professionalId}`)
+    axios.get(`${urlApi}/api/v1/getService/${barbeariaId}/${professionalId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
       .then(res => {
         if (res.data.Success === "Success") {
           setServicos(res.data.result);
@@ -527,7 +553,11 @@ const [servicos, setServicos] = useState([]);
         newDuration: newServiceDuration[0]
       };
       let firstService = servicos.length;
-      axios.post(`${urlApi}/api/v1/addService/${barbeariaId}/${professionalId}`, newServiceData)
+      axios.post(`${urlApi}/api/v1/addService/${barbeariaId}/${professionalId}`, newServiceData, {
+        headers: {
+        'Authorization': `Bearer ${token}`
+        }
+      })
           .then(res => {
             if (res.data.Success === "Success") {
               setMessageAddService("Serviço adicionado com sucesso.");
@@ -641,7 +671,11 @@ const [servicos, setServicos] = useState([]);
         servico_Id: servicoId,
         editedDuration: editedServiceDuration[0]
       };
-      axios.put(`${urlApi}/api/v1/updateService/${barbeariaId}/${professionalId}`, editedService)
+      axios.put(`${urlApi}/api/v1/updateService/${barbeariaId}/${professionalId}`, editedService, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
       .then(res => {
         if (res.data.Success === "Success") {
           setMessageEditedService("Serviço alterado com sucesso.");
@@ -683,7 +717,11 @@ const [servicos, setServicos] = useState([]);
   //Função para apagar um serviço
   const deleteServico = (servicoId) => {
     let lastService = servicos.length;
-    axios.delete(`${urlApi}/api/v1/deleteService/${barbeariaId}/${professionalId}/${servicoId}`)
+    axios.delete(`${urlApi}/api/v1/deleteService/${barbeariaId}/${professionalId}/${servicoId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
       .then(res => {
         if (res.data.Success === "Success") {
           setMessageEditedService("Serviço apagado com sucesso.");
@@ -827,7 +865,11 @@ const handleDateClick = (dayOfWeek, day, month, year) => {
   let timesOfDaySelected = timesDays[dayOfWeek]; //Passa o índice do objeto, correspondente ao dia selecionado
   timesOfDaySelected = timesOfDaySelected.split(',');//Separa os horários que estão concatenados
 
-  axios.get(`https://api-user-barbeasy.up.railway.app/api/bookings-times/${barbeariaId}/${professionalId}/${selectedDate}`)
+  axios.get(`https://api-user-barbeasy.up.railway.app/api/bookings-times/${barbeariaId}/${professionalId}/${selectedDate}`, {
+    headers: {
+        'Authorization': `Bearer ${token}`
+    }
+  })
     .then(res =>{
       if(res.data.Message === 'true'){//Verifica se a consulta realizada, possuí algum registro
         let bookings = res.data.timesLocked;//passando os registros obtidos na consulta
@@ -944,7 +986,11 @@ const saveDayOff = () =>{
       selectedDay,
       timesLocked
     }
-    axios.post(`https://api-user-barbeasy.up.railway.app/api/update-dayOff/${barbeariaId}/${professionalId}`, objectDayOff)
+    axios.post(`https://api-user-barbeasy.up.railway.app/api/update-dayOff/${barbeariaId}/${professionalId}`, objectDayOff, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
     .then(res =>{
       if(res.data.Success === 'Success'){
         setMessageSaveDayOff("Folga salva com sucesso!")
