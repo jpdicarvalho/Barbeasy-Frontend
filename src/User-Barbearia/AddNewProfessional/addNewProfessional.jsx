@@ -77,7 +77,7 @@ const createNewProfessional = () =>{
       token: userIP
     }
 
-    axios.post(`https://api-user-barbeasy.up.railway.app/v1/api/create-professional/${barbeariaId}`, newProfessional)
+    axios.post(`${urlApi}/api/v1/createProfessional/${barbeariaId}`, newProfessional)
     .then(res => {
       if(res.data.Success === "Success"){
         setMessageAddProfessional("Profissional criado com sucesso.")
@@ -126,7 +126,7 @@ const handleSearchChange = (e) => {
 console.log(searchProfessional)
 //Function to get all professionais
 const getProfessional = () => {
-  axios.get(`https://api-user-barbeasy.up.railway.app/api/list-professional/${searchProfessional}`)
+  axios.get(`${urlApi}/api/v1/listProfessional/${searchProfessional}`)
     .then(res => {
       if(res.data.Message === "True"){
         setProfessional(res.data.Professional)
@@ -153,7 +153,7 @@ const [removeLoader, setRemoveLoader] = useState(false);
 
 const getAllRequestOfLink = (professional_id) =>{
   if(barbeariaId && professional_id){
-    axios.get(`https://api-user-barbeasy.up.railway.app/api/all-request-link/${barbeariaId}/${professional_id}`)
+    axios.get(`${urlApi}/api/v1/allSolicitation/${barbeariaId}/${professional_id}`)
     .then(res => {
       if(res.data.Success === "true"){
         setRemoveLoader(true)
@@ -176,7 +176,7 @@ const sendRequesToProfessional = () =>{
       textRequest
     }
 
-    axios.post('https://api-user-barbeasy.up.railway.app/api/send-request-barbeariaToprofessional/', values)
+    axios.post('${urlApi}/api/v1/sendSolicitation', values)
     .then(res => {
       if(res.data.Message === "True"){
         setMessagemRequestProfessional("Solicitação enviada com sucesso!");
