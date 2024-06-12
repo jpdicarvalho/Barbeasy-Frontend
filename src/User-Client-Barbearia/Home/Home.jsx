@@ -10,7 +10,7 @@ import imgUserDefault from './img-user-default.jpg'
 function Home() {
 
 const navigate = useNavigate();
-
+const urlApi = 'https://barbeasy.up.railway.app'
 
 const [isMenuActive, setMenuActive] = useState(false);
 const [saudacao, setSaudacao] = useState('');
@@ -19,6 +19,7 @@ const [search, setSearch] = useState('');
 
 
 //buscando informações do usuário logado
+const token = localStorage.getItem('token');
 const userData = localStorage.getItem('userData');
 //trasnformando os dados para JSON
 const userInformation = JSON.parse(userData);
@@ -49,9 +50,10 @@ const [services, setServices] = useState('')
 useEffect(() => {
   const fetchData = async () => {
     try {
-        const response = await fetch('https://api-user-barbeasy.up.railway.app/v1/api/getAllBarbearias', {
+        const response = await fetch(`${urlApi}/api/v1/getAllBarbearias`, {
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
           },
         });
         //Armazenando a resposta da requisição
@@ -132,7 +134,11 @@ obterSaudacao();
 useEffect(() => {
   const SearchAvaliation = async () => {
     try {
-      const response = await fetch('https://api-user-barbeasy.up.railway.app/api/SearchAvaliation');
+      const response = await fetch(`${urlApi}/api/v1/SearchAvaliation`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
       const data = await response.json();
       setAllAvaliation(data);
     } catch (error) {
