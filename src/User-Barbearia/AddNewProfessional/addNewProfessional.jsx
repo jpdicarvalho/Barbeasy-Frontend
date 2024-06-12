@@ -15,6 +15,7 @@ import { BsSearch } from "react-icons/bs";
 export default function AddNewProfessional ({ openModal, setCloseModal }){
 
 //Buscando informações da Barbearia logada
+const token = localStorage.getItem('token');
 const userData = localStorage.getItem('dataBarbearia');//Obtendo os dados salvo no localStorage
 const userInformation = JSON.parse(userData);//trasnformando os dados para JSON
 const barbeariaId = userInformation.barbearia[0].id;
