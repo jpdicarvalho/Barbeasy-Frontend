@@ -7,6 +7,9 @@ import './style.css';
 import barberLogo from './barber-logo.png';
 
 function SignUp() {
+
+  const urlApi = 'https://barbeasy.up.railway.app'
+
   const [values, setValues] = useState({
     name: '',
     email: '',
@@ -28,7 +31,7 @@ function SignUp() {
     event.preventDefault();
 
     if (step === 3) {
-      axios.post('https://api-user-barbeasy.up.railway.app/api/SignUp', values) // <-- Ajuste aqui
+      axios.post(`${urlApi}/api/v1/SignUp`, values)
         .then(res => {
           if (res.status === 201) {
             setMessage('Cadastro realizado!');
