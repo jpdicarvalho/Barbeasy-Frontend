@@ -84,6 +84,7 @@ const createNewProfessional = () =>{
         setMessageAddProfessional("Profissional criado com sucesso.")
         setTimeout(() => {
           setMessageAddProfessional(null);
+          alternarShowForm()
           setNewNameProfessional('');
           setNewPhoneProfessional('');
           setNewEmailProfessional('');
@@ -124,7 +125,7 @@ const handleSearchChange = (e) => {
     setSearchProfessional(value);
   }
 };
-console.log(searchProfessional)
+
 //Function to get all professionais
 const getProfessional = () => {
   axios.get(`${urlApi}/api/v1/listProfessional/${searchProfessional}`, {
@@ -185,7 +186,7 @@ const sendRequesToProfessional = () =>{
       textRequest
     }
 
-    axios.post('${urlApi}/api/v1/sendSolicitation', values, {
+    axios.post(`${urlApi}/api/v1/sendSolicitation`, values, {
       headers: {
         'Authorization': `Bearer ${token}`
       }

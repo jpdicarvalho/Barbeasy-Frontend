@@ -276,6 +276,7 @@ const [professional, setProfessional] = useState([])
 const handleProfessionalClick = (professional) => {
   navigate("/ProfessionalDetails", { state: { professional } });
 };
+
 /*----------------------------------*/
 //Constantes para atualizar o status da barbearia
   const [mostrarStatus, setMostrarStatus] = useState(false);
@@ -396,6 +397,7 @@ const handleProfessionalClick = (professional) => {
   const alternarEndereco = () => {
     setMostrarEndereco(!mostrarEndereco);
   };
+
   //Função para vericicar se há algum input vazio
   const isValuesValided = street || number || neighborhood || city;
 
@@ -625,7 +627,6 @@ const handleProfessionalClick = (professional) => {
   };
 
 /*----------------------------------*/
-
   return (
     <>
     
@@ -754,7 +755,7 @@ const handleProfessionalClick = (professional) => {
             </div>
             <AddNewProfessional openModal={showAddNewProfessional} setCloseModal={() => setShowAddNewProfessional(!showAddNewProfessional)}/>
 
-            {professional.map(professional => { 
+            {professional.map((professional) => { 
               // Obtendo a primeira letra do nome do profissional
               const firstLetter = professional.name.charAt(0).toUpperCase();
               
