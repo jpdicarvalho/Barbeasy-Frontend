@@ -33,7 +33,6 @@ const [newEmailProfessional, setNewEmailProfessional] = useState('');
 const [newPasswordProfessional, setNewPasswordProfessional] = useState('');
 const [messageAddProfessional, setMessageAddProfessional] = useState('');
 
-
 const alternarShowForm = () =>{
   setShowForm(!showForm)
   setShowSearchProfessional(!showSearchProfessional)
@@ -57,22 +56,22 @@ const handlePhoneChange = (e) => {
 
 const handlePasswordChange = (e) => {
   const value = e.target.value;
-  const regex = /^[a-zA-Z0-9]*$/;
+  const regex = /^[a-zA-Z0-9@.#%]*$/;
   if (regex.test(value) && value.length <= 8) {
     setNewPasswordProfessional(value);
   }
 };
 
+console.log(newNameProfessional, newPhoneProfessional, newEmailProfessional, newPasswordProfessional)
+
 const createNewProfessional = () =>{
-  const userIP = window.location.hostname;
 
   if(newNameProfessional && newPhoneProfessional && newEmailProfessional && newPasswordProfessional){
     const newProfessional = {
       newNameProfessional,
       newPhoneProfessional,
       newEmailProfessional,
-      newPasswordProfessional,
-      token: userIP
+      newPasswordProfessional
     }
 
     axios.post(`${urlApi}/api/v1/createProfessional/${barbeariaId}`, newProfessional, {
