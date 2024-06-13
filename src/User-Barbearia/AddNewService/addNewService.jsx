@@ -6,6 +6,8 @@ import axios from 'axios';
 
 import { IoIosArrowDown } from "react-icons/io";
 import { GiRazor } from "react-icons/gi";
+import { MdOutlineDone } from "react-icons/md";
+import { VscError } from "react-icons/vsc";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
 export function AddNewService ({ professionalId }){
@@ -54,14 +56,8 @@ export function AddNewService ({ professionalId }){
   const formatarPreco = (valor) => {
     const numero = valor.replace(/\D/g, ''); // Remove caracteres não numéricos
     const valorFormatado = (Number(numero) / 100).toFixed(2).replace('.', ',').replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
-    return `R$ ${valorFormatado}`;
-  };
-
-  //Função para formartar a taxa de comissão do serviço
-  const formatarPorcentagem = (valor) => {
-    const numero = valor.replace(/\D/g, ''); // Remove caracteres não numéricos
-    const valorFormatado = (Number(numero) / 10).toFixed(1).replace('.', ',');
-    return `${valorFormatado}%`;
+    const truncatedValue = valorFormatado.slice(0, 9);
+    return `R$ ${truncatedValue}`;
   };
 
 /*===== Section to add a new service ======*/
@@ -93,12 +89,13 @@ export function AddNewService ({ professionalId }){
     setNewPriceService(formatarPreco(numero));
   };
 
-  //Função para adicionar a taxa de comissão do serviço a variável definida
-  const AddNewCommissionFee = (event) =>{
+  const AddNewComissioFee = (event) => {
     const valor = event.target.value;
-    const numero = valor.replace(/\D/g, '');
-    setNewCommissionFee(formatarPorcentagem(numero))
-  }
+    // Filtrar apenas os números
+    const numero = valor.replace(/\D/g, '');//Regex para aceitar apenas números no input
+    setNewCommissionFee(formatarPreco(numero));
+  };
+
 
   // Função responsável por adicionar ou remover o novo tempo de duração do serviço a ser cadastrado
   const handleNewServiceDuration = (tempo) => {
@@ -216,7 +213,7 @@ export function AddNewService ({ professionalId }){
     const valor = event.target.value;
     // Filtrar apenas os números
     const numero = valor.replace(/\D/g, '');//Regex para aceitar apenas números no input
-    setEditedCommissionFee(formatarPorcentagem(numero));
+    setEditedCommissionFee(formatarPreco(numero));
   };
 
   // Função responsável por adicionar ou remover o tempo de duração selecionado, no menu de edição do serviço
@@ -347,7 +344,14 @@ export function AddNewService ({ professionalId }){
                   id="serviceName"
                   name="serviceName"
                   maxLength={30}
-                  onChange={e => setNewNameService(e.target.value)}
+                  onChange={(e) => {
+                    const inputValue = e.target.value;
+                    // Remover caracteres especiais
+                    const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9\sçéúíóáõãèòìàêôâ]/g, '');
+                    // Limitar a 50 caracteres
+                    const truncatedValue = sanitizedValue.slice(0, 100);
+                    setNewNameService(truncatedValue);
+                  }}
                   placeholder='Ex. Corte Social'
                   />
 
@@ -359,20 +363,18 @@ export function AddNewService ({ professionalId }){
                   name="precoServico"
                   value={newPriceService}
                   onChange={AddNewPriceService}
-                  maxLength={9}
                   placeholder="R$ 00,00"
                   required
                 />
-                <p>Qual a taxa de comissão para esse profissional?</p>
+                <p>Qual a comissão para esse profissional?</p>
                   <input
                   className="input_AddService"
                   type="text"
                   id="commissionFee"
                   name="commissionFee"
                   value={newCommissionFee}
-                  onChange={AddNewCommissionFee}
-                  maxLength={6}
-                  placeholder="00,0%"
+                  onChange={AddNewComissioFee}
+                  placeholder="R$ 00,00"
                   required
                 />
 
@@ -440,7 +442,7 @@ export function AddNewService ({ professionalId }){
                   placeholder={servico.preco}
                 />
 
-                  <p>Deseja alterar a taxa de comissão do serviço?</p>
+                  <p>Deseja alterar a comissão do serviço?</p>
                   <input
                   className="input_AddService"
                   type="text"
@@ -448,7 +450,7 @@ export function AddNewService ({ professionalId }){
                   name="EditedCommissionFee"
                   value={editedCommissionFee}
                   onChange={handleEditedCommissionFee}
-                  maxLength={6}
+                  maxLength={9}
                   placeholder={servico.commission_fee}
                 />
 

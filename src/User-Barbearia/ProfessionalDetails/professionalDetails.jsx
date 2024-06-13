@@ -683,7 +683,7 @@ const saveDayOff = () =>{
       selectedDay,
       timesLocked
     }
-    axios.put(`${urlApi}/api/updateDayOff/${barbeariaId}/${professionalId}`, objectDayOff, {
+    axios.put(`${urlApi}/api/v1/updateDayOff/${barbeariaId}/${professionalId}`, objectDayOff, {
       headers: {
         'Authorization': `Bearer ${token}`
       }

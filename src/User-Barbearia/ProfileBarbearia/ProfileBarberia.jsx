@@ -849,7 +849,8 @@ const handleProfessionalClick = (professional) => {
                   const inputValue = e.target.value;
                   // Remover caracteres não alfanuméricos
                   const filteredValue = inputValue.replace(/[^a-zA-ZÀ-ú0-9.\s]/g, '');
-                  setNovoNomeBarbearia(filteredValue);
+                  const truncatedValue = filteredValue.slice(0, 30);    
+                  setNovoNomeBarbearia(truncatedValue);
                 }}
                 placeholder={NomeBarbeariaAtual}
                 className="white-placeholder"
