@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom"
 import axios from 'axios';
 import {motion} from 'framer-motion';
 
+import Notification from './Notification/Notification';
+
 import './HomeProfessional.css';
 import { IoPersonOutline } from "react-icons/io5";
 import { CgMenuRightAlt } from "react-icons/cg";
@@ -45,7 +47,9 @@ function HomeProfessional() {
 const navigateToProfileProfessional = () =>{
   navigate("/ProfileProfessional");
 }
+const [showNotification, setShowNotification] = useState(false);
 
+//============== GET IMAGE PROFESSIONAL ============
 const [imageUser, setImageUser] = useState([]);
 //Função para obter as imagens cadastradas
 useEffect(() => {
@@ -183,7 +187,7 @@ const toggleItem = (itemId) => {
     }
 };
 return (
-<main>
+<>
     <div className="container__main">
       <div className='header_container'>
         <div className="img__user">
@@ -200,9 +204,10 @@ return (
                 <p className='name__professional'>Olá, {professionalUserName}!</p>
                 <p className='subtittle__professional'> {saudacao}</p>
             </div>
-            <div className="icon__notification" >
+            <div className="icon__notification" onClick={() => setShowNotification(true)}>
               <div className='circle__notification'></div>
-              <IoIosNotifications />
+                <Notification openNotification={showNotification} setCloseNotification={() => setShowNotification(!showNotification)}/>
+                <IoIosNotifications />
             </div>
         </div>
         <div className="container__calendar__barbearia">
@@ -299,7 +304,7 @@ return (
       )}
     </div>
     
-    </main>
+    </>
 );
 }
 

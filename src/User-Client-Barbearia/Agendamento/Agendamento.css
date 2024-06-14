@@ -34,7 +34,7 @@
    text-align: center;
    margin-left: 7px;
    padding: 2px;
-   z-index: 1000;
+   z-index: 900;
    transition: 0.5s;
 }
 .dayWeekCurrent{

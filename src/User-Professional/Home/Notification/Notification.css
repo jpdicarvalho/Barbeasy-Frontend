@@ -1,0 +1,21 @@
+.container__notification{
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.737);
+    z-index: 1000;
+    opacity: 1;
+}
+.section__notification{
+    width: 350px;
+    height: 450px;
+    background: #1c2035;
+    padding: 10px;
+    border-radius: 10px;
+    z-index: 2001;
+}
