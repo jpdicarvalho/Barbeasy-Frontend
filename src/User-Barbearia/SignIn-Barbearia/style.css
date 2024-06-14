@@ -1,0 +1,12 @@
+.container__checkbox__professional{
+    display: flex;
+    justify-content: start;
+    flex-direction: row;
+    width: 100%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+.input__checkbox__professional{
+    margin-right: 5px;
+}

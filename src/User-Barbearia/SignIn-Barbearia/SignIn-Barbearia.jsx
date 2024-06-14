@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+
+import axios from 'axios';
+
 import './style.css';
 import barberLogo from './barber-logo.png';
 
@@ -8,54 +11,74 @@ function SignInBarbearia() {
 
     const navigate = useNavigate();
 
-    const [message, setMessage] = useState(null);
+    const [isProfessional, setIsProfessional] = useState(false);
     const [values, setValues] = useState({
         email: '',
         senha: ''
       });
+    const [message, setMessage] = useState(null);
 
-      async function sendForm(e) {
-        e.preventDefault();
-    
-        try {
-          const response = await fetch(`${urlApi}/api/v1/SignInBarbearia`, {
-            method: 'POST',
-            headers: {
-              'Accept': 'application/json',
-              'Content-type': 'application/json',
-            },
-            body: JSON.stringify(values),
-          });
-    
-          if (response.ok) {
-            const dataBarbearia = await response.json();
-            //Clear old data
-            localStorage.clear();
-            //Storage new data
-            localStorage.setItem('token', dataBarbearia.token);
-            localStorage.setItem('dataBarbearia', JSON.stringify(dataBarbearia));
+      const sendForm = (event) => {
+        event.preventDefault();
+        if(isProfessional){
+          axios.get(`${urlApi}/api/v1/SignInBarbearia/${values.email}/${values.senha}`)
+          .then(res => {
+            if(res.data.Success === 'Success'){
+console.log(res.data)
+              /*localStorage.clear();
+              localStorage.setItem('token', res.data.token);
+              localStorage.setItem('dataBarbearia', JSON.stringify(dataBarbearia));*/
 
-            setMessage('Seja Bem Vindo!');
-            setTimeout(() => {
+              setMessage('Seja Bem Vindo!');
+              setTimeout(() => {
               setMessage(null);
-              navigate('/HomeBarbearia');
+              //navigate('/HomeBarbearia');
             }, 2000);
 
-          } else {
+            }else{
+              setMessage('Erro ao realizar o Login!');
+              setTimeout(() => {
+                setMessage(null);
+              }, 2000);
+            }
+          }).catch(err =>{
+            console.error('Erro na requisição:', err);
             setMessage('Erro ao realizar o Login!');
             setTimeout(() => {
               setMessage(null);
             }, 2000);
-          }
+          })
+        }else{
+          axios.get(`${urlApi}/api/v1/SignInProfessional`, values)
+          .then(res => {
+            if(res.data.Success === 'Success'){
+              console.log(res.data)
 
-        } catch (error) {
-          console.error('Erro na requisição:', error);
-          setMessage('Erro ao realizar o Login!');
-          setTimeout(() => {
-            setMessage(null);
-          }, 2000);
+              /*localStorage.clear();
+              localStorage.setItem('token', res.data.token);
+              localStorage.setItem('dataProfessional', JSON.stringify(dataBarbearia));*/
+
+              setMessage('Seja Bem Vindo!');
+              setTimeout(() => {
+              setMessage(null);
+              //navigate('/HomeBarbearia');
+            }, 2000);
+
+            }else{
+              setMessage('Erro ao realizar o Login!');
+              setTimeout(() => {
+                setMessage(null);
+              }, 2000);
+            }
+          }).catch(err =>{
+            console.error('Erro na requisição:', err);
+            setMessage('Erro ao realizar o Login!');
+            setTimeout(() => {
+              setMessage(null);
+            }, 2000);
+          })
         }
-      }
+}
     return (
       <div className="container__default">
         <form onSubmit={sendForm} className="container">
@@ -116,6 +139,13 @@ function SignInBarbearia() {
                     maxLength={8}
                     required
                     />{' '} <i className="fa-solid fa-lock Icon"></i>
+                </div>
+                <div className='container__checkbox__professional'>
+                  <input type="checkbox"
+                         className='input__checkbox__professional'
+                         onChange={(e) => setIsProfessional(!isProfessional)}
+                  />
+                  <label>Sou profissional</label>
                 </div>
 
                 <div className='inputBox'>
