@@ -1,0 +1,27 @@
+.imgViewDefault{
+    font-size: 30px;
+}
+.icon__notification{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #354249;
+    font-size: 25px;
+    cursor: pointer;
+}
+.circle__notification{
+    position: absolute;
+    margin-left: 8px;
+    margin-bottom: 7px;
+    background: #4a17d5;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+}
+.name__professional{
+    font-size: 16px;
+}
+.subtittle__professional{
+    color: #4a575e;
+    font-weight: 500;
+}

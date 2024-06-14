@@ -10,6 +10,7 @@ import SignUpBarbearia from '../src/User-Barbearia/SignUp-Barbearia/SignUp-Barbe
 
 import Home from '../src/User-Client-Barbearia/Home/Home';
 import HomeBarbearia from './User-Barbearia/Home/HomeBarbearia';
+import HomeProfessional from './User-Professional/Home/HomeProfessional';
 
 import BarbeariaDetails from '../src/User-Client-Barbearia/BarbeariaDetails/BarbeariaDetails';
 import ProfileBarbearia from './User-Barbearia/ProfileBarbearia/ProfileBarberia';
@@ -55,6 +56,8 @@ const App = () => {
         <Route path="/HomeBarbearia" element={<PrivateRoute element={<HomeBarbearia />} />} />
         <Route path="/ProfileBarbearia" element={<PrivateRoute element={<ProfileBarbearia />}/>} />
         <Route path="/ProfessionalDetails" element={<PrivateRoute element={<ProfessionalDetails />} />} />
+
+        <Route path="/HomeProfessional" element={<PrivateRoute element={<HomeProfessional />} />} />
 
         <Route path="/SignIn" element={<SignIn />} />
         <Route path="/SignUp" element={<SignUp />} />

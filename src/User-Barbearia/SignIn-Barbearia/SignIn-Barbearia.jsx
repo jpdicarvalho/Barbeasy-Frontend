@@ -12,27 +12,26 @@ function SignInBarbearia() {
     const navigate = useNavigate();
 
     const [isProfessional, setIsProfessional] = useState(false);
-    const [values, setValues] = useState({
-        email: '',
-        senha: ''
-      });
+    const [email, setEmail] = useState('');
+    const [senha, setSenha] = useState('');
+
     const [message, setMessage] = useState(null);
 
       const sendForm = (event) => {
         event.preventDefault();
-        if(isProfessional){
-          axios.get(`${urlApi}/api/v1/SignInBarbearia/${values.email}/${values.senha}`)
+        if(!isProfessional){
+          axios.get(`${urlApi}/api/v1/SignInBarbearia/${email}/${senha}`)
           .then(res => {
             if(res.data.Success === 'Success'){
-console.log(res.data)
-              /*localStorage.clear();
+              console.log(res.data.barbearia)
+              localStorage.clear();
               localStorage.setItem('token', res.data.token);
-              localStorage.setItem('dataBarbearia', JSON.stringify(dataBarbearia));*/
+              localStorage.setItem('dataBarbearia', JSON.stringify(res.data));
 
               setMessage('Seja Bem Vindo!');
               setTimeout(() => {
               setMessage(null);
-              //navigate('/HomeBarbearia');
+              navigate('/HomeBarbearia');
             }, 2000);
 
             }else{
@@ -49,19 +48,19 @@ console.log(res.data)
             }, 2000);
           })
         }else{
-          axios.get(`${urlApi}/api/v1/SignInProfessional`, values)
+          axios.get(`${urlApi}/api/v1/SignInProfessional/${email}/${senha}`)
           .then(res => {
+            console.log(res)
             if(res.data.Success === 'Success'){
-              console.log(res.data)
-
-              /*localStorage.clear();
+              
+              localStorage.clear();
               localStorage.setItem('token', res.data.token);
-              localStorage.setItem('dataProfessional', JSON.stringify(dataBarbearia));*/
+              localStorage.setItem('dataprofessional', JSON.stringify(res.data));
 
               setMessage('Seja Bem Vindo!');
               setTimeout(() => {
               setMessage(null);
-              //navigate('/HomeBarbearia');
+              navigate('/HomeProfessional');
             }, 2000);
 
             }else{
@@ -97,20 +96,14 @@ console.log(res.data)
                     type="email"
                     id="email"
                     name="email"
-                    value={values.email}
+                    value={email}
                     onChange={(e) => {
                         const inputValue = e.target.value;
                         // Substituir o conteúdo do campo para conter apenas números, letras, "@" e "."
                         const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9@.]/g, '');
                         // Limitar a 50 caracteres
                         const truncatedValue = sanitizedValue.slice(0, 50);
-                        // Validar se o valor atende ao formato de email esperado
-                        const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(truncatedValue);
-                        if(isValidEmail){
-                          setValues({ ...values, email: truncatedValue });
-                        }else{
-                          setValues({ ...values, email: '' });
-                        }
+                        setEmail(truncatedValue);
                     }}
                     placeholder="Email"
                     maxLength={50}
@@ -123,7 +116,7 @@ console.log(res.data)
                     type="password"
                     id="senha"
                     name="senha"
-                    value={values.senha}
+                    value={senha}
                     onChange={(e) => {
                       let inputValue = e.target.value;
                       
@@ -133,7 +126,7 @@ console.log(res.data)
                       // Limitar a 8 caracteres
                       const truncatedValue = inputValue.slice(0, 8);
                       
-                      setValues({ ...values, senha: truncatedValue });
+                      setSenha(truncatedValue);
                     }}
                     placeholder="Password"
                     maxLength={8}
