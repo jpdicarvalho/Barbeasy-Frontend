@@ -4,6 +4,7 @@ import axios from "axios";
 
 import './Notification.css'
 import { IoStar } from "react-icons/io5";
+import { IoClose } from "react-icons/io5";
 
 import barbeasyLogo from '../../../.././barber-logo.png'
 
@@ -32,13 +33,28 @@ export default function Notification ({openNotification, setCloseNotification}){
             console.log("Error", err)
         })
     }, [openNotification])
-console.log(notification)
+
+    const acceptNotification = (barbeariaId) => {
+        const values = {
+            professionalId,
+            barbeariaId
+        }
+        console.log(values)
+        //axios.post(`${urlApi}/api/v1/acceptNotification`, professionalId)
+    }
     if(openNotification){
         return (
             <>
             <div className="container__notification">
                 <div className="section__notification">
-                    Solicitações
+                    <div className="header__notification">
+                        <div className="tittle__notification">
+                            Solicitações
+                        </div>
+                        <button className="Btn__close__notification" onClick={setCloseNotification}>
+                            <IoClose className="icon_close"/>
+                        </button>
+                    </div>
                     <div className="section__barbearia__notification">
                     {notification.map(item => (
                         <div key={item.barbeariaId} className="box__barbearia__notification">
@@ -56,7 +72,7 @@ console.log(notification)
                                 <p>{item.ruaBarbearia}, Nº {item.nRuaBarbearia}, {item.bairroBarbearia}, {item.cidadeBarbearia}</p>
                             </div>
                             <div className="container__button__confirm__notification">
-                                <button className="Btn__accept__notfication">
+                                <button className="Btn__accept__notfication" onClick={() => acceptNotification(item.barbeariaId)}>
                                     Aceitar
                                 </button>
                                 <button className="Btn__refuse__notfication">

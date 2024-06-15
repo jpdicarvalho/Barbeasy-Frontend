@@ -186,6 +186,7 @@ const toggleItem = (itemId) => {
       setExpandedCardBooking([...expandedCardBooking, itemId]);
     }
 };
+console.log(showNotification)
 return (
 <>
     <div className="container__main">
@@ -206,9 +207,9 @@ return (
             </div>
             <div className="icon__notification" onClick={() => setShowNotification(true)}>
               <div className='circle__notification'></div>
-                <Notification openNotification={showNotification} setCloseNotification={() => setShowNotification(!showNotification)}/>
-                <IoIosNotifications />
+                <IoIosNotifications/>
             </div>
+            <Notification openNotification={showNotification} setCloseNotification={() => setShowNotification(!showNotification)}/>
         </div>
         <div className="container__calendar__barbearia">
           <div className='calendar__barbearia'>

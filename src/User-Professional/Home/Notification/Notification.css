@@ -13,26 +13,46 @@
 }
 .section__notification{
     width: 350px;
-    height: 450px;
     background: #1c2035;
-    padding: 10px;
+    padding: 5px;
     border-radius: 10px;
     z-index: 2001;
+}
+.header__notification{
+    display: flex;
+    flex-direction: row;
+    padding: 5px;
+}
+.tittle__notification{
+    width: 100%;
+}
+.Btn__close__notification{
+    background: #4a17d5;
+    color: #fff;
+    outline: none;
+    border: none;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.icon_close{
+    font-size: 18px;
+}
+.section__barbearia__notification{
+    padding: 5px;
+    height: 450px;
     overflow-y: scroll;
     overflow-x: hidden;
 }
-.section__notification::-webkit-scrollbar {
+.section__barbearia__notification::-webkit-scrollbar {
     width: 5px;
 }
-.section__notification::-webkit-scrollbar-thumb {
+.section__barbearia__notification::-webkit-scrollbar-thumb {
     background: #4a17d5; 
     border-radius: 5px;
 }
-.section__notification::-webkit-scrollbar-thumb:hover {
+.section__barbearia__notification::-webkit-scrollbar-thumb:hover {
     background: #f6f6f6; 
-}
-.section__barbearia__notification{
-    z-index: 2001;
 }
 .box__barbearia__notification{
     border: 1px solid #fff;
@@ -62,8 +82,7 @@
     display: flex;
     justify-content: start;
     align-items: start;
-    position: absolute;
-    margin-bottom: 40px;
+    margin-bottom: 25px;
     background: #1c2035;
     border: 1px solid #fff;
     border-radius: 50%;
