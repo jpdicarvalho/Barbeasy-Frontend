@@ -1,7 +1,12 @@
 import { useState, useEffect, useRef } from "react";
+
 import axios from "axios";
+
 import './Notification.css'
+import { IoStar } from "react-icons/io5";
+
 import barbeasyLogo from '../../../.././barber-logo.png'
+
 export default function Notification ({openNotification, setCloseNotification}){
 
     const token = localStorage.getItem('token');
@@ -44,12 +49,20 @@ console.log(notification)
                                 <img src={barbeasyLogo} className="img__logo__barbeasy"/>
                             </div>
                             <div className="name__barbearia">
-                                <p>{item.nameBarbearia}</p>
+                                <p>{item.nameBarbearia} • (4,5)</p>
+                                <IoStar className="icon__start__notification"/>
                             </div>
                             <div className="address">
                                 <p>{item.ruaBarbearia}, Nº {item.nRuaBarbearia}, {item.bairroBarbearia}, {item.cidadeBarbearia}</p>
                             </div>
-                            <div className="container__button__confirm__notification"></div>
+                            <div className="container__button__confirm__notification">
+                                <button className="Btn__accept__notfication">
+                                    Aceitar
+                                </button>
+                                <button className="Btn__refuse__notfication">
+                                    Recusar
+                                </button>
+                            </div>
                             
                         </div>
                     ))}
