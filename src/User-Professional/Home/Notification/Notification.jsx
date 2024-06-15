@@ -11,7 +11,7 @@ export default function Notification ({openNotification, setCloseNotification}){
 
     const urlApi = 'https://barbeasy.up.railway.app'
     
-    const[Notification, setShowNotification] = useState([])
+    const[notification, setShowNotification] = useState([])
 
     useEffect(() =>{
         axios.get(`${urlApi}/api/v1/allNotification/${professionalId}`, {
@@ -19,13 +19,14 @@ export default function Notification ({openNotification, setCloseNotification}){
                 'Authorization': `Bearer ${token}`
               }
         }).then(res =>{
-            if(res.data.Success === 'Success'){
+            if(res.data.Success === 'true'){
                 setShowNotification(res.data.AllNotification)
             }
         }).catch(err =>{
             console.log("Error", err)
         })
-    })
+    }, [openNotification])
+console.log(notification)
     if(openNotification){
         return (
             <>
