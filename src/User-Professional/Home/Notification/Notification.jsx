@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import './Notification.css'
-
+import barbeasyLogo from '../../../.././barber-logo.png'
 export default function Notification ({openNotification, setCloseNotification}){
 
     const token = localStorage.getItem('token');
@@ -10,6 +10,7 @@ export default function Notification ({openNotification, setCloseNotification}){
     const professionalId = userInformation.professional[0].id;
 
     const urlApi = 'https://barbeasy.up.railway.app'
+    const urlCloudFront = 'https://d15o6h0uxpz56g.cloudfront.net/'
     
     const[notification, setShowNotification] = useState([])
 
@@ -32,8 +33,29 @@ console.log(notification)
             <>
             <div className="container__notification">
                 <div className="section__notification">
-                    hello word!
+                    Solicitações
+                    <div className="section__barbearia__notification">
+                    {notification.map(item => (
+                        <div key={item.barbeariaId} className="box__barbearia__notification">
+                            <div className="Box__img__capa__barbearia">
+                                <img src={urlCloudFront + item.bannerBarbearia} className="img__capa__barbearia"/>
+                            </div>
+                            <div className="box__logo__barbeasy">
+                                <img src={barbeasyLogo} className="img__logo__barbeasy"/>
+                            </div>
+                            <div className="name__barbearia">
+                                <p>{item.nameBarbearia}</p>
+                            </div>
+                            <div className="address">
+                                <p>{item.ruaBarbearia}, Nº {item.nRuaBarbearia}, {item.bairroBarbearia}, {item.cidadeBarbearia}</p>
+                            </div>
+                            <div className="container__button__confirm__notification"></div>
+                            
+                        </div>
+                    ))}
                 </div>
+                </div>
+                
             </div>
             </>
         )
