@@ -17,6 +17,7 @@
   flex-direction: column;
   width: 100%;
   color: white;
+  padding-left: 10px;
 }
 .img__user{
   display: flex;
@@ -24,7 +25,6 @@
   align-items: center;
   width: 385px;
   height: 80px;
-  padding-left: 5px;
 }
 .img-view-professional{
   width: 60px;

@@ -6,8 +6,7 @@ import {motion} from 'framer-motion';
 import Notification from './Notification/Notification';
 
 import './HomeProfessional.css';
-import { IoPersonOutline } from "react-icons/io5";
-import { CgMenuRightAlt } from "react-icons/cg";
+import { GoPlus } from "react-icons/go";
 import { GiRazorBlade } from "react-icons/gi";
 import { TfiTime } from "react-icons/tfi";
 import { IoPersonCircleOutline } from "react-icons/io5";
@@ -49,6 +48,27 @@ const navigateToProfileProfessional = () =>{
 }
 const [showNotification, setShowNotification] = useState(false);
 
+//==================== GET NOTIFICATION ================
+const[notification, setNotification] = useState([]);
+
+    //function to get all notification
+    const getAllnotification = () =>{
+        axios.get(`${urlApi}/api/v1/notificationToProfe/${professionalId}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+              }
+        }).then(res =>{
+            if(res.data.Success === 'true'){
+              setNotification(res.data.AllNotification)
+            }
+        }).catch(err =>{
+            console.log("Error", err)
+        })
+    }
+    useEffect(() =>{
+        getAllnotification()
+    }, [])
+
 //============== GET IMAGE PROFESSIONAL ============
 const [imageUser, setImageUser] = useState([]);
 //Função para obter as imagens cadastradas
@@ -66,6 +86,7 @@ useEffect(() => {
   })
   .catch(err => console.log(err));
 }, [professionalId]);
+
 //==================================================
 const [saudacao, setSaudacao] = useState('');
 //pegando a hora para saudar o usuário
@@ -186,7 +207,31 @@ const toggleItem = (itemId) => {
       setExpandedCardBooking([...expandedCardBooking, itemId]);
     }
 };
-console.log(showNotification)
+//=========== GET BARB TO PROFESSIONAL ==============
+const [barbearias, setBarbearias] = useState([]);
+const [barbeariaSelected, setBarbeariaSelected] = useState();
+
+const getBarbearias = () =>{
+  axios.get(`${urlApi}/api/v1/listBarbeariaToProfessional/${professionalId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+    }).then(res =>{
+      if(res.data.Success === 'Success'){
+        setBarbearias(res.data.Barbearias)
+      }
+    }).catch(err =>{
+      console.log("Error", err)
+    })
+}
+useEffect(() =>{
+  getBarbearias()
+}, [])
+
+const handleBarbeariaSelected = (barbeariaId) =>{
+    setBarbeariaSelected(barbeariaId);
+}
+console.log(barbearias)
 return (
 <>
     <div className="container__main">
@@ -206,11 +251,56 @@ return (
                 <p className='subtittle__professional'> {saudacao}</p>
             </div>
             <div className="icon__notification" onClick={() => setShowNotification(true)}>
-              <div className='circle__notification'></div>
+              {notification.length >= 1 &&(
+                <div className='circle__notification'></div>
+              )}
                 <IoIosNotifications/>
             </div>
             <Notification openNotification={showNotification} setCloseNotification={() => setShowNotification(!showNotification)}/>
         </div>
+        {barbearias.length === 1 ?(
+          <div className='tittle_menu'>
+            <h3>Barbearia</h3>
+            <hr id='sublime'/>
+        </div>
+        ):(
+          <>
+            {barbearias.length > 1 &&(
+              <div className='tittle_menu'>
+                <h3>Barbearias</h3>
+              <hr id='sublime'/>
+          </div>
+            )}
+          </>
+        )}
+        <div className="section__professional__barbearia">
+          <div className="section__professional">
+
+            <div className='Box__addNewProfessional'>
+              <button className='addNewProfessional'>
+                <GoPlus className='icon_plus'/>
+              </button>
+              Novo
+            </div>
+
+            {barbearias.map((barbearias) => { 
+              // Obtendo a primeira letra do nome do profissional
+              const firstLetter = barbearias.nameBarbearia.charAt(0).toUpperCase();
+              
+              return (
+                <div key={barbearias.barbeariaId} onClick={() => handleBarbeariaSelected(barbearias.barbeariaId)} className={`Box__professional ${barbeariaSelected === barbearias.barbeariaId? 'barbeariaSelected':''}`}>
+                    <div className="Box__image">
+                      <p className='firstLetter'>{firstLetter}</p>
+                    </div>
+                    <p className='name__professional'>{barbearias.nameBarbearia}</p>
+                </div>
+              );
+            })}
+
+          </div>
+        </div>
+        
+
         <div className="container__calendar__barbearia">
           <div className='calendar__barbearia'>
             <div className="list__Names__Week__And__Day">

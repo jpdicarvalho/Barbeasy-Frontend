@@ -25,3 +25,8 @@
     color: #4a575e;
     font-weight: 500;
 }
+.barbeariaSelected{
+    border-bottom: 2px solid #4a17d5;
+    color: #4a17d5;
+    transition: 0.5s;
+}

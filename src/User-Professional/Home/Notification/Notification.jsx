@@ -20,7 +20,7 @@ export default function Notification ({openNotification, setCloseNotification}){
     const urlApi = 'https://barbeasy.up.railway.app'
     const urlCloudFront = 'https://d15o6h0uxpz56g.cloudfront.net/'
     
-    const[notification, setShowNotification] = useState([]);
+    const[notification, setNotification] = useState([]);
     const[message, setMessage] = useState('');
 
     //function to get all notification
@@ -31,7 +31,7 @@ export default function Notification ({openNotification, setCloseNotification}){
               }
         }).then(res =>{
             if(res.data.Success === 'true'){
-                setShowNotification(res.data.AllNotification)
+                setNotification(res.data.AllNotification)
             }
         }).catch(err =>{
             console.log("Error", err)
@@ -69,7 +69,6 @@ export default function Notification ({openNotification, setCloseNotification}){
         })
 
     }
-    console.log(notification)
     if(openNotification){
         return (
             <>

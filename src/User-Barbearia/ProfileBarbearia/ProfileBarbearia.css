@@ -226,6 +226,7 @@
 .icon_plus{
     height: 30px;
     width: 30px;
+    color: #f6f6fc;
 }
 .Box__addNewProfessional{
     display: flex;
@@ -233,6 +234,7 @@
     align-items: center;
     flex-direction: column;
     margin-right: 10px;
+    transition: 0.5s;
 }
 .Box__professional {
     display: flex;
@@ -251,6 +253,7 @@
   }
 
 .firstLetter{
+    transition: 0.5s;
     font-size: 20px;
 }
 .Box__image{
@@ -264,10 +267,10 @@
     border: 1px solid #4a17d5;
     margin-bottom: 5px;
     transition: 0.5s;
-
 }
 .name__professional{
     width: auto;
+    transition: 0.5s;
 }
 .arrow{
     position: absolute;
