@@ -180,11 +180,9 @@ const getAllRequestOfLink = (professional_id) =>{
 const sendRequesToProfessional = () =>{
   if(professionalId && barbeariaId){
 
-    const textRequest = 'solicitação de tabalho'
     const values = {
       professionalId,
-      barbeariaId,
-      textRequest
+      barbeariaId
     }
 
     axios.post(`${urlApi}/api/v1/sendNotificationToProfe`, values, {

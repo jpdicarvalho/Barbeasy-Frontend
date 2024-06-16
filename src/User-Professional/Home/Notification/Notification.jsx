@@ -56,7 +56,7 @@ export default function Notification ({openNotification, setCloseNotification}){
                 setMessage('Solicitação de vínculo aceita com sucesso')
                 setTimeout(() => {
                     setMessage('');
-                    getAllnotification()    
+                    setCloseNotification()
                   }, 2000);
       
             }
@@ -69,6 +69,7 @@ export default function Notification ({openNotification, setCloseNotification}){
         })
 
     }
+    console.log(notification)
     if(openNotification){
         return (
             <>
