@@ -18,10 +18,12 @@ export default function Notification ({openNotification, setCloseNotification}){
     const urlApi = 'https://barbeasy.up.railway.app'
     const urlCloudFront = 'https://d15o6h0uxpz56g.cloudfront.net/'
     
-    const[notification, setShowNotification] = useState([])
+    const[notification, setShowNotification] = useState([]);
+    const[message, setMessage] = useState('');
 
-    useEffect(() =>{
-        axios.get(`${urlApi}/api/v1/allNotification/${professionalId}`, {
+
+    const getAllnotification = () =>{
+        axios.get(`${urlApi}/api/v1/notificationToProfe/${professionalId}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
               }
@@ -32,15 +34,37 @@ export default function Notification ({openNotification, setCloseNotification}){
         }).catch(err =>{
             console.log("Error", err)
         })
+    }
+    useEffect(() =>{
+        getAllnotification()
     }, [openNotification])
 
     const acceptNotification = (barbeariaId) => {
         const values = {
-            professionalId,
-            barbeariaId
+            barbeariaId,
+            professionalId
         }
-        console.log(values)
-        //axios.post(`${urlApi}/api/v1/acceptNotification`, professionalId)
+        axios.post(`${urlApi}/api/v1/acceptNotification/`, values, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+              }
+        }).then(res =>{
+            if(res.data.Success === 'Success'){
+                setMessage('Solicitação de vínculo aceita com sucesso')
+                setTimeout(() => {
+                    setMessage('');
+                    getAllnotification()    
+                  }, 2000);
+      
+            }
+        }).catch(err =>{
+            setMessage('Erro ao aceitar solicitação, tente novamente mais tarde.')
+            console.log('Error ao aceitar notificação', err)
+            setTimeout(() => {
+                setMessage('');    
+                }, 2000);
+        })
+
     }
     if(openNotification){
         return (

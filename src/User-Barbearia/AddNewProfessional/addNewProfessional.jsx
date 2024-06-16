@@ -159,7 +159,7 @@ const [removeLoader, setRemoveLoader] = useState(false);
 
 const getAllRequestOfLink = (professional_id) =>{
   if(barbeariaId && professional_id){
-    axios.get(`${urlApi}/api/v1/allSolicitation/${barbeariaId}/${professional_id}`, {
+    axios.get(`${urlApi}/api/v1/notificationToBarb/${barbeariaId}/${professional_id}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -186,7 +186,7 @@ const sendRequesToProfessional = () =>{
       textRequest
     }
 
-    axios.post(`${urlApi}/api/v1/sendSolicitation`, values, {
+    axios.post(`${urlApi}/api/v1/sendNotificationToProfe`, values, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
