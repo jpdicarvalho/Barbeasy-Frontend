@@ -5,6 +5,8 @@ import axios from "axios";
 import './Notification.css'
 import { IoStar } from "react-icons/io5";
 import { IoClose } from "react-icons/io5";
+import { MdOutlineDone } from "react-icons/md";
+import { VscError } from "react-icons/vsc";
 
 import barbeasyLogo from '../../../.././barber-logo.png'
 
@@ -80,6 +82,18 @@ export default function Notification ({openNotification, setCloseNotification}){
                             <IoClose className="icon_close"/>
                         </button>
                     </div>
+                    {message === 'Solicitação de vínculo aceita com sucesso' ?(
+                          <div className="mensagem-sucesso" style={{width: "100%"}}>
+                            <MdOutlineDone className="icon__success"/>
+                            <p className="text__message">{message}</p>
+                          </div>
+                          ) : (
+                          <div className={` ${message ? 'mensagem-erro' : ''}`}>
+                            <VscError className={`hide_icon__error ${message ? 'icon__error' : ''}`}/>
+                            <p className="text__message">{message}</p>
+                          </div>
+                              )
+                        }
                     <div className="section__barbearia__notification">
                     {notification.map(item => (
                         <div key={item.barbeariaId} className="box__barbearia__notification">
