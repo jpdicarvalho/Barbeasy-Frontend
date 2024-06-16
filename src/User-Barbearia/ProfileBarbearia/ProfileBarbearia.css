@@ -249,11 +249,9 @@
     white-space: nowrap;
     overflow: hidden; 
     cursor: pointer;
-    transition: 0.5s;
   }
 
 .firstLetter{
-    transition: 0.5s;
     font-size: 20px;
 }
 .Box__image{
@@ -266,11 +264,9 @@
     background: transparent;
     border: 1px solid #4a17d5;
     margin-bottom: 5px;
-    transition: 0.5s;
 }
 .name__professional{
     width: auto;
-    transition: 0.5s;
 }
 .arrow{
     position: absolute;

@@ -177,11 +177,11 @@ const weekDays = getWeeks();
 const numberDays = getNumber();
 //const currentDay = getCurrentDayOfWeek()
 
-const handleDateClick = (dayOfWeek, day, month, year) => {
+const handleDateClick = (dayOfWeek, day, month, year, barbeariaId) => {
   setSelectedDay(`${dayOfWeek}, ${day} de ${month} de ${year}`);
   let selectedDate = `${dayOfWeek}, ${day} de ${month} de ${year}`;
 
-    axios.get(`${urlApi}/api/v1/bookings/${professionalId}/${selectedDate}`, {
+    axios.get(`${urlApi}/api/v1/professionalBookings/${barbeariaId}/${professionalId}/${selectedDate}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -299,8 +299,8 @@ return (
 
           </div>
         </div>
-        
-
+      </div>
+      {barbeariaSelected &&(
         <div className="container__calendar__barbearia">
           <div className='calendar__barbearia'>
             <div className="list__Names__Week__And__Day">
@@ -308,7 +308,7 @@ return (
                 <div key={`weekDay-${index}`} className="list__name__Week">
                   <div
                     className={`dayWeekCurrent ${selectedDay === `${dayOfWeek}, ${numberDays[index].number} de ${numberDays[index].month} de ${year}` ? 'selectedDay' : ''} ${numberDays[index].isCurrentDay ? 'currentDay' : ''}`}
-                    onClick={() => handleDateClick(dayOfWeek, numberDays[index].number, numberDays[index].month, year)}
+                    onClick={() => handleDateClick(dayOfWeek, numberDays[index].number, numberDays[index].month, year, barbeariaSelected)}
                   >
                     <p className='Box__day'>{dayOfWeek}</p>
                     <p className='Box__NumDay'>{numberDays[index].number}</p>
@@ -319,8 +319,8 @@ return (
             </div>
           </div>
         </div>
-      </div>
-    
+      )}
+
       {bookings.length > 0 && (
         <div className="tittle__bookings">
           <p>Agendamentos • ({bookings.length})</p>
