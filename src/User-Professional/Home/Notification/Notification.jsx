@@ -21,7 +21,7 @@ export default function Notification ({openNotification, setCloseNotification}){
     const[notification, setShowNotification] = useState([]);
     const[message, setMessage] = useState('');
 
-
+    //function to get all notification
     const getAllnotification = () =>{
         axios.get(`${urlApi}/api/v1/notificationToProfe/${professionalId}`, {
             headers: {
@@ -39,12 +39,13 @@ export default function Notification ({openNotification, setCloseNotification}){
         getAllnotification()
     }, [openNotification])
 
+    //Function to accept notification
     const acceptNotification = (barbeariaId) => {
         const values = {
             barbeariaId,
             professionalId
         }
-        axios.post(`${urlApi}/api/v1/acceptNotification/`, values, {
+        axios.post(`${urlApi}/api/v1/acceptNotification`, values, {
             headers: {
                 'Authorization': `Bearer ${token}`
               }

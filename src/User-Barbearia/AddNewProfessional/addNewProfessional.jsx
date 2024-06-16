@@ -68,13 +68,14 @@ const createNewProfessional = () =>{
 
   if(newNameProfessional && newPhoneProfessional && newEmailProfessional && newPasswordProfessional){
     const newProfessional = {
+      barbeariaId,
       newNameProfessional,
       newPhoneProfessional,
       newEmailProfessional,
       newPasswordProfessional
     }
 
-    axios.post(`${urlApi}/api/v1/createProfessional/${barbeariaId}`, newProfessional, {
+    axios.post(`${urlApi}/api/v1/createProfessional/`, newProfessional, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
