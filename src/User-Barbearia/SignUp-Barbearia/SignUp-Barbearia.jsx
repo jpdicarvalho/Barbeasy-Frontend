@@ -240,11 +240,7 @@ function SignUpBarbearia() {
                   // Limitar a 50 caracteres
                   const truncatedValue = sanitizedValue.slice(0, 50);
                   // Validar se o valor atende ao formato de email esperado
-                  const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(truncatedValue);
-                  if(isValidEmail){
                     setValues({ ...values, email: truncatedValue });
-                  }
-
                 }}
                 placeholder="Email"
                 maxLength={50}

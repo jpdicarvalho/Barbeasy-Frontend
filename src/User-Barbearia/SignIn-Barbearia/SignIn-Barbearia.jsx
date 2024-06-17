@@ -23,7 +23,6 @@ function SignInBarbearia() {
           axios.get(`${urlApi}/api/v1/SignInBarbearia/${email}/${senha}`)
           .then(res => {
             if(res.data.Success === 'Success'){
-              console.log(res.data.barbearia)
               localStorage.clear();
               localStorage.setItem('token', res.data.token);
               localStorage.setItem('dataBarbearia', JSON.stringify(res.data));

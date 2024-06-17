@@ -50,9 +50,51 @@ const [mostrarDiasSemana, setMostrarDiasSemana] = useState(false);
 const [daysWeekSelected, setDaysWeekSelected] = useState([]);
 const [QntDaysSelected, setQntDaysSelected] = useState([]);
 const [agenda, setAgenda] = useState([]);
+const [fullAgenda, setFullAgenda] = useState([]);
 const [daysFromAgenda, setDaysFromAgenda] = useState([]);
 const diasSemana = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
 const [messageAgenda, setMessageAgenda] = useState('');
+
+  //function to get full professional agenda
+  //Obtendo os dados da agenda do barbearia atual e do profissional selecionado
+  const getFullAgenda = () =>{
+    axios.get(`${urlApi}/api/v1/allProfessionalAgenda/${barbeariaId}/${professionalId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    .then(res => {
+      if(res.status === 200){
+        setFullAgenda(res.data.Agenda)
+      }
+    }).catch(error => {
+      console.error('Erro ao buscar informações da agenda da barbearia', error)
+    })
+  }
+
+  //Chamando a função para obter os dados da agenda da barbearia
+  useEffect(() => {
+    getFullAgenda()
+  }, [barbeariaId, professionalId])
+  
+  // Função para filtrar todos os dias da agenda completa
+  const filterDaysFullAgenda = (fullAgenda) => {
+    // Usando um Set para armazenar dias únicos
+    const uniqueDaysSet = new Set();
+    
+    // Iterando sobre cada objeto dentro de fullAgenda
+    fullAgenda.forEach(item => {
+        // Separando os dias por vírgula e adicionando ao Set
+        item.dias.split(',').forEach(dia => uniqueDaysSet.add(dia.trim()));
+    });
+
+    // Convertendo o Set de dias únicos para um array
+    const daysFromFullAgenda = Array.from(uniqueDaysSet);
+    const daysFiltreded = diasSemana.filter(elemento => !daysFromFullAgenda.includes(elemento));
+    
+    return daysFiltreded;
+  }
+const daysFiltreded = filterDaysFullAgenda(fullAgenda);
 
   //Mostrando a div com os inputs Cheked
   const alternarDiasTrabalho = () => {
@@ -69,6 +111,7 @@ const [messageAgenda, setMessageAgenda] = useState('');
       setDaysWeekSelected([...daysWeekSelected, dia]);
     }
   };
+
 
   //Passando os valores para o input Dias da Semanas
   const Checkbox = ({ dia }) => {
@@ -141,7 +184,7 @@ const [messageAgenda, setMessageAgenda] = useState('');
     })
   }
   
-  //Obtendo os dados da agenda da barbearia
+  //Obtendo os dados da agenda do barbearia atual e do profissional selecionado
   const getAgenda = () =>{
     axios.get(`${urlApi}/api/v1/agenda/${barbeariaId}/${professionalId}`, {
       headers: {
@@ -160,7 +203,7 @@ const [messageAgenda, setMessageAgenda] = useState('');
   //Chamando a função para obter os dados da agenda da barbearia
   useEffect(() => {
     getAgenda()
-  }, [mostrarDiasSemana, barbeariaId, professionalId])
+  }, [barbeariaId, professionalId])
 
   useEffect(() => {
     if (Array.isArray(agenda) && agenda.length >= 2) {
@@ -719,7 +762,6 @@ return (
         </div>
 
         <div className="container__menu">
-
         <div className="menu__main" onClick={alternarDiasTrabalho}>
           <BsCalendar2Day className='icon_menu'/>
             Definir Dias de Trabalho
@@ -741,7 +783,7 @@ return (
             )}
   
         <p className='information__span'>Selecione os dias da semana em que deseja trabalhar:</p>
-        {diasSemana.map((dia, index) => (
+        {daysFiltreded.map((dia, index) => (
           <div className="container__checkBox" key={index}>
             <span className={daysWeekSelected.includes(dia) ? 'defined__day' : ''}>{dia}</span>
             <Checkbox dia={dia} />
