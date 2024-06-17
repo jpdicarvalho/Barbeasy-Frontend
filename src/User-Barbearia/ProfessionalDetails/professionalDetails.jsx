@@ -76,8 +76,7 @@ const [messageAgenda, setMessageAgenda] = useState('');
   useEffect(() => {
     getFullAgenda()
   }, [barbeariaId, professionalId])
-  
-  // Função para filtrar todos os dias da agenda completa
+  // Função para remover todos os dias definidos por outras barbearias, da lista de definição de dias de trabalho da barbearia atual
   const filterDaysFullAgenda = (fullAgenda) => {
     // Usando um Set para armazenar dias únicos
     const uniqueDaysSet = new Set();
@@ -94,7 +93,24 @@ const [messageAgenda, setMessageAgenda] = useState('');
     
     return daysFiltreded;
   }
-const daysFiltreded = filterDaysFullAgenda(fullAgenda);
+  const daysCurrentBarbearia = filterDaysFullAgenda(fullAgenda);
+
+  //Função para obter os dias definidos por outras barbearias
+  const filterDaysFromAnotherBarbearias = (fullAgenda) => {
+    // Usando um Set para armazenar dias únicos
+    const uniqueDaysSet = new Set();
+    
+    // Iterando sobre cada objeto dentro de fullAgenda
+    fullAgenda.forEach(item => {
+        // Separando os dias por vírgula e adicionando ao Set
+        item.dias.split(',').forEach(dia => uniqueDaysSet.add(dia.trim()));
+    });
+
+    // Convertendo o Set de dias únicos para um array
+    const daysFromFullAgenda = Array.from(uniqueDaysSet);    
+    return daysFromFullAgenda;
+  }
+  const daysAnotherBarbearia = filterDaysFromAnotherBarbearias(fullAgenda);
 
   //Mostrando a div com os inputs Cheked
   const alternarDiasTrabalho = () => {
@@ -464,6 +480,7 @@ useEffect(() => {
   configAgendaDiaSelecionado();
 }, [agendaDoDiaSelecionado]);
 
+//Função para renderizar os horários definidos do dia selecionado
 const getHorariosPorDia = (dia) => {
   //Deixando apenas as três primeiras letras do dia selecionado
   let nameDayFormated = dia.substring(0, 3);
@@ -483,7 +500,34 @@ const getHorariosPorDia = (dia) => {
     return <p>Não há horários definidos para este dia.</p>;
   }
 };
-    
+
+
+// Função para remover os horários de trabalho dos dias de outras barbearias
+const freeTimeFromOtherDays = (diaSelecionado, horarios, fullAgenda) => {
+  // Formatar o nome do dia selecionado
+  let nameDayFormated = diaSelecionado.substring(0, 3).toLowerCase();
+
+  // Conjunto para armazenar horários a serem removidos
+  let timesToRemove = new Set();
+
+  // Iterar sobre cada objeto na fullAgenda
+  fullAgenda.forEach(item => {
+      if (item[nameDayFormated]) {
+          // Separar horários por vírgula e adicionar ao conjunto
+          item[nameDayFormated].split(',').forEach(time => timesToRemove.add(time.trim()));
+      }
+  });
+
+  // Filtrar os horários removendo aqueles que estão no conjunto
+  let availableTimes = horarios.filter(horario => !timesToRemove.has(horario));
+  //availableTimes
+  return availableTimes.map((horario, index) => (
+    <div className="horario-item" key={`${diaSelecionado}-${index}`}>
+      <p>{horario}</p>
+    </div>
+  ));
+};
+
 /*======================Calendário===========================*/
 const [showCalendar, setShowCalendar] = useState(false);
 const [showButtonSaveDayOff, setButtonSaveDayOff] = useState(false);
@@ -746,7 +790,6 @@ const saveDayOff = () =>{
     })
   }
 } 
-
 return (
     <div className="main__professional">
     <div className="container__professional">
@@ -783,7 +826,7 @@ return (
             )}
   
         <p className='information__span'>Selecione os dias da semana em que deseja trabalhar:</p>
-        {daysFiltreded.map((dia, index) => (
+        {daysCurrentBarbearia.map((dia, index) => (
           <div className="container__checkBox" key={index}>
             <span className={daysWeekSelected.includes(dia) ? 'defined__day' : ''}>{dia}</span>
             <Checkbox dia={dia} />
@@ -846,7 +889,6 @@ return (
                           <div>
                               <p className='information__span'>Horários já definidos para esse dia:</p>
                               <div className="inputs-horarios">
-                                  {/* Renderizar o array de horários correspondente */}
                                   {getHorariosPorDia(day)}
                               </div>
                           </div>
@@ -892,6 +934,67 @@ return (
                   </div>
                 ))
               )}
+              <div>
+                <p className='information__span'>Dias definidos por outras barbearias com horários disponíveis::</p>
+                {daysAnotherBarbearia.map(day => (
+                  <div key={day} className='Dias_Trabalho_Rapido'>
+                    <div className='Dias_Semana' onClick={() => handleDiaClick(day)}>{day}
+                      {diaSelecionado === day && (
+                        <div><p className='information__span'>Defina o seu horário de funcionamento:</p>
+                          <div className="inputs-horarios">
+                            {freeTimeFromOtherDays(diaSelecionado, horarios, fullAgenda)}
+                          </div>
+                        </div>
+                      )}
+                      {diaSelecionado === day && (
+                          <div>
+                              <p className='information__span'>Horários já definidos para esse dia:</p>
+                              <div className="inputs-horarios">
+                                  {getHorariosPorDia(day)}
+                              </div>
+                          </div>
+                      )}
+                      {diaSelecionado === day && agendaDoDiaSelecionado.length > 2 && (
+                        <div>
+                          <p className='information__span'>Deseja remover algum horário?</p>
+                          <div className="inputs-horarios">
+                              {agendaDoDiaSelecionado.map((value, index) => (
+                              // Comece a partir do índice 1
+                                index > 0 && (
+                                  <div
+                                      key={index}
+                                      className={`horario-item ${agendaDoDiaSelecionado.includes(value) ? 'Horario-selecionado' : ''}`}
+                                      onClick={() => handleIntervalo(value)}
+                                  >
+                                      <p>{value}</p>
+                                      
+                                  </div>
+                                )
+                              ))}
+                          </div>
+
+                          {messageAgendaHorarios === 'Horários Salvos com Sucesso.' ?(
+                            <div className="mensagem-sucesso">
+                              <MdOutlineDone className="icon__success"/>
+                              <p className="text__message">{messageAgendaHorarios}</p>
+                            </div>
+                            ) : (
+                            <div className={` ${messageAgendaHorarios ? 'mensagem-erro' : ''}`}>
+                              <VscError className={`hide_icon__error ${messageAgendaHorarios ? 'icon__error' : ''}`}/>
+                              <p className="text__message">{messageAgendaHorarios}</p>
+                            </div>
+                          )}
+          
+                          <div className="container_button">
+                            <button className="add_Service" onClick={salvarHorariosDiaSelecionado}>Salvar</button>
+                            <button className="add_Service" onClick={salvarHorariosTodosOsDias}>Salvar para todos os outros dias</button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
       )}
 
