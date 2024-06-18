@@ -76,6 +76,7 @@ const [messageAgenda, setMessageAgenda] = useState('');
   useEffect(() => {
     getFullAgenda()
   }, [barbeariaId, professionalId])
+
   // Função para remover todos os dias definidos por outras barbearias, da lista de definição de dias de trabalho da barbearia atual
   const filterDaysFullAgenda = (fullAgenda) => {
     // Usando um Set para armazenar dias únicos
@@ -107,8 +108,9 @@ const [messageAgenda, setMessageAgenda] = useState('');
     });
 
     // Convertendo o Set de dias únicos para um array
-    const daysFromFullAgenda = Array.from(uniqueDaysSet);    
-    return daysFromFullAgenda;
+    const daysFromFullAgenda = Array.from(uniqueDaysSet);
+    const daysFiltreded = diasSemana.filter(elemento => daysFromFullAgenda.includes(elemento));
+    return daysFiltreded;
   }
   const daysAnotherBarbearia = filterDaysFromAnotherBarbearias(fullAgenda);
 
@@ -221,9 +223,16 @@ const [messageAgenda, setMessageAgenda] = useState('');
     getAgenda()
   }, [barbeariaId, professionalId])
 
+  //Function to order DaysFromAgenda
+  const orderDaysFromAgenda = () =>{
+    let arrayOrdered = diasSemana.filter(elemento => daysFromAgenda.includes(elemento));
+    return arrayOrdered;
+  }
   useEffect(() => {
     if (Array.isArray(agenda) && agenda.length >= 2) {
-      setDaysFromAgenda(agenda[0].split(','));
+      let daysFromAgendaNoOrdered = agenda[0].split(',');
+      let arrayOrdered = diasSemana.filter(elemento => daysFromAgendaNoOrdered.includes(elemento));
+      setDaysFromAgenda(arrayOrdered);
       setQntDaysSelected(agenda[1].toString());
     }
   }, [agenda]);
@@ -935,7 +944,15 @@ return (
                 ))
               )}
               <div>
-                <p className='information__span'>Dias definidos por outras barbearias com horários disponíveis::</p>
+                {daysAnotherBarbearia.length > 1 ?(
+                  <p className='information__span'>Dias com horários livres:</p>
+                ):(
+                 <div>
+                    {daysAnotherBarbearia === 1 &&(
+                      <p className='information__span'>Dia com horários livres:</p>
+                    )}
+                 </div>
+                )}
                 {daysAnotherBarbearia.map(day => (
                   <div key={day} className='Dias_Trabalho_Rapido'>
                     <div className='Dias_Semana' onClick={() => handleDiaClick(day)}>{day}
