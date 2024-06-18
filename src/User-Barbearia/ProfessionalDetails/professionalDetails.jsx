@@ -511,7 +511,7 @@ const getHorariosPorDia = (dia) => {
 };
 
 
-// Função para remover os horários de trabalho dos dias de outras barbearias
+// Função para remover os horários de trabalho dos dias de outras barbearias, deixando apenas os horários livres para uso
 const freeTimeFromOtherDays = (diaSelecionado, horarios, fullAgenda) => {
   // Formatar o nome do dia selecionado
   let nameDayFormated = diaSelecionado.substring(0, 3).toLowerCase();
@@ -531,7 +531,7 @@ const freeTimeFromOtherDays = (diaSelecionado, horarios, fullAgenda) => {
   let availableTimes = horarios.filter(horario => !timesToRemove.has(horario));
   //availableTimes
   return availableTimes.map((horario, index) => (
-    <div className="horario-item" key={`${diaSelecionado}-${index}`}>
+    <div className="horario-item" key={`${diaSelecionado}-${index}`} onClick={() => handleHorarioFuncionamento(horario)}>
       <p>{horario}</p>
     </div>
   ));
@@ -945,11 +945,11 @@ return (
               )}
               <div>
                 {daysAnotherBarbearia.length > 1 ?(
-                  <p className='information__span'>Dias com horários livres:</p>
+                  <p className='information__span'>Dias de outras barbearias com horários livres para uso:</p>
                 ):(
                  <div>
                     {daysAnotherBarbearia === 1 &&(
-                      <p className='information__span'>Dia com horários livres:</p>
+                      <p className='information__span'>Dia de outras barbearias com horários livres para uso:</p>
                     )}
                  </div>
                 )}
