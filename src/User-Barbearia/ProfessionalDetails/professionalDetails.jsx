@@ -499,9 +499,9 @@ const getHorariosPorDia = (dia) => {
   arrayWithTimes = arrayWithTimes.split(',');
 
   //Renderizando o horário do dia selecionado
-  if (arrayWithTimes && arrayWithTimes.length > 0) {
+  if (arrayWithTimes[0].length < 41) {
     return arrayWithTimes.map((horario, index) => (
-      <div className="horario-item" key={`${dia}-${index}`}>
+      <div className="horario-item" key={index}>
         <p>{horario}</p>
       </div>
     ));
@@ -509,7 +509,6 @@ const getHorariosPorDia = (dia) => {
     return <p>Não há horários definidos para este dia.</p>;
   }
 };
-
 
 // Função para remover os horários de trabalho dos dias de outras barbearias, deixando apenas os horários livres para uso
 const freeTimeFromOtherDays = (diaSelecionado, horarios, fullAgenda) => {
@@ -530,13 +529,19 @@ const freeTimeFromOtherDays = (diaSelecionado, horarios, fullAgenda) => {
   // Filtrar os horários removendo aqueles que estão no conjunto
   let availableTimes = horarios.filter(horario => !timesToRemove.has(horario));
   //availableTimes
-  return availableTimes.map((horario, index) => (
-    <div className="horario-item" key={`${diaSelecionado}-${index}`} onClick={() => handleHorarioFuncionamento(horario)}>
-      <p>{horario}</p>
-    </div>
-  ));
+  if(availableTimes){
+    return availableTimes.map((horario, index) => (
+      <div key={index}
+           className={`horario-item ${HorarioFuncionamento.includes(horario) ? 'Horario-selecionado' : ''}`}
+           onClick={() => handleHorarioFuncionamento(horario)}>
+  
+        <p>
+          {horario}
+        </p>
+      </div>
+    ));
+  }
 };
-
 /*======================Calendário===========================*/
 const [showCalendar, setShowCalendar] = useState(false);
 const [showButtonSaveDayOff, setButtonSaveDayOff] = useState(false);
@@ -882,15 +887,7 @@ return (
                       {diaSelecionado === day && (
                         <div><p className='information__span'>Defina o seu horário de funcionamento:</p>
                           <div className="inputs-horarios">
-                            {horarios.map((horario, index) => (
-                                <div
-                                    key={index}
-                                    className={`horario-item ${HorarioFuncionamento.includes(horario) ? 'Horario-selecionado' : ''}`}
-                                    onClick={() => handleHorarioFuncionamento(horario)}
-                                >
-                                    <p>{horario}</p>
-                                </div>
-                            ))}
+                          {freeTimeFromOtherDays(diaSelecionado, horarios, fullAgenda)}
                           </div>
                         </div>
                       )}
@@ -1004,7 +1001,6 @@ return (
           
                           <div className="container_button">
                             <button className="add_Service" onClick={salvarHorariosDiaSelecionado}>Salvar</button>
-                            <button className="add_Service" onClick={salvarHorariosTodosOsDias}>Salvar para todos os outros dias</button>
                           </div>
                         </div>
                       )}
