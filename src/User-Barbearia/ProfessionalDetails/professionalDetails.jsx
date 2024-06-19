@@ -499,17 +499,14 @@ const getHorariosPorDia = (dia) => {
   arrayWithTimes = arrayWithTimes.split(',');
 
   //Renderizando o horário do dia selecionado
-  if (arrayWithTimes[0].length < 41) {
+  if (arrayWithTimes) {
     return arrayWithTimes.map((horario, index) => (
       <div className="horario-item" key={index}>
         <p>{horario}</p>
       </div>
     ));
-  } else {
-    return <p>Não há horários definidos para este dia.</p>;
   }
 };
-
 // Função para remover os horários de trabalho dos dias de outras barbearias, deixando apenas os horários livres para uso
 const freeTimeFromOtherDays = (diaSelecionado, horarios, fullAgenda) => {
   // Formatar o nome do dia selecionado
@@ -563,6 +560,9 @@ const clearTimesDefined = (day) =>{
   }).then(res =>{
     if(res.data.Success === "Success"){
       setMessageClearTimes("Horários removidos com sucesso.")
+      setTimeout(() => {
+        setMessageClearTimes('')
+      }, 2000);
     }
   }).catch(err =>{
     console.error("Erro ao remover horários.", err)
@@ -1005,7 +1005,9 @@ return (
                                   <p className="text__message">{messageClearTimes}</p>
                                 </div>
                                 )}
-                              <button onClick={() => clearTimesDefined(day)}>Remover horários</button>
+                                {/*timesDays[day.substring(0, 3).toLowerCase()] &&(
+                                  <button className="button__change show" onClick={() => clearTimesDefined(day)} >Remover horários</button>
+                                )*/}
                           </div>
                       )}
                       {diaSelecionado === day && agendaDoDiaSelecionado.length > 2 && (
