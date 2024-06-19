@@ -965,7 +965,9 @@ return (
                               <p className='information__span'>Horários já definidos para esse dia:</p>
                               <div className="inputs-horarios">
                                   {getHorariosPorDia(day)}
+                                  
                               </div>
+                              <button>Remover horários</button>
                           </div>
                       )}
                       {diaSelecionado === day && agendaDoDiaSelecionado.length > 2 && (
