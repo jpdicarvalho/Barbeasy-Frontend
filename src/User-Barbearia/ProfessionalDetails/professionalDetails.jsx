@@ -569,6 +569,16 @@ const clearTimesDefined = (day) =>{
     setMessageClearTimes("Erro ao remover horários.")
   })
 }
+
+// Função para formatar o dia selecionado
+const formatDay = (dia) => {
+  return dia.substring(0, 3).charAt(0).toUpperCase() + dia.substring(1, 3).toLowerCase();
+};
+// Formatando o dia selecionado
+const formattedDay = formatDay(diaSelecionado);
+// Condição para verificar se há horários definidos
+const hasDefinedTimes = timesDays[formattedDay] !== undefined && timesDays[formattedDay] !== 'Não há horários definidos.';
+
 /*======================Calendário===========================*/
 const [showCalendar, setShowCalendar] = useState(false);
 const [showButtonSaveDayOff, setButtonSaveDayOff] = useState(false);
@@ -589,6 +599,7 @@ const year = date.getFullYear();
 const alternarCalendar = () => {
   setShowCalendar(!showCalendar);
 };
+
 //Função para mostra calendario
 const closeButtonSaveDayOff = () => {
   setButtonSaveDayOff(false);
@@ -680,7 +691,6 @@ const weekDays = getWeeks();
 const numberDays = getNumber();
 const currentDay = getCurrentDayOfWeek()
 const currentTime = getCurrentTime()
-
 
 // Function to get all booking
 const handleDateClick = (dayOfWeek, day, month, year) => {
@@ -830,7 +840,9 @@ const saveDayOff = () =>{
       console.error("Error ao salva folga", err)
     })
   }
-} 
+}
+
+
 return (
     <div className="main__professional">
     <div className="container__professional">
@@ -1005,9 +1017,9 @@ return (
                                   <p className="text__message">{messageClearTimes}</p>
                                 </div>
                                 )}
-                                {/*timesDays[day.substring(0, 3).toLowerCase()] &&(
+                                {hasDefinedTimes &&(
                                   <button className="button__change show" onClick={() => clearTimesDefined(day)} >Remover horários</button>
-                                )*/}
+                                )}
                           </div>
                       )}
                       {diaSelecionado === day && agendaDoDiaSelecionado.length > 2 && (
