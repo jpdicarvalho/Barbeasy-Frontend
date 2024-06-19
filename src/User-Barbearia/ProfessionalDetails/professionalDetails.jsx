@@ -380,6 +380,7 @@ const salvarHorariosDiaSelecionado = () =>{
       setMessageAgendaHorarios("Horários Salvos com Sucesso.")
         // Limpar a mensagem após 3 segundos (3000 milissegundos)
         setTimeout(() => {
+          setAgendaDoDiaSelecionado([])
           setMessageAgendaHorarios('');
           getHorariosDefinidos()
           setDiaSelecionado(null);
@@ -573,7 +574,9 @@ const clearTimesDefined = (day) =>{
 
 // Função para formatar o dia selecionado
 const formatDay = (dia) => {
-  return dia.substring(0, 3).charAt(0).toUpperCase() + dia.substring(1, 3).toLowerCase();
+  if(dia){
+    return dia.substring(0, 3).charAt(0).toUpperCase() + dia.substring(1, 3).toLowerCase();
+  }
 };
 // Formatando o dia selecionado
 const formattedDay = formatDay(diaSelecionado);
@@ -842,8 +845,6 @@ const saveDayOff = () =>{
     })
   }
 }
-
-
 return (
     <div className="main__professional">
     <div className="container__professional">
@@ -939,7 +940,7 @@ return (
                               </div>
                           </div>
                       )}
-                      {diaSelecionado === day && agendaDoDiaSelecionado.length > 2 && (
+                      {diaSelecionado === day &&   agendaDoDiaSelecionado.length > 2 &&(
                         <div>
                           <p className='information__span'>Deseja remover algum horário?</p>
                           <div className="inputs-horarios">
