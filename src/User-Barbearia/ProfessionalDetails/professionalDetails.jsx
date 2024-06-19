@@ -542,6 +542,23 @@ const freeTimeFromOtherDays = (diaSelecionado, horarios, fullAgenda) => {
     ));
   }
 };
+//=================Clear times defined====================
+const [messageClearTimes, setMessageClearTimes] = useState();
+
+const clearTimesDefined = (day) =>{
+  axios.put(`${urlApi}/api/v1/clearTimes/${barbeariaId}/${professionalId}`, day, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+  }
+  }).then(res =>{
+    if(res.data.Success === "Success"){
+      setMessageClearTimes("Horários removidos com sucesso.")
+    }
+  }).catch(err =>{
+    console.error("Erro ao remover horários.", err)
+    setMessageClearTimes("Erro ao remover horários.")
+  })
+}
 /*======================Calendário===========================*/
 const [showCalendar, setShowCalendar] = useState(false);
 const [showButtonSaveDayOff, setButtonSaveDayOff] = useState(false);
@@ -967,7 +984,18 @@ return (
                                   {getHorariosPorDia(day)}
                                   
                               </div>
-                              <button>Remover horários</button>
+                              {messageClearTimes === 'Horários removidos com sucesso.' ?(
+                                <div className="mensagem-sucesso">
+                                  <MdOutlineDone className="icon__success"/>
+                                  <p className="text__message">{messageClearTimes}</p>
+                                </div>
+                                ) : (
+                                <div className={` ${messageClearTimes ? 'mensagem-erro' : ''}`}>
+                                  <VscError className={`hide_icon__error ${messageClearTimes ? 'icon__error' : ''}`}/>
+                                  <p className="text__message">{messageClearTimes}</p>
+                                </div>
+                                )}
+                              <button onClick={() => clearTimesDefined(day)}>Remover horários</button>
                           </div>
                       )}
                       {diaSelecionado === day && agendaDoDiaSelecionado.length > 2 && (
