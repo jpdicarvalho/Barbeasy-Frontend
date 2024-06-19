@@ -19,6 +19,11 @@
   color: white;
   padding-left: 10px;
 }
+.Saudacao{
+  color: #354249;
+  font-size: 14px;
+  font-weight: 700;
+}
 .img__user{
   display: flex;
   justify-content: space-between;
@@ -37,12 +42,18 @@
   justify-content: start;
   flex-direction: column;
   width: 300px;
-  padding-left: 10px;
-  font-size: 14px;
+  font-size: 18px;
 }
 .settings{
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 35px;
-  font-size: 35px;
+  font-size: 30px;
+  margin-right: 10px;
+  background: #4a17d5;
+  color: #fff;
+  border-radius: 5px;
 }
 .calendar__barbearia{
   overflow-y: hidden;

@@ -5,7 +5,7 @@ import {motion} from 'framer-motion';
 
 import './HomeBarbearia.css';
 import { IoPersonOutline } from "react-icons/io5";
-import { CgMenuRightAlt } from "react-icons/cg";
+import { CiSettings } from "react-icons/ci";
 import { GiRazorBlade } from "react-icons/gi";
 import { TfiTime } from "react-icons/tfi";
 import { IoPersonCircleOutline } from "react-icons/io5";
@@ -194,24 +194,16 @@ return (
     <div className="container__main">
       <div className='header_container'>
         <div className="img__user">
-            {imageUser.length > 48 ? (
-                  <div className="img-view-professional">
-                    <img src={imageUser} alt="" id='img-profile' />
-                  </div>
-                ) : (
-                  <motion.div className="img-view-user">
-                    <IoPersonOutline className='icon_user_edit'/>
-                  </motion.div>
-            )}
             <div className="user__name">
-                <p>Olá, {barbeariaUserName}!</p>
-                <p> {saudacao}</p>
+              
+              <h2>{barbeariaUserName}</h2>
+              <p className="Saudacao">{saudacao}</p>
             </div>
             <div className="settings" onClick={navigateToProfileBarbearia}>
-              <CgMenuRightAlt />
+              <CiSettings />
             </div>
         </div>
-        <div className="container__calendar__barbearia">
+        <div className="container__calendar__barbearia">Agenda
           <div className='calendar__barbearia'>
             <div className="list__Names__Week__And__Day">
             {weekDays.map((dayOfWeek, index) => (
