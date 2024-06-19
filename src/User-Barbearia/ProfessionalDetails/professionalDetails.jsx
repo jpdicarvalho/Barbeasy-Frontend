@@ -546,7 +546,17 @@ const freeTimeFromOtherDays = (diaSelecionado, horarios, fullAgenda) => {
 const [messageClearTimes, setMessageClearTimes] = useState();
 
 const clearTimesDefined = (day) =>{
-  axios.put(`${urlApi}/api/v1/clearTimes/${barbeariaId}/${professionalId}`, day, {
+  let nameDayFormated;//variable to storage the name day formated
+
+  //Contidion to verify if day is valided
+  if(day){
+    nameDayFormated = day.substring(0, 3);
+    nameDayFormated = nameDayFormated.toLowerCase();
+    if(nameDayFormated === 'sáb'){
+      nameDayFormated = 'sab'
+    }
+  }
+  axios.put(`${urlApi}/api/v1/clearTimes/${barbeariaId}/${professionalId}`, {daySelected: nameDayFormated}, {
     headers: {
       'Authorization': `Bearer ${token}`
   }
