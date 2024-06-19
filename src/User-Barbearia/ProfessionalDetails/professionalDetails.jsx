@@ -539,6 +539,7 @@ const freeTimeFromOtherDays = (diaSelecionado, horarios, fullAgenda) => {
     ));
   }
 };
+
 //=================Clear times defined====================
 const [messageClearTimes, setMessageClearTimes] = useState();
 
