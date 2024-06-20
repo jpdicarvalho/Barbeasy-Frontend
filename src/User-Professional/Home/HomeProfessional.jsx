@@ -6,12 +6,12 @@ import {motion} from 'framer-motion';
 import Notification from '../Notification/Notification';
 
 import './HomeProfessional.css';
-import { GoPlus } from "react-icons/go";
 import { GiRazorBlade } from "react-icons/gi";
 import { TfiTime } from "react-icons/tfi";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { FaWhatsapp } from "react-icons/fa";
 import { IoIosNotifications } from "react-icons/io";
+import { GrSchedules } from "react-icons/gr";
 
 
 const monthNames = [
@@ -276,13 +276,6 @@ return (
         <div className="section__professional__barbearia">
           <div className="section__professional">
 
-            <div className='Box__addNewProfessional'>
-              <button className='addNewProfessional'>
-                <GoPlus className='icon_plus'/>
-              </button>
-              Novo
-            </div>
-
             {barbearias.map((barbearias) => { 
               // Obtendo a primeira letra do nome do profissional
               const firstLetter = barbearias.nameBarbearia.charAt(0).toUpperCase();
@@ -300,8 +293,12 @@ return (
           </div>
         </div>
       </div>
-      {barbeariaSelected &&(
-        <div className="container__calendar__barbearia">
+      {barbeariaSelected ?(
+        <div className="container__calendar__home__professional">
+          <div className='header__agenda'>
+            <GrSchedules className='icon__schedules'/>
+            <h3>Agenda</h3>
+          </div>
           <div className='calendar__barbearia'>
             <div className="list__Names__Week__And__Day">
             {weekDays.map((dayOfWeek, index) => (
@@ -318,10 +315,7 @@ return (
               ))}
             </div>
           </div>
-        </div>
-      )}
-
-      {bookings.length > 0 && (
+          {bookings.length > 0 && (
         <div className="tittle__bookings">
           <p>Agendamentos • ({bookings.length})</p>
         </div>
@@ -392,6 +386,14 @@ return (
         <div className="message__notFound">
           <p >Selecione um dia para visualizar os agendamentos.</p>
         </div>
+      )}
+        </div>
+      ):(
+        <>
+        <div className="message__notFound">
+          <p >Selecione uma barbearia para visualizar os agendamentos.</p>
+        </div>
+        </>
       )}
     </div>
     
