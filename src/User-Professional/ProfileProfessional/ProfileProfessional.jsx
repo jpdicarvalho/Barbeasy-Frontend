@@ -6,8 +6,8 @@ import axios from 'axios';
 
 import { MdOutlineEdit } from "react-icons/md";
 import { VscError } from "react-icons/vsc";
+import { MdOutlineDone } from "react-icons/md";
 
-import Notification from '../Notification/Notification';
 
 import './ProfileProfessional.css';
 
@@ -55,10 +55,19 @@ useEffect(() => {
   })
   .catch(err => console.log(err));
 }, [professionalId]);
+
 //================UPDATE USER IMAGE================
   //Constantes de Upload de imagem de usuário
   const [file, setfile] = useState(null);
   const [userImageMessage, setUserImageMessage] = useState('');
+
+  const allowedExtensions = ['jpg', 'jpeg', 'png'];
+
+  const currentDateTime = new Date();
+  const formdata = new FormData();
+
+  // Formata a data e hora no formato desejado (por exemplo: YYYYMMDD_HHMMSS)
+  const formattedDateTime = `${currentDateTime.getFullYear()}${(currentDateTime.getMonth() + 1).toString().padStart(2, '0')}${currentDateTime.getDate().toString().padStart(2, '0')}_${currentDateTime.getHours().toString().padStart(2, '0')}${currentDateTime.getMinutes().toString().padStart(2, '0')}${currentDateTime.getSeconds().toString().padStart(2, '0')}`;
 
   //Upload user image
   const handleFile = (e) => {
@@ -86,11 +95,11 @@ useEffect(() => {
     const fileExtension = file ? file.name.split('.').pop() : '';
     
     // Renomeia a imagem com o ID do usuário, número aleatório e a data/hora
-    const renamedFile = new File([file], `userBarbeariaId_${barbeariaId}_${formattedDateTime}.${fileExtension}`, { type: file.type });
+    const renamedFile = new File([file], `userBarbeariaId_${professionalId}_${formattedDateTime}.${fileExtension}`, { type: file.type });
     formdata.append('image', renamedFile);
-    formdata.append('barbeariaId', barbeariaId);
+    formdata.append('professionalId', professionalId);
 
-    axios.put(`${urlApi}/api/v1/updateUserImageBarbearia`, formdata, {
+    axios.put(`${urlApi}/api/v1/updateUserImageProfessional`, formdata, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
