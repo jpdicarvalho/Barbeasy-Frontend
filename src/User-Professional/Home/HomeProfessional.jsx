@@ -231,7 +231,6 @@ useEffect(() =>{
 const handleBarbeariaSelected = (barbeariaId) =>{
     setBarbeariaSelected(barbeariaId);
 }
-console.log(bookings)
 return (
 <>
     <div className="container__main">

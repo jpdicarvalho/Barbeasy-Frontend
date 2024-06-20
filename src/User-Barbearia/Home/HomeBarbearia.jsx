@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom"
 import axios from 'axios';
-import {motion} from 'framer-motion';
 
 import './HomeBarbearia.css';
-import { IoPersonOutline } from "react-icons/io5";
+import { GrSchedules } from "react-icons/gr";
 import { CiSettings } from "react-icons/ci";
 import { GiRazorBlade } from "react-icons/gi";
 import { TfiTime } from "react-icons/tfi";
@@ -44,22 +43,30 @@ const navigateToProfileBarbearia = () =>{
   navigate("/ProfileBarbearia");
 }
 
-const [imageUser, setImageUser] = useState([]);
-//Função para obter as imagens cadastradas
-useEffect(() => {
-  axios.get(`${urlApi}/api/v1/userImageBarbearia`, {
-    params: {
-      barbeariaId: barbeariaId
-    },
-    headers: {
-      'Authorization': `Bearer ${token}`
+//Variáveis para abrir o madal
+const [professional, setProfessional] = useState([])
+const [professionalSelected, setProfessionalSelected] = useState();
+
+  //Function to get all professionais
+  useEffect(() => {
+    const getProfessional = () =>{
+    axios.get(`${urlApi}/api/v1/listProfessionalToBarbearia/${barbeariaId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+      .then(res => {
+        setProfessional(res.data.Professional)
+      })
+      .catch(error => console.log(error));
     }
-  })
-  .then(res => {
-    setImageUser(res.data.url);
-  })
-  .catch(err => console.log(err));
-}, [barbeariaId]);
+    getProfessional()
+  }, [barbeariaId])
+
+//Function to selected Professional
+const handleProfessionalSelected = (professionalId) =>{
+  setProfessionalSelected(professionalId);
+}
 //==================================================
 const [saudacao, setSaudacao] = useState('');
 //pegando a hora para saudar o usuário
@@ -189,21 +196,60 @@ const toggleItem = (itemId) => {
       setExpandedCardBooking([...expandedCardBooking, itemId]);
     }
 };
+
 return (
 <main>
     <div className="container__main">
       <div className='header_container'>
         <div className="img__user">
             <div className="user__name">
-              
-              <h2>{barbeariaUserName}</h2>
-              <p className="Saudacao">{saudacao}</p>
+              <h2>Barbeasy</h2>
             </div>
             <div className="settings" onClick={navigateToProfileBarbearia}>
-              <CiSettings />
-            </div>
+                <CiSettings />
+              </div>
         </div>
-        <div className="container__calendar__barbearia">Agenda
+      {professional.length > 0 ? (
+        <>
+        <div className='tittle_menu'>
+          {professional.length > 1 ?(
+            <>
+              <h3>Profissionais</h3>
+              <hr id='sublime'/>
+            </>
+          ):(
+            <>
+              <h3>Profissional</h3>
+              <hr id='sublime'/>
+            </>
+          )}
+        </div>
+        <div className="section__professional__barbearia">
+          <div className="section__professional">
+
+            {professional.map((professional) => { 
+              // Obtendo a primeira letra do nome do profissional
+              const firstLetter = professional.name.charAt(0).toUpperCase();
+              
+              return (
+                <div key={professional.id} onClick={() => handleProfessionalSelected(professional.id)} className={`Box__professional ${professionalSelected === professional.id? 'barbeariaSelected':''}`}> 
+                  <div className="Box__image">
+                    <p className='firstLetter'>{firstLetter}</p>
+                  </div>
+                  <p className='name__professional'>{professional.name}</p>
+                </div>
+              );
+            })}
+
+          </div>
+        </div>
+
+        {professionalSelected &&(
+          <div className="container__calendar__barbearia">
+            <div className='header__agenda'>
+              <GrSchedules className='icon__schedules'/>
+              <h3>Agenda</h3>
+            </div>
           <div className='calendar__barbearia'>
             <div className="list__Names__Week__And__Day">
             {weekDays.map((dayOfWeek, index) => (
@@ -221,13 +267,12 @@ return (
             </div>
           </div>
         </div>
-      </div>
-    
-      {bookings.length > 0 && (
-        <div className="tittle__bookings">
-          <p>Agendamentos • ({bookings.length})</p>
-        </div>
-      )}
+        )}
+        {bookings.length > 0 && (
+          <div className="tittle__bookings">
+            <p>Agendamentos • ({bookings.length})</p>
+          </div>
+        )}
       
       {selectedDay ? (
         <div className="section__bookings" >
@@ -292,9 +337,17 @@ return (
     </div>
       ):(
         <div className="message__notFound">
-          <p >Selecione um dia para visualizar os agendamentos.</p>
+          <p >Selecione um profissional para visualizar os agendamentos.</p>
         </div>
       )}
+        </>
+        
+      ):(
+        <>
+          <p className='message__notFound'>Configure sua barbearia para começar :) </p>
+        </>
+      )}
+      </div>
     </div>
     
     </main>

@@ -28,8 +28,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 385px;
-  height: 80px;
+  width: 100%;
+  height: 80px; 
 }
 .img-view-professional{
   width: 60px;
@@ -40,20 +40,31 @@
 .user__name{
   display: flex;
   justify-content: start;
-  flex-direction: column;
+  flex-direction: row;
   width: 300px;
-  font-size: 18px;
 }
 .settings{
   display: flex;
   justify-content: center;
   align-items: center;
   width: 35px;
-  font-size: 30px;
+  height: 36px;
+  font-size: 25px;
   margin-right: 10px;
   background: #4a17d5;
   color: #fff;
   border-radius: 5px;
+}
+.header__agenda{
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-direction: row;
+  margin-top: 15px;
+}
+.icon__schedules{
+  font-size: 25px;
+  margin-right: 10px;
 }
 .calendar__barbearia{
   overflow-y: hidden;
