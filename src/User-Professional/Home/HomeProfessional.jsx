@@ -235,7 +235,7 @@ return (
 <>
     <div className="container__main">
       <div className='header_container'>
-        <div className="img__user">
+        <div className="img__user__professional">
             {imageUser.length > 48 ? (
                   <div className="img-view-professional" onClick={navigateToProfileProfessional}>
                     <img src={imageUser} alt="" id='img-profile' />
@@ -245,8 +245,8 @@ return (
                     <p>{firstLetter}</p>
                   </div>
             )}
-            <div className="user__name">
-                <p className='name__professional'>Olá, {professionalUserName}!</p>
+            <div className="user__name__professional">
+                <p className='name__professional'>Olá, {professionalUserName}</p>
                 <p className='subtittle__professional'> {saudacao}</p>
             </div>
             <div className="icon__notification" onClick={() => setShowNotification(true)}>
@@ -257,6 +257,7 @@ return (
             </div>
             <Notification openNotification={showNotification} setCloseNotification={() => setShowNotification(!showNotification)}/>
         </div>
+        
         {barbearias.length === 1 ?(
           <div className='tittle_menu'>
             <h3>Barbearia</h3>

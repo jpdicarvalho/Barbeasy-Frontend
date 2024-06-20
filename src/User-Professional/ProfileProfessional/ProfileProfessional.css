@@ -1,7 +1,15 @@
 .container__profile__professional{
+    display: flex;
+    flex-direction: column;
     padding-top: 20px;
     height: 100vh;
     width: 385px;
+}
+.section__image__profile{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 .img__user_edit{
     position: relative;

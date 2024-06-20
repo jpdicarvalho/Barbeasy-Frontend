@@ -1,3 +1,17 @@
+.img__user__professional{
+    display: flex;
+    flex-direction: row;
+    padding-top: 15px;
+    width: 385px;
+    margin-bottom: 10px;
+}
+.user__name__professional{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 280px;
+    padding-left: 5px;
+}
 .imgViewDefault{
     font-size: 30px;
 }

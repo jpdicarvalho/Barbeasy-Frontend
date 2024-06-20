@@ -7,6 +7,7 @@ import axios from 'axios';
 import { MdOutlineEdit } from "react-icons/md";
 import { VscError } from "react-icons/vsc";
 import { MdOutlineDone } from "react-icons/md";
+import { IoArrowBackSharp } from "react-icons/io5";
 
 
 import './ProfileProfessional.css';
@@ -35,7 +36,7 @@ function ProfileProfessional() {
   const firstLetter = professionalUserName.charAt(0).toUpperCase();
 
 const navigateToProfileProfessional = () =>{
-  navigate("/ProfileProfessional");
+  navigate("/HomeProfessional");
 }
 //==========GET USER IMAGE PROFESSIONAL==========
 const [imageUser, setImageUser] = useState([]);
@@ -149,30 +150,35 @@ const toggleItem = (itemId) => {
 return (
     <>
     <div className="container__profile__professional">
-        <div className="img__user_edit"> 
-            <label htmlFor="input-file-user" id="drop-area-user">
-                <MdOutlineEdit id="editar"/>
-                <input
-                    type="file"
-                    accept="image/*"
-                    id="input-file-user"
-                    hidden
-                    onChange={handleFile}
-                />
-
-                {imageUser.length > 48 ? (
-                    <div className="img-view-profile">
-                        <img src={imageUser} alt="" id='img-profile' />
-                    </div>
-                ) : (
-                    <div className="Box__image  Box__first__letter">
-                        <p className='firstLetter__professional'>{firstLetter}</p>
-                    </div>
-                )}
-            </label>
+        <div className="back" onClick={navigateToProfileProfessional}>
+          <IoArrowBackSharp className="Icon__Back"/>
         </div>
+        <div className='section__image__profile'>
+            <div className="img__user_edit"> 
+                <label htmlFor="input-file-user" id="drop-area-user">
+                    <MdOutlineEdit id="editar"/>
+                    <input
+                        type="file"
+                        accept="image/*"
+                        id="input-file-user"
+                        hidden
+                        onChange={handleFile}
+                    />
+
+                    {imageUser.length > 48 ? (
+                        <div className="img-view-profile">
+                            <img src={imageUser} alt="" id='img-profile' />
+                        </div>
+                    ) : (
+                        <div className="Box__image  Box__first__letter">
+                            <p className='firstLetter__professional'>{firstLetter}</p>
+                        </div>
+                    )}
+                </label>
+            </div>
         <div className="section__userName">
             {professionalUserName}
+        </div>
         </div>
         {userImageMessage === "Imagem atualizada com sucesso." ? (
             <div className="mensagem-sucesso">
