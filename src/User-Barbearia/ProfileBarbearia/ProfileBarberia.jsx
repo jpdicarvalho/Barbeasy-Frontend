@@ -11,8 +11,6 @@ import AuthToUpdateData from '../../AuthToUpdateData/AuthToUpdateData';
 import { IoArrowBackSharp } from "react-icons/io5";
 
 import { IoIosArrowDown } from "react-icons/io";
-import { MdOutlineEdit } from "react-icons/md";
-import { IoPersonOutline } from "react-icons/io5";
 import { MdOutlineBackup } from "react-icons/md";
 import { RiRadioButtonLine } from "react-icons/ri";
 import { RiStore3Line } from "react-icons/ri";
@@ -61,95 +59,6 @@ function ProfileBarbearia() {
   const [isPasswordVerified, setIsPasswordVerified] = useState(false);
 
   const allowedExtensions = ['jpg', 'jpeg', 'png'];
-
-/*-----------------------------------*/
-  //Constantes de Upload de imagem de usuário
-  const [file, setfile] = useState(null);
-  const [imageUser, setImageUser] = useState([]);
-  const [userImageMessage, setUserImageMessage] = useState('');
-
-  //Upload user image
-  const handleFile = (e) => {
-    
-    const selectedUseImage = e.target.files[0];
-    // Obtém a extensão do arquivo original
-    const fileExtension = selectedUseImage ? selectedUseImage.name.split('.').pop() : '';//operador ternário para garantir que name não seja vazio
-
-    if(fileExtension.length > 0){
-      // Verifica se a extensão é permitida
-      if (!allowedExtensions.includes(fileExtension)) {
-        setUserImageMessage("Erro: Use extensões 'jpg', 'jpeg' ou 'png'.");
-        setfile(null)
-        setTimeout(() => {
-          setUserImageMessage('');
-        }, 3000);
-        return
-      }
-      setfile(e.target.files[0])
-    }
-  }
-
-  //Preparando as imagens selecionadas para serem enviadas ao back-end
-  const handleUpload = () => {
-    const fileExtension = file ? file.name.split('.').pop() : '';
-    
-    // Renomeia a imagem com o ID do usuário, número aleatório e a data/hora
-    const renamedFile = new File([file], `userBarbeariaId_${barbeariaId}_${formattedDateTime}.${fileExtension}`, { type: file.type });
-    formdata.append('image', renamedFile);
-    formdata.append('barbeariaId', barbeariaId);
-
-    axios.put(`${urlApi}/api/v1/updateUserImageBarbearia`, formdata, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
-    .then(res => {
-      if(res.data.Status === "Success"){
-        setUserImageMessage("Imagem atualizada com sucesso.");
-        setTimeout(() => {
-          setUserImageMessage(null);
-          window.location.reload()
-        }, 2000);
-      }else{
-        setUserImageMessage('Erro ao atualizar a imagem. Tente novamente mais tarde.')
-        setTimeout(() => {
-          setUserImageMessage(null);
-        }, 3000);
-      }
-    })
-    .catch(err => console.log(err));
-  }
-
-  //Method to send images automatically
-  useEffect(() => {
-    // Configura um temporizador para esperar 1 segundo após a última mudança no input de arquivo
-    const timeout = setTimeout(() => {
-      // Executa a função de upload após o período de espera
-      if(file){
-        handleUpload();
-      }
-      
-    }, 1000);
-
-    // Limpa o temporizador se o componente for desmontado ou se houver uma nova mudança no input de arquivo
-    return () => clearTimeout(timeout);
-  }, [file]);
-
-  //Function to get user image of barbearia
-  useEffect(() => {
-    axios.get(`${urlApi}/api/v1/userImageBarbearia`, {
-      params: {
-        barbeariaId: barbeariaId
-      },
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
-    .then(res => {
-      setImageUser(res.data.url);
-    })
-    .catch(err => console.log(err));
-  }, [barbeariaId]);
 
 /*----------------------------------*/
   //Constantes de Upload de Imagens para o Banner
@@ -634,45 +543,6 @@ const handleProfessionalClick = (professional) => {
       <div className="back" onClick={handleBackClick}>
           <IoArrowBackSharp className="Icon__Back"/>
           </div>
-
-              <div className="img__user_edit"> 
-                  <label htmlFor="input-file-user" id="drop-area-user">
-                  <MdOutlineEdit id="editar"/>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    id="input-file-user"
-                    hidden
-                    onChange={handleFile}
-                  />
-
-                  {imageUser.length > 48 ? (
-                    <div className="img-view-profile">
-                      <img src={imageUser} alt="" id='img-profile' />
-                    </div>
-                  ) : (
-                    <motion.div className="img-view-user">
-                     <IoPersonOutline className='icon_user_edit'/>
-                    </motion.div>
-                  )}
-
-                </label>
-              </div>
-
-              <div className="section__userName">
-                {userNameBarbearia}
-              </div>
-              {userImageMessage === "Imagem atualizada com sucesso." ? (
-                <div className="mensagem-sucesso">
-                <MdOutlineDone className="icon__success"/>
-                <p className="text__message">{userImageMessage}</p>
-              </div>
-              ) : (
-                <div className={` ${userImageMessage ? 'mensagem-erro' : ''}`}>
-                  <VscError className={`hide_icon__error ${userImageMessage ? 'icon__error' : ''}`}/>
-                  <p className="text__message">{userImageMessage}</p>
-              </div>
-              )}
 
             {bannerMessage === "Banner alterado com sucesso." ? (
                 <div className="mensagem-sucesso">

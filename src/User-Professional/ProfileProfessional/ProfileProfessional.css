@@ -1,0 +1,65 @@
+.container__profile__professional{
+    padding-top: 20px;
+    height: 100vh;
+}
+.img__user_edit{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80px;
+    height: 80px;
+    border-radius: 12px;
+    background: transparent;
+    cursor: pointer;
+}
+
+.section__userName{
+    text-align: center;
+    width: 100%;
+    color: #f6f6f6;
+    padding-top: 5px;
+    padding-bottom: 15px;
+    font-size: 20px;
+}
+.img-view-profile{
+    width: 80px;
+    height: 80px;
+    border-radius: 12px;
+    overflow: hidden;
+}
+#img-profile{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.img-view-user{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+.icon_user_edit{
+    color: #f6f6f6;
+    font-weight: 300;
+    font-size: 50px;
+}
+#editar{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    padding: 3px;
+    border-radius: 5px;
+    color: #f6f6f6;
+    font-size: 20px;
+    font-weight: 500;
+    background: #354249;
+    top: -5px;
+    right: -5px;
+    z-index: 9;
+    cursor: pointer;
+}

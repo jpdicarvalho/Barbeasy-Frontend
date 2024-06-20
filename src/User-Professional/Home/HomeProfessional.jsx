@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"
 import axios from 'axios';
 import {motion} from 'framer-motion';
 
-import Notification from './Notification/Notification';
+import Notification from '../Notification/Notification';
 
 import './HomeProfessional.css';
 import { GoPlus } from "react-icons/go";

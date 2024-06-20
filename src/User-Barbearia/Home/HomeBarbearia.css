@@ -42,6 +42,7 @@
   justify-content: start;
   flex-direction: row;
   width: 300px;
+  color: #354249;
 }
 .settings{
   display: flex;

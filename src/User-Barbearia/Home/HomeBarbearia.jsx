@@ -203,7 +203,7 @@ return (
       <div className='header_container'>
         <div className="img__user">
             <div className="user__name">
-              <h2>Barbeasy</h2>
+              <h2>Veja aqui, <br/>Seus agendamentos</h2>
             </div>
             <div className="settings" onClick={navigateToProfileBarbearia}>
                 <CiSettings />

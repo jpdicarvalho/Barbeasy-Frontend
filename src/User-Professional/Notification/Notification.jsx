@@ -8,7 +8,7 @@ import { IoClose } from "react-icons/io5";
 import { MdOutlineDone } from "react-icons/md";
 import { VscError } from "react-icons/vsc";
 
-import barbeasyLogo from '../../../.././barber-logo.png'
+import barbeasyLogo from '../../../barber-logo.png'
 
 export default function Notification ({openNotification, setCloseNotification}){
 
