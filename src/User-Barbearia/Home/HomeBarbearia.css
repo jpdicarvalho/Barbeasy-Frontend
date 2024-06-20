@@ -15,7 +15,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  width: 100%;
+  max-width: 385px;
   color: white;
   padding-left: 10px;
 }
@@ -61,10 +61,18 @@
   align-items: center;
   flex-direction: row;
   margin-top: 15px;
+  padding-left: 5px;
 }
 .icon__schedules{
   font-size: 25px;
   margin-right: 10px;
+}
+.container__calendar__home__barbearia{
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  margin-right: 10px;
+  background: #35424930;
+  height: 60vh;
 }
 .calendar__barbearia{
   overflow-y: hidden;
