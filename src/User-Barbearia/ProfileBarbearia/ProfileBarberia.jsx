@@ -37,6 +37,8 @@ import './ProfileBarbearia.css';
 function ProfileBarbearia() {
 
   const urlApi = 'https://barbeasy.up.railway.app'
+  const urlCloudFront = "https://d15o6h0uxpz56g.cloudfront.net/"
+
   const navigate = useNavigate();
 
   //Buscando informações do usuário logado
@@ -629,9 +631,15 @@ const handleProfessionalClick = (professional) => {
               
               return (
                 <div key={professional.id} className='Box__professional' onClick={() => handleProfessionalClick(professional)}> 
+                  {professional.user_image != 'default.png' ?(
+                  <div className='user__image__professional'>
+                    <img src={urlCloudFront + professional.user_image} id='img__user__professional'/>
+                  </div>
+                 ):(
                   <div className="Box__image">
                     <p className='firstLetter'>{firstLetter}</p>
                   </div>
+                 )}
                   <p className='name__professional'>{professional.name}</p>
                 </div>
               );

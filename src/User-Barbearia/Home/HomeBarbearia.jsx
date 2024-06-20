@@ -22,6 +22,7 @@ const weekNames = [
 function HomeBarbearia() {
 
   const urlApi = 'https://barbeasy.up.railway.app'
+  const urlCloudFront = "https://d15o6h0uxpz56g.cloudfront.net/"
 
   const date = new Date();
   const options = { weekday: 'short', locale: 'pt-BR' };
@@ -233,9 +234,15 @@ return (
               
               return (
                 <div key={professional.id} onClick={() => handleProfessionalSelected(professional.id)} className={`Box__professional ${professionalSelected === professional.id? 'barbeariaSelected':''}`}> 
+                 {professional.user_image != 'default.png' ?(
+                  <div className='user__image__professional'>
+                    <img src={urlCloudFront + professional.user_image} id='img__user__professional'/>
+                  </div>
+                 ):(
                   <div className="Box__image">
                     <p className='firstLetter'>{firstLetter}</p>
                   </div>
+                 )}
                   <p className='name__professional'>{professional.name}</p>
                 </div>
               );
