@@ -10,6 +10,7 @@ import barberLogo from '../../../barber-logo.png';
 import imgUserDefault from './img-user-default.jpg'
 
 import { IoIosStar } from "react-icons/io";
+import { CiLocationOn } from "react-icons/ci";
 
 
 function Home() {
@@ -196,14 +197,14 @@ return (
                 </div> 
           </div>
           <div className="containerHome">
-              {barbeariaSearch.map((barbearia) => (
+              {barbeariaSearch.map((barbearia, index) => (
                 
-                <div key={barbearia.id} className="containerBarbearia" onClick={() => handleBarbeariaClick(barbearia)}>
+                <div key={index} className="containerBarbearia" onClick={() => handleBarbeariaClick(barbearia)}>
                      
                     <div className="imgBoxSection">
                       <img src={urlCloudFront + barbearia.banner_main} alt="Imagem de capa da barbearia" />
                     </div>
-
+                    
                   <div className="section">
                       <div className="box__logo__barbeasy">
                           <img src={barberLogo} className="img__logo__barbeasy"/>
@@ -211,29 +212,29 @@ return (
 
                       <div className="Barbearias">
                         <h2>
-                          {barbearia.name} • {calcularMediaAvaliacoesBarbearia(barbearia.id)}
-                        </h2>
-                        <IoIosStar className="icon__star" />
-                        <h2>
-                          ({totalAvaliacoes(barbearia.id)})
+                          {barbearia.name}
                         </h2>
                       </div>
 
                       <div className="endereco">
-                        <p className="material-symbols-outlined location">location_on </p>
                         <p>{barbearia.rua}, Nº {barbearia.N}, {barbearia.bairro}, {barbearia.cidade}</p>
                       </div>
-                      
-                      {barbearia.status === "Aberta" ? (
-                        <p className="aberto"> {barbearia.status}</p>
-                      ) : (
-                        <p className="fechado">{barbearia.status}</p>
-                      )}
-      
-                      
+
+                      <div className="section__status">
+                        {barbearia.status === "Aberta" ? (
+                          <p className="aberto"> {barbearia.status}</p>
+                          ) : (
+                          <p className="fechado">{barbearia.status}</p>
+                        )}
+                        <div className="section__star">
+                          <IoIosStar className="icon__star" /> 
+                          <p>4,5 • (100)</p>
+                      </div>
+                      </div>
                       
                   </div>
-                 
+                  <button className="agendar">Ver barbearia</button>
+                
                 </div>
               ))}
             <ul className={`Navigation glassmorphism ${isMenuActive ? 'active' : ''}`}>

@@ -194,12 +194,12 @@
   display: flex;
   flex-direction: column;
   width: 350px;
-  height: 370px;
   border-bottom: 1px solid #1c2035;
   margin-bottom: 10px;
   overflow: hidden;
   border: 1px solid #4a17d5;
   border-radius: 10px;
+  background: rgb(53 66 73 / 37%);
 }
 .section {
   position: relative;
@@ -220,8 +220,6 @@
   width: 100%;
   height: 180px;
   border-radius: 12px;
-  overflow: hidden;
-  background: red;
   overflow: hidden;
 }
 .imgBoxSection img{
@@ -250,35 +248,51 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  color: gold;
-  font-size: 20px;
+  color: #4a17d5;
+  font-size: 18px;
   height: 100%;
-  margin-left: 5px;
-  margin-right: 5px;
   overflow: hidden;
 }
 .endereco{
   display: flex;
+  justify-content: center;
+  align-items: center;
   flex-direction: row;
-  letter-spacing: 1px;
-  padding-left: 5px;
-  font-size: 11px;
-  border-radius: 20px;
-  padding-bottom: 3px;
+  font-size: 12px;
+  width: 100%;
 }
-.material-symbols-outlined.location{
+.section__status{
+  position: absolute;
+  top: -35px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  font-weight: 400;
+  padding-left: 5px;
   padding-right: 5px;
+  padding-top: 10px;
+}
+.section__star{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #44444787;
+  border-radius: 5px;
+  padding: 2px;
+  font-size: 14px;
 }
 .agendar{
   position: relative;
   width: 100%;
   height: 40px;
   border-radius: 10px;
-  color: #0f0;
+  margin-top: 15px;
+  color: #f6f6fc;
   border: none;
   font-size: 14px;
-  border: 1px solid #0f0;
-  background:transparent;
+  border: 1px solid #f6f6fc;
+  background: transparent;
+  margin-top: 15px;
 }
 .glassmorphism {
   background: rgba(255, 255, 255, 0.1);
@@ -383,23 +397,23 @@
   color: #6D48D6;
   background: transparent;
 }
-.fa-solid, .fas{
-  background: transparent;
-}
 .aberto {
   position: relative;
-  color: rgb(32, 229, 32);
+  color: rgb(0, 255, 0);
   padding: 5px;
   width: auto;
+  border-radius: 5px;
   text-align: center;
-  font-size: 12px;
+  font-size: 14px;
+  background: rgba(0, 255, 0, 0.164);
 }
 .fechado {
   position: relative;
   color: red;
+  background: rgba(255, 0, 0, 0.211);
   padding: 5px;
+  border-radius: 5px;
   width: auto;
   text-align: center;
-  font-size: 12px;
-  font-weight: bold;
+  font-size: 14px;
 }
