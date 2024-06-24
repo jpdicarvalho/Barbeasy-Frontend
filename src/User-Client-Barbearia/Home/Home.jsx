@@ -1,16 +1,22 @@
 //Libary necessárias
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
+
 //Arq. de Estilização da página
 import './home.css'
 //imagens estáticas
-import barberLogo from './barber-logo.png';
+
+import barberLogo from '../../../barber-logo.png';
 import imgUserDefault from './img-user-default.jpg'
+
+import { IoIosStar } from "react-icons/io";
+
 
 function Home() {
 
 const navigate = useNavigate();
 const urlApi = 'https://barbeasy.up.railway.app'
+const urlCloudFront = 'https://d15o6h0uxpz56g.cloudfront.net/'
 
 const [isMenuActive, setMenuActive] = useState(false);
 const [saudacao, setSaudacao] = useState('');
@@ -165,15 +171,15 @@ const avaliacoesDaBarbearia = AllAvaliation.filter(avaliacao => avaliacao.barbea
   const media = somaNotas / avaliacoesDaBarbearia.length;
   return media.toFixed(1).replace('.', ',');
 };
-
+console.log(barbeariaSearch)
 return (
   <>
             <div className={`header ${scrollPosition > 200 ? 'scrolled' : ''}`}>
                 <div className={`imgBoxSectionUser ${scrollPosition > 200 ? 'hideDiv' : ''}`}>
                   <img src={imgUserDefault} alt="foto de perfil do usuário" />
                   <div className="spanUser">
-                    <p>Olá, {userName}</p>
-                    <p>{saudacao}</p>
+                    <p className="nameUser">Olá, {userName}</p>
+                    <p className="saudacao">{saudacao}</p>
                     
                   </div>
                   
@@ -194,28 +200,37 @@ return (
                 
                 <div key={barbearia.id} className="containerBarbearia" onClick={() => handleBarbeariaClick(barbearia)}>
                      
-                     <div className="imgBoxSection">
-                     <img src={`https://d15o6h0uxpz56g.cloudfront.net/${barbearia.banner_main}`} alt="Imagem de capa da barbearia" />
+                    <div className="imgBoxSection">
+                      <img src={urlCloudFront + barbearia.banner_main} alt="Imagem de capa da barbearia" />
                     </div>
 
                   <div className="section">
-                  {barbearia.status === "Aberta" ? (
+                      <div className="box__logo__barbeasy">
+                          <img src={barberLogo} className="img__logo__barbeasy"/>
+                      </div>
+
+                      <div className="Barbearias">
+                        <h2>
+                          {barbearia.name} • {calcularMediaAvaliacoesBarbearia(barbearia.id)}
+                        </h2>
+                        <IoIosStar className="icon__star" />
+                        <h2>
+                          ({totalAvaliacoes(barbearia.id)})
+                        </h2>
+                      </div>
+
+                      <div className="endereco">
+                        <p className="material-symbols-outlined location">location_on </p>
+                        <p>{barbearia.rua}, Nº {barbearia.N}, {barbearia.bairro}, {barbearia.cidade}</p>
+                      </div>
+                      
+                      {barbearia.status === "Aberta" ? (
                         <p className="aberto"> {barbearia.status}</p>
                       ) : (
                         <p className="fechado">{barbearia.status}</p>
                       )}
+      
                       
-                      <div className="Barbearias">
-                        <h2>{barbearia.name} • {calcularMediaAvaliacoesBarbearia(barbearia.id)}
-                        <i className="fa-solid fa-star"></i>
-                        ({totalAvaliacoes(barbearia.id)})
-                        </h2>
-                      </div>
-                      
-                      <div className="endereco">
-                      <p className="material-symbols-outlined location">location_on </p>
-                      <p>{barbearia.endereco}</p>
-                      </div>
                       
                   </div>
                  
