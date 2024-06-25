@@ -379,9 +379,17 @@ const handleProfessionalClick = (professional) => {
   const alternarNome = () => {
       setMostrarNome(!mostrarNome);
   };
+
   //Função responsável por enviar o novo nome de usuário ao back-end
   const alterarUserName = () => {
-    axios.put(`${urlApi}/api/v1/updateUserNameBarbearia/${barbeariaId}`, {newUserName: novoUserName}, {
+
+    const valuesUserName = {
+      newUserName: novoUserName,
+      barbeariaId,
+      confirmPassword
+    }
+
+    axios.put(`${urlApi}/api/v1/updateUserNameBarbearia`, valuesUserName, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -389,6 +397,7 @@ const handleProfessionalClick = (professional) => {
       .then(res => {
           if(res.data.Success === 'Success'){
             setMessageUserName("Nome de usuário alterado com sucesso.")
+            setConfirmPassword('')
             // Limpar a mensagem após 3 segundos (3000 milissegundos)
             setTimeout(() => {
               setMessageUserName('');
@@ -408,6 +417,7 @@ const handleProfessionalClick = (professional) => {
           console.error('Erro ao atualizar o nome de usuário:', error);
         });
   };
+
   //Função para obter o nome de usuário atual da barbearia
   const getUserName = () =>{
     axios.get(`${urlApi}/api/v1/userNameBarbearia/${barbeariaId}`, {
@@ -438,7 +448,14 @@ const handleProfessionalClick = (professional) => {
 
   //Function to update email
   const alterarEmail = () => {
-    axios.put(`${urlApi}/api/v1/updateEmailBarbearia/${barbeariaId}`, {NewEmail: newEmail}, {
+
+    const valuesNewEmail ={
+      newEmail,
+      barbeariaId,
+      confirmPassword
+    }
+    
+    axios.put(`${urlApi}/api/v1/updateEmailBarbearia`, valuesNewEmail, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -446,6 +463,7 @@ const handleProfessionalClick = (professional) => {
     .then(res => {
         if(res.data.Success === 'Success'){
           setMessageEmail("Email alterado com sucesso.")
+          setConfirmPassword('')
             // Limpar a mensagem após 3 segundos (3000 milissegundos)
             setTimeout(() => {
               setMessageEmail('');
@@ -966,9 +984,37 @@ const handleProfessionalClick = (professional) => {
               />{' '}<FaUserEdit className='icon_input'/>
             </div>
 
-            <button className={`button__change ${novoUserName ? 'show' : ''}`} onClick={alterarUserName}>
-              Alterar
-            </button>
+            {novoUserName &&(
+              <div style={{paddingLeft: '10px'}}>
+                <div className="form__change__data">
+                  <div className='container__text__change__data'>
+                      Digite sua senha para confirmar a alteração
+                  </div>
+      
+                  <div className='container__form__change__data'>
+                    <input
+                        type="password"
+                        id="senha"
+                        name="senha"
+                        value={confirmPassword}
+                        className={`input__change__data ${confirmPassword ? 'input__valided':''}`}
+                        onChange={(e) => {
+                            const inputValue = e.target.value;
+                            // Limitar a 10 caracteres
+                            const truncatedPasswordConfirm = inputValue.slice(0, 10);
+                            setConfirmPassword(truncatedPasswordConfirm);
+                        }}
+                        placeholder="Senha atual"
+                        maxLength={8}
+                        required
+                        /><PiPassword className='icon__input__change__data'/>
+                        <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={alterarUserName}>
+                            Confirmar
+                        </button>
+                  </div>
+                </div>
+              </div>
+            )}
          </div>
          
           )}
@@ -1023,7 +1069,37 @@ const handleProfessionalClick = (professional) => {
               />{' '}<MdOutlineAlternateEmail className='icon_input'/>
             </div>
 
-            {/*confirm password here */}
+            {newEmail &&(
+              <div style={{paddingLeft: '10px'}}>
+                <div className="form__change__data">
+                  <div className='container__text__change__data'>
+                      Digite sua senha para confirmar a alteração
+                  </div>
+      
+                  <div className='container__form__change__data'>
+                    <input
+                        type="password"
+                        id="senha"
+                        name="senha"
+                        value={confirmPassword}
+                        className={`input__change__data ${confirmPassword ? 'input__valided':''}`}
+                        onChange={(e) => {
+                            const inputValue = e.target.value;
+                            // Limitar a 10 caracteres
+                            const truncatedPasswordConfirm = inputValue.slice(0, 10);
+                            setConfirmPassword(truncatedPasswordConfirm);
+                        }}
+                        placeholder="Senha atual"
+                        maxLength={8}
+                        required
+                        /><PiPassword className='icon__input__change__data'/>
+                        <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={alterarEmail}>
+                            Confirmar
+                        </button>
+                  </div>
+                </div>
+              </div>
+            )}
          </div>
          
           )}          
