@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom"
 import axios from 'axios';
 //Components
 import AddNewProfessional from '../AddNewProfessional/addNewProfessional';
-import AuthToUpdateData from '../../AuthToUpdateData/AuthToUpdateData';
  
 //Icons
 import { IoArrowBackSharp } from "react-icons/io5";
@@ -56,7 +55,7 @@ function ProfileBarbearia() {
     navigate("/HomeBarbearia");
   };
 
-  const [isPasswordVerified, setIsPasswordVerified] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   const allowedExtensions = ['jpg', 'jpeg', 'png'];
 
@@ -113,8 +112,11 @@ function ProfileBarbearia() {
 
     // Adiciona o arquivo ao FormData
     bannerFormData.append(`images`, renamedFile);
-    bannerFormData.append('barbeariaId', barbeariaId);
   }
+    //Adicionando parametros necessários para a validação da alteração
+    bannerFormData.append('barbeariaId', barbeariaId);
+    bannerFormData.append('confirmPassword', confirmPassword);
+
     axios.put(`${urlApi}/api/v1/updateBannersImages`, bannerFormData, {
       headers: {
         'Authorization': `Bearer ${token}`
@@ -123,12 +125,13 @@ function ProfileBarbearia() {
       .then(res => {
         if (res.data.Status === "Success") {
           setBannerMessage("Banner alterado com sucesso.");
+          setConfirmPassword('')
           setTimeout(() => {
             setBannerMessage(null);
             window.location.reload()
           }, 2000);
         } else {
-          setBannerMessage("Erro ao realizar alteração.");
+          setBannerMessage("Erro ao realizar alteração. Verifique os arquivos ou a senha informada.");
           setBannerFiles(0)
           setTimeout(() => {
             setBannerMessage(null);
@@ -137,11 +140,6 @@ function ProfileBarbearia() {
         }
       })
       .catch(err => console.log(err));
-  }
-
-  //condition to run handleBannerImagesUpload (function to update banners images)
-  if(isPasswordVerified && bannerFiles){
-    handleBannerImagesUpload()
   }
 
   //Função para obter as imagens cadastradas
@@ -242,7 +240,7 @@ const handleProfessionalClick = (professional) => {
 
   //Função para mandar o novo nome da barbearia
   const alterarNomeBarbearia = () => {
-    axios.put(`${urlApi}/api/v1/updateBarbeariaName/${barbeariaId}`, {novoNome: novoNomeBarbearia}, {
+    axios.put(`${urlApi}/api/v1/updateBarbeariaName`, {barbeariaId: barbeariaId, novoNome: novoNomeBarbearia, confirmPassword: confirmPassword}, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -251,6 +249,7 @@ const handleProfessionalClick = (professional) => {
         if(res.data.Success === 'Success'){
           setNovoNomeBarbearia('')
           setMessageNameBarbearia("Nome da Barbearia Alterado com Sucesso!")
+          setConfirmPassword('')
             // Limpar a mensagem após 3 segundos (3000 milissegundos)
             setTimeout(() => {
               setMessageNameBarbearia('');
@@ -269,11 +268,6 @@ const handleProfessionalClick = (professional) => {
       });
   };
 
-  //Function to run alterarNomeBarbearia (function to change name barbearia)
-  if(isPasswordVerified && novoNomeBarbearia){
-    alterarNomeBarbearia()
-  }
-  
   //Função para obter o nome atual da barbearia
   const getNameBarbearia = () =>{
     axios.get(`${urlApi}/api/v1/nameBarbearia/${barbeariaId}`, {
@@ -321,9 +315,11 @@ const handleProfessionalClick = (professional) => {
         street,
         number,
         neighborhood,
-        city
+        city,
+        barbeariaId,
+        confirmPassword
       }
-      axios.put(`${urlApi}/api/v1/updateAddress/${barbeariaId}`, ValuesAddress, {
+      axios.put(`${urlApi}/api/v1/updateAddress`, ValuesAddress, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -332,6 +328,7 @@ const handleProfessionalClick = (professional) => {
           if (res.data.Success === 'Success') {
             setMessageEndereco("Endereço Alterado com Sucesso!")
             setIsValuesAddressValided(false)
+            setConfirmPassword('')
             setTimeout(() => {
               setMessageEndereco('');
               getAdressBarbearia()
@@ -356,11 +353,6 @@ const handleProfessionalClick = (professional) => {
       }, 3000);
     }
   };
-
-  //condition to execute alterarEndereco (function to update data of address)
-  if(isPasswordVerified && isValuesAddressValided){
-    alterarEndereco()
-  }
 
   //Função para obter o nome atual da barbearia
   const getAdressBarbearia = () => {
@@ -474,11 +466,6 @@ const handleProfessionalClick = (professional) => {
         console.error('Erro ao atualizar o email de usuário:', error);
       });
   };
-
-  //Condition to execute alterarEmail
-  if(isPasswordVerified && newEmail){
-    alterarEmail()
-  }
 
   //Function to get email
   const getEmail = () =>{
@@ -603,7 +590,33 @@ const handleProfessionalClick = (professional) => {
 
         {bannerFiles.length > 0 &&(
           <div style={{paddingLeft: '10px'}}>
-            <AuthToUpdateData onPasswordVerify={setIsPasswordVerified}/>
+            <div className="form__change__data">
+            <div className='container__text__change__data'>
+                Digite sua senha para confirmar a alteração
+            </div>
+ 
+           <div className='container__form__change__data'>
+            <input
+                type="password"
+                id="senha"
+                name="senha"
+                value={confirmPassword}
+                className={`input__change__data ${confirmPassword ? 'input__valided':''}`}
+                onChange={(e) => {
+                    const inputValue = e.target.value;
+                    // Limitar a 10 caracteres
+                    const truncatedPasswordConfirm = inputValue.slice(0, 10);
+                    setConfirmPassword(truncatedPasswordConfirm);
+                }}
+                placeholder="Senha atual"
+                maxLength={8}
+                required
+                /><PiPassword className='icon__input__change__data'/>
+                <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={handleBannerImagesUpload}>
+                    Confirmar
+                </button>
+           </div>
+        </div>
           </div>
         )}
 
@@ -736,8 +749,34 @@ const handleProfessionalClick = (professional) => {
             </div>
 
             {novoNomeBarbearia.length > 0 &&(
-              <div>
-                <AuthToUpdateData onPasswordVerify={setIsPasswordVerified}/>
+              <div style={{paddingLeft: '10px'}}>
+                <div className="form__change__data">
+                    <div className='container__text__change__data'>
+                        Digite sua senha para confirmar a alteração
+                    </div>
+        
+                  <div className='container__form__change__data'>
+                    <input
+                        type="password"
+                        id="senha"
+                        name="senha"
+                        value={confirmPassword}
+                        className={`input__change__data ${confirmPassword ? 'input__valided':''}`}
+                        onChange={(e) => {
+                            const inputValue = e.target.value;
+                            // Limitar a 10 caracteres
+                            const truncatedPasswordConfirm = inputValue.slice(0, 10);
+                            setConfirmPassword(truncatedPasswordConfirm);
+                        }}
+                        placeholder="Senha atual"
+                        maxLength={8}
+                        required
+                        /><PiPassword className='icon__input__change__data'/>
+                        <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={alterarNomeBarbearia}>
+                            Confirmar
+                        </button>
+                  </div>
+                </div>
               </div>
             )}
           
@@ -843,11 +882,37 @@ const handleProfessionalClick = (professional) => {
                     />{' '} <IoMdLocate id="icon_input_city"/>
                       </div>
 
-                      {isValuesAddressValided &&(
-                        <div>
-                          <AuthToUpdateData onPasswordVerify={setIsPasswordVerified}/>
+                    {isValuesValided &&(
+                      <div style={{paddingLeft: '10px'}}>
+                        <div className="form__change__data">
+                          <div className='container__text__change__data'>
+                              Digite sua senha para confirmar a alteração
+                          </div>
+              
+                          <div className='container__form__change__data'>
+                            <input
+                                type="password"
+                                id="senha"
+                                name="senha"
+                                value={confirmPassword}
+                                className={`input__change__data ${confirmPassword ? 'input__valided':''}`}
+                                onChange={(e) => {
+                                    const inputValue = e.target.value;
+                                    // Limitar a 10 caracteres
+                                    const truncatedPasswordConfirm = inputValue.slice(0, 10);
+                                    setConfirmPassword(truncatedPasswordConfirm);
+                                }}
+                                placeholder="Senha atual"
+                                maxLength={8}
+                                required
+                                /><PiPassword className='icon__input__change__data'/>
+                                <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={alterarEndereco}>
+                                    Confirmar
+                                </button>
+                          </div>
                         </div>
-                      )}
+                      </div>
+                    )}
                     </div>
                     
         )}
@@ -958,11 +1023,7 @@ const handleProfessionalClick = (professional) => {
               />{' '}<MdOutlineAlternateEmail className='icon_input'/>
             </div>
 
-            {newEmail && newEmail.length > 4 &&(
-              <div>
-                <AuthToUpdateData onPasswordVerify={setIsPasswordVerified}/>
-              </div>
-            )}
+            {/*confirm password here */}
          </div>
          
           )}          
