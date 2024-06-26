@@ -255,6 +255,15 @@ const handleProfessionalClick = (professional) => {
               setMessageNameBarbearia('');
               getNameBarbearia()
             }, 3000);
+        }else{
+          setMessageNameBarbearia("Erro: verifique os dados informados e tente novamente.")
+          setNovoNomeBarbearia('')
+          setConfirmPassword('')
+            // Limpar a mensagem após 3 segundos (3000 milissegundos)
+            setTimeout(() => {
+              setMessageNameBarbearia('');
+              getNameBarbearia()
+            }, 3000);
         }
       })
       .catch(error => {
@@ -334,6 +343,15 @@ const handleProfessionalClick = (professional) => {
               getAdressBarbearia()
               setMostrarEndereco(!mostrarEndereco);
             }, 3000);
+          }else{
+            setMessageEndereco("Erro: verifique os dados informados e tente novamente.")
+            setIsValuesAddressValided(false)
+            setConfirmPassword('')
+              // Limpar a mensagem após 3 segundos (3000 milissegundos)
+              setTimeout(() => {
+                setMessageEndereco('');
+                getAdressBarbearia()
+              }, 3000);
           }
         })
         .catch(error => {
@@ -405,6 +423,15 @@ const handleProfessionalClick = (professional) => {
               getUserName()
               setMostrarNome(!mostrarNome);
             }, 3000);
+          }else{
+            setMessageUserName("Erro: verifique os dados informados e tente novamente.")
+            setConfirmPassword('')
+              // Limpar a mensagem após 3 segundos (3000 milissegundos)
+              setTimeout(() => {
+                setMessageUserName('');
+                setNovoUserName('')
+                getUserName()
+              }, 3000);
           }
         })
         .catch(error => {
@@ -470,6 +497,15 @@ const handleProfessionalClick = (professional) => {
               setNewEmail('')
               getEmail()
               setMostrarEmail(!mostrarEmail);
+            }, 3000);
+        }else{
+          setMessageEmail("Erro: verifique os dados informados e tente novamente.")
+          setConfirmPassword('')
+            // Limpar a mensagem após 3 segundos (3000 milissegundos)
+            setTimeout(() => {
+              setMessageEmail('');
+              setNewEmail('')
+              getEmail()
             }, 3000);
         }
       })
@@ -539,7 +575,7 @@ const handleProfessionalClick = (professional) => {
           }, 5000);
     });
   };
-
+console.log(confirmPassword)
 /*----------------------------------*/
   return (
     <>
