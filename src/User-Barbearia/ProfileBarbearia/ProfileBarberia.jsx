@@ -246,6 +246,7 @@ const handleProfessionalClick = (professional) => {
       }
     })
     .then(res => {
+      console.log(res.data)
         if(res.data.Success === 'Success'){
           setNovoNomeBarbearia('')
           setMessageNameBarbearia("Nome da Barbearia Alterado com Sucesso!")
@@ -520,7 +521,7 @@ const handleProfessionalClick = (professional) => {
         console.error('Erro ao atualizar o email de usuário:', error);
       });
   };
-
+  
   //Function to get email
   const getEmail = () =>{
     axios.get(`${urlApi}/api/v1/emailBarbearia/${barbeariaId}`, {
