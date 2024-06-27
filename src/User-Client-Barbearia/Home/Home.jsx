@@ -11,6 +11,7 @@ import imgUserDefault from './img-user-default.jpg'
 
 import { IoIosStar } from "react-icons/io";
 import { CiLocationOn } from "react-icons/ci";
+import { BsFillGridFill } from "react-icons/bs";
 
 
 function Home() {
@@ -192,6 +193,7 @@ return (
                   <div className="inputBoxSearch">
                     <i className="fa-solid fa-magnifying-glass lupa"></i>
                     <input type="search" id="inputSearch" name="name" value={search} onChange={(e) => setSearch(e.target.value)} placeholder='Buscar'/>
+                    <BsFillGridFill className="icon__filter"/>
                   </div>
                 </div> 
           </div>

@@ -851,7 +851,7 @@ const saveDayOff = () =>{
 return (
     <div className="main__professional">
     <div className="container__professional">
-        <div key={professional.id} className="header__professional">
+        <div className="header__professional">
           <div className="back" onClick={handleBackClick}>
           <IoArrowBackSharp className="Icon__Back"/>
           </div>

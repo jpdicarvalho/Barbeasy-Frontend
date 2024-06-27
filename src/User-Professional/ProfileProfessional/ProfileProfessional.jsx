@@ -159,7 +159,7 @@ const toggleItem = (itemId) => {
 /*=================================================*/
 const [mostrarNome, setMostrarNome] = useState(false);
 const [novoUserName, setNovoUserName] = useState('');
-const [userNameProfessional, setUserNameProfessional] = useState('');
+const [contactProfessional, setContactProfessional] = useState('');
 const [messageUserName, setMessageUserName] = useState('');
 
 const alternarNome = () => {
@@ -196,21 +196,21 @@ const alterarUserName = () => {
 };
 //Função para obter o nome de usuário atual da barbearia
 const getUserName = () =>{
-  axios.get(`${urlApi}/api/v1/userNameProfessional/${professionalId}`, {
+  axios.get(`${urlApi}/api/v1/getContactProfessional/${professionalId}`, {
     headers: {
       'Authorization': `Bearer ${token}`
     }
   })
     .then(res => {
-      setUserNameProfessional(res.data.UserNameProfessional)
+      setContactProfessional(res.data.data_professional)
     })
     .catch(error => console.log(error));
 }
 //Hook para chamar a função getUserName()
 useEffect(() => {
   getUserName()
-}, [professionalId])
-
+}, [professionalId]) 
+console.log(contactProfessional) 
 /*----------------------------------*/
 const [mostrarEmail, setMostrarEmail] = useState(false);
 const [newEmail, setNewEmail] = useState('');

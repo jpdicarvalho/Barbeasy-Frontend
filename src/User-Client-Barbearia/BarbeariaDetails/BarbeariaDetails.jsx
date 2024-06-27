@@ -252,7 +252,7 @@ useEffect(()=> {
   setWidth(reviewsWidth);
 }, [reviewsWidth])
 
-  return (
+return (
     <>
     <div className="Outdoor">
        <Swiper slidesPerView={1} effect={'fade'} modules={[EffectFade]} pagination={{clickable: true}} autoplay={{ delay: 3000 }}>
@@ -268,7 +268,7 @@ useEffect(()=> {
        <h3 id="BarbeariaName">{barbearia.name} • {calcularMediaAvaliacoes()} <i className="fa-solid fa-star"/> ({totalAvaliacoes(barbearia.id)})</h3>
        <div className="location">
        <CiLocationOn className="location_icon"/>
-         <p>{barbearia.endereco}</p>
+       <p>{barbearia.rua}, Nº {barbearia.N}, {barbearia.bairro}, {barbearia.cidade}</p>
        </div>
    </div>
     </div>
