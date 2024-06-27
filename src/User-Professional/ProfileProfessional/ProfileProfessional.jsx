@@ -179,10 +179,11 @@ const alterarContactProfessional = () => {
     newName,
     newEmail,
     newPhoneNumber,
-    confirmPassword
+    confirmPassword,
+    professionalId
   }
 
-  axios.put(`${urlApi}/api/v1/updateUserNameProfessional/${professionalId}`, valuesContactProfessional, {
+  axios.put(`${urlApi}/api/v1/updateDataProfessional`, valuesContactProfessional, {
     headers: {
       'Authorization': `Bearer ${token}`
     }
