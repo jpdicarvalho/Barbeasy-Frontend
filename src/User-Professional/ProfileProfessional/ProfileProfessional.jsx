@@ -46,7 +46,7 @@ const navigateToProfileProfessional = () =>{
   navigate("/HomeProfessional");
 }
 
-const [isPasswordVerified, setIsPasswordVerified] = useState(false);
+const [confirmPassword, setConfirmPassword] = useState('');
 
 //==========GET USER IMAGE PROFESSIONAL==========
 const [imageUser, setImageUser] = useState([]);
@@ -147,27 +147,31 @@ useEffect(() => {
     return () => clearTimeout(timeout);
   }, [file]);
 
-//Function to expanded booking cards
-const toggleItem = (itemId) => {
-    if (expandedCardBooking.includes(itemId)) {
-      setExpandedCardBooking(expandedCardBooking.filter(id => id !== itemId));
-    } else {
-      setExpandedCardBooking([...expandedCardBooking, itemId]);
-    }
-};
-
 /*=================================================*/
 const [mostrarNome, setMostrarNome] = useState(false);
-const [novoUserName, setNovoUserName] = useState('');
+const [mostrarEmail, setMostrarEmail] = useState(false);
+const [newName, setNewName] = useState('');
+const [newEmail, setNewEmail] = useState('');
 const [contactProfessional, setContactProfessional] = useState('');
 const [messageUserName, setMessageUserName] = useState('');
+
+//Funtion to show input chanege email
+const alternarEmail = () => {
+  setMostrarEmail(!mostrarEmail);
+};
 
 const alternarNome = () => {
     setMostrarNome(!mostrarNome);
 };
+
 //Função responsável por enviar o novo nome de usuário ao back-end
-const alterarUserName = () => {
-  axios.put(`${urlApi}/api/v1/updateUserNameProfessional/${professionalId}`, {newUserName: novoUserName}, {
+const alterarContactProfessional = () => {
+  const valuesContactProfessional = {
+    newName,
+    newEmail,
+    confirmPassword
+  }
+  axios.put(`${urlApi}/api/v1/updateUserNameProfessional/${professionalId}`, valuesContactProfessional, {
     headers: {
       'Authorization': `Bearer ${token}`
     }
@@ -178,7 +182,7 @@ const alterarUserName = () => {
           // Limpar a mensagem após 3 segundos (3000 milissegundos)
           setTimeout(() => {
             setMessageUserName('');
-            setNovoUserName('')
+            setNewName('')
             getUserName()
             setMostrarNome(!mostrarNome);
           }, 3000);
@@ -194,6 +198,7 @@ const alterarUserName = () => {
         console.error('Erro ao atualizar o nome de usuário:', error);
       });
 };
+
 //Função para obter o nome de usuário atual da barbearia
 const getUserName = () =>{
   axios.get(`${urlApi}/api/v1/getContactProfessional/${professionalId}`, {
@@ -210,70 +215,7 @@ const getUserName = () =>{
 useEffect(() => {
   getUserName()
 }, [professionalId]) 
-console.log(contactProfessional) 
-/*----------------------------------*/
-const [mostrarEmail, setMostrarEmail] = useState(false);
-const [newEmail, setNewEmail] = useState('');
-const [currentEmail, setCurrentEmail] = useState('');
-const [messageEmail, setMessageEmail] = useState('');
 
-//Funtion to show input chanege email
-const alternarEmail = () => {
-  setMostrarEmail(!mostrarEmail);
-};
-
-//Function to update email
-const alterarEmail = () => {
-  axios.put(`${urlApi}/api/v1/updateEmailProfessional/${professionalId}`, {NewEmail: newEmail}, {
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
-  })
-  .then(res => {
-      if(res.data.Success === 'Success'){
-        setMessageEmail("Email alterado com sucesso.")
-          // Limpar a mensagem após 3 segundos (3000 milissegundos)
-          setTimeout(() => {
-            setMessageEmail('');
-            setNewEmail('')
-            getEmail()
-            setMostrarEmail(!mostrarEmail);
-          }, 3000);
-      }
-    })
-    .catch(error => {
-      setMessageEmail("Erro ao atualizar o email de usuário")
-          // Limpar a mensagem após 3 segundos (3000 milissegundos)
-          setTimeout(() => {
-            setMessageEmail('');
-            window.location.reload();
-          }, 3000);
-      // Lógica a ser executada em caso de erro na solicitação
-      console.error('Erro ao atualizar o email de usuário:', error);
-    });
-};
-
-//Condition to execute alterarEmail
-if(isPasswordVerified && newEmail){
-  alterarEmail()
-}
-
-//Function to get email
-const getEmail = () =>{
-  axios.get(`${urlApi}/api/v1/emailProfessional/${professionalId}`, {
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
-  })
-    .then(result => {
-      setCurrentEmail(result.data.EmailProfessional);
-    })
-    .catch(error => console.log(error));
-}
-
-useEffect(() => {
-  getEmail()
-}, [professionalId])
 /*----------------------------------*/
 const [mostrarSenha, setMostrarSenha] = useState(false);
 const [passwordConfirm, setPasswordConfirm] = useState('');
@@ -312,7 +254,6 @@ const alterarSenha = () => {
         }, 5000);
   });
 };
-
 
 return (
     <>
@@ -394,17 +335,45 @@ return (
           const filteredValue = inputValue.replace(/[^a-zA-Z\s]/g, '');
           // Limitar a 30 caracteres
           const userName = filteredValue.slice(0, 30);
-        setNovoUserName(userName);
+        setNewName(userName);
         }}
-        placeholder={userNameProfessional}
+        placeholder={contactProfessional[0].name}
         className="white-placeholder"
         required
       />{' '}<FaUserEdit className='icon_input'/>
     </div>
 
-    <button className={`button__change ${novoUserName ? 'show' : ''}`} onClick={alterarUserName}>
-      Alterar
-    </button>
+    {newName.length > 0 &&(
+      <div style={{paddingLeft: '10px'}}>
+        <div className="form__change__data">
+            <div className='container__text__change__data'>
+                Digite sua senha para confirmar a alteração
+            </div>
+
+          <div className='container__form__change__data'>
+            <input
+                type="password"
+                id="senha"
+                name="senha"
+                value={confirmPassword}
+                className={`input__change__data ${confirmPassword ? 'input__valided':''}`}
+                onChange={(e) => {
+                    const inputValue = e.target.value;
+                    // Limitar a 10 caracteres
+                    const truncatedPasswordConfirm = inputValue.slice(0, 10);
+                    setConfirmPassword(truncatedPasswordConfirm);
+                }}
+                placeholder="Senha atual"
+                maxLength={8}
+                required
+                /><PiPassword className='icon__input__change__data'/>
+                <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={alterarContactProfessional}>
+                    Confirmar
+                </button>
+          </div>
+        </div>
+      </div>
+    )}
  </div>
  
   )}
@@ -420,17 +389,6 @@ return (
   {mostrarEmail && (
     <div className="divSelected">
       <p className='information__span'>Alterar Email</p>
-      {messageEmail === 'Email alterado com sucesso.' ?(
-                    <div className="mensagem-sucesso">
-                      <MdOutlineDone className="icon__success"/>
-                      <p className="text__message">{messageEmail}</p>
-                    </div>
-                    ) : (
-                    <div className={` ${messageEmail ? 'mensagem-erro' : ''}`}>
-                      <VscError className={`hide_icon__error ${messageEmail ? 'icon__error' : ''}`}/>
-                      <p className="text__message">{messageEmail}</p>
-                    </div>
-                  )}
   
     <div className="inputBox">
       <input
@@ -450,18 +408,46 @@ return (
           // Atualizar o estado apenas se o email for válido
           if (isValidEmail) {
             setNewEmail(truncatedValue);
+          }else{
+            setNewEmail('')
           }
         }}
-        placeholder={currentEmail[0] + "..." + currentEmail.split('@')[1]}
+        placeholder={contactProfessional[0].email[0] + "..." + contactProfessional[0].email.split('@')[1]}
         className="white-placeholder"
         maxLength={50}
         required
       />{' '}<MdOutlineAlternateEmail className='icon_input'/>
     </div>
 
-    {newEmail && newEmail.length > 4 &&(
-      <div>
-        <AuthToUpdateData onPasswordVerify={setIsPasswordVerified}/>
+    {newEmail.length > 0 &&(
+      <div style={{paddingLeft: '10px'}}>
+        <div className="form__change__data">
+            <div className='container__text__change__data'>
+                Digite sua senha para confirmar a alteração
+            </div>
+
+          <div className='container__form__change__data'>
+            <input
+                type="password"
+                id="senha"
+                name="senha"
+                value={confirmPassword}
+                className={`input__change__data ${confirmPassword ? 'input__valided':''}`}
+                onChange={(e) => {
+                    const inputValue = e.target.value;
+                    // Limitar a 10 caracteres
+                    const truncatedPasswordConfirm = inputValue.slice(0, 10);
+                    setConfirmPassword(truncatedPasswordConfirm);
+                }}
+                placeholder="Senha atual"
+                maxLength={8}
+                required
+                /><PiPassword className='icon__input__change__data'/>
+                <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={alterarContactProfessional}>
+                    Confirmar
+                </button>
+          </div>
+        </div>
       </div>
     )}
  </div>
