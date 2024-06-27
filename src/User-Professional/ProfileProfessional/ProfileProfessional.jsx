@@ -157,7 +157,7 @@ const [newName, setNewName] = useState('');
 const [newEmail, setNewEmail] = useState('');
 const [newPhoneNumber, setNewPhoneNumber] = useState('');
 const [contactProfessional, setContactProfessional] = useState('');
-const [messageUserName, setMessage] = useState('');
+const [message, setMessage] = useState('');
 
 const alternarNome = () => {
     setMostrarNome(!mostrarNome);
@@ -191,6 +191,7 @@ const alterarContactProfessional = () => {
     .then(res => {
         if(res.data.Success === 'Success'){
           setMessage("Alteração realizada com sucesso.")
+          setConfirmPassword('')
           // Limpar a mensagem após 3 segundos (3000 milissegundos)
           setTimeout(() => {
             setMessage('');
@@ -203,6 +204,8 @@ const alterarContactProfessional = () => {
       })
       .catch(error => {
         setMessage("Erro ao atualizar o nome de usuário.")
+        setConfirmPassword('')
+
           // Limpar a mensagem após 3 segundos (3000 milissegundos)
           setTimeout(() => {
             setMessage('');
@@ -325,17 +328,17 @@ return (
   {mostrarNome && (
     <div className="divSelected">
       <p className='information__span'>Alterar Nome de usuário</p>
-      {messageUserName === 'Nome de usuário alterado com sucesso.' ?(
-                    <div className="mensagem-sucesso">
-                      <MdOutlineDone className="icon__success"/>
-                      <p className="text__message">{messageUserName}</p>
-                    </div>
-                    ) : (
-                    <div className={` ${messageUserName ? 'mensagem-erro' : ''}`}>
-                      <VscError className={`hide_icon__error ${messageUserName ? 'icon__error' : ''}`}/>
-                      <p className="text__message">{messageUserName}</p>
-                    </div>
-                  )}
+        {message === 'Alteração realizada com sucesso.' ?(
+            <div className="mensagem-sucesso">
+              <MdOutlineDone className="icon__success"/>
+              <p className="text__message">{message}</p>
+            </div>
+        ) : (
+            <div className={` ${message ? 'mensagem-erro' : ''}`}>
+              <VscError className={`hide_icon__error ${message ? 'icon__error' : ''}`}/>
+              <p className="text__message">{message}</p>
+            </div>
+        )}
 
     <div className="inputBox">
     <input
@@ -403,6 +406,19 @@ return (
     {mostrarCelular && (
       <div className="divSelected">
         <p className='information__span'>Alterar número de contato</p>
+
+        {message === 'Alteração realizada com sucesso.' ?(
+            <div className="mensagem-sucesso">
+              <MdOutlineDone className="icon__success"/>
+              <p className="text__message">{message}</p>
+            </div>
+        ) : (
+            <div className={` ${message ? 'mensagem-erro' : ''}`}>
+              <VscError className={`hide_icon__error ${message ? 'icon__error' : ''}`}/>
+              <p className="text__message">{message}</p>
+            </div>
+        )}
+
           <div className="inputBox">
             <input
               type="password"
@@ -413,11 +429,11 @@ return (
                 //regex to valided password
                 const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9]/g, '');
                 // Limitar a 10 caracteres
-                const truncatedPasswordConfirm = sanitizedValue.slice(0, 8);
+                const truncatedPasswordConfirm = sanitizedValue.slice(0, 11);
                 setNewPhoneNumber(truncatedPasswordConfirm);
               }}
               placeholder={contactProfessional[0].cell_phone}
-              maxLength={8}
+              maxLength={11}
               required
               />{' '}<MdNumbers  className='icon_input'/>
           </div>
@@ -467,6 +483,18 @@ return (
   {mostrarEmail && (
     <div className="divSelected">
       <p className='information__span'>Alterar Email</p>
+
+      {message === 'Alteração realizada com sucesso.' ?(
+            <div className="mensagem-sucesso">
+              <MdOutlineDone className="icon__success"/>
+              <p className="text__message">{message}</p>
+            </div>
+        ) : (
+            <div className={` ${message ? 'mensagem-erro' : ''}`}>
+              <VscError className={`hide_icon__error ${message ? 'icon__error' : ''}`}/>
+              <p className="text__message">{message}</p>
+            </div>
+        )}
   
     <div className="inputBox">
       <input

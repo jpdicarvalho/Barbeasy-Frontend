@@ -347,6 +347,10 @@ const handleProfessionalClick = (professional) => {
           }else{
             setMessageEndereco("Erro: verifique os dados informados e tente novamente.")
             setIsValuesAddressValided(false)
+            setStreet('')
+            setNumber('')
+            setNeighborhood('')
+            setCity('')
             setConfirmPassword('')
               // Limpar a mensagem após 3 segundos (3000 milissegundos)
               setTimeout(() => {
@@ -576,8 +580,7 @@ const handleProfessionalClick = (professional) => {
           }, 5000);
     });
   };
-console.log(confirmPassword)
-/*----------------------------------*/
+
   return (
     <>
     
