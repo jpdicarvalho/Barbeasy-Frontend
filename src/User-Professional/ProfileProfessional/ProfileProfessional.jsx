@@ -16,6 +16,8 @@ import { PiPassword } from "react-icons/pi";
 import { FaUserEdit } from "react-icons/fa";
 import { MdOutlineAlternateEmail } from "react-icons/md";
 import { PiPasswordDuotone } from "react-icons/pi";
+import { MdOutlinePhonelinkRing } from "react-icons/md";
+import { MdNumbers } from "react-icons/md";
 
 import './ProfileProfessional.css';
 
@@ -149,28 +151,37 @@ useEffect(() => {
 
 /*=================================================*/
 const [mostrarNome, setMostrarNome] = useState(false);
+const [mostrarCelular, setMostrarCelular] = useState(false);
 const [mostrarEmail, setMostrarEmail] = useState(false);
 const [newName, setNewName] = useState('');
 const [newEmail, setNewEmail] = useState('');
+const [newPhoneNumber, setNewPhoneNumber] = useState('');
 const [contactProfessional, setContactProfessional] = useState('');
-const [messageUserName, setMessageUserName] = useState('');
+const [messageUserName, setMessage] = useState('');
+
+const alternarNome = () => {
+    setMostrarNome(!mostrarNome);
+};
+
+const alternarCelular = () => {
+  setMostrarCelular(!mostrarCelular);
+};
 
 //Funtion to show input chanege email
 const alternarEmail = () => {
   setMostrarEmail(!mostrarEmail);
 };
 
-const alternarNome = () => {
-    setMostrarNome(!mostrarNome);
-};
-
 //Função responsável por enviar o novo nome de usuário ao back-end
 const alterarContactProfessional = () => {
+
   const valuesContactProfessional = {
     newName,
     newEmail,
+    newPhoneNumber,
     confirmPassword
   }
+
   axios.put(`${urlApi}/api/v1/updateUserNameProfessional/${professionalId}`, valuesContactProfessional, {
     headers: {
       'Authorization': `Bearer ${token}`
@@ -178,21 +189,22 @@ const alterarContactProfessional = () => {
   })
     .then(res => {
         if(res.data.Success === 'Success'){
-          setMessageUserName("Nome de usuário alterado com sucesso.")
+          setMessage("Alteração realizada com sucesso.")
           // Limpar a mensagem após 3 segundos (3000 milissegundos)
           setTimeout(() => {
-            setMessageUserName('');
+            setMessage('');
             setNewName('')
-            getUserName()
-            setMostrarNome(!mostrarNome);
+            setNewEmail('')
+            setNewPhoneNumber('')
+            getContactProfessional()
           }, 3000);
         }
       })
       .catch(error => {
-        setMessageUserName("Erro ao atualizar o nome de usuário.")
+        setMessage("Erro ao atualizar o nome de usuário.")
           // Limpar a mensagem após 3 segundos (3000 milissegundos)
           setTimeout(() => {
-            setMessageUserName('');
+            setMessage('');
             window.location.reload();
           }, 3000);
         console.error('Erro ao atualizar o nome de usuário:', error);
@@ -200,7 +212,7 @@ const alterarContactProfessional = () => {
 };
 
 //Função para obter o nome de usuário atual da barbearia
-const getUserName = () =>{
+const getContactProfessional = () =>{
   axios.get(`${urlApi}/api/v1/getContactProfessional/${professionalId}`, {
     headers: {
       'Authorization': `Bearer ${token}`
@@ -211,9 +223,10 @@ const getUserName = () =>{
     })
     .catch(error => console.log(error));
 }
-//Hook para chamar a função getUserName()
+
+//Hook para chamar a função getContactProfessional()
 useEffect(() => {
-  getUserName()
+  getContactProfessional()
 }, [professionalId]) 
 
 /*----------------------------------*/
@@ -377,7 +390,71 @@ return (
  </div>
  
   )}
-  
+
+<hr className='hr_menu' />
+
+  <div className="menu__main" onClick={alternarCelular}>
+    <MdOutlinePhonelinkRing className='icon_menu'/>
+      Celular
+    <IoIosArrowDown className={`arrow ${mostrarCelular ? 'girar' : ''}`} id='arrow'/>
+  </div>
+
+    {mostrarCelular && (
+      <div className="divSelected">
+        <p className='information__span'>Alterar número de contato</p>
+          <div className="inputBox">
+            <input
+              type="password"
+              id="senha"
+              name="senha"
+              onChange={(e) => {
+                const inputValue = e.target.value;
+                //regex to valided password
+                const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9]/g, '');
+                // Limitar a 10 caracteres
+                const truncatedPasswordConfirm = sanitizedValue.slice(0, 8);
+                setNewPhoneNumber(truncatedPasswordConfirm);
+              }}
+              placeholder={contactProfessional[0].cell_phone}
+              maxLength={8}
+              required
+              />{' '}<MdNumbers  className='icon_input'/>
+          </div>
+
+          {newPhoneNumber.length > 0 &&(
+            <div style={{paddingLeft: '10px'}}>
+              <div className="form__change__data">
+                  <div className='container__text__change__data'>
+                      Digite sua senha para confirmar a alteração
+                  </div>
+
+                <div className='container__form__change__data'>
+                  <input
+                      type="password"
+                      id="senha"
+                      name="senha"
+                      value={confirmPassword}
+                      className={`input__change__data ${confirmPassword ? 'input__valided':''}`}
+                      onChange={(e) => {
+                          const inputValue = e.target.value;
+                          // Limitar a 10 caracteres
+                          const truncatedPasswordConfirm = inputValue.slice(0, 10);
+                          setConfirmPassword(truncatedPasswordConfirm);
+                      }}
+                      placeholder="Senha atual"
+                      maxLength={8}
+                      required
+                      /><PiPassword className='icon__input__change__data'/>
+                      <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={alterarContactProfessional}>
+                          Confirmar
+                      </button>
+                </div>
+              </div>
+            </div>
+          )}
+      </div>
+    )}
+
 <hr className='hr_menu'/>
 
   <div className="menu__main" onClick={alternarEmail} >
@@ -455,7 +532,7 @@ return (
   )}          
 
 <hr className='hr_menu' />
-
+ 
 <div className="menu__main" onClick={alternarSenha}>
   <MdPassword className='icon_menu'/>
     Senha
