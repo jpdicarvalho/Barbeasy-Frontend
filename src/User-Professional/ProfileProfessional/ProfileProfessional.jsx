@@ -438,7 +438,7 @@ return (
               />{' '}<MdNumbers  className='icon_input'/>
           </div>
 
-          {newPhoneNumber.length > 0 &&(
+          {newPhoneNumber.length > 10 &&(
             <div style={{paddingLeft: '10px'}}>
               <div className="form__change__data">
                   <div className='container__text__change__data'>

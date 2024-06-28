@@ -9,6 +9,7 @@ import { GiRazorBlade } from "react-icons/gi";
 import { TfiTime } from "react-icons/tfi";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { FaWhatsapp } from "react-icons/fa";
+import { IoMenuSharp } from "react-icons/io5";
 
 
 const monthNames = [
@@ -203,12 +204,13 @@ return (
     <div className="container__main">
       <div className='header_container'>
         <div className="img__user">
-            <div className="user__name">
-              <h2>Veja aqui, <br/>Seus agendamentos</h2>
-            </div>
             <div className="settings" onClick={navigateToProfileBarbearia}>
-                <CiSettings />
-              </div>
+              <IoMenuSharp />
+            </div>
+            <div className="user__name">
+              <h2>Barbeasy</h2>
+            </div>
+            
         </div>
       {professional.length > 0 ? (
         <>
