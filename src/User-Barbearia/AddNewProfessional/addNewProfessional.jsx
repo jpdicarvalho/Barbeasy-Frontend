@@ -62,7 +62,6 @@ const handlePasswordChange = (e) => {
   }
 };
 
-console.log(newNameProfessional, newPhoneProfessional, newEmailProfessional, newPasswordProfessional)
 
 const createNewProfessional = () =>{
 
