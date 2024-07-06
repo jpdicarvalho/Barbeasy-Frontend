@@ -238,7 +238,7 @@ const alternarSenha = () => {
 };
 
 const alterarSenha = () => {
-  axios.get(`${urlApi}/api/v1/updatePasswordProfessional  `, {
+  axios.get(`${urlApi}/api/v1/updateUserPassword  `, {
     params: {
       userId: userId,
       passwordConfirm: passwordConfirm,
@@ -344,17 +344,17 @@ return (
         )}
         </div>
 
-    {message === 'Alteração realizada com sucesso.' ?(
-        <div className="mensagem-sucesso">
-            <MdOutlineDone className="icon__success"/>
-            <p className="text__message">{message}</p>
-        </div>
-    ) : (
-        <div className={` ${message ? 'mensagem-erro' : ''}`}>
-            <VscError className={`hide_icon__error ${message ? 'icon__error' : ''}`}/>
-            <p className="text__message">{message}</p>
-        </div>
-    )}
+        {message === 'Alteração realizada com sucesso.' ?(
+            <div className="mensagem-sucesso">
+                <MdOutlineDone className="icon__success"/>
+                <p className="text__message">{message}</p>
+            </div>
+        ) : (
+            <div className={` ${message ? 'mensagem-erro' : ''}`}>
+                <VscError className={`hide_icon__error ${message ? 'icon__error' : ''}`}/>
+                <p className="text__message">{message}</p>
+            </div>
+        )}
 
     <div className="container__menu">
         <div className="menu__main" onClick={alternarNome}>
