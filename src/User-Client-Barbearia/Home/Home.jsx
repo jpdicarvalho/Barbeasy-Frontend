@@ -10,8 +10,10 @@ import barberLogo from '../../../barber-logo.png';
 import imgUserDefault from './img-user-default.jpg'
 
 import { IoIosStar } from "react-icons/io";
-import { CiLocationOn } from "react-icons/ci";
 import { BsFillGridFill } from "react-icons/bs";
+import { BsCalendar2Check } from "react-icons/bs";
+import { VscAccount } from "react-icons/vsc";
+import { MdOutlineLogout } from "react-icons/md";
 
 
 function Home() {
@@ -197,6 +199,7 @@ return (
                   </div>
                 </div> 
           </div>
+          
           <div className="containerHome">
               {barbeariaSearch.map((barbearia, index) => (
                 
@@ -238,13 +241,25 @@ return (
                 
                 </div>
               ))}
-            <ul className={`Navigation glassmorphism ${isMenuActive ? 'active' : ''}`}>
-              <li><a href="#"><i className="fa-solid fa-user"></i></a></li>
-              <li><button><i className="fa-solid fa-house"></i></button></li>
-              <li><button onClick={logoutClick}><i className="fa-solid fa-right-from-bracket"></i></button></li>
+            <ul className={`Navigation ${isMenuActive ? 'active' : ''}`}>
+              <li>
+                <button>
+                  <VscAccount />
+                </button>
+              </li>
+              <li>
+                <button>
+                  <BsCalendar2Check />
+                </button>
+              </li>
+              <li>
+                <button onClick={logoutClick}>
+                  <MdOutlineLogout />
+                </button>
+              </li>
               <button onClick={handleMenuClick} className="toggleMenu glassmorphism"></button>
             </ul>
-            </div>
+          </div>
     </>
     )
 }

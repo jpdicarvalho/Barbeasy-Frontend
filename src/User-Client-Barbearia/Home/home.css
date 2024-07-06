@@ -8,6 +8,7 @@
   align-items: center;
   flex-direction: column ;
   width: 400px;
+  min-height: 100vh;
   padding-top: 330px;
   padding-left: 10px;
   padding-right: 10px;
@@ -304,12 +305,6 @@
   border: 1px solid #1c2035;
   background: #4a17d5;
 }
-.glassmorphism {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
 .Navigation{
   position: fixed;
   display: flex;
@@ -323,11 +318,11 @@
   transition: 0.5s;
   transition-delay: 0.5s;
   border-radius: 60px;
-  background: transparent;
+  background: #4a17d5;
 }
 .Navigation.active{
   width: 250px;
-  background: transparent;
+  background: #4a17d562;
 }
 .Navigation .toggleMenu{
   position: absolute;
@@ -339,6 +334,7 @@
   border-radius: 50%;
   border: none;
   transition: 0.5s;
+  background: #4a17d562;
   cursor: pointer;
   transition-delay: 0.5s;
 }
@@ -394,10 +390,9 @@
   background: transparent;
 }
 .Navigation li button{
-  color: #4a17d5;
+  color: #f6f6fc;
   font-size: 20px;
   text-transform: uppercase;
-  border-radius: 20px;
   transition: 0.5s;
   background: transparent;
   border: none;

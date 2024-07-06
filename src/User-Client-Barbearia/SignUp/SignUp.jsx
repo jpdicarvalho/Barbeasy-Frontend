@@ -6,6 +6,9 @@ import { useSpring, animated } from "react-spring";
 import './style.css';
 import barberLogo from './barber-logo.png';
 
+import { IoPhonePortraitSharp } from "react-icons/io5";
+
+
 function SignUp() {
 
   const urlApi = 'https://barbeasy.up.railway.app'
@@ -65,23 +68,9 @@ function SignUp() {
   const nextStep = () => {
     setStep(step + 1);
   };
-
   return (
     <>
-    <h1>Not this time 'dude' :(</h1>
-    <h1>Not this time 'dude' :(</h1>
-    <h1>Not this time 'dude' :(</h1>
-    <h1>Not this time 'dude' :(</h1>
-    <h1>Not this time 'dude' :(</h1>
-    <h1>Not this time 'dude' :(</h1>
-    <h1>Not this time 'dude' :(</h1>
-    <h1>Not this time 'dude' :(</h1>
-    <h1>Not this time 'dude' :(</h1>
-    <h1>Not this time 'dude' :(</h1>
-    <h1>Not this time 'dude' :(</h1>
-    <h1>Not this time 'dude' :(</h1>
-    <h1>Not this time 'dude' :(</h1>  
-    {/* <div className="container__default">
+     <div className="container__default">
       <form onSubmit={handleSubmit} className="container">
         <div className="imgBox">
           <img src={barberLogo} alt="" />
@@ -134,18 +123,22 @@ function SignUp() {
 
           {step >= 2 && (
             <div className="inputBox">
-              <InputMask
+              <input
                 type="tel"
                 id="celular"
                 name="celular"
-                mask="(99) 9 9999-9999"
                 value={values.celular}
-                onChange={(e) => setValues({ ...values, celular: e.target.value })}
-                placeholder="(99) 9 9999-9999"
+                onChange={(e) => {
+                  const inputValue = e.target.value;
+                  const filteredValue = inputValue.replace(/[^0-9]/g, '');
+                  // Limitar a 11 caracteres
+                  const truncatedValue = filteredValue.slice(0, 11);
+                  setValues({ ...values, celular: truncatedValue })
+                }}
+                placeholder="Ex.: 93 997412541"
                 maxLength={16}
                 required
-              /> <span className="material-symbols-outlined" id="Icon_Barbearia">phone_iphone</span>
-
+              /> <IoPhonePortraitSharp id="Icon_Barbearia"/>
               <input
                 type="password"
                 id="senha"
@@ -153,8 +146,10 @@ function SignUp() {
                 value={values.senha}
                 onChange={(e) => {
                   const inputValue = e.target.value;
+                  //regex to valided password
+                  const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9@.#%]/g, '');
                   // Limitar a 8 caracteres
-                  const truncatedValue = inputValue.slice(0, 8);
+                  const truncatedValue = sanitizedValue.slice(0, 8);
                   setValues({ ...values, senha: truncatedValue });
                 }}
                 placeholder="Password"
@@ -180,7 +175,7 @@ function SignUp() {
           <p>Você já tem uma conta?</p><Link className="link" to="/SignIn">Login</Link>
         </div>
       </form>
-    </div>*/}
+    </div>
     </>
     
   );

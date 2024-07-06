@@ -254,8 +254,7 @@ function SignUpBarbearia() {
                 value={values.senha}
                 onChange={(e) => {
                   const inputValue = e.target.value;
-                  //regex to valided password
-                  const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9@.#%]/g, '');
+                  c
                   // Limitar a 8 caracteres
                   const truncatedValue = sanitizedValue.slice(0, 8);
                   setValues({ ...values, senha: truncatedValue });

@@ -27,7 +27,8 @@
 #Icon_Barbearia{    
   position: absolute;
   left: 10px;
-  top: 11px;
+  top: 15px;
+  font-size: 20px;
   color: #f6f6fc;
 }
 #Icon_User{
