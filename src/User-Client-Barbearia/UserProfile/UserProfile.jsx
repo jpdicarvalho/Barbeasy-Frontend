@@ -432,24 +432,11 @@ return (
         {mostrarCelular && (
         <div className="divSelected">
             <p className='information__span'>Alterar número de contato</p>
-
-            {message === 'Alteração realizada com sucesso.' ?(
-                <div className="mensagem-sucesso">
-                <MdOutlineDone className="icon__success"/>
-                <p className="text__message">{message}</p>
-                </div>
-            ) : (
-                <div className={` ${message ? 'mensagem-erro' : ''}`}>
-                <VscError className={`hide_icon__error ${message ? 'icon__error' : ''}`}/>
-                <p className="text__message">{message}</p>
-                </div>
-            )}
-
             <div className="inputBox">
                 <input
-                type="password"
-                id="senha"
-                name="senha"
+                type="text"
+                id="celular"
+                name="celular"
                 onChange={(e) => {
                     const inputValue = e.target.value;
                     //regex to valided password
@@ -488,7 +475,7 @@ return (
                         maxLength={8}
                         required
                         /><PiPassword className='icon__input__change__data'/>
-                        <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={alterarContactProfessional}>
+                        <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={alterUserData}>
                             Confirmar
                         </button>
                     </div>
@@ -509,19 +496,6 @@ return (
     {mostrarEmail && (
         <div className="divSelected">
         <p className='information__span'>Alterar Email</p>
-
-        {message === 'Alteração realizada com sucesso.' ?(
-                <div className="mensagem-sucesso">
-                <MdOutlineDone className="icon__success"/>
-                <p className="text__message">{message}</p>
-                </div>
-            ) : (
-                <div className={` ${message ? 'mensagem-erro' : ''}`}>
-                <VscError className={`hide_icon__error ${message ? 'icon__error' : ''}`}/>
-                <p className="text__message">{message}</p>
-                </div>
-            )}
-    
         <div className="inputBox">
         <input
             type="email"
@@ -566,7 +540,7 @@ return (
                     maxLength={8}
                     required
                     /><PiPassword className='icon__input__change__data'/>
-                    <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={alterarContactProfessional}>
+                    <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={alterUserData}>
                         Confirmar
                     </button>
             </div>
@@ -589,16 +563,16 @@ return (
         <div className="divSelected">
         <p className='information__span'>Alterar Senha</p>
         {messagePassword === 'Senha alterada com sucesso.' ?(
-                        <div className="mensagem-sucesso">
-                        <MdOutlineDone className="icon__success"/>
-                        <p className="text__message">{messagePassword}</p>
-                        </div>
-                        ) : (
-                        <div className={` ${messagePassword ? 'mensagem-erro' : ''}`}>
-                        <VscError className={`hide_icon__error ${messagePassword ? 'icon__error' : ''}`}/>
-                        <p className="text__message">{messagePassword}</p>
-                        </div>
-                    )}
+            <div className="mensagem-sucesso">
+            <MdOutlineDone className="icon__success"/>
+            <p className="text__message">{messagePassword}</p>
+            </div>
+            ) : (
+            <div className={` ${messagePassword ? 'mensagem-erro' : ''}`}>
+            <VscError className={`hide_icon__error ${messagePassword ? 'icon__error' : ''}`}/>
+            <p className="text__message">{messagePassword}</p>
+            </div>
+        )}
 
         <div className="inputBox">
         <input
