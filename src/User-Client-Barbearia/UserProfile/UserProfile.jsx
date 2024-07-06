@@ -375,7 +375,7 @@ return (
                     onChange={(e) => {
                     const inputValue = e.target.value;
                     // Remover caracteres não alfanuméricos
-                    const filteredValue = inputValue.replace(/[^a-zA-Z\s]/g, '');
+                    const filteredValue = inputValue.replace(/[^a-zA-Z\sçéúíóáõãèòìàêôâ]/g, '');
                     // Limitar a 30 caracteres
                     const userName = filteredValue.slice(0, 30);
                     setNewName(userName);
@@ -440,7 +440,7 @@ return (
                 onChange={(e) => {
                     const inputValue = e.target.value;
                     //regex to valided password
-                    const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9]/g, '');
+                    const sanitizedValue = inputValue.replace(/[^0-9]/g, '');
                     // Limitar a 10 caracteres
                     const truncatedPasswordConfirm = sanitizedValue.slice(0, 11);
                     setNewPhoneNumber(truncatedPasswordConfirm);
@@ -507,8 +507,16 @@ return (
             const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9@.]/g, '');
             // Limitar a 50 caracteres
             const truncatedValue = sanitizedValue.slice(0, 50);
-            setNewEmail(truncatedValue);
-            }}
+            // Validar se o valor atende ao formato de email esperado
+            const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(truncatedValue);
+
+            // Atualizar o estado apenas se o email for válido
+            if (isValidEmail) {
+                setNewEmail(truncatedValue);
+            }else{
+                setNewEmail('')
+            }
+            }} 
             placeholder={userData[0].email[0] + "..." + userData[0].email.split('@')[1]}
             className="white-placeholder"
             maxLength={50}
