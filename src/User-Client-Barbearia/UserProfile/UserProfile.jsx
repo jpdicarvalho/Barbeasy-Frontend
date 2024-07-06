@@ -58,7 +58,7 @@ const handleMenuClick = () => {
 }
 
 //==========GET USER IMAGE PROFESSIONAL==========
-const [imageUser, setImageUser] = useState([]);
+const [userImage, setUserImage] = useState([]);
 
 //Função para obter as imagens cadastradas
 useEffect(() => {
@@ -71,7 +71,7 @@ useEffect(() => {
     }
   })
   .then(res => {
-    setImageUser(res.data.url);
+    setUserImage(res.data.url);
   })
   .catch(err => console.log(err));
 }, [userId]);
@@ -294,9 +294,9 @@ return (
                         onChange={handleFile}
                     />
 
-                    {imageUser.length > 48 ? (
+                    {userImage.length > 49 ? (
                         <div className="img-view-profile">
-                            <img src={imageUser} alt="" id='img-profile' />
+                            <img src={userImage} alt="" id='img-profile' />
                         </div>
                     ) : (
                         <div className="Box__image  Box__first__letter">
