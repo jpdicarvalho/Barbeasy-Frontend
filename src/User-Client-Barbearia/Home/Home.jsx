@@ -7,7 +7,6 @@ import './home.css'
 //imagens estáticas
 
 import barberLogo from '../../../barber-logo.png';
-import imgUserDefault from './img-user-default.jpg'
 
 import { IoIosStar } from "react-icons/io";
 import { BsFillGridFill } from "react-icons/bs";
@@ -35,6 +34,11 @@ const userData = localStorage.getItem('userData');
 const userInformation = JSON.parse(userData);
 //Fromatando cada letra inicial do nome do usuário para caixa-alta
 const userName = userInformation.user[0].name;
+
+
+const navigateToUserProfile = () =>{
+  navigate("/UserProfile");
+  }
 
 //Função para pegar a rolagem do Scroll
 const [scrollPosition, setScrollPosition] = useState(0);
@@ -179,7 +183,7 @@ return (
   <>
             <div className={`header ${scrollPosition > 200 ? 'scrolled' : ''}`}>
                 <div className={`imgBoxSectionUser ${scrollPosition > 200 ? 'hideDiv' : ''}`}>
-                  <img src={imgUserDefault} alt="foto de perfil do usuário" />
+                  <img  alt="foto de perfil do usuário" />
                   <div className="spanUser">
                     <p className="nameUser">Olá, {userName}</p>
                     <p className="saudacao">{saudacao}</p>
@@ -243,7 +247,7 @@ return (
               ))}
             <ul className={`Navigation ${isMenuActive ? 'active' : ''}`}>
               <li>
-                <button>
+                <button onClick={navigateToUserProfile}>
                   <VscAccount />
                 </button>
               </li>

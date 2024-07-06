@@ -17,6 +17,7 @@ import ProfileBarbearia from './User-Barbearia/ProfileBarbearia/ProfileBarberia'
 
 import ProfessionalDetails from './User-Barbearia/ProfessionalDetails/professionalDetails';
 import ProfileProfessional from './User-Professional/ProfileProfessional/ProfileProfessional';
+import UserProfile from './User-Client-Barbearia/UserProfile/UserProfile';
 
 import Checkout from './Checkout';
 import Widget from './Widget';
@@ -65,6 +66,7 @@ const App = () => {
         <Route path="/SignUp" element={<SignUp />} />
 
         <Route path="/Home" element={<PrivateRoute element={<Home />} />} />
+        <Route path="/UserProfile" element={<PrivateRoute element={<UserProfile />} />} />
         <Route path="/BarbeariaDetails" element={<PrivateRoute element={<BarbeariaDetails />} />} />
         <Route path="/Checkout" element={<PrivateRoute element={<Checkout />} />} />
         <Route path="/Widget" element={<PrivateRoute element={<Widget />} />} />
