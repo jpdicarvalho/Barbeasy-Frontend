@@ -34,6 +34,7 @@ const userData = localStorage.getItem('userData');
 const userInformation = JSON.parse(userData);
 //Fromatando cada letra inicial do nome do usuário para caixa-alta
 const userName = userInformation.user[0].name;
+const userImage = userInformation.user[0].user_image;
 
 
 const navigateToUserProfile = () =>{
@@ -183,7 +184,7 @@ return (
   <>
             <div className={`header ${scrollPosition > 200 ? 'scrolled' : ''}`}>
                 <div className={`imgBoxSectionUser ${scrollPosition > 200 ? 'hideDiv' : ''}`}>
-                  <img  alt="foto de perfil do usuário" />
+                  <img src={urlCloudFront + userImage} alt="foto de perfil do usuário" />
                   <div className="spanUser">
                     <p className="nameUser">Olá, {userName}</p>
                     <p className="saudacao">{saudacao}</p>

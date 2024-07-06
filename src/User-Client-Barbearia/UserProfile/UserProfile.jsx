@@ -238,12 +238,14 @@ const alternarSenha = () => {
 };
 
 const alterarSenha = () => {
-  axios.get(`${urlApi}/api/v1/updateUserPassword  `, {
-    params: {
-      userId: userId,
-      passwordConfirm: passwordConfirm,
-      newPassword: newPassword
-    },
+
+  const valuesToUpdateUserPassword = {
+    userId: userId,
+    passwordConfirm: passwordConfirm,
+    newPassword: newPassword
+  }
+
+  axios.put(`${urlApi}/api/v1/updateUserPassword`, valuesToUpdateUserPassword, {
     headers: {
       'Authorization': `Bearer ${token}`
     }
@@ -255,9 +257,16 @@ const alterarSenha = () => {
           setMessagePassword('');
           window.location.reload();
         }, 3000);
+    }else{
+      setMessagePassword("Senha atual não confirmada!")
+        // Limpar a mensagem após 3 segundos (3000 milissegundos)
+        setTimeout(() => {
+          setMessagePassword('');
+          //window.location.reload();
+        }, 5000);
     }
   }).catch(error => {
-    setMessagePassword("Senha atual não confirmada!")
+    setMessagePassword("Erro ao alterar senha, tente novamente mais tarde!")
         // Limpar a mensagem após 3 segundos (3000 milissegundos)
         setTimeout(() => {
           setMessagePassword('');
@@ -310,7 +319,7 @@ return (
         {file &&(
             file.name.length > 0 ?
             <div style={{paddingLeft: '10px'}}>
-                <div className="form__change__data in__user__profile">
+                <div style={{width:'385px'}} className="form__change__data">
                     <div className='container__text__change__data'>
                         Digite sua senha para confirmar a alteração
                     </div>
@@ -626,27 +635,26 @@ return (
     </div>
     
     )}
-
     </div>
     </div>
-    <ul className={`Navigation ${isMenuActive ? 'active' : ''}`}>
-              <li>
-                <button onClick={navigateToHome}>
-                    <IoHomeOutline />
-                </button>
-              </li>
-              <li>
-                <button>
-                  <BsCalendar2Check />
-                </button>
-              </li>
-              <li>
-                <button onClick={logoutClick}>
-                  <MdOutlineLogout />
-                </button>
-              </li>
-              <button onClick={handleMenuClick} className="toggleMenu glassmorphism"></button>
-            </ul>
+      <ul className={`Navigation in__user__profile ${isMenuActive ? 'active' : ''}`}>
+        <li>
+          <button onClick={navigateToHome}>
+              <IoHomeOutline />
+          </button>
+        </li>
+        <li>
+          <button>
+            <BsCalendar2Check />
+          </button>
+        </li>
+        <li>
+          <button onClick={logoutClick}>
+            <MdOutlineLogout />
+          </button>
+        </li>
+        <button onClick={handleMenuClick} className="toggleMenu glassmorphism"></button>
+      </ul>
     </>
 );
 }
