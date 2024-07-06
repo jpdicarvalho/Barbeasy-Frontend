@@ -118,6 +118,7 @@ useEffect(() => {
     const renamedFile = new File([file], `userBarbeariaId_${userId}_${formattedDateTime}.${fileExtension}`, { type: file.type });
     formdata.append('image', renamedFile);
     formdata.append('userId', userId);
+    formdata.append('password', confirmPassword);
 
     axios.put(`${urlApi}/api/v1/updateUserImage`, formdata, {
       headers: {
@@ -127,12 +128,14 @@ useEffect(() => {
     .then(res => {
       if(res.data.Status === "Success"){
         setUserImageMessage("Imagem atualizada com sucesso.");
+        setConfirmPassword('')
         setTimeout(() => {
           setUserImageMessage(null);
           window.location.reload()
         }, 2000);
       }else{
         setUserImageMessage('Erro ao atualizar a imagem. Tente novamente mais tarde.')
+        setConfirmPassword('')
         setTimeout(() => {
           setUserImageMessage(null);
         }, 3000);
@@ -140,22 +143,6 @@ useEffect(() => {
     })
     .catch(err => console.log(err));
   }
-
-  //Method to send images automatically
-  useEffect(() => {
-    // Configura um temporizador para esperar 1 segundo após a última mudança no input de arquivo
-    const timeout = setTimeout(() => {
-      // Executa a função de upload após o período de espera
-      if(file){
-        handleUpload();
-      }
-      
-    }, 1000);
-
-    // Limpa o temporizador se o componente for desmontado ou se houver uma nova mudança no input de arquivo
-    return () => clearTimeout(timeout);
-  }, [file]);
-
 /*=================================================*/
 const [mostrarNome, setMostrarNome] = useState(false);
 const [mostrarCelular, setMostrarCelular] = useState(false);
@@ -308,7 +295,6 @@ return (
         <div className="section__userName">
             {userName}
         </div>
-        </div>
         {userImageMessage === "Imagem atualizada com sucesso." ? (
             <div className="mensagem-sucesso">
                 <MdOutlineDone className="icon__success"/>
@@ -321,6 +307,43 @@ return (
         </div>
         )}
 
+        {file &&(
+            file.name.length > 0 ?
+            <div style={{paddingLeft: '10px'}}>
+                <div className="form__change__data">
+                    <div className='container__text__change__data'>
+                        Digite sua senha para confirmar a alteração
+                    </div>
+
+                <div className='container__form__change__data'>
+                    <input
+                        type="password"
+                        id="senha"
+                        name="senha"
+                        value={confirmPassword}
+                        className={`input__change__data ${confirmPassword ? 'input__valided':''}`}
+                        onChange={(e) => {
+                            const inputValue = e.target.value;
+                            //regex to valided password
+                            const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9@.#%]/g, '');
+                            // Limitar a 10 caracteres
+                            const truncatedPasswordConfirm = sanitizedValue.slice(0, 8);
+                            setConfirmPassword(truncatedPasswordConfirm);
+                        }}
+                        placeholder="Senha atual"
+                        maxLength={8}
+                        required
+                        /><PiPassword className='icon__input__change__data'/>
+                        <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={handleUpload}>
+                            Confirmar
+                        </button>
+                </div>
+                </div>
+            </div>
+            :null
+        )}
+        </div>
+        
 <div className="container__menu">
 
 <div className="menu__main" onClick={alternarNome}>
