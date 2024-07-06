@@ -39,7 +39,10 @@ const userImage = userInformation.user[0].user_image;
 
 const navigateToUserProfile = () =>{
   navigate("/UserProfile");
-  }
+}
+const navigateToBookingsHistory = () =>{
+  navigate("/BookingsHistory");
+}
 
 //Função para pegar a rolagem do Scroll
 const [scrollPosition, setScrollPosition] = useState(0);
@@ -254,7 +257,7 @@ return (
               </li>
               <li>
                 <button>
-                  <BsCalendar2Check />
+                  <BsCalendar2Check onClick={navigateToBookingsHistory}/>
                 </button>
               </li>
               <li>

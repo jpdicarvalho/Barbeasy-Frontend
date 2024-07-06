@@ -585,8 +585,8 @@ const handleProfessionalClick = (professional) => {
     <>
     
       <div className="container__profile">
-      <div className="back" onClick={handleBackClick}>
-          <IoArrowBackSharp className="Icon__Back"/>
+      <div className="back">
+          <IoArrowBackSharp className="Icon__Back" onClick={handleBackClick}/>
           </div>
 
             {bannerMessage === "Banner alterado com sucesso." ? (

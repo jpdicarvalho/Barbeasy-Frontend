@@ -19,6 +19,8 @@ import ProfessionalDetails from './User-Barbearia/ProfessionalDetails/profession
 import ProfileProfessional from './User-Professional/ProfileProfessional/ProfileProfessional';
 import UserProfile from './User-Client-Barbearia/UserProfile/UserProfile';
 
+import BookingsHistory from './User-Client-Barbearia/BookingsHistory/BookingsHistory';
+
 import Checkout from './Checkout';
 import Widget from './Widget';
 import PropTypes from 'prop-types';
@@ -68,6 +70,8 @@ const App = () => {
         <Route path="/Home" element={<PrivateRoute element={<Home />} />} />
         <Route path="/UserProfile" element={<PrivateRoute element={<UserProfile />} />} />
         <Route path="/BarbeariaDetails" element={<PrivateRoute element={<BarbeariaDetails />} />} />
+        <Route path="/BookingsHistory" element={<PrivateRoute element={<BookingsHistory />} />} />
+
         <Route path="/Checkout" element={<PrivateRoute element={<Checkout />} />} />
         <Route path="/Widget" element={<PrivateRoute element={<Widget />} />} />
       </Routes>
