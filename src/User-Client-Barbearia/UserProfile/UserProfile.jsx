@@ -32,8 +32,8 @@ function UserProfile() {
 
   //Buscando informações do usuário logado
   const token = localStorage.getItem('token');
-  const userData = localStorage.getItem('userData');//Obtendo os dados salvo no localStorage
-  const userInformation = JSON.parse(userData);//trasnformando os dados para JSON
+  const userDataFromLocalStorage = localStorage.getItem('userData');//Obtendo os dados salvo no localStorage
+  const userInformation = JSON.parse(userDataFromLocalStorage);//trasnformando os dados para JSON
   const userId = userInformation.user[0].id;
   const userName = userInformation.user[0].name;
   const firstLetter = userName.charAt(0).toUpperCase();
@@ -150,7 +150,7 @@ const [mostrarEmail, setMostrarEmail] = useState(false);
 const [newName, setNewName] = useState('');
 const [newEmail, setNewEmail] = useState('');
 const [newPhoneNumber, setNewPhoneNumber] = useState('');
-const [contactProfessional, setContactProfessional] = useState('');
+const [userData, setUserData] = useState('');
 const [message, setMessage] = useState('');
 
 const alternarNome = () => {
@@ -166,10 +166,23 @@ const alternarEmail = () => {
   setMostrarEmail(!mostrarEmail);
 };
 
-//Função responsável por enviar o novo nome de usuário ao back-end
-const alterarContactProfessional = () => {
+//Função para obter o nome de usuário atual da barbearia
+const getUserData = () =>{
+    axios.get(`${urlApi}/api/v1/getUserData/${userId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+      .then(res => {
+        setUserData(res.data.User)
+      })
+      .catch(error => console.log(error));
+  }
 
-  const valuesContactProfessional = {
+//Função responsável por enviar o novo nome de usuário ao back-end
+const alterUserData = () => {
+
+  const valuesUserData = {
     newName,
     newEmail,
     newPhoneNumber,
@@ -177,7 +190,7 @@ const alterarContactProfessional = () => {
     userId
   }
 
-  axios.put(`${urlApi}/api/v1/updateDataProfessional`, valuesContactProfessional, {
+  axios.put(`${urlApi}/api/v1/updateUserData`, valuesUserData, {
     headers: {
       'Authorization': `Bearer ${token}`
     }
@@ -192,12 +205,12 @@ const alterarContactProfessional = () => {
             setNewName('')
             setNewEmail('')
             setNewPhoneNumber('')
-            getContactProfessional()
+            getUserData()
           }, 3000);
         }
       })
       .catch(error => {
-        setMessage("Erro ao atualizar o nome de usuário.")
+        setMessage("Erro ao realizar alteração.")
         setConfirmPassword('')
 
           // Limpar a mensagem após 3 segundos (3000 milissegundos)
@@ -205,26 +218,13 @@ const alterarContactProfessional = () => {
             setMessage('');
             window.location.reload();
           }, 3000);
-        console.error('Erro ao atualizar o nome de usuário:', error);
+        console.error('Erro ao realizar alteração:', error);
       });
 };
 
-//Função para obter o nome de usuário atual da barbearia
-const getContactProfessional = () =>{
-  axios.get(`${urlApi}/api/v1/getContactProfessional/${userId}`, {
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
-  })
-    .then(res => {
-      setContactProfessional(res.data.data_professional)
-    })
-    .catch(error => console.log(error));
-}
-
-//Hook para chamar a função getContactProfessional()
+//Hook para chamar a função getUserData()
 useEffect(() => {
-  getContactProfessional()
+  getUserData()
 }, [userId]) 
 
 /*----------------------------------*/
@@ -310,7 +310,7 @@ return (
         {file &&(
             file.name.length > 0 ?
             <div style={{paddingLeft: '10px'}}>
-                <div className="form__change__data">
+                <div className="form__change__data in__user__profile">
                     <div className='container__text__change__data'>
                         Digite sua senha para confirmar a alteração
                     </div>
@@ -343,319 +343,309 @@ return (
             :null
         )}
         </div>
-        
-<div className="container__menu">
 
-<div className="menu__main" onClick={alternarNome}>
-  <FaRegUser className='icon_menu'/>
-    Nome
-  <IoIosArrowDown className={`arrow ${mostrarNome ? 'girar' : ''}`} id='arrow'/>
-  </div>
-
-  {mostrarNome && (
-    <div className="divSelected">
-      <p className='information__span'>Alterar Nome de usuário</p>
-        {message === 'Alteração realizada com sucesso.' ?(
-            <div className="mensagem-sucesso">
-              <MdOutlineDone className="icon__success"/>
-              <p className="text__message">{message}</p>
-            </div>
-        ) : (
-            <div className={` ${message ? 'mensagem-erro' : ''}`}>
-              <VscError className={`hide_icon__error ${message ? 'icon__error' : ''}`}/>
-              <p className="text__message">{message}</p>
-            </div>
-        )}
-
-    <div className="inputBox">
-    <input
-        type="text"
-        id="usuario"
-        name="usuario"
-        maxLength={30}
-        onChange={(e) => {
-          const inputValue = e.target.value;
-          // Remover caracteres não alfanuméricos
-          const filteredValue = inputValue.replace(/[^a-zA-Z\s]/g, '');
-          // Limitar a 30 caracteres
-          const userName = filteredValue.slice(0, 30);
-        setNewName(userName);
-        }}
-        placeholder={contactProfessional[0].name}
-        className="white-placeholder"
-        required
-      />{' '}<FaUserEdit className='icon_input'/>
-    </div>
-
-    {newName.length > 0 &&(
-      <div style={{paddingLeft: '10px'}}>
-        <div className="form__change__data">
-            <div className='container__text__change__data'>
-                Digite sua senha para confirmar a alteração
-            </div>
-
-          <div className='container__form__change__data'>
-            <input
-                type="password"
-                id="senha"
-                name="senha"
-                value={confirmPassword}
-                className={`input__change__data ${confirmPassword ? 'input__valided':''}`}
-                onChange={(e) => {
-                    const inputValue = e.target.value;
-                    // Limitar a 10 caracteres
-                    const truncatedPasswordConfirm = inputValue.slice(0, 10);
-                    setConfirmPassword(truncatedPasswordConfirm);
-                }}
-                placeholder="Senha atual"
-                maxLength={8}
-                required
-                /><PiPassword className='icon__input__change__data'/>
-                <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={alterarContactProfessional}>
-                    Confirmar
-                </button>
-          </div>
+    {message === 'Alteração realizada com sucesso.' ?(
+        <div className="mensagem-sucesso">
+            <MdOutlineDone className="icon__success"/>
+            <p className="text__message">{message}</p>
         </div>
-      </div>
+    ) : (
+        <div className={` ${message ? 'mensagem-erro' : ''}`}>
+            <VscError className={`hide_icon__error ${message ? 'icon__error' : ''}`}/>
+            <p className="text__message">{message}</p>
+        </div>
     )}
- </div>
- 
-  )}
 
-<hr className='hr_menu' />
+    <div className="container__menu">
+        <div className="menu__main" onClick={alternarNome}>
+        <FaRegUser className='icon_menu'/>
+            Nome
+        <IoIosArrowDown className={`arrow ${mostrarNome ? 'girar' : ''}`} id='arrow'/>
+        </div>
 
-  <div className="menu__main" onClick={alternarCelular}>
-    <MdOutlinePhonelinkRing className='icon_menu'/>
-      Celular
-    <IoIosArrowDown className={`arrow ${mostrarCelular ? 'girar' : ''}`} id='arrow'/>
-  </div>
-
-    {mostrarCelular && (
-      <div className="divSelected">
-        <p className='information__span'>Alterar número de contato</p>
-
-        {message === 'Alteração realizada com sucesso.' ?(
-            <div className="mensagem-sucesso">
-              <MdOutlineDone className="icon__success"/>
-              <p className="text__message">{message}</p>
-            </div>
-        ) : (
-            <div className={` ${message ? 'mensagem-erro' : ''}`}>
-              <VscError className={`hide_icon__error ${message ? 'icon__error' : ''}`}/>
-              <p className="text__message">{message}</p>
-            </div>
-        )}
-
-          <div className="inputBox">
-            <input
-              type="password"
-              id="senha"
-              name="senha"
-              onChange={(e) => {
-                const inputValue = e.target.value;
-                //regex to valided password
-                const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9]/g, '');
-                // Limitar a 10 caracteres
-                const truncatedPasswordConfirm = sanitizedValue.slice(0, 11);
-                setNewPhoneNumber(truncatedPasswordConfirm);
-              }}
-              placeholder={contactProfessional[0].cell_phone}
-              maxLength={11}
-              required
-              />{' '}<MdNumbers  className='icon_input'/>
-          </div>
-
-          {newPhoneNumber.length > 10 &&(
-            <div style={{paddingLeft: '10px'}}>
-              <div className="form__change__data">
-                  <div className='container__text__change__data'>
-                      Digite sua senha para confirmar a alteração
-                  </div>
-
-                <div className='container__form__change__data'>
-                  <input
-                      type="password"
-                      id="senha"
-                      name="senha"
-                      value={confirmPassword}
-                      className={`input__change__data ${confirmPassword ? 'input__valided':''}`}
-                      onChange={(e) => {
-                          const inputValue = e.target.value;
-                          // Limitar a 10 caracteres
-                          const truncatedPasswordConfirm = inputValue.slice(0, 10);
-                          setConfirmPassword(truncatedPasswordConfirm);
-                      }}
-                      placeholder="Senha atual"
-                      maxLength={8}
-                      required
-                      /><PiPassword className='icon__input__change__data'/>
-                      <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={alterarContactProfessional}>
-                          Confirmar
-                      </button>
+        {mostrarNome && (
+            <div className="divSelected">
+                <p className='information__span'>Alterar Nome de usuário</p>
+                <div className="inputBox">
+                <input
+                    type="text"
+                    id="usuario"
+                    name="usuario"
+                    maxLength={30}
+                    onChange={(e) => {
+                    const inputValue = e.target.value;
+                    // Remover caracteres não alfanuméricos
+                    const filteredValue = inputValue.replace(/[^a-zA-Z\s]/g, '');
+                    // Limitar a 30 caracteres
+                    const userName = filteredValue.slice(0, 30);
+                    setNewName(userName);
+                    }}
+                    placeholder={userData[0].name}
+                    className="white-placeholder"
+                    required
+                />{' '}<FaUserEdit className='icon_input'/>
                 </div>
-              </div>
+
+                {newName.length > 0 &&(
+                <div style={{paddingLeft: '10px'}}>
+                    <div className="form__change__data">
+                        <div className='container__text__change__data'>
+                            Digite sua senha para confirmar a alteração
+                        </div>
+
+                    <div className='container__form__change__data'>
+                        <input
+                            type="password"
+                            id="senha"
+                            name="senha"
+                            value={confirmPassword}
+                            className={`input__change__data ${confirmPassword ? 'input__valided':''}`}
+                            onChange={(e) => {
+                                const inputValue = e.target.value;
+                                // Limitar a 10 caracteres
+                                const truncatedPasswordConfirm = inputValue.slice(0, 10);
+                                setConfirmPassword(truncatedPasswordConfirm);
+                            }}
+                            placeholder="Senha atual"
+                            maxLength={8}
+                            required
+                            /><PiPassword className='icon__input__change__data'/>
+                            <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={alterUserData}>
+                                Confirmar
+                            </button>
+                    </div>
+                    </div>
+                </div>
+                )}
             </div>
-          )}
-      </div>
-    )}
-
-<hr className='hr_menu'/>
-
-  <div className="menu__main" onClick={alternarEmail} >
-    <MdOutlineEmail className='icon_menu'/>
-      Email
-    <IoIosArrowDown className={`arrow ${mostrarEmail ? 'girar' : ''}`} id='arrow'/>
-  </div>
-
-  {mostrarEmail && (
-    <div className="divSelected">
-      <p className='information__span'>Alterar Email</p>
-
-      {message === 'Alteração realizada com sucesso.' ?(
-            <div className="mensagem-sucesso">
-              <MdOutlineDone className="icon__success"/>
-              <p className="text__message">{message}</p>
-            </div>
-        ) : (
-            <div className={` ${message ? 'mensagem-erro' : ''}`}>
-              <VscError className={`hide_icon__error ${message ? 'icon__error' : ''}`}/>
-              <p className="text__message">{message}</p>
-            </div>
+        
         )}
-  
-    <div className="inputBox">
-      <input
-        type="email"
-        id="email"
-        name="email"
-        onChange={(e) => {
-          const inputValue = e.target.value;
-          // Substituir o conteúdo do campo para conter apenas números, letras, "@" e "."
-          const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9@.]/g, '');
-          // Limitar a 50 caracteres
-          const truncatedValue = sanitizedValue.slice(0, 50);
 
-          // Validar se o valor atende ao formato de email esperado
-          const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(truncatedValue);
+    <hr className='hr_menu' />
 
-          // Atualizar o estado apenas se o email for válido
-          if (isValidEmail) {
-            setNewEmail(truncatedValue);
-          }else{
-            setNewEmail('')
-          }
-        }}
-        placeholder={contactProfessional[0].email[0] + "..." + contactProfessional[0].email.split('@')[1]}
-        className="white-placeholder"
-        maxLength={50}
-        required
-      />{' '}<MdOutlineAlternateEmail className='icon_input'/>
+    <div className="menu__main" onClick={alternarCelular}>
+        <MdOutlinePhonelinkRing className='icon_menu'/>
+        Celular
+        <IoIosArrowDown className={`arrow ${mostrarCelular ? 'girar' : ''}`} id='arrow'/>
     </div>
 
-    {newEmail.length > 0 &&(
-      <div style={{paddingLeft: '10px'}}>
-        <div className="form__change__data">
-            <div className='container__text__change__data'>
-                Digite sua senha para confirmar a alteração
-            </div>
+        {mostrarCelular && (
+        <div className="divSelected">
+            <p className='information__span'>Alterar número de contato</p>
 
-          <div className='container__form__change__data'>
-            <input
+            {message === 'Alteração realizada com sucesso.' ?(
+                <div className="mensagem-sucesso">
+                <MdOutlineDone className="icon__success"/>
+                <p className="text__message">{message}</p>
+                </div>
+            ) : (
+                <div className={` ${message ? 'mensagem-erro' : ''}`}>
+                <VscError className={`hide_icon__error ${message ? 'icon__error' : ''}`}/>
+                <p className="text__message">{message}</p>
+                </div>
+            )}
+
+            <div className="inputBox">
+                <input
                 type="password"
                 id="senha"
                 name="senha"
-                value={confirmPassword}
-                className={`input__change__data ${confirmPassword ? 'input__valided':''}`}
                 onChange={(e) => {
                     const inputValue = e.target.value;
+                    //regex to valided password
+                    const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9]/g, '');
                     // Limitar a 10 caracteres
-                    const truncatedPasswordConfirm = inputValue.slice(0, 10);
-                    setConfirmPassword(truncatedPasswordConfirm);
+                    const truncatedPasswordConfirm = sanitizedValue.slice(0, 11);
+                    setNewPhoneNumber(truncatedPasswordConfirm);
                 }}
-                placeholder="Senha atual"
-                maxLength={8}
+                placeholder={userData[0].celular}
+                maxLength={11}
                 required
-                /><PiPassword className='icon__input__change__data'/>
-                <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={alterarContactProfessional}>
-                    Confirmar
-                </button>
-          </div>
+                />{' '}<MdNumbers  className='icon_input'/>
+            </div>
+
+            {newPhoneNumber.length > 10 &&(
+                <div style={{paddingLeft: '10px'}}>
+                <div className="form__change__data">
+                    <div className='container__text__change__data'>
+                        Digite sua senha para confirmar a alteração
+                    </div>
+
+                    <div className='container__form__change__data'>
+                    <input
+                        type="password"
+                        id="senha"
+                        name="senha"
+                        value={confirmPassword}
+                        className={`input__change__data ${confirmPassword ? 'input__valided':''}`}
+                        onChange={(e) => {
+                            const inputValue = e.target.value;
+                            // Limitar a 10 caracteres
+                            const truncatedPasswordConfirm = inputValue.slice(0, 10);
+                            setConfirmPassword(truncatedPasswordConfirm);
+                        }}
+                        placeholder="Senha atual"
+                        maxLength={8}
+                        required
+                        /><PiPassword className='icon__input__change__data'/>
+                        <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={alterarContactProfessional}>
+                            Confirmar
+                        </button>
+                    </div>
+                </div>
+                </div>
+            )}
         </div>
-      </div>
+        )}
+
+    <hr className='hr_menu'/>
+
+    <div className="menu__main" onClick={alternarEmail} >
+        <MdOutlineEmail className='icon_menu'/>
+        Email
+        <IoIosArrowDown className={`arrow ${mostrarEmail ? 'girar' : ''}`} id='arrow'/>
+    </div>
+
+    {mostrarEmail && (
+        <div className="divSelected">
+        <p className='information__span'>Alterar Email</p>
+
+        {message === 'Alteração realizada com sucesso.' ?(
+                <div className="mensagem-sucesso">
+                <MdOutlineDone className="icon__success"/>
+                <p className="text__message">{message}</p>
+                </div>
+            ) : (
+                <div className={` ${message ? 'mensagem-erro' : ''}`}>
+                <VscError className={`hide_icon__error ${message ? 'icon__error' : ''}`}/>
+                <p className="text__message">{message}</p>
+                </div>
+            )}
+    
+        <div className="inputBox">
+        <input
+            type="email"
+            id="email"
+            name="email"
+            onChange={(e) => {
+            const inputValue = e.target.value;
+            // Substituir o conteúdo do campo para conter apenas números, letras, "@" e "."
+            const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9@.]/g, '');
+            // Limitar a 50 caracteres
+            const truncatedValue = sanitizedValue.slice(0, 50);
+            setNewEmail(truncatedValue);
+            }}
+            placeholder={userData[0].email[0] + "..." + userData[0].email.split('@')[1]}
+            className="white-placeholder"
+            maxLength={50}
+            required
+        />{' '}<MdOutlineAlternateEmail className='icon_input'/>
+        </div>
+
+        {newEmail.length > 0 &&(
+        <div style={{paddingLeft: '10px'}}>
+            <div className="form__change__data">
+                <div className='container__text__change__data'>
+                    Digite sua senha para confirmar a alteração
+                </div>
+
+            <div className='container__form__change__data'>
+                <input
+                    type="password"
+                    id="senha"
+                    name="senha"
+                    value={confirmPassword}
+                    className={`input__change__data ${confirmPassword ? 'input__valided':''}`}
+                    onChange={(e) => {
+                        const inputValue = e.target.value;
+                        // Limitar a 10 caracteres
+                        const truncatedPasswordConfirm = inputValue.slice(0, 10);
+                        setConfirmPassword(truncatedPasswordConfirm);
+                    }}
+                    placeholder="Senha atual"
+                    maxLength={8}
+                    required
+                    /><PiPassword className='icon__input__change__data'/>
+                    <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={alterarContactProfessional}>
+                        Confirmar
+                    </button>
+            </div>
+            </div>
+        </div>
+        )}
+    </div>
+    
+    )}          
+
+    <hr className='hr_menu' />
+    
+    <div className="menu__main" onClick={alternarSenha}>
+    <MdPassword className='icon_menu'/>
+        Senha
+    <IoIosArrowDown className={`arrow ${mostrarSenha ? 'girar' : ''}`} id='arrow'/>
+        </div>
+
+    {mostrarSenha && (
+        <div className="divSelected">
+        <p className='information__span'>Alterar Senha</p>
+        {messagePassword === 'Senha alterada com sucesso.' ?(
+                        <div className="mensagem-sucesso">
+                        <MdOutlineDone className="icon__success"/>
+                        <p className="text__message">{messagePassword}</p>
+                        </div>
+                        ) : (
+                        <div className={` ${messagePassword ? 'mensagem-erro' : ''}`}>
+                        <VscError className={`hide_icon__error ${messagePassword ? 'icon__error' : ''}`}/>
+                        <p className="text__message">{messagePassword}</p>
+                        </div>
+                    )}
+
+        <div className="inputBox">
+        <input
+            type="password"
+            id="senha"
+            name="senha"
+            onChange={(e) => {
+            const inputValue = e.target.value;
+            //regex to valided password
+            const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9@.#%]/g, '');
+            // Limitar a 10 caracteres
+            const truncatedPasswordConfirm = sanitizedValue.slice(0, 8);
+            setPasswordConfirm(truncatedPasswordConfirm);
+            }}
+            placeholder="Senha Atual"
+            maxLength={8}
+            required
+            />{' '}<PiPassword className='icon_input'/>
+        </div>
+
+        <div className="inputBox">
+        <input
+            type="password"
+            id="NovaSenha"
+            name="NovaSenha"
+            onChange={(e) => {
+            const inputValue = e.target.value;
+            //regex to valided password
+            const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9@.#%]/g, '');
+            // Limitar a 8 caracteres
+            const truncatedValue = sanitizedValue.slice(0, 8);
+            setNewPassword(truncatedValue);
+            }}
+            placeholder="Nova Senha"
+            maxLength={8}
+            required
+            />{' '} <PiPasswordDuotone className='icon_input'/>
+        </div>
+
+        <button className={`button__change ${newPassword ? 'show' : ''}`} onClick={alterarSenha}>
+        Alterar
+        </button>
+    </div>
+    
     )}
- </div>
- 
-  )}          
 
-<hr className='hr_menu' />
- 
-<div className="menu__main" onClick={alternarSenha}>
-  <MdPassword className='icon_menu'/>
-    Senha
-  <IoIosArrowDown className={`arrow ${mostrarSenha ? 'girar' : ''}`} id='arrow'/>
     </div>
-
-  {mostrarSenha && (
-    <div className="divSelected">
-      <p className='information__span'>Alterar Senha</p>
-      {messagePassword === 'Senha alterada com sucesso.' ?(
-                    <div className="mensagem-sucesso">
-                      <MdOutlineDone className="icon__success"/>
-                      <p className="text__message">{messagePassword}</p>
-                    </div>
-                    ) : (
-                    <div className={` ${messagePassword ? 'mensagem-erro' : ''}`}>
-                      <VscError className={`hide_icon__error ${messagePassword ? 'icon__error' : ''}`}/>
-                      <p className="text__message">{messagePassword}</p>
-                    </div>
-                  )}
-
-    <div className="inputBox">
-      <input
-        type="password"
-        id="senha"
-        name="senha"
-        onChange={(e) => {
-          const inputValue = e.target.value;
-          //regex to valided password
-          const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9@.#%]/g, '');
-          // Limitar a 10 caracteres
-          const truncatedPasswordConfirm = sanitizedValue.slice(0, 8);
-          setPasswordConfirm(truncatedPasswordConfirm);
-        }}
-        placeholder="Senha Atual"
-        maxLength={8}
-        required
-        />{' '}<PiPassword className='icon_input'/>
-    </div>
-
-    <div className="inputBox">
-    <input
-        type="password"
-        id="NovaSenha"
-        name="NovaSenha"
-        onChange={(e) => {
-          const inputValue = e.target.value;
-          //regex to valided password
-          const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9@.#%]/g, '');
-          // Limitar a 8 caracteres
-          const truncatedValue = sanitizedValue.slice(0, 8);
-          setNewPassword(truncatedValue);
-        }}
-        placeholder="Nova Senha"
-        maxLength={8}
-        required
-        />{' '} <PiPasswordDuotone className='icon_input'/>
-    </div>
-
-    <button className={`button__change ${newPassword ? 'show' : ''}`} onClick={alterarSenha}>
-      Alterar
-    </button>
- </div>
- 
-  )}
-
-</div>
     </div>
     <ul className={`Navigation ${isMenuActive ? 'active' : ''}`}>
               <li>
