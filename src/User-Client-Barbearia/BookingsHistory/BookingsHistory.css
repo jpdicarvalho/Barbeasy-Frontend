@@ -65,6 +65,7 @@
     border-radius: 10px;
     margin-bottom: 15px;
     color: gray;
+    cursor: pointer;
 }
 .box__status__bookings__history{
     display: flex;
