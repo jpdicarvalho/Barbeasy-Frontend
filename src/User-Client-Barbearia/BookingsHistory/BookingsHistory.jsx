@@ -40,14 +40,13 @@ const toggleItem = (itemId) => {
     const [message, setMessage] = useState ('');
 
     const getAllBookings = () =>{
-        axios.get(`${urlApi}/api/v1/bookingsOfUser/:userId`, {
+        axios.get(`${urlApi}/api/v1/bookingsOfUser/${userId}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
               }
         }).then(res =>{
-            if(res.data.Success === 'Success'){
-                setAllBookings(res.data.Bookings)
-            }else{
+            setAllBookings(res.data.Bookings)
+            if(res.data.Success != 'Success'){
                 setMessage('Nenhum agendamento encontrado.')
                 setTimeout(() => {
                     setMessage('');
@@ -61,7 +60,7 @@ const toggleItem = (itemId) => {
     useEffect(() =>{
         getAllBookings()
     }, [])
-
+console.log(allBookings)
     return(
         <>
             <div className="container__profile__professional">
