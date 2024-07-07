@@ -2,8 +2,6 @@
 *{
   font-family: 'Poppis', sans-serif;
 }
-.header__bookings__history{
-}
 .tittle__historic{
     padding-left: 10px;
     margin-bottom: 15px;
@@ -66,9 +64,13 @@
     padding: 4px;
     border-radius: 10px;
     margin-bottom: 15px;
+    color: gray;
 }
-.box__banner__main__bookings__history{
-    color: #f6f6fc;
+.box__status__bookings__history{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
     display: flex;
     overflow: hidden;
     border-radius: 5px;
@@ -76,15 +78,18 @@
     height: 75px;
     width: 100px;
 }
-.banner__main__barbearia__bookings__history{
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
+.icon__GiSandsOfTime{
+    color: #4a17d5;
+    font-size: 40px;
+    margin-bottom: 3px;
+}
+.status__bookings__history{
+    color: gray;
+    font-size: 12px;
 }
 .date__bookings__history{
     display: flex;
     align-items: center;
-    color: #f6f6fc;
     font-size: 16px;
     width: 100%;
     margin-bottom: 10px;

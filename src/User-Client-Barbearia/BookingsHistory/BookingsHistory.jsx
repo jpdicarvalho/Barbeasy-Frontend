@@ -8,6 +8,8 @@ import { IoArrowBackSharp } from "react-icons/io5";
 import { IoIosSearch } from "react-icons/io";
 import { PiTimerLight } from "react-icons/pi";
 import { CiCalendar } from "react-icons/ci";
+import { GiSandsOfTime } from "react-icons/gi";
+import { BsCalendar2Check } from "react-icons/bs";
 
 function BookingsHistory (){
     const urlApi = 'https://barbeasy.up.railway.app'
@@ -24,6 +26,16 @@ function BookingsHistory (){
         navigate("/Home");
       };
 
+const [expandedCardBooking, setExpandedCardBooking] = useState([]);
+
+//Function to expanded booking cards
+const toggleItem = (itemId) => {
+    if (expandedCardBooking.includes(itemId)) {
+      setExpandedCardBooking(expandedCardBooking.filter(id => id !== itemId));
+    } else {
+      setExpandedCardBooking([...expandedCardBooking, itemId]);
+    }
+};
     const [allBookings, setAllBookings] = useState ([]);
     const [message, setMessage] = useState ('');
 
@@ -67,13 +79,35 @@ function BookingsHistory (){
                 </div>
                 <div className='section__bookings__history'>
                     <div className='Box__bookings__history'>
-                        <div className='box__banner__main__bookings__history'>
-                            <img className='banner__main__barbearia__bookings__history' src="https://d15o6h0uxpz56g.cloudfront.net/barbeariaId_4_banner_1_20240629_092030.jpg" alt="" />
+                        <div className='box__status__bookings__history'>
+                            <GiSandsOfTime style={{color: '#fff', fontSize: '40px'}}/>
+                            <p className='status__bookings__history' style={{color: '#fff'}}>Agendado</p>
+                        </div>
+
+                        <div className='body__bookings__history' style={{color: '#fff'}}>
+                            <p className='date__bookings__history' style={{color: '#fff'}}>
+                                Sáb, 29 de Jun de 2024
+                            </p>
+                            <div className='innner__bookings__history'>
+                                <p>Corte Navalhado</p>
+                                <div className='time__bookings__history' style={{color: '#fff'}}>
+                                    <p className='price__service__bookings__history' style={{color: '#fff'}}>R$30,00 | </p>
+                                    <PiTimerLight className='icon__PiTimerLight'/>
+                                    <p>09:30 - 10:15 pm</p>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+                    <div className='Box__bookings__history'>
+                        <div className='box__status__bookings__history'>
+                            <BsCalendar2Check className='icon__GiSandsOfTime'/>
+                            <p className='status__bookings__history'>Finalizado</p>
                         </div>
 
                         <div className='body__bookings__history'>
                             <p className='date__bookings__history'>
-                                <CiCalendar style={{fontSize: '18px', marginRight: '3px'}}/>
                                 Sáb, 29 de Jun de 2024
                             </p>
                             <div className='innner__bookings__history'>
@@ -89,13 +123,13 @@ function BookingsHistory (){
                         
                     </div>
                     <div className='Box__bookings__history'>
-                        <div className='box__banner__main__bookings__history'>
-                            <img className='banner__main__barbearia__bookings__history' src="https://d15o6h0uxpz56g.cloudfront.net/barbeariaId_4_banner_1_20240629_092030.jpg" alt="" />
+                        <div className='box__status__bookings__history'>
+                            <BsCalendar2Check className='icon__GiSandsOfTime'/>
+                            <p className='status__bookings__history'>Finalizado</p>
                         </div>
 
                         <div className='body__bookings__history'>
                             <p className='date__bookings__history'>
-                                <CiCalendar style={{fontSize: '18px', marginRight: '3px'}}/>
                                 Sáb, 29 de Jun de 2024
                             </p>
                             <div className='innner__bookings__history'>
@@ -111,13 +145,13 @@ function BookingsHistory (){
                         
                     </div>
                     <div className='Box__bookings__history'>
-                        <div className='box__banner__main__bookings__history'>
-                            <img className='banner__main__barbearia__bookings__history' src="https://d15o6h0uxpz56g.cloudfront.net/barbeariaId_4_banner_1_20240629_092030.jpg" alt="" />
+                        <div className='box__status__bookings__history'>
+                            <BsCalendar2Check className='icon__GiSandsOfTime'/>
+                            <p className='status__bookings__history'>Finalizado</p>
                         </div>
 
                         <div className='body__bookings__history'>
                             <p className='date__bookings__history'>
-                                <CiCalendar style={{fontSize: '18px', marginRight: '3px'}}/>
                                 Sáb, 29 de Jun de 2024
                             </p>
                             <div className='innner__bookings__history'>
@@ -133,13 +167,13 @@ function BookingsHistory (){
                         
                     </div>
                     <div className='Box__bookings__history'>
-                        <div className='box__banner__main__bookings__history'>
-                            <img className='banner__main__barbearia__bookings__history' src="https://d15o6h0uxpz56g.cloudfront.net/barbeariaId_4_banner_1_20240629_092030.jpg" alt="" />
+                        <div className='box__status__bookings__history'>
+                            <BsCalendar2Check className='icon__GiSandsOfTime'/>
+                            <p className='status__bookings__history'>Finalizado</p>
                         </div>
 
                         <div className='body__bookings__history'>
                             <p className='date__bookings__history'>
-                                <CiCalendar style={{fontSize: '18px', marginRight: '3px'}}/>
                                 Sáb, 29 de Jun de 2024
                             </p>
                             <div className='innner__bookings__history'>
@@ -155,13 +189,13 @@ function BookingsHistory (){
                         
                     </div>
                     <div className='Box__bookings__history'>
-                        <div className='box__banner__main__bookings__history'>
-                            <img className='banner__main__barbearia__bookings__history' src="https://d15o6h0uxpz56g.cloudfront.net/barbeariaId_4_banner_1_20240629_092030.jpg" alt="" />
+                        <div className='box__status__bookings__history'>
+                            <BsCalendar2Check className='icon__GiSandsOfTime'/>
+                            <p className='status__bookings__history'>Finalizado</p>
                         </div>
 
                         <div className='body__bookings__history'>
                             <p className='date__bookings__history'>
-                                <CiCalendar style={{fontSize: '18px', marginRight: '3px'}}/>
                                 Sáb, 29 de Jun de 2024
                             </p>
                             <div className='innner__bookings__history'>
@@ -177,13 +211,13 @@ function BookingsHistory (){
                         
                     </div>
                     <div className='Box__bookings__history'>
-                        <div className='box__banner__main__bookings__history'>
-                            <img className='banner__main__barbearia__bookings__history' src="https://d15o6h0uxpz56g.cloudfront.net/barbeariaId_4_banner_1_20240629_092030.jpg" alt="" />
+                        <div className='box__status__bookings__history'>
+                            <BsCalendar2Check className='icon__GiSandsOfTime'/>
+                            <p className='status__bookings__history'>Finalizado</p>
                         </div>
 
                         <div className='body__bookings__history'>
                             <p className='date__bookings__history'>
-                                <CiCalendar style={{fontSize: '18px', marginRight: '3px'}}/>
                                 Sáb, 29 de Jun de 2024
                             </p>
                             <div className='innner__bookings__history'>
@@ -199,189 +233,13 @@ function BookingsHistory (){
                         
                     </div>
                     <div className='Box__bookings__history'>
-                        <div className='box__banner__main__bookings__history'>
-                            <img className='banner__main__barbearia__bookings__history' src="https://d15o6h0uxpz56g.cloudfront.net/barbeariaId_4_banner_1_20240629_092030.jpg" alt="" />
+                        <div className='box__status__bookings__history'>
+                            <BsCalendar2Check className='icon__GiSandsOfTime'/>
+                            <p className='status__bookings__history'>Finalizado</p>
                         </div>
 
                         <div className='body__bookings__history'>
                             <p className='date__bookings__history'>
-                                <CiCalendar style={{fontSize: '18px', marginRight: '3px'}}/>
-                                Sáb, 29 de Jun de 2024
-                            </p>
-                            <div className='innner__bookings__history'>
-                                <p>Corte Navalhado</p>
-                                <div className='time__bookings__history'>
-                                    <p className='price__service__bookings__history'>R$30,00 | </p>
-                                    <PiTimerLight className='icon__PiTimerLight'/>
-                                    <p>09:30 - 10:15 pm</p>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        
-                    </div>
-                    <div className='Box__bookings__history'>
-                        <div className='box__banner__main__bookings__history'>
-                            <img className='banner__main__barbearia__bookings__history' src="https://d15o6h0uxpz56g.cloudfront.net/barbeariaId_4_banner_1_20240629_092030.jpg" alt="" />
-                        </div>
-
-                        <div className='body__bookings__history'>
-                            <p className='date__bookings__history'>
-                                <CiCalendar style={{fontSize: '18px', marginRight: '3px'}}/>
-                                Sáb, 29 de Jun de 2024
-                            </p>
-                            <div className='innner__bookings__history'>
-                                <p>Corte Navalhado</p>
-                                <div className='time__bookings__history'>
-                                    <p className='price__service__bookings__history'>R$30,00 | </p>
-                                    <PiTimerLight className='icon__PiTimerLight'/>
-                                    <p>09:30 - 10:15 pm</p>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        
-                    </div>
-                    <div className='Box__bookings__history'>
-                        <div className='box__banner__main__bookings__history'>
-                            <img className='banner__main__barbearia__bookings__history' src="https://d15o6h0uxpz56g.cloudfront.net/barbeariaId_4_banner_1_20240629_092030.jpg" alt="" />
-                        </div>
-
-                        <div className='body__bookings__history'>
-                            <p className='date__bookings__history'>
-                                <CiCalendar style={{fontSize: '18px', marginRight: '3px'}}/>
-                                Sáb, 29 de Jun de 2024
-                            </p>
-                            <div className='innner__bookings__history'>
-                                <p>Corte Navalhado</p>
-                                <div className='time__bookings__history'>
-                                    <p className='price__service__bookings__history'>R$30,00 | </p>
-                                    <PiTimerLight className='icon__PiTimerLight'/>
-                                    <p>09:30 - 10:15 pm</p>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        
-                    </div>
-                    <div className='Box__bookings__history'>
-                        <div className='box__banner__main__bookings__history'>
-                            <img className='banner__main__barbearia__bookings__history' src="https://d15o6h0uxpz56g.cloudfront.net/barbeariaId_4_banner_1_20240629_092030.jpg" alt="" />
-                        </div>
-
-                        <div className='body__bookings__history'>
-                            <p className='date__bookings__history'>
-                                <CiCalendar style={{fontSize: '18px', marginRight: '3px'}}/>
-                                Sáb, 29 de Jun de 2024
-                            </p>
-                            <div className='innner__bookings__history'>
-                                <p>Corte Navalhado</p>
-                                <div className='time__bookings__history'>
-                                    <p className='price__service__bookings__history'>R$30,00 | </p>
-                                    <PiTimerLight className='icon__PiTimerLight'/>
-                                    <p>09:30 - 10:15 pm</p>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        
-                    </div>
-                    <div className='Box__bookings__history'>
-                        <div className='box__banner__main__bookings__history'>
-                            <img className='banner__main__barbearia__bookings__history' src="https://d15o6h0uxpz56g.cloudfront.net/barbeariaId_4_banner_1_20240629_092030.jpg" alt="" />
-                        </div>
-
-                        <div className='body__bookings__history'>
-                            <p className='date__bookings__history'>
-                                <CiCalendar style={{fontSize: '18px', marginRight: '3px'}}/>
-                                Sáb, 29 de Jun de 2024
-                            </p>
-                            <div className='innner__bookings__history'>
-                                <p>Corte Navalhado</p>
-                                <div className='time__bookings__history'>
-                                    <p className='price__service__bookings__history'>R$30,00 | </p>
-                                    <PiTimerLight className='icon__PiTimerLight'/>
-                                    <p>09:30 - 10:15 pm</p>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        
-                    </div>
-                    <div className='Box__bookings__history'>
-                        <div className='box__banner__main__bookings__history'>
-                            <img className='banner__main__barbearia__bookings__history' src="https://d15o6h0uxpz56g.cloudfront.net/barbeariaId_4_banner_1_20240629_092030.jpg" alt="" />
-                        </div>
-
-                        <div className='body__bookings__history'>
-                            <p className='date__bookings__history'>
-                                <CiCalendar style={{fontSize: '18px', marginRight: '3px'}}/>
-                                Sáb, 29 de Jun de 2024
-                            </p>
-                            <div className='innner__bookings__history'>
-                                <p>Corte Navalhado</p>
-                                <div className='time__bookings__history'>
-                                    <p className='price__service__bookings__history'>R$30,00 | </p>
-                                    <PiTimerLight className='icon__PiTimerLight'/>
-                                    <p>09:30 - 10:15 pm</p>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        
-                    </div>
-                    <div className='Box__bookings__history'>
-                        <div className='box__banner__main__bookings__history'>
-                            <img className='banner__main__barbearia__bookings__history' src="https://d15o6h0uxpz56g.cloudfront.net/barbeariaId_4_banner_1_20240629_092030.jpg" alt="" />
-                        </div>
-
-                        <div className='body__bookings__history'>
-                            <p className='date__bookings__history'>
-                                <CiCalendar style={{fontSize: '18px', marginRight: '3px'}}/>
-                                Sáb, 29 de Jun de 2024
-                            </p>
-                            <div className='innner__bookings__history'>
-                                <p>Corte Navalhado</p>
-                                <div className='time__bookings__history'>
-                                    <p className='price__service__bookings__history'>R$30,00 | </p>
-                                    <PiTimerLight className='icon__PiTimerLight'/>
-                                    <p>09:30 - 10:15 pm</p>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        
-                    </div>
-                    <div className='Box__bookings__history'>
-                        <div className='box__banner__main__bookings__history'>
-                            <img className='banner__main__barbearia__bookings__history' src="https://d15o6h0uxpz56g.cloudfront.net/barbeariaId_4_banner_1_20240629_092030.jpg" alt="" />
-                        </div>
-
-                        <div className='body__bookings__history'>
-                            <p className='date__bookings__history'>
-                                <CiCalendar style={{fontSize: '18px', marginRight: '3px'}}/>
-                                Sáb, 29 de Jun de 2024
-                            </p>
-                            <div className='innner__bookings__history'>
-                                <p>Corte Navalhado</p>
-                                <div className='time__bookings__history'>
-                                    <p className='price__service__bookings__history'>R$30,00 | </p>
-                                    <PiTimerLight className='icon__PiTimerLight'/>
-                                    <p>09:30 - 10:15 pm</p>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        
-                    </div>
-                    <div className='Box__bookings__history'>
-                        <div className='box__banner__main__bookings__history'>
-                            <img className='banner__main__barbearia__bookings__history' src="https://d15o6h0uxpz56g.cloudfront.net/barbeariaId_4_banner_1_20240629_092030.jpg" alt="" />
-                        </div>
-
-                        <div className='body__bookings__history'>
-                            <p className='date__bookings__history'>
-                                <CiCalendar style={{fontSize: '18px', marginRight: '3px'}}/>
                                 Sáb, 29 de Jun de 2024
                             </p>
                             <div className='innner__bookings__history'>
