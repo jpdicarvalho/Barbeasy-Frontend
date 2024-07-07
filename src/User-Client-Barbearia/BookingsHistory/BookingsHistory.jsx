@@ -26,7 +26,7 @@ function BookingsHistory (){
     const [allBookings, setAllBookings] = useState ([]);
     const [message, setMessage] = useState ('');
 
-    const getAllBookings = () =>{
+    /*const getAllBookings = () =>{
         axios.get(`${urlApi}/api/v1/bookingsOfUser/:userId`, {
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -44,11 +44,31 @@ function BookingsHistory (){
             console.error('Erro ao buscar agendamentos', err)
         })
     }
-    
+
     useEffect(() =>{
         getAllBookings()
-    }, [])
-
+    }, [])*/
+/*
+<div className='body__bookings__history'>
+                            <div className='innner__bookings__history'>
+                                <p>Data</p>
+                                <p>09/09/1999</p>
+                            </div>
+                            <div className='innner__bookings__history'>
+                                <p>Horário</p>
+                                <p>09:30</p>
+                            </div>
+                            <div className='innner__bookings__history'>
+                                <p>Barbearia</p>
+                                <p>Blinders</p>
+                            </div>
+                            <div className='innner__bookings__history'>
+                                <p>Profissional</p>
+                                <p>Thomas</p>
+                            </div>
+                            
+                        </div>
+*/
     return(
         <>
             <div className="container__profile__professional">
@@ -62,6 +82,15 @@ function BookingsHistory (){
                     <div className='Box__input__Search'>
                         <IoIosSearch id='lupa__in__bookings__history'/>
                         <input type="search" className='Inner__input__search' placeholder='Buscar agendamento'/>
+                    </div>
+                </div>
+                <div className='section__bookings__history'>
+                    <div className='Box__bookings__history'>
+                        <div className='box__header__bookings__history'>
+                            <p>Corte Navalhado</p>
+                            <p>R$ 30,00</p>
+                        </div>
+                        
                     </div>
                 </div>
             </div>
