@@ -39,7 +39,7 @@ const toggleItem = (itemId) => {
     const [allBookings, setAllBookings] = useState ([]);
     const [message, setMessage] = useState ('');
 
-    /*const getAllBookings = () =>{
+    const getAllBookings = () =>{
         axios.get(`${urlApi}/api/v1/bookingsOfUser/:userId`, {
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -60,7 +60,7 @@ const toggleItem = (itemId) => {
 
     useEffect(() =>{
         getAllBookings()
-    }, [])*/
+    }, [])
 
     return(
         <>
