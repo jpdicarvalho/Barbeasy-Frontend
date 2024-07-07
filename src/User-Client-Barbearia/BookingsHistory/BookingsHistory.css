@@ -50,28 +50,70 @@
 }
 .section__bookings__history::-webkit-scrollbar {
     width: 5px;
-    background: #4a17d5;
-    border-radius: 70px;
 }
 .section__bookings__history::-webkit-scrollbar-thumb {
-    background: #fff; 
+    background: #4a17d5; 
     border-radius: 5px;
 }
 .section__bookings__history::-webkit-scrollbar-thumb:hover {
     background: #f6f6f6; 
 }
 .Box__bookings__history{
-    border: 1px solid #4a17d5;
-    padding: 10px;
-    border-radius: 10px;
-}
-.box__header__bookings__history{
     display: flex;
-    justify-content: space-between;
     flex-direction: row;
+    align-items: center;
+    border: 1px solid #4a17d5;
+    padding: 4px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+.box__banner__main__bookings__history{
     color: #f6f6fc;
+    display: flex;
+    overflow: hidden;
+    border-radius: 5px;
+    margin-right: 5px;
+    height: 75px;
+    width: 100px;
+}
+.banner__main__barbearia__bookings__history{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+.date__bookings__history{
+    display: flex;
+    align-items: center;
+    color: #f6f6fc;
+    font-size: 16px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.time__bookings__history{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    color: gray;
+    padding: 3px;
+    border-radius: 5px;
+    width: 100%;
+    font-size: 12px;
+}
+.icon__PiTimerLight{
+    display: flex;
+    font-size: 14px;
+    margin-right: 3px;
+}
+.body__bookings__history{
+    display: flex;
+    flex-direction: column;
+    width: 240px;
 }
 .innner__bookings__history{
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    width: 100%;
+}
+.price__service__bookings__history{
+    color: gray;
 }
