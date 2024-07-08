@@ -7,9 +7,7 @@ import './BookingsHistory.css'
 import { IoArrowBackSharp } from "react-icons/io5";
 import { IoIosSearch } from "react-icons/io";
 import { PiTimerLight } from "react-icons/pi";
-import { CiCalendar } from "react-icons/ci";
 import { GiSandsOfTime } from "react-icons/gi";
-import { BsCalendar2Check } from "react-icons/bs";
 
 function BookingsHistory (){
     const urlApi = 'https://barbeasy.up.railway.app'
@@ -26,16 +24,16 @@ function BookingsHistory (){
         navigate("/Home");
       };
 
-const [expandedCardBooking, setExpandedCardBooking] = useState([]);
+    const [expandedCardBooking, setExpandedCardBooking] = useState([]);
+    //Function to expanded booking cards
+    const toggleItem = (itemId) => {
+        if (expandedCardBooking.includes(itemId)) {
+        setExpandedCardBooking(expandedCardBooking.filter(id => id !== itemId));
+        } else {
+        setExpandedCardBooking([...expandedCardBooking, itemId]);
+        }
+    };
 
-//Function to expanded booking cards
-const toggleItem = (itemId) => {
-    if (expandedCardBooking.includes(itemId)) {
-      setExpandedCardBooking(expandedCardBooking.filter(id => id !== itemId));
-    } else {
-      setExpandedCardBooking([...expandedCardBooking, itemId]);
-    }
-};
     const [allBookings, setAllBookings] = useState ([]);
     const [message, setMessage] = useState ('');
 
@@ -60,7 +58,12 @@ const toggleItem = (itemId) => {
     useEffect(() =>{
         getAllBookings()
     }, [])
-console.log()
+
+    //passando os dados da barbearia selecionada
+    const handleBookingClick = (booking) => {
+        navigate("/BookingDetails", { state: { booking } });
+    };
+
     return(
         <>
             <div className="container__profile__professional">
@@ -79,7 +82,7 @@ console.log()
                 {allBookings.length > 0 ?(
                     <div className='section__bookings__history'>
                     {allBookings.map((booking, index) => (
-                        <div key={index} className='Box__bookings__history'>
+                        <div key={index} className='Box__bookings__history' onClick={() => handleBookingClick(booking)}>
                         <div className='box__status__bookings__history'>
                             <GiSandsOfTime style={{color: '#fff', fontSize: '40px'}}/>
                             <p className='status__bookings__history' style={{color: '#fff'}}>Agendado</p>

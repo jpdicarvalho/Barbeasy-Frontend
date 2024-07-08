@@ -1,0 +1,83 @@
+.container__Booking__Details{
+    width: 390px;
+    height: 100vh;
+}
+.Box__banner__main__Booking__Details{
+    width: 100%;
+    height: 270px;
+    overflow: hidden;
+}
+.Img__banner__main__Booking__Details{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.information__barbearia__Booking__Details{
+    position: absolute;
+    top: 200px;
+    background: transparent;
+    height: 70px;
+    width: 390px;
+    padding-left: 5px;
+}
+.section__information__Booking__Details{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    height: auto;
+    margin-top: 5px;
+    padding-left: 5px;
+}
+.date__information__Booking__Details{
+    display: flex;
+    align-items: center;
+    border-right: 1px solid #fff;
+    height: auto;
+    padding-right: 5px;
+    margin-right: 5px;
+}
+.icon__BsCalendar2{
+    margin-right: 5px;
+    font-size: 14px;
+}
+.inner__date__information__Booking__Details{
+    font-size: 12px;
+}
+.time__information__Booking__Details{
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+}
+.icon__TfiTime{
+    font-size: 14px;
+    margin-right: 5px;
+    height: 100%;
+}
+.section__professional__Booking__Details{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    padding-left: 5px;
+}
+.box__professional__Booking__Details{
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
+    overflow: hidden;
+}
+.img__professional__Booking__Details{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.phone__Booking__Details{
+    color: gray;
+    font-size: 12px;
+}
+.subtittle__Booking__Details{
+    margin-top: 10px;
+    padding-left: 5px;
+}
+.name__professional__Booking__Details{
+    font-size: 20px;
+}
