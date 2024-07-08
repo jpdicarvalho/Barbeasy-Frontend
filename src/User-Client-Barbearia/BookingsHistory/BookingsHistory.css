@@ -123,3 +123,10 @@
 .price__service__bookings__history{
     color: gray;
 }
+.box__message__no__bookings__history{
+    color: gray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+}

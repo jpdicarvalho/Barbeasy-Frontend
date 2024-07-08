@@ -60,7 +60,7 @@ const toggleItem = (itemId) => {
     useEffect(() =>{
         getAllBookings()
     }, [])
-console.log(allBookings)
+console.log()
     return(
         <>
             <div className="container__profile__professional">
@@ -76,7 +76,8 @@ console.log(allBookings)
                         <input type="search" className='Inner__input__search' placeholder='Buscar agendamento'/>
                     </div>
                 </div>
-                <div className='section__bookings__history'>
+                {allBookings.length > 0 ?(
+                    <div className='section__bookings__history'>
                     {allBookings.map((booking, index) => (
                         <div key={index} className='Box__bookings__history'>
                         <div className='box__status__bookings__history'>
@@ -89,17 +90,22 @@ console.log(allBookings)
                                 {booking.bookingDate}
                             </p>
                             <div className='innner__bookings__history'>
-                                <p>Corte Navalhado</p>
+                                <p>{booking.serviceName}</p>
                                 <div className='time__bookings__history' style={{color: '#fff'}}>
-                                    <p className='price__service__bookings__history' style={{color: '#fff'}}>R$30,00 | </p>
+                                    <p className='price__service__bookings__history' style={{color: '#fff'}}>{booking.servicePrice} | </p>
                                     <PiTimerLight className='icon__PiTimerLight'/>
-                                    <p>09:30 - 10:15 pm</p>
+                                    <p>{booking.bookingTime.split(',')[0]} - {booking.bookingTime.split(',')[booking.bookingTime.split(',').length-1]}</p>
                                 </div>
                             </div>
                         </div>
                         </div>
                     ))}
                 </div>
+                ):(
+                    <div className='box__message__no__bookings__history'>
+                        <h3>Nenhum agendamento encontrado.</h3>
+                    </div>
+                )}
             </div>
         </>
     )
