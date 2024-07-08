@@ -116,7 +116,7 @@ const barbeariaSearch = barbearias.filter((barbearia) =>
   barbearia.status.toLowerCase().includes(searchLowerCase) ||
   barbearia.servicos.some((servico) => servico.toLowerCase().includes(searchLowerCase))
 );
-
+console.log(barbeariaSearch)
 //passando os dados da barbearia selecionada
 const handleBarbeariaClick = (barbearia) => {
   navigate("/BarbeariaDetails", { state: { barbearia } });

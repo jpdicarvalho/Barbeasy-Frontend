@@ -14,7 +14,7 @@ const weekNames = [
   'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'
 ];
 
-export function Agendamento({ userId, barbeariaId, professionalId, serviceId, serviceDuration }) {
+export function Agendamento({ userId, barbeariaId, professionalId, serviceId, serviceName, servicePrice, serviceDuration }) {
 
   const date = new Date();
   
@@ -346,7 +346,7 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId, se
   };
 
   const saveBooking = () =>{
-    if(userId && barbeariaId && professionalId && serviceId && selectedDay && timeSelected && formattedDate){
+    if(userId && barbeariaId && professionalId && serviceName && servicePrice && selectedDay && timeSelected && formattedDate){
       //Passando todos os horários que serão ocupados pelo serviço selecionado
       let timeSelected = timesBusyByService.join(',');
       //Object to agroup all informations to make a new booking
@@ -354,7 +354,8 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId, se
         userId,
         barbeariaId,
         professionalId,
-        serviceId,
+        serviceName,
+        servicePrice,
         selectedDay,
         timeSelected,
         formattedDate

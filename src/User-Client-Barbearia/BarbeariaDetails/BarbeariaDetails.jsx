@@ -99,6 +99,9 @@ const handleServiceProfessional = (professionalId) => {
 // ====== Section get serivce ========
 const [servicos, setServicos] = useState([]);
 const [selectedService, setSelectedService] = useState();
+const [serviceName, setServiceName] = useState();
+const [servicePrice, setServicePrice] = useState();
+
 const [serviceDuration, setServiceDuration] = useState();
 
   //Função para buscar os serviços cadastrados
@@ -123,8 +126,10 @@ const [serviceDuration, setServiceDuration] = useState();
     obterServicos()
   }, []);
 
-const handleServiceChange = (servicoId, duration) => {
+const handleServiceChange = (servicoId, name, price, duration) => {
   setSelectedService(servicoId);
+  setServiceName(name)
+  setServicePrice(price)
   let number = duration.substring(0, 2)
   number = parseInt(number)
   setServiceDuration(number)
@@ -308,7 +313,7 @@ return (
       {serviceProfessional ? (
         servicos.filter(servico => servico.professional_id === serviceProfessional)  
               .map(servico => (
-                <div key={servico.id} onClick={() => handleServiceChange(servico.id, servico.duracao)} className={`servicoDiv ${selectedService === servico.id ? 'selected' : ''}`}>
+                <div key={servico.id} onClick={() => handleServiceChange(servico.id, servico.name, servico.preco, servico.duracao)} className={`servicoDiv ${selectedService === servico.id ? 'selected' : ''}`}>
                   <p>{servico.name} • {servico.preco} </p>
                   <p style={{color: 'darkgray'}}><GiSandsOfTime /> • {servico.duracao}</p>
                 </div>
@@ -328,7 +333,14 @@ return (
         Escolha um dia de sua preferência
       </div>
       )}
-      <Agendamento userId={userId} barbeariaId={barbeariaId} professionalId={serviceProfessional} serviceId={selectedService} serviceDuration={serviceDuration}/>
+      <Agendamento 
+        userId={userId}
+        barbeariaId={barbeariaId}
+        professionalId={serviceProfessional}
+        serviceId={selectedService}
+        serviceName={serviceName}
+        servicePrice={servicePrice}
+        serviceDuration={serviceDuration}/>
 
        {isAgendamentoConfirmed && (
         <button onClick={urlMercadoPago} className="mercadoPagoButton">

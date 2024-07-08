@@ -77,7 +77,8 @@ console.log(allBookings)
                     </div>
                 </div>
                 <div className='section__bookings__history'>
-                    <div className='Box__bookings__history'>
+                    {allBookings.map((booking, index) => (
+                        <div key={index} className='Box__bookings__history'>
                         <div className='box__status__bookings__history'>
                             <GiSandsOfTime style={{color: '#fff', fontSize: '40px'}}/>
                             <p className='status__bookings__history' style={{color: '#fff'}}>Agendado</p>
@@ -85,7 +86,7 @@ console.log(allBookings)
 
                         <div className='body__bookings__history' style={{color: '#fff'}}>
                             <p className='date__bookings__history' style={{color: '#fff'}}>
-                                Sáb, 29 de Jun de 2024
+                                {booking.bookingDate}
                             </p>
                             <div className='innner__bookings__history'>
                                 <p>Corte Navalhado</p>
@@ -95,164 +96,9 @@ console.log(allBookings)
                                     <p>09:30 - 10:15 pm</p>
                                 </div>
                             </div>
-                            
                         </div>
-                        
-                    </div>
-                    <div className='Box__bookings__history'>
-                        <div className='box__status__bookings__history'>
-                            <BsCalendar2Check className='icon__GiSandsOfTime'/>
-                            <p className='status__bookings__history'>Finalizado</p>
                         </div>
-
-                        <div className='body__bookings__history'>
-                            <p className='date__bookings__history'>
-                                Sáb, 29 de Jun de 2024
-                            </p>
-                            <div className='innner__bookings__history'>
-                                <p>Corte Navalhado</p>
-                                <div className='time__bookings__history'>
-                                    <p className='price__service__bookings__history'>R$30,00 | </p>
-                                    <PiTimerLight className='icon__PiTimerLight'/>
-                                    <p>09:30 - 10:15 pm</p>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        
-                    </div>
-                    <div className='Box__bookings__history'>
-                        <div className='box__status__bookings__history'>
-                            <BsCalendar2Check className='icon__GiSandsOfTime'/>
-                            <p className='status__bookings__history'>Finalizado</p>
-                        </div>
-
-                        <div className='body__bookings__history'>
-                            <p className='date__bookings__history'>
-                                Sáb, 29 de Jun de 2024
-                            </p>
-                            <div className='innner__bookings__history'>
-                                <p>Corte Navalhado</p>
-                                <div className='time__bookings__history'>
-                                    <p className='price__service__bookings__history'>R$30,00 | </p>
-                                    <PiTimerLight className='icon__PiTimerLight'/>
-                                    <p>09:30 - 10:15 pm</p>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        
-                    </div>
-                    <div className='Box__bookings__history'>
-                        <div className='box__status__bookings__history'>
-                            <BsCalendar2Check className='icon__GiSandsOfTime'/>
-                            <p className='status__bookings__history'>Finalizado</p>
-                        </div>
-
-                        <div className='body__bookings__history'>
-                            <p className='date__bookings__history'>
-                                Sáb, 29 de Jun de 2024
-                            </p>
-                            <div className='innner__bookings__history'>
-                                <p>Corte Navalhado</p>
-                                <div className='time__bookings__history'>
-                                    <p className='price__service__bookings__history'>R$30,00 | </p>
-                                    <PiTimerLight className='icon__PiTimerLight'/>
-                                    <p>09:30 - 10:15 pm</p>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        
-                    </div>
-                    <div className='Box__bookings__history'>
-                        <div className='box__status__bookings__history'>
-                            <BsCalendar2Check className='icon__GiSandsOfTime'/>
-                            <p className='status__bookings__history'>Finalizado</p>
-                        </div>
-
-                        <div className='body__bookings__history'>
-                            <p className='date__bookings__history'>
-                                Sáb, 29 de Jun de 2024
-                            </p>
-                            <div className='innner__bookings__history'>
-                                <p>Corte Navalhado</p>
-                                <div className='time__bookings__history'>
-                                    <p className='price__service__bookings__history'>R$30,00 | </p>
-                                    <PiTimerLight className='icon__PiTimerLight'/>
-                                    <p>09:30 - 10:15 pm</p>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        
-                    </div>
-                    <div className='Box__bookings__history'>
-                        <div className='box__status__bookings__history'>
-                            <BsCalendar2Check className='icon__GiSandsOfTime'/>
-                            <p className='status__bookings__history'>Finalizado</p>
-                        </div>
-
-                        <div className='body__bookings__history'>
-                            <p className='date__bookings__history'>
-                                Sáb, 29 de Jun de 2024
-                            </p>
-                            <div className='innner__bookings__history'>
-                                <p>Corte Navalhado</p>
-                                <div className='time__bookings__history'>
-                                    <p className='price__service__bookings__history'>R$30,00 | </p>
-                                    <PiTimerLight className='icon__PiTimerLight'/>
-                                    <p>09:30 - 10:15 pm</p>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        
-                    </div>
-                    <div className='Box__bookings__history'>
-                        <div className='box__status__bookings__history'>
-                            <BsCalendar2Check className='icon__GiSandsOfTime'/>
-                            <p className='status__bookings__history'>Finalizado</p>
-                        </div>
-
-                        <div className='body__bookings__history'>
-                            <p className='date__bookings__history'>
-                                Sáb, 29 de Jun de 2024
-                            </p>
-                            <div className='innner__bookings__history'>
-                                <p>Corte Navalhado</p>
-                                <div className='time__bookings__history'>
-                                    <p className='price__service__bookings__history'>R$30,00 | </p>
-                                    <PiTimerLight className='icon__PiTimerLight'/>
-                                    <p>09:30 - 10:15 pm</p>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        
-                    </div>
-                    <div className='Box__bookings__history'>
-                        <div className='box__status__bookings__history'>
-                            <BsCalendar2Check className='icon__GiSandsOfTime'/>
-                            <p className='status__bookings__history'>Finalizado</p>
-                        </div>
-
-                        <div className='body__bookings__history'>
-                            <p className='date__bookings__history'>
-                                Sáb, 29 de Jun de 2024
-                            </p>
-                            <div className='innner__bookings__history'>
-                                <p>Corte Navalhado</p>
-                                <div className='time__bookings__history'>
-                                    <p className='price__service__bookings__history'>R$30,00 | </p>
-                                    <PiTimerLight className='icon__PiTimerLight'/>
-                                    <p>09:30 - 10:15 pm</p>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        
-                    </div>
+                    ))}
                 </div>
             </div>
         </>
