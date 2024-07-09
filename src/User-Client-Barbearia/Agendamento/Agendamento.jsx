@@ -126,7 +126,7 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId, se
   const handleDateClick = (dayOfWeek, day, month, year) => {
   setSelectedDay(`${dayOfWeek}, ${day} de ${month} de ${year}`)
   let selectedDate = `${dayOfWeek}, ${day} de ${month} de ${year}`;
-
+  
   let timesOfDaySelected = timesDays[dayOfWeek]; //Passa o índice do objeto, correspondente ao dia selecionado
   timesOfDaySelected = timesOfDaySelected.split(',');//Separa os horários que estão concatenados
 
@@ -389,7 +389,6 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId, se
     serviceId: PropTypes.number,
     serviceDuration: PropTypes.number
   };
-
   return (
   <>
     <div className='container__Calendar'>

@@ -22,7 +22,7 @@ function BookingDetails () {
     const handleBackClick = () => {
         navigate("/BookingsHistory");
     };
-
+    
     return(
         <>
             <div className="container__Booking__Details">
@@ -33,10 +33,10 @@ function BookingDetails () {
                     <h2>{booking.barbeariaName}</h2>
                     <p>{booking.ruaBarbearia}, Nº {booking.NruaBarbearia}, {booking.bairroBarbearia}, {booking.cidadeBarbearia}</p>
                 </div>
-<div className="background">
-<div className="subtittle__Booking__Details">
-                        <h3>Detalhes do serviço</h3>
-                    </div>
+            <div className="background">
+                <div className="subtittle__Booking__Details">
+                    <h3>Detalhes do serviço</h3>
+                </div>
                 <div className="section__information__Booking__Details">
                     <div className="date__information__Booking__Details">
                         <BsCalendar2 className="icon__BsCalendar2"/>
@@ -77,13 +77,13 @@ function BookingDetails () {
                    
                 </div>
                 
-</div>
+            </div>
                 
-<div className="Box__btn__back__Booking__Details">
-                    <button className="Btn__back__Booking__Details" onClick={handleBackClick}>
-                        Voltar
-                    </button>
-                </div>
+            <div className="Box__btn__back__Booking__Details">
+                <button className="Btn__back__Booking__Details" onClick={handleBackClick}>
+                    Voltar
+                </button>
+            </div>
             </div>
         </>
     )

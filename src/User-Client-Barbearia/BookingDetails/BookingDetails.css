@@ -131,10 +131,13 @@
     background: #4a17d5;
     border: #4a17d5;
     border-radius: 5px;
-    font-size: 16px;
+    font-size: 20px;
     transition: 0.5s;
+    color: #fff;
 }
 .Btn__back__Booking__Details:hover{
     background: #3811a3;
     transition: 0.5s;
+    color: #fff;
+
 }
