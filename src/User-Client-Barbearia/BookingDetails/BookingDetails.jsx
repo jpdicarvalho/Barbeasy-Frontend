@@ -33,8 +33,8 @@ function BookingDetails () {
                     <h2>{booking.barbeariaName}</h2>
                     <p>{booking.ruaBarbearia}, Nº {booking.NruaBarbearia}, {booking.bairroBarbearia}, {booking.cidadeBarbearia}</p>
                 </div>
-
-                <div className="subtittle__Booking__Details">
+<div className="background">
+<div className="subtittle__Booking__Details">
                         <h3>Detalhes do serviço</h3>
                     </div>
                 <div className="section__information__Booking__Details">
@@ -76,12 +76,14 @@ function BookingDetails () {
                     </div>
                    
                 </div>
-                <div className="Box__btn__back__Booking__Details">
+                
+</div>
+                
+<div className="Box__btn__back__Booking__Details">
                     <button className="Btn__back__Booking__Details" onClick={handleBackClick}>
                         Voltar
                     </button>
                 </div>
-                
             </div>
         </>
     )
