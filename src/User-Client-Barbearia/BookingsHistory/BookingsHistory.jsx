@@ -37,22 +37,26 @@ function BookingsHistory (){
 
     const handleBackClick = () => {
         navigate("/Home");
-      };
+    };
     
-      const date = new Date()
-      const currentDate = new Date();
+    const date = new Date()
+    const currentDate = new Date();
 
-      // Formate cada parte da data com padStart para garantir que tenham dois dígitos quando necessário
-      const day = String(currentDate.getDate()).padStart(2, '0');
-      const year = String(currentDate.getFullYear());
-      const month = String(currentDate.getMonth() + 1).padStart(1);
-      const hours = String(currentDate.getHours()).padStart(2, '0');
-      const minutes = String(currentDate.getMinutes()).padStart(2, '0');
-      // Concatene as partes formatadas
-      const formattedDate = Number(`${day}${year}${month}${hours}${minutes}`);
+    // Formate cada parte da data com padStart para garantir que tenham dois dígitos quando necessário
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    const year = String(currentDate.getFullYear());
+    const month = String(currentDate.getMonth() + 1).padStart(1);
+    const hours = String(currentDate.getHours()).padStart(2, '0');
+    const minutes = String(currentDate.getMinutes()).padStart(2, '0');
+    // Concatene as partes formatadas
+    const formattedDate = Number(`${day}${year}${month}${hours}${minutes}`);
 
 
     const [expandedCardBooking, setExpandedCardBooking] = useState([]);
+    const [allBookings, setAllBookings] = useState ([]);
+    const [message, setMessage] = useState ('');
+
+    
     //Function to expanded booking cards
     const toggleItem = (itemId) => {
         if (expandedCardBooking.includes(itemId)) {
@@ -61,9 +65,6 @@ function BookingsHistory (){
         setExpandedCardBooking([...expandedCardBooking, itemId]);
         }
     };
-
-    const [allBookings, setAllBookings] = useState ([]);
-    const [message, setMessage] = useState ('');
 
     const getAllBookings = () =>{
         axios.get(`${urlApi}/api/v1/bookingsOfUser/${userId}`, {
@@ -91,7 +92,6 @@ function BookingsHistory (){
     const handleBookingClick = (booking) => {
         navigate("/BookingDetails", { state: { booking } });
     };
-
     return(
         <>
             <div className="container__profile__professional">
@@ -115,12 +115,6 @@ function BookingsHistory (){
                         const monthBooking = booking.bookingDate.match(/(Jan|Fev|Mar|Abr|Mai|Jun|Jul|Ago|Set|Out|Nov|Dez)/g, '');
                         const bookingTimes = booking.bookingTime.split(',')[booking.bookingTime.split(',').length-1].replace(/[^0-9]/g, '');
                         const valuesDateBooking = Number (dayAndYearBooking+numbersMonth[monthBooking]+bookingTimes)
-
-                       const teste = formattedDate > valuesDateBooking ? 'sim':'não'
-                       
-
-
-
 
                         return(
                             <div key={index} className={`Box__bookings__history ${formattedDate > valuesDateBooking ? 'colorTexts':''}`} onClick={() => handleBookingClick(booking)} >
