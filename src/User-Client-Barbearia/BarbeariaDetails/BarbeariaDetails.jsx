@@ -1,6 +1,8 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
+
 import axios from 'axios';
+
 import { motion } from 'framer-motion';
 import { CiLocationOn } from "react-icons/ci";
 import { IoIosInformationCircleOutline } from "react-icons/io";
@@ -219,22 +221,21 @@ const enviarAvaliacao = async () => {
     }
 };
 
+const SearchAvaliation = () => {
+  axios.get(`${urlApi}/api/v1/allAvaliation/${barbeariaId}`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  })
+  .then(res => {
+    setAllAvaliation(res.data.AllAvaliation);
+  }).catch(err => {
+    console.error('Erro ao obter os registros:', err);
+  })
+};
+
 //Buscar as avaliações da barbearia em especifico
 useEffect(() => {
-    const SearchAvaliation = async () => {
-      try {
-        const response = await fetch(`${urlApi}/api/v1/SearchAvaliation`, {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          }
-        })
-        const data = await response.json();
-        setAllAvaliation(data);
-      } catch (error) {
-        console.error('Erro ao obter os registros:', error);
-      }
-    };
     SearchAvaliation();
 }, []);
 
@@ -392,11 +393,11 @@ return (
               <h4>Classificações e Avaliações</h4>
               <div className="Estrelas">
                 <span id="span__star">Toque para Classificar:</span>
-                {[1, 2, 3, 4, 5].map((estrela) => (
-                  <IoStarSharp
-                  key={estrela}
-                  className={`fa fa-solid fa-star${avaliacao >= estrela ? ' selected' : ''}`}
-                  onClick={() => setAvaliacao(estrela)}
+                  {[1, 2, 3, 4, 5].map((estrela) => (
+                    <IoStarSharp
+                    key={estrela}
+                    className={`fa fa-solid fa-star${avaliacao >= estrela ? ' selected' : ''}`}
+                    onClick={() => setAvaliacao(estrela)}
 
                   />
                 ))}
