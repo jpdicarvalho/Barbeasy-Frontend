@@ -8,6 +8,7 @@ import { IoArrowBackSharp } from "react-icons/io5";
 import { IoIosSearch } from "react-icons/io";
 import { PiTimerLight } from "react-icons/pi";
 import { GiSandsOfTime } from "react-icons/gi";
+import { BsCalendar2Check } from "react-icons/bs";
 
 const numbersMonth = {
     Jan: 1,
@@ -92,6 +93,7 @@ function BookingsHistory (){
     const handleBookingClick = (booking) => {
         navigate("/BookingDetails", { state: { booking } });
     };
+    console.log(allBookings)
     return(
         <>
             <div className="container__profile__professional">
@@ -116,11 +118,24 @@ function BookingsHistory (){
                         const bookingTimes = booking.bookingTime.split(',')[booking.bookingTime.split(',').length-1].replace(/[^0-9]/g, '');
                         const valuesDateBooking = Number (dayAndYearBooking+numbersMonth[monthBooking]+bookingTimes)
 
+                        let isTrue;
+
                         return(
                             <div key={index} className={`Box__bookings__history ${formattedDate > valuesDateBooking ? 'colorTexts':''}`} onClick={() => handleBookingClick(booking)} >
                                 <div className='box__status__bookings__history'>
-                                    <GiSandsOfTime className={` ${formattedDate > valuesDateBooking ? 'icon__GiSandsOfTime':''}`} style={{fontSize: '40px'}}/>
-                                    <p className={`status__bookings__history ${formattedDate > valuesDateBooking ? 'colorTexts':''}`}>Agendado</p>
+                                    {isTrue = formattedDate > valuesDateBooking ?(
+                                        <>
+                                            <BsCalendar2Check className={` ${formattedDate > valuesDateBooking ? 'icon__GiSandsOfTime':''}`} style={{fontSize: '40px'}}/>
+                                            <p className={`status__bookings__history ${formattedDate > valuesDateBooking ? 'colorTexts':''}`}>Finalizado</p>
+                                        </>
+                                    ):(
+                                        <>
+                                            <GiSandsOfTime className={` ${formattedDate > valuesDateBooking ? 'icon__GiSandsOfTime':''}`} style={{fontSize: '40px'}}/>
+                                            <p className={`status__bookings__history ${formattedDate > valuesDateBooking ? 'colorTexts':''}`}>Finalizado</p>
+                                        </>
+                                    )}
+                                    
+                                    
                                 </div>
 
                                 <div className='body__bookings__history'>

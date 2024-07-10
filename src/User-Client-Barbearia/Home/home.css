@@ -319,7 +319,10 @@
 }
 .Navigation.active{
   width: 250px;
-  background: #4a17d562;
+  background: #0c0e19;
+}
+.color__icon__menu__navigate{
+  
 }
 .Navigation .toggleMenu{
   position: absolute;
@@ -331,7 +334,7 @@
   border-radius: 50%;
   border: none;
   transition: 0.5s;
-  background: #4a17d562;
+  background: #0c0e19;
   cursor: pointer;
   transition-delay: 0.5s;
 }

@@ -5,6 +5,10 @@ import { motion } from 'framer-motion';
 import { CiLocationOn } from "react-icons/ci";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import { GiSandsOfTime } from "react-icons/gi";
+import { IoHomeOutline } from "react-icons/io5";
+import { VscAccount } from "react-icons/vsc";
+import { BsCalendar2Check } from "react-icons/bs";
+import { MdOutlineLogout } from "react-icons/md";
 
 //Import for slide
 import { register } from 'swiper/element/bundle';
@@ -64,6 +68,12 @@ const [isMenuActive, setMenuActive] = useState(false);
 //função para navegarpara página home
 const navigateToHome = () =>{
   navigate("/Home");
+}
+const navigateToUserProfile = () =>{
+  navigate("/UserProfile");
+}
+const navigateToBookingsHistory = () =>{
+  navigate("/BookingsHistory");
 }
 //Função LogOut
 const logoutClick = () => {
@@ -349,12 +359,29 @@ return (
         </button>
       )}
         
-        <ul className={`Navigation glassmorphism ${isMenuActive ? 'active' : ''}`}>
-              <li><a href="#"><i className="fa-solid fa-user"></i></a></li>
-              <li><button onClick={navigateToHome}><i className="fa-solid fa-house"></i></button></li>
-              <li><button onClick={logoutClick}><i className="fa-solid fa-right-from-bracket"></i></button></li>
+        <ul className={`Navigation ${isMenuActive ? 'active' : ''}`}>
+              <li>
+                <button onClick={navigateToUserProfile}>
+                  <VscAccount className="color__icon__menu__navigate"/>
+                </button>
+              </li>
+              <li>
+                <button onClick={navigateToHome}>
+                  <IoHomeOutline className="color__icon__menu__navigate"/>
+                </button>
+              </li>
+              <li>
+                <button>
+                  <BsCalendar2Check onClick={navigateToBookingsHistory}/>
+                </button>
+              </li>
+              <li>
+                <button onClick={logoutClick}>
+                  <MdOutlineLogout />
+                </button>
+              </li>
               <button onClick={handleMenuClick} className="toggleMenu glassmorphism"></button>
-        </ul>
+            </ul>
 
         <hr />
 

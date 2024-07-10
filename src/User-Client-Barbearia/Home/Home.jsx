@@ -252,7 +252,7 @@ return (
             <ul className={`Navigation ${isMenuActive ? 'active' : ''}`}>
               <li>
                 <button onClick={navigateToUserProfile}>
-                  <VscAccount />
+                  <VscAccount className="color__icon__menu__navigate"/>
                 </button>
               </li>
               <li>
