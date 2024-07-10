@@ -68,6 +68,7 @@ function SignUp() {
   const nextStep = () => {
     setStep(step + 1);
   };
+
   return (
     <>
      <div className="container__default">

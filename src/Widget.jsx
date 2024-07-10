@@ -1,15 +1,15 @@
 import { useState } from "react";
 import "./widget.css";
 
-const buttonWidth = 64;
-const tabWidth = 300;
+const buttonWidth = 800;
+const tabWidth = 200;
 
 const tabHeaders = ["Home", "Lock", "Settings"];
 const tabContent = ["Tab 1 Content", "Tab 2 Content", "Tab 3 Content"];
 
 const Widget = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-
+  
   return (
     <article className="widget">
       <header>

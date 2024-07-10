@@ -55,7 +55,12 @@ const userInformation = JSON.parse(userData);
 const userId = userInformation.user[0].id;
 const userEmail = userInformation.user[0].email;
 const userName = userInformation.user[0].name;
+
 const cloudFrontUrl = 'https://d15o6h0uxpz56g.cloudfront.net/'
+
+const date = new Date();
+const currentDate = new Date(date);
+const formattedDate = `${currentDate.getDate()}-${currentDate.getMonth() + 1}-${currentDate.getFullYear()}-${currentDate.getHours()}:${currentDate.getMinutes()}`;
 
 /*=========== Buscandos os nomes dos banners da barbearia selecionada ===========*/
 const[banners, setBanners] = useState([]);
@@ -138,6 +143,7 @@ const [serviceDuration, setServiceDuration] = useState();
       console.error("Erro ao buscar serviços!", err);
     });
     }
+
   //hook para chamar a função de obtersServiço
   useEffect(() => {
     obterServicos()
@@ -191,35 +197,9 @@ const urlMercadoPago = () => {
     window.open(url, 'modal');
 };
 /*=================== Section Avaliation Barbearia ===================*/
-const [avaliacao, setAvaliacao] = useState(0.5);
-const [comentario, setComentario] = useState("");
+const [avaliations, setAvaliations] = useState(0.5);
+const [comment, setComment] = useState("");
 const [AllAvaliation, setAllAvaliation] = useState([]);
-
-
-// Cadastrando a avaliação/comentário do usuário do usuário
-const enviarAvaliacao = async () => {
-    try {
-      const response = await fetch(`${urlApi}/api/v1/avaliacao`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          barbeariaId: barbearia.id,
-          avaliacao,
-          comentario,
-          data_avaliacao: new Date(),
-          userName
-        }),
-      });
-      const data = await response.json();
-      // Recarrega a página após a avaliação ser feita com sucesso
-      window.location.reload();
-    } catch (error) {
-      console.error('Erro ao enviar a avaliação:', error);
-    }
-};
 
 const SearchAvaliation = () => {
   axios.get(`${urlApi}/api/v1/allAvaliation/${barbeariaId}`, {
@@ -239,11 +219,29 @@ useEffect(() => {
     SearchAvaliation();
 }, []);
 
-//Numero de avaliações no total de cada Barbearia
-const totalAvaliacoes = (barbeariaId) =>{
-  const avaliacoesDaBarbearia = AllAvaliation.filter(avaliacao => avaliacao.barbearia_id === barbeariaId);
-  return avaliacoesDaBarbearia.length;
-}
+// Cadastrando a avaliação/comentário do usuário do usuário
+const enviarAvaliacao = () => {
+    const valuesAvaliations = {
+      userName,
+      comment,
+      barbeariaId,
+      avaliations,
+      totalAvaliations: AllAvaliation.length,
+      formattedDate
+    }
+    axios.post(`${urlApi}/api/v1/saveAvaliation`, valuesAvaliations, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).then(res =>{
+        if(res.data.Success === 'true'){
+          console.log('Avaliação realizada com sucesso');
+          SearchAvaliation();
+        }
+    }).catch(err =>{
+      console.error('Erro ao enviar a avaliação:', err);
+    })    
+};
 
 // Calcula a média das avaliações apenas para a barbearia selecionada
 const calcularMediaAvaliacoes = () => {
@@ -272,28 +270,30 @@ useEffect(()=> {
 return (
     <>
     <div className="Outdoor">
-       <Swiper slidesPerView={1} effect={'fade'} modules={[EffectFade]} pagination={{clickable: true}} autoplay={{ delay: 3000 }}>
+       <Swiper slidesPerView={1} effect={'fade'} modules={[EffectFade]} autoplay={{ delay: 3000 }}>
          {banners.map((item) =>
            <SwiperSlide key={item} className="Slide__Box">
              <img className='slider__image' src={`${cloudFrontUrl}${item}`} alt="Imagem da Barbearia" />
            </SwiperSlide>
-         )} 
+         )}
        </Swiper>
-    
-   <div className="BarbeariaInformation">
-       {barbearia.status === "Aberta" ? <p className="abertoBarbDetails">{barbearia.status}</p> : <p className="fechadoBarbDetails">{barbearia.status}</p>}
-       <h3 id="BarbeariaName">{barbearia.name} • {calcularMediaAvaliacoes()} <i className="fa-solid fa-star"/> ({totalAvaliacoes(barbearia.id)})</h3>
-       <div className="location">
-       <CiLocationOn className="location_icon"/>
-       <p>{barbearia.rua}, Nº {barbearia.N}, {barbearia.bairro}, {barbearia.cidade}</p>
-       </div>
-   </div>
+       <div className="BarbeariaInformation">
+            {barbearia.status === "Aberta" ? <p className="abertoBarbDetails">{barbearia.status}</p> : <p className="fechadoBarbDetails">{barbearia.status}</p>}
+            <h2 id="BarbeariaName">{barbearia.name} • {calcularMediaAvaliacoes()} <IoStarSharp className="icon__start__in__BarbeariaInformation"/> ({AllAvaliation.length})</h2>
+            <div className="location">
+            <CiLocationOn className="location_icon"/>
+            <p>{barbearia.rua}, Nº {barbearia.N}, {barbearia.bairro}, {barbearia.cidade}</p>
+            </div>
+        </div>
     </div>
 
     <div className="ContainerMain">      
-      <hr />
       <div className="tittle">
-        <p>Profissionais({professional.length})</p>
+        {professional.length <= 1 ?(
+          <p>Profissional</p>
+        ):(
+          <p>Profissionais ({professional.length})</p>
+        )}
       </div>
 
       <div className="professionals">
@@ -396,16 +396,22 @@ return (
                   {[1, 2, 3, 4, 5].map((estrela) => (
                     <IoStarSharp
                     key={estrela}
-                    className={`fa fa-solid fa-star${avaliacao >= estrela ? ' selected' : ''}`}
-                    onClick={() => setAvaliacao(estrela)}
+                    className={`fa fa-solid fa-star${avaliations >= estrela ? ' selected' : ''}`}
+                    onClick={() => setAvaliations(estrela)}
 
                   />
                 ))}
               </div>
               <textarea
                 placeholder="Deixe seu comentário aqui..."
-                value={comentario}
-                onChange={(e) => setComentario(e.target.value)}
+                value={comment}
+                onChange={(e) => {
+                  const inputValue = e.target.value;
+                  // Remover caracteres não alfanuméricos, ponto e espaço
+                  const filteredValue = inputValue.replace(/[^a-zA-Z\sçéúíóáõãèòìàêôâ.]/g, '');
+                  const truncatedValue = filteredValue.slice(0, 200); 
+                  setComment(truncatedValue)
+                }}
                 required
               ></textarea>
               <button id="SendAvaliation" onClick={enviarAvaliacao}>Enviar Avaliação</button>
