@@ -280,6 +280,7 @@ span{
 .Estrelas .fa-star.selected,
 .Estrelas .fa-star:hover {
     color: #fed720;
+    
 } 
 textarea {
     width: 100%;

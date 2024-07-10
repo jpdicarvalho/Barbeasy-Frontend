@@ -9,6 +9,7 @@ import { IoHomeOutline } from "react-icons/io5";
 import { VscAccount } from "react-icons/vsc";
 import { BsCalendar2Check } from "react-icons/bs";
 import { MdOutlineLogout } from "react-icons/md";
+import { IoStarSharp } from "react-icons/io5";
 
 //Import for slide
 import { register } from 'swiper/element/bundle';
@@ -74,6 +75,10 @@ const navigateToUserProfile = () =>{
 }
 const navigateToBookingsHistory = () =>{
   navigate("/BookingsHistory");
+}
+//Ativação do menu principal
+const handleMenuClick = () => {
+  setMenuActive(!isMenuActive);
 }
 //Função LogOut
 const logoutClick = () => {
@@ -188,10 +193,6 @@ const [avaliacao, setAvaliacao] = useState(0.5);
 const [comentario, setComentario] = useState("");
 const [AllAvaliation, setAllAvaliation] = useState([]);
 
-//Ativação do menu principal
-const handleMenuClick = () => {
-  setMenuActive(!isMenuActive);
-}
 
 // Cadastrando a avaliação/comentário do usuário do usuário
 const enviarAvaliacao = async () => {
@@ -319,6 +320,7 @@ return (
           <p>Serviços ({servicos.filter(servico => servico.professional_id === serviceProfessional).length})</p>
         )}
       </div>
+
       <div className="Servicos">
       {serviceProfessional ? (
         servicos.filter(servico => servico.professional_id === serviceProfessional)  
@@ -343,6 +345,7 @@ return (
         Escolha um dia de sua preferência
       </div>
       )}
+
       <Agendamento 
         userId={userId}
         barbeariaId={barbeariaId}
@@ -390,11 +393,12 @@ return (
               <div className="Estrelas">
                 <span id="span__star">Toque para Classificar:</span>
                 {[1, 2, 3, 4, 5].map((estrela) => (
-                  <span
-                    key={estrela}
-                    className={`fa fa-solid fa-star${avaliacao >= estrela ? ' selected' : ''}`}
-                    onClick={() => setAvaliacao(estrela)}
-                  ></span>
+                  <IoStarSharp
+                  key={estrela}
+                  className={`fa fa-solid fa-star${avaliacao >= estrela ? ' selected' : ''}`}
+                  onClick={() => setAvaliacao(estrela)}
+
+                  />
                 ))}
               </div>
               <textarea
