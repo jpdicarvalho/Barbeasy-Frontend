@@ -36,10 +36,6 @@ function BookingsHistory (){
     const userInformation = JSON.parse(userDataFromLocalStorage);//trasnformando os dados para JSON
     const userId = userInformation.user[0].id;
 
-    const handleBackClick = () => {
-        navigate("/Home");
-    };
-    
     const date = new Date()
     const currentDate = new Date();
 
@@ -52,9 +48,19 @@ function BookingsHistory (){
     // Concatene as partes formatadas
     const formattedDate = Number(`${day}${year}${month}${hours}${minutes}`);
 
+    const handleBackClick = () => {
+        navigate("/Home");
+    };
+
+    //passando os dados da barbearia selecionada
+    const handleBookingClick = (booking) => {
+        navigate("/BookingDetails", { state: { booking } });
+    };
 
     const [expandedCardBooking, setExpandedCardBooking] = useState([]);
     const [allBookings, setAllBookings] = useState ([]);
+    const [search, setSearch] = useState('');
+
     const [message, setMessage] = useState ('');
 
     
@@ -89,11 +95,18 @@ function BookingsHistory (){
         getAllBookings()
     }, [])
 
-    //passando os dados da barbearia selecionada
-    const handleBookingClick = (booking) => {
-        navigate("/BookingDetails", { state: { booking } });
-    };
-    console.log(allBookings)
+    // Convertendo o valor do search para minúsculo
+    const searchLowerCase = search.toLowerCase();
+
+    // Buscando Barbearia pelo input Search
+    const bookingSearch = allBookings.filter((booking) =>
+        booking.bookingDate.toLowerCase().includes(searchLowerCase) ||
+        booking.serviceName.toLowerCase().includes(searchLowerCase) ||
+        booking.servicePrice.toLowerCase().includes(searchLowerCase) ||
+        booking.barbeariaName.toLowerCase().includes(searchLowerCase) ||
+        booking.bookingTime.toLowerCase().includes(searchLowerCase)
+    );
+
     return(
         <>
             <div className="container__profile__professional">
@@ -106,12 +119,12 @@ function BookingsHistory (){
                     </div>
                     <div className='Box__input__Search'>
                         <IoIosSearch id='lupa__in__bookings__history'/>
-                        <input type="search" className='Inner__input__search' placeholder='Buscar agendamento'/>
+                        <input type="search" className='Inner__input__search' value={search} onChange={(e) => setSearch(e.target.value)} placeholder='Buscar agendamento'/>
                     </div>
                 </div>
                 {allBookings.length > 0 ?(
                     <div className='section__bookings__history'>
-                    {allBookings.map((booking, index) => {
+                    {bookingSearch.map((booking, index) => {
                         //Metodo para verificar se os horários do agendamentos já estão obsoletos, caso seja, será aplicado um estilo diferente nos agendamentos passados
                         const dayAndYearBooking = booking.bookingDate.replace(/[^0-9]/g, '');
                         const monthBooking = booking.bookingDate.match(/(Jan|Fev|Mar|Abr|Mai|Jun|Jul|Ago|Set|Out|Nov|Dez)/g, '');
