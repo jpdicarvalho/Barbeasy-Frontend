@@ -280,23 +280,25 @@ span{
     width: 60px;
     font-weight: bold;
 }
-#span__star{
-    margin-top: px;
-    margin-right: 5px;
-    font-size: 17px;
-    letter-spacing: 1px;
+.AvaliacaoSection{
+    padding-top: 15px;
+    padding-left: 10px;
 }
+
 .Estrelas {
     display: flex;
     text-align: center;
-    margin-bottom: 10px;
-} 
+    justify-content: start;
+    flex-direction: row;
+    margin-bottom: 20px;
+}
 .Estrelas .fa-star {
-    margin-top: 5px;
     color: #1c2035;
     cursor: pointer;
     transition: color 0.3s ease-in-out;
-    font-size: 18px;
+    font-size: 25px;
+    height: 25px;
+    margin-left: 5px;
 }
 .Estrelas .fa-star.selected,
 .Estrelas .fa-star:hover {

@@ -258,10 +258,9 @@ useEffect(()=> {
 }, [reviewsWidth])
 //================== widget ===================
 const buttonWidth = 80;
-const tabWidth = 200;
+const tabWidth = 395;
 
-const tabHeaders = ["Serviço", "Avaliação", "Sobre"];
-const tabContent = ["Tab 1 Content", "Tab 2 Content", "Tab 3 Content"];
+const tabHeaders = ["Menu", "Avaliação", "Detalhes"];
 const [activeIndex, setActiveIndex] = useState(0);
 
 
@@ -286,8 +285,9 @@ return (
     </div>
 
     <div className="ContainerMain">
-    <div className="widget">
-      <header>
+
+    <div className="container__widget">
+      <header className="header__widget">
         {tabHeaders.map((tab, index) => (
           <button
             key={tab}
@@ -306,96 +306,121 @@ return (
           }}
         ></div>
       </header>
+
       <div className="content">
-        <div
-          className="content-inner"
-          style={{
-            transform: `translate(-${activeIndex * tabWidth}px, 0)`,
-          }}
-        >
-          {tabContent.map((content, index) => (
-            <div key={index} className="tab-content">
-              {content}
+        <div className="content-inner" style={{transform: `translate(-${activeIndex * tabWidth}px, 0)`,}}>
+          
+            <div  className="tab-content">
+                  <div className="tittle">
+                      {professional.length <= 1 ?(
+                        <p>Profissional</p>
+                      ):(
+                        <p>Profissionais ({professional.length})</p>
+                      )}
+                  </div>
+                  <div className="professionals">
+                    {professional && (
+                          professional.map(professional => {
+                            // Obtendo a primeira letra do nome do profissional
+                            const firstLetter = professional.name.charAt(0).toUpperCase();
+                            
+                            return (
+                              <div key={professional.id} onClick={() => handleServiceProfessional(professional.id)} className={`Box__professional ${serviceProfessional === professional.id ? 'professionalSelected' : ''}`}> 
+                                <div className="Box__image">
+                                  <p className='firstLetter'>{firstLetter}</p>
+                                </div>
+                                <p className='name__professional'>{professional.name}</p>
+                              </div>
+                            );
+                          })
+                        )}
+                  </div>
+
+                  <hr />
+
+                  <div className="tittle">
+                    {serviceProfessional && servicos && (
+                      <p>Serviços ({servicos.filter(servico => servico.professional_id === serviceProfessional).length})</p>
+                    )}
+                  </div>
+
+                  <div className="Servicos">
+                {serviceProfessional ? (
+                  servicos.filter(servico => servico.professional_id === serviceProfessional)  
+                        .map(servico => (
+                          <div key={servico.id} onClick={() => handleServiceChange(servico.id, servico.name, servico.preco, servico.duracao)} className={`servicoDiv ${selectedService === servico.id ? 'selected' : ''}`}>
+                            <p>{servico.name} • {servico.preco} </p>
+                            <p style={{color: 'darkgray'}}><GiSandsOfTime /> • {servico.duracao}</p>
+                          </div>
+                          
+                      ))
+                      ):(
+                        <div className="inforService">
+                          <IoIosInformationCircleOutline className="Icon__info"/>
+                          <p >Selecione um profissional para visualizar os serviços.</p>
+                        </div>
+                        
+                      )}
+                  </div>
+
+                  {selectedService &&(
+                    <div className="tittle">
+                    Escolha um dia de sua preferência
+                  </div>
+                  )}
+
+                  <Agendamento 
+                    userId={userId}
+                    barbeariaId={barbeariaId}
+                    professionalId={serviceProfessional}
+                    serviceId={selectedService}
+                    serviceName={serviceName}
+                    servicePrice={servicePrice}
+                    serviceDuration={serviceDuration}/>
+
+                  {isAgendamentoConfirmed && (
+                    <button onClick={urlMercadoPago} className="mercadoPagoButton">
+                      <img src={logoMercadoPago} alt="logo Mercado Pago" className="mercadoPagoLogo" />
+                      Pagar com Mercado Pago
+                    </button>
+                  )}
             </div>
-          ))}
-        <h1>teste</h1></div>
+            
+            <div className="tab-content">
+                <p>{messageConfirmAvaliation}</p>
+                <div className="AvaliacaoSection">
+                    <div className="Estrelas">
+                    <h3>Toque para Classificar:</h3>
+                      {[1, 2, 3, 4, 5].map((estrela) => (
+                        <IoStarSharp
+                        key={estrela}
+                        className={`fa fa-solid fa-star${avaliation >= estrela ? ' selected' : ''}`}
+                        onClick={() => setAvaliation(estrela)}
+
+                      />
+                    ))}
+                  </div>
+                  <textarea
+                    placeholder="Deixe seu comentário aqui..."
+                    value={comment}
+                    onChange={(e) => {
+                      const inputValue = e.target.value;
+                      // Remover caracteres não alfanuméricos, ponto e espaço
+                      const filteredValue = inputValue.replace(/[^a-zA-Z\sçéúíóáõãèòìàêôâ.]/g, '');
+                      const truncatedValue = filteredValue.slice(0, 200); 
+                      setComment(truncatedValue)
+                    }}
+                    required
+                  ></textarea>
+                  <button id="SendAvaliation" onClick={enviarAvaliacao}>Enviar Avaliação</button>
+                </div>
+
+            </div>
+       </div>
       </div>
     </div>
-      <div className="tittle">
-        {professional.length <= 1 ?(
-          <p>Profissional</p>
-        ):(
-          <p>Profissionais ({professional.length})</p>
-        )}
-      </div>
-
-      <div className="professionals">
-        {professional && (
-              professional.map(professional => {
-                // Obtendo a primeira letra do nome do profissional
-                const firstLetter = professional.name.charAt(0).toUpperCase();
-                
-                return (
-                  <div key={professional.id} onClick={() => handleServiceProfessional(professional.id)} className={`Box__professional ${serviceProfessional === professional.id ? 'professionalSelected' : ''}`}> 
-                    <div className="Box__image">
-                      <p className='firstLetter'>{firstLetter}</p>
-                    </div>
-                    <p className='name__professional'>{professional.name}</p>
-                  </div>
-                );
-              })
-            )}
-      </div>
-      <hr />
 
       
-      <div className="tittle">
-        {serviceProfessional && servicos && (
-          <p>Serviços ({servicos.filter(servico => servico.professional_id === serviceProfessional).length})</p>
-        )}
-      </div>
-
-      <div className="Servicos">
-      {serviceProfessional ? (
-        servicos.filter(servico => servico.professional_id === serviceProfessional)  
-              .map(servico => (
-                <div key={servico.id} onClick={() => handleServiceChange(servico.id, servico.name, servico.preco, servico.duracao)} className={`servicoDiv ${selectedService === servico.id ? 'selected' : ''}`}>
-                  <p>{servico.name} • {servico.preco} </p>
-                  <p style={{color: 'darkgray'}}><GiSandsOfTime /> • {servico.duracao}</p>
-                </div>
-                
-            ))
-            ):(
-              <div className="inforService">
-                <IoIosInformationCircleOutline className="Icon__info"/>
-                <p >Selecione um profissional para visualizar os serviços.</p>
-              </div>
-              
-            )}
-        </div>
-
-      {selectedService &&(
-        <div className="tittle">
-        Escolha um dia de sua preferência
-      </div>
-      )}
-
-      <Agendamento 
-        userId={userId}
-        barbeariaId={barbeariaId}
-        professionalId={serviceProfessional}
-        serviceId={selectedService}
-        serviceName={serviceName}
-        servicePrice={servicePrice}
-        serviceDuration={serviceDuration}/>
-
-       {isAgendamentoConfirmed && (
-        <button onClick={urlMercadoPago} className="mercadoPagoButton">
-          <img src={logoMercadoPago} alt="logo Mercado Pago" className="mercadoPagoLogo" />
-          Pagar com Mercado Pago
-        </button>
-      )}
-        
         <ul className={`Navigation ${isMenuActive ? 'active' : ''}`}>
               <li>
                 <button onClick={navigateToUserProfile}>
@@ -420,36 +445,7 @@ return (
               <button onClick={handleMenuClick} className="toggleMenu glassmorphism"></button>
             </ul>
 
-        <hr />
-            <p>{messageConfirmAvaliation}</p>
-            <div className="AvaliacaoSection">
-              <h4>Classificações e Avaliações</h4>
-              <div className="Estrelas">
-                <span id="span__star">Toque para Classificar:</span>
-                  {[1, 2, 3, 4, 5].map((estrela) => (
-                    <IoStarSharp
-                    key={estrela}
-                    className={`fa fa-solid fa-star${avaliation >= estrela ? ' selected' : ''}`}
-                    onClick={() => setAvaliation(estrela)}
-
-                  />
-                ))}
-              </div>
-              <textarea
-                placeholder="Deixe seu comentário aqui..."
-                value={comment}
-                onChange={(e) => {
-                  const inputValue = e.target.value;
-                  // Remover caracteres não alfanuméricos, ponto e espaço
-                  const filteredValue = inputValue.replace(/[^a-zA-Z\sçéúíóáõãèòìàêôâ.]/g, '');
-                  const truncatedValue = filteredValue.slice(0, 200); 
-                  setComment(truncatedValue)
-                }}
-                required
-              ></textarea>
-              <button id="SendAvaliation" onClick={enviarAvaliacao}>Enviar Avaliação</button>
-            </div>
-
+            
     <hr />
 
       <div className="tittle">
