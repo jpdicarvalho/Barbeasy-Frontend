@@ -166,23 +166,6 @@ useEffect(() => {
   SearchAvaliation();
 }, []);
 
-//Numero de avaliações no total de cada Barbearia
-const totalAvaliacoes = (barbeariaId) =>{
-  const avaliacoesDaBarbearia = AllAvaliation.filter(avaliacao => avaliacao.barbearia_id === barbeariaId);
-  return avaliacoesDaBarbearia.length;
-}
-
-// Calcula a média das avaliações para uma barbearia específica
-const calcularMediaAvaliacoesBarbearia = (barbeariaId) => {
-// Filtra as avaliações pelo ID das barbearias
-const avaliacoesDaBarbearia = AllAvaliation.filter(avaliacao => avaliacao.barbearia_id === barbeariaId);
-  if (avaliacoesDaBarbearia.length === 0) {
-    return "0,0"; // Retorna "0,0" se não houver avaliações
-  }
-  const somaNotas = avaliacoesDaBarbearia.reduce((soma, avaliacao) => soma + avaliacao.estrelas, 0);
-  const media = somaNotas / avaliacoesDaBarbearia.length;
-  return media.toFixed(1).replace('.', ',');
-};
 return (
   <>
             <div className={`header ${scrollPosition > 200 ? 'scrolled' : ''}`}>

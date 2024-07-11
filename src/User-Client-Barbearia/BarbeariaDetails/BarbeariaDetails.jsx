@@ -197,9 +197,11 @@ const urlMercadoPago = () => {
     window.open(url, 'modal');
 };
 /*=================== Section Avaliation Barbearia ===================*/
-const [avaliations, setAvaliations] = useState(0.5);
+const [avaliation, setAvaliation] = useState();
+const [averageAvaliation, setAverageAvaliation] = useState();
 const [comment, setComment] = useState("");
 const [AllAvaliation, setAllAvaliation] = useState([]);
+const [messageConfirmAvaliation, setMessageConfirmAvaliation] = useState("");
 
 const SearchAvaliation = () => {
   axios.get(`${urlApi}/api/v1/allAvaliation/${barbeariaId}`, {
@@ -209,6 +211,7 @@ const SearchAvaliation = () => {
   })
   .then(res => {
     setAllAvaliation(res.data.AllAvaliation);
+    setAverageAvaliation(res.data.AverageAvaliation)
   }).catch(err => {
     console.error('Erro ao obter os registros:', err);
   })
@@ -217,45 +220,32 @@ const SearchAvaliation = () => {
 //Buscar as avaliações da barbearia em especifico
 useEffect(() => {
     SearchAvaliation();
-}, []);
+}, [comment, avaliation, messageConfirmAvaliation]);
 
 // Cadastrando a avaliação/comentário do usuário do usuário
 const enviarAvaliacao = () => {
-    const valuesAvaliations = {
+    const valuesAvaliation = {
       userName,
       comment,
       barbeariaId,
-      avaliations,
-      totalAvaliations: AllAvaliation.length,
+      avaliation,
       formattedDate
     }
-    axios.post(`${urlApi}/api/v1/saveAvaliation`, valuesAvaliations, {
+    axios.post(`${urlApi}/api/v1/saveAvaliation`, valuesAvaliation, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
     }).then(res =>{
-        if(res.data.Success === 'true'){
-          console.log('Avaliação realizada com sucesso');
-          SearchAvaliation();
-        }
+      if(res.data.Success === 'true'){
+        SearchAvaliation();
+        setMessageConfirmAvaliation('Avaliação realizada com sucesso.')
+        setTimeout(() => {
+          setMessageConfirmAvaliation('');
+        }, 3000);
+      }
     }).catch(err =>{
       console.error('Erro ao enviar a avaliação:', err);
     })    
-};
-
-// Calcula a média das avaliações apenas para a barbearia selecionada
-const calcularMediaAvaliacoes = () => {
-  // Filtra as avaliações apenas para a barbearia selecionada
-  const avaliacoesDaBarbearia = AllAvaliation.filter(avaliacao => avaliacao.barbearia_id === barbearia.id);
-
-  if (avaliacoesDaBarbearia.length === 0) {
-    return "0,0"; // Retorna "0,0" se não houver avaliações
-  }
-
-  const somaNotas = avaliacoesDaBarbearia.reduce((soma, avaliacao) => soma + avaliacao.estrelas, 0);
-  const media = somaNotas / avaliacoesDaBarbearia.length;
-
-  return media.toFixed(1).replace('.', ',');
 };
 
 //Reviews settings
@@ -279,7 +269,7 @@ return (
        </Swiper>
        <div className="BarbeariaInformation">
             {barbearia.status === "Aberta" ? <p className="abertoBarbDetails">{barbearia.status}</p> : <p className="fechadoBarbDetails">{barbearia.status}</p>}
-            <h2 id="BarbeariaName">{barbearia.name} • {calcularMediaAvaliacoes()} <IoStarSharp className="icon__start__in__BarbeariaInformation"/> ({AllAvaliation.length})</h2>
+            <h2 id="BarbeariaName">{barbearia.name} • {averageAvaliation} <IoStarSharp className="icon__start__in__BarbeariaInformation"/> ({AllAvaliation.length})</h2>
             <div className="location">
             <CiLocationOn className="location_icon"/>
             <p>{barbearia.rua}, Nº {barbearia.N}, {barbearia.bairro}, {barbearia.cidade}</p>
@@ -388,7 +378,7 @@ return (
             </ul>
 
         <hr />
-
+            <p>{messageConfirmAvaliation}</p>
             <div className="AvaliacaoSection">
               <h4>Classificações e Avaliações</h4>
               <div className="Estrelas">
@@ -396,8 +386,8 @@ return (
                   {[1, 2, 3, 4, 5].map((estrela) => (
                     <IoStarSharp
                     key={estrela}
-                    className={`fa fa-solid fa-star${avaliations >= estrela ? ' selected' : ''}`}
-                    onClick={() => setAvaliations(estrela)}
+                    className={`fa fa-solid fa-star${avaliation >= estrela ? ' selected' : ''}`}
+                    onClick={() => setAvaliation(estrela)}
 
                   />
                 ))}
