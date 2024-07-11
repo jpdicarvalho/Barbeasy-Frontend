@@ -42,7 +42,7 @@ const location = useLocation();
 const urlApi = 'https://barbeasy.up.railway.app'
   
 const { barbearia } = location.state;
-const barbeariaId = barbearia.id;
+const barbeariaId = barbearia.barbearia_id;
 
 //buscando informações do usuário logado
 const token = localStorage.getItem('token');
@@ -66,7 +66,7 @@ const formattedDate = `${currentDate.getDate()}-${currentDate.getMonth() + 1}-${
 const[banners, setBanners] = useState([]);
 
 useEffect(() =>{
-  let namesBanners = barbearia.banners.split(',');
+  let namesBanners = barbearia.bannerBarbearia.split(',');
   setBanners(namesBanners)
 }, []);
 
@@ -268,11 +268,11 @@ return (
          )}
        </Swiper>
        <div className="BarbeariaInformation">
-            {barbearia.status === "Aberta" ? <p className="abertoBarbDetails">{barbearia.status}</p> : <p className="fechadoBarbDetails">{barbearia.status}</p>}
-            <h2 id="BarbeariaName">{barbearia.name} • {averageAvaliation ? averageAvaliation.toFixed(1):0} <IoStarSharp className="icon__start__in__BarbeariaInformation"/> ({AllAvaliation.length})</h2>
+            {barbearia.statusBarbearia === "Aberta" ? <p className="abertoBarbDetails">{barbearia.statusBarbearia}</p> : <p className="fechadoBarbDetails">{barbearia.statusBarbearia}</p>}
+            <h2 id="BarbeariaName">{barbearia.nameBarbearia} • {averageAvaliation ? averageAvaliation.toFixed(1):0} <IoStarSharp className="icon__start__in__BarbeariaInformation"/> ({AllAvaliation.length})</h2>
             <div className="location">
-            <CiLocationOn className="location_icon"/>
-            <p>{barbearia.rua}, Nº {barbearia.N}, {barbearia.bairro}, {barbearia.cidade}</p>
+              <CiLocationOn className="location_icon"/>
+              <p>{barbearia.ruaBarbearia}, Nº {barbearia.NruaBarbearia}, {barbearia.bairroBarbearia}, {barbearia.cidadeBarbearia}</p>
             </div>
         </div>
     </div>

@@ -43,6 +43,21 @@ const navigateToBookingsHistory = () =>{
   navigate("/BookingsHistory");
 }
 
+//passando os dados da barbearia selecionada
+const handleBarbeariaClick = (barbearia) => {
+  navigate("/BarbeariaDetails", { state: { barbearia } });
+};
+
+//Função LogOut
+const logoutClick = () => {
+  ['token', 'userData'].forEach(key => localStorage.removeItem(key));
+  navigate("/");
+};
+
+//verificando se o menu está ativado
+const handleMenuClick = () => {
+  setMenuActive(!isMenuActive);
+}
 
 //pegando a hora para saudar o usuário
 useEffect(() => {
@@ -99,35 +114,24 @@ useEffect(() => {
   };
 
   fetchData();
-},[]);
+}, []);
 
-console.log(barbearias)
 // Convertendo o valor do search para minúsculo
 const searchLowerCase = search.toLowerCase();
 
 // Buscando Barbearia pelo input Search
-const barbeariaSearch = barbearias.filter((barbearia) =>
-  barbearia.nameBarbearia.toLowerCase().includes(searchLowerCase) ||
-  barbearia.statusBarbearia.toLowerCase().includes(searchLowerCase) ||
-  barbearia.servicesBarbearia.toLowerCase().includes(searchLowerCase) ||
-  barbearia.averageAvaliationsBarbearia.toLowerCase().includes(searchLowerCase)
-);
-
-//passando os dados da barbearia selecionada
-const handleBarbeariaClick = (barbearia) => {
-  navigate("/BarbeariaDetails", { state: { barbearia } });
-};
-
-//verificando se o menu está ativado
-const handleMenuClick = () => {
-  setMenuActive(!isMenuActive);
-}
-
-//Função LogOut
-const logoutClick = () => {
-  ['token', 'userData'].forEach(key => localStorage.removeItem(key));
-  navigate("/");
-};
+const barbeariaSearch = barbearias.filter((barbearia) => {
+  // Convertendo todos os campos relevantes para lowercase para facilitar a busca case insensitive
+  const nameMatch = barbearia.nameBarbearia.toLowerCase().includes(searchLowerCase);
+  const statusMatch = barbearia.statusBarbearia.toLowerCase().includes(searchLowerCase);
+  const averageMatch = barbearia.averageAvaliationsBarbearia.toLowerCase().includes(searchLowerCase);
+  
+  // Verifica se algum dos serviços tem o nome que corresponde ao termo de busca
+  const servicoMatch = barbearia.servicos.some(servico => servico.name.toLowerCase().includes(searchLowerCase));
+  
+  // Retorna true se qualquer uma das condições for verdadeira
+  return nameMatch || statusMatch || averageMatch || servicoMatch;
+});
 
 return (
   <>
@@ -179,7 +183,7 @@ return (
                       </div>
 
                       <div className="section__status">
-                        {barbearia.status === "Aberta" ? (
+                        {barbearia.statusBarbearia === "Aberta" ? (
                           <p className="aberto"> {barbearia.statusBarbearia}</p>
                           ) : (
                           <p className="fechado">{barbearia.statusBarbearia}</p>
