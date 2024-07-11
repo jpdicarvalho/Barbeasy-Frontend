@@ -302,7 +302,7 @@ span{
 }
 .Estrelas .fa-star.selected,
 .Estrelas .fa-star:hover {
-    color: #fed720;
+    color: #270683;
     
 } 
 textarea {
@@ -321,15 +321,19 @@ textarea::placeholder{
     color: #f6f6fc;
     font-family: 'Noto Sans', sans-serif;
 }
-#SendAvaliation {
-    background: #4a17d5;
-    color: white;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: none;
+.section__comments{
+    width: 385px;
+    height: 500px;
+    padding-left: 10px;
+    overflow-y: scroll;
+    overflow-x: hidden  ;
+}
+.box__comment{
+    width: 100%;
+    background: #354249;
+    height: 200px;
     border-radius: 10px;
-    font-weight: 600;
-    cursor: pointer;
+    padding: 5px;
 }
 .reviews {
     position: relative;

@@ -247,7 +247,7 @@ const enviarAvaliacao = () => {
       console.error('Erro ao enviar a avaliação:', err);
     })    
 };
-
+enviarAvaliacao
 //Reviews settings
 const reviews = useRef();
 const [width, setWidth] = useState(0);
@@ -400,21 +400,13 @@ return (
                       />
                     ))}
                   </div>
-                  <textarea
-                    placeholder="Deixe seu comentário aqui..."
-                    value={comment}
-                    onChange={(e) => {
-                      const inputValue = e.target.value;
-                      // Remover caracteres não alfanuméricos, ponto e espaço
-                      const filteredValue = inputValue.replace(/[^a-zA-Z\sçéúíóáõãèòìàêôâ.]/g, '');
-                      const truncatedValue = filteredValue.slice(0, 200); 
-                      setComment(truncatedValue)
-                    }}
-                    required
-                  ></textarea>
-                  <button id="SendAvaliation" onClick={enviarAvaliacao}>Enviar Avaliação</button>
                 </div>
+                <div className="section__comments">
+                  <div className="box__comment">
+                      comentários
 
+                  </div>
+                </div>
             </div>
        </div>
       </div>
