@@ -256,6 +256,14 @@ const reviewsWidth = reviews.current?.scrollWidth - reviews.current?.offsetWidth
 useEffect(()=> {
   setWidth(reviewsWidth);
 }, [reviewsWidth])
+//================== widget ===================
+const buttonWidth = 80;
+const tabWidth = 200;
+
+const tabHeaders = ["Serviço", "Avaliação", "Sobre"];
+const tabContent = ["Tab 1 Content", "Tab 2 Content", "Tab 3 Content"];
+const [activeIndex, setActiveIndex] = useState(0);
+
 
 return (
     <>
@@ -277,7 +285,42 @@ return (
         </div>
     </div>
 
-    <div className="ContainerMain">      
+    <div className="ContainerMain">
+    <div className="widget">
+      <header>
+        {tabHeaders.map((tab, index) => (
+          <button
+            key={tab}
+            className={`tab-button ${
+              activeIndex === index ? "active" : ""
+            }`}
+            onClick={() => setActiveIndex(index)}
+          >
+            {tab}
+          </button>
+        ))}
+        <div
+          className="underline"
+          style={{
+            transform: `translate(${activeIndex * buttonWidth}px, 0)`,
+          }}
+        ></div>
+      </header>
+      <div className="content">
+        <div
+          className="content-inner"
+          style={{
+            transform: `translate(-${activeIndex * tabWidth}px, 0)`,
+          }}
+        >
+          {tabContent.map((content, index) => (
+            <div key={index} className="tab-content">
+              {content}
+            </div>
+          ))}
+        <h1>teste</h1></div>
+      </div>
+    </div>
       <div className="tittle">
         {professional.length <= 1 ?(
           <p>Profissional</p>

@@ -1,21 +1,26 @@
 .widget {
-  background: #ffffff;
-  width: 500px;
+  width: 390px;
   border-radius: 8px;
-  color: black;
+  color: white;
 }
 
 .widget > header {
   position: relative;
   display: flex;
-  border-bottom: 1px solid #e2e2e2;
+  justify-content: space-between;
+  background: rgba(128, 128, 128, 0.11);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  padding: 5px;
 }
 
 .widget > header > button {
-  padding: 20px;
+  font-size: 16px;
   width: 64px; /* Substitua ${buttonWidth} por um valor fixo, se não estiver usando um pré-processador */
   background: transparent;
-  color: #918db7;
+  color: #fff;
+  padding-bottom: 3px;
+
   border: 0;
   transition: 0.35s;
 }
@@ -29,7 +34,9 @@
 }
 
 .widget > header > button.active {
-  color: var(--color-primary);
+  color: #4a17d5;
+  padding-bottom: 3px;
+  border-bottom: 1px solid #4a17d5;
 }
 
 .underline {
@@ -38,7 +45,6 @@
   bottom: 0;
   width: 64px; /* Substitua ${buttonWidth} por um valor fixo */
   height: 3px;
-  background: var(--color-primary);
   transition: 0.2s;
 }
 
@@ -46,7 +52,7 @@
   position: relative;
   overflow: hidden;
   height: 140px;
-  background: red;
+  width: 390px;
 }
 
 .content-inner {
@@ -57,10 +63,10 @@
   align-items: center;
   width: 900px; /* Substitua ${tabWidth * tabContent.length} por um valor fixo */
   transition: 0.35s;
-  background: #ffffff;
 }
 
 .tab-content {
-  width: 300px; /* Substitua ${tabWidth} por um valor fixo */
-  padding: 20px;
+  width: 390px; /* Substitua ${tabWidth} por um valor fixo */
+  background: red;
+  margin: 5px;
 }
