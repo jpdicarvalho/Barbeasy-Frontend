@@ -12,6 +12,7 @@ import { VscAccount } from "react-icons/vsc";
 import { BsCalendar2Check } from "react-icons/bs";
 import { MdOutlineLogout } from "react-icons/md";
 import { IoStarSharp } from "react-icons/io5";
+import { IoIosAddCircleOutline } from "react-icons/io";
 
 //Import for slide
 import { register } from 'swiper/element/bundle';
@@ -263,7 +264,7 @@ const tabWidth = 395;
 const tabHeaders = ["Menu", "Avaliação", "Detalhes"];
 const [activeIndex, setActiveIndex] = useState(0);
 
-
+console.log(AllAvaliation)
 return (
     <>
     <div className="Outdoor">
@@ -400,11 +401,108 @@ return (
                       />
                     ))}
                   </div>
+                  {avaliation &&(
+                    <div className="section__send__avaliation">
+                      <div className="box__add__comment">
+                        <IoIosAddCircleOutline className="icon__add__comment" />
+                        <p>Adicionar cometário</p>
+                      </div>
+                      <div className="box__add__comment">
+                        Avaliar
+                      </div>
+                    </div>
+                  )}
                 </div>
                 <div className="section__comments">
                   <div className="box__comment">
-                      comentários
-
+                    <div className="header__box__comment">
+                      <div className="box__user__img__comment">aaa</div>
+                      <div className="box__user__information__comment">
+                          <p>user name</p>
+                          <p>avaliation</p>
+                      </div>
+                      <div className="box__date__comment">
+                        há 115 dias
+                      </div>
+                    </div>
+                    <div>
+                      comentário de teste para a seção de avaliação
+                    </div>  
+                  </div>
+                  <div className="box__comment">
+                    <div className="header__box__comment">
+                      <div className="box__user__img__comment">aaa</div>
+                      <div className="box__user__information__comment">
+                          <p>user name</p>
+                          <p>avaliation</p>
+                      </div>
+                      <div className="box__date__comment">
+                        há 115 dias
+                      </div>
+                    </div>
+                    <div>
+                      comentário de teste para a seção de avaliação
+                    </div>  
+                  </div>
+                  <div className="box__comment">
+                    <div className="header__box__comment">
+                      <div className="box__user__img__comment">aaa</div>
+                      <div className="box__user__information__comment">
+                          <p>user name</p>
+                          <p>avaliation</p>
+                      </div>
+                      <div className="box__date__comment">
+                        há 115 dias
+                      </div>
+                    </div>
+                    <div>
+                      comentário de teste para a seção de avaliação
+                    </div>  
+                  </div>
+                  <div className="box__comment">
+                    <div className="header__box__comment">
+                      <div className="box__user__img__comment">aaa</div>
+                      <div className="box__user__information__comment">
+                          <p>user name</p>
+                          <p>avaliation</p>
+                      </div>
+                      <div className="box__date__comment">
+                        há 115 dias
+                      </div>
+                    </div>
+                    <div>
+                      comentário de teste para a seção de avaliação
+                    </div>  
+                  </div>
+                  <div className="box__comment">
+                    <div className="header__box__comment">
+                      <div className="box__user__img__comment">aaa</div>
+                      <div className="box__user__information__comment">
+                          <p>user name</p>
+                          <p>avaliation</p>
+                      </div>
+                      <div className="box__date__comment">
+                        há 115 dias
+                      </div>
+                    </div>
+                    <div>
+                      comentário de teste para a seção de avaliação
+                    </div>  
+                  </div>
+                  <div className="box__comment">
+                    <div className="header__box__comment">
+                      <div className="box__user__img__comment">aaa</div>
+                      <div className="box__user__information__comment">
+                          <p>user name</p>
+                          <p>avaliation</p>
+                      </div>
+                      <div className="box__date__comment">
+                        há 115 dias
+                      </div>
+                    </div>
+                    <div>
+                      comentário de teste para a seção de avaliação
+                    </div>  
                   </div>
                 </div>
             </div>
@@ -412,7 +510,6 @@ return (
       </div>
     </div>
 
-      
         <ul className={`Navigation ${isMenuActive ? 'active' : ''}`}>
               <li>
                 <button onClick={navigateToUserProfile}>
@@ -435,76 +532,7 @@ return (
                 </button>
               </li>
               <button onClick={handleMenuClick} className="toggleMenu glassmorphism"></button>
-            </ul>
-
-            
-    <hr />
-
-      <div className="tittle">
-      Avaliações
-      </div>
-      <motion.div
-        ref={reviews}
-        className="reviews"
-        whileTap={{ cursor: "grabbing"}}>
-
-      <motion.div
-      className="reviews__container"
-      drag="x"
-      dragConstraints={{ left: -width, right: 0 }}
-      >
-          {AllAvaliation
-            .filter(avaliacoes => avaliacoes.barbearia_id === barbearia.id)
-            .sort((a, b) => b.id - a.id) // Ordenar pelo ID de forma decrescente
-            .map(avaliacoes => {
-              const isTodayReview = isToday(new Date(avaliacoes.data_avaliacao));
-              const isYesterdayReview = isYesterday(new Date(avaliacoes.data_avaliacao));
-              const differenceDays = differenceInDays(new Date(), new Date(avaliacoes.data_avaliacao));
-              const differenceMonths = differenceInMonths(new Date(), new Date(avaliacoes.data_avaliacao));
-
-              let formattedTime = '';
-
-              if (isTodayReview) {
-                formattedTime = 'hoje';
-              } else if (isYesterdayReview) {
-                formattedTime = 'ontem';
-              } else if (differenceDays === 0) {
-                formattedTime = 'hoje';
-              } else if (differenceDays <= 30) {
-                formattedTime = `há ${differenceDays} ${differenceDays === 1 ? 'dia' : 'dias'}`;
-              } else {
-                formattedTime = `há ${differenceMonths} ${differenceMonths === 1 ? 'mês' : 'meses'}`;
-              }
-
-              return (
-                <motion.div key={avaliacoes.id} className="reviws__section">
-                  <motion.div className="HeaderReview">
-                    <motion.div className="img_User">
-                      <img src={logoBarbeariaTeste} alt="" />
-                    </motion.div>
-                    <motion.div className="userName__Stars">
-                      <p id="userName">{avaliacoes.user_name}</p>
-                      <motion.div className="Estrelas">
-                        <motion.div id="Star_Unlocked"></motion.div>
-                        {[1, 2, 3, 4, 5].map((estrela) => (
-                          <span
-                            key={estrela}
-                            className={`fa fa-solid fa-star${avaliacoes.estrelas >= estrela ? ' selected' : ''}`}
-                          ></span>
-                        ))}
-                      </motion.div>
-                    </motion.div>
-                    <motion.div className="reviews__day">
-                    <p>{formattedTime}</p>
-                    </motion.div>
-                  </motion.div>
-                  {avaliacoes.comentarios}
-                </motion.div>
-            
-              );
-            })}
-          </motion.div>
-      </motion.div>
+        </ul>
     </div>
   </>
   );

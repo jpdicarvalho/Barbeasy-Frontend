@@ -119,8 +119,6 @@
     flex-direction: column;
     width: 100%;
 }
-.price__service__bookings__history{
-}
 .box__message__no__bookings__history{
     color: gray;
     display: flex;
