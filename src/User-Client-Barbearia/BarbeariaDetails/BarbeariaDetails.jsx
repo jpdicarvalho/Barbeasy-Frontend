@@ -269,7 +269,7 @@ return (
        </Swiper>
        <div className="BarbeariaInformation">
             {barbearia.status === "Aberta" ? <p className="abertoBarbDetails">{barbearia.status}</p> : <p className="fechadoBarbDetails">{barbearia.status}</p>}
-            <h2 id="BarbeariaName">{barbearia.name} • {averageAvaliation} <IoStarSharp className="icon__start__in__BarbeariaInformation"/> ({AllAvaliation.length})</h2>
+            <h2 id="BarbeariaName">{barbearia.name} • {averageAvaliation ? averageAvaliation.toFixed(1):0} <IoStarSharp className="icon__start__in__BarbeariaInformation"/> ({AllAvaliation.length})</h2>
             <div className="location">
             <CiLocationOn className="location_icon"/>
             <p>{barbearia.rua}, Nº {barbearia.N}, {barbearia.bairro}, {barbearia.cidade}</p>

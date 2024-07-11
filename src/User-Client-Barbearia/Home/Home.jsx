@@ -23,7 +23,6 @@ const urlCloudFront = 'https://d15o6h0uxpz56g.cloudfront.net/'
 
 const [isMenuActive, setMenuActive] = useState(false);
 const [saudacao, setSaudacao] = useState('');
-const [AllAvaliation, setAllAvaliation] = useState([]);
 const [search, setSearch] = useState('');
 
 
@@ -44,25 +43,40 @@ const navigateToBookingsHistory = () =>{
   navigate("/BookingsHistory");
 }
 
+
+//pegando a hora para saudar o usuário
+useEffect(() => {
+  const obterSaudacao = () => {
+  const horaAtual = new Date().getHours();
+    if (horaAtual >= 5 && horaAtual < 12) {
+        setSaudacao('Bom dia!');
+    } else if (horaAtual >= 12 && horaAtual < 18) {
+        setSaudacao('Boa tarde!');
+    } else {
+        setSaudacao('Boa noite!');
+    }
+  }
+obterSaudacao();
+}, []);
+
 //Função para pegar a rolagem do Scroll
 const [scrollPosition, setScrollPosition] = useState(0);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const position = window.scrollY;
-      setScrollPosition(position);
-    };
+useEffect(() => {
+  const handleScroll = () => {
+    const position = window.scrollY;
+    setScrollPosition(position);
+  };
 
-    window.addEventListener('scroll', handleScroll);
+  window.addEventListener('scroll', handleScroll);
 
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
+  return () => {
+    window.removeEventListener('scroll', handleScroll);
+  };
+}, []);
 /*===============================================================*/
 //listando as barbearias e seus respectivos serviços
 const [barbearias, setBarbearias] = useState([]);
-const [services, setServices] = useState('')
 
 //listando as barbearias cadastradas
 useEffect(() => {
@@ -78,7 +92,6 @@ useEffect(() => {
         const data = await response.json();
 
         setBarbearias(data.barbearias);
-        setServices(data.services);
 
     } catch (error) {
       console.error('Erro ao obter os registros:', error);
@@ -88,33 +101,16 @@ useEffect(() => {
   fetchData();
 },[]);
 
-//hook para eecultar a função que junta a barbearia com seu respectivo serviço
-useEffect(() =>{
-  const barbeariaWithService = () =>{
-    if(barbearias && services){
-      // Percorra cada barbearia
-      for (const indexBarbearia of barbearias) {
-        // Filtrar os serviços que correspondem à barbearia atual
-        const servicosDaBarbearia = services
-            .filter(servico => servico.barbearia_id === indexBarbearia.id)
-            .map(servico => servico.name); // Pegar apenas o nome do serviço
-        
-        // Adicionar os nomes dos serviços à barbearia atual
-        indexBarbearia.servicos = servicosDaBarbearia;
-      }
-    }
-  };
-  barbeariaWithService()
-}, [barbearias])
-
+console.log(barbearias)
 // Convertendo o valor do search para minúsculo
 const searchLowerCase = search.toLowerCase();
 
 // Buscando Barbearia pelo input Search
 const barbeariaSearch = barbearias.filter((barbearia) =>
-  barbearia.name.toLowerCase().includes(searchLowerCase) ||
-  barbearia.status.toLowerCase().includes(searchLowerCase) ||
-  barbearia.servicos.some((servico) => servico.toLowerCase().includes(searchLowerCase))
+  barbearia.nameBarbearia.toLowerCase().includes(searchLowerCase) ||
+  barbearia.statusBarbearia.toLowerCase().includes(searchLowerCase) ||
+  barbearia.servicesBarbearia.toLowerCase().includes(searchLowerCase) ||
+  barbearia.averageAvaliationsBarbearia.toLowerCase().includes(searchLowerCase)
 );
 
 //passando os dados da barbearia selecionada
@@ -132,39 +128,6 @@ const logoutClick = () => {
   ['token', 'userData'].forEach(key => localStorage.removeItem(key));
   navigate("/");
 };
-
-//pegando a hora para saudar o usuário
-useEffect(() => {
-  const obterSaudacao = () => {
-  const horaAtual = new Date().getHours();
-    if (horaAtual >= 5 && horaAtual < 12) {
-        setSaudacao('Bom dia!');
-    } else if (horaAtual >= 12 && horaAtual < 18) {
-        setSaudacao('Boa tarde!');
-    } else {
-        setSaudacao('Boa noite!');
-    }
-  }
-obterSaudacao();
-}, []);
-
-//Buscar as avaliações da barbearia em especifico
-useEffect(() => {
-  const SearchAvaliation = async () => {
-    try {
-      const response = await fetch(`${urlApi}/api/v1/SearchAvaliation`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      const data = await response.json();
-      setAllAvaliation(data);
-    } catch (error) {
-      console.error('Erro ao obter os registros:', error);
-    }
-  };
-  SearchAvaliation();
-}, []);
 
 return (
   <>
@@ -197,7 +160,7 @@ return (
                 <div key={index} className="containerBarbearia" onClick={() => handleBarbeariaClick(barbearia)}>
                      
                     <div className="imgBoxSection">
-                      <img src={urlCloudFront + barbearia.banner_main} alt="Imagem de capa da barbearia" />
+                      <img src={urlCloudFront + barbearia.bannerBarbearia} alt="Imagem de capa da barbearia" />
                     </div>
                     
                   <div className="section">
@@ -207,23 +170,23 @@ return (
 
                       <div className="Barbearias">
                         <h2>
-                          {barbearia.name}
+                          {barbearia.nameBarbearia}
                         </h2>
                       </div>
 
                       <div className="endereco">
-                        <p>{barbearia.rua}, Nº {barbearia.N}, {barbearia.bairro}, {barbearia.cidade}</p>
+                        <p>{barbearia.ruaBarbearia}, Nº {barbearia.NruaBarbearia}, {barbearia.bairroBarbearia}, {barbearia.cidadeBarbearia}</p>
                       </div>
 
                       <div className="section__status">
                         {barbearia.status === "Aberta" ? (
-                          <p className="aberto"> {barbearia.status}</p>
+                          <p className="aberto"> {barbearia.statusBarbearia}</p>
                           ) : (
-                          <p className="fechado">{barbearia.status}</p>
+                          <p className="fechado">{barbearia.statusBarbearia}</p>
                         )}
                         <div className="section__star">
                           <IoIosStar className="icon__star" /> 
-                          <p>4,5 • (100)</p>
+                          <p>{barbearia.averageAvaliationsBarbearia} • ({barbearia.totalAvaliationsBarbearia})</p>
                       </div>
                       </div>
                       
