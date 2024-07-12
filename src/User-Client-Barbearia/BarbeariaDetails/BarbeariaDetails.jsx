@@ -26,7 +26,8 @@ register();
 // import required modules
 import { EffectFade } from 'swiper/modules';
 
-import { isToday, isYesterday, differenceInDays, differenceInMonths } from 'date-fns';
+import { differenceInDays, parse } from 'date-fns';
+
 
 //import Agendamento from 'react-Agendamento';
 import logoMercadoPago from './logoMercadoPago.png'
@@ -59,9 +60,7 @@ const userName = userInformation.user[0].name;
 
 const cloudFrontUrl = 'https://d15o6h0uxpz56g.cloudfront.net/'
 
-const date = new Date();
-const currentDate = new Date(date);
-const formattedDate = `${currentDate.getDate()}-${currentDate.getMonth() + 1}-${currentDate.getFullYear()}-${currentDate.getHours()}:${currentDate.getMinutes()}`;
+const currentDate = new Date();
 
 /*=========== Buscandos os nomes dos banners da barbearia selecionada ===========*/
 const[banners, setBanners] = useState([]);
@@ -239,7 +238,7 @@ const enviarAvaliacao = () => {
       comment,
       barbeariaId,
       avaliation,
-      formattedDate
+      currentDate
     }
     axios.post(`${urlApi}/api/v1/saveAvaliation`, valuesAvaliation, {
       headers: {
@@ -249,8 +248,9 @@ const enviarAvaliacao = () => {
       if(res.data.Success === 'true'){
         SearchAvaliation();
         setAvaliation('')
+        setComment('')
         setShowTextArea(false)
-        setMessageConfirmAvaliation('Avaliação realizada com sucesso.')
+        setMessageConfirmAvaliation('Avaliação realizada com sucesso!')
         setTimeout(() => {
           setMessageConfirmAvaliation('');
         }, 3000);
@@ -259,7 +259,34 @@ const enviarAvaliacao = () => {
       console.error('Erro ao enviar a avaliação:', err);
     })    
 };
+//Mine component to render number's star of avaliation
+const renderStarComponent = (numStarInString) => {
+  // Transformar `numStarInString` em um número inteiro
+  const bunStart = parseInt(numStarInString, 10);
 
+  return (
+    <div>
+      {Array.from({ length: bunStart }, (_, index) => (
+        <IoStarSharp key={index} className="Star__comment__selected" />
+      ))}
+    </div>
+  );
+};
+const formatarDataComentario = (dataComentario) => {
+  const hoje = new Date();
+  const data = dataComentario;
+  const diferencaDias = differenceInDays(hoje, data);
+
+  if (diferencaDias === 0) {
+    return 'hoje';
+  } else if (diferencaDias === 1) {
+    return 'ontem';
+  } else {
+    return `há ${diferencaDias} dias`;
+  }
+};
+
+//========================================================
 //Reviews settings
 const reviews = useRef();
 const [width, setWidth] = useState(0);
@@ -275,7 +302,7 @@ const tabWidth = 395;
 const tabHeaders = ["Menu", "Avaliação", "Detalhes"];
 const [activeIndex, setActiveIndex] = useState(0);
 
-console.log(comment)
+console.log(AllAvaliation)
 return (
     <>
     <div className="Outdoor">
@@ -296,7 +323,7 @@ return (
         </div>
     </div>
 
-    <div className="ContainerMain">
+    <div className="container__main__barbearia__details">
 
     <div className="container__widget">
       <header className="header__widget">
@@ -422,11 +449,10 @@ return (
                       />
                     ))}
                   </div>
-                  {avaliation &&(
                     <div className="section__send__avaliation">
                       <div>
                         <textarea
-                          className={`ocult__multilineText ${showTextArea ? 'multilineText':'ocult__multilineText'}`}
+                          className={`ocult__element ${showTextArea ? 'multilineText':''}`}
                           id="multilineText"
                           name="multilineText"
                           rows="4"
@@ -440,113 +466,50 @@ return (
                             const truncatedValue = filteredValue.slice(0, 200);
                             setComment(truncatedValue );
                           }}
-                          placeholder="Comentário até 200 caracteres...">
-
+                          placeholder="Comentário até 200 caracteres">
                         </textarea>
                       </div>
                       <div className="conteiner__box__add__comment">
-                          <button className="box__add__comment" onClick={handleCancelClick}>
+                          <button className={`ocult__element ${showTextArea ? 'box__add__comment':''}`} onClick={handleCancelClick}>
                             Cancelar
                           </button>
-                          <button className="box__add__comment" onClick={enviarAvaliacao}>
+                          <button className={`ocult__element ${showTextArea ? 'box__add__comment':''}`} onClick={enviarAvaliacao}>
                             Avaliar
                           </button>
                       </div>
                         
                     </div>
-                  )}
+                  
                 </div>
                 <div className="section__comments">
-                  <div className="box__comment">
-                    <div className="header__box__comment">
-                      <div className="box__user__img__comment">aaa</div>
-                      <div className="box__user__information__comment">
-                          <p>user name</p>
-                          <p>avaliation</p>
-                      </div>
-                      <div className="box__date__comment">
-                        há 115 dias
-                      </div>
-                    </div>
-                    <div>
-                      comentário de teste para a seção de avaliação
-                    </div>  
-                  </div>
-                  <div className="box__comment">
-                    <div className="header__box__comment">
-                      <div className="box__user__img__comment">aaa</div>
-                      <div className="box__user__information__comment">
-                          <p>user name</p>
-                          <p>avaliation</p>
-                      </div>
-                      <div className="box__date__comment">
-                        há 115 dias
-                      </div>
-                    </div>
-                    <div>
-                      comentário de teste para a seção de avaliação
-                    </div>  
-                  </div>
-                  <div className="box__comment">
-                    <div className="header__box__comment">
-                      <div className="box__user__img__comment">aaa</div>
-                      <div className="box__user__information__comment">
-                          <p>user name</p>
-                          <p>avaliation</p>
-                      </div>
-                      <div className="box__date__comment">
-                        há 115 dias
-                      </div>
-                    </div>
-                    <div>
-                      comentário de teste para a seção de avaliação
-                    </div>  
-                  </div>
-                  <div className="box__comment">
-                    <div className="header__box__comment">
-                      <div className="box__user__img__comment">aaa</div>
-                      <div className="box__user__information__comment">
-                          <p>user name</p>
-                          <p>avaliation</p>
-                      </div>
-                      <div className="box__date__comment">
-                        há 115 dias
-                      </div>
-                    </div>
-                    <div>
-                      comentário de teste para a seção de avaliação
-                    </div>  
-                  </div>
-                  <div className="box__comment">
-                    <div className="header__box__comment">
-                      <div className="box__user__img__comment">aaa</div>
-                      <div className="box__user__information__comment">
-                          <p>user name</p>
-                          <p>avaliation</p>
-                      </div>
-                      <div className="box__date__comment">
-                        há 115 dias
-                      </div>
-                    </div>
-                    <div>
-                      comentário de teste para a seção de avaliação
-                    </div>  
-                  </div>
-                  <div className="box__comment">
-                    <div className="header__box__comment">
-                      <div className="box__user__img__comment">aaa</div>
-                      <div className="box__user__information__comment">
-                          <p>user name</p>
-                          <p>avaliation</p>
-                      </div>
-                      <div className="box__date__comment">
-                        há 115 dias
-                      </div>
-                    </div>
-                    <div>
-                      comentário de teste para a seção de avaliação
-                    </div>  
-                  </div>
+                  {AllAvaliation ?(
+                    AllAvaliation.filter(avaliationWithComment => avaliationWithComment.comentarios.length > 0)
+                      .map(allAvaliations => (
+                          <div className="box__comment">
+                              <div className="header__box__comment">
+                                <div className="box__user__img__comment">
+                                  <img src={cloudFrontUrl + allAvaliations.userImage} className="user__img__box__comment" alt="" />
+                                </div>
+                                <div className="box__user__information__comment">
+                                    <p>{allAvaliations.userName}</p>
+                                    {renderStarComponent(allAvaliations.estrelas)}
+                                </div>
+                                <div className="box__date__comment">
+                                  {formatarDataComentario(allAvaliations.data_avaliacao)}
+                                </div>
+                              </div>
+                              <div>
+                                <p>{allAvaliations.comentarios}</p>
+                              </div>  
+                          </div>
+                      ))
+                  ):(
+                    <div className="inforService">
+                          <IoIosInformationCircleOutline className="Icon__info"/>
+                          <p >Nenhum comentário realizado.</p>
+                        </div>
+                  )}
+                  
                 </div>
             </div>
        </div>
