@@ -11,6 +11,8 @@ import { VscAccount } from "react-icons/vsc";
 import { BsCalendar2Check } from "react-icons/bs";
 import { MdOutlineLogout } from "react-icons/md";
 import { IoStarSharp } from "react-icons/io5";
+import { MdOutlineDone } from "react-icons/md";
+import { VscError } from "react-icons/vsc";
 
 //Import for slide
 import { register } from 'swiper/element/bundle';
@@ -397,7 +399,17 @@ return (
             </div>
             
             <div className="tab-content">
-                <p>{messageConfirmAvaliation}</p>
+                {messageConfirmAvaliation === 'Avaliação realizada com sucesso!' ?(
+                  <div className="mensagem-sucesso">
+                    <MdOutlineDone className="icon__success"/>
+                    <p className="text__message">{messageConfirmAvaliation}</p>
+                  </div>
+                  ) : (
+                  <div className={` ${messageConfirmAvaliation ? 'mensagem-erro' : ''}`}>
+                    <VscError className={`hide_icon__error ${messageConfirmAvaliation ? 'icon__error' : ''}`}/>
+                    <p className="text__message">{messageConfirmAvaliation}</p>
+                  </div>
+                )}
                 <div className="AvaliacaoSection">
                     <div className="Estrelas" onClick={handleShowTextAreaClick}>
                     <h3>Toque para Classificar:</h3>

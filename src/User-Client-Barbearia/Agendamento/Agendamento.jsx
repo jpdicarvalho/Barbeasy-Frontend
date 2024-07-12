@@ -4,7 +4,6 @@ import './Agendamento.css';
 import PropTypes from 'prop-types';
 import { MdOutlineDone } from "react-icons/md";
 import { VscError } from "react-icons/vsc";
-import { set } from "date-fns";
 
 const monthNames = [
   'Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun', 'Jul', 'Aug', 'Set', 'Out', 'Nov', 'Dez'
