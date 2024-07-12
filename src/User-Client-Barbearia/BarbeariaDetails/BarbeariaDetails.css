@@ -360,7 +360,6 @@ span{
 }
 .section__comments{
     display: flex;
-    justify-content: center;
     flex-direction: column;
     width: 385px;
     height: 500px;
@@ -393,10 +392,14 @@ span{
     margin-bottom: 15px;
 }
 .box__user__img__comment{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 70px;
     height: 70px;
     border-radius: 50%;
-    background: gray;
+    border: 1px solid #4a17d5;
+
     overflow: hidden;
 }
 .user__img__box__comment{
@@ -404,13 +407,22 @@ span{
     height: 100%;
     object-fit: cover;
 }
+.box__first__letter__user__box__comment{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
 .box__user__information__comment{
-    width: 195px;
+    width: 200px;
     height: 70px;
     padding-left: 5px;
 }
 .box__date__comment{
+    display: flex;
+    justify-content: end;
     height: 70px;
+    width: 90px;
 }
 .Star__comment__selected{
     color: #4a17d5;

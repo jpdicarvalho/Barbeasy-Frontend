@@ -285,8 +285,28 @@ const formatarDataComentario = (dataComentario) => {
     return `há ${diferencaDias} dias`;
   }
 };
-
 //========================================================
+//function to order bookings
+function orderAllAvaliations(AllAvaliation) {
+  AllAvaliation.sort((a, b) =>{
+      //data e horário de A
+      const dateAllAvaliationsA = a.data_avaliacao.replace(/[^0-9]/g, '');
+      //data e horário de B
+      const dateAllAvaliationsB = b.data_avaliacao.replace(/[^0-9]/g, '');
+
+      const valuesDateAllAvaliationsA = Number (dateAllAvaliationsA)
+      const valuesDateAllAvaliationsB = Number (dateAllAvaliationsB)
+      
+      if(valuesDateAllAvaliationsA > valuesDateAllAvaliationsB){
+          return 1;
+      }else if(valuesDateAllAvaliationsA < valuesDateAllAvaliationsB){
+          return -1;
+      }else{
+          0;
+      }
+  }) 
+}
+
 //Reviews settings
 const reviews = useRef();
 const [width, setWidth] = useState(0);
@@ -302,7 +322,6 @@ const tabWidth = 395;
 const tabHeaders = ["Menu", "Avaliação", "Detalhes"];
 const [activeIndex, setActiveIndex] = useState(0);
 
-console.log(AllAvaliation)
 return (
     <>
     <div className="Outdoor">
@@ -488,7 +507,13 @@ return (
                           <div className="box__comment">
                               <div className="header__box__comment">
                                 <div className="box__user__img__comment">
-                                  <img src={cloudFrontUrl + allAvaliations.userImage} className="user__img__box__comment" alt="" />
+                                  {allAvaliations.userImage != 'default.jpg' ?(
+                                    <img src={cloudFrontUrl + allAvaliations.userImage} className="user__img__box__comment" alt="" />
+                                  ):(
+                                    <div className="box__first__letter__user__box__comment">
+                                        <p className='firstLetter__professional'>{allAvaliations.userName[0].charAt(0).toUpperCase()}</p>
+                                    </div>
+                                  )}
                                 </div>
                                 <div className="box__user__information__comment">
                                     <p>{allAvaliations.userName}</p>
