@@ -259,6 +259,7 @@ const enviarAvaliacao = () => {
       console.error('Erro ao enviar a avaliação:', err);
     })    
 };
+
 //Mine component to render number's star of avaliation
 const renderStarComponent = (numStarInString) => {
   // Transformar `numStarInString` em um número inteiro
@@ -272,6 +273,7 @@ const renderStarComponent = (numStarInString) => {
     </div>
   );
 };
+//Mini component to calcule the date the comment was made
 const formatarDataComentario = (dataComentario) => {
   const hoje = new Date();
   const data = new Date(dataComentario);
@@ -285,28 +287,8 @@ const formatarDataComentario = (dataComentario) => {
     return `há ${diferencaDias} dias`;
   }
 };
+
 //========================================================
-//function to order bookings
-function orderAllAvaliations(AllAvaliation) {
-  AllAvaliation.sort((a, b) =>{
-      //data e horário de A
-      const dateAllAvaliationsA = a.data_avaliacao.replace(/[^0-9]/g, '');
-      //data e horário de B
-      const dateAllAvaliationsB = b.data_avaliacao.replace(/[^0-9]/g, '');
-
-      const valuesDateAllAvaliationsA = Number (dateAllAvaliationsA)
-      const valuesDateAllAvaliationsB = Number (dateAllAvaliationsB)
-      
-      if(valuesDateAllAvaliationsA > valuesDateAllAvaliationsB){
-          return 1;
-      }else if(valuesDateAllAvaliationsA < valuesDateAllAvaliationsB){
-          return -1;
-      }else{
-          0;
-      }
-  }) 
-}
-
 //Reviews settings
 const reviews = useRef();
 const [width, setWidth] = useState(0);
@@ -504,7 +486,7 @@ return (
                   {AllAvaliation.length > 0 ?(
                     AllAvaliation.filter(avaliationWithComment => avaliationWithComment.comentarios.length > 0)
                       .map(allAvaliations => (
-                          <div className="box__comment">
+                          <div className="box__comment" key={allAvaliations.id}>
                               <div className="header__box__comment">
                                 <div className="box__user__img__comment">
                                   {allAvaliations.userImage != 'default.jpg' ?(
