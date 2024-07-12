@@ -311,8 +311,14 @@ span{
     justify-content: space-between;
     flex-direction: column;
 }
-
+.ocult__multilineText{
+    opacity: 0;
+    width: 0;
+    height: 0;
+    transition: 0.5s;
+}
 .multilineText{
+    opacity: 1;
     width: 365px;
     height: 80px;
     border: none;
@@ -341,6 +347,7 @@ span{
     padding: 3px;
     font-size: 14px;
     border-radius: 5px;
+    background: transparent;
 }
 .box__add__comment:hover{
     background: #4a17d5;

@@ -3,7 +3,6 @@ import { useState, useEffect, useRef } from "react";
 
 import axios from 'axios';
 
-import { motion } from 'framer-motion';
 import { CiLocationOn } from "react-icons/ci";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import { GiSandsOfTime } from "react-icons/gi";
@@ -12,7 +11,6 @@ import { VscAccount } from "react-icons/vsc";
 import { BsCalendar2Check } from "react-icons/bs";
 import { MdOutlineLogout } from "react-icons/md";
 import { IoStarSharp } from "react-icons/io5";
-import { IoIosAddCircleOutline } from "react-icons/io";
 
 //Import for slide
 import { register } from 'swiper/element/bundle';
@@ -201,8 +199,17 @@ const urlMercadoPago = () => {
 const [avaliation, setAvaliation] = useState();
 const [averageAvaliation, setAverageAvaliation] = useState();
 const [comment, setComment] = useState("");
+const [showTextArea, setShowTextArea] = useState(false);
 const [AllAvaliation, setAllAvaliation] = useState([]);
 const [messageConfirmAvaliation, setMessageConfirmAvaliation] = useState("");
+
+const handleShowTextAreaClick = () =>{
+  setShowTextArea(true)
+}
+const handleCancelClick = () =>{
+  setAvaliation('')
+  setShowTextArea(false)
+}
 
 const SearchAvaliation = () => {
   axios.get(`${urlApi}/api/v1/allAvaliation/${barbeariaId}`, {
@@ -239,6 +246,8 @@ const enviarAvaliacao = () => {
     }).then(res =>{
       if(res.data.Success === 'true'){
         SearchAvaliation();
+        setAvaliation('')
+        setShowTextArea(false)
         setMessageConfirmAvaliation('Avaliação realizada com sucesso.')
         setTimeout(() => {
           setMessageConfirmAvaliation('');
@@ -264,7 +273,7 @@ const tabWidth = 395;
 const tabHeaders = ["Menu", "Avaliação", "Detalhes"];
 const [activeIndex, setActiveIndex] = useState(0);
 
-console.log(AllAvaliation)
+console.log(comment)
 return (
     <>
     <div className="Outdoor">
@@ -390,7 +399,7 @@ return (
             <div className="tab-content">
                 <p>{messageConfirmAvaliation}</p>
                 <div className="AvaliacaoSection">
-                    <div className="Estrelas">
+                    <div className="Estrelas" onClick={handleShowTextAreaClick}>
                     <h3>Toque para Classificar:</h3>
                       {[1, 2, 3, 4, 5].map((estrela) => (
                         <IoStarSharp
@@ -405,23 +414,31 @@ return (
                     <div className="section__send__avaliation">
                       <div>
                         <textarea
-                        className="multilineText"
+                          className={`ocult__multilineText ${showTextArea ? 'multilineText':'ocult__multilineText'}`}
                           id="multilineText"
                           name="multilineText"
                           rows="4"
                           cols="50"
+                          value={comment}
+                          onChange={(e) => {
+                            const inputValue = e.target.value;
+                            // Remover caracteres não alfanuméricos, ponto e espaço
+                            const filteredValue = inputValue.replace(/[^a-zA-Z0-9\sçéúíóáõãèòìàêôâ.]/g, '');
+                            // Limitar a 30 caracteres
+                            const truncatedValue = filteredValue.slice(0, 200);
+                            setComment(truncatedValue );
+                          }}
                           placeholder="Comentário até 200 caracteres...">
 
                         </textarea>
                       </div>
                       <div className="conteiner__box__add__comment">
-                        <div className="box__add__comment">
-                            <IoIosAddCircleOutline className="icon__add__comment" />
-                            <p>Adicionar cometário</p>
-                          </div>
-                          <div className="box__add__comment" onClick={enviarAvaliacao}>
+                          <button className="box__add__comment" onClick={handleCancelClick}>
+                            Cancelar
+                          </button>
+                          <button className="box__add__comment" onClick={enviarAvaliacao}>
                             Avaliar
-                          </div>
+                          </button>
                       </div>
                         
                     </div>
