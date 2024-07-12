@@ -66,6 +66,16 @@
   margin-right: 10px;
   transition: all 0.3s ease; 
 }
+.box__first__letter__user{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #4a17d5;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  margin-right: 10px;
+}
 .spanUser{
   display: flex;
   justify-content: center;
@@ -84,7 +94,7 @@
   font-size: 16px;
 }
 .saudacao{
-  color: #444447;
+  color: #b1b1b5;
   font-size: 14px;
   font-weight: 500;
 }

@@ -32,9 +32,9 @@ const userData = localStorage.getItem('userData');
 //trasnformando os dados para JSON
 const userInformation = JSON.parse(userData);
 //Fromatando cada letra inicial do nome do usuário para caixa-alta
-const userName = userInformation.user[0].name;
 const userImage = userInformation.user[0].user_image;
-
+const userName = userInformation.user[0].name;
+const firstLetter = userName.charAt(0).toUpperCase();
 
 const navigateToUserProfile = () =>{
   navigate("/UserProfile");
@@ -132,12 +132,19 @@ const barbeariaSearch = barbearias.filter((barbearia) => {
   // Retorna true se qualquer uma das condições for verdadeira
   return nameMatch || statusMatch || averageMatch || servicoMatch;
 });
-
+console.log(userImage)
 return (
   <>
             <div className={`header ${scrollPosition > 200 ? 'scrolled' : ''}`}>
                 <div className={`imgBoxSectionUser ${scrollPosition > 200 ? 'hideDiv' : ''}`}>
-                  <img src={urlCloudFront + userImage} alt="foto de perfil do usuário" />
+                  {userImage != 'default.jpg' ?(
+                    <img src={urlCloudFront + userImage} alt="foto de perfil do usuário" />
+
+                    ):(
+                      <div className="box__first__letter__user">
+                            <p className='firstLetter__professional'>{firstLetter}</p>
+                        </div>
+                    )}
                   <div className="spanUser">
                     <p className="nameUser">Olá, {userName}</p>
                     <p className="saudacao">{saudacao}</p>

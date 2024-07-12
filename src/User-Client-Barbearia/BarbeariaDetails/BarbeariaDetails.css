@@ -359,6 +359,9 @@ span{
     color: #f6f6f6;
 }
 .section__comments{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
     width: 385px;
     height: 500px;
     padding-left: 10px;
@@ -411,4 +414,14 @@ span{
 }
 .Star__comment__selected{
     color: #4a17d5;
+}
+.section__no__avaliations{
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    width: 100%;
+    color: rgba(128, 128, 128, 0.352);
+    padding: 5px;
 }

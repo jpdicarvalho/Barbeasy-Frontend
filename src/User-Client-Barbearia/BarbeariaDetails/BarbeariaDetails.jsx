@@ -229,7 +229,7 @@ const SearchAvaliation = () => {
 //Buscar as avaliações da barbearia em especifico
 useEffect(() => {
     SearchAvaliation();
-}, [comment, avaliation, messageConfirmAvaliation]);
+}, []);
 
 // Cadastrando a avaliação/comentário do usuário do usuário
 const enviarAvaliacao = () => {
@@ -274,7 +274,7 @@ const renderStarComponent = (numStarInString) => {
 };
 const formatarDataComentario = (dataComentario) => {
   const hoje = new Date();
-  const data = dataComentario;
+  const data = new Date(dataComentario);
   const diferencaDias = differenceInDays(hoje, data);
 
   if (diferencaDias === 0) {
@@ -482,7 +482,7 @@ return (
                   
                 </div>
                 <div className="section__comments">
-                  {AllAvaliation ?(
+                  {AllAvaliation.length > 0 ?(
                     AllAvaliation.filter(avaliationWithComment => avaliationWithComment.comentarios.length > 0)
                       .map(allAvaliations => (
                           <div className="box__comment">
@@ -504,9 +504,8 @@ return (
                           </div>
                       ))
                   ):(
-                    <div className="inforService">
-                          <IoIosInformationCircleOutline className="Icon__info"/>
-                          <p >Nenhum comentário realizado.</p>
+                    <div className="section__no__avaliations">
+                          <h3 >Nenhum comentário realizado</h3>
                         </div>
                   )}
                   
