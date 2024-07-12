@@ -226,7 +226,7 @@ useEffect(() => {
 // Cadastrando a avaliação/comentário do usuário do usuário
 const enviarAvaliacao = () => {
     const valuesAvaliation = {
-      userId,
+      user_id: userId,
       comment,
       barbeariaId,
       avaliation,
@@ -403,13 +403,27 @@ return (
                   </div>
                   {avaliation &&(
                     <div className="section__send__avaliation">
-                      <div className="box__add__comment">
-                        <IoIosAddCircleOutline className="icon__add__comment" />
-                        <p>Adicionar cometário</p>
+                      <div>
+                        <textarea
+                        className="multilineText"
+                          id="multilineText"
+                          name="multilineText"
+                          rows="4"
+                          cols="50"
+                          placeholder="Comentário até 200 caracteres...">
+
+                        </textarea>
                       </div>
-                      <div className="box__add__comment" onClick={enviarAvaliacao}>
-                        Avaliar
+                      <div className="conteiner__box__add__comment">
+                        <div className="box__add__comment">
+                            <IoIosAddCircleOutline className="icon__add__comment" />
+                            <p>Adicionar cometário</p>
+                          </div>
+                          <div className="box__add__comment" onClick={enviarAvaliacao}>
+                            Avaliar
+                          </div>
                       </div>
+                        
                     </div>
                   )}
                 </div>
