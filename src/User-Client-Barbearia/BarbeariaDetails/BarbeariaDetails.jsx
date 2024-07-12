@@ -226,7 +226,7 @@ useEffect(() => {
 // Cadastrando a avaliação/comentário do usuário do usuário
 const enviarAvaliacao = () => {
     const valuesAvaliation = {
-      userName,
+      userId,
       comment,
       barbeariaId,
       avaliation,
@@ -248,7 +248,7 @@ const enviarAvaliacao = () => {
       console.error('Erro ao enviar a avaliação:', err);
     })    
 };
-enviarAvaliacao
+
 //Reviews settings
 const reviews = useRef();
 const [width, setWidth] = useState(0);
@@ -407,7 +407,7 @@ return (
                         <IoIosAddCircleOutline className="icon__add__comment" />
                         <p>Adicionar cometário</p>
                       </div>
-                      <div className="box__add__comment">
+                      <div className="box__add__comment" onClick={enviarAvaliacao}>
                         Avaliar
                       </div>
                     </div>
