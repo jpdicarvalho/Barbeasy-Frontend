@@ -96,7 +96,6 @@ export function AddNewService ({ professionalId }){
     setNewCommissionFee(formatarPreco(numero));
   };
 
-
   // Função responsável por adicionar ou remover o novo tempo de duração do serviço a ser cadastrado
   const handleNewServiceDuration = (tempo) => {
   // Verifica se já existem dois tempos selecionados e se o tempo clicado não está entre eles
@@ -343,13 +342,14 @@ export function AddNewService ({ professionalId }){
                   type="text"
                   id="serviceName"
                   name="serviceName"
-                  maxLength={30}
+                  maxLength={150}
+                  value={newNameService}
                   onChange={(e) => {
                     const inputValue = e.target.value;
                     // Remover caracteres especiais
-                    const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9\sçéúíóáõãèòìàêôâ]/g, '');
+                    const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9\sçéúíóáõãèòìàêôâ+]/g, '');
                     // Limitar a 50 caracteres
-                    const truncatedValue = sanitizedValue.slice(0, 100);
+                    const truncatedValue = sanitizedValue.slice(0, 150);
                     setNewNameService(truncatedValue);
                   }}
                   placeholder='Ex. Corte Social'

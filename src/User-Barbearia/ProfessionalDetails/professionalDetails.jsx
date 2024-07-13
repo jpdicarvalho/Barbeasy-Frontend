@@ -231,6 +231,7 @@ const [messageAgenda, setMessageAgenda] = useState('');
     let arrayOrdered = diasSemana.filter(elemento => daysFromAgenda.includes(elemento));
     return arrayOrdered;
   }
+
   useEffect(() => {
     if (Array.isArray(agenda) && agenda.length >= 2) {
       let daysFromAgendaNoOrdered = agenda[0].split(',');
@@ -585,6 +586,7 @@ const formatDay = (dia) => {
     return dia.substring(0, 3).charAt(0).toUpperCase() + dia.substring(1, 3).toLowerCase();
   }
 };
+
 // Formatando o dia selecionado
 const formattedDay = formatDay(diaSelecionado);
 // Condição para verificar se há horários definidos
@@ -852,6 +854,7 @@ const saveDayOff = () =>{
     })
   }
 }
+
 return (
     <div className="main__professional">
     <div className="container__professional">
@@ -860,7 +863,7 @@ return (
           <IoArrowBackSharp className="Icon__Back"/>
           </div>
 
-          {userImage.length > 48 ? (
+          {userImage.length > 49 ? (
                         <div className="img-view-profile">
                             <img src={userImage} alt="" id='img-profile' />
                         </div>
