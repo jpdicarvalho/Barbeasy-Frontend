@@ -365,12 +365,18 @@ return (
                             const firstLetter = professional.name.charAt(0).toUpperCase();
                             
                             return (
-                              <div key={professional.id} onClick={() => handleServiceProfessional(professional.id)} className={`Box__professional ${serviceProfessional === professional.id ? 'professionalSelected' : ''}`}> 
-                                <div className="Box__image">
-                                  <p className='firstLetter'>{firstLetter}</p>
+                              <div key={professional.id} onClick={() => handleServiceProfessional(professional.id)} className={`Box__professional__barbearia__details ${serviceProfessional === professional.id ? 'professionalSelected' : ''}`}> 
+                                <div className="img__professional__barbearia__details">
+                                  {professional.user_image != 'default.png' ?(
+                                    <img src={cloudFrontUrl + professional.user_image} className="user__img__box__comment" alt="" />
+                                  ):(
+                                    <p className='firstLetter'>{firstLetter}</p>
+                                  )}
                                 </div>
                                 <p className='name__professional'>{professional.name}</p>
+
                               </div>
+                              
                             );
                           })
                         )}

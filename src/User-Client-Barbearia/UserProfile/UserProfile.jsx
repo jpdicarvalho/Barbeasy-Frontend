@@ -40,7 +40,9 @@ function UserProfile() {
 const navigateToHome = () =>{
     navigate("/Home");
 }
-
+const navigateToBookingsHistory = () =>{
+  navigate("/BookingsHistory");
+}
 //Função LogOut
 const logoutClick = () => {
     ['token', 'userData'].forEach(key => localStorage.removeItem(key));
@@ -644,7 +646,7 @@ return (
         </li>
         <li>
           <button>
-            <BsCalendar2Check />
+            <BsCalendar2Check onClick={navigateToBookingsHistory}/>
           </button>
         </li>
         <li>

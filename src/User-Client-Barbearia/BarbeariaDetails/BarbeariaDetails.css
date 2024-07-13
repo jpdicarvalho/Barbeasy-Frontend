@@ -112,34 +112,48 @@ h4{
     margin-top: 5px;
     margin-bottom: 10px;
     width: 100%;
-    padding-left: 13px;
     font-size: 15px;
-    color: #f6f6fc;
+    color: #354249;
     font-weight: 700;
     letter-spacing: 1px;
 
 }
 .professionals{
-    display: flex;
+    padding-top: 5px;
     width: 380px;
-    margin-bottom: 10px;
+    overflow-x: scroll;
+    overflow-y: hidden;
 }
 
-.Box__professional.professionalSelected{
-    width: 120px;
-    height: 90px;
-    border-radius: 10px;
-    margin-top: 2px;
-    background: #270683;
-    transition: 0.5s;
+.professionals::-webkit-scrollbar {
+    height: 5px;
 }
-.professionalSelected .Box__image{
-    width: 55px;
-    height: 55px;
+.professionals::-webkit-scrollbar-thumb {
+    background: #4a17d5; 
+    border-radius: 5px;
+}
+.professionals::-webkit-scrollbar-thumb:hover {
+    background: #f6f6f6; 
+}
+.Box__professional__barbearia__details{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 90px;
+    height: 105px;
+}
+.img__professional__barbearia__details{
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
-    margin-top: 5px;
-    border: 1px solid #fff;
-    transition: 0.5s;
+    overflow: hidden;
+    border: 1px solid #4a17d5;
+}
+.professionalSelected{
+    width: 90px;
+    height: 105px;
+    color: #4a17d5;
 }
 .inforService{
     border-radius: 10px;
