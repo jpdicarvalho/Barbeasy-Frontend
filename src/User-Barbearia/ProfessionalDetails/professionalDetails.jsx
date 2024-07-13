@@ -515,7 +515,11 @@ const getHorariosPorDia = (dia) => {
 const freeTimeFromOtherDays = (diaSelecionado, horarios, fullAgenda) => {
   // Formatar o nome do dia selecionado
   let nameDayFormated = diaSelecionado.substring(0, 3).toLowerCase();
-
+  
+  if(nameDayFormated === 'sáb'){
+    nameDayFormated = 'sab'
+  }
+  
   // Conjunto para armazenar horários a serem removidos
   let timesToRemove = new Set();
 

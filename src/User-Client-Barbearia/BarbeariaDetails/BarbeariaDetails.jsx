@@ -359,7 +359,7 @@ return (
                       )}
                   </div>
                   <div className="professionals">
-                    {professional && (
+                    {professional.length > 0 ? (
                           professional.map(professional => {
                             // Obtendo a primeira letra do nome do profissional
                             const firstLetter = professional.name.charAt(0).toUpperCase();
@@ -370,15 +370,20 @@ return (
                                   {professional.user_image != 'default.png' ?(
                                     <img src={cloudFrontUrl + professional.user_image} className="user__img__box__comment" alt="" />
                                   ):(
-                                    <p className='firstLetter'>{firstLetter}</p>
+                                    <p className='firstLetter' style={{color: '#fff', fontSize: '40px'}}>{firstLetter}</p>
                                   )}
                                 </div>
-                                <p className='name__professional'>{professional.name}</p>
+                                <p style={{color: '#fff', fontSize: '16px'}}>{professional.name}</p>
 
                               </div>
                               
                             );
                           })
+                        ):(
+                          <div className="inforService">
+                          <IoIosInformationCircleOutline className="Icon__info"/>
+                          <p >Nenhum profissional cadastrado</p>
+                        </div>
                         )}
                   </div>
 
@@ -401,11 +406,14 @@ return (
                           
                       ))
                       ):(
-                        <div className="inforService">
-                          <IoIosInformationCircleOutline className="Icon__info"/>
-                          <p >Selecione um profissional para visualizar os serviços.</p>
-                        </div>
-                        
+                        <>
+                        {professional.length > 0 &&(
+                          <div className="inforService">
+                              <IoIosInformationCircleOutline className="Icon__info"/>
+                              <p >Selecione um profissional para visualizar os serviços.</p>
+                          </div>
+                        )}
+                        </>
                       )}
                   </div>
 

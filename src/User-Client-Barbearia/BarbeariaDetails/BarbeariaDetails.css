@@ -119,6 +119,7 @@ h4{
 
 }
 .professionals{
+    display: flex;
     padding-top: 5px;
     width: 380px;
     overflow-x: scroll;
@@ -144,8 +145,12 @@ h4{
     height: 105px;
 }
 .img__professional__barbearia__details{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 80px;
     height: 80px;
+    font-size: 30px;
     border-radius: 50%;
     overflow: hidden;
     border: 1px solid #4a17d5;

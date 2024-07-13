@@ -70,7 +70,7 @@
   color: #fff;
 }
 .inputBox__search input[type="search"]::placeholder{
-  color: #fff;
+  color: gray;
   font-size: 14px;
   font-family: 'Poppis', sans-serif;
 }
@@ -229,7 +229,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 35px;
 }
 .button__back__search{
   display: flex;

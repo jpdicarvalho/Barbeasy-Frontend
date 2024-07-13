@@ -40,8 +40,8 @@ const alternarShowForm = () =>{
 
 const handleNameChange = (e) => {
   const value = e.target.value;
-  const regex = /^[a-zA-Z]*$/;
-  if (regex.test(value) && value.length <= 30) {
+  const regex = /^[a-zA-Z\sçéúíóáõãèòìàêôâ]*$/;
+  if (regex.test(value) && value.length <= 50) {
     setNewNameProfessional(value);
   }
 };
@@ -120,8 +120,8 @@ const [messagemRequestProfessional, setMessagemRequestProfessional] = useState('
 
 const handleSearchChange = (e) => {
   const value = e.target.value;
-  const regex = /^[a-zA-Z]*$/;
-  if (regex.test(value) && value.length <= 30) {
+  const regex = /^[a-zA-Z\sçéúíóáõãèòìàêôâ]*$/;
+  if (regex.test(value) && value.length <= 50) {
     setSearchProfessional(value);
   }
 };

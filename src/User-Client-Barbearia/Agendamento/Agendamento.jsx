@@ -103,6 +103,7 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId, se
 
   //Função para filtrar os horários menores que o horário atual
   function filterTimesShorterCurrentTime (arrayWithTimes, currentTime) {
+
     let arrayClear = []
     // Filtra os horários que são maiores ou iguais ao horário atual
     const arrayFiltaredTimes = arrayWithTimes.filter(horario => {
@@ -139,6 +140,7 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId, se
         let bookings = res.data.timesLocked;//passando os registros obtidos na consulta
 
         if (dayOfWeek in timesDays) {// Verifica se o dia selecionado está no objeto 'timesDays' que contém os horários dos dias definidos
+
           if(selectedDate === currentDay){//Condição par verificar se o dia selecionado e o mesmo do dia atual
             if(timesOfDaySelected[0].length === 5){//Condição par verificar se o primeiro elemento do array é um horário
               const timesLockedStr = Object.values(bookings).map(item => item.timesLocked.split(','));//Separa os horários obtidos na consulta, já que eles são salvos concatenados
@@ -182,9 +184,19 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId, se
         }
       }else{
         if (dayOfWeek in timesDays) {
+
           if(selectedDate === currentDay){//Condição par verificar se o dia selecionado e o mesmo do dia atual
             if(timesOfDaySelected[0].length === 5){//Condição par verificar se o primeiro elemento do array é um horário
-                setHorariosDiaSelecionado(timesOfDaySelected);
+              
+              // Chamando a função que filtra os horários menores que o horário atual
+              const horariosFiltrados = filterTimesShorterCurrentTime(timesOfDaySelected, currentTime)
+
+              if(horariosFiltrados.length > 0){
+                setHorariosDiaSelecionado(horariosFiltrados);
+              }else{
+                setHorariosDiaSelecionado(['Não há horários disponíveis para esse dia']);
+              }
+
             }else{
               setHorariosDiaSelecionado(['Não há horários disponíveis para esse dia']);
             }

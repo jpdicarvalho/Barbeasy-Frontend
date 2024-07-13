@@ -115,7 +115,7 @@ useEffect(() => {
 
   fetchData();
 }, []);
-
+console.log(barbearias)
 // Convertendo o valor do search para minúsculo
 const searchLowerCase = search.toLowerCase();
 
@@ -124,7 +124,7 @@ const barbeariaSearch = barbearias.filter((barbearia) => {
   // Convertendo todos os campos relevantes para lowercase para facilitar a busca case insensitive
   const nameMatch = barbearia.nameBarbearia.toLowerCase().includes(searchLowerCase);
   const statusMatch = barbearia.statusBarbearia.toLowerCase().includes(searchLowerCase);
-  const averageMatch = barbearia.averageAvaliationsBarbearia.toLowerCase().includes(searchLowerCase);
+  const averageMatch = barbearia.averageAvaliationsBarbearia ? barbearia.averageAvaliationsBarbearia.toLowerCase().includes(searchLowerCase):null;
   
   // Verifica se algum dos serviços tem o nome que corresponde ao termo de busca
   const servicoMatch = barbearia.servicos.some(servico => servico.name.toLowerCase().includes(searchLowerCase));
@@ -196,7 +196,7 @@ return (
                         )}
                         <div className="section__star">
                           <IoIosStar className="icon__star" /> 
-                          <p>{barbearia.averageAvaliationsBarbearia} • ({barbearia.totalAvaliationsBarbearia})</p>
+                          <p>{barbearia.averageAvaliationsBarbearia ? barbearia.averageAvaliationsBarbearia:0} • ({barbearia.totalAvaliationsBarbearia ? barbearia.totalAvaliationsBarbearia:0})</p>
                       </div>
                       </div>
                       
