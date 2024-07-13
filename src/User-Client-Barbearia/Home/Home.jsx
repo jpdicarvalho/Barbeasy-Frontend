@@ -132,7 +132,6 @@ const barbeariaSearch = barbearias.filter((barbearia) => {
   // Retorna true se qualquer uma das condições for verdadeira
   return nameMatch || statusMatch || averageMatch || servicoMatch;
 });
-console.log(userImage)
 return (
   <>
             <div className={`header ${scrollPosition > 200 ? 'scrolled' : ''}`}>
