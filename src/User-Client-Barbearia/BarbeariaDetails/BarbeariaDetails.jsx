@@ -301,7 +301,7 @@ useEffect(()=> {
 const buttonWidth = 80;
 const tabWidth = 395;
 
-const tabHeaders = ["Menu", "Avaliação", "Detalhes"];
+const tabHeaders = ["Serviço", "Avaliação", "Detalhes"];
 const [activeIndex, setActiveIndex] = useState(0);
 
 return (
@@ -462,7 +462,7 @@ return (
                           onChange={(e) => {
                             const inputValue = e.target.value;
                             // Remover caracteres não alfanuméricos, ponto e espaço
-                            const filteredValue = inputValue.replace(/[^a-zA-Z0-9\sçéúíóáõãèòìàêôâ.]/g, '');
+                            const filteredValue = inputValue.replace(/[^a-zA-Z0-9\sçéúíóáõãèòìàêôâ.!?]/g, '');
                             // Limitar a 30 caracteres
                             const truncatedValue = filteredValue.slice(0, 200);
                             setComment(truncatedValue );
@@ -506,7 +506,7 @@ return (
                                 </div>
                               </div>
                               <div>
-                                <p>{allAvaliations.comentarios}</p>
+                                <p className="text__comment">{allAvaliations.comentarios}</p>
                               </div>  
                           </div>
                       ))

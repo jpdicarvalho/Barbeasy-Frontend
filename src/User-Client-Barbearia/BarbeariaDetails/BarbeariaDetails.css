@@ -283,7 +283,6 @@ span{
     font-weight: bold;
 }
 .AvaliacaoSection{
-    padding-top: 15px;
     padding-left: 10px;
 }
 
@@ -364,12 +363,13 @@ span{
     width: 385px;
     height: 500px;
     padding-left: 10px;
+    padding-right: 5px;
     overflow-y: scroll;
     overflow-x: hidden;
 }
 
 .section__comments::-webkit-scrollbar {
-    width: 5px;
+    width: 3px;
 }
 .section__comments::-webkit-scrollbar-thumb {
     background: #4a17d5; 
@@ -380,7 +380,6 @@ span{
 }
 .box__comment{
     width: 100%;
-    height: 200px;
     border-bottom: 1px solid #354249;
     padding: 5px;
 }
@@ -436,4 +435,7 @@ span{
     width: 100%;
     color: rgba(128, 128, 128, 0.352);
     padding: 5px;
+}
+.text__comment{
+    text-align: justify;
 }

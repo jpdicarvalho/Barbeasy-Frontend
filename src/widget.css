@@ -8,8 +8,6 @@
   position: relative;
   display: flex;
   justify-content: space-between;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
   padding: 5px;
 }
 
@@ -35,13 +33,14 @@
   color: #4a17d5;
   padding-bottom: 3px;
   border-bottom: 1px solid #4a17d5;
+  width: 100px;
 }
 
 .underline {
   position: absolute;
   left: 0;
   bottom: 0;
-  width: 64px; /* Substitua ${buttonWidth} por um valor fixo */
+  width: 74px; /* Substitua ${buttonWidth} por um valor fixo */
   height: 3px;
   transition: 0.2s;
 }
