@@ -347,3 +347,39 @@
     background: #1AEE07;
     transition: 0.5s;
 }
+.container__btn__closeANDopen__alltimes{
+    width: 100%;
+}
+.flexDirectionRow{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+}
+.flexDirectionColumn{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+}
+
+.aaaaa{
+    width: 100%;
+}
+.button__change__times__day__off{
+    border: none;
+    height: 30px;
+    border-radius: 5px;
+    font-weight: bold;
+    color: #f6f6f6;
+    background: transparent;
+    border: 1px solid #7849f4;
+    opacity: 0;
+    transition: 0.5s ease;
+}
+.button__change__times__day__off.show {
+    opacity: 1;
+    width: 175px;
+    height: 40px;
+    font-size: 14px;
+}

@@ -13,6 +13,7 @@ import { TbClockHour4 } from "react-icons/tb";
 import { MdOutlineDone } from "react-icons/md";
 import { VscError } from "react-icons/vsc";
 import { CiAlarmOff } from "react-icons/ci";
+import { PiPassword } from "react-icons/pi";
 
 const monthNames = [
   'Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun', 'Jul', 'Aug', 'Set', 'Out', 'Nov', 'Dez'
@@ -42,6 +43,8 @@ const firstLetter = professional.name.charAt(0).toUpperCase();
 const userData = localStorage.getItem('dataBarbearia');//Obtendo os dados salvo no localStorage
 const userInformation = JSON.parse(userData);//trasnformando os dados para JSON
 const barbeariaId = userInformation.barbearia[0].id;
+
+const [confirmPassword, setConfirmPassword] = useState('');
 
 //passando os dados do profissional selecionado
 const handleBackClick = () => {
@@ -813,6 +816,7 @@ const closeAllTimes = () => {
 }
 const openAlltimes = () =>{
   setTimesLockedByProfessional([])
+  
 }
 //Function to render all times defined
 const renderHorariosDiaSelecionado = () => {
@@ -835,7 +839,8 @@ const saveDayOff = () =>{
     let timesLocked = timesLockedByProfessional.join(',');
     const objectDayOff = {
       selectedDay,
-      timesLocked
+      timesLocked,
+      confirmPassword
     }
     axios.put(`${urlApi}/api/v1/updateDayOff/${barbeariaId}/${professionalId}`, objectDayOff, {
       headers: {
@@ -850,8 +855,19 @@ const saveDayOff = () =>{
           setTimesLockedByProfessional([])
           setSelectedDay(null)
         }, 2000);
+      }else{
+        setMessageSaveDayOff("Senha Incorreta.")
+        setTimeout(() => {
+          setMessageSaveDayOff(null);
+        }, 2000);
       }
     }).catch(err =>{
+      setMessageSaveDayOff("Erro ao definir folga. Tente novamente mais tarde.")
+        setTimeout(() => {
+          setMessageSaveDayOff(null);
+          setTimesLockedByProfessional([])
+          setSelectedDay(null)
+        }, 2000);
       console.error("Error ao salva folga", err)
     })
   }
@@ -1142,13 +1158,45 @@ return (
                         <p className="text__message">{messageSaveDayOff}</p>
                     </div>
               )}
+              {showButtonSaveDayOff &&(
+              <div style={{paddingLeft: '10px'}}>
+                <div className="form__change__data">
+                  <div className='container__text__change__data'>
+                      Digite sua senha para confirmar a alteração
+                  </div>
+      
+                  <div className='container__form__change__data'>
+                    <input
+                        type="password"
+                        id="senha"
+                        name="senha"
+                        value={confirmPassword}
+                        className={`input__change__data ${confirmPassword ? 'input__valided':''}`}
+                        onChange={(e) => {
+                            const inputValue = e.target.value;
+                            // Limitar a 10 caracteres
+                            const truncatedPasswordConfirm = inputValue.slice(0, 10);
+                            setConfirmPassword(truncatedPasswordConfirm);
+                        }}
+                        placeholder="Senha atual"
+                        maxLength={8}
+                        required
+                        /><PiPassword className='icon__input__change__data'/>
+                        <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={saveDayOff}>
+                            Confirmar
+                        </button>
+                  </div>
+                </div>
+              </div>
+              )}
               {selectedDay && (
-                <button className={`button__change ${showButtonSaveDayOff === false ? 'show':''}`} onClick={closeAllTimes}>Fechar todos os horários</button>
+                <div className={`container__btn__closeANDopen__alltimes ${timesLockedByProfessional.length >= 1 && showButtonSaveDayOff === false ? 'flexDirectionRow':'flexDirectionColumn'}`}>
+                  <button className={`button__change__times__day__off ${showButtonSaveDayOff === false ? 'show':''}`} onClick={closeAllTimes}>Fechar todos os horários</button>
+                  <button className={`button__change__times__day__off ${timesLockedByProfessional.length >= 1 && showButtonSaveDayOff === false ? 'show':''}`} onClick={openAlltimes}>Limpar horários selecionados</button>
+                </div>
+
               )}
               <button className={`button__change ${timesLockedByProfessional.length >= 1 && showButtonSaveDayOff === false ? 'show':''}`} onClick={openButtonSaveDayOff}>Continuar</button>
-              <button className={`button__change ${timesLockedByProfessional.length >= 1 && showButtonSaveDayOff === false ? 'show':''}`} onClick={openAlltimes}>Limpar horários selecionados</button>
-              <button className={`button__change ${showButtonSaveDayOff === true ? 'show':''}`} onClick={saveDayOff}>Salvar</button>
-
             </div>
           )}
         </div>
