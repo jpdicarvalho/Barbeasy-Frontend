@@ -265,6 +265,10 @@ export function AddNewService ({ professionalId }){
         }
       })
       .catch(err => {
+        setMessageEditedService("Erro ao alterar informação do serviço. Tente novamente mais tarde.");
+        setTimeout(() => {
+          setMessageEditedService(null);
+        }, 2000);
         console.log("Erro ao alterar informação do serviço.", err);
       });
   } else {
@@ -508,7 +512,9 @@ export function AddNewService ({ professionalId }){
 
                     </div>
                     )):
-                    <p>Nenhum serviço cadastrado</p>
+                    <div className="no__service__created__AddNewService">
+                      Nenhum serviço cadastrado
+                    </div>
                   }
                   </div>
                 </div>
