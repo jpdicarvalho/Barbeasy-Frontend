@@ -822,12 +822,16 @@ const openAlltimes = () =>{
 const renderHorariosDiaSelecionado = () => {
   return (
     <>
-        {horariosDiaSelecionado && (
+        {horariosDiaSelecionado[0] != 'Não há horários disponíveis para esse dia' ? (
           horariosDiaSelecionado.map(index => (
             <div key={index} className={`horarios ${timesLockedByProfessional.includes(index) ? 'selectedDay':''}`} onClick={() =>{ handleDayOff(index); closeButtonSaveDayOff();}}>
                <p>{index}</p>
             </div>
           ))
+        ):(
+          <div>
+            {horariosDiaSelecionado[0]}
+          </div>
         )}
       </>
   );
@@ -854,6 +858,8 @@ const saveDayOff = () =>{
           setMessageSaveDayOff(null);
           setTimesLockedByProfessional([])
           setSelectedDay(null)
+          setButtonSaveDayOff(false)
+          setConfirmPassword('')
         }, 2000);
       }else{
         setMessageSaveDayOff("Senha Incorreta.")
@@ -1189,7 +1195,7 @@ return (
                 </div>
               </div>
               )}
-              {selectedDay && (
+              {selectedDay && horariosDiaSelecionado[0] != 'Não há horários disponíveis para esse dia' &&(
                 <div className={`container__btn__closeANDopen__alltimes ${timesLockedByProfessional.length >= 1 && showButtonSaveDayOff === false ? 'flexDirectionRow':'flexDirectionColumn'}`}>
                   <button className={`button__change__times__day__off ${showButtonSaveDayOff === false ? 'show':''}`} onClick={closeAllTimes}>Fechar todos os horários</button>
                   <button className={`button__change__times__day__off ${timesLockedByProfessional.length >= 1 && showButtonSaveDayOff === false ? 'show':''}`} onClick={openAlltimes}>Limpar horários selecionados</button>
