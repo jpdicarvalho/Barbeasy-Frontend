@@ -232,6 +232,7 @@ export function AddNewService ({ professionalId }){
           setEditedServiceDuration([...editedServiceDuration, timeDurationEdited]);
       }
   }
+
   //Função para enviar as informações do serviço alterado
   const changeServiceData = (servicoId) => {
     // Verifica se os campos obrigatórios estão preenchidos
@@ -332,184 +333,191 @@ export function AddNewService ({ professionalId }){
           </div>
 
           {mostrarServico && (
-         <div className={`${showAddServico ? 'expandir' : ''}`}>
-          {showAddServico &&(
-            <div className="input_Container">
+            <div className={`${showAddServico ? 'expandir' : ''}`}>
+              {showAddServico &&(
+                <div className="input_Container">
 
-                  <p>Qual o nome do serviço?</p>
-                  <input
-                  className="input_AddService"
-                  type="text"
-                  id="serviceName"
-                  name="serviceName"
-                  maxLength={150}
-                  value={newNameService}
-                  onChange={(e) => {
-                    const inputValue = e.target.value;
-                    // Remover caracteres especiais
-                    const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9\sçéúíóáõãèòìàêôâ+]/g, '');
-                    // Limitar a 50 caracteres
-                    const truncatedValue = sanitizedValue.slice(0, 150);
-                    setNewNameService(truncatedValue);
-                  }}
-                  placeholder='Ex. Corte Social'
-                  />
+                      <p>Qual o nome do serviço?</p>
+                      <input
+                      className="input_AddService"
+                      type="text"
+                      id="serviceName"
+                      name="serviceName"
+                      maxLength={150}
+                      value={newNameService}
+                      onChange={(e) => {
+                        const inputValue = e.target.value;
+                        // Remover caracteres especiais
+                        const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9\sçéúíóáõãèòìàêôâ+]/g, '');
+                        // Limitar a 50 caracteres
+                        const truncatedValue = sanitizedValue.slice(0, 150);
+                        setNewNameService(truncatedValue);
+                      }}
+                      placeholder='Ex. Corte Social'
+                      />
 
-                  <p>Quanto vai custar?</p>
-                  <input
-                  className="input_AddService"
-                  type="text"
-                  id="precoServico"
-                  name="precoServico"
-                  value={newPriceService}
-                  onChange={AddNewPriceService}
-                  placeholder="R$ 00,00"
-                  required
-                />
-                <p>Qual a comissão para esse profissional?</p>
-                  <input
-                  className="input_AddService"
-                  type="text"
-                  id="commissionFee"
-                  name="commissionFee"
-                  value={newCommissionFee}
-                  onChange={AddNewComissioFee}
-                  placeholder="R$ 00,00"
-                  required
-                />
+                      <p>Quanto vai custar?</p>
+                      <input
+                      className="input_AddService"
+                      type="text"
+                      id="precoServico"
+                      name="precoServico"
+                      value={newPriceService}
+                      onChange={AddNewPriceService}
+                      placeholder="R$ 00,00"
+                      required
+                    />
+                    <p>Qual a comissão para esse profissional?</p>
+                      <input
+                      className="input_AddService"
+                      type="text"
+                      id="commissionFee"
+                      name="commissionFee"
+                      value={newCommissionFee}
+                      onChange={AddNewComissioFee}
+                      placeholder="R$ 00,00"
+                      required
+                    />
 
-                  <p style={{marginTop: '10px'}}>Qual o tempo de duração?</p>
-                  <div className="inputs-horarios">
-                    {['15min','30min','45min','60min','75min', '90min'].map((tempo, index) => (
-                      <div
-                        key={index}
-                        className={`horario-item ${newServiceDuration.includes(tempo) ? 'Horario-selecionado' : ''}`}
-                        onClick={() => handleNewServiceDuration(tempo)}
-                      >
-                        <p>{tempo}</p>
+                      <p style={{marginTop: '10px'}}>Qual o tempo de duração?</p>
+                      <div className="inputs-horarios">
+                        {['15min','30min','45min','60min','75min', '90min'].map((tempo, index) => (
+                          <div
+                            key={index}
+                            className={`horario-item ${newServiceDuration.includes(tempo) ? 'Horario-selecionado' : ''}`}
+                            onClick={() => handleNewServiceDuration(tempo)}
+                          >
+                            <p>{tempo}</p>
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
-                  {messageAddService === "Serviço adicionado com sucesso." ? (
-                    <div className="mensagem-sucesso">
-                      <MdOutlineDone className="icon__success"/>
-                      <p className="text__message">{messageAddService}</p>
-                    </div>
-                      ) : (
-                      <div className={` ${messageAddService ? 'mensagem-erro' : ''}`}>
-                        <VscError className={`hide_icon__error ${messageAddService ? 'icon__error' : ''}`}/>
-                        <p className="text__message">{messageAddService}</p>
-                    </div>
-                  )}
-                    <button className="button__Salve__Service" onClick={addNewService}>
-                    Adicionar Serviço
-                  </button>
-            </div>
-          )}
-
-          <div className="divSelected">
-            <div className='container__servicos'>
-              <div className='section__service'>
-              {servicos.length > 0 ?
-                servicos.map((servico, index) => (
-                  <div 
-                  key={index}
-                  className={`box__service ${selectedService === index ? 'expandir__Service' : ''}`}
-                  onClick={() => ShowServiceEditMenu(index)}
-                >
-                  <p style={{marginBottom: '10px', width: '100%'}}>{servico.name}</p>
-
-                  <p>Deseja alterar o nome do serviço?</p>
-                  <input
-                  className="input_AddService"
-                  type="text"
-                  id="EditedServiceName"
-                  name="EditedServiceName"
-                  maxLength={30}
-                  onChange={e => setEditedServiceName(e.target.value)}
-                  placeholder={servico.name}
-                  />
-
-                  <p>Deseja alterar o preço do serviço?</p>
-                  <input
-                  className="input_AddService"
-                  type="text"
-                  id="EditedServicePrice"
-                  name="EditedServicePrice"
-                  value={editedServicePrice}
-                  onChange={handleEditedServicePrice}
-                  maxLength={9}
-                  placeholder={servico.preco}
-                />
-
-                  <p>Deseja alterar a comissão do serviço?</p>
-                  <input
-                  className="input_AddService"
-                  type="text"
-                  id="EditedCommissionFee"
-                  name="EditedCommissionFee"
-                  value={editedCommissionFee}
-                  onChange={handleEditedCommissionFee}
-                  maxLength={9}
-                  placeholder={servico.commission_fee}
-                />
-
-                <p style={{marginTop: '10px'}}>Deseja alterar o tempo de duração?</p>
-                  <div className="inputs-horarios">
-                    {['15min','30min','45min','60min','75min', '90min'].map((timeDurationEdited, index) => (
-                      <div
-                        key={index}
-                        className={`horario-item ${editedServiceDuration.includes(timeDurationEdited) ? 'Horario-selecionado' : ''}`}
-                        onClick={() => handleEditedServiceDuration(timeDurationEdited)}
-                      >
-                        <p>{timeDurationEdited}</p>
-                      </div>
-                    ))}
-                  </div>
-                  <p style={{marginTop: '10px'}}>Duração Atual • {servico.duracao}</p>
-                  {messageEditedService === "Nenhuma alteração identificada." ? (
-                    <div className={` ${messageEditedService ? 'mensagem-erro' : ''}`}>
-                      <VscError className={`hide_icon__error ${messageEditedService ? 'icon__error' : ''}`}/>
-                      <p className="text__message">{messageEditedService}</p>
-                    </div>
-                      ) : (
-                      <div className={`hide__message ${messageEditedService ? 'mensagem-sucesso' : ''}`}>
-                        <MdOutlineDone className="icon__success"/>
-                        <p className="text__message">{messageEditedService}</p>
-                      </div>
-                  )}
-                
-                  <div className="section__service__button">
-                    <button className={`button_ocult ${confirmDeleteServico ? 'section__confirm__delete' : ''}`} onClick={() => deleteServico(servico.id)}>
-                      Confirmar
-                    </button>
-
-                    <button className={`buttonChange__service ${confirmDeleteServico ? 'button_ocult' : ''}`} onClick={() => changeServiceData(servico.id)}>
-                      Alterar
-                    </button>
-
-                    <button className={`delete__Service ${confirmDeleteServico ? 'button_ocult' : ''}`} onClick={showConfirmDeleteService}>
-                      <RiDeleteBin6Line/>
-                    </button>
-
-                    <button className={`button_ocult ${confirmDeleteServico ? 'section__cancel' : ''}`} onClick={hideConfirmDeleteService}>
-                      Cancelar
-                    </button>
-
-                  </div>
-
+                      {messageAddService === "Serviço adicionado com sucesso." ? (
+                        <div className="mensagem-sucesso">
+                          <MdOutlineDone className="icon__success"/>
+                          <p className="text__message">{messageAddService}</p>
+                        </div>
+                          ) : (
+                          <div className={` ${messageAddService ? 'mensagem-erro' : ''}`}>
+                            <VscError className={`hide_icon__error ${messageAddService ? 'icon__error' : ''}`}/>
+                            <p className="text__message">{messageAddService}</p>
+                        </div>
+                      )}
+                        <button className="button__Salve__Service" onClick={addNewService}>
+                        Adicionar Serviço
+                      </button>
                 </div>
-                )):
-                <p>Nenhum serviço cadastrado</p>
-              }
+              )}
+
+              <div className="divSelected">
+                <div className='container__servicos'>
+                  <div className='section__service'>
+                  {servicos.length > 0 ?
+                    servicos.map((servico, index) => (
+                      <div 
+                      key={index}
+                      className={`box__service ${selectedService === index ? 'expandir__Service' : ''}`}
+                      onClick={() => ShowServiceEditMenu(index)}
+                    >
+                      <p style={{marginBottom: '10px', width: '100%'}}>{servico.name}</p>
+
+                      <p>Deseja alterar o nome do serviço?</p>
+                      <input
+                      className="input_AddService"
+                      type="text"
+                      id="EditedServiceName"
+                      name="EditedServiceName"
+                      maxLength={30}
+                      onChange={(e) => {
+                        const inputValue = e.target.value;
+                        // Remover caracteres especiais
+                        const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9\sçéúíóáõãèòìàêôâ+]/g, '');
+                        // Limitar a 50 caracteres
+                        const truncatedValue = sanitizedValue.slice(0, 150);
+                        setEditedServiceName(truncatedValue);
+                      }}
+                      placeholder={servico.name}
+                      />
+
+                      <p>Deseja alterar o preço do serviço?</p>
+                      <input
+                      className="input_AddService"
+                      type="text"
+                      id="EditedServicePrice"
+                      name="EditedServicePrice"
+                      value={editedServicePrice}
+                      onChange={handleEditedServicePrice}
+                      maxLength={9}
+                      placeholder={servico.preco}
+                    />
+
+                      <p>Deseja alterar a comissão do serviço?</p>
+                      <input
+                      className="input_AddService"
+                      type="text"
+                      id="EditedCommissionFee"
+                      name="EditedCommissionFee"
+                      value={editedCommissionFee}
+                      onChange={handleEditedCommissionFee}
+                      maxLength={9}
+                      placeholder={servico.commission_fee}
+                    />
+
+                    <p style={{marginTop: '10px'}}>Deseja alterar o tempo de duração?</p>
+                      <div className="inputs-horarios">
+                        {['15min','30min','45min','60min','75min', '90min'].map((timeDurationEdited, index) => (
+                          <div
+                            key={index}
+                            className={`horario-item ${editedServiceDuration.includes(timeDurationEdited) ? 'Horario-selecionado' : ''}`}
+                            onClick={() => handleEditedServiceDuration(timeDurationEdited)}
+                          >
+                            <p>{timeDurationEdited}</p>
+                          </div>
+                        ))}
+                      </div>
+                      <p style={{marginTop: '10px'}}>Duração Atual • {servico.duracao}</p>
+                      {messageEditedService === "Nenhuma alteração identificada." ? (
+                        <div className={` ${messageEditedService ? 'mensagem-erro' : ''}`}>
+                          <VscError className={`hide_icon__error ${messageEditedService ? 'icon__error' : ''}`}/>
+                          <p className="text__message">{messageEditedService}</p>
+                        </div>
+                          ) : (
+                          <div className={`hide__message ${messageEditedService ? 'mensagem-sucesso' : ''}`}>
+                            <MdOutlineDone className="icon__success"/>
+                            <p className="text__message">{messageEditedService}</p>
+                          </div>
+                      )}
+                    
+                      <div className="section__service__button">
+                        <button className={`button_ocult ${confirmDeleteServico ? 'section__confirm__delete' : ''}`} onClick={() => deleteServico(servico.id)}>
+                          Confirmar
+                        </button>
+
+                        <button className={`buttonChange__service ${confirmDeleteServico ? 'button_ocult' : ''}`} onClick={() => changeServiceData(servico.id)}>
+                          Alterar
+                        </button>
+
+                        <button className={`delete__Service ${confirmDeleteServico ? 'button_ocult' : ''}`} onClick={showConfirmDeleteService}>
+                          <RiDeleteBin6Line/>
+                        </button>
+
+                        <button className={`button_ocult ${confirmDeleteServico ? 'section__cancel' : ''}`} onClick={hideConfirmDeleteService}>
+                          Cancelar
+                        </button>
+
+                      </div>
+
+                    </div>
+                    )):
+                    <p>Nenhum serviço cadastrado</p>
+                  }
+                  </div>
+                </div>
+
+                <button className="button__Salve__Service" onClick={ShowAddService}>
+                        Adicionar Serviço
+                </button>
               </div>
             </div>
-
-            <button className="button__Salve__Service" onClick={ShowAddService}>
-                    Adicionar Serviço
-            </button>
-          </div>
-        </div>
           )}
         </>
     )
