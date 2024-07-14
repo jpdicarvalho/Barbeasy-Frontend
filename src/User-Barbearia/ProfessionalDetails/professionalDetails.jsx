@@ -811,6 +811,9 @@ const handleDayOff = (time) => {
 const closeAllTimes = () => {
   setTimesLockedByProfessional(horariosDiaSelecionado)
 }
+const openAlltimes = () =>{
+  setTimesLockedByProfessional([])
+}
 //Function to render all times defined
 const renderHorariosDiaSelecionado = () => {
   return (
@@ -846,7 +849,6 @@ const saveDayOff = () =>{
           setMessageSaveDayOff(null);
           setTimesLockedByProfessional([])
           setSelectedDay(null)
-          window.location.reload()
         }, 2000);
       }
     }).catch(err =>{
@@ -854,24 +856,23 @@ const saveDayOff = () =>{
     })
   }
 }
-
 return (
     <div className="main__professional">
     <div className="container__professional">
         <div className="header__professional">
-          <div className="back" onClick={handleBackClick}>
-          <IoArrowBackSharp className="Icon__Back"/>
-          </div>
+            <div className="back" onClick={handleBackClick}>
+            <IoArrowBackSharp className="Icon__Back"/>
+            </div>
 
-          {userImage.length > 49 ? (
-                        <div className="img-view-profile">
-                            <img src={userImage} alt="" id='img-profile' />
-                        </div>
-                    ) : (
-                        <div className="Box__image  Box__first__letter">
-                            <p className='firstLetter__professional'>{firstLetter}</p>
-                        </div>
-                    )}
+            {userImage.length > 49 ? (
+                          <div className="img-view-profile">
+                              <img src={userImage} alt="" id='img-profile' />
+                          </div>
+              ) : (
+                    <div className="Box__image  Box__first__letter">
+                        <p className='firstLetter__professional'>{firstLetter}</p>
+                    </div>
+            )}
             <p className='name__professional'>{professional.name}</p>
         </div>
 
@@ -1145,6 +1146,7 @@ return (
                 <button className={`button__change ${showButtonSaveDayOff === false ? 'show':''}`} onClick={closeAllTimes}>Fechar todos os horários</button>
               )}
               <button className={`button__change ${timesLockedByProfessional.length >= 1 && showButtonSaveDayOff === false ? 'show':''}`} onClick={openButtonSaveDayOff}>Continuar</button>
+              <button className={`button__change ${timesLockedByProfessional.length >= 1 && showButtonSaveDayOff === false ? 'show':''}`} onClick={openAlltimes}>Limpar horários selecionados</button>
               <button className={`button__change ${showButtonSaveDayOff === true ? 'show':''}`} onClick={saveDayOff}>Salvar</button>
 
             </div>
