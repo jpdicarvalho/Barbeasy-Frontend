@@ -156,7 +156,7 @@ const [mostrarEmail, setMostrarEmail] = useState(false);
 const [newName, setNewName] = useState('');
 const [newEmail, setNewEmail] = useState('');
 const [newPhoneNumber, setNewPhoneNumber] = useState('');
-const [contactProfessional, setContactProfessional] = useState('');
+const [dataProfessional, setDataProfessional] = useState('');
 const [message, setMessage] = useState('');
 
 const alternarNome = () => {
@@ -173,9 +173,9 @@ const alternarEmail = () => {
 };
 
 //Função responsável por enviar o novo nome de usuário ao back-end
-const alterarContactProfessional = () => {
+const alterarDataProfessional = () => {
 
-  const valuesContactProfessional = {
+  const valuesDataProfessional = {
     newName,
     newEmail,
     newPhoneNumber,
@@ -183,7 +183,7 @@ const alterarContactProfessional = () => {
     professionalId
   }
 
-  axios.put(`${urlApi}/api/v1/updateDataProfessional`, valuesContactProfessional, {
+  axios.put(`${urlApi}/api/v1/updateDataProfessional`, valuesDataProfessional, {
     headers: {
       'Authorization': `Bearer ${token}`
     }
@@ -198,7 +198,7 @@ const alterarContactProfessional = () => {
             setNewName('')
             setNewEmail('')
             setNewPhoneNumber('')
-            getContactProfessional()
+            getDataProfessional()
           }, 3000);
         }
       })
@@ -216,21 +216,21 @@ const alterarContactProfessional = () => {
 };
 
 //Função para obter o nome de usuário atual da barbearia
-const getContactProfessional = () =>{
-  axios.get(`${urlApi}/api/v1/getContactProfessional/${professionalId}`, {
+const getDataProfessional = () =>{
+  axios.get(`${urlApi}/api/v1/getDataProfessional/${professionalId}`, {
     headers: {
       'Authorization': `Bearer ${token}`
     }
   })
     .then(res => {
-      setContactProfessional(res.data.data_professional)
+      setDataProfessional(res.data.data_professional)
     })
     .catch(error => console.log(error));
 }
 
-//Hook para chamar a função getContactProfessional()
+//Hook para chamar a função getDataProfessional()
 useEffect(() => {
-  getContactProfessional()
+  getDataProfessional()
 }, [professionalId]) 
 
 /*----------------------------------*/
@@ -355,7 +355,7 @@ return (
           const userName = filteredValue.slice(0, 30);
         setNewName(userName);
         }}
-        placeholder={contactProfessional[0].name}
+        placeholder={dataProfessional[0].name}
         className="white-placeholder"
         required
       />{' '}<FaUserEdit className='icon_input'/>
@@ -385,7 +385,7 @@ return (
                 maxLength={8}
                 required
                 /><PiPassword className='icon__input__change__data'/>
-                <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={alterarContactProfessional}>
+                <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={alterarDataProfessional}>
                     Confirmar
                 </button>
           </div>
@@ -421,7 +421,7 @@ return (
                 const truncatedPasswordConfirm = sanitizedValue.slice(0, 11);
                 setNewPhoneNumber(truncatedPasswordConfirm);
               }}
-              placeholder={contactProfessional[0].cell_phone}
+              placeholder={dataProfessional[0].cell_phone}
               maxLength={11}
               required
               />{' '}<MdNumbers  className='icon_input'/>
@@ -451,7 +451,7 @@ return (
                       maxLength={8}
                       required
                       /><PiPassword className='icon__input__change__data'/>
-                      <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={alterarContactProfessional}>
+                      <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={alterardataProfessional}>
                           Confirmar
                       </button>
                 </div>
@@ -495,7 +495,7 @@ return (
             setNewEmail('')
           }
         }}
-        placeholder={contactProfessional[0].email[0] + "..." + contactProfessional[0].email.split('@')[1]}
+        placeholder={dataProfessional[0].email[0] + "..." + dataProfessional[0].email.split('@')[1]}
         className="white-placeholder"
         maxLength={50}
         required
@@ -526,7 +526,7 @@ return (
                 maxLength={8}
                 required
                 /><PiPassword className='icon__input__change__data'/>
-                <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={alterarContactProfessional}>
+                <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={alterardataProfessional}>
                     Confirmar
                 </button>
           </div>
