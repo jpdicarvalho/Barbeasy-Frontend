@@ -236,7 +236,7 @@ return (
     <div className="container__main">
       <div className='header_container'>
         <div className="img__user__professional">
-            {imageUser.length > 48 ? (
+            {imageUser.length > 49 ? (
                   <div className="img-view-professional" onClick={navigateToProfileProfessional}>
                     <img src={imageUser} alt="" id='img-profile' />
                   </div>
@@ -377,7 +377,7 @@ return (
         ):(
           <div className="message__notFound">
           <p>{messagemNotFound}</p>
-          <p style={{fontSize:"30px"}}>:(</p>
+          <p style={{fontSize:"20px"}}>Nenhum agendamento encontrado</p>
         </div>
         )}
 

@@ -198,7 +198,7 @@ const toggleItem = (itemId) => {
       setExpandedCardBooking([...expandedCardBooking, itemId]);
     }
 };
-
+console.log(professional)
 return (
 <main>
     <div className="container__main">
@@ -336,7 +336,7 @@ return (
           ):(
             <div className="message__notFound">
             <p>{messagemNotFound}</p>
-            <p style={{fontSize:"30px"}}>:(</p>
+            <p style={{fontSize:"20px"}}>Nenhum agendamento encontrado</p>
           </div>
           )}
 

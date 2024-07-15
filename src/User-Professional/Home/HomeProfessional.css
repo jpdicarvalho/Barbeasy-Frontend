@@ -26,17 +26,17 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #354249;
-    font-size: 25px;
+    color: #ffffff75;
+    font-size: 30px;
     cursor: pointer;
 }
 .circle__notification{
     position: absolute;
-    margin-left: 8px;
+    margin-left: 12px;
     margin-bottom: 7px;
     background: #4a17d5;
-    width: 7px;
-    height: 7px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
 }
 .name__professional{

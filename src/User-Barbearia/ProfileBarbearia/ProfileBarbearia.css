@@ -134,6 +134,7 @@
     width: 370px;
     height: 95px;
     padding-bottom: 5px;
+    overflow-y: hidden;
     overflow-x: scroll;
 }
 .section__professional{
@@ -184,10 +185,8 @@
     margin-left: 10px;
     margin-right: 10px;
     height: 85px;
+    width: 125px;
     font-size: 16px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden; 
     cursor: pointer;
   }
 
@@ -206,7 +205,11 @@
     margin-bottom: 5px;
 }
 .name__professional{
-    width: auto;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden; 
+    width: 125px;
 }
 .arrow{
     position: absolute;

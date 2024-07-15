@@ -290,7 +290,7 @@ return (
                         onChange={handleFile}
                     />
 
-                    {imageUser.length > 48 ? (
+                    {imageUser.length > 49 ? (
                         <div className="img-view-profile">
                             <img src={imageUser} alt="" id='img-profile' />
                         </div>
@@ -317,18 +317,7 @@ return (
         </div>
         )}
 
-<div className="container__menu">
-
-<div className="menu__main" onClick={alternarNome}>
-  <FaRegUser className='icon_menu'/>
-    Nome
-  <IoIosArrowDown className={`arrow ${mostrarNome ? 'girar' : ''}`} id='arrow'/>
-  </div>
-
-  {mostrarNome && (
-    <div className="divSelected">
-      <p className='information__span'>Alterar Nome de usuário</p>
-        {message === 'Alteração realizada com sucesso.' ?(
+{message === 'Alteração realizada com sucesso.' ?(
             <div className="mensagem-sucesso">
               <MdOutlineDone className="icon__success"/>
               <p className="text__message">{message}</p>
@@ -340,6 +329,18 @@ return (
             </div>
         )}
 
+<div className="container__menu">
+
+<div className="menu__main" onClick={alternarNome}>
+  <FaRegUser className='icon_menu'/>
+    Nome
+  <IoIosArrowDown className={`arrow ${mostrarNome ? 'girar' : ''}`} id='arrow'/>
+  </div>
+
+  {mostrarNome && (
+    <div className="divSelected">
+      <p className='information__span'>Alterar Nome de usuário</p>
+        
     <div className="inputBox">
     <input
         type="text"
@@ -407,23 +408,11 @@ return (
       <div className="divSelected">
         <p className='information__span'>Alterar número de contato</p>
 
-        {message === 'Alteração realizada com sucesso.' ?(
-            <div className="mensagem-sucesso">
-              <MdOutlineDone className="icon__success"/>
-              <p className="text__message">{message}</p>
-            </div>
-        ) : (
-            <div className={` ${message ? 'mensagem-erro' : ''}`}>
-              <VscError className={`hide_icon__error ${message ? 'icon__error' : ''}`}/>
-              <p className="text__message">{message}</p>
-            </div>
-        )}
-
           <div className="inputBox">
             <input
-              type="password"
-              id="senha"
-              name="senha"
+              type="text"
+              id="text"
+              name="text"
               onChange={(e) => {
                 const inputValue = e.target.value;
                 //regex to valided password
@@ -483,18 +472,6 @@ return (
   {mostrarEmail && (
     <div className="divSelected">
       <p className='information__span'>Alterar Email</p>
-
-      {message === 'Alteração realizada com sucesso.' ?(
-            <div className="mensagem-sucesso">
-              <MdOutlineDone className="icon__success"/>
-              <p className="text__message">{message}</p>
-            </div>
-        ) : (
-            <div className={` ${message ? 'mensagem-erro' : ''}`}>
-              <VscError className={`hide_icon__error ${message ? 'icon__error' : ''}`}/>
-              <p className="text__message">{message}</p>
-            </div>
-        )}
   
     <div className="inputBox">
       <input
