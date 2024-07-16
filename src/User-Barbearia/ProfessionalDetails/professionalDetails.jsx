@@ -884,7 +884,11 @@ const [showButtonUnlinkProfessional, setShowButtonUnlinkProfessional] = useState
 const [messageUnlinkProfessional, setMessageUnlinkProfessional] = useState('');
 
 const unlinkProfessional = () =>{
-  axios.delete(`${urlApi}/api/v1/unlinkProfessional/${barbeariaId}/${professionalId}`)
+  axios.delete(`${urlApi}/api/v1/unlinkProfessional/${barbeariaId}/${professionalId}`, confirmPassword, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  })
     .then(res =>{
       if(res.data.Success === "Success"){
         setMessageUnlinkProfessional('Profissional desvinculado com sucesso.')
