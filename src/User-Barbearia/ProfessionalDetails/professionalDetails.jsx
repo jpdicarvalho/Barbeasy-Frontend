@@ -7,6 +7,7 @@ import './professionalDetails.css';
 
 //Icons
 import { IoArrowBackSharp } from "react-icons/io5";
+import { IoIosRemoveCircleOutline } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
 import { BsCalendar2Day } from "react-icons/bs";
 import { TbClockHour4 } from "react-icons/tb";
@@ -878,12 +879,20 @@ const saveDayOff = () =>{
     })
   }
 }
+
+
+
+const [showButtonUnlinkProfessional, setShowButtonUnlinkProfessional] = useState(false);
+
+const unlinkProfessional = () =>{
+  
+}
 return (
     <div className="main__professional">
     <div className="container__professional">
         <div className="header__professional">
-            <div className="back" onClick={handleBackClick}>
-            <IoArrowBackSharp className="Icon__Back"/>
+            <div className="back">
+              <IoArrowBackSharp className="Icon__Back" onClick={handleBackClick}/>
             </div>
 
             {userImage.length > 49 ? (
@@ -1112,7 +1121,7 @@ return (
 
 <hr className='hr_menu'/>
 
-          <div className="menu__main" onClick={alternarCalendar} style={{marginBottom: '15px'}}>
+          <div className="menu__main" onClick={alternarCalendar}>
             <CiAlarmOff className='icon_menu'/>
               Definir Folga
             <IoIosArrowDown className={`arrow ${showCalendar ? 'girar' : ''}`} id='arrow'/>
@@ -1205,8 +1214,49 @@ return (
               <button className={`button__change ${timesLockedByProfessional.length >= 1 && showButtonSaveDayOff === false ? 'show':''}`} onClick={openButtonSaveDayOff}>Continuar</button>
             </div>
           )}
+
+<hr className='hr_menu'/>
+
+          <div className="menu__main" onClick={() => setShowButtonUnlinkProfessional(!showButtonUnlinkProfessional)} style={{marginBottom: '15px'}}>
+            <IoIosRemoveCircleOutline className='icon_menu'/>
+            Desvincular profissional
+            <IoIosArrowDown className={`arrow ${showButtonUnlinkProfessional ? 'girar' : ''}`} id='arrow'/>
+          </div>
         </div>
         
+
+        {showButtonUnlinkProfessional &&(
+              <div style={{paddingLeft: '10px'}}>
+                <div className="form__change__data">
+                    <div className='span__unlink'>
+                        Deseja realmente desvincular o profissional de sua barbearia?<br />
+                        
+                    </div>
+        
+                  <div className='container__form__change__data'>
+                    <input
+                        type="password"
+                        id="senha"
+                        name="senha"
+                        value={confirmPassword}
+                        className={`input__change__data ${confirmPassword ? 'input__valided':''}`}
+                        onChange={(e) => {
+                            const inputValue = e.target.value;
+                            // Limitar a 10 caracteres
+                            const truncatedPasswordConfirm = inputValue.slice(0, 10);
+                            setConfirmPassword(truncatedPasswordConfirm);
+                        }}
+                        placeholder="Senha atual"
+                        maxLength={8}
+                        required
+                        /><PiPassword className='icon__input__change__data'/>
+                        <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={unlinkProfessional}>
+                            Confirmar
+                        </button>
+                  </div>
+                </div>
+              </div>
+            )}
     </div>
   </div>
     )

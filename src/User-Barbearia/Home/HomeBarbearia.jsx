@@ -198,7 +198,7 @@ const toggleItem = (itemId) => {
       setExpandedCardBooking([...expandedCardBooking, itemId]);
     }
 };
-console.log(professional)
+
 return (
 <main>
     <div className="container__main">

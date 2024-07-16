@@ -116,7 +116,7 @@ useEffect(() => {
     const fileExtension = file ? file.name.split('.').pop() : '';
     
     // Renomeia a imagem com o ID do usuário, número aleatório e a data/hora
-    const renamedFile = new File([file], `userBarbeariaId_${userId}_${formattedDateTime}.${fileExtension}`, { type: file.type });
+    const renamedFile = new File([file], `userClient_${userId}_${formattedDateTime}.${fileExtension}`, { type: file.type });
     formdata.append('image', renamedFile);
     formdata.append('userId', userId);
     formdata.append('password', confirmPassword);
