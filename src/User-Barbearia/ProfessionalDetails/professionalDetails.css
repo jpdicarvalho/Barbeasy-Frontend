@@ -388,7 +388,23 @@
     font-size: 14px;
 }
 .span__unlink{
-    text-align: justify;
     color: #52626b;
     margin-bottom: 10px;
+}
+.alert__unlink{
+    display: flex;
+    background: #4a17d5;
+    border-radius: 10px;
+    color: #f6f6f6;
+    text-align: justify;
+    padding: 5px;
+}
+.icon__warnig{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 30px;
+    margin: 3px;
+    height: 65px
 }

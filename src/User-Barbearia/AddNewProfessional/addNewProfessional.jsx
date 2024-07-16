@@ -22,6 +22,38 @@ const barbeariaId = userInformation.barbearia[0].id;
 
 const urlApi = 'https://barbeasy.up.railway.app'
 
+// ===== Function to get all professionals ====
+const [professional, setProfessional] = useState([]);
+const [professionalId, setProfessionalId] = useState('');
+const [searchProfessional, setSearchProfessional] = useState('');
+const [messagemSearchProfessional, setMessagemSearchProfessional] = useState('');
+const [messagemRequestProfessional, setMessagemRequestProfessional] = useState('');
+
+const handleSearchChange = (e) => {
+  const value = e.target.value;
+  const regex = /^[a-zA-Z\sçéúíóáõãèòìàêôâ]*$/;
+  if (regex.test(value) && value.length <= 50) {
+    setSearchProfessional(value);
+  }
+};
+
+//Function to get all professionais
+const getProfessional = () => {
+  axios.get(`${urlApi}/api/v1/listProfessional/${searchProfessional}`, {
+    headers: {
+        'Authorization': `Bearer ${token}`
+    }
+  })
+    .then(res => {
+      if(res.data.Message === "True"){
+        setProfessional(res.data.Professional)
+      }else{
+        setProfessional(res.data.Professional)
+        setMessagemSearchProfessional("Nenhum profissional encontrado")
+      }
+    })
+    .catch(error => console.log(error));
+}
 // ===== Function to create a new professional =====
 const [expandedCardBooking, setExpandedCardBooking] = useState([]);
 const [showForm, setShowForm] = useState(false);
@@ -82,6 +114,7 @@ const createNewProfessional = () =>{
     .then(res => {
       if(res.data.Success === "Success"){
         setMessageAddProfessional("Profissional criado com sucesso.")
+        getProfessional()
         setTimeout(() => {
           setMessageAddProfessional(null);
           alternarShowForm()
@@ -109,39 +142,6 @@ const createNewProfessional = () =>{
         setMessageAddProfessional(null);
       }, 3000);
     }
-}
-
-//===== Function to get all professional =====
-const [professional, setProfessional] = useState([]);
-const [professionalId, setProfessionalId] = useState('');
-const [searchProfessional, setSearchProfessional] = useState('');
-const [messagemSearchProfessional, setMessagemSearchProfessional] = useState('');
-const [messagemRequestProfessional, setMessagemRequestProfessional] = useState('');
-
-const handleSearchChange = (e) => {
-  const value = e.target.value;
-  const regex = /^[a-zA-Z\sçéúíóáõãèòìàêôâ]*$/;
-  if (regex.test(value) && value.length <= 50) {
-    setSearchProfessional(value);
-  }
-};
-
-//Function to get all professionais
-const getProfessional = () => {
-  axios.get(`${urlApi}/api/v1/listProfessional/${searchProfessional}`, {
-    headers: {
-        'Authorization': `Bearer ${token}`
-    }
-  })
-    .then(res => {
-      if(res.data.Message === "True"){
-        setProfessional(res.data.Professional)
-      }else{
-        setProfessional(res.data.Professional)
-        setMessagemSearchProfessional("Nenhum profissional encontrado")
-      }
-    })
-    .catch(error => console.log(error));
 }
 
 //Function to expanded booking cards

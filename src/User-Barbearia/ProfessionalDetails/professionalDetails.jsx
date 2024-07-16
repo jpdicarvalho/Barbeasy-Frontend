@@ -15,6 +15,7 @@ import { MdOutlineDone } from "react-icons/md";
 import { VscError } from "react-icons/vsc";
 import { CiAlarmOff } from "react-icons/ci";
 import { PiPassword } from "react-icons/pi";
+import { IoWarningOutline } from "react-icons/io5";
 
 const monthNames = [
   'Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun', 'Jul', 'Aug', 'Set', 'Out', 'Nov', 'Dez'
@@ -879,7 +880,7 @@ const saveDayOff = () =>{
     })
   }
 }
-
+//============= Section Unlink professional =============
 const [showButtonUnlinkProfessional, setShowButtonUnlinkProfessional] = useState(false);
 const [messageUnlinkProfessional, setMessageUnlinkProfessional] = useState('');
 
@@ -1249,8 +1250,11 @@ return (
               <div style={{paddingLeft: '10px'}}>
                 <div className="form__change__data">
                     <div className='span__unlink'>
-                        Deseja realmente desvincular o profissional de sua barbearia?<br /><br />
-                        Todas as informações do profissional vinculadas a sua barbearia serão definitivamente apagadas.
+                        Deseja desvincular o profissional de sua barbearia?<br /><br />
+                        <p className="alert__unlink">
+                          <IoWarningOutline className="icon__warnig"/>
+                          Todas as informações do profissional vinculadas a sua barbearia serão definitivamente apagadas.
+                        </p>
                     </div>
                     {messageUnlinkProfessional === 'Profissional desvinculado com sucesso.' ?(
                       <div className="mensagem-sucesso">
