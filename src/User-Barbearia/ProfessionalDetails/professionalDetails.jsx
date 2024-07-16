@@ -880,12 +880,29 @@ const saveDayOff = () =>{
   }
 }
 
-
-
 const [showButtonUnlinkProfessional, setShowButtonUnlinkProfessional] = useState(false);
+const [messageUnlinkProfessional, setMessageUnlinkProfessional] = useState('');
 
 const unlinkProfessional = () =>{
-  
+  axios.delete(`${urlApi}/api/v1/unlinkProfessional/${barbeariaId}/${professionalId}`)
+    .then(res =>{
+      if(res.data.Success === "Success"){
+        setMessageUnlinkProfessional('Profissional desvinculado com sucesso.')
+        setTimeout(() => {
+          setMessageUnlinkProfessional('');
+          setConfirmPassword('')
+          handleBackClick()
+        }, 2000);
+      }
+    }).catch(err =>{
+      setMessageUnlinkProfessional('Erro ao desvincular o profissional. Tente novamente mais tarde.')
+      console.error("Error:", err)
+      setTimeout(() => {
+        setMessageUnlinkProfessional('');
+        setConfirmPassword('')
+        setShowButtonUnlinkProfessional(!showButtonUnlinkProfessional)
+      }, 2000);
+    })
 }
 return (
     <div className="main__professional">
@@ -1222,16 +1239,26 @@ return (
             Desvincular profissional
             <IoIosArrowDown className={`arrow ${showButtonUnlinkProfessional ? 'girar' : ''}`} id='arrow'/>
           </div>
-        </div>
-        
 
-        {showButtonUnlinkProfessional &&(
+          {showButtonUnlinkProfessional &&(
+          <div className="divSelected">
               <div style={{paddingLeft: '10px'}}>
                 <div className="form__change__data">
                     <div className='span__unlink'>
-                        Deseja realmente desvincular o profissional de sua barbearia?<br />
-                        
+                        Deseja realmente desvincular o profissional de sua barbearia?<br /><br />
+                        Todas as informações do profissional vinculadas a sua barbearia serão definitivamente apagadas.
                     </div>
+                    {messageUnlinkProfessional === 'Profissional desvinculado com sucesso.' ?(
+                      <div className="mensagem-sucesso">
+                        <MdOutlineDone className="icon__success"/>
+                        <p className="text__message">{messageUnlinkProfessional}</p>
+                      </div>
+                      ) : (
+                      <div className={` ${messageUnlinkProfessional ? 'mensagem-erro' : ''}`}>
+                        <VscError className={`hide_icon__error ${messageUnlinkProfessional ? 'icon__error' : ''}`}/>
+                        <p className="text__message">{messageUnlinkProfessional}</p>
+                      </div>
+                    )}
         
                   <div className='container__form__change__data'>
                     <input
@@ -1256,7 +1283,13 @@ return (
                   </div>
                 </div>
               </div>
-            )}
+          </div>
+             
+        )}
+        </div>
+        
+        
+        
     </div>
   </div>
     )

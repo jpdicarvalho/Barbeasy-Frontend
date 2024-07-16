@@ -387,3 +387,8 @@
     height: 40px;
     font-size: 14px;
 }
+.span__unlink{
+    text-align: justify;
+    color: #52626b;
+    margin-bottom: 10px;
+}
