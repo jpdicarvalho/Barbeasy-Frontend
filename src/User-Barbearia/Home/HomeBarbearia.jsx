@@ -335,8 +335,7 @@ return (
             })
           ):(
             <div className="message__notFound">
-            <p>{messagemNotFound}</p>
-            <p style={{fontSize:"20px"}}>Nenhum agendamento encontrado</p>
+            <p style={{fontSize:"20px"}}>{messagemNotFound}</p>
           </div>
           )}
 
