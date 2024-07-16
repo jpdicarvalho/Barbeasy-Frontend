@@ -231,6 +231,7 @@ useEffect(() =>{
 const handleBarbeariaSelected = (barbeariaId) =>{
     setBarbeariaSelected(barbeariaId);
 }
+console.log(bookings)
 return (
 <>
     <div className="container__main">
@@ -331,7 +332,8 @@ return (
                     <div className={`booking ${expandedCardBooking.includes(booking.booking_id) ? 'expandCard':''}`}>
                       <div className="container_professional">
                         <div className="Box__image  Box__first__letter__professional">
-                            <p className='firstLetter__professional_Span'>{booking.professional_name.charAt(0).toUpperCase()}</p>
+                          {}
+                            <p className='firstLetter__professional_Span'>{firstLetter}</p>
                         </div>
                         <p className='name__Professional'>{booking.professional_name}</p>
                         <div className="time__booking">
@@ -376,8 +378,7 @@ return (
           })
         ):(
           <div className="message__notFound">
-          <p>{messagemNotFound}</p>
-          <p style={{fontSize:"20px"}}>Nenhum agendamento encontrado</p>
+          <p style={{fontSize:"20px"}}>{messagemNotFound}</p>
         </div>
         )}
 
