@@ -39,8 +39,38 @@
     height: 10px;
     border-radius: 50%;
 }
-.name__professional{
+.section__barbearia__InHome{
+    width: 385px;
+    padding-left: 5px;
+    height: 130px;
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
+.Box__image__barbearia__inHome{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80px;
+    width: 80px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border-radius: 50%;
+    border: 1px solid #4a17d5;
+}
+.firstLetter__barbearia__InHome{
+    color: #fff;
+    font-size: 25px;
+}
+.name__professional__InHome{
     font-size: 16px;
+}
+.name__barbearia__InHome{
+    height: 25px;
+    font-size: 14px;
+    white-space: nowrap; 
+    overflow: hidden;    
+    text-overflow: ellipsis; 
+    width: 110px;
 }
 .subtittle__professional{
     color: #4a575e;

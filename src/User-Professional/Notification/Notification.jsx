@@ -37,6 +37,7 @@ export default function Notification ({openNotification, setCloseNotification}){
             console.log("Error", err)
         })
     }
+    //function to call getAllnotification
     useEffect(() =>{
         getAllnotification()
     }, [openNotification])
@@ -63,6 +64,37 @@ export default function Notification ({openNotification, setCloseNotification}){
         }).catch(err =>{
             setMessage('Erro ao aceitar solicitação, tente novamente mais tarde.')
             console.log('Error ao aceitar notificação', err)
+            setTimeout(() => {
+                setMessage('');    
+                }, 2000);
+        })
+
+    }
+
+    //Function to accept notification
+    const rejectNotification = (barbeariaId) => {
+        const values = {
+            barbeariaId,
+            professionalId
+        }
+        axios.post(`${urlApi}/api/v1/rejectNotification`, values, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+              }
+        }).then(res =>{
+            if(res.data.Success === 'Success'){
+                setMessage('Solicitação de vínculo recusada com sucesso.')
+                setTimeout(() => {
+                    setMessage('');
+                    if(notification.length === 1){
+                        setCloseNotification()
+                    }
+                  }, 2000);
+      
+            }
+        }).catch(err =>{
+            setMessage('Erro ao recusar solicitação, tente novamente mais tarde.')
+            console.log('Error ao recusar notificação', err)
             setTimeout(() => {
                 setMessage('');    
                 }, 2000);
@@ -114,7 +146,7 @@ export default function Notification ({openNotification, setCloseNotification}){
                                 <button className="Btn__accept__notfication" onClick={() => acceptNotification(item.barbeariaId)}>
                                     Aceitar
                                 </button>
-                                <button className="Btn__refuse__notfication">
+                                <button className="Btn__refuse__notfication" onClick={() => rejectNotification(item.barbeariaId)}>
                                     Recusar
                                 </button>
                             </div>

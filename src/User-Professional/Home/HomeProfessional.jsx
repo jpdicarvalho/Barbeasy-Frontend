@@ -231,7 +231,8 @@ useEffect(() =>{
 const handleBarbeariaSelected = (barbeariaId) =>{
     setBarbeariaSelected(barbeariaId);
 }
-console.log(bookings)
+
+
 return (
 <>
     <div className="container__main">
@@ -247,7 +248,7 @@ return (
                   </div>
             )}
             <div className="user__name__professional">
-                <p className='name__professional'>Olá, {professionalUserName}</p>
+                <p className='name__professional__InHome'>Olá, {professionalUserName}</p>
                 <p className='subtittle__professional'> {saudacao}</p>
             </div>
             <div className="icon__notification" onClick={() => setShowNotification(true)}>
@@ -274,7 +275,7 @@ return (
             )}
           </>
         )}
-        <div className="section__professional__barbearia">
+        <div className="section__barbearia__InHome">
           <div className="section__professional">
 
             {barbearias.map((barbearias) => { 
@@ -282,11 +283,11 @@ return (
               const firstLetter = barbearias.nameBarbearia.charAt(0).toUpperCase();
               
               return (
-                <div key={barbearias.barbeariaId} onClick={() => handleBarbeariaSelected(barbearias.barbeariaId)} className={`Box__professional ${barbeariaSelected === barbearias.barbeariaId? 'barbeariaSelected':''}`}>
-                    <div className="Box__image">
-                      <p className='firstLetter'>{firstLetter}</p>
+                <div key={barbearias.barbeariaId} onClick={() => handleBarbeariaSelected(barbearias.barbeariaId)} className={`Box__barbearia__inHome ${barbeariaSelected === barbearias.barbeariaId? 'barbeariaSelected':''}`}>
+                    <div className="Box__image__barbearia__inHome">
+                      <p className='firstLetter__barbearia__InHome'>{firstLetter}</p>
                     </div>
-                    <p className='name__professional'>{barbearias.nameBarbearia}</p>
+                    <p className='name__barbearia__InHome'>{barbearias.nameBarbearia}</p>
                 </div>
               );
             })}
