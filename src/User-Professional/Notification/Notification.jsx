@@ -21,6 +21,7 @@ export default function Notification ({openNotification, setCloseNotification}){
     const urlCloudFront = 'https://d15o6h0uxpz56g.cloudfront.net/'
     
     const[notification, setNotification] = useState([]);
+    const[callFunctio, setCallFunctio] = useState(false);
     const[message, setMessage] = useState('');
 
     //function to get all notification
@@ -37,11 +38,10 @@ export default function Notification ({openNotification, setCloseNotification}){
             console.log("Error", err)
         })
     }
-    //function to call getAllnotification
     useEffect(() =>{
         getAllnotification()
-    }, [openNotification])
-
+    }, [callFunctio, !callFunctio])
+    
     //Function to accept notification
     const acceptNotification = (barbeariaId) => {
         const values = {
@@ -56,7 +56,7 @@ export default function Notification ({openNotification, setCloseNotification}){
             if(res.data.Success === 'Success'){
                 setMessage('Solicitação de vínculo aceita com sucesso')
                 setTimeout(() => {
-                    setMessage('');
+                    setMessage('')
                     setCloseNotification()
                   }, 2000);
       
@@ -73,22 +73,21 @@ export default function Notification ({openNotification, setCloseNotification}){
 
     //Function to accept notification
     const rejectNotification = (barbeariaId) => {
-        const values = {
-            barbeariaId,
-            professionalId
-        }
-        axios.post(`${urlApi}/api/v1/rejectNotification`, values, {
+        
+        axios.delete(`${urlApi}/api/v1/rejectNotification/${barbeariaId}/${professionalId}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
               }
         }).then(res =>{
             if(res.data.Success === 'Success'){
                 setMessage('Solicitação de vínculo recusada com sucesso.')
+                setCallFunctio(true)
                 setTimeout(() => {
                     setMessage('');
-                    if(notification.length === 1){
-                        setCloseNotification()
+                    if(notification.length < 1){
+                        return setCloseNotification()
                     }
+                    getAllnotification()
                   }, 2000);
       
             }
@@ -101,6 +100,7 @@ export default function Notification ({openNotification, setCloseNotification}){
         })
 
     }
+    console.log(callFunctio)
     if(openNotification){
         return (
             <>
@@ -114,18 +114,13 @@ export default function Notification ({openNotification, setCloseNotification}){
                             <IoClose className="icon_close"/>
                         </button>
                     </div>
-                    {message === 'Solicitação de vínculo aceita com sucesso' ?(
-                          <div className="mensagem-sucesso" style={{width: "100%"}}>
+                    {message &&(
+                        <div className="mensagem-sucesso" style={{width: "100%"}}>
                             <MdOutlineDone className="icon__success"/>
                             <p className="text__message">{message}</p>
-                          </div>
-                          ) : (
-                          <div className={` ${message ? 'mensagem-erro' : ''}`}>
-                            <VscError className={`hide_icon__error ${message ? 'icon__error' : ''}`}/>
-                            <p className="text__message">{message}</p>
-                          </div>
-                              )
-                        }
+                        </div>
+                    )}
+                    
                     <div className="section__barbearia__notification">
                     {notification.map(item => (
                         <div key={item.barbeariaId} className="box__barbearia__notification">

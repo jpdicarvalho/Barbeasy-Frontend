@@ -65,10 +65,14 @@ const[notification, setNotification] = useState([]);
             console.log("Error", err)
         })
     }
+
     useEffect(() =>{
         getAllnotification()
     }, [])
-
+    console.log(notification)
+if(!showNotification){
+  getAllnotification()
+}
 //============== GET IMAGE PROFESSIONAL ============
 const [imageUser, setImageUser] = useState([]);
 //Função para obter as imagens cadastradas
@@ -224,15 +228,16 @@ const getBarbearias = () =>{
       console.log("Error", err)
     })
 }
+
 useEffect(() =>{
   getBarbearias()
-}, [])
+}, [!showNotification, showNotification])
 
 const handleBarbeariaSelected = (barbeariaId) =>{
     setBarbeariaSelected(barbeariaId);
 }
 
-
+console.log('showNotification', showNotification)
 return (
 <>
     <div className="container__main">
