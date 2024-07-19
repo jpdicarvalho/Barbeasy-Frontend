@@ -233,7 +233,7 @@ useEffect(() =>{
 const handleBarbeariaSelected = (barbeariaId) =>{
     setBarbeariaSelected(barbeariaId);
 }
-
+console.log(barbearias)
 return (
 <>
     <div className="container__main">

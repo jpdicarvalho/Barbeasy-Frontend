@@ -8,8 +8,8 @@ import { IoStar } from "react-icons/io5";
 import { IoArrowBackSharp } from "react-icons/io5";
 import { MdOutlineDone } from "react-icons/md";
 import { IoIosSearch } from "react-icons/io";
+import { VscError } from "react-icons/vsc";
 
-import barbeasyLogo from '../../../barber-logo.png'
 
 export default function Notification (){
 
@@ -62,7 +62,7 @@ export default function Notification (){
               }
         }).then(res =>{
             if(res.data.Success === 'Success'){
-                setMessage('Solicitação de vínculo aceita com sucesso')
+                setMessage('Solicitação aceita com sucesso.')
                 setTimeout(() => {
                     setMessage('')
                     navigateToHomeProfessional()
@@ -70,11 +70,19 @@ export default function Notification (){
       
             }
         }).catch(err =>{
-            setMessage('Erro ao aceitar solicitação, tente novamente mais tarde.')
-            console.log('Error ao aceitar notificação', err)
-            setTimeout(() => {
-                setMessage('');    
-                }, 2000);
+            if(err.status === 401){
+                setMessage('Erro ao aceitar solicitação. Você já possui um vínculo com essa barbearia.')
+                console.error('Error ao aceitar notificação', err)
+                setTimeout(() => {
+                    setMessage('');    
+                }, 3000);
+            }else{
+                setMessage('Erro ao aceitar solicitação. Tente novamente mais tarde.')
+                console.error('Error ao aceitar notificação', err)
+                setTimeout(() => {
+                    setMessage('');    
+                    }, 2000);
+            }
         })
 
     }
@@ -120,12 +128,20 @@ export default function Notification (){
                         <input type="search" className='Inner__input__search' value={search} onChange={(e) => setSearch(e.target.value)} placeholder='Buscar solicitação'/>
                     </div>
                 </div>
-                {message &&(
-                    <div className="mensagem-sucesso" style={{width: "100%"}}>
-                        <MdOutlineDone className="icon__success"/>
-                        <p className="text__message">{message}</p>
-                    </div>
-                )}
+
+                <div className="box__message__notification">
+                    {message === 'Solicitação aceita com sucesso.' ?(
+                        <div className="mensagem-sucesso" style={{width: "365px"}}>
+                            <MdOutlineDone className="icon__success"/>
+                            <p className="text__message">{message}</p>
+                        </div>
+                    ):(
+                        <div className={` ${message ? 'mensagem-erro' : ''}`}>
+                            <VscError className={`hide_icon__error ${message ? 'icon__error' : ''}`}/>
+                            <p className="text__message">{message}</p>
+                        </div>
+                    )}
+                </div>
                 
                 <div className="section__barbearia__notification">
                     {notification.length > 0 ?(

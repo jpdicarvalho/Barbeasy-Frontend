@@ -23,6 +23,7 @@
 .section__barbearia__notification{
     padding-left: 15px;
     padding-right: 15px;
+    padding-top: 38px;
     height: 450px;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -36,6 +37,11 @@
 }
 .section__barbearia__notification::-webkit-scrollbar-thumb:hover {
     background: #f6f6f6; 
+}
+.box__message__notification{
+    padding-left: 20px;
+    height: 20px;
+    width: 390px;
 }
 .box__barbearia__notification{
     display: flex;
