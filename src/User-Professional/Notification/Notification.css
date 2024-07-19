@@ -1,22 +1,14 @@
 .container__notification{
-    position: fixed;
     display: flex;
     justify-content: center;
-    align-items: center;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(0, 0, 0, 0.737);
-    z-index: 1000;
-    opacity: 1;
+    height: 100vh;
+    width: 390px;
 }
 .section__notification{
-    width: 350px;
+    width: 100%;
     background: #1c2035;
     padding: 5px;
     border-radius: 10px;
-    z-index: 2001;
 }
 .header__notification{
     display: flex;

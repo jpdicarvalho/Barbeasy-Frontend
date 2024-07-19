@@ -22,6 +22,8 @@ import UserProfile from './User-Client-Barbearia/UserProfile/UserProfile';
 
 import BookingsHistory from './User-Client-Barbearia/BookingsHistory/BookingsHistory';
 
+import Notification from './User-Professional/Notification/Notification';
+
 import Checkout from './Checkout';
 import Widget from './Widget';
 import PropTypes from 'prop-types';
@@ -64,6 +66,8 @@ const App = () => {
 
         <Route path="/HomeProfessional" element={<PrivateRoute element={<HomeProfessional />} />} />
         <Route path="/ProfileProfessional" element={<PrivateRoute element={<ProfileProfessional />} />} />
+        <Route path="/Notification" element={<PrivateRoute element={<Notification />} />} />
+
 
         <Route path="/SignIn" element={<SignIn />} />
         <Route path="/SignUp" element={<SignUp />} />

@@ -46,7 +46,10 @@ function HomeProfessional() {
 const navigateToProfileProfessional = () =>{
   navigate("/ProfileProfessional");
 }
-const [showNotification, setShowNotification] = useState(false);
+
+const navigateToNotification = () =>{
+  navigate("/Notification");
+}
 
 //==================== GET NOTIFICATION ================
 const[notification, setNotification] = useState([]);
@@ -69,10 +72,7 @@ const[notification, setNotification] = useState([]);
     useEffect(() =>{
         getAllnotification()
     }, [])
-    console.log(notification)
-if(!showNotification){
-  getAllnotification()
-}
+
 //============== GET IMAGE PROFESSIONAL ============
 const [imageUser, setImageUser] = useState([]);
 //Função para obter as imagens cadastradas
@@ -231,13 +231,12 @@ const getBarbearias = () =>{
 
 useEffect(() =>{
   getBarbearias()
-}, [!showNotification, showNotification])
+}, [])
 
 const handleBarbeariaSelected = (barbeariaId) =>{
     setBarbeariaSelected(barbeariaId);
 }
 
-console.log('showNotification', showNotification)
 return (
 <>
     <div className="container__main">
@@ -256,13 +255,12 @@ return (
                 <p className='name__professional__InHome'>Olá, {professionalUserName}</p>
                 <p className='subtittle__professional'> {saudacao}</p>
             </div>
-            <div className="icon__notification" onClick={() => setShowNotification(true)}>
+            <div className="icon__notification" onClick={navigateToNotification}>
               {notification.length >= 1 &&(
                 <div className='circle__notification'></div>
               )}
                 <IoIosNotifications/>
             </div>
-            <Notification openNotification={showNotification} setCloseNotification={() => setShowNotification(!showNotification)}/>
         </div>
         
         {barbearias.length === 1 ?(
