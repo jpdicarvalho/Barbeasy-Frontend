@@ -10,6 +10,7 @@ import { FaWhatsapp } from "react-icons/fa";
 import { IoIosNotifications } from "react-icons/io";
 import { GrSchedules } from "react-icons/gr";
 import { SlOptionsVertical } from "react-icons/sl";
+import { IoIosRemoveCircleOutline } from "react-icons/io";
 
 
 const monthNames = [
@@ -234,7 +235,14 @@ useEffect(() =>{
 const handleBarbeariaSelected = (barbeariaId) =>{
     setBarbeariaSelected(barbeariaId);
 }
-console.log(barbearias)
+//Function to show small div for unlink barbearia
+const [showBoxUnlinkBarbearia, setshowBoxUnlinkBarbearia] = useState(false);
+
+const handleBoxUnlinkClick = () =>{
+  setshowBoxUnlinkBarbearia(!showBoxUnlinkBarbearia)
+}
+
+console.log(showBoxUnlinkBarbearia)
 return (
 <>
     <div className="container__main">
@@ -286,10 +294,15 @@ return (
               return (
                 <div key={barbearias.barbeariaId} onClick={() => handleBarbeariaSelected(barbearias.barbeariaId)} className={`Box__barbearia__inHome ${barbeariaSelected === barbearias.barbeariaId? 'barbeariaSelected':''}`}>
                     {barbeariaSelected === barbearias.barbeariaId &&(
-                      <div className='mini__menu__in__homeProfessional'>
-                        <SlOptionsVertical />
+                      <div className={`box__unlink__barbearia ${!showBoxUnlinkBarbearia ? 'ocultDivUnlink':''}`}>
+                        <IoIosRemoveCircleOutline/>
+                        <p>Desvincular</p>
                       </div>
                     )}
+                    
+                    <div className='mini__menu__in__homeProfessional'>
+                      <SlOptionsVertical className='icon__SlOptionsVertical__inHomeProfessional'onClick={handleBoxUnlinkClick}/>
+                    </div>
                     <div className="Box__image__barbearia__inHome">
                       <div className='inner__firstLetter__barbearia__InHome'>
                         <p className='firstLetter__barbearia__InHome'>{firstLetter}</p>
