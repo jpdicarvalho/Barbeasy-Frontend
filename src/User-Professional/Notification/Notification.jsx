@@ -1,15 +1,19 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"
 
 import axios from "axios";
 
 import './Notification.css'
 import { IoStar } from "react-icons/io5";
-import { IoClose } from "react-icons/io5";
+import { IoArrowBackSharp } from "react-icons/io5";
 import { MdOutlineDone } from "react-icons/md";
+import { IoIosSearch } from "react-icons/io";
 
 import barbeasyLogo from '../../../barber-logo.png'
 
-export default function Notification ({openNotification, setCloseNotification}){
+export default function Notification (){
+
+    const navigate = useNavigate();
 
     const token = localStorage.getItem('token');
     const userData = localStorage.getItem('dataprofessional');//Obtendo os dados salvo no localStorage
@@ -20,8 +24,12 @@ export default function Notification ({openNotification, setCloseNotification}){
     const urlCloudFront = 'https://d15o6h0uxpz56g.cloudfront.net/'
     
     const[notification, setNotification] = useState([]);
-    const[callFunctio, setCallFunctio] = useState(false);
+    const [search, setSearch] = useState('');
     const[message, setMessage] = useState('');
+
+    const navigateToHomeProfessional = () =>{
+        navigate("/HomeProfessional");  
+    }
 
     //function to get all notification
     const getAllnotification = () =>{
@@ -40,7 +48,7 @@ export default function Notification ({openNotification, setCloseNotification}){
 
     useEffect(() =>{
         getAllnotification()
-    }, [callFunctio, !callFunctio])
+    }, [])
     
     //Function to accept notification
     const acceptNotification = (barbeariaId) => {
@@ -57,7 +65,7 @@ export default function Notification ({openNotification, setCloseNotification}){
                 setMessage('Solicitação de vínculo aceita com sucesso')
                 setTimeout(() => {
                     setMessage('')
-                    setCloseNotification()
+                    navigateToHomeProfessional()
                   }, 2000);
       
             }
@@ -84,9 +92,6 @@ export default function Notification ({openNotification, setCloseNotification}){
                 setCallFunctio(true)
                 setTimeout(() => {
                     setMessage('');
-                    if(notification.length < 1){
-                        return setCloseNotification()
-                    }
                     getAllnotification()
                   }, 2000);
       
@@ -100,15 +105,20 @@ export default function Notification ({openNotification, setCloseNotification}){
         })
 
     }
+
     return (
         <div className="container__notification">
             <div className="section__notification">
                 <div className="header__notification">
-                <button className="Btn__close__notification" onClick={setCloseNotification}>
-                        <IoClose className="icon_close"/>
-                    </button>
+                    <div className="back">
+                        <IoArrowBackSharp className="Icon__Back" onClick={navigateToHomeProfessional}/>
+                    </div>
                     <div className="tittle__notification">
-                        Solicitações
+                        <h2>Solicitações</h2>
+                    </div>
+                    <div className='Box__input__Search'>
+                        <IoIosSearch id='lupa__in__bookings__history'/>
+                        <input type="search" className='Inner__input__search' value={search} onChange={(e) => setSearch(e.target.value)} placeholder='Buscar solicitação'/>
                     </div>
                 </div>
                 {message &&(
@@ -119,7 +129,8 @@ export default function Notification ({openNotification, setCloseNotification}){
                 )}
                 
                 <div className="section__barbearia__notification">
-                        {notification.map(item => (
+                    {notification.length > 0 ?(
+                        notification.map(item => (
                             <div key={item.barbeariaId} className="box__barbearia__notification">
                                 <div className="Box__img__capa__barbearia">
                                     <img src={urlCloudFront + item.bannerBarbearia} className="img__capa__barbearia"/>
@@ -144,7 +155,13 @@ export default function Notification ({openNotification, setCloseNotification}){
                                 </div>
                                 
                             </div>
-                        ))}
+                        ))
+                    ):(
+                        <div className='box__message__no__bookings__history'>
+                            <h3>Nenhuma notificação encontrada</h3>
+                        </div>
+                    )}
+                        
                 </div>
             </div>
             

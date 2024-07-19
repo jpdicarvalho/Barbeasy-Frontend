@@ -46,14 +46,30 @@
     overflow-x: scroll;
     overflow-y: hidden;
 }
+.section__barbearia__InHome::-webkit-scrollbar {
+    height: 5px;
+}
+.section__barbearia__InHome::-webkit-scrollbar-thumb {
+    background: #4a17d5; 
+    border-radius: 5px;
+}
+.section__barbearia__InHome::-webkit-scrollbar-thumb:hover {
+    background: #f6f6f6; 
+}
+.Box__barbearia__inHome{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 3px;
+    height: 105px;
+}
 .Box__image__barbearia__inHome{
     display: flex;
     justify-content: center;
     align-items: center;
     height: 80px;
     width: 80px;
-    margin-right: 10px;
-    margin-bottom: 10px;
     border-radius: 50%;
     border: 1px solid #4a17d5;
 }
@@ -65,6 +81,7 @@
     font-size: 16px;
 }
 .name__barbearia__InHome{
+    text-align: center;
     height: 25px;
     font-size: 14px;
     white-space: nowrap; 

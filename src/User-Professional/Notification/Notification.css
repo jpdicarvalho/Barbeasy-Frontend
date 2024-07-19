@@ -7,31 +7,22 @@
 .section__notification{
     width: 100%;
     background: #1c2035;
-    padding: 5px;
     border-radius: 10px;
 }
 .header__notification{
     display: flex;
-    flex-direction: row;
-    padding: 5px;
+    flex-direction: column;
+    padding-top: 10px;
+    padding-left: 5px;
 }
 .tittle__notification{
+    padding-left: 15px;
+    padding-top: 10px;
     width: 100%;
 }
-.Btn__close__notification{
-    background: #4a17d5;
-    color: #fff;
-    outline: none;
-    border: none;
-    padding: 5px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-.icon_close{
-    font-size: 18px;
-}
 .section__barbearia__notification{
-    padding: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
     height: 450px;
     overflow-y: scroll;
     overflow-x: hidden;

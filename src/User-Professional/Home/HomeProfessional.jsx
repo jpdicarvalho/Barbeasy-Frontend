@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom"
 import axios from 'axios';
-import {motion} from 'framer-motion';
-
-import Notification from '../Notification/Notification';
 
 import './HomeProfessional.css';
 import { GiRazorBlade } from "react-icons/gi";

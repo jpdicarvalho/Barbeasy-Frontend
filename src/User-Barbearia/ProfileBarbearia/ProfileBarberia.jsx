@@ -162,7 +162,7 @@ function ProfileBarbearia() {
 //Variáveis para abrir o madal
 const [showAddNewProfessional, setShowAddNewProfessional] = useState(false);
 const [professional, setProfessional] = useState([])
-console.log(showAddNewProfessional)
+
   //Function to get all professionais
   useEffect(() => {
     const getProfessional = () =>{
