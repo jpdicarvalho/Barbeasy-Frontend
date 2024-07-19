@@ -9,6 +9,7 @@ import { IoPersonCircleOutline } from "react-icons/io5";
 import { FaWhatsapp } from "react-icons/fa";
 import { IoIosNotifications } from "react-icons/io";
 import { GrSchedules } from "react-icons/gr";
+import { SlOptionsVertical } from "react-icons/sl";
 
 
 const monthNames = [
@@ -284,10 +285,18 @@ return (
               
               return (
                 <div key={barbearias.barbeariaId} onClick={() => handleBarbeariaSelected(barbearias.barbeariaId)} className={`Box__barbearia__inHome ${barbeariaSelected === barbearias.barbeariaId? 'barbeariaSelected':''}`}>
+                    {barbeariaSelected === barbearias.barbeariaId &&(
+                      <div className='mini__menu__in__homeProfessional'>
+                        <SlOptionsVertical />
+                      </div>
+                    )}
                     <div className="Box__image__barbearia__inHome">
-                      <p className='firstLetter__barbearia__InHome'>{firstLetter}</p>
+                      <div className='inner__firstLetter__barbearia__InHome'>
+                        <p className='firstLetter__barbearia__InHome'>{firstLetter}</p>
+                      </div>
+                      <p className='name__barbearia__InHome'>{barbearias.nameBarbearia}</p>
                     </div>
-                    <p className='name__barbearia__InHome'>{barbearias.nameBarbearia}</p>
+                    
                 </div>
               );
             })}
