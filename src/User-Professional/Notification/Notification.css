@@ -39,54 +39,32 @@
 }
 .box__barbearia__notification{
     border: 1px solid #fff;
+    display: flex;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    overflow: hidden;
     margin-bottom: 15px;
 }
 .Box__img__capa__barbearia{
-    overflow: hidden;
     height: 150px;
-    width: 100%;
+    width: 100px;
+    background: red;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
 }
 .img__capa__barbearia{
-    width: 100%;
-    height: 100%;
+    width: 50px;
+    height: 50px;
     object-fit: cover;
 }
-.box__logo__barbeasy{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: transparent;
-    width: 100%;
-    height: 20px;
+.section__body__notification{
+    width: 250px;
+    background: yellow;
 }
-.img__logo__barbeasy{
-    display: flex;
-    justify-content: start;
-    align-items: start;
-    margin-bottom: 25px;
-    background: #1c2035;
-    border: 1px solid #fff;
-    border-radius: 50%;
-    width: 45px;
-    height: 45px;
-    padding-top: 5px;
-    padding-bottom: 4px;
-    padding-right: 6px;
-    padding-left: 4px;
-}
-
 .Box__average__inNotification{
     display: flex;
     justify-content: end;
     align-items: center;
     font-weight: 700;
-    position: absolute;
-    margin-top: -34px;
     width: 355px;
     padding-right: 6px;
 }
@@ -97,7 +75,7 @@
     
 }
 .name__barbearia{
-    width: 100%;
+    width: 10px;
     height: 30px;
     display: flex;
     justify-content: center;
@@ -128,7 +106,7 @@
 .Btn__accept__notfication{
     border: 1px solid #0F0;
     padding: 10px;
-    width: 130px;
+    width: 13px;
     background: #0F0;
     border-radius: 10px;
     color: #1c2035;
@@ -139,7 +117,7 @@
 .Btn__refuse__notfication{
     border: 1px solid red;
     padding: 10px;
-    width: 130px;
+    width: 13px;
     background: red;
     border-radius: 10px;
     color: #1c2035;
