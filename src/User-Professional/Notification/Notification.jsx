@@ -105,7 +105,7 @@ export default function Notification (){
         })
 
     }
-
+console.log(notification)
     return (
         <div className="container__notification">
             <div className="section__notification">
@@ -134,13 +134,23 @@ export default function Notification (){
                             <div key={item.barbeariaId} className="box__barbearia__notification">
                                 <div className="Box__img__capa__barbearia">
                                     <img src={urlCloudFront + item.bannerBarbearia} className="img__capa__barbearia"/>
+                                    
                                 </div>
+
+                                <div className="Box__average__inNotification">
+                                    <div className="average__inNotification">
+                                        <IoStar className="icon__start__notification"/> {item.average} • {item.totalAvaliations}
+
+                                    </div>
+                                </div>
+
                                 <div className="box__logo__barbeasy">
                                     <img src={barbeasyLogo} className="img__logo__barbeasy"/>
+                                    
                                 </div>
                                 <div className="name__barbearia">
-                                    <p>{item.nameBarbearia} • (4,5)</p>
-                                    <IoStar className="icon__start__notification"/>
+                                    <p>{item.nameBarbearia}</p>
+                                    
                                 </div>
                                 <div className="address">
                                     <p>{item.ruaBarbearia}, Nº {item.nRuaBarbearia}, {item.bairroBarbearia}, {item.cidadeBarbearia}</p>

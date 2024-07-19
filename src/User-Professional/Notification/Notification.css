@@ -47,6 +47,9 @@
 .Box__img__capa__barbearia{
     overflow: hidden;
     height: 150px;
+    width: 100%;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
 .img__capa__barbearia{
     width: 100%;
@@ -76,6 +79,23 @@
     padding-right: 6px;
     padding-left: 4px;
 }
+
+.Box__average__inNotification{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    font-weight: 700;
+    position: absolute;
+    margin-top: -34px;
+    width: 355px;
+    padding-right: 6px;
+}
+.average__inNotification{
+    background: #444447a4;
+    padding: 3px;
+    border-radius: 5px;
+    
+}
 .name__barbearia{
     width: 100%;
     height: 30px;
@@ -86,8 +106,7 @@
     font-size: 20px;
 }
 .icon__start__notification{
-    color: gold;
-    margin-left: 5px;
+    color: #4a17d5;
 }
 .address{
     display: flex;
