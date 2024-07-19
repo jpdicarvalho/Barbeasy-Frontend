@@ -133,29 +133,27 @@ export default function Notification (){
                             <div key={item.barbeariaId} className="box__barbearia__notification">
                                 <div className="Box__img__capa__barbearia">
                                     <img src={urlCloudFront + item.bannerBarbearia} className="img__capa__barbearia"/>
+                                    
                                 </div>
+                                
 
                                 <div className="section__body__notification">
-                                    <div className="Box__average__inNotification">
-                                            <div className="average__inNotification">
-                                                <IoStar className="icon__start__notification"/> {item.average} • {item.totalAvaliations}
-
-                                            </div>
-                                    </div>  
-                                        
                                     <div className="name__barbearia">
                                         <p>{item.nameBarbearia}</p>
-                                        
+                                        <div className="average__inNotification">
+                                            <IoStar className="icon__start__notification"/> {item.average} • ({item.totalAvaliations})
+                                        </div>
                                     </div>
+
                                     <div className="address">
                                         <p>{item.ruaBarbearia}, Nº {item.nRuaBarbearia}, {item.bairroBarbearia}, {item.cidadeBarbearia}</p>
                                     </div>
                                     <div className="container__button__confirm__notification">
-                                        <button className="Btn__accept__notfication" onClick={() => acceptNotification(item.barbeariaId)}>
-                                            Aceitar
-                                        </button>
                                         <button className="Btn__refuse__notfication" onClick={() => rejectNotification(item.barbeariaId)}>
                                             Recusar
+                                        </button>
+                                        <button className="Btn__accept__notfication" onClick={() => acceptNotification(item.barbeariaId)}>
+                                            Aceitar
                                         </button>
                                     </div>
                                 </div>
