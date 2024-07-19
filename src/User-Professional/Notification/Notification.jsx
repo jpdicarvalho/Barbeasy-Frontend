@@ -141,7 +141,15 @@ export default function Notification (){
                                     <div className="name__barbearia">
                                         <p>{item.nameBarbearia}</p>
                                         <div className="average__inNotification">
-                                            <IoStar className="icon__start__notification"/> {item.average} • ({item.totalAvaliations})
+                                            {item.totalAvaliations > 0 ?(
+                                                <>
+                                                    <IoStar className="icon__start__notification"/> {item.average} • ({item.totalAvaliations})
+                                                </>
+                                            ):(
+                                                <>
+                                                <IoStar className="icon__start__notification"/> 0 • (0)
+                                                </>
+                                            )}
                                         </div>
                                     </div>
 

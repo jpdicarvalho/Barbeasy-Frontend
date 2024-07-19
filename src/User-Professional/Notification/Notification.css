@@ -109,6 +109,10 @@
     font-size: 14px;
     transition: 0.5s;
 }
+.Btn__accept__notfication:hover{
+    background: #4a17d584;
+    transition: 0.5s;
+}
 .Btn__refuse__notfication{
     border: 1px solid #4a17d5;
     padding: 5px;
@@ -118,5 +122,9 @@
     color: #f6f6f6;
     cursor: pointer;
     font-size: 14px;
+    transition: 0.5s;
+}
+.Btn__refuse__notfication:hover{
+    background: #4a17d584;
     transition: 0.5s;
 }
