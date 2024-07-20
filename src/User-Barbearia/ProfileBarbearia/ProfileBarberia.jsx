@@ -572,11 +572,11 @@ const handleProfessionalClick = (professional) => {
           }, 3000);
       }
     }).catch(error => {
+      console.log('Error:', error)
       setMessagePassword("Senha atual não confirmada!")
           // Limpar a mensagem após 3 segundos (3000 milissegundos)
           setTimeout(() => {
             setMessagePassword('');
-            //window.location.reload();
           }, 5000);
     });
   };
