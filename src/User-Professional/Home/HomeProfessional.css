@@ -149,36 +149,3 @@
     padding: 2px;
     cursor: pointer;
 }
-
-
-/* App.css */
-.container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    flex-direction: column;
-  }
-  
-  .content {
-    opacity: 0;
-    transform: translateY(100%);
-    transition: all 0.5s ease-out;
-  }
-  
-  .content.show {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  
-  /* Adicione estas classes específicas para o novo conteúdo */
-  .form__change__data-container {
-    opacity: 0;
-    transform: translateY(100%);
-    transition: all 0.5s ease-out;
-  }
-  
-  .form__change__data-container.show {
-    opacity: 1;
-    transform: translateY(0);
-  }
