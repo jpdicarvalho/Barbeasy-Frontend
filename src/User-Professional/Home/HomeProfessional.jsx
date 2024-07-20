@@ -220,6 +220,7 @@ function HomeProfessional() {
   const [barbeariaSelected, setBarbeariaSelected] = useState();
 
   const getBarbearias = () =>{
+    console.log('oi')
     axios.get(`${urlApi}/api/v1/listBarbeariaToProfessional/${professionalId}`, {
           headers: {
             'Authorization': `Bearer ${token}`
@@ -233,9 +234,9 @@ function HomeProfessional() {
       })
   }
 
-  useEffect(() =>{
-    getBarbearias()
-  }, [])
+  useEffect(() => {
+    getBarbearias();
+  }, []); 
 
   const handleBarbeariaSelected = (barbeariaId) =>{
       setBarbeariaSelected(barbeariaId);
@@ -258,6 +259,7 @@ function HomeProfessional() {
 const [messageUnlinkBarbearia, setMessageUnlinkBarbearia] = useState('');
 
   const unlinkBarbearia = () =>{
+    let lastBarbearia = barbearias.length;
     axios.delete(`${urlApi}/api/v1/unlinkBarbearia/${barbeariaId}/${professionalId}/${confirmPassword}`, {
       headers: {
         'Authorization': `Bearer ${token}`
@@ -266,9 +268,16 @@ const [messageUnlinkBarbearia, setMessageUnlinkBarbearia] = useState('');
       .then(res =>{
         if(res.data.Success === "Success"){
           setMessageUnlinkBarbearia('Barbearia desvinculada com sucesso.')
+          getBarbearias()
+
           setTimeout(() => {
             setMessageUnlinkBarbearia('');
             setConfirmPassword('')
+            setShowConfirmPassword(false)
+            if(lastBarbearia === 1){
+              window.location.reload()
+              return
+            }
           }, 2000);
         }
       }).catch(err =>{

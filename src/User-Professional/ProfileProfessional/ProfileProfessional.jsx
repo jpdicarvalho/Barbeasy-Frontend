@@ -71,7 +71,7 @@ useEffect(() => {
 
 //================UPDATE USER IMAGE================
   //Constantes de Upload de imagem de usuário
-  const [file, setfile] = useState(null);
+  const [file, setfile] = useState();
   const [userImageMessage, setUserImageMessage] = useState('');
 
   const allowedExtensions = ['jpg', 'jpeg', 'png'];
@@ -81,7 +81,6 @@ useEffect(() => {
 
   // Formata a data e hora no formato desejado (por exemplo: YYYYMMDD_HHMMSS)
   const formattedDateTime = `${currentDateTime.getFullYear()}${(currentDateTime.getMonth() + 1).toString().padStart(2, '0')}${currentDateTime.getDate().toString().padStart(2, '0')}_${currentDateTime.getHours().toString().padStart(2, '0')}${currentDateTime.getMinutes().toString().padStart(2, '0')}${currentDateTime.getSeconds().toString().padStart(2, '0')}`;
-
   //Upload user image
   const handleFile = (e) => {
     
@@ -102,15 +101,15 @@ useEffect(() => {
       setfile(e.target.files[0])
     }
   }
-
   //Preparando as imagens selecionadas para serem enviadas ao back-end
   const handleUpload = () => {
     const fileExtension = file ? file.name.split('.').pop() : '';
     
     // Renomeia a imagem com o ID do usuário, número aleatório e a data/hora
-    const renamedFile = new File([file], `userBarbeariaId_${professionalId}_${formattedDateTime}.${fileExtension}`, { type: file.type });
+    const renamedFile = new File([file], `useProfessionalId_${professionalId}_${formattedDateTime}.${fileExtension}`, { type: file.type });
     formdata.append('image', renamedFile);
     formdata.append('professionalId', professionalId);
+    formdata.append('password', confirmPassword);
 
     axios.put(`${urlApi}/api/v1/updateUserImageProfessional`, formdata, {
       headers: {
@@ -122,32 +121,27 @@ useEffect(() => {
         setUserImageMessage("Imagem atualizada com sucesso.");
         setTimeout(() => {
           setUserImageMessage(null);
+          setConfirmPassword('')
           window.location.reload()
         }, 2000);
+      }
+    })
+    .catch(err => {
+      console.log(err)
+      if(err.status === 400){
+        setUserImageMessage('Erro ao atualizar a imagem. Verifique a imagem selecionada e tente novamente.')
+        setTimeout(() => {
+          setUserImageMessage(null);
+        }, 3000);
       }else{
-        setUserImageMessage('Erro ao atualizar a imagem. Tente novamente mais tarde.')
+        setUserImageMessage('Erro ao atualizar a imagem. Tente novamente mais tarde.')  
         setTimeout(() => {
           setUserImageMessage(null);
         }, 3000);
       }
-    })
-    .catch(err => console.log(err));
-  }
-
-  //Method to send images automatically
-  useEffect(() => {
-    // Configura um temporizador para esperar 1 segundo após a última mudança no input de arquivo
-    const timeout = setTimeout(() => {
-      // Executa a função de upload após o período de espera
-      if(file){
-        handleUpload();
-      }
       
-    }, 1000);
-
-    // Limpa o temporizador se o componente for desmontado ou se houver uma nova mudança no input de arquivo
-    return () => clearTimeout(timeout);
-  }, [file]);
+    });
+  }
 
 /*=================================================*/
 const [mostrarNome, setMostrarNome] = useState(false);
@@ -301,10 +295,11 @@ return (
                     )}
                 </label>
             </div>
-        <div className="section__userName">
-            {professionalUserName}
+            <div className="section__userName">
+                {professionalUserName}
+            </div>
         </div>
-        </div>
+
         {userImageMessage === "Imagem atualizada com sucesso." ? (
             <div className="mensagem-sucesso">
                 <MdOutlineDone className="icon__success"/>
@@ -317,7 +312,44 @@ return (
         </div>
         )}
 
-{message === 'Alteração realizada com sucesso.' ?(
+        {file &&(
+          <div>
+            {file.name.length > 0 &&(
+              <div style={{paddingLeft: '10px'}}>
+              <div className="form__change__data">
+                  <div className='container__text__change__data'>
+                      Digite sua senha para confirmar a alteração
+                  </div>
+    
+                <div className='container__form__change__data'>
+                  <input
+                      type="password"
+                      id="senha"
+                      name="senha"
+                      value={confirmPassword}
+                      className={`input__change__data ${confirmPassword ? 'input__valided':''}`}
+                      onChange={(e) => {
+                          const inputValue = e.target.value;
+                          // Limitar a 10 caracteres
+                          const truncatedPasswordConfirm = inputValue.slice(0, 10);
+                          setConfirmPassword(truncatedPasswordConfirm);
+                      }}
+                      placeholder="Senha atual"
+                      maxLength={8}
+                      required
+                      /><PiPassword className='icon__input__change__data'/>
+                      <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={handleUpload}>
+                          Confirmar
+                        </button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+          
+        )}
+
+        {message === 'Alteração realizada com sucesso.' ?(
             <div className="mensagem-sucesso">
               <MdOutlineDone className="icon__success"/>
               <p className="text__message">{message}</p>

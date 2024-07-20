@@ -307,6 +307,7 @@ export function AddNewService ({ professionalId }){
             setMessageEditedService(null);
             if(lastService === 1){
               window.location.reload()
+              return
             }
             obterServicos()
             setConfirmDeleteServico(false);
