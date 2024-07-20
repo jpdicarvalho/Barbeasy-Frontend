@@ -238,12 +238,12 @@ const alternarSenha = () => {
 };
 
 const alterarSenha = () => {
-  axios.get(`${urlApi}/api/v1/updatePasswordProfessional  `, {
-    params: {
-      professionalId: professionalId,
-      passwordConfirm: passwordConfirm,
-      newPassword: newPassword
-    },
+  const values = {
+      professionalId,
+      passwordConfirm,
+      newPassword
+  }
+  axios.put(`${urlApi}/api/v1/updatePasswordProfessional`, values, {
     headers: {
       'Authorization': `Bearer ${token}`
     }
@@ -257,6 +257,7 @@ const alterarSenha = () => {
         }, 3000);
     }
   }).catch(error => {
+    console.error('Error:', error)
     setMessagePassword("Senha atual não confirmada!")
         // Limpar a mensagem após 3 segundos (3000 milissegundos)
         setTimeout(() => {

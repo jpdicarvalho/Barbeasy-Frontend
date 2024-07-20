@@ -553,12 +553,7 @@ const handleProfessionalClick = (professional) => {
   };
 
   const alterarSenha = () => {
-    axios.get(`${urlApi}/api/v1/updatePasswordBarbearia`, {
-      params: {
-        barbeariaId: barbeariaId,
-        passwordConfirm: passwordConfirm,
-        newPassword: newPassword
-      },
+    axios.put(`${urlApi}/api/v1/updatePasswordBarbearia`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
