@@ -120,12 +120,16 @@
     width: 95px;
     height: 30px;
     padding: 3px;
-    border-radius: 10px;
+    border-radius: 5px;
     font-size: 14px;
     transition: 0.5s;
     background: #4a17d5;
     color: #f6f6f6;
     cursor: pointer;
+}
+.box__unlink__barbearia:hover{
+    transition: 0.5s;
+    background: #4a17d576;
 }
 .ocultDivUnlink{
     opacity: 0;
@@ -144,3 +148,36 @@
     padding: 2px;
     cursor: pointer;
 }
+
+
+/* App.css */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+  }
+  
+  .content {
+    opacity: 0;
+    transform: translateY(100%);
+    transition: all 0.5s ease-out;
+  }
+  
+  .content.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  /* Adicione estas classes específicas para o novo conteúdo */
+  .form__change__data-container {
+    opacity: 0;
+    transform: translateY(100%);
+    transition: all 0.5s ease-out;
+  }
+  
+  .form__change__data-container.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
