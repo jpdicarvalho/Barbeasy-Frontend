@@ -416,3 +416,15 @@
 .hide_icon__error.icon__error{
     opacity: 1;
 }
+.Link__oauth__mercado__pago{
+    background: transparent;
+    border: 1px solid blue;
+    text-align: center;
+    padding: 5px;
+    cursor: pointer;
+}
+.Link__oauth__mercado__pago a {
+    color: #f6f6f6;
+    text-decoration: none;
+
+}

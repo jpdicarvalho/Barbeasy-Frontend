@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {motion} from 'framer-motion';
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useLocation } from "react-router-dom"
 
 import axios from 'axios';
 //Components
@@ -580,6 +580,46 @@ const handleProfessionalClick = (professional) => {
           }, 5000);
     });
   };
+// vai dar certoo
+const [accessToken, setAccessToken] = useState(null);
+  const location = useLocation();
+
+  useEffect(() => {
+    const getAccessToken = async (authorizationCode) => {
+      const clientId = '7433076748534689';
+      const clientSecret = 'j7cDue7Urw2oKC2WvkLhpOEVL6K8JwHu';
+      const redirectUri = 'https://barbeasy.netlify.app/ProfileBarbearia';
+      const codeVerifier = localStorage.getItem('code_verifier'); // Recupere o code_verifier salvo
+
+      try {
+        const response = await axios.post('https://api.mercadopago.com/oauth/token', {
+          grant_type: 'authorization_code',
+          client_id: clientId,
+          client_secret: clientSecret,
+          code: authorizationCode,
+          redirect_uri: redirectUri,
+          code_verifier: codeVerifier,
+        }, {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+        });
+
+        console.log(response.data);
+        setAccessToken(response.data.access_token);
+        // Salve o access token conforme necessário
+      } catch (error) {
+        console.error('Error fetching access token:', error);
+      }
+    };
+
+    const params = new URLSearchParams(location.search);
+    const authorizationCode = params.get('code');
+
+    if (authorizationCode) {
+      getAccessToken(authorizationCode);
+    }
+  }, [location.search]);
 
   return (
     <>
@@ -677,7 +717,13 @@ const handleProfessionalClick = (professional) => {
         </div>
           </div>
         )}
-
+<div>
+      {accessToken ? (
+        <p>Access Token: {accessToken}</p>
+      ) : (
+        <p>Obtendo token de acesso...</p>
+      )}
+    </div>
         <div className="section_information">       
 <hr />
         <div className='tittle_menu'>
