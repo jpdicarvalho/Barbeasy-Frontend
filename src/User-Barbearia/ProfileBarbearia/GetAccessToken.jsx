@@ -22,7 +22,7 @@ export default function GetAccessToken (){
         params.append('grant_type', 'authorization_code');
         params.append('client_id', clientId);
         params.append('client_secret', clientSecret);
-        params.append('code', authorizationCode);
+        params.append('code', authorizationCode);         
         params.append('redirect_uri', redirectUri);
         params.append('code_verifier', codeVerifier);
 
