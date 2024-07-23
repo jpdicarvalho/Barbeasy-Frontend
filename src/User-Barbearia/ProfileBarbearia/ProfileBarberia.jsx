@@ -186,13 +186,49 @@ const handleProfessionalClick = (professional) => {
   navigate("/ProfessionalDetails", { state: { professional } });
 };
 
-//=========== Section Receber Pagamento =========== 
+//=========== Section OAuth Mercado Pago =========== 
 const [showReceivePayment, setShowReceivePayment] = useState(false);
 
 //Função para mostrar o input de alteração do status
 const changeShowReceivePayment = () => {
   setShowReceivePayment(!showReceivePayment);
 };
+
+const [oauthUrl, setOauthUrl] = useState('');
+
+  //Function to generate the code_verifier and code_challenge
+  useEffect(() => {
+    const generateRandomString = (length) => {
+      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~';
+      let result = '';
+      const charactersLength = characters.length;
+      for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      }
+      return result;
+    };
+
+    const generateCodeChallenge = async (codeVerifier) => {
+      const encoder = new TextEncoder();
+      const data = encoder.encode(codeVerifier);
+      const digest = await window.crypto.subtle.digest('SHA-256', data);
+      return btoa(String.fromCharCode(...new Uint8Array(digest)))
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=+$/, '');
+    };
+    const codeVerifier = generateRandomString(64); // Gera um code_verifier com 64 caracteres aleatórios
+    // Armazene o code_verifier ao gerar o link OAuth
+    localStorage.setItem('code_verifier', codeVerifier);
+
+    generateCodeChallenge(codeVerifier).then(codeChallenge => {
+      const clientId = '7433076748534689';
+      const redirectUri = encodeURIComponent('https://barbeasy.netlify.app/ProfileBarbearia');
+      const oauthUrl = `https://auth.mercadopago.com/authorization?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&code_challenge=${codeChallenge}&code_challenge_method=S256`;
+      setOauthUrl(oauthUrl);
+    });
+  }, []);
+
 //=========== Section Status ===========
 //Constantes para atualizar o status da barbearia
   const [mostrarStatus, setMostrarStatus] = useState(false);
@@ -589,83 +625,8 @@ const changeShowReceivePayment = () => {
           }, 5000);
     });
   };
-//=============== Section OAuth Mercado Pago ===============
-  const [oauthUrl, setOauthUrl] = useState('');
 
-  //Function to generate the code_verifier and code_challenge
-  useEffect(() => {
-    const generateRandomString = (length) => {
-      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~';
-      let result = '';
-      const charactersLength = characters.length;
-      for (let i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-      }
-      return result;
-    };
 
-    const generateCodeChallenge = async (codeVerifier) => {
-      const encoder = new TextEncoder();
-      const data = encoder.encode(codeVerifier);
-      const digest = await window.crypto.subtle.digest('SHA-256', data);
-      return btoa(String.fromCharCode(...new Uint8Array(digest)))
-        .replace(/\+/g, '-')
-        .replace(/\//g, '_')
-        .replace(/=+$/, '');
-    };
-    const codeVerifier = generateRandomString(64); // Gera um code_verifier com 64 caracteres aleatórios
-    // Armazene o code_verifier ao gerar o link OAuth
-    localStorage.setItem('code_verifier', codeVerifier);
-
-    generateCodeChallenge(codeVerifier).then(codeChallenge => {
-      const clientId = '7433076748534689';
-      const redirectUri = encodeURIComponent('https://barbeasy.netlify.app/ProfileBarbearia');
-      const oauthUrl = `https://auth.mercadopago.com/authorization?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&code_challenge=${codeChallenge}&code_challenge_method=S256`;
-      setOauthUrl(oauthUrl);
-    });
-  }, []);
-
-// obter access_token
-const [accessToken, setAccessToken] = useState(null);
-  const location = useLocation();
-
-  useEffect(() => {
-    const getAccessToken = async (authorizationCode) => {
-      const clientId = '7433076748534689';
-      const clientSecret = 'j7cDue7Urw2oKC2WvkLhpOEVL6K8JwHu';
-      const redirectUri = 'https://barbeasy.netlify.app/ProfileBarbearia';
-      const codeVerifier = localStorage.getItem('code_verifier'); // Recupere o code_verifier salvo
-
-      try {
-        const params = new URLSearchParams();
-        params.append('grant_type', 'authorization_code');
-        params.append('client_id', clientId);
-        params.append('client_secret', clientSecret);
-        params.append('code', authorizationCode);
-        params.append('redirect_uri', redirectUri);
-        params.append('code_verifier', codeVerifier);
-
-        const response = await axios.post('https://api.mercadopago.com/oauth/token', params, {
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
-        });
-
-        console.log(response.data);
-        setAccessToken(response.data.access_token);
-        // Salve o access token conforme necessário
-      } catch (error) {
-        console.error('Error fetching access token:', error);
-      }
-    };
-
-    const params = new URLSearchParams(location.search);
-    const authorizationCode = params.get('code');
-
-    if (authorizationCode) {
-      getAccessToken(authorizationCode);
-    }
-  }, [location.search]);
   
   return (
     <>
@@ -763,13 +724,6 @@ const [accessToken, setAccessToken] = useState(null);
         </div>
           </div>
         )}
-      <div>
-      {accessToken ? (
-            <p>Access Token: {accessToken}</p>
-          ) : (
-            <p>Obtendo token de acesso...</p>
-          )}
-      </div>
     
 
   <div className="section_information">       
@@ -828,25 +782,13 @@ const [accessToken, setAccessToken] = useState(null);
         {showReceivePayment && (
             <div className="divSelected">
             <p className='information__span'>Conecte-se ao Mercado Pago para receber pagamentos dos agendamentos  realizados  </p>
-                
-            {messageNameBarbearia === 'Nome da Barbearia Alterado com Sucesso!' ?(
-                <div className="mensagem-sucesso">
-                  <MdOutlineDone className="icon__success"/>
-                  <p className="text__message">{messageNameBarbearia}</p>
-                </div>
-              ) : (
-                <div className={` ${messageNameBarbearia ? 'mensagem-erro' : ''}`}>
-                  <VscError className={`hide_icon__error ${messageNameBarbearia ? 'icon__error' : ''}`}/>
-                  <p className="text__message">{messageNameBarbearia}</p>
-              </div>
-              )}
           
-          <div className='Link__oauth__mercado__pago'>
-            <img src={LogoMercadoPago} className='logo__mercado__pago' alt="Logo do mercado pago" />
-            <a href={oauthUrl}>Conecta-se ao Mercado Pago</a>
-          </div>
-          </div>          
-          )}
+            <div className='Link__oauth__mercado__pago'>
+              <img src={LogoMercadoPago} className='logo__mercado__pago' alt="Logo do mercado pago" />
+              <a href={oauthUrl}>Conecta-se ao Mercado Pago</a>
+            </div>
+            </div>          
+        )}
         
 <hr className='hr_menu'/>
   
