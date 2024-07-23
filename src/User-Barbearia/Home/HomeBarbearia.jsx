@@ -4,7 +4,6 @@ import axios from 'axios';
 
 import './HomeBarbearia.css';
 import { GrSchedules } from "react-icons/gr";
-import { CiSettings } from "react-icons/ci";
 import { GiRazorBlade } from "react-icons/gi";
 import { TfiTime } from "react-icons/tfi";
 import { IoPersonCircleOutline } from "react-icons/io5";

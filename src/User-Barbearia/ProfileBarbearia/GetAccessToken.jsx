@@ -14,9 +14,9 @@ export default function GetAccessToken (){
     const getAccessToken = async (authorizationCode) => {
       const clientId = '7433076748534689';
       const clientSecret = 'j7cDue7Urw2oKC2WvkLhpOEVL6K8JwHu';
-      const redirectUri = 'https://barbeasy.netlify.app/GetAccessToken';
+      const redirectUri = 'https://barbeasy.netlify.app/GetAccessToken    ';
       const codeVerifier = localStorage.getItem('code_verifier'); // Recupere o code_verifier salvo
-
+console.log(codeVerifier)
       try {
         const params = new URLSearchParams();
         params.append('grant_type', 'authorization_code');
