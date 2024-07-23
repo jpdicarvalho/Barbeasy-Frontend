@@ -12,7 +12,7 @@ const GetAccessToken = () => {
   const userInformation = JSON.parse(userData);//trasnformando os dados para JSON
   const barbeariaId = userInformation.barbearia[0].id;
 
-  const [accessToken, setAccessToken] = useState(null);
+  const [accessToken, setAccessToken] = useState('');
   const location = useLocation();
 // APP_USR-7433076748534689-072318-9c0a4826bc237a6b473c73c807bab992-752130654
 // APP_USR-7433076748534689-072318-68846d7876df2114d5441ec7e698f393-752130654
@@ -49,27 +49,28 @@ const GetAccessToken = () => {
     }
   }, [location.search]);
 
-  useEffect(() =>{
-    const saveAccessToken = () =>{
-      if(accessToken){
-          const values = {
-            barbeariaId,
-            accessToken
+  //Function to save the access token
+  const saveAccessToken = () =>{
+    if(accessToken){
+        const values = {
+          barbeariaId,
+          accessToken
+        }
+        axios.put(`${urlApi}/api/v1/saveAccessToken`, values, {
+          headers: {
+            'Authorization': `Bearer ${token}`
           }
-          axios.put(`${urlApi}/api/v1/saveAccessToken`, values, {
-            headers: {
-              'Authorization': `Bearer ${token}`
-            }
-          }).then(res =>{
-            if(res.data.Sucess === 'Sucess'){
-              console.log('AcessToken salvo com sucesso')
-            }
-          }).catch(err =>{
-            console.log('ERRO:',err)
-          })
-      }
+        }).then(res =>{
+          if(res.data.Sucess === 'Sucess'){
+            console.log('AcessToken salvo com sucesso')
+          }
+        }).catch(err =>{
+          console.log('Error:', err)
+        })
     }
+  }
 
+  useEffect(() =>{
     saveAccessToken()
   }, [])
 
