@@ -101,7 +101,6 @@ function ProfileBarbearia() {
     }
     setBannerFiles(selectedFiles);
   }
-
   //Preparando as imagens selecionadas para serem enviadas ao back-end
   const handleBannerImagesUpload = () => {
 
