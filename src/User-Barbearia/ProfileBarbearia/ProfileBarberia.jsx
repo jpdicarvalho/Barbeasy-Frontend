@@ -592,14 +592,15 @@ const [accessToken, setAccessToken] = useState(null);
       const codeVerifier = localStorage.getItem('code_verifier'); // Recupere o code_verifier salvo
 
       try {
-        const response = await axios.post('https://api.mercadopago.com/oauth/token', {
-          grant_type: 'authorization_code',
-          client_id: clientId,
-          client_secret: clientSecret,
-          code: authorizationCode,
-          redirect_uri: redirectUri,
-          code_verifier: codeVerifier,
-        }, {
+        const params = new URLSearchParams();
+        params.append('grant_type', 'authorization_code');
+        params.append('client_id', clientId);
+        params.append('client_secret', clientSecret);
+        params.append('code', authorizationCode);
+        params.append('redirect_uri', redirectUri);
+        params.append('code_verifier', codeVerifier);
+
+        const response = await axios.post('https://api.mercadopago.com/oauth/token', params, {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
           },

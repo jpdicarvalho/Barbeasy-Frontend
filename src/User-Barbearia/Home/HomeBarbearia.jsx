@@ -225,7 +225,9 @@ const [savedCodeVerifier, seSavedCodeVerifier] = useState('');
     };
 
     const codeVerifier = generateRandomString(64); // Gera um code_verifier com 64 caracteres aleatórios
-    seSavedCodeVerifier(codeVerifier)
+    // Armazene o code_verifier ao gerar o link OAuth
+    localStorage.setItem('code_verifier', codeVerifier);
+    
     generateCodeChallenge(codeVerifier).then(codeChallenge => {
       const clientId = '7433076748534689';
       const redirectUri = encodeURIComponent('https://barbeasy.netlify.app/ProfileBarbearia');
