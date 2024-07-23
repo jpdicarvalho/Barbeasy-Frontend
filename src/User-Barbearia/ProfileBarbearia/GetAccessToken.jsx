@@ -19,7 +19,6 @@ const GetAccessToken = () => {
 
   //Function to save the access token
   const saveAccessToken = () =>{
-    if(accessToken){
         const values = {
           barbeariaId,
           accessToken
@@ -35,9 +34,6 @@ const GetAccessToken = () => {
         }).catch(err =>{
           console.log('Error:', err)
         })
-    }else{
-      console.log('nenhum accessToken obtido')
-    }
   }
   
   useEffect(() => {
