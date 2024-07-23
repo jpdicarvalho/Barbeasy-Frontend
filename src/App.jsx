@@ -24,8 +24,11 @@ import BookingsHistory from './User-Client-Barbearia/BookingsHistory/BookingsHis
 
 import Notification from './User-Professional/Notification/Notification';
 
+import GetAccessToken from './User-Barbearia/ProfileBarbearia/GetAccessToken';
+
 import Checkout from './Checkout';
 import Widget from './Widget';
+
 import PropTypes from 'prop-types';
 
 // Função para verificar se o usuário está autenticado (baseado na existência de um token no localStorage)
@@ -63,6 +66,8 @@ const App = () => {
         <Route path="/HomeBarbearia" element={<PrivateRoute element={<HomeBarbearia />} />} />
         <Route path="/ProfileBarbearia" element={<PrivateRoute element={<ProfileBarbearia />}/>} />
         <Route path="/ProfessionalDetails" element={<PrivateRoute element={<ProfessionalDetails />} />} />
+        <Route path="/GetAccessToken" element={<PrivateRoute element={<GetAccessToken />} />} />
+
 
         <Route path="/HomeProfessional" element={<PrivateRoute element={<HomeProfessional />} />} />
         <Route path="/ProfileProfessional" element={<PrivateRoute element={<ProfileProfessional />} />} />

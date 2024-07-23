@@ -625,8 +625,6 @@ const [oauthUrl, setOauthUrl] = useState('');
           }, 5000);
     });
   };
-
-
   
   return (
     <>
