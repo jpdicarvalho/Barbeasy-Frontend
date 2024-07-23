@@ -594,7 +594,7 @@ const [oauthUrl, setOauthUrl] = useState('');
       return result;
     };
 
-    const generateCodeChallenge = async (codeVerifier) => {
+    /*const generateCodeChallenge = async (codeVerifier) => {
       const encoder = new TextEncoder();
       const data = encoder.encode(codeVerifier);
       const digest = await window.crypto.subtle.digest('SHA-256', data);
@@ -602,7 +602,7 @@ const [oauthUrl, setOauthUrl] = useState('');
         .replace(/\+/g, '-')
         .replace(/\//g, '_')
         .replace(/=+$/, '');
-    };
+    };*/
     const codeVerifier = generateRandomString(64); // Gera um code_verifier com 64 caracteres aleatórios
     // Armazene o code_verifier ao gerar o link OAuth
     localStorage.setItem('code_verifier', codeVerifier);
@@ -656,6 +656,7 @@ const [accessToken, setAccessToken] = useState(null);
       getAccessToken(authorizationCode);
     }
   }, [location.search]);
+  //<a href={oauthUrl}>conecta-se ao mercado pago</a>
 
   return (
     <>
@@ -761,7 +762,6 @@ const [accessToken, setAccessToken] = useState(null);
       )}
     </div>
     <div className='Link__oauth__mercado__pago'>
-        <a href={oauthUrl}>conecta-se ao mercado pago</a>
       </div>
         <div className="section_information">       
 <hr />
