@@ -199,43 +199,6 @@ const toggleItem = (itemId) => {
     }
 };
 
-const [oauthUrl, setOauthUrl] = useState('');
-const [savedCodeVerifier, seSavedCodeVerifier] = useState('');
-
-
-  useEffect(() => {
-    const generateRandomString = (length) => {
-      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~';
-      let result = '';
-      const charactersLength = characters.length;
-      for (let i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-      }
-      return result;
-    };
-
-    const generateCodeChallenge = async (codeVerifier) => {
-      const encoder = new TextEncoder();
-      const data = encoder.encode(codeVerifier);
-      const digest = await window.crypto.subtle.digest('SHA-256', data);
-      return btoa(String.fromCharCode(...new Uint8Array(digest)))
-        .replace(/\+/g, '-')
-        .replace(/\//g, '_')
-        .replace(/=+$/, '');
-    };
-
-    const codeVerifier = generateRandomString(64); // Gera um code_verifier com 64 caracteres aleatórios
-    // Armazene o code_verifier ao gerar o link OAuth
-    localStorage.setItem('code_verifier', codeVerifier);
-    
-    generateCodeChallenge(codeVerifier).then(codeChallenge => {
-      const clientId = '7433076748534689';
-      const redirectUri = encodeURIComponent('https://barbeasy.netlify.app/ProfileBarbearia');
-      const oauthUrl = `https://auth.mercadopago.com/authorization?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&code_challenge=${codeChallenge}&code_challenge_method=S256`;
-      setOauthUrl(oauthUrl);
-    });
-  }, []);
-//https://auth.mercadopago.com/authorization?client_id=APP_ID&response_type=code&platform_id=mp&state=RANDOM_ID&redirect_uri=https://www.redirect-url.com
 
 return (
 <main>
@@ -395,9 +358,7 @@ return (
           <p className='message__notFound'>Configure sua barbearia para começar :) </p>
         </>
       )}
-      <div className='Link__oauth__mercado__pago'>
-        <a href={oauthUrl}>conecta-se ao mercado pago</a>
-      </div>
+      
       <div>
       
     </div>
