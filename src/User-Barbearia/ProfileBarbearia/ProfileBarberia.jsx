@@ -29,7 +29,10 @@ import { PiPasswordDuotone } from "react-icons/pi";
 import { MdOutlineDone } from "react-icons/md";
 import { VscError } from "react-icons/vsc";
 import { GoPlus } from "react-icons/go";
+import { PiContactlessPayment } from "react-icons/pi";
 
+//Images
+import LogoMercadoPago from '../../../logoMercadoPago.png'
 
 import './ProfileBarbearia.css';
 
@@ -158,8 +161,7 @@ function ProfileBarbearia() {
     .catch(error => console.log(error));
   }, [barbeariaId]);
 
-//==================================================
-//Variáveis para abrir o madal
+//========== Variáveis para abrir o madal ==========
 const [showAddNewProfessional, setShowAddNewProfessional] = useState(false);
 const [professional, setProfessional] = useState([])
 
@@ -184,7 +186,14 @@ const handleProfessionalClick = (professional) => {
   navigate("/ProfessionalDetails", { state: { professional } });
 };
 
-/*----------------------------------*/
+//=========== Section Receber Pagamento =========== 
+const [showReceivePayment, setShowReceivePayment] = useState(false);
+
+//Função para mostrar o input de alteração do status
+const changeShowReceivePayment = () => {
+  setShowReceivePayment(!showReceivePayment);
+};
+//=========== Section Status ===========
 //Constantes para atualizar o status da barbearia
   const [mostrarStatus, setMostrarStatus] = useState(false);
   const [status, setStatus] = useState();
@@ -580,9 +589,10 @@ const handleProfessionalClick = (professional) => {
           }, 5000);
     });
   };
-// buscar autorization_code
-const [oauthUrl, setOauthUrl] = useState('');
+//=============== Section OAuth Mercado Pago ===============
+  const [oauthUrl, setOauthUrl] = useState('');
 
+  //Function to generate the code_verifier and code_challenge
   useEffect(() => {
     const generateRandomString = (length) => {
       const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~';
@@ -594,7 +604,7 @@ const [oauthUrl, setOauthUrl] = useState('');
       return result;
     };
 
-    /*const generateCodeChallenge = async (codeVerifier) => {
+    const generateCodeChallenge = async (codeVerifier) => {
       const encoder = new TextEncoder();
       const data = encoder.encode(codeVerifier);
       const digest = await window.crypto.subtle.digest('SHA-256', data);
@@ -602,7 +612,7 @@ const [oauthUrl, setOauthUrl] = useState('');
         .replace(/\+/g, '-')
         .replace(/\//g, '_')
         .replace(/=+$/, '');
-    };*/
+    };
     const codeVerifier = generateRandomString(64); // Gera um code_verifier com 64 caracteres aleatórios
     // Armazene o code_verifier ao gerar o link OAuth
     localStorage.setItem('code_verifier', codeVerifier);
@@ -656,8 +666,7 @@ const [accessToken, setAccessToken] = useState(null);
       getAccessToken(authorizationCode);
     }
   }, [location.search]);
-  //<a href={oauthUrl}>conecta-se ao mercado pago</a>
-
+  
   return (
     <>
     
@@ -754,16 +763,16 @@ const [accessToken, setAccessToken] = useState(null);
         </div>
           </div>
         )}
-<div>
+      <div>
       {accessToken ? (
-        <p>Access Token: {accessToken}</p>
-      ) : (
-        <p>Obtendo token de acesso...</p>
-      )}
-    </div>
-    <div className='Link__oauth__mercado__pago'>
+            <p>Access Token: {accessToken}</p>
+          ) : (
+            <p>Obtendo token de acesso...</p>
+          )}
       </div>
-        <div className="section_information">       
+    
+
+  <div className="section_information">       
 <hr />
         <div className='tittle_menu'>
             <h3>Profissional</h3>
@@ -809,8 +818,38 @@ const [accessToken, setAccessToken] = useState(null);
             <hr id='sublime'/>
         </div>
 
-        <div className="container__menu">
+    <div className="container__menu">
+        <div className="menu__main" onClick={changeShowReceivePayment} >
+          <PiContactlessPayment className='icon_menu'/>
+            Receber Pagamentos
+          <IoIosArrowDown className={`arrow ${showReceivePayment ? 'girar' : ''}`} id='arrow'/>
+        </div>
 
+        {showReceivePayment && (
+            <div className="divSelected">
+            <p className='information__span'>Conecte-se ao Mercado Pago para receber pagamentos dos agendamentos  realizados  </p>
+                
+            {messageNameBarbearia === 'Nome da Barbearia Alterado com Sucesso!' ?(
+                <div className="mensagem-sucesso">
+                  <MdOutlineDone className="icon__success"/>
+                  <p className="text__message">{messageNameBarbearia}</p>
+                </div>
+              ) : (
+                <div className={` ${messageNameBarbearia ? 'mensagem-erro' : ''}`}>
+                  <VscError className={`hide_icon__error ${messageNameBarbearia ? 'icon__error' : ''}`}/>
+                  <p className="text__message">{messageNameBarbearia}</p>
+              </div>
+              )}
+          
+          <div className='Link__oauth__mercado__pago'>
+            <img src={LogoMercadoPago} className='logo__mercado__pago' alt="Logo do mercado pago" />
+            <a href={oauthUrl}>Conecta-se ao Mercado Pago</a>
+          </div>
+          </div>          
+          )}
+        
+<hr className='hr_menu'/>
+  
           <div className="menu__main" onClick={alternarStatus}>
           {status === 'Aberta' ?
             <RiRadioButtonLine className='icon_menu' style={{color: '#1AEE07'}}/>
@@ -1231,11 +1270,11 @@ const [accessToken, setAccessToken] = useState(null);
 
 <hr className='hr_menu' />
 
-<div className="menu__main" onClick={alternarSenha}>
+          <div className="menu__main" onClick={alternarSenha}>
           <MdPassword className='icon_menu'/>
             Senha
           <IoIosArrowDown className={`arrow ${mostrarSenha ? 'girar' : ''}`} id='arrow'/>
-            </div>
+          </div>
 
           {mostrarSenha && (
             <div className="divSelected">
@@ -1298,11 +1337,7 @@ const [accessToken, setAccessToken] = useState(null);
           )}
 
         </div>
-
-        <div className='Delete_account'>
-          Apagar Conta
-        </div>
-
+        
         </div>
   
     </>

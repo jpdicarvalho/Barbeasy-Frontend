@@ -30,11 +30,9 @@ import { differenceInDays, parse } from 'date-fns';
 
 
 //import Agendamento from 'react-Agendamento';
-import logoMercadoPago from './logoMercadoPago.png'
 import { Agendamento } from "../Agendamento/Agendamento";
+
 import './BarbeariaDetails.css'
-//import barbeLogo from './barber-logo.png'
-import logoBarbeariaTeste from './logo-barbearia-teste.png'
 
 function BarbeariaDetails() {
 

@@ -260,7 +260,32 @@
 }
 .selectedOption {
     color: white;
-  }
+}
+.Link__oauth__mercado__pago{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #009ee3;
+    text-align: center;
+    padding: 5px;
+    width: 100%;
+    height: 45px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.5s;
+}
+.Link__oauth__mercado__pago a {
+    color: #f6f6f6;
+    text-decoration: none;
+    font-size: 16px;
+}
+.logo__mercado__pago{
+    width: 50px;
+}
+.Link__oauth__mercado__pago:hover{
+    background: #009fe3d4;
+    transition: 0.5s;
+}
 /*Referente ao input status*/
 #status{
     display: none;
@@ -415,16 +440,4 @@
 }
 .hide_icon__error.icon__error{
     opacity: 1;
-}
-.Link__oauth__mercado__pago{
-    background: transparent;
-    border: 1px solid blue;
-    text-align: center;
-    padding: 5px;
-    cursor: pointer;
-}
-.Link__oauth__mercado__pago a {
-    color: #f6f6f6;
-    text-decoration: none;
-
 }
