@@ -172,6 +172,7 @@ const getAccessTokenBarbearia = () =>{
 }
 
 console.log(AccessToken)
+
 useEffect(() => {
   getAccessTokenBarbearia()
 }, [])
