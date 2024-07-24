@@ -13,14 +13,12 @@ const GetAccessToken = () => {
   const barbeariaId = userInformation.barbearia[0].id;
 
   const [accessToken, setAccessToken] = useState('');
-  const location = useLocation();
-// APP_USR-7433076748534689-072318-9c0a4826bc237a6b473c73c807bab992-752130654
-// APP_USR-7433076748534689-072318-68846d7876df2114d5441ec7e698f393-752130654
+  const location = useLocation();       
   
 
     const getAccessToken = async (authorizationCode) => {
       const clientId = '5940575729236381';
-      const clientSecret = 'j7cDue7Urw2oKC2WvkLhpOEVL6K8JwHu';
+      const clientSecret = 'bdRsr5mP74WzRKvFW5bvRAs8KP6b2Rol';
       const redirectUri = 'https://barbeasy.netlify.app/GetAccessToken';
       const codeVerifier = localStorage.getItem('code_verifier'); // Recupere o code_verifier salvo
 
