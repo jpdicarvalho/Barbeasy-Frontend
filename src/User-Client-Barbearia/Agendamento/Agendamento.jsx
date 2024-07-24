@@ -4,6 +4,7 @@ import './Agendamento.css';
 import PropTypes from 'prop-types';
 import { MdOutlineDone } from "react-icons/md";
 import { VscError } from "react-icons/vsc";
+import { Link } from "react-router-dom";
 
 const monthNames = [
   'Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun', 'Jul', 'Aug', 'Set', 'Out', 'Nov', 'Dez'
@@ -13,7 +14,7 @@ const weekNames = [
   'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'
 ];
 
-export function Agendamento({ userId, barbeariaId, professionalId, serviceId, serviceDuration }) {
+export function Agendamento({ userId, barbeariaId, professionalId, serviceId, serviceName, servicePrice, serviceDuration }) {
 
   const date = new Date();
   
@@ -356,6 +357,60 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId, se
     );
   };
 
+//============================== Section Create Payment ==============================
+  const [accessTokenBarbearia, setAccessTokenBarbearia] = useState('');
+  const [paymentUrl, setPaymentUrl] = useState('');
+
+
+  const getAccessTokenBarbearia = () =>{
+    axios.get(`${urlApi}/api/v1/accessTokenBarbearia/${barbeariaId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).then(res => {
+      if(res.data.Success === true){
+        setAccessTokenBarbearia(res.data.AccessToken);
+      }else{
+        setAccessTokenBarbearia(false);
+      }
+    }).catch(err => {
+      setAccessTokenBarbearia(false)
+      console.error('Erro ao obter os registros:', err);
+    })
+  }
+  
+  useEffect(()=>{
+    getAccessTokenBarbearia()
+  }, [selectedDay])
+
+  //Mandan a requisição para a rota de Pagamento
+  const createPayment = () => {
+    
+    const values = {
+      accessTokenBarbearia,
+      transaction_amount: servicePrice,
+      description: serviceName,
+      paymentMethodId: 'pix',
+      email: 'parzival@gmail.com',
+      identificationType: 'CPF',
+      number: '52094597059'
+    }
+
+    axios.post(`${urlApi}/api/v1/payment`, values, {
+      headers: {
+        'Authorization': `Bearer ${token}`  
+      }
+    })
+    .then(res => {
+      setPaymentUrl(res.data.result)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+    
+  };
+
+  //========================================================================
   const saveBooking = () =>{
     if(userId && barbeariaId && professionalId && serviceId && selectedDay && timeSelected && formattedDate){
       //Passando todos os horários que serão ocupados pelo serviço selecionado
@@ -441,7 +496,15 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId, se
         <p className="text__message">{messageConfirmedBooking}</p>
       </div>
     )}
-    <button onClick={saveBooking} className={`Btn__ocult ${serviceId && selectedDay && timeSelected ? 'AgendamentoButton': ''}`}>Finalizar Agendamento</button>
+    {paymentUrl ?(
+      <>
+        <a href={paymentUrl}>Pagar com o Mercado Pago</a>
+      </>
+    ):(
+      <>
+        <button onClick={createPayment} className={`Btn__ocult ${serviceId && selectedDay && timeSelected ? 'AgendamentoButton': ''}`}>Continuar</button>
+      </>
+    )}      
   </>
   );
 }

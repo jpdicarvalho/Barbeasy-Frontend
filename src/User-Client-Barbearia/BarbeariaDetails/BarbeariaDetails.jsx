@@ -147,65 +147,17 @@ const [serviceDuration, setServiceDuration] = useState();
   }, []);
 
 const handleServiceChange = (servicoId, name, price, duration) => {
+  let priceFormated = price.replace(/R\$ (\d+),(\d{2})/, '$1.$2');
   setSelectedService(servicoId);
   setServiceName(name)
-  setServicePrice(price)
+  setServicePrice(priceFormated)
   let number = duration.substring(0, 2)
   number = parseInt(number)
   setServiceDuration(number)
 };
 
 /*================== Section to get access token of barbearia ======================*/
-const [AccessToken, setAccessToken] = useState('');
 
-const getAccessTokenBarbearia = () =>{
-  axios.get(`${urlApi}/api/v1/accessTokenBarbearia/${barbeariaId}`, {
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
-  }).then(res => {
-    setAccessToken(res.data.AccessToken);
-  }).catch(err => {
-    setAccessToken(false)
-    console.error('Erro ao obter os registros:', err);
-  })
-}
-
-console.log(AccessToken)
-
-useEffect(() => {
-  getAccessTokenBarbearia()
-}, [])
-const [url, setUrl] = useState(null);
-
-  //Mandan a requisição para a rota de Pagamento
-  const pagamento = () => {
-    
-    const values = {  
-      transaction_amount: 2.2,
-      description: 'teste',
-      paymentMethodId: 'pix',
-      payer: {
-        email: 'parzival@gmail.com',
-        identification: {
-          identificationType: 'CPF',
-          number: '36713984547'
-        }
-      }
-    }
-
-    axios.post(`${urlApi}/api/v1/payment`, values, {
-      headers: {
-        'Authorization': `Bearer ${token}`  
-      }
-    })
-    .then(res => {
-      console.log(res.data)
-    })
-    .catch(err => {
-      console.log(err)
-    })
-  };
 
 
 /*=================== Section Avaliation Barbearia ===================*/
@@ -361,9 +313,7 @@ return (
           }}
         ></div>
       </header>
-<button onClick={pagamento}>
-  AAAAAAAAAAAAAAAAAA
-</button>
+
       <div className="content">
         <div className="content-inner" style={{transform: `translate(-${activeIndex * tabWidth}px, 0)`,}}>
           
