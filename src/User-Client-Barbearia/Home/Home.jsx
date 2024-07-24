@@ -115,7 +115,7 @@ useEffect(() => {
 
   fetchData();
 }, []);
-console.log(barbearias)
+
 // Convertendo o valor do search para minúsculo
 const searchLowerCase = search.toLowerCase();
 
@@ -132,6 +132,7 @@ const barbeariaSearch = barbearias.filter((barbearia) => {
   // Retorna true se qualquer uma das condições for verdadeira
   return nameMatch || statusMatch || averageMatch || servicoMatch;
 });
+
 return (
   <>
             <div className={`header ${scrollPosition > 200 ? 'scrolled' : ''}`}>

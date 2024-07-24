@@ -54,7 +54,6 @@ const userInformation = JSON.parse(userData);
 //Buscando os dados do usuário
 const userId = userInformation.user[0].id;
 const userEmail = userInformation.user[0].email;
-const userName = userInformation.user[0].name;
 
 const cloudFrontUrl = 'https://d15o6h0uxpz56g.cloudfront.net/'
 
@@ -157,43 +156,38 @@ const handleServiceChange = (servicoId, name, price, duration) => {
 };
 
 /*================== Get Agenda ======================*/
-const [isAgendamentoConfirmed, setAgendamentoConfirmed] = useState(false);
 const [url, setUrl] = useState(null);
 
-//Mandan a requisição para a rota de Pagamento
-const pagamento = async () => {
-    try {
-      // Encontrar o serviço selecionado no array de serviços
-      const servicoSelecionado = servicos.find(servico => servico.id === selectedService);
-      //Passando o nome da barbearia selecionada para a descrição da compra
-      const DescricaoServico = `Agendamento de serviço para a barbearia ${barbearia.name}`;
-
-      const response = await fetch('https://api-user-barbeasy.up.railway.app/api/Checkout', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          DescricaoServico,
-          preco: servicoSelecionado.preco,
-          nameServico: servicoSelecionado.name,
-          userEmail
-        }),
-        
-      });
-
-      const json=await response.json();
-      setUrl(json);
-      setAgendamentoConfirmed(true);
-    } catch (error) {
-      console.error('Erro ao enviar os dados:', error);
+  //Mandan a requisição para a rota de Pagamento
+  const pagamento = () => {
+    
+    const values = {  
+      transaction_amount: 12.13,
+      description: 'teste',
+      paymentMethodId: 'pix',
+      payer: {
+        email: 'parzival@gmail.com',
+        identification: {
+          identificationType: 'CPF',
+          number: 36713984547
+        }
+      }
     }
-};
 
-//passando a url do mercado pago para abrir em outra aba
-const urlMercadoPago = () => {
-    window.open(url, 'modal');
-};
+    axios.post(`${urlApi}/api/v1/payment`, values, {
+      headers: {
+        'Authorization': `Bearer ${token}`  
+      }
+    })
+    .then(res => {
+      console.log(res.data)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  };
+
+
 /*=================== Section Avaliation Barbearia ===================*/
 const [avaliation, setAvaliation] = useState();
 const [averageAvaliation, setAverageAvaliation] = useState();
@@ -205,6 +199,7 @@ const [messageConfirmAvaliation, setMessageConfirmAvaliation] = useState("");
 const handleShowTextAreaClick = () =>{
   setShowTextArea(true)
 }
+
 const handleCancelClick = () =>{
   setAvaliation('')
   setShowTextArea(false)
@@ -271,6 +266,7 @@ const renderStarComponent = (numStarInString) => {
     </div>
   );
 };
+
 //Mini component to calcule the date the comment was made
 const formatarDataComentario = (dataComentario) => {
   const hoje = new Date();
@@ -295,6 +291,7 @@ const reviewsWidth = reviews.current?.scrollWidth - reviews.current?.offsetWidth
 useEffect(()=> {
   setWidth(reviewsWidth);
 }, [reviewsWidth])
+
 //================== widget ===================
 const buttonWidth = 80;
 const tabWidth = 395;
@@ -344,7 +341,9 @@ return (
           }}
         ></div>
       </header>
-
+<button onClick={pagamento}>
+  AAAAAAAAAAAAAAAAAA
+</button>
       <div className="content">
         <div className="content-inner" style={{transform: `translate(-${activeIndex * tabWidth}px, 0)`,}}>
           
@@ -428,14 +427,9 @@ return (
                     serviceId={selectedService}
                     serviceName={serviceName}
                     servicePrice={servicePrice}
-                    serviceDuration={serviceDuration}/>
+                    serviceDuration={serviceDuration}
+                  />
 
-                  {isAgendamentoConfirmed && (
-                    <button onClick={urlMercadoPago} className="mercadoPagoButton">
-                      <img src={logoMercadoPago} alt="logo Mercado Pago" className="mercadoPagoLogo" />
-                      Pagar com Mercado Pago
-                    </button>
-                  )}
             </div>
             
             <div className="tab-content">
