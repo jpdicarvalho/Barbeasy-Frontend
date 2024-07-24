@@ -61,6 +61,7 @@ const GetAccessToken = () => {
       barbeariaId,
       accessToken
     }
+    console.log(accessToken)
     axios.put(`${urlApi}/api/v1/saveAccessToken`, values, {
       headers: {
         'Authorization': `Bearer ${token}`
