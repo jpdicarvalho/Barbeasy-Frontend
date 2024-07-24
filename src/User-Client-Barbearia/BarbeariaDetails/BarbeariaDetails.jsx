@@ -162,14 +162,14 @@ const [url, setUrl] = useState(null);
   const pagamento = () => {
     
     const values = {  
-      transaction_amount: 12.13,
+      transaction_amount: 2.2,
       description: 'teste',
       paymentMethodId: 'pix',
       payer: {
         email: 'parzival@gmail.com',
         identification: {
           identificationType: 'CPF',
-          number: 36713984547
+          number: '36713984547'
         }
       }
     }
