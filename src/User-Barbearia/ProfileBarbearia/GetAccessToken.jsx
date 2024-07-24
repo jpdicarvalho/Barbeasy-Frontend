@@ -16,25 +16,6 @@ const GetAccessToken = () => {
   const location = useLocation();
 // APP_USR-7433076748534689-072318-9c0a4826bc237a6b473c73c807bab992-752130654
 // APP_USR-7433076748534689-072318-68846d7876df2114d5441ec7e698f393-752130654
-
-  //Function to save the access token
-  const saveAccessToken = () =>{
-        const values = {
-          barbeariaId,
-          accessToken
-        }
-        axios.put(`${urlApi}/api/v1/saveAccessToken`, values, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        }).then(res =>{
-          if(res.data.Success === 'Success'){
-            console.log('AcessToken salvo com sucesso')
-          }
-        }).catch(err =>{
-          console.log('Error:', err)
-        })
-  }
   
   useEffect(() => {
     const getAccessToken = async (authorizationCode) => {
@@ -74,6 +55,24 @@ const GetAccessToken = () => {
     }
   }, [location.search]);
 
+  //Function to save the access token
+  const saveAccessToken = () =>{
+    const values = {
+      barbeariaId,
+      accessToken
+    }
+    axios.put(`${urlApi}/api/v1/saveAccessToken`, values, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).then(res =>{
+      if(res.data.Success === 'Success'){
+        console.log('AcessToken salvo com sucesso')
+      }
+    }).catch(err =>{
+      console.log('Error:', err)
+    })
+}
 
   return (
     <div>
