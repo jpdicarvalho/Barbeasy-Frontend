@@ -17,7 +17,7 @@ const GetAccessToken = () => {
 // APP_USR-7433076748534689-072318-9c0a4826bc237a6b473c73c807bab992-752130654
 // APP_USR-7433076748534689-072318-68846d7876df2114d5441ec7e698f393-752130654
   
-  useEffect(() => {
+
     const getAccessToken = async (authorizationCode) => {
       const clientId = '7433076748534689';
       const clientSecret = 'j7cDue7Urw2oKC2WvkLhpOEVL6K8JwHu';
@@ -40,7 +40,6 @@ const GetAccessToken = () => {
         });
 
         setAccessToken(response.data.access_token);
-        saveAccessToken()
 
       } catch (error) {
         console.error('Error fetching access token:', error);
@@ -50,6 +49,7 @@ const GetAccessToken = () => {
     const params = new URLSearchParams(location.search);
     const authorizationCode = params.get('code');
 
+  useEffect(() => {
     if (authorizationCode) {
       getAccessToken(authorizationCode);
     }
@@ -81,6 +81,7 @@ const GetAccessToken = () => {
       {accessToken ? (
         <div>
           Access Token: {accessToken}
+          {saveAccessToken()}
         </div>
       ) : (
         <div>
