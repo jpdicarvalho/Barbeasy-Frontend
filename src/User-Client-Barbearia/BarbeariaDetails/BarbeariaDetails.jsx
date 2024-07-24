@@ -155,7 +155,26 @@ const handleServiceChange = (servicoId, name, price, duration) => {
   setServiceDuration(number)
 };
 
-/*================== Get Agenda ======================*/
+/*================== Section to get access token of barbearia ======================*/
+const [AccessToken, setAccessToken] = useState('');
+
+const getAccessTokenBarbearia = () =>{
+  axios.get(`${urlApi}/api/v1/accessTokenBarbearia/${barbeariaId}`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  }).then(res => {
+    setAccessToken(res.data.AccessToken);
+  }).catch(err => {
+    setAccessToken(false)
+    console.error('Erro ao obter os registros:', err);
+  })
+}
+
+console.log(AccessToken)
+useEffect(() => {
+  getAccessTokenBarbearia()
+}, [])
 const [url, setUrl] = useState(null);
 
   //Mandan a requisição para a rota de Pagamento
