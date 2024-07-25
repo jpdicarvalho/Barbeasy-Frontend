@@ -4,7 +4,7 @@ import './Agendamento.css';
 import PropTypes from 'prop-types';
 import { MdOutlineDone } from "react-icons/md";
 import { VscError } from "react-icons/vsc";
-import { Link } from "react-router-dom";
+import { SiMercadopago } from "react-icons/si";
 
 const monthNames = [
   'Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun', 'Jul', 'Aug', 'Set', 'Out', 'Nov', 'Dez'
@@ -454,6 +454,7 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId, se
     serviceId: PropTypes.number,
     serviceDuration: PropTypes.number
   };
+
   return (
   <>
     <div className='container__Calendar'>
@@ -496,10 +497,15 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId, se
         <p className="text__message">{messageConfirmedBooking}</p>
       </div>
     )}
+
     {paymentUrl ?(
-      <>
-        <a href={paymentUrl}>Pagar com o Mercado Pago</a>
-      </>
+      <div className="Box__url__payment__mercado__pago">
+        <a href={paymentUrl} className="url__payment__mercado__pago">
+          <SiMercadopago className="icon__mercado__pago"/>
+          Pagar com o Mercado Pago
+        </a>
+        <p className="text__payWithSecurity">Pague com segurança</p>
+    </div>
     ):(
       <>
         <button onClick={createPayment} className={`Btn__ocult ${serviceId && selectedDay && timeSelected ? 'AgendamentoButton': ''}`}>Continuar</button>

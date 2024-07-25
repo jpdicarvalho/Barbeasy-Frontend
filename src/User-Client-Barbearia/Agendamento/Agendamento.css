@@ -133,3 +133,36 @@
     color: white;
     transition: 0.5s;
 }
+.Box__url__payment__mercado__pago{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 380px;
+}
+.url__payment__mercado__pago{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 365px;
+    height: 45px;
+    border-radius: 5px;
+    padding: 5px;
+    text-decoration: none;
+    background: #4a17d5;
+    color: #f6f6f6;
+    transition: 0.5s;
+}
+.url__payment__mercado__pago:hover{
+    background: #4a17d5bc;
+    transition: 0.5s;
+}
+.icon__mercado__pago{
+    font-size: 40px;
+    margin-right: 5px;
+}
+.text__payWithSecurity{
+    margin-top: 5px;
+    font-size: 14px;
+    color: gray;
+}
