@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
+
+import { IoIosCheckmarkCircleOutline } from "react-icons/io";
+import { VscError } from "react-icons/vsc";
+
+
+import './GetAccessToken.css'
 
 const GetAccessToken = () => {
 
@@ -12,40 +18,45 @@ const GetAccessToken = () => {
   const userInformation = JSON.parse(userData);//trasnformando os dados para JSON
   const barbeariaId = userInformation.barbearia[0].id;
 
-  const [accessToken, setAccessToken] = useState('');
+  const navigate = useNavigate();
   const location = useLocation();       
   
+  const handleBackClick = () => { 
+    navigate("/ProfileBarbearia");
+  };
 
-    const getAccessToken = async (authorizationCode) => {
-      const clientId = '5940575729236381';
-      const clientSecret = 'bdRsr5mP74WzRKvFW5bvRAs8KP6b2Rol';  
-      const redirectUri = 'https://barbeasy.netlify.app/GetAccessToken';
-      const codeVerifier = localStorage.getItem('code_verifier'); // Recupere o code_verifier salvo
+  const [accessToken, setAccessToken] = useState('');
 
-      try {
-        const params = new URLSearchParams();
-        params.append('grant_type', 'authorization_code');
-        params.append('client_id', clientId);
-        params.append('client_secret', clientSecret);
-        params.append('code', authorizationCode);
-        params.append('redirect_uri', redirectUri);
-        params.append('code_verifier', codeVerifier);
+  const getAccessToken = async (authorizationCode) => {
+    const clientId = '5940575729236381';
+    const clientSecret = 'bdRsr5mP74WzRKvFW5bvRAs8KP6b2Rol';  
+    const redirectUri = 'https://barbeasy.netlify.app/GetAccessToken';
+    const codeVerifier = localStorage.getItem('code_verifier'); // Recupere o code_verifier salvo
 
-        const response = await axios.post('https://api.mercadopago.com/oauth/token', params, {
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
-        });
+    try {
+      const params = new URLSearchParams();
+      params.append('grant_type', 'authorization_code');
+      params.append('client_id', clientId);
+      params.append('client_secret', clientSecret);
+      params.append('code', authorizationCode);
+      params.append('redirect_uri', redirectUri);
+      params.append('code_verifier', codeVerifier);
 
-        setAccessToken(response.data.access_token);
+      const response = await axios.post('https://api.mercadopago.com/oauth/token', params, {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      });
 
-      } catch (error) {
-        console.error('Error fetching access token:', error);
-      }
-    };
+      setAccessToken(response.data.access_token);
 
-    const params = new URLSearchParams(location.search);
-    const authorizationCode = params.get('code');
+    } catch (error) {
+      console.error('Error fetching access token:', error);
+    }
+  };
+
+  const params = new URLSearchParams(location.search);
+  const authorizationCode = params.get('code');
 
   useEffect(() => {
     if (authorizationCode) {
@@ -73,17 +84,27 @@ const GetAccessToken = () => {
 }
 
   return (
-    <div>
+    <div className="container__get__access__token">
       {accessToken ? (
-        <div>
-          Access Token: {accessToken}
+        <div className="section__get__access__token__successfuly">
+          <IoIosCheckmarkCircleOutline className="icon__CheckmarkCircleOutline"/>
+          <p className="text__one__conection__succesfuly">Excelente!</p>
+          <p className="text__two__conection__succesfuly">Agora você pode receber pagamentos dos seus agendamentos.</p>
           {saveAccessToken()}
         </div>
       ) : (
-        <div>
-          Obtendo access token...
+        <div className="section__get__access__token__successfuly">
+          <VscError className="icon__VscError"/>
+          <p className="text__one__conection__succesfuly">Hummm...</p>
+          <p className="text__two__conection__succesfuly">Houve um problema ao realizar a conexão com o Mercado Pago. Tente novamente em alguns minutos.</p>
         </div>
+        
       )}
+      <div className="Box__btn__back__Booking__Details" onClick={handleBackClick}>
+                <button className="Btn__back__Booking__Details" >
+                    Voltar
+                </button>
+            </div>
     </div>
   );
 };

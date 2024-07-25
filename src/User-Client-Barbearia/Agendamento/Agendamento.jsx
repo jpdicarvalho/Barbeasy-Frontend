@@ -403,6 +403,7 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId, se
     })
     .then(res => {
       setPaymentUrl(res.data.result)
+      console.log(res.data.fullResponse)
     })
     .catch(err => {
       console.log(err)

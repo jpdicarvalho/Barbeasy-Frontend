@@ -1,0 +1,37 @@
+.container__get__access__token{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100Vh;
+    width: 385px;
+    padding: 3px;
+}
+.section__get__access__token__successfuly{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.icon__CheckmarkCircleOutline{
+    color: #4a17d5;
+    width: 180px;
+    height: 180px;
+}
+.icon__VscError{
+    color: red;
+    width: 180px;
+    height: 180px;
+}
+.text__one__conection__succesfuly{
+    text-align: center;
+    font-size: 30px;
+    color: #fff;
+    
+}
+.text__two__conection__succesfuly{
+    color: gray;
+    text-align: center;
+    font-size: 15px;
+    
+}
