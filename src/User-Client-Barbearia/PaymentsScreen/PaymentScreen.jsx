@@ -7,6 +7,8 @@ export default function PaymentScreen(){
     const location = useLocation();
 
     const { paymentObject } = location.state;
+    const qr_code = paymentObject.point_of_interaction.transaction_data.qr_code
+    const qr_code_base64 = paymentObject.point_of_interaction.transaction_data.qr_code_base64
     console.log(paymentObject)
     //========================================================================
     const saveBooking = () =>{
