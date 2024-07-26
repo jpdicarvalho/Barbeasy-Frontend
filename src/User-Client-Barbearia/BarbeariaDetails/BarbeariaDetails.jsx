@@ -43,6 +43,7 @@ const urlApi = 'https://barbeasy.up.railway.app'
   
 const { barbearia } = location.state;
 const barbeariaId = barbearia.barbearia_id;
+const barbeariaName = barbearia.barbearia
 
 //buscando informações do usuário logado
 const token = localStorage.getItem('token');
@@ -94,6 +95,9 @@ const logoutClick = () => {
 
 /*=========================== Get professionals =======================*/
   const [professional, setProfessional] = useState([])
+  const [professionalName, setProfessionalName] = useState([])
+
+  
   const[serviceProfessional, setServiceProfessional] = useState()
 
   //Function to get all professionais
@@ -113,8 +117,9 @@ const logoutClick = () => {
   }, [barbeariaId])
 
 
-const handleServiceProfessional = (professionalId) => {
-  setServiceProfessional(professionalId)
+const handleServiceProfessional = (professional_id, professional_name) => {
+  setServiceProfessional(professional_id)
+  setProfessionalName(professional_name)
 };
 
 // ====== Section get serivce ========
@@ -331,7 +336,7 @@ return (
                             const firstLetter = professional.name.charAt(0).toUpperCase();
                             
                             return (
-                              <div key={professional.id} onClick={() => handleServiceProfessional(professional.id)} className={`Box__professional__barbearia__details ${serviceProfessional === professional.id ? 'professionalSelected' : ''}`}> 
+                              <div key={professional.id} onClick={() => handleServiceProfessional(professional.id, professional.name)} className={`Box__professional__barbearia__details ${serviceProfessional === professional.id ? 'professionalSelected' : ''}`}> 
                                 <div className="img__professional__barbearia__details">
                                   {professional.user_image != 'default.png' ?(
                                     <img src={cloudFrontUrl + professional.user_image} className="user__img__box__comment" alt="" />
@@ -394,6 +399,8 @@ return (
                     barbeariaId={barbeariaId}
                     professionalId={serviceProfessional}
                     serviceId={selectedService}
+                    barbeariaName={barbeariaName}
+                    professionalName={professionalName}
                     serviceName={serviceName}
                     servicePrice={servicePrice}
                     serviceDuration={serviceDuration}

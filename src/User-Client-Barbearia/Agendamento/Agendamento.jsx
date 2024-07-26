@@ -17,7 +17,16 @@ const weekNames = [
   'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'
 ];
 
-export function Agendamento({ userId, barbeariaId, professionalId, serviceId, serviceName, servicePrice, serviceDuration }) {
+export function Agendamento({
+  userId,
+  barbeariaId,
+  professionalId,
+  serviceId,
+  barbeariaName,
+  professionalName,
+  serviceName,
+  servicePrice,
+  serviceDuration }) {
   
   const navigate = useNavigate();
 
@@ -47,6 +56,13 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId, se
 
   const navigateToPaymentScreen = (paymentObject) =>{
     navigate("/PaymentScreen", { state: { paymentObject } });
+  }
+  const serviceValues = {
+    barbeariaName,
+    professionalName,
+    serviceName,
+    servicePrice,
+    serviceDuration
   }
 
   //Function to get current time
