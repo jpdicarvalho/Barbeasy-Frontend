@@ -1,10 +1,13 @@
 import { useState, useEffect, useRef } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+
 import axios from 'axios';
+
 import './Agendamento.css';
+
 import PropTypes from 'prop-types';
 import { MdOutlineDone } from "react-icons/md";
 import { VscError } from "react-icons/vsc";
-import { SiMercadopago } from "react-icons/si";
 
 const monthNames = [
   'Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun', 'Jul', 'Aug', 'Set', 'Out', 'Nov', 'Dez'
@@ -15,6 +18,8 @@ const weekNames = [
 ];
 
 export function Agendamento({ userId, barbeariaId, professionalId, serviceId, serviceName, servicePrice, serviceDuration }) {
+  
+  const navigate = useNavigate();
 
   const date = new Date();
   
@@ -39,6 +44,10 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId, se
   
   const currentDate = new Date(date);
   const formattedDate = `${currentDate.getDate()}-${currentDate.getMonth() + 1}-${currentDate.getFullYear()}-${currentDate.getHours()}:${currentDate.getMinutes()}`;
+
+  const navigateToPaymentScreen = () =>{
+    navigate("/PaymentScreen");
+  }
 
   //Function to get current time
   function getCurrentTime(){
@@ -477,16 +486,19 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId, se
         </div>
       </div>
     </div>
+
     {selectedDay &&(
     <div className="tittle">
        <div style={{marginTop: '15px'}}>
         Horários Disponíveis
       </div>
     </div>
-    )}    
+    )} 
+
     <div className="container__horarios">
       {renderHorariosDiaSelecionado()}
     </div>
+
     {messageConfirmedBooking === 'Seu agendamento foi realizado com sucesso!' ?(
       <div className="mensagem-sucesso">
         <MdOutlineDone className="icon__success"/>
@@ -499,19 +511,8 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId, se
       </div>
     )}
 
-    {paymentUrl ?(
-      <div className="Box__url__payment__mercado__pago">
-        <a href={paymentUrl} className="url__payment__mercado__pago">
-          <SiMercadopago className="icon__mercado__pago"/>
-          Pagar com o Mercado Pago
-        </a>
-        <p className="text__payWithSecurity">Pague com segurança</p>
-    </div>
-    ):(
-      <>
-        <button onClick={createPayment} className={`Btn__ocult ${serviceId && selectedDay && timeSelected ? 'AgendamentoButton': ''}`}>Continuar</button>
-      </>
-    )}      
+    <button onClick={navigateToPaymentScreen} className={`Btn__ocult ${serviceId && selectedDay && timeSelected ? 'AgendamentoButton': ''}`}>Continuar</button>
+   
   </>
   );
 }

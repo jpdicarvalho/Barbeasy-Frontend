@@ -70,6 +70,11 @@ useEffect(() =>{
 /*=================== Section Menu ===================*/
 const [isMenuActive, setMenuActive] = useState(false);
 
+//Ativação do menu principal
+const handleMenuClick = () => {
+  setMenuActive(!isMenuActive);
+}
+
 //função para navegarpara página home
 const navigateToHome = () =>{
   navigate("/Home");
@@ -80,10 +85,7 @@ const navigateToUserProfile = () =>{
 const navigateToBookingsHistory = () =>{
   navigate("/BookingsHistory");
 }
-//Ativação do menu principal
-const handleMenuClick = () => {
-  setMenuActive(!isMenuActive);
-}
+
 //Função LogOut
 const logoutClick = () => {
   ['token', 'userData'].forEach(key => localStorage.removeItem(key));
@@ -150,14 +152,11 @@ const handleServiceChange = (servicoId, name, price, duration) => {
   let priceFormated = price.replace(/R\$ (\d+),(\d{2})/, '$1.$2');
   setSelectedService(servicoId);
   setServiceName(name)
-  setServicePrice(priceFormated)
+  setServicePrice(priceFormated )
   let number = duration.substring(0, 2)
   number = parseInt(number)
   setServiceDuration(number)
 };
-
-/*================== Section to get access token of barbearia ======================*/
-
 
 
 /*=================== Section Avaliation Barbearia ===================*/

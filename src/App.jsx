@@ -8,23 +8,21 @@ import SignUp from './User-Client-Barbearia/SignUp/SignUp';//não sei porque ess
 import SignInBarbearia from '../src/User-Barbearia/SignIn-Barbearia/SignIn-Barbearia';
 import SignUpBarbearia from '../src/User-Barbearia/SignUp-Barbearia/SignUp-Barbearia';
 
-import Home from '../src/User-Client-Barbearia/Home/Home';
 import HomeBarbearia from './User-Barbearia/Home/HomeBarbearia';
-import HomeProfessional from './User-Professional/Home/HomeProfessional';
-
-import BarbeariaDetails from '../src/User-Client-Barbearia/BarbeariaDetails/BarbeariaDetails';
 import ProfileBarbearia from './User-Barbearia/ProfileBarbearia/ProfileBarberia';
+import GetAccessToken from './User-Barbearia/ProfileBarbearia/GetAccessToken';
+import ProfessionalDetails from './User-Barbearia/ProfessionalDetails/professionalDetails';
+
+import Home from '../src/User-Client-Barbearia/Home/Home';
+import UserProfile from './User-Client-Barbearia/UserProfile/UserProfile';
+import BarbeariaDetails from '../src/User-Client-Barbearia/BarbeariaDetails/BarbeariaDetails';
+import PaymentScreen from './User-Client-Barbearia/PaymentsScreen/PaymentScreen';
+import BookingsHistory from './User-Client-Barbearia/BookingsHistory/BookingsHistory';
 import BookingDetails from './User-Client-Barbearia/BookingDetails/BookingDetails';
 
-import ProfessionalDetails from './User-Barbearia/ProfessionalDetails/professionalDetails';
+import HomeProfessional from './User-Professional/Home/HomeProfessional';
 import ProfileProfessional from './User-Professional/ProfileProfessional/ProfileProfessional';
-import UserProfile from './User-Client-Barbearia/UserProfile/UserProfile';
-
-import BookingsHistory from './User-Client-Barbearia/BookingsHistory/BookingsHistory';
-
 import Notification from './User-Professional/Notification/Notification';
-
-import GetAccessToken from './User-Barbearia/ProfileBarbearia/GetAccessToken';
 
 import Checkout from './Checkout';
 import Widget from './Widget';
@@ -80,6 +78,7 @@ const App = () => {
         <Route path="/Home" element={<PrivateRoute element={<Home />} />} />
         <Route path="/UserProfile" element={<PrivateRoute element={<UserProfile />} />} />
         <Route path="/BarbeariaDetails" element={<PrivateRoute element={<BarbeariaDetails />} />} />
+        <Route path="/PaymentScreen" element={<PrivateRoute element={<PaymentScreen />} />} />
         <Route path="/BookingsHistory" element={<PrivateRoute element={<BookingsHistory />} />} />
         <Route path="/BookingDetails" element={<PrivateRoute element={<BookingDetails />} />} />
 
