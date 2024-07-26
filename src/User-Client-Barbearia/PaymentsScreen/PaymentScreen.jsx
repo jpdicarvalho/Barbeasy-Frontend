@@ -19,6 +19,10 @@ export default function PaymentScreen(){
     const qr_code_base64 = paymentObject.point_of_interaction.transaction_data.qr_code_base64
     const date_of_expiration = paymentObject.date_of_expiration
 
+    const handleBackClick = () => { 
+        navigate("/Home ");
+      };
+
     //Function to formatted date
     function formatExpirationDate(dateString) {
         const date = new Date(dateString);
@@ -166,7 +170,11 @@ export default function PaymentScreen(){
                 <p>Início</p>
                 <p>{serviceValues.timeSelected} h</p>
             </div>
-            
+            <div className="Box__btn__back__Booking__Details" style={{marginBottom: '20px'}} onClick={handleBackClick}>
+                <button className="Btn__back__Booking__Details" >
+                    Voltar
+                </button>
+            </div>
         </div>
     )
 }
