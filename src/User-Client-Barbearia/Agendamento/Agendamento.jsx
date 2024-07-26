@@ -45,8 +45,8 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId, se
   const currentDate = new Date(date);
   const formattedDate = `${currentDate.getDate()}-${currentDate.getMonth() + 1}-${currentDate.getFullYear()}-${currentDate.getHours()}:${currentDate.getMinutes()}`;
 
-  const navigateToPaymentScreen = () =>{
-    navigate("/PaymentScreen");
+  const navigateToPaymentScreen = (paymentObject) =>{
+    navigate("/PaymentScreen", { state: { paymentObject } });
   }
 
   //Function to get current time
@@ -411,8 +411,9 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId, se
       }
     })
     .then(res => {
-      setPaymentUrl(res.data.result)
-      console.log(res.data.fullResponse)
+      if(res.data.Success === true){
+        return navigateToPaymentScreen(res.data.fullResponse)
+      }
     })
     .catch(err => {
       console.log(err)
@@ -420,41 +421,7 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId, se
     
   };
 
-  //========================================================================
-  const saveBooking = () =>{
-    if(userId && barbeariaId && professionalId && serviceId && selectedDay && timeSelected && formattedDate){
-      //Passando todos os horários que serão ocupados pelo serviço selecionado
-      let timeSelected = timesBusyByService.join(',');
-      //Object to agroup all informations to make a new booking
-      const newBooking = {
-        userId,
-        barbeariaId,
-        professionalId,
-        serviceId,
-        selectedDay,
-        timeSelected,
-        formattedDate
-      }
-
-      axios.post(`${urlApi}/api/v1/createBooking/`, newBooking, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      })
-      .then(res => {
-        if(res.data.Success === 'Success'){
-          setMessageConfirmedBooking("Seu agendamento foi realizado com sucesso!")
-          setTimeout(() => {
-            setMessageConfirmedBooking('');
-            window.location.reload()
-          }, 3000);
-        }
-
-      }).catch(error => {
-        console.error('Erro ao buscar informações da agenda da barbearia', error)
-      })
-    }
-  }
+  
   //=========================================================================================
 
   Agendamento.propTypes = {
@@ -511,7 +478,7 @@ export function Agendamento({ userId, barbeariaId, professionalId, serviceId, se
       </div>
     )}
 
-    <button onClick={navigateToPaymentScreen} className={`Btn__ocult ${serviceId && selectedDay && timeSelected ? 'AgendamentoButton': ''}`}>Continuar</button>
+    <button onClick={createPayment} className={`Btn__ocult ${serviceId && selectedDay && timeSelected ? 'AgendamentoButton': ''}`}>Continuar</button>
    
   </>
   );
