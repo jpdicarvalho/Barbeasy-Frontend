@@ -107,7 +107,7 @@ export default function PaymentScreen(){
             <div className="Box__qr_code__to__copy">
                 <h5>Código de pagamento</h5>
                 {copyMessage &&(
-                    <div className="">
+                    <div className="box__text__copied">
                         <p className="text__information__pix">Código de pagamento copiado!</p>
                     </div>
                 )}
