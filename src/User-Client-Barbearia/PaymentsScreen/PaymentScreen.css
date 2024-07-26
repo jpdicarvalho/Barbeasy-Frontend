@@ -67,6 +67,17 @@
     width: 100%;
     padding: 3px;
 }
+.box__text__copied{
+    display: flex;
+    justify-content: end;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-right: 10px;
+}
+.text__copied{
+    font-size: 12px;
+    color: gray;
+}
 .icon__PiCopySimple{
     width: 25px;
     height: 25px;
@@ -163,4 +174,5 @@
     border-bottom: 1px solid #4a17d559;
     padding: 10px 10px 10px 15px;
     width: 100%;
+    font-size: 14px;
 }
