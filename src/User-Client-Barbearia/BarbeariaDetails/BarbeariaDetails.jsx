@@ -43,7 +43,7 @@ const urlApi = 'https://barbeasy.up.railway.app'
   
 const { barbearia } = location.state;
 const barbeariaId = barbearia.barbearia_id;
-const barbeariaName = barbearia.barbearia
+const barbeariaName = barbearia.nameBarbearia
 
 //buscando informações do usuário logado
 const token = localStorage.getItem('token');
@@ -154,10 +154,9 @@ const [serviceDuration, setServiceDuration] = useState();
   }, []);
 
 const handleServiceChange = (servicoId, name, price, duration) => {
-  let priceFormated = price.replace(/R\$ (\d+),(\d{2})/, '$1.$2');
   setSelectedService(servicoId);
   setServiceName(name)
-  setServicePrice(priceFormated )
+  setServicePrice(price)
   let number = duration.substring(0, 2)
   number = parseInt(number)
   setServiceDuration(number)

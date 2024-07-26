@@ -13,7 +13,7 @@ export default function PaymentScreen(){
     const navigate = useNavigate();
     const location = useLocation();
 
-    const { paymentObject } = location.state;
+    const { paymentObject, serviceValues } = location.state;
 
     const qr_code = paymentObject.point_of_interaction.transaction_data.qr_code
     const qr_code_base64 = paymentObject.point_of_interaction.transaction_data.qr_code_base64
@@ -37,6 +37,7 @@ export default function PaymentScreen(){
     }
     const formattedDate = formatExpirationDate(date_of_expiration);
 
+    //Function to copy the qr_code
     const [copyMessage, setCopyMessage] = useState('');
 
     const handleCopy = (text) => {
@@ -52,6 +53,8 @@ export default function PaymentScreen(){
           });
       };
     console.log(paymentObject)
+    console.log(serviceValues)
+
     //========================================================================
     const saveBooking = () =>{
     if(userId && barbeariaId && professionalId && serviceId && selectedDay && timeSelected && formattedDate){
@@ -98,7 +101,7 @@ export default function PaymentScreen(){
                 </div>
             </div>
             <div className="section__value__payment">
-                <h3 className="value__payment">Pague R$ 1,00 via Pix</h3>
+                <h3 className="value__payment">Pague {serviceValues.servicePrice} via Pix</h3>
                 <p className="date_of_expiration">Vencimento: {formattedDate}</p>
             </div>
             <div className="Box__qr_code_base64">
@@ -141,27 +144,27 @@ export default function PaymentScreen(){
             </div>
             <div className="values__details__service">
                 <p>Barbearia</p>
-                <p>Blinders</p>
+                <p>{serviceValues.barbeariaName}</p>
             </div>
             <div className="values__details__service">
                 <p>Profissional</p>
-                <p>Thomas</p>
+                <p>{serviceValues.professionalName}</p>
             </div>
             <div className="values__details__service">
-                <p>Corte Navalhado</p>
-                <p>R$ 25,00</p>
+                <p>{serviceValues.serviceName}</p>
+                <p>{serviceValues.servicePrice}</p>
             </div>
             <div className="values__details__service">
                 <p>Duração</p>
-                <p>45min</p>
+                <p>{serviceValues.serviceDuration}min</p>
             </div>
             <div className="values__details__service">
                 <p>Data</p>
-                <p>18 JUL 24</p>
+                <p>{serviceValues.selectedDay}</p>
             </div>
             <div className="values__details__service">
                 <p>Início</p>
-                <p>21:30h</p>
+                <p>{serviceValues.timeSelected} h</p>
             </div>
             
         </div>

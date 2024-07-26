@@ -54,15 +54,18 @@ export function Agendamento({
   const currentDate = new Date(date);
   const formattedDate = `${currentDate.getDate()}-${currentDate.getMonth() + 1}-${currentDate.getFullYear()}-${currentDate.getHours()}:${currentDate.getMinutes()}`;
 
-  const navigateToPaymentScreen = (paymentObject) =>{
-    navigate("/PaymentScreen", { state: { paymentObject } });
-  }
   const serviceValues = {
     barbeariaName,
     professionalName,
     serviceName,
     servicePrice,
-    serviceDuration
+    serviceDuration,
+    selectedDay,
+    timeSelected
+  }
+
+  const navigateToPaymentScreen = (paymentObject) =>{
+    navigate("/PaymentScreen", { state: { paymentObject, serviceValues } });
   }
 
   //Function to get current time
@@ -410,10 +413,12 @@ export function Agendamento({
 
   //Mandan a requisição para a rota de Pagamento
   const createPayment = () => {
+
+    let priceFormated = servicePrice.replace(/R\$ (\d+),(\d{2})/, '$1.$2');
     
     const values = {
       accessTokenBarbearia,
-      transaction_amount: servicePrice,
+      transaction_amount: priceFormated,
       description: serviceName,
       paymentMethodId: 'pix',
       email: 'parzival@gmail.com',
@@ -436,7 +441,6 @@ export function Agendamento({
     })
     
   };
-
   
   //=========================================================================================
 
