@@ -64,9 +64,6 @@ export function Agendamento({
     timeSelected
   }
 
-  const navigateToPaymentScreen = (paymentObject) =>{
-    navigate("/PaymentScreen", { state: { paymentObject, serviceValues } });
-  }
 
   //Function to get current time
   function getCurrentTime(){
@@ -445,7 +442,10 @@ export function Agendamento({
     })
     
   };
-  
+
+  const navigateToPaymentScreen = (paymentObject) =>{
+    navigate("/PaymentScreen", { state: { paymentObject, serviceValues, accessTokenBarbearia } });
+  }
   //=========================================================================================
 
   Agendamento.propTypes = {

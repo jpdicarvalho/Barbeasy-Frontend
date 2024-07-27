@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
-
 import { useLocation, useNavigate } from "react-router-dom";
+
+import axios from 'axios';
+
 
 import { SiMercadopago } from "react-icons/si";
 import { PiCopySimple } from "react-icons/pi";
@@ -13,8 +15,36 @@ export default function PaymentScreen(){
     const navigate = useNavigate();
     const location = useLocation();
 
-    const { paymentObject, serviceValues } = location.state;
-console.log(paymentObject)
+    const { paymentObject, serviceValues, accessTokenBarbearia } = location.state;
+
+    const urlGetPayment = 'https://api.mercadopago.com/v1/payments/'
+
+    const [statusPayment, setStatusPayment] = useState('');
+
+    const getPayment = () =>{
+        axios.get(`${urlGetPayment}${paymentObject.id}`, {
+            headers: {
+                'Authorization': `Bearer ${accessTokenBarbearia}`
+              }
+        }).then(res =>{
+            setStatusPayment(res.data.status)
+        }).catch(err =>{
+            console.log(err)
+        })
+    }
+
+    useEffect(() => {
+        if(statusPayment != 'approved'){
+            const interval = setInterval(() => {
+                getPayment();
+              }, 5000); // 10 segundos
+          
+              // Limpeza do intervalo quando o componente for desmontado
+              return () => clearInterval(interval);
+        }
+    }, []);
+    
+    console.log(paymentObject, accessTokenBarbearia)
 
 
     const qr_code = paymentObject.point_of_interaction.transaction_data.qr_code
