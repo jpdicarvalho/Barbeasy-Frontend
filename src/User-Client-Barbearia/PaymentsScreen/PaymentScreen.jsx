@@ -14,6 +14,8 @@ export default function PaymentScreen(){
     const location = useLocation();
 
     const { paymentObject, serviceValues } = location.state;
+console.log(paymentObject)
+
 
     const qr_code = paymentObject.point_of_interaction.transaction_data.qr_code
     const qr_code_base64 = paymentObject.point_of_interaction.transaction_data.qr_code_base64
@@ -21,7 +23,7 @@ export default function PaymentScreen(){
 
     const handleBackClick = () => { 
         navigate("/Home ");
-      };
+    };
 
     //Function to formatted date
     function formatExpirationDate(dateString) {
@@ -55,9 +57,7 @@ export default function PaymentScreen(){
             setCopyMessage('Erro ao copiar');
             setTimeout(() => setCopyMessage(''), 2000); // Mensagem some após 2 segundos
           });
-      };
-    console.log(paymentObject)
-    console.log(serviceValues)
+    };
 
     //========================================================================
     const saveBooking = () =>{

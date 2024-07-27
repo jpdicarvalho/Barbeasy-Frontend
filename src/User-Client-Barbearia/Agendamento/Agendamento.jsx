@@ -423,7 +423,11 @@ export function Agendamento({
       paymentMethodId: 'pix',
       email: 'parzival@gmail.com',
       identificationType: 'CPF',
-      number: '52094597059'
+      number: '52094597059',
+      userId,
+      barbeariaId,
+      professionalId,
+      serviceId,
     }
 
     axios.post(`${urlApi}/api/v1/payment`, values, {
