@@ -28,6 +28,7 @@ export default function PaymentScreen(){
               }
         }).then(res =>{
             setStatusPayment(res.data.status)
+            console.log('verificando status do pagamento...')
         }).catch(err =>{
             console.log(err)
         })
@@ -44,7 +45,7 @@ export default function PaymentScreen(){
         }
     }, []);
     
-    console.log(paymentObject, accessTokenBarbearia)
+    console.log(paymentObject)
 
 
     const qr_code = paymentObject.point_of_interaction.transaction_data.qr_code
