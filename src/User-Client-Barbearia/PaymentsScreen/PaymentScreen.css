@@ -1,9 +1,24 @@
+.container__master{
+    max-height: 100vh;
+    overflow-y: scroll;
+}
+.container__master::-webkit-scrollbar {
+    width: 1px;
+}
+.container__master::-webkit-scrollbar-thumb {
+    background: transparent; 
+    border-radius: 5px;
+}
+.container__master::-webkit-scrollbar-thumb:hover {
+    background: #f6f6f6; 
+}
 .container__payment__screen{
     display: flex;
     align-items: center;
     flex-direction: column;
     min-height: 100vh;
     width: 385px;
+    opacity: 1;
 }
 .header__payment__screen{
     display: flex;
@@ -175,4 +190,18 @@
     padding: 10px 10px 10px 15px;
     width: 100%;
     font-size: 14px;
+}
+.container__payment__approved{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 385px;
+    height: 100vh;
+    opacity: 1;
+}
+.hidden__container__payment__approved{
+    opacity: 0;
+    width: 0;
+    height: 0;
 }

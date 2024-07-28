@@ -100,7 +100,7 @@ const GetAccessToken = () => {
         </div>
         
       )}
-      <div className="Box__btn__back__Booking__Details" onClick={handleBackClick}>
+            <div className="Box__btn__back__Booking__Details" onClick={handleBackClick}>
                 <button className="Btn__back__Booking__Details" >
                     Voltar
                 </button>
