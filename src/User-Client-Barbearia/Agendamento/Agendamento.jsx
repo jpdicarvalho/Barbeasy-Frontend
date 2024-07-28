@@ -460,6 +460,9 @@ export function Agendamento({
         ]
         
         const createdIdentificationToken = valuesToIdentificationToken.join('-');
+
+        createPreBooking()
+
         return navigateToPaymentScreen(res.data.fullResponse, createdIdentificationToken)
       }
     })
@@ -499,7 +502,6 @@ export function Agendamento({
                 setMessageConfirmedBooking("Seu agendamento foi pré-reservado. Efetue o pagamento para finalizar!")
                 setTimeout(() => {
                 setMessageConfirmedBooking('');
-                createPayment()
                 }, 3000);
             }
 
@@ -568,7 +570,7 @@ export function Agendamento({
       </div>
     )}
 
-    <button onClick={createPreBooking} className={`Btn__ocult ${serviceId && selectedDay && timeSelected ? 'AgendamentoButton': ''}`}>Continuar</button>
+    <button onClick={createPayment} className={`Btn__ocult ${serviceId && selectedDay && timeSelected ? 'AgendamentoButton': ''}`}>Continuar</button>
    
   </>
   );

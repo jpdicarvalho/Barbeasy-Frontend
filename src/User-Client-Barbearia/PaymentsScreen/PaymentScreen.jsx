@@ -19,16 +19,43 @@ export default function PaymentScreen(){
 
     const qr_code = paymentObject.point_of_interaction.transaction_data.qr_code
     const qr_code_base64 = paymentObject.point_of_interaction.transaction_data.qr_code_base64
-    const date_of_expiration = paymentObject.date_of_expiration
+    const date_of_expiration = paymentObject.date_of_expiration// está assim o formato: 2024-07-29T12:02:16.828-04:00
+
+    const handleBackClick = () => { 
+        navigate("/Home ");
+    };
+
+    //==========================================================
+    const calculateTimeDifference = () => {
+        const expirationDate = new Date(date_of_expiration).getTime();
+        const currentDate = Date.now();
+        const differenceInMilliseconds = expirationDate - currentDate;
+        const differenceInSeconds = Math.floor(differenceInMilliseconds / 1000);
+        return differenceInSeconds;
+      };
+    
+      const [seconds, setSeconds] = useState(calculateTimeDifference());
+    
+      useEffect(() => {
+        const timer = setInterval(() => {
+          setSeconds((prevSeconds) => {
+            if (prevSeconds <= 0) {
+                clearInterval(timer);
+                handleBackClick()
+                return 0;
+            }
+            return prevSeconds - 1;
+          });
+        }, 1000);
+    
+        return () => clearInterval(timer);
+      }, []);
+    //==========================================================
 
     const urlGetPayment = 'https://api.mercadopago.com/v1/payments/'
     const urlApi = 'https://barbeasy.up.railway.app'
 
     const token = localStorage.getItem('token');
-
-    const handleBackClick = () => { 
-        navigate("/Home ");
-    };
 
     const [PaymentStatus, setPaymentStatus] = useState('');
     const [paymentUpdated, setPaymentUpdated] = useState(false);
@@ -45,7 +72,7 @@ export default function PaymentScreen(){
             console.log(err)
         })
     }
-console.log(PaymentStatus)
+
     //Function to update status to approved
     const updatePaymentStatus = () =>{
         if(PaymentStatus === 'approved'){
@@ -83,24 +110,6 @@ console.log(PaymentStatus)
 
     //Call function updatePaymentStatus
     updatePaymentStatus()
-
-    //Function to formatted date
-    function formatExpirationDate(dateString) {
-        const date = new Date(dateString);
-      
-        // Obter partes da data
-        const day = date.getDate();
-        const month = date.toLocaleString('pt-BR', { month: 'long' });
-        const hours = date.getHours();
-        const minutes = date.getMinutes();
-      
-        // Ajustar formato da hora
-        const formattedHours = hours.toString().padStart(2, '0');
-        const formattedMinutes = minutes.toString().padStart(2, '0');
-      
-        return `${day} de ${month} às ${formattedHours}:${formattedMinutes} h`;
-    }
-    const formattedDate = formatExpirationDate(date_of_expiration);
 
     //Function to copy the qr_code
     const [copyMessage, setCopyMessage] = useState('');
@@ -144,7 +153,7 @@ console.log(PaymentStatus)
                     </div>
                     <div className="section__value__payment">
                         <h3 className="value__payment">Pague {serviceValues.servicePrice} via Pix</h3>
-                        <p className="date_of_expiration">Vencimento: {formattedDate}</p>
+                        <p className="date_of_expiration">{seconds > 0 ? `Vencimento em ${seconds} segundos` : 'Tempo esgotado :('}</p>
                     </div>
                     <div className="Box__qr_code_base64">
                         <img className="inner__qr_code_base64" src={`data:image/png;base64,${qr_code_base64}`} alt="QR Code Base64" />
