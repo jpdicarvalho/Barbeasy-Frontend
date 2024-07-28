@@ -35,6 +35,8 @@ export function Agendamento({
   const userInformation = JSON.parse(userData);
   //Fromatando cada letra inicial do nome do usuário para caixa-alta
   const userPhone = userInformation.user[0].celular;
+  const userEmail = userInformation.user[0].email;
+
 
   const date = new Date();
   
@@ -429,7 +431,7 @@ export function Agendamento({
       transaction_amount: priceFormated,
       description: serviceName,
       paymentMethodId: 'pix',
-      email: 'parzival@gmail.com',
+      email: userEmail,
       phone: userPhone,
       identificationType: 'CPF',
       number: '52094597059',
