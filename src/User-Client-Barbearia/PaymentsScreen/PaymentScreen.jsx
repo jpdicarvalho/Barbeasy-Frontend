@@ -18,8 +18,13 @@ export default function PaymentScreen(){
     const { paymentObject, serviceValues, accessTokenBarbearia } = location.state;
 
     const urlGetPayment = 'https://api.mercadopago.com/v1/payments/'
+    const urlApi = 'https://barbeasy.up.railway.app'
+    const token = localStorage.getItem('token');
+
 
     const [statusPayment, setStatusPayment] = useState('');
+    const [message, setMessage] = useState('');
+
 
     const getPayment = () =>{
         axios.get(`${urlGetPayment}${paymentObject.id}`, {
@@ -32,6 +37,23 @@ export default function PaymentScreen(){
         }).catch(err =>{
             console.log(err)
         })
+    }
+
+    const updatePaymentStatus = () =>{
+        if(statusPayment === 'approved'){
+            axios.put(`${urlApi}/api/v1/updatePaymentStatus`, statusPayment, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                  }
+            }).then(res =>{
+                if(res.data.Success === 'Success'){
+                    return setMessage('Status do pagamento atualizado com sucesso.')
+                }
+            }).catch(err =>{
+                console.error('Erro:', err)
+                return setMessage('Erro ao atualizar o status do pagamento.')
+            })
+        }
     }
 
     useEffect(() => {
