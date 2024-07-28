@@ -16,7 +16,7 @@ export default function PaymentScreen(){
     const navigate = useNavigate();
     const location = useLocation();
 
-    const { paymentObject, serviceValues, accessTokenBarbearia } = location.state;
+    const { paymentObject, serviceValues, accessTokenBarbearia, tokenOfBookingPreCreated } = location.state;
 
     const qr_code = paymentObject.point_of_interaction.transaction_data.qr_code
     const qr_code_base64 = paymentObject.point_of_interaction.transaction_data.qr_code_base64
@@ -53,6 +53,7 @@ export default function PaymentScreen(){
         if(PaymentStatus === 'approved'){
             const values = {
                 PaymentStatus,
+                tokenOfBookingPreCreated,
                 PaymentId: paymentObject.id
             }
             axios.put(`${urlApi}/api/v1/updatePaymentStatus`, values, {
@@ -120,40 +121,6 @@ export default function PaymentScreen(){
     };
 
     //========================================================================
-    const saveBooking = () =>{
-    if(userId && barbeariaId && professionalId && serviceId && selectedDay && timeSelected && formattedDate){
-        //Passando todos os horários que serão ocupados pelo serviço selecionado
-        let timeSelected = timesBusyByService.join(',');
-        //Object to agroup all informations to make a new booking
-        const newBooking = {
-        userId,
-        barbeariaId,
-        professionalId,
-        serviceId,
-        selectedDay,
-        timeSelected,
-        formattedDate
-        }
-
-        axios.post(`${urlApi}/api/v1/createBooking/`, newBooking, {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-        })
-        .then(res => {
-        if(res.data.Success === 'Success'){
-            setMessageConfirmedBooking("Seu agendamento foi realizado com sucesso!")
-            setTimeout(() => {
-            setMessageConfirmedBooking('');
-            window.location.reload()
-            }, 3000);
-        }
-
-        }).catch(error => {
-        console.error('Erro ao buscar informações da agenda da barbearia', error)
-        })
-    }
-    }
 
     return(
         <div className="container__master">

@@ -382,7 +382,7 @@ export function Agendamento({
     );
   };
 
-//============================== Section Create Payment ==============================
+//============================== Section Create Payment AND Pre-Booking ==============================
   const [accessTokenBarbearia, setAccessTokenBarbearia] = useState('');
 
   const getAccessTokenBarbearia = () =>{
@@ -406,9 +406,20 @@ export function Agendamento({
     getAccessTokenBarbearia()
   }, [selectedDay])
 
+  //Object to create an identification token for the pre-booked appointment. it will be used to change the payment status of this pre-booking
+  const valuesBookingPreCreated = {
+    userId,
+    barbeariaId,
+    professionalId,
+    serviceId,
+    selectedDay,
+    timeSelected
+  }
+  const tokenOfBookingPreCreated = valuesBookingPreCreated.join('-');
+
   //Function to navigate for payment screen with paymentObject, serviceValues and accessTokenBarbearia  
   const navigateToPaymentScreen = (paymentObject) =>{
-    navigate("/PaymentScreen", { state: { paymentObject, serviceValues, accessTokenBarbearia } });
+    navigate("/PaymentScreen", { state: { paymentObject, serviceValues, accessTokenBarbearia, tokenOfBookingPreCreated } });
   }
 
   //Function to Create payment
