@@ -25,17 +25,19 @@ export default function PaymentScreen(){
         navigate("/Home ");
     };
 
-    //==========================================================
+    //Function to calculete the time difference betwen date_of_expiration and current date
     const calculateTimeDifference = () => {
         const expirationDate = new Date(date_of_expiration).getTime();
         const currentDate = Date.now();
         const differenceInMilliseconds = expirationDate - currentDate;
         const differenceInSeconds = Math.floor(differenceInMilliseconds / 1000);
         return differenceInSeconds;
-      };
+    };
     
-      const [seconds, setSeconds] = useState(calculateTimeDifference());
+    //Variables to stotage secondes
+    const [seconds, setSeconds] = useState(calculateTimeDifference());
     
+    //Hook to setSeconds, call the function deletePreBooking and redirect user
       useEffect(() => {
         const timer = setInterval(() => {
           setSeconds((prevSeconds) => {
