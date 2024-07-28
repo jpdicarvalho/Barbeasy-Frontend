@@ -386,6 +386,11 @@ export function Agendamento({
   const [accessTokenBarbearia, setAccessTokenBarbearia] = useState('');
   const [identificationToken, setIdentificationToken] = useState('');
 
+  //Function to navigate for payment screen with paymentObject, serviceValues and accessTokenBarbearia  
+  const navigateToPaymentScreen = (paymentObject) =>{
+    navigate("/PaymentScreen", { state: { paymentObject, serviceValues, accessTokenBarbearia, identificationToken } });
+  }
+
   //Function to get access token of barbearia. That access token will be used to send the payment for it
   const getAccessTokenBarbearia = () =>{
     axios.get(`${urlApi}/api/v1/accessTokenBarbearia/${barbeariaId}`, {
@@ -403,6 +408,7 @@ export function Agendamento({
       console.error('Erro ao obter os registros:', err);
     })
   }
+  
   //Hook o call getAccessTokenBarbearia
   useEffect(()=>{
     getAccessTokenBarbearia()
@@ -421,11 +427,6 @@ export function Agendamento({
       timeSelected
     ]
     return identificationToken = valuesBookingPreCreated.join('-')
-  }
-
-  //Function to navigate for payment screen with paymentObject, serviceValues and accessTokenBarbearia  
-  const navigateToPaymentScreen = (paymentObject) =>{
-    navigate("/PaymentScreen", { state: { paymentObject, serviceValues, accessTokenBarbearia, identificationToken } });
   }
 
   //Function to Create payment
@@ -463,7 +464,7 @@ export function Agendamento({
     
   };
 
-//============================== Section Save pre-Booking ==============================
+  //Function to create pre-booking
   const createPreBooking = () =>{
     if(userId && barbeariaId && professionalId && serviceId && selectedDay && timeSelected && formattedDate){
         
@@ -482,7 +483,7 @@ export function Agendamento({
             initialPaymentStatus,
             formattedDate
         }
-        let createdIdentificationToken = createIdentificationToken (userId, barbeariaId, professionalId, serviceId, selectedDay, timeSelected);
+        const createdIdentificationToken = createIdentificationToken (userId, barbeariaId, professionalId, serviceId, selectedDay, timeSelected);
         setIdentificationToken(createdIdentificationToken)
 
         axios.post(`${urlApi}/api/v1/createBooking/`, newBooking, {
