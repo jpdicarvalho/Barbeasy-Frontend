@@ -27,11 +27,14 @@ export default function PaymentScreen(){
 
     const token = localStorage.getItem('token');
 
+    const handleBackClick = () => { 
+        navigate("/Home ");
+    };
 
     const [PaymentStatus, setPaymentStatus] = useState('');
     const [paymentUpdated, setPaymentUpdated] = useState(false);
 
-    //
+    //Function to verify status of payment
     const getPayment = () =>{
         axios.get(`${urlGetPayment}${paymentObject.id}`, {
             headers: {
@@ -45,6 +48,7 @@ export default function PaymentScreen(){
         })
     }
 
+    //Function to update status to approved
     const updatePaymentStatus = () =>{
         if(PaymentStatus === 'approved'){
             const values = {
@@ -66,6 +70,7 @@ export default function PaymentScreen(){
         }
     }
 
+    //Call function getPayment each 5 secondes
     useEffect(() => {
         if(PaymentStatus != 'approved'){
             const interval = setInterval(() => {
@@ -77,12 +82,8 @@ export default function PaymentScreen(){
         }
     }, []);
 
+    //Call function updatePaymentStatus
     updatePaymentStatus()
-
-
-    const handleBackClick = () => { 
-        navigate("/Home ");
-    };
 
     //Function to formatted date
     function formatExpirationDate(dateString) {
