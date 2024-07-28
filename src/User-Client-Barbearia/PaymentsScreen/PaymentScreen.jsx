@@ -45,7 +45,7 @@ export default function PaymentScreen(){
             console.log(err)
         })
     }
-
+console.log(PaymentStatus)
     //Function to update status to approved
     const updatePaymentStatus = () =>{
         if(PaymentStatus === 'approved'){

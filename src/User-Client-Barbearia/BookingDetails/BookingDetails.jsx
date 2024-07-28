@@ -62,7 +62,7 @@ function BookingDetails () {
                 </div>
                 
                 <div className="subtittle__Booking__Details">
-                        <h3>Profissional do serviço</h3>
+                        <h3>Profissional</h3>
                     </div>
                 <div className="section__professional__Booking__Details">
                     <div className="box__professional__Booking__Details">

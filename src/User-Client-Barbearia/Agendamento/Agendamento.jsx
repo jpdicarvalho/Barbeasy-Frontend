@@ -30,6 +30,12 @@ export function Agendamento({
   
   const navigate = useNavigate();
 
+  const userData = localStorage.getItem('userData');
+  //trasnformando os dados para JSON
+  const userInformation = JSON.parse(userData);
+  //Fromatando cada letra inicial do nome do usuário para caixa-alta
+  const userPhone = userInformation.user[0].celular;
+
   const date = new Date();
   
   const options = { weekday: 'short', locale: 'pt-BR' };
@@ -424,6 +430,7 @@ export function Agendamento({
       description: serviceName,
       paymentMethodId: 'pix',
       email: 'parzival@gmail.com',
+      phone: userPhone,
       identificationType: 'CPF',
       number: '52094597059',
       userId,

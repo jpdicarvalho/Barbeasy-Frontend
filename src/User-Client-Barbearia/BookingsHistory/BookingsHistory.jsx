@@ -106,7 +106,15 @@ function BookingsHistory (){
         booking.barbeariaName.toLowerCase().includes(searchLowerCase) ||
         booking.bookingTime.toLowerCase().includes(searchLowerCase)
     );
-
+    /*useEffect(() =>{
+        const interval = setInterval(() => {
+            console.log(interval)
+          }, 5000); // 5 segundos
+      
+          // Limpeza do intervalo quando o componente for desmontado
+          return () => clearInterval(interval);
+    }, [])*/
+    
     return(
         <>
             <div className="container__profile__professional">
