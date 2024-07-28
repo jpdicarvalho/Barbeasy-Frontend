@@ -41,7 +41,11 @@ export default function PaymentScreen(){
 
     const updatePaymentStatus = () =>{
         if(PaymentStatus === 'approved'){
-            axios.put(`${urlApi}/api/v1/updatePaymentStatus`, PaymentStatus, {
+            const values = {
+                PaymentStatus,
+                PaymentId: paymentObject.id
+            }
+            axios.put(`${urlApi}/api/v1/updatePaymentStatus`, values, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                   }
@@ -49,7 +53,7 @@ export default function PaymentScreen(){
                 if(res.data.Success === 'Success'){
                     return setMessage('Status do pagamento atualizado com sucesso.')
                 }
-            }).catch(err =>{
+            }).catch(err =>
                 console.error('Erro:', err)
                 return setMessage('Erro ao atualizar o status do pagamento.')
             })
