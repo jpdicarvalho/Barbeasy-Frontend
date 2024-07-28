@@ -4,7 +4,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from 'axios';
 
 
-import { SiMercadopago } from "react-icons/si";
 import { PiCopySimple } from "react-icons/pi";
 import { IoTicketOutline } from "react-icons/io5";
 import { RiSecurePaymentLine } from "react-icons/ri";
@@ -16,8 +15,7 @@ export default function PaymentScreen(){
     const navigate = useNavigate();
     const location = useLocation();
 
-    const { paymentObject, serviceValues, accessTokenBarbearia, identificationToken } = location.state;
-    console.log(identificationToken)
+    const { paymentObject, identificationToken, serviceValues, accessTokenBarbearia } = location.state;
 
     const qr_code = paymentObject.point_of_interaction.transaction_data.qr_code
     const qr_code_base64 = paymentObject.point_of_interaction.transaction_data.qr_code_base64
@@ -43,7 +41,6 @@ export default function PaymentScreen(){
               }
         }).then(res =>{
             setPaymentStatus(res.data.status)
-            console.log('verificando status do pagamento...')
         }).catch(err =>{
             console.log(err)
         })

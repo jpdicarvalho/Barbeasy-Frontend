@@ -384,11 +384,10 @@ export function Agendamento({
 
 //============================== Section Create Payment AND Pre-Booking ==============================
   const [accessTokenBarbearia, setAccessTokenBarbearia] = useState('');
-  const [identificationToken, setIdentificationToken] = useState('');
 
   //Function to navigate for payment screen with paymentObject, serviceValues and accessTokenBarbearia  
-  const navigateToPaymentScreen = (paymentObject) =>{
-    navigate("/PaymentScreen", { state: { paymentObject, serviceValues, accessTokenBarbearia, identificationToken } });
+  const navigateToPaymentScreen = (paymentObject, identificationToken) =>{
+    navigate("/PaymentScreen", { state: { paymentObject, identificationToken, serviceValues, accessTokenBarbearia } });
   }
 
   //Function to get access token of barbearia. That access token will be used to send the payment for it
@@ -408,26 +407,11 @@ export function Agendamento({
       console.error('Erro ao obter os registros:', err);
     })
   }
-  
+
   //Hook o call getAccessTokenBarbearia
   useEffect(()=>{
     getAccessTokenBarbearia()
-  }, [selectedDay])
-
-  //Object to create an identification token for the pre-booked appointment. it will be used to change the payment status of this pre-booking
-  function createIdentificationToken (userId, barbeariaId, professionalId, serviceId, selectedDay, timeSelected){
-    let identificationToken;
-    
-    const valuesBookingPreCreated = [
-      userId,
-      barbeariaId,
-      professionalId,
-      serviceId,
-      selectedDay,
-      timeSelected
-    ]
-    return identificationToken = valuesBookingPreCreated.join('-')
-  }
+  }, [selectedDay])  
 
   //Function to Create payment
   const createPayment = () => {
@@ -455,7 +439,21 @@ export function Agendamento({
     })
     .then(res => {
       if(res.data.Success === true){
-        return navigateToPaymentScreen(res.data.fullResponse)
+
+        let timeSelected = timesBusyByService.join(',');//All times that will be busy by the selected service
+
+        //Object to create an identification token for the pre-booked appointment. it will be used to change the payment status of this pre-booking
+        const valuesToIdentificationToken = [
+          userId,
+          barbeariaId,
+          professionalId,
+          serviceId,
+          selectedDay,
+          timeSelected,
+        ]
+        
+        const createdIdentificationToken = valuesToIdentificationToken.join('-');
+        return navigateToPaymentScreen(res.data.fullResponse, createdIdentificationToken)
       }
     })
     .catch(err => {
@@ -483,8 +481,6 @@ export function Agendamento({
             initialPaymentStatus,
             formattedDate
         }
-        const createdIdentificationToken = createIdentificationToken (userId, barbeariaId, professionalId, serviceId, selectedDay, timeSelected);
-        setIdentificationToken(createdIdentificationToken)
 
         axios.post(`${urlApi}/api/v1/createBooking/`, newBooking, {
             headers: {
@@ -493,10 +489,10 @@ export function Agendamento({
         })
         .then(res => {
             if(res.data.Success === 'Success'){
-                createPayment()
                 setMessageConfirmedBooking("Seu agendamento foi pré-reservado. Efetue o pagamento para finalizar!")
                 setTimeout(() => {
                 setMessageConfirmedBooking('');
+                createPayment()
                 }, 3000);
             }
 
