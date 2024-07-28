@@ -384,7 +384,9 @@ export function Agendamento({
 
 //============================== Section Create Payment AND Pre-Booking ==============================
   const [accessTokenBarbearia, setAccessTokenBarbearia] = useState('');
+  const [identificationToken, setIdentificationToken] = useState('');
 
+  //Function to get access token of barbearia. That access token will be used to send the payment for it
   const getAccessTokenBarbearia = () =>{
     axios.get(`${urlApi}/api/v1/accessTokenBarbearia/${barbeariaId}`, {
       headers: {
@@ -401,25 +403,29 @@ export function Agendamento({
       console.error('Erro ao obter os registros:', err);
     })
   }
-  
+  //Hook o call getAccessTokenBarbearia
   useEffect(()=>{
     getAccessTokenBarbearia()
   }, [selectedDay])
 
   //Object to create an identification token for the pre-booked appointment. it will be used to change the payment status of this pre-booking
-  const valuesBookingPreCreated = {
-    userId,
-    barbeariaId,
-    professionalId,
-    serviceId,
-    selectedDay,
-    timeSelected
+  function createIdentificationToken (userId, barbeariaId, professionalId, serviceId, selectedDay, timeSelected){
+    let identificationToken;
+    
+    const valuesBookingPreCreated = [
+      userId,
+      barbeariaId,
+      professionalId,
+      serviceId,
+      selectedDay,
+      timeSelected
+    ]
+    return identificationToken = valuesBookingPreCreated.join('-')
   }
-  const tokenOfBookingPreCreated = valuesBookingPreCreated.join('-');
 
   //Function to navigate for payment screen with paymentObject, serviceValues and accessTokenBarbearia  
   const navigateToPaymentScreen = (paymentObject) =>{
-    navigate("/PaymentScreen", { state: { paymentObject, serviceValues, accessTokenBarbearia, tokenOfBookingPreCreated } });
+    navigate("/PaymentScreen", { state: { paymentObject, serviceValues, accessTokenBarbearia, identificationToken } });
   }
 
   //Function to Create payment
@@ -462,6 +468,7 @@ export function Agendamento({
     if(userId && barbeariaId && professionalId && serviceId && selectedDay && timeSelected && formattedDate){
         
         let timeSelected = timesBusyByService.join(',');//All times that will be busy by the selected service
+
         const initialPaymentStatus = "pending";
 
         //Object to agroup all informations to make a new booking
@@ -475,6 +482,8 @@ export function Agendamento({
             initialPaymentStatus,
             formattedDate
         }
+        let createdIdentificationToken = createIdentificationToken (userId, barbeariaId, professionalId, serviceId, selectedDay, timeSelected);
+        setIdentificationToken(createdIdentificationToken)
 
         axios.post(`${urlApi}/api/v1/createBooking/`, newBooking, {
             headers: {

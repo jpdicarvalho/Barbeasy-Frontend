@@ -16,7 +16,8 @@ export default function PaymentScreen(){
     const navigate = useNavigate();
     const location = useLocation();
 
-    const { paymentObject, serviceValues, accessTokenBarbearia, tokenOfBookingPreCreated } = location.state;
+    const { paymentObject, serviceValues, accessTokenBarbearia, identificationToken } = location.state;
+    console.log(identificationToken)
 
     const qr_code = paymentObject.point_of_interaction.transaction_data.qr_code
     const qr_code_base64 = paymentObject.point_of_interaction.transaction_data.qr_code_base64
@@ -53,7 +54,7 @@ export default function PaymentScreen(){
         if(PaymentStatus === 'approved'){
             const values = {
                 PaymentStatus,
-                tokenOfBookingPreCreated,
+                identificationToken,
                 PaymentId: paymentObject.id
             }
             axios.put(`${urlApi}/api/v1/updatePaymentStatus`, values, {
