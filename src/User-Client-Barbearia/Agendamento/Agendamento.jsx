@@ -406,7 +406,12 @@ export function Agendamento({
     getAccessTokenBarbearia()
   }, [selectedDay])
 
-  //Mandan a requisição para a rota de Pagamento
+  //Function to navigate for payment screen with paymentObject, serviceValues and accessTokenBarbearia  
+  const navigateToPaymentScreen = (paymentObject) =>{
+    navigate("/PaymentScreen", { state: { paymentObject, serviceValues, accessTokenBarbearia } });
+  }
+
+  //Function to Create payment
   const createPayment = () => {
 
     let priceFormated = servicePrice.replace(/R\$ (\d+),(\d{2})/, '$1.$2');
@@ -441,9 +446,6 @@ export function Agendamento({
     
   };
 
-  const navigateToPaymentScreen = (paymentObject) =>{
-    navigate("/PaymentScreen", { state: { paymentObject, serviceValues, accessTokenBarbearia } });
-  }
 //============================== Section Save pre-Booking ==============================
   const createPreBooking = () =>{
     if(userId && barbeariaId && professionalId && serviceId && selectedDay && timeSelected && formattedDate){
@@ -470,6 +472,7 @@ export function Agendamento({
         })
         .then(res => {
             if(res.data.Success === 'Success'){
+                createPayment()
                 setMessageConfirmedBooking("Seu agendamento foi pré-reservado. Efetue o pagamento para finalizar!")
                 setTimeout(() => {
                 setMessageConfirmedBooking('');
@@ -541,7 +544,7 @@ export function Agendamento({
       </div>
     )}
 
-    <button onClick={createPayment} className={`Btn__ocult ${serviceId && selectedDay && timeSelected ? 'AgendamentoButton': ''}`}>Continuar</button>
+    <button onClick={createPreBooking} className={`Btn__ocult ${serviceId && selectedDay && timeSelected ? 'AgendamentoButton': ''}`}>Continuar</button>
    
   </>
   );
