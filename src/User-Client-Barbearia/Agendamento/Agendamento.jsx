@@ -359,7 +359,7 @@ export function Agendamento({
   const hendleTimeClick = (time) => {
       setTimeSelected(time);
   }
-console.log(timesBusyByService)
+
   //Hook para resetar sa variáveis caso o usuário selecione outro profissional
   useEffect(() =>{
     setSelectedDay('')
@@ -445,7 +445,7 @@ console.log(timesBusyByService)
     navigate("/PaymentScreen", { state: { paymentObject, serviceValues, accessTokenBarbearia } });
   }
 //============================== Section Save pre-Booking ==============================
-  const saveBooking = () =>{
+  const createPreBooking = () =>{
     if(userId && barbeariaId && professionalId && serviceId && selectedDay && timeSelected && formattedDate){
         
         let timeSelected = timesBusyByService.join(',');//All times that will be busy by the selected service
@@ -464,21 +464,24 @@ console.log(timesBusyByService)
         }
 
         axios.post(`${urlApi}/api/v1/createBooking/`, newBooking, {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
         })
         .then(res => {
-        if(res.data.Success === 'Success'){
-            setMessageConfirmedBooking("Seu agendamento foi realizado com sucesso!")
-            setTimeout(() => {
-            setMessageConfirmedBooking('');
-            window.location.reload()
-            }, 3000);
-        }
+            if(res.data.Success === 'Success'){
+                setMessageConfirmedBooking("Seu agendamento foi pré-reservado. Efetue o pagamento para finalizar!")
+                setTimeout(() => {
+                setMessageConfirmedBooking('');
+                }, 3000);
+            }
 
         }).catch(error => {
-        console.error('Erro ao buscar informações da agenda da barbearia', error)
+          console.error('Erro ao criar pré-reserva', error)
+          setMessageConfirmedBooking("Houve um erro ao criar sua pré-reserva. Tente novamente mais tarde.")
+          setTimeout(() => {
+            setMessageConfirmedBooking('');
+          }, 3000);
         })
     }
   }
@@ -526,7 +529,7 @@ console.log(timesBusyByService)
       {renderHorariosDiaSelecionado()}
     </div>
 
-    {messageConfirmedBooking === 'Seu agendamento foi realizado com sucesso!' ?(
+    {messageConfirmedBooking === 'Seu agendamento foi pré-reservado. Efetue o pagamento para finalizar!' ?(
       <div className="mensagem-sucesso">
         <MdOutlineDone className="icon__success"/>
         <p className="text__message">{messageConfirmedBooking}</p>
