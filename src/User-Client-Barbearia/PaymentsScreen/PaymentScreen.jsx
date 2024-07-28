@@ -22,7 +22,7 @@ export default function PaymentScreen(){
     const token = localStorage.getItem('token');
 
 
-    const [statusPayment, setStatusPayment] = useState('');
+    const [PaymentStatus, setPaymentStatus] = useState('');
     const [message, setMessage] = useState('');
 
 
@@ -32,7 +32,7 @@ export default function PaymentScreen(){
                 'Authorization': `Bearer ${accessTokenBarbearia}`
               }
         }).then(res =>{
-            setStatusPayment(res.data.status)
+            setPaymentStatus(res.data.status)
             console.log('verificando status do pagamento...')
         }).catch(err =>{
             console.log(err)
@@ -40,8 +40,8 @@ export default function PaymentScreen(){
     }
 
     const updatePaymentStatus = () =>{
-        if(statusPayment === 'approved'){
-            axios.put(`${urlApi}/api/v1/updatePaymentStatus`, statusPayment, {
+        if(PaymentStatus === 'approved'){
+            axios.put(`${urlApi}/api/v1/updatePaymentStatus`, PaymentStatus, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                   }
@@ -57,7 +57,7 @@ export default function PaymentScreen(){
     }
 
     useEffect(() => {
-        if(statusPayment != 'approved'){
+        if(PaymentStatus != 'approved'){
             const interval = setInterval(() => {
                 getPayment();
               }, 5000); // 10 segundos
