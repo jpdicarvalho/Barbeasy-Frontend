@@ -18,8 +18,6 @@
     flex-direction: column;
     min-height: 100vh;
     width: 385px;
-    opacity: 1;
-    transition: 0.5s;
 }
 .header__payment__screen{
     display: flex;
@@ -199,14 +197,4 @@
     flex-direction: column;
     width: 385px;
     height: 100vh;
-    opacity: 1;
-    transition: 0.5s;
-
-}
-.hidden__container__payment__approved{
-    opacity: 0;
-    width: 0;
-    height: 0;
-    transition: 0.5s;
-
 }
