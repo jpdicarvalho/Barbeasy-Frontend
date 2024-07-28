@@ -359,7 +359,7 @@ export function Agendamento({
   const hendleTimeClick = (time) => {
       setTimeSelected(time);
   }
-
+console.log(timesBusyByService)
   //Hook para resetar sa variáveis caso o usuário selecione outro profissional
   useEffect(() =>{
     setSelectedDay('')
@@ -384,8 +384,6 @@ export function Agendamento({
 
 //============================== Section Create Payment ==============================
   const [accessTokenBarbearia, setAccessTokenBarbearia] = useState('');
-  const [paymentUrl, setPaymentUrl] = useState('');
-
 
   const getAccessTokenBarbearia = () =>{
     axios.get(`${urlApi}/api/v1/accessTokenBarbearia/${barbeariaId}`, {
@@ -446,8 +444,46 @@ export function Agendamento({
   const navigateToPaymentScreen = (paymentObject) =>{
     navigate("/PaymentScreen", { state: { paymentObject, serviceValues, accessTokenBarbearia } });
   }
-  //=========================================================================================
+//============================== Section Save pre-Booking ==============================
+  const saveBooking = () =>{
+    if(userId && barbeariaId && professionalId && serviceId && selectedDay && timeSelected && formattedDate){
+        
+        let timeSelected = timesBusyByService.join(',');//All times that will be busy by the selected service
+        const initialPaymentStatus = "pending";
 
+        //Object to agroup all informations to make a new booking
+        const newBooking = {
+            userId,
+            barbeariaId,
+            professionalId,
+            serviceId,
+            selectedDay,
+            timeSelected,
+            initialPaymentStatus,
+            formattedDate
+        }
+
+        axios.post(`${urlApi}/api/v1/createBooking/`, newBooking, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+        })
+        .then(res => {
+        if(res.data.Success === 'Success'){
+            setMessageConfirmedBooking("Seu agendamento foi realizado com sucesso!")
+            setTimeout(() => {
+            setMessageConfirmedBooking('');
+            window.location.reload()
+            }, 3000);
+        }
+
+        }).catch(error => {
+        console.error('Erro ao buscar informações da agenda da barbearia', error)
+        })
+    }
+  }
+
+//============================== Section propTypes ==============================
   Agendamento.propTypes = {
     userId: PropTypes.number,
     barbeariaId: PropTypes.number,
