@@ -59,18 +59,7 @@ const userEmail = userInformation.user[0].email;
 const cloudFrontUrl = 'https://d15o6h0uxpz56g.cloudfront.net/'
 
 const currentDate = new Date();
-//Call function getPayment each 5 secondes
-let secondes = 0
 
-useEffect(() => {
-      const interval = setInterval(() => {
-        secondes = secondes+1
-        console.log(secondes)
-
-        }, 1000); // 5 segundos
-        // Limpeza do intervalo quando o componente for desmontado
-        return () => clearInterval(interval);
-}, []);
 /*=========== Buscandos os nomes dos banners da barbearia selecionada ===========*/
 const[banners, setBanners] = useState([]);
 
