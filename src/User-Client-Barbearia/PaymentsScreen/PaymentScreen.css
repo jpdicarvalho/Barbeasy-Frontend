@@ -198,3 +198,15 @@
     width: 385px;
     height: 100vh;
 }
+.section__time__over{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.icon__RxCounterClockwiseClock{
+    width: 160px;
+    height: 160px;
+    color: #f6f6f6;
+}
