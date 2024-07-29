@@ -250,7 +250,7 @@ export default function PaymentScreen(){
                 <div className="section__time__over">
                     <RxCounterClockwiseClock className="icon__RxCounterClockwiseClock"/>
                     <p className="text__one__conection__succesfuly">Tempo esgotado...</p>
-                    <p className="text__two__conection__succesfuly">O tempo para a realização do pagamento expirou. Mas não tem problema! Você pode tentar novamente</p>
+                    <p className="text__two__conection__succesfuly">O tempo para a realização do pagamento expirou. Mas não tem problema! Você pode tentar novamente.</p>
                     <div className="Box__btn__back__Booking__Details" onClick={handleBackClick}>
                         <button className="Btn__back__Booking__Details" >
                             Voltar
