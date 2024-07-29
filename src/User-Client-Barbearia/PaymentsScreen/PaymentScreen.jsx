@@ -27,7 +27,7 @@ export default function PaymentScreen(){
     const qr_code_base64 = paymentObject.point_of_interaction.transaction_data.qr_code_base64
     const date_of_expiration = paymentObject.date_of_expiration// está assim o formato: 2024-07-29T12:02:16.828-04:00
 
-    const handleBackClick = () => { 
+    const handleBackClick = () => {
         navigate("/Home ");
     };
 
@@ -43,7 +43,7 @@ export default function PaymentScreen(){
                 setDeletedPreBooking(true)
             }
         }).catch(err =>{
-            console.log('deu ruim')
+            console.log('Erro:', err)
             setDeletedPreBooking(false)
         })
     }
@@ -251,6 +251,11 @@ export default function PaymentScreen(){
                     <RxCounterClockwiseClock className="icon__RxCounterClockwiseClock"/>
                     <p className="text__one__conection__succesfuly">Tempo esgotado...</p>
                     <p className="text__two__conection__succesfuly">O tempo para a realização do pagamento expirou. Mas não tem problema! Você pode tentar novamente</p>
+                    <div className="Box__btn__back__Booking__Details" onClick={handleBackClick}>
+                        <button className="Btn__back__Booking__Details" >
+                            Voltar
+                        </button>
+                    </div>
                 </div>
             )}
         
