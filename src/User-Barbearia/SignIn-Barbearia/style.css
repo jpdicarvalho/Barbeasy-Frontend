@@ -10,3 +10,11 @@
 .input__checkbox__professional{
     margin-right: 5px;
 }
+.icon__inSignUp{
+    position: absolute;
+    left: 10px;
+    top: 12px;
+    width: 25px;
+    height: 25px;
+    color: #f6f6fc;
+}

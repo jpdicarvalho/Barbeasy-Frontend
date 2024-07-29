@@ -3,6 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
 
+import { MdOutlineStoreMallDirectory } from "react-icons/md";
+import { PiPassword } from "react-icons/pi";
+
 import './style.css';
 import barberLogo from './barber-logo.png';
 
@@ -107,7 +110,7 @@ function SignInBarbearia() {
                     placeholder="Email"
                     maxLength={50}
                     required
-                    />{' '} <i className="fa-solid fa-envelope Icon"></i>
+                    />{' '} <MdOutlineStoreMallDirectory className='icon__inSignUp'/>
                 </div>
 
                 <div className="inputBox">
@@ -130,8 +133,9 @@ function SignInBarbearia() {
                     placeholder="Password"
                     maxLength={8}
                     required
-                    />{' '} <i className="fa-solid fa-lock Icon"></i>
+                    />{' '} <PiPassword className='icon__inSignUp'/>
                 </div>
+
                 <div className='container__checkbox__professional'>
                   <input type="checkbox"
                          className='input__checkbox__professional'
