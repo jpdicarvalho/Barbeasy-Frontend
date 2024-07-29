@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
 
-import { MdOutlineStoreMallDirectory } from "react-icons/md";
+import { MdOutlineEmail } from "react-icons/md";
 import { PiPassword } from "react-icons/pi";
 
 import './style.css';
@@ -110,7 +110,7 @@ function SignInBarbearia() {
                     placeholder="Email"
                     maxLength={50}
                     required
-                    />{' '} <MdOutlineStoreMallDirectory className='icon__inSignUp'/>
+                    />{' '} <MdOutlineEmail className='icon__inSignUp'/>
                 </div>
 
                 <div className="inputBox">

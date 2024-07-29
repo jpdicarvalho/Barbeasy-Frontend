@@ -5,6 +5,15 @@ import { useSpring, animated } from "react-spring";
 
 import './style.css';
 
+import { MdOutlineStoreMallDirectory } from "react-icons/md";
+import { MdAddRoad } from "react-icons/md";
+import { TbNumber } from "react-icons/tb";
+import { GrMapLocation } from "react-icons/gr";
+import { IoMdLocate } from "react-icons/io";
+import { FaRegUser } from "react-icons/fa6";
+import { MdOutlineEmail } from "react-icons/md";
+import { PiPassword } from "react-icons/pi";
+
 import barberLogo from './barber-logo.png';
 
 function SignUpBarbearia() {
@@ -123,7 +132,7 @@ function SignUpBarbearia() {
             placeholder="Nome da Barbearia"
             maxLength={50}
             required
-          /> <span className="material-symbols-outlined" id="Icon_Barbearia">store</span>
+          /> <MdOutlineStoreMallDirectory className='icon__inSignUp'/>
           
           
           </div>
@@ -149,7 +158,7 @@ function SignUpBarbearia() {
               placeholder="Rua"
               maxLength={30}
               required
-            /> <span className="material-symbols-outlined" id="street_icon">add_road</span>
+            /> <MdAddRoad id="street_icon"/>
 
               <input
                 type="text"
@@ -167,7 +176,7 @@ function SignUpBarbearia() {
                 placeholder="Nº"
                 maxLength={5}
                 required
-              />{' '} <span className="material-symbols-outlined" id="street_number">home_pin</span>
+              />{' '} <TbNumber id="street_number"/>
               
               <input
                 type="text"
@@ -185,7 +194,7 @@ function SignUpBarbearia() {
                 placeholder="Bairro"
                 maxLength={20}
                 required
-              /><span className="material-symbols-outlined" id="neighborhood_icon">route</span>
+              /><GrMapLocation id="neighborhood_icon"/>
               
               <input
                 type="text"
@@ -203,7 +212,7 @@ function SignUpBarbearia() {
                 placeholder="Cidade"
                 maxLength={20}
                 required
-              />{' '} <span className="material-symbols-outlined" id="city_icon">map</span>
+              />{' '} <IoMdLocate id="city_icon"/>
             </div>
           )}
 
@@ -226,7 +235,7 @@ function SignUpBarbearia() {
                 placeholder="Nome de Usuário"
                 maxLength={15}
                 required
-              />{' '} <i className="fa-regular fa-user" id="Icon_user_barbearia"></i>
+              />{' '} <FaRegUser id="Icon_user_barbearia"/>
 
               <input
                 type="email"
@@ -245,7 +254,7 @@ function SignUpBarbearia() {
                 placeholder="Email"
                 maxLength={50}
                 required
-              />{' '} <i className="fa-solid fa-envelope" id="icon_email"></i>
+              />{' '} <MdOutlineEmail id="icon_email"/>
 
               <input
                 type="password"
@@ -262,7 +271,7 @@ function SignUpBarbearia() {
                 placeholder="Password"
                 maxLength={8}
                 required
-                />{' '} <i className="fa-solid fa-lock" id="icon_password"></i>
+                />{' '} <PiPassword id="icon_password"/>
             </div>
           )}
 

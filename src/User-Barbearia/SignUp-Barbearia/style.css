@@ -11,43 +11,57 @@
 }
 #street_icon{
     position: absolute;
-    top: 42px;
+    top: 40px;
     left: 10px;
+    width: 25px;
+    height: 25px;
     color: #f6f6fc;
 }
 #street_number{
     position: absolute;
-    top: 102px;
+    top: 101px;
     left: 10px;
+    width: 25px;
+    height: 25px;
     color: #f6f6fc;
 }
 #neighborhood_icon{
     position: absolute;
     left: 10px;
     top: 163px;
+    width: 20px;
+    height: 20px;
     color: #f6f6fc;
 }
 #city_icon{
     position: absolute;
     left: 10px;
-    top: 225px;
+    top: 221px;
+    width: 25px;
+    height: 25px;
     color: #f6f6fc;
 }
 #Icon_user_barbearia{
     position: absolute;
-    left: 15px;
-    top: 44px;
+    left: 12px;
+    top: 42px;
+    width: 20px;
+    height: 20px;
     color: #f6f6fc;
 }
 #icon_email{
     position: absolute;
-    left: 15px;
-    top: 106px;
+    left: 10px;
+    top: 101px;
+    width: 25px;
+    height: 25px;
     color: #f6f6fc;
 }
 #icon_password{
     position: absolute;
-    left: 15px;
-    top: 165px;
+    left: 10px;
+    top: 161px;
+    width: 25px;
+    height: 25px;
     color: #f6f6fc;
 }
