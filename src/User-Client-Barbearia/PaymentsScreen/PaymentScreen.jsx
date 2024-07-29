@@ -15,6 +15,11 @@ export default function PaymentScreen(){
     const navigate = useNavigate();
     const location = useLocation();
 
+    const urlGetPayment = 'https://api.mercadopago.com/v1/payments/'
+    const urlApi = 'https://barbeasy.up.railway.app'
+
+    const token = localStorage.getItem('token');
+
     const { paymentObject, identificationToken, serviceValues, accessTokenBarbearia } = location.state;
 
     const qr_code = paymentObject.point_of_interaction.transaction_data.qr_code
@@ -25,6 +30,19 @@ export default function PaymentScreen(){
         navigate("/Home ");
     };
 
+    const deletePreBooking = () =>{
+        axios.delete(`${urlApi}/api/v1/delePreBooking/${paymentObject.id}/${identificationToken}`,{
+            headers: {
+                'Authorization': `Bearer ${token}`
+              }
+        }).then(res =>{
+            if(res.data.Success === true){
+                console.log('deu certo')
+            }
+        }).catch(err =>{
+            console.log('deu ruim')
+        })
+    }
     //Function to calculete the time difference betwen date_of_expiration and current date
     const calculateTimeDifference = () => {
         const expirationDate = new Date(date_of_expiration).getTime();
@@ -43,7 +61,7 @@ export default function PaymentScreen(){
           setSeconds((prevSeconds) => {
             if (prevSeconds <= 0) {
                 clearInterval(timer);
-                handleBackClick()
+                //handleBackClick()
                 return 0;
             }
             return prevSeconds - 1;
@@ -53,11 +71,6 @@ export default function PaymentScreen(){
         return () => clearInterval(timer);
       }, []);
     //==========================================================
-
-    const urlGetPayment = 'https://api.mercadopago.com/v1/payments/'
-    const urlApi = 'https://barbeasy.up.railway.app'
-
-    const token = localStorage.getItem('token');
 
     const [PaymentStatus, setPaymentStatus] = useState('');
     const [paymentUpdated, setPaymentUpdated] = useState(false);
