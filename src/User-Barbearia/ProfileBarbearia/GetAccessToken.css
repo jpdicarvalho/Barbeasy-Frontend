@@ -16,7 +16,7 @@
     height: 100Vh;
     width: 385px;
     padding: 3px;
-    animation: fadeIn 20s forwards ease 0s;
+    animation: fadeIn 15s forwards ease 0s;
 
 }
 .section__get__access__token__successfuly{
