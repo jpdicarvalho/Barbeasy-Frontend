@@ -89,7 +89,7 @@ const GetAccessToken = () => {
 
   return (
     <div className="container__get__access__token">
-          <Loader/>
+      <Loader/>
 
       {accessToken ? (
         <div className="section__get__access__token__successfuly">
