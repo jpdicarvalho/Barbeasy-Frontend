@@ -7,11 +7,22 @@
     width: 385px;
     padding: 3px;
 }
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+        
+    }
+  }
 .section__get__access__token__successfuly{
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    animation: fadeIn 20s forwards ease 0s;
+
 }
 .icon__CheckmarkCircleOutline{
     color: #4a17d5;

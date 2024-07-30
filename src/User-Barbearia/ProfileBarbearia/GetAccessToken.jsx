@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+
 import axios from "axios";
+
+import Loader from "../../Loader/Loader";
 
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 import { VscError } from "react-icons/vsc";
+
 
 
 import './GetAccessToken.css'
@@ -85,6 +89,8 @@ const GetAccessToken = () => {
 
   return (
     <div className="container__get__access__token">
+          <Loader/>
+
       {accessToken ? (
         <div className="section__get__access__token__successfuly">
           <IoIosCheckmarkCircleOutline className="icon__CheckmarkCircleOutline"/>

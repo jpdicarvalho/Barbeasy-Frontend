@@ -78,7 +78,7 @@ export default function PaymentScreen(){
 
     const [PaymentStatus, setPaymentStatus] = useState('');
     const [paymentUpdated, setPaymentUpdated] = useState(false);
-
+console.log(PaymentStatus)
     //Function to verify status of payment
     const getPayment = () =>{
         axios.get(`${urlGetPayment}${paymentObject.id}`, {
