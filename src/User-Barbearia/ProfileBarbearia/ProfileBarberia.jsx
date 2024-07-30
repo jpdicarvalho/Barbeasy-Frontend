@@ -206,13 +206,13 @@ const getAccessTokenBarbearia = () =>{
     console.error('Erro ao obter os registros:', err);
   })
 }
+useEffect(() =>{
+  getAccessTokenBarbearia()
+})
 
-
-console.log(accessTokenBarbearia)
 //Função para mostrar o input de alteração do status
 const changeShowReceivePayment = () => {
   setShowReceivePayment(!showReceivePayment);
-  getAccessTokenBarbearia()
 };
 
 const [oauthUrl, setOauthUrl] = useState('');
@@ -801,12 +801,12 @@ const [oauthUrl, setOauthUrl] = useState('');
             <div className="divSelected">
               {accessTokenBarbearia ? (
                 <>
-                <p>tets</p>
+                  <p className='information__span'>Tudo em ordem por aqui! Sua barbearia está habilitada a receber pagamentos.</p>
                 </>
               ):(
                 <>
                  <div className='Box__btn__conection__mercado__pago'>
-                    <p className='information__span'>Conecte-se ao Mercado Pago para receber pagamentos dos agendamentos  realizados  </p>
+                    <p className='information__span'>Conecte-se ao Mercado Pago para começar a receber pagamentos dos seus agendamentos.</p>
                     <a href={oauthUrl} className='Link__oauth__mercado__pago'>
                       <img src={urlCloudFront + 'logoMercadoPago.png'} className='logo__mercado__pago' />
                       <p>Conectar ao Mercado Pago</p>
