@@ -261,6 +261,18 @@
 .selectedOption {
     color: white;
 }
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+        
+    }
+  }
+.Box__btn__conection__mercado__pago{
+    animation: fadeIn 10s forwards ease 0s;
+}
 .Link__oauth__mercado__pago{
     display: flex;
     justify-content: center;

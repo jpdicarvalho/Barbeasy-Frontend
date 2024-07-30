@@ -187,10 +187,32 @@ const handleProfessionalClick = (professional) => {
 
 //=========== Section OAuth Mercado Pago =========== 
 const [showReceivePayment, setShowReceivePayment] = useState(false);
+const [accessTokenBarbearia, setAccessTokenBarbearia] = useState(false);
 
+//Function to get access token of barbearia. That access token will be used to send the payment for it
+const getAccessTokenBarbearia = () =>{
+  axios.get(`${urlApi}/api/v1/accessTokenBarbearia/${barbeariaId}`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  }).then(res => {
+    if(res.data.Success === true){
+      setAccessTokenBarbearia(true);
+    }else{
+      setAccessTokenBarbearia(false);
+    }
+  }).catch(err => {
+    setAccessTokenBarbearia(false)
+    console.error('Erro ao obter os registros:', err);
+  })
+}
+
+
+console.log(accessTokenBarbearia)
 //Função para mostrar o input de alteração do status
 const changeShowReceivePayment = () => {
   setShowReceivePayment(!showReceivePayment);
+  getAccessTokenBarbearia()
 };
 
 const [oauthUrl, setOauthUrl] = useState('');
@@ -628,8 +650,8 @@ const [oauthUrl, setOauthUrl] = useState('');
   return (
     <>
       <div className="container__profile">
-      <div className="back">
-          <IoArrowBackSharp className="Icon__Back" onClick={handleBackClick}/>
+          <div className="back">
+            <IoArrowBackSharp className="Icon__Back" onClick={handleBackClick}/>
           </div>
 
             {bannerMessage === "Banner alterado com sucesso." ? (
@@ -769,7 +791,7 @@ const [oauthUrl, setOauthUrl] = useState('');
         </div>
 
     <div className="container__menu">
-        <div className="menu__main" onClick={changeShowReceivePayment} >
+        <div className="menu__main" onClick={changeShowReceivePayment}>
           <PiContactlessPayment className='icon_menu'/>
             Receber Pagamentos
           <IoIosArrowDown className={`arrow ${showReceivePayment ? 'girar' : ''}`} id='arrow'/>
@@ -777,12 +799,22 @@ const [oauthUrl, setOauthUrl] = useState('');
 
         {showReceivePayment && (
             <div className="divSelected">
-              <p className='information__span'>Conecte-se ao Mercado Pago para receber pagamentos dos agendamentos  realizados  </p>
-            
-              <a href={oauthUrl} className='Link__oauth__mercado__pago'>
-                <img src={urlCloudFront + 'logoMercadoPago.png'} className='logo__mercado__pago' />
-                <p>Conectar ao Mercado Pago</p>
-              </a>
+              {accessTokenBarbearia ? (
+                <>
+                <p>tets</p>
+                </>
+              ):(
+                <>
+                 <div className='Box__btn__conection__mercado__pago'>
+                    <p className='information__span'>Conecte-se ao Mercado Pago para receber pagamentos dos agendamentos  realizados  </p>
+                    <a href={oauthUrl} className='Link__oauth__mercado__pago'>
+                      <img src={urlCloudFront + 'logoMercadoPago.png'} className='logo__mercado__pago' />
+                      <p>Conectar ao Mercado Pago</p>
+                    </a>   
+                </div>
+                </>
+              )}
+                     
             </div>          
         )}
         
