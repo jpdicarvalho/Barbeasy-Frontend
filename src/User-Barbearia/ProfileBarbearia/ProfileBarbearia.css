@@ -272,6 +272,8 @@
     height: 45px;
     border-radius: 5px;
     cursor: pointer;
+    text-decoration: none;
+    color: #f6f6f6;
     transition: 0.5s;
 }
 .Link__oauth__mercado__pago a {
@@ -281,6 +283,7 @@
 }
 .logo__mercado__pago{
     width: 50px;
+    margin-right: 5px;
 }
 .Link__oauth__mercado__pago:hover{
     background: #009fe3d4;

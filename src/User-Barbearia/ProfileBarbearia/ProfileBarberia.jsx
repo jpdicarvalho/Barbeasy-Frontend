@@ -624,10 +624,9 @@ const [oauthUrl, setOauthUrl] = useState('');
           }, 5000);
     });
   };
-  
+
   return (
     <>
-    
       <div className="container__profile">
       <div className="back">
           <IoArrowBackSharp className="Icon__Back" onClick={handleBackClick}/>
@@ -778,12 +777,12 @@ const [oauthUrl, setOauthUrl] = useState('');
 
         {showReceivePayment && (
             <div className="divSelected">
-            <p className='information__span'>Conecte-se ao Mercado Pago para receber pagamentos dos agendamentos  realizados  </p>
-          
-            <div className='Link__oauth__mercado__pago'>
-              <img src={LogoMercadoPago} className='logo__mercado__pago' alt="Logo do mercado pago" />
-              <a href={oauthUrl}>Conecta-se ao Mercado Pago</a>
-            </div>
+              <p className='information__span'>Conecte-se ao Mercado Pago para receber pagamentos dos agendamentos  realizados  </p>
+            
+              <a href={oauthUrl} className='Link__oauth__mercado__pago'>
+                <img src={urlCloudFront + 'logoMercadoPago.png'} className='logo__mercado__pago' />
+                <p>Conectar ao Mercado Pago</p>
+              </a>
             </div>          
         )}
         
