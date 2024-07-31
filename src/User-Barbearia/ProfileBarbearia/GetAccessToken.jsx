@@ -31,11 +31,12 @@ const GetAccessToken = () => {
 
   const [accessToken, setAccessToken] = useState('');
 
+  //Function to get access token for the first time
   const getAccessToken = async (authorizationCode) => {
     const clientId = '5940575729236381';
     const clientSecret = 'bdRsr5mP74WzRKvFW5bvRAs8KP6b2Rol';  
     const redirectUri = 'https://barbeasy.netlify.app/GetAccessToken';
-    const codeVerifier = localStorage.getItem('code_verifier'); // Recupere o code_verifier salvo
+    const codeVerifier = localStorage.getItem('code_verifier');
 
     try {
       const params = new URLSearchParams();
@@ -51,7 +52,7 @@ const GetAccessToken = () => {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
       });
-
+      console.log(response.data)
       setAccessToken(response.data.access_token);
 
     } catch (error) {
@@ -67,14 +68,22 @@ const GetAccessToken = () => {
       getAccessToken(authorizationCode);
     }
   }, [location.search]);
-
+  
   //Function to save the access token
   const saveAccessToken = () =>{
+
+    const date = new Date();
+    date.setDate(date.getDate() + 120); // add 120 days (4 month) from current date
+    const data_renovation = date.toISOString();//Date of renovation access_token
+
     const values = {
       barbeariaId,
-      accessToken
+      accessToken,
+      authorizationCode,
+      data_renovation
     }
-    axios.put(`${urlApi}/api/v1/saveAccessToken`, values, {
+
+    axios.put(`${urlApi}/api/v1/saveCredentials`, values, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
