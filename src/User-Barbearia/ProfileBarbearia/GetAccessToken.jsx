@@ -29,11 +29,35 @@ const GetAccessToken = () => {
     navigate("/ProfileBarbearia");
   };
 
-  const [accessToken, setAccessToken] = useState();
-  const [refreshToken, setRefreshToken] = useState();
   const [credentialsObtained, setCredentialsObtained] = useState(false);
 
-  console.log(accessToken, refreshToken)
+  //Function to save the access token
+  const saveCredentials = (access_token, refresh_token) =>{
+
+    const date = new Date();
+    date.setDate(date.getDate() + 120); // add 120 days (4 month) from current date
+    const data_renovation = date.toISOString();//Date of renovation access_token
+
+    //Object with all credentials
+    const values = {
+      barbeariaId,
+      access_token,
+      refresh_token,
+      data_renovation
+    }
+
+    axios.put(`${urlApi}/api/v1/saveCredentials`, values, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).then(res =>{
+      if(res.data.Success === 'Success'){
+        setCredentialsObtained(true)
+      }
+    }).catch(err =>{
+      console.log('Error:', err)
+    })
+  }
 
   //Function to get access token for the first time
   const getAccessToken = async (authorizationCode) => {
@@ -59,8 +83,7 @@ const GetAccessToken = () => {
 
       //Check if all credentials have been obtained
       if(response.data.access_token && response.data.refresh_token){
-          setAccessToken(response.data.access_token)
-          setRefreshToken(response.data.refresh_token)
+          saveCredentials(response.data.access_token, response.data.refresh_token)
       }else{
         setCredentialsObtained(false)
       }
@@ -78,40 +101,6 @@ const GetAccessToken = () => {
       getAccessToken(authorizationCode);
     }
   }, [location.search]);
-  
-  //Function to save the access token
-  const saveCredentials = () =>{
-
-    const date = new Date();
-    date.setDate(date.getDate() + 120); // add 120 days (4 month) from current date
-    const data_renovation = date.toISOString();//Date of renovation access_token
-
-    //Object with all credentials
-    const values = {
-      barbeariaId,
-      access_token: accessToken,
-      refresh_token: refreshToken,
-      data_renovation
-    }
-
-    axios.put(`${urlApi}/api/v1/saveCredentials`, values, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    }).then(res =>{
-      if(res.data.Success === 'Success'){
-        setCredentialsObtained(true)
-      }
-    }).catch(err =>{
-      console.log('Error:', err)
-    })
-  }
-  
-  useEffect(() => {
-    if(accessToken && refreshToken) {
-      saveCredentials();
-    }
-  }, []);
 
   return (
     <div className="container__get__access__token">
