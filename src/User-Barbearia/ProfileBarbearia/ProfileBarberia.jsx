@@ -187,13 +187,28 @@ const handleProfessionalClick = (professional) => {
 
 //=========== Section OAuth Mercado Pago =========== 
 const [showReceivePayment, setShowReceivePayment] = useState(false);
-const [refresh_token, setRefresh_token] = useState(false);
-const [date_renovation, setDate_renovation] = useState(false);
 const [OAuthUrl, setOAuthUrl] = useState('');
 const [isConectedWithMercadoPago, setIsConectedWithMercadoPago] = useState(false);
 
-const checkCurrentDateForRefreshToken = () => {
+const getRefreshToken = (refresh_token, date_renovation) => {
+    const clientId = '5940575729236381';
+    const clientSecret = 'bdRsr5mP74WzRKvFW5bvRAs8KP6b2Rol';  
 
+    const params = new URLSearchParams();
+          params.append('client_id', clientId);
+          params.append('client_secret', clientSecret);
+          params.append('grant_type', 'refresh_token');
+          params.append('refresh_token', refresh_token);
+  
+    axios.post('https://api.mercadopago.com/oauth/token', params, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    }).then(res =>{
+      console.log(res)
+    }).catch(err =>{
+      console.log(err)
+    })
 }
 //Função para mostrar o input de alteração do status
 const changeShowReceivePayment = () => {
@@ -208,8 +223,7 @@ const checkConectionMercadoPago = () =>{
     }
   }).then(res => {
     if(res.data.Success === true){
-      setRefresh_token(res.data.credentials[0].refresh_token)
-      setDate_renovation(res.data.credentials[0].date_renovation)
+      getRefreshToken(res.data.credentials[0].refresh_token, res.data.credentials[0].date_renovation)
       setIsConectedWithMercadoPago(true);
     }else{
       setIsConectedWithMercadoPago(false);
