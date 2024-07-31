@@ -187,16 +187,29 @@ const handleProfessionalClick = (professional) => {
 
 //=========== Section OAuth Mercado Pago =========== 
 const [showReceivePayment, setShowReceivePayment] = useState(false);
+const [refresh_token, setRefresh_token] = useState(false);
+const [date_renovation, setDate_renovation] = useState(false);
+const [OAuthUrl, setOAuthUrl] = useState('');
 const [isConectedWithMercadoPago, setIsConectedWithMercadoPago] = useState(false);
+
+const checkCurrentDateForRefreshToken = () => {
+
+}
+//Função para mostrar o input de alteração do status
+const changeShowReceivePayment = () => {
+  setShowReceivePayment(!showReceivePayment);
+};
 
 //Function to get access token of barbearia. That access token will be used to send the payment for it
 const checkConectionMercadoPago = () =>{
-  axios.get(`${urlApi}/api/v1/accessTokenBarbearia/${barbeariaId}`, {
+  axios.get(`${urlApi}/api/v1/barbeariaCredentials/${barbeariaId}`, {
     headers: {
       'Authorization': `Bearer ${token}`
     }
   }).then(res => {
     if(res.data.Success === true){
+      setRefresh_token(res.data.credentials[0].refresh_token)
+      setDate_renovation(res.data.credentials[0].date_renovation)
       setIsConectedWithMercadoPago(true);
     }else{
       setIsConectedWithMercadoPago(false);
@@ -206,49 +219,43 @@ const checkConectionMercadoPago = () =>{
     console.error('Erro ao verificar conexão com o mercado pago:', err);
   })
 }
+
 useEffect(() =>{
   checkConectionMercadoPago()
-})
+}, [])
 
-//Função para mostrar o input de alteração do status
-const changeShowReceivePayment = () => {
-  setShowReceivePayment(!showReceivePayment);
-};
+//Function to generate the code_verifier and code_challenge
+useEffect(() => {
+  const generateRandomString = (length) => {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~';
+    let result = '';
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+  };
 
-const [oauthUrl, setOauthUrl] = useState('');
+  const generateCodeChallenge = async (codeVerifier) => {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(codeVerifier);
+    const digest = await window.crypto.subtle.digest('SHA-256', data);
+    return btoa(String.fromCharCode(...new Uint8Array(digest)))
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_')
+      .replace(/=+$/, '');
+  };
+  const codeVerifier = generateRandomString(64); // Gera um code_verifier com 64 caracteres aleatórios
+  // Armazene o code_verifier ao gerar o link OAuth
+  localStorage.setItem('code_verifier', codeVerifier);
 
-  //Function to generate the code_verifier and code_challenge
-  useEffect(() => {
-    const generateRandomString = (length) => {
-      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~';
-      let result = '';
-      const charactersLength = characters.length;
-      for (let i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-      }
-      return result;
-    };
-
-    const generateCodeChallenge = async (codeVerifier) => {
-      const encoder = new TextEncoder();
-      const data = encoder.encode(codeVerifier);
-      const digest = await window.crypto.subtle.digest('SHA-256', data);
-      return btoa(String.fromCharCode(...new Uint8Array(digest)))
-        .replace(/\+/g, '-')
-        .replace(/\//g, '_')
-        .replace(/=+$/, '');
-    };
-    const codeVerifier = generateRandomString(64); // Gera um code_verifier com 64 caracteres aleatórios
-    // Armazene o code_verifier ao gerar o link OAuth
-    localStorage.setItem('code_verifier', codeVerifier);
-
-    generateCodeChallenge(codeVerifier).then(codeChallenge => {
-      const clientId = '5940575729236381';
-      const redirectUri = encodeURIComponent('https://barbeasy.netlify.app/GetAccessToken');
-      const oauthUrl = `https://auth.mercadopago.com/authorization?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&code_challenge=${codeChallenge}&code_challenge_method=S256`;
-      setOauthUrl(oauthUrl);
-    });
-  }, []);
+  generateCodeChallenge(codeVerifier).then(codeChallenge => {
+    const clientId = '5940575729236381';
+    const redirectUri = encodeURIComponent('https://barbeasy.netlify.app/GetAccessToken');
+    const OAuthUrl = `https://auth.mercadopago.com/authorization?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&code_challenge=${codeChallenge}&code_challenge_method=S256`;
+    setOAuthUrl(OAuthUrl);
+  });
+}, []);
 
 //=========== Section Status ===========
 //Constantes para atualizar o status da barbearia
@@ -807,7 +814,7 @@ const [oauthUrl, setOauthUrl] = useState('');
                 <>
                  <div className='Box__btn__conection__mercado__pago'>
                     <p className='information__span'>Conecte-se ao Mercado Pago para começar a receber pagamentos dos seus agendamentos.</p>
-                    <a href={oauthUrl} className='Link__oauth__mercado__pago'>
+                    <a href={OAuthUrl} className='Link__oauth__mercado__pago'>
                       <img src={urlCloudFront + 'logoMercadoPago.png'} className='logo__mercado__pago' />
                       <p>Conectar ao Mercado Pago</p>
                     </a>   
