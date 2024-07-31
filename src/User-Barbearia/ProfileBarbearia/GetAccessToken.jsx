@@ -30,6 +30,8 @@ const GetAccessToken = () => {
   };
 
   const [accessToken, setAccessToken] = useState('');
+  const [refreshToken, setRefreshToken] = useState('');
+
 
   //Function to get access token for the first time
   const getAccessToken = async (authorizationCode) => {
@@ -52,8 +54,15 @@ const GetAccessToken = () => {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
       });
-      console.log(response.data)
-      setAccessToken(response.data.access_token);
+
+      //Check if all credentials have been obtained
+      if(response.data.access_token && response.data.refresh_token){
+        setAccessToken(response.data.access_token)
+        setRefreshToken(response.data.refresh_token)
+        saveCredentials()
+      }else{
+        setCredentialsObtained(false)
+      }
 
     } catch (error) {
       console.error('Error fetching access token:', error);
@@ -70,7 +79,7 @@ const GetAccessToken = () => {
   }, [location.search]);
   
   //Function to save the access token
-  const saveAccessToken = () =>{
+  const saveCredentials = () =>{
 
     const date = new Date();
     date.setDate(date.getDate() + 120); // add 120 days (4 month) from current date
@@ -79,7 +88,7 @@ const GetAccessToken = () => {
     const values = {
       barbeariaId,
       accessToken,
-      authorizationCode,
+      refreshToken,
       data_renovation
     }
 
@@ -89,7 +98,7 @@ const GetAccessToken = () => {
       }
     }).then(res =>{
       if(res.data.Success === 'Success'){
-        console.log('AcessToken salvo com sucesso')
+        setCredentialsObtained(true)
       }
     }).catch(err =>{
       console.log('Error:', err)
@@ -105,7 +114,6 @@ const GetAccessToken = () => {
           <IoIosCheckmarkCircleOutline className="icon__CheckmarkCircleOutline"/>
           <p className="text__one__conection__succesfuly">Excelente!</p>
           <p className="text__two__conection__succesfuly">Agora você pode receber pagamentos dos seus agendamentos.</p>
-          {saveAccessToken()}
         </div>
       ) : (
         <div className="section__get__access__token__successfuly">
