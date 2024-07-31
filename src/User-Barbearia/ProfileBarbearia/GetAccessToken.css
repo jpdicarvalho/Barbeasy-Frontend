@@ -7,8 +7,8 @@
         opacity: 1;
         
     }
-  }
-  .container__get__access__token{
+}
+.container__get__access__token{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -16,8 +16,7 @@
     height: 100Vh;
     width: 385px;
     padding: 3px;
-    animation: fadeIn 10s forwards ease 0s;
-
+    animation: fadeIn 15s forwards ease 0s;
 }
 .section__get__access__token__successfuly{
     display: flex;

@@ -3,12 +3,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 import axios from "axios";
 
-import Loader from "../../Loader/Loader";
-
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 import { VscError } from "react-icons/vsc";
-
-
 
 import './GetAccessToken.css'
 
@@ -104,8 +100,6 @@ const GetAccessToken = () => {
 
   return (
     <div className="container__get__access__token">
-      <Loader/>
-
       {credentialsObtained ? (
         <div className="section__get__access__token__successfuly">
           <IoIosCheckmarkCircleOutline className="icon__CheckmarkCircleOutline"/>
@@ -118,7 +112,6 @@ const GetAccessToken = () => {
           <p className="text__one__conection__succesfuly">Hummm...</p>
           <p className="text__two__conection__succesfuly">Houve um problema ao realizar a conexão com o Mercado Pago. Tente novamente em alguns minutos.</p>
         </div>
-        
       )}
             <div className="Box__btn__back__Booking__Details" onClick={handleBackClick}>
                 <button className="Btn__back__Booking__Details" >
