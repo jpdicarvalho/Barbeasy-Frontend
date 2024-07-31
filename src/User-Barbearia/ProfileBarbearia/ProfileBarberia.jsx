@@ -202,7 +202,7 @@ const current_date = `${day}-${month}-${year}`;
 
 //Function to save the access token
 const saveCredentials = (access_token, refresh_token, data_renovation) =>{
-  
+
   //Object with all credentials
   const values = {
     barbeariaId,
@@ -217,7 +217,7 @@ const saveCredentials = (access_token, refresh_token, data_renovation) =>{
     }
   }).then(res =>{
     if(res.data.Success === 'Success'){
-      setCredentialsObtained(true)
+      setIsConectedWithMercadoPago(true)
     }
   }).catch(err =>{
     setIsConectedWithMercadoPago(false)
