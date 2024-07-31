@@ -210,6 +210,7 @@ const getRefreshToken = (refresh_token, date_renovation) => {
       console.log(err)
     })
 }
+
 //Função para mostrar o input de alteração do status
 const changeShowReceivePayment = () => {
   setShowReceivePayment(!showReceivePayment);

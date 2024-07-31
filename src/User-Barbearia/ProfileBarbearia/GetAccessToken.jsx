@@ -31,8 +31,13 @@ const GetAccessToken = () => {
   const saveCredentials = (access_token, refresh_token) =>{
 
     const date = new Date();
-    date.setDate(date.getDate() + 120); // add 120 days (4 month) from current date
-    const data_renovation = date.toISOString();//Date of renovation access_token
+    date.setDate(date.getDate() + 120); // adiciona 120 dias a partir da data atual
+
+    const day = String(date.getDate()).padStart(2, '0'); // Obtém o dia e garante dois dígitos
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Obtém o mês e garante dois dígitos (janeiro é 0)
+    const year = date.getFullYear(); // Obtém o ano
+
+    const data_renovation = `${day}-${month}-${year}`;
 
     //Object with all credentials
     const values = {
