@@ -60,6 +60,32 @@ const cloudFrontUrl = 'https://d15o6h0uxpz56g.cloudfront.net/'
 
 const currentDate = new Date();
 
+//=========== Get Access Token of barbearia ==============
+const [accessTokenBarbearia, setAccessTokenBarbearia] = useState();
+
+  useEffect(()=>{
+    //Function to get access token of barbearia. That access token will be used to send the payment for it
+    const getAccessTokenBarbearia = () =>{
+      axios.get(`${urlApi}/api/v1/barbeariaCredentials/${barbeariaId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }).then(res => {
+        if(res.data.Success === true){
+          setAccessTokenBarbearia(false);
+
+          setAccessTokenBarbearia(res.data.credentials[0].access_token);
+        }else{
+          setAccessTokenBarbearia(false);
+        }
+      }).catch(err => {
+        setAccessTokenBarbearia(false)
+        console.error('Erro ao obter os registros:', err);
+      })
+    }
+
+    getAccessTokenBarbearia()
+  }, []) 
 /*=========== Buscandos os nomes dos banners da barbearia selecionada ===========*/
 const[banners, setBanners] = useState([]);
 
@@ -76,13 +102,14 @@ const handleMenuClick = () => {
   setMenuActive(!isMenuActive);
 }
 
-//função para navegarpara página home
 const navigateToHome = () =>{
   navigate("/Home");
 }
+
 const navigateToUserProfile = () =>{
   navigate("/UserProfile");
 }
+
 const navigateToBookingsHistory = () =>{
   navigate("/BookingsHistory");
 }
@@ -161,7 +188,6 @@ const handleServiceChange = (servicoId, name, price, duration) => {
   number = parseInt(number)
   setServiceDuration(number)
 };
-
 
 /*=================== Section Avaliation Barbearia ===================*/
 const [avaliation, setAvaliation] = useState();
@@ -293,216 +319,216 @@ return (
             </div>
         </div>
     </div>
-
+    
     <div className="container__main__barbearia__details">
+        <div className="container__widget">
+          <header className="header__widget">
+            {tabHeaders.map((tab, index) => (
+              <button
+                key={tab}
+                className={`tab-button ${
+                  activeIndex === index ? "active" : ""
+                }`}
+                onClick={() => setActiveIndex(index)}
+              >
+                {tab}
+              </button>
+            ))}
+            <div
+              className="underline"
+              style={{
+                transform: `translate(${activeIndex * buttonWidth}px, 0)`,
+              }}
+            ></div>
+          </header>
 
-    <div className="container__widget">
-      <header className="header__widget">
-        {tabHeaders.map((tab, index) => (
-          <button
-            key={tab}
-            className={`tab-button ${
-              activeIndex === index ? "active" : ""
-            }`}
-            onClick={() => setActiveIndex(index)}
-          >
-            {tab}
-          </button>
-        ))}
-        <div
-          className="underline"
-          style={{
-            transform: `translate(${activeIndex * buttonWidth}px, 0)`,
-          }}
-        ></div>
-      </header>
-
-      <div className="content">
-        <div className="content-inner" style={{transform: `translate(-${activeIndex * tabWidth}px, 0)`,}}>
-          
-            <div  className="tab-content">
-                  <div className="tittle">
-                      {professional.length <= 1 ?(
-                        <p>Profissional</p>
-                      ):(
-                        <p>Profissionais ({professional.length})</p>
-                      )}
-                  </div>
-                  <div className="professionals">
-                    {professional.length > 0 ? (
-                          professional.map(professional => {
-                            // Obtendo a primeira letra do nome do profissional
-                            const firstLetter = professional.name.charAt(0).toUpperCase();
-                            
-                            return (
-                              <div key={professional.id} onClick={() => handleServiceProfessional(professional.id, professional.name)} className={`Box__professional__barbearia__details ${serviceProfessional === professional.id ? 'professionalSelected' : ''}`}> 
-                                <div className="img__professional__barbearia__details">
-                                  {professional.user_image != 'default.png' ?(
-                                    <img src={cloudFrontUrl + professional.user_image} className="user__img__box__comment" alt="" />
-                                  ):(
-                                    <p className='firstLetter' style={{color: '#fff', fontSize: '40px'}}>{firstLetter}</p>
-                                  )}
-                                </div>
-                                <p style={{color: '#fff', fontSize: '16px'}}>{professional.name}</p>
-
-                              </div>
-                              
-                            );
-                          })
-                        ):(
-                          <div className="inforService">
-                          <IoIosInformationCircleOutline className="Icon__info"/>
-                          <p >Nenhum profissional cadastrado</p>
-                        </div>
-                        )}
-                  </div>
-
-                  <hr />
-
-                  <div className="tittle">
-                    {serviceProfessional && servicos && (
-                      <p>Serviços ({servicos.filter(servico => servico.professional_id === serviceProfessional).length})</p>
-                    )}
-                  </div>
-
-                  <div className="Servicos">
-                {serviceProfessional ? (
-                  servicos.filter(servico => servico.professional_id === serviceProfessional)  
-                        .map(servico => (
-                          <div key={servico.id} onClick={() => handleServiceChange(servico.id, servico.name, servico.preco, servico.duracao)} className={`servicoDiv ${selectedService === servico.id ? 'selected' : ''}`}>
-                            <p>{servico.name} • {servico.preco} </p>
-                            <p style={{color: 'darkgray'}}><GiSandsOfTime /> • {servico.duracao}</p>
-                          </div>
-                          
-                      ))
-                      ):(
-                        <>
-                        {professional.length > 0 &&(
-                          <div className="inforService">
-                              <IoIosInformationCircleOutline className="Icon__info"/>
-                              <p >Selecione um profissional para visualizar os serviços.</p>
-                          </div>
-                        )}
-                        </>
-                      )}
-                  </div>
-
-                  {selectedService &&(
-                    <div className="tittle">
-                    Escolha um dia de sua preferência
-                  </div>
-                  )}
-
-                  <Agendamento 
-                    userId={userId}
-                    barbeariaId={barbeariaId}
-                    professionalId={serviceProfessional}
-                    serviceId={selectedService}
-                    barbeariaName={barbeariaName}
-                    professionalName={professionalName}
-                    serviceName={serviceName}
-                    servicePrice={servicePrice}
-                    serviceDuration={serviceDuration}
-                  />
-
-            </div>
+          <div className="content">
+            <div className="content-inner" style={{transform: `translate(-${activeIndex * tabWidth}px, 0)`,}}>
             
-            <div className="tab-content">
-                {messageConfirmAvaliation === 'Avaliação realizada com sucesso!' ?(
-                  <div className="mensagem-sucesso">
-                    <MdOutlineDone className="icon__success"/>
-                    <p className="text__message">{messageConfirmAvaliation}</p>
-                  </div>
-                  ) : (
-                  <div className={` ${messageConfirmAvaliation ? 'mensagem-erro' : ''}`}>
-                    <VscError className={`hide_icon__error ${messageConfirmAvaliation ? 'icon__error' : ''}`}/>
-                    <p className="text__message">{messageConfirmAvaliation}</p>
-                  </div>
-                )}
-                <div className="AvaliacaoSection">
-                    <div className="Estrelas" onClick={handleShowTextAreaClick}>
-                    <h3>Toque para Classificar:</h3>
-                      {[1, 2, 3, 4, 5].map((estrela) => (
-                        <IoStarSharp
-                        key={estrela}
-                        className={`fa fa-solid fa-star${avaliation >= estrela ? ' selected' : ''}`}
-                        onClick={() => setAvaliation(estrela)}
-
-                      />
-                    ))}
-                  </div>
-                    <div className="section__send__avaliation">
-                      <div>
-                        <textarea
-                          className={`ocult__element ${showTextArea ? 'multilineText':''}`}
-                          id="multilineText"
-                          name="multilineText"
-                          rows="4"
-                          cols="50"
-                          value={comment}
-                          onChange={(e) => {
-                            const inputValue = e.target.value;
-                            // Remover caracteres não alfanuméricos, ponto e espaço
-                            const filteredValue = inputValue.replace(/[^a-zA-Z0-9\sçéúíóáõãèòìàêôâ.!?]/g, '');
-                            // Limitar a 30 caracteres
-                            const truncatedValue = filteredValue.slice(0, 200);
-                            setComment(truncatedValue );
-                          }}
-                          placeholder="Comentário até 200 caracteres">
-                        </textarea>
+                <div  className="tab-content">
+                      <div className="tittle">
+                          {professional.length <= 1 ?(
+                            <p>Profissional</p>
+                          ):(
+                            <p>Profissionais ({professional.length})</p>
+                          )}
                       </div>
-                      <div className="conteiner__box__add__comment">
-                          <button className={`ocult__element ${showTextArea ? 'box__add__comment':''}`} onClick={handleCancelClick}>
-                            Cancelar
-                          </button>
-                          <button className={`ocult__element ${showTextArea ? 'box__add__comment':''}`} onClick={enviarAvaliacao}>
-                            Avaliar
-                          </button>
-                      </div>
-                        
-                    </div>
-                  
-                </div>
-                <div className="section__comments">
-                  {AllAvaliation.length > 0 ?(
-                    AllAvaliation.filter(avaliationWithComment => avaliationWithComment.comentarios.length > 0)
-                      .map(allAvaliations => (
-                          <div className="box__comment" key={allAvaliations.id}>
-                              <div className="header__box__comment">
-                                <div className="box__user__img__comment">
-                                  {allAvaliations.userImage != 'default.jpg' ?(
-                                    <img src={cloudFrontUrl + allAvaliations.userImage} className="user__img__box__comment" alt="" />
-                                  ):(
-                                    <div className="box__first__letter__user__box__comment">
-                                        <p className='firstLetter__professional'>{allAvaliations.userName[0].charAt(0).toUpperCase()}</p>
+                      <div className="professionals">
+                        {professional.length > 0 ? (
+                              professional.map(professional => {
+                                // Obtendo a primeira letra do nome do profissional
+                                const firstLetter = professional.name.charAt(0).toUpperCase();
+                                
+                                return (
+                                  <div key={professional.id} onClick={() => handleServiceProfessional(professional.id, professional.name)} className={`Box__professional__barbearia__details ${serviceProfessional === professional.id ? 'professionalSelected' : ''}`}> 
+                                    <div className="img__professional__barbearia__details">
+                                      {professional.user_image != 'default.png' ?(
+                                        <img src={cloudFrontUrl + professional.user_image} className="user__img__box__comment" alt="" />
+                                      ):(
+                                        <p className='firstLetter' style={{color: '#fff', fontSize: '40px'}}>{firstLetter}</p>
+                                      )}
                                     </div>
-                                  )}
-                                </div>
-                                <div className="box__user__information__comment">
-                                    <p>{allAvaliations.userName}</p>
-                                    {renderStarComponent(allAvaliations.estrelas)}
-                                </div>
-                                <div className="box__date__comment">
-                                  {formatarDataComentario(allAvaliations.data_avaliacao)}
-                                </div>
-                              </div>
-                              <div>
-                                <p className="text__comment">{allAvaliations.comentarios}</p>
-                              </div>  
-                          </div>
-                      ))
-                  ):(
-                    <div className="section__no__avaliations">
-                          <h3 >Nenhum comentário realizado</h3>
-                        </div>
-                  )}
-                  
-                </div>
-            </div>
-       </div>
-      </div>
-    </div>
+                                    <p style={{color: '#fff', fontSize: '16px'}}>{professional.name}</p>
 
+                                  </div>
+                                  
+                                );
+                              })
+                            ):(
+                              <div className="inforService">
+                              <IoIosInformationCircleOutline className="Icon__info"/>
+                              <p >Nenhum profissional cadastrado</p>
+                            </div>
+                            )}
+                      </div>
+
+                      <hr />
+
+                      <div className="tittle">
+                        {serviceProfessional && servicos && (
+                          <p>Serviços ({servicos.filter(servico => servico.professional_id === serviceProfessional).length})</p>
+                        )}
+                      </div>
+
+                      <div className="Servicos">
+                        {serviceProfessional ? (
+                          servicos.filter(servico => servico.professional_id === serviceProfessional)  
+                                .map(servico => (
+                                  <div key={servico.id} onClick={() => handleServiceChange(servico.id, servico.name, servico.preco, servico.duracao)} className={`servicoDiv ${selectedService === servico.id ? 'selected' : ''}`}>
+                                    <p>{servico.name} • {servico.preco} </p>
+                                    <p style={{color: 'darkgray'}}><GiSandsOfTime /> • {servico.duracao}</p>
+                                  </div>
+                                  
+                              ))
+                              ):(
+                                <>
+                                {professional.length > 0 &&(
+                                  <div className="inforService">
+                                      <IoIosInformationCircleOutline className="Icon__info"/>
+                                      <p >Selecione um profissional para visualizar os serviços.</p>
+                                  </div>
+                                )}
+                                </>
+                              )}
+                      </div>
+
+                      {selectedService &&(
+                        <div className="tittle">
+                        Escolha um dia de sua preferência
+                      </div>
+                      )}
+
+                      <Agendamento 
+                        userId={userId}
+                        accessTokenBarbearia={accessTokenBarbearia}
+                        barbeariaId={barbeariaId}
+                        professionalId={serviceProfessional}
+                        serviceId={selectedService}
+                        barbeariaName={barbeariaName}
+                        professionalName={professionalName}
+                        serviceName={serviceName}
+                        servicePrice={servicePrice}
+                        serviceDuration={serviceDuration}
+                      />
+
+                </div>
+                
+                <div className="tab-content">
+                    {messageConfirmAvaliation === 'Avaliação realizada com sucesso!' ?(
+                      <div className="mensagem-sucesso">
+                        <MdOutlineDone className="icon__success"/>
+                        <p className="text__message">{messageConfirmAvaliation}</p>
+                      </div>
+                      ) : (
+                      <div className={` ${messageConfirmAvaliation ? 'mensagem-erro' : ''}`}>
+                        <VscError className={`hide_icon__error ${messageConfirmAvaliation ? 'icon__error' : ''}`}/>
+                        <p className="text__message">{messageConfirmAvaliation}</p>
+                      </div>
+                    )}
+                    <div className="AvaliacaoSection">
+                        <div className="Estrelas" onClick={handleShowTextAreaClick}>
+                        <h3>Toque para Classificar:</h3>
+                          {[1, 2, 3, 4, 5].map((estrela) => (
+                            <IoStarSharp
+                            key={estrela}
+                            className={`fa fa-solid fa-star${avaliation >= estrela ? ' selected' : ''}`}
+                            onClick={() => setAvaliation(estrela)}
+
+                          />
+                        ))}
+                      </div>
+                        <div className="section__send__avaliation">
+                          <div>
+                            <textarea
+                              className={`ocult__element ${showTextArea ? 'multilineText':''}`}
+                              id="multilineText"
+                              name="multilineText"
+                              rows="4"
+                              cols="50"
+                              value={comment}
+                              onChange={(e) => {
+                                const inputValue = e.target.value;
+                                // Remover caracteres não alfanuméricos, ponto e espaço
+                                const filteredValue = inputValue.replace(/[^a-zA-Z0-9\sçéúíóáõãèòìàêôâ.!?]/g, '');
+                                // Limitar a 30 caracteres
+                                const truncatedValue = filteredValue.slice(0, 200);
+                                setComment(truncatedValue );
+                              }}
+                              placeholder="Comentário até 200 caracteres">
+                            </textarea>
+                          </div>
+                          <div className="conteiner__box__add__comment">
+                              <button className={`ocult__element ${showTextArea ? 'box__add__comment':''}`} onClick={handleCancelClick}>
+                                Cancelar
+                              </button>
+                              <button className={`ocult__element ${showTextArea ? 'box__add__comment':''}`} onClick={enviarAvaliacao}>
+                                Avaliar
+                              </button>
+                          </div>
+                            
+                        </div>
+                      
+                    </div>
+                    <div className="section__comments">
+                      {AllAvaliation.length > 0 ?(
+                        AllAvaliation.filter(avaliationWithComment => avaliationWithComment.comentarios.length > 0)
+                          .map(allAvaliations => (
+                              <div className="box__comment" key={allAvaliations.id}>
+                                  <div className="header__box__comment">
+                                    <div className="box__user__img__comment">
+                                      {allAvaliations.userImage != 'default.jpg' ?(
+                                        <img src={cloudFrontUrl + allAvaliations.userImage} className="user__img__box__comment" alt="" />
+                                      ):(
+                                        <div className="box__first__letter__user__box__comment">
+                                            <p className='firstLetter__professional'>{allAvaliations.userName[0].charAt(0).toUpperCase()}</p>
+                                        </div>
+                                      )}
+                                    </div>
+                                    <div className="box__user__information__comment">
+                                        <p>{allAvaliations.userName}</p>
+                                        {renderStarComponent(allAvaliations.estrelas)}
+                                    </div>
+                                    <div className="box__date__comment">
+                                      {formatarDataComentario(allAvaliations.data_avaliacao)}
+                                    </div>
+                                  </div>
+                                  <div>
+                                    <p className="text__comment">{allAvaliations.comentarios}</p>
+                                  </div>  
+                              </div>
+                          ))
+                      ):(
+                        <div className="section__no__avaliations">
+                              <h3 >Nenhum comentário realizado</h3>
+                            </div>
+                      )}
+                      
+                    </div>
+                </div>
+          </div>
+          </div>
+        </div>
+        
         <ul className={`Navigation ${isMenuActive ? 'active' : ''}`}>
               <li>
                 <button onClick={navigateToUserProfile}>
@@ -527,6 +553,7 @@ return (
               <button onClick={handleMenuClick} className="toggleMenu glassmorphism"></button>
         </ul>
     </div>
+    
   </>
   );
 }

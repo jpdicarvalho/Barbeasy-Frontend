@@ -190,7 +190,6 @@ const [showReceivePayment, setShowReceivePayment] = useState(false);
 const [OAuthUrl, setOAuthUrl] = useState('');
 const [isConectedWithMercadoPago, setIsConectedWithMercadoPago] = useState(false);
 
-//get current date: day-month-year
 const date = new Date();
 date.setDate(date.getDate());
 
@@ -198,7 +197,12 @@ const day = String(date.getDate()).padStart(2, '0'); // Obtém o dia e garante d
 const month = String(date.getMonth() + 1).padStart(2, '0'); // Obtém o mês e garante dois dígitos (janeiro é 0)
 const year = date.getFullYear(); // Obtém o ano
 
-const current_date = `${day}-${month}-${year}`;
+const current_date = `${day}-${month}-${year}`;//current date to compare with date_renovation
+
+//Função para mostrar o input de alteração do status
+const changeShowReceivePayment = () => {
+  setShowReceivePayment(!showReceivePayment);
+};
 
 //Function to save the access token
 const saveCredentials = (access_token, refresh_token, data_renovation) =>{
@@ -255,11 +259,6 @@ const getRefreshToken = (refresh_token, date_renovation, current_date) => {
     })
   }
 }
-
-//Função para mostrar o input de alteração do status
-const changeShowReceivePayment = () => {
-  setShowReceivePayment(!showReceivePayment);
-};
 
 useEffect(() =>{
   //Function to get access token of barbearia. That access token will be used to send the payment for it

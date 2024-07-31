@@ -19,6 +19,7 @@ const weekNames = [
 
 export function Agendamento({
   userId,
+  accessTokenBarbearia,
   barbeariaId,
   professionalId,
   serviceId,
@@ -61,6 +62,7 @@ export function Agendamento({
   const currentDate = new Date(date);
   const formattedDate = `${currentDate.getDate()}-${currentDate.getMonth() + 1}-${currentDate.getFullYear()}-${currentDate.getHours()}:${currentDate.getMinutes()}`;
 
+  //Object to send for paymentScreen
   const serviceValues = {
     barbeariaName,
     professionalName,
@@ -70,7 +72,6 @@ export function Agendamento({
     selectedDay,
     timeSelected
   }
-
 
   //Function to get current time
   function getCurrentTime(){
@@ -390,35 +391,10 @@ export function Agendamento({
   };
 
 //============================== Section Create Payment AND Pre-Booking ==============================
-  const [accessTokenBarbearia, setAccessTokenBarbearia] = useState('');
-
   //Function to navigate for payment screen with paymentObject, serviceValues and accessTokenBarbearia  
   const navigateToPaymentScreen = (paymentObject, identificationToken) =>{
     navigate("/PaymentScreen", { state: { paymentObject, identificationToken, serviceValues, accessTokenBarbearia } });
-  }
-
-  //Function to get access token of barbearia. That access token will be used to send the payment for it
-  const getAccessTokenBarbearia = () =>{
-    axios.get(`${urlApi}/api/v1/accessTokenBarbearia/${barbeariaId}`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    }).then(res => {
-      if(res.data.Success === true){
-        setAccessTokenBarbearia(res.data.AccessToken);
-      }else{
-        setAccessTokenBarbearia(false);
-      }
-    }).catch(err => {
-      setAccessTokenBarbearia(false)
-      console.error('Erro ao obter os registros:', err);
-    })
-  }
-
-  //Hook o call getAccessTokenBarbearia
-  useEffect(()=>{
-    getAccessTokenBarbearia()
-  }, [selectedDay])  
+  } 
 
   //Function to Create payment
   const createPayment = () => {
@@ -527,7 +503,6 @@ export function Agendamento({
   return (
   <>
     <div className='container__Calendar'>
-
       <div className='sectionCalendar'>
         <div className="list__Names__Week__And__Day">
         {weekDays.map((dayOfWeek, index) => (
@@ -548,6 +523,14 @@ export function Agendamento({
 
     {selectedDay &&(
     <div className="tittle">
+      {!accessTokenBarbearia &&(
+        <div className="container__main__barbearia__details">
+          <div className="mensagem-erro">
+            <VscError className="icon__error"/>
+            <p className="text__message">A barbearia não está habilitada a receber pagamentos.</p>
+          </div>
+        </div>
+      )}
        <div style={{marginTop: '15px'}}>
         Horários Disponíveis
       </div>
@@ -569,7 +552,7 @@ export function Agendamento({
         <p className="text__message">{messageConfirmedBooking}</p>
       </div>
     )}
-
+    
     <button onClick={createPayment} className={`Btn__ocult ${serviceId && selectedDay && timeSelected ? 'AgendamentoButton': ''}`}>Continuar</button>
    
   </>
