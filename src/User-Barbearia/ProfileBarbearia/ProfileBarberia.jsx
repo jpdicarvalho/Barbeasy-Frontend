@@ -185,7 +185,7 @@ const handleProfessionalClick = (professional) => {
   navigate("/ProfessionalDetails", { state: { professional } });
 };
 
-//=========== Section OAuth Mercado Pago =========== 
+//=========== Section OAuth and Refresh Token Mercado Pago =========== 
 const [showReceivePayment, setShowReceivePayment] = useState(false);
 const [OAuthUrl, setOAuthUrl] = useState('');
 const [isConectedWithMercadoPago, setIsConectedWithMercadoPago] = useState(false);
@@ -261,27 +261,26 @@ const changeShowReceivePayment = () => {
   setShowReceivePayment(!showReceivePayment);
 };
 
-//Function to get access token of barbearia. That access token will be used to send the payment for it
-const checkConectionMercadoPago = () =>{
-  axios.get(`${urlApi}/api/v1/barbeariaCredentials/${barbeariaId}`, {
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
-  }).then(res => {
-    if(res.data.Success === true){
-      getRefreshToken(res.data.credentials[0].refresh_token, res.data.credentials[0].date_renovation, current_date)
-      setIsConectedWithMercadoPago(true);
-    }else{
-      setIsConectedWithMercadoPago(false);
-    }
-  }).catch(err => {
-    setIsConectedWithMercadoPago(false)
-    console.error('Erro ao verificar conexão com o mercado pago:', err);
-  })
-}
-
-//hook to call checkConectionMercadoPago
 useEffect(() =>{
+  //Function to get access token of barbearia. That access token will be used to send the payment for it
+  const checkConectionMercadoPago = () =>{
+    axios.get(`${urlApi}/api/v1/barbeariaCredentials/${barbeariaId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).then(res => {
+      if(res.data.Success === true){
+        getRefreshToken(res.data.credentials[0].refresh_token, res.data.credentials[0].date_renovation, current_date)
+        setIsConectedWithMercadoPago(true);
+      }else{
+        setIsConectedWithMercadoPago(false);
+      }
+    }).catch(err => {
+      setIsConectedWithMercadoPago(false)
+      console.error('Erro ao verificar conexão com o mercado pago:', err);
+    })
+  }
+
   checkConectionMercadoPago()
 }, [])
 
@@ -306,6 +305,7 @@ useEffect(() => {
       .replace(/\//g, '_')
       .replace(/=+$/, '');
   };
+
   const codeVerifier = generateRandomString(64); // Gera um code_verifier com 64 caracteres aleatórios
   // Armazene o code_verifier ao gerar o link OAuth
   localStorage.setItem('code_verifier', codeVerifier);
