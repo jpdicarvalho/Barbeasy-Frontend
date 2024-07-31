@@ -92,8 +92,8 @@ const GetAccessToken = () => {
     //Object with all credentials
     const values = {
       barbeariaId,
-      accessToken: accessToken,
-      refreshToken: refreshToken,
+      access_token: accessToken,
+      refresh_token: refreshToken,
       data_renovation
     }
 
