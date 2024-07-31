@@ -225,6 +225,7 @@ const saveCredentials = (access_token, refresh_token, data_renovation) =>{
   })
 }
 
+//Function to get a new credentials by refresh token if date_renovation === current_date
 const getRefreshToken = (refresh_token, date_renovation, current_date) => {
   if(date_renovation === current_date){
     const clientId = '5940575729236381';
@@ -242,11 +243,14 @@ const getRefreshToken = (refresh_token, date_renovation, current_date) => {
       },
     }).then(res =>{
       if(res.status === 200){
-        console.log('ss')
         //Saving the new credentials of barbearia
         saveCredentials(res.data.access_token, res.data.refresh_token, current_date)
+      }else{
+        setIsConectedWithMercadoPago(false)
+        console.log(res)
       }
     }).catch(err =>{
+      setIsConectedWithMercadoPago(false)
       console.log(err)
     })
   }
@@ -276,6 +280,7 @@ const checkConectionMercadoPago = () =>{
   })
 }
 
+//hook to call checkConectionMercadoPago
 useEffect(() =>{
   checkConectionMercadoPago()
 }, [])
