@@ -190,7 +190,43 @@ const [showReceivePayment, setShowReceivePayment] = useState(false);
 const [OAuthUrl, setOAuthUrl] = useState('');
 const [isConectedWithMercadoPago, setIsConectedWithMercadoPago] = useState(false);
 
-const getRefreshToken = (refresh_token, date_renovation) => {
+//get current date: day-month-year
+const date = new Date();
+date.setDate(date.getDate());
+
+const day = String(date.getDate()).padStart(2, '0'); // Obtém o dia e garante dois dígitos
+const month = String(date.getMonth() + 1).padStart(2, '0'); // Obtém o mês e garante dois dígitos (janeiro é 0)
+const year = date.getFullYear(); // Obtém o ano
+
+const current_date = `${day}-${month}-${year}`;
+
+//Function to save the access token
+const saveCredentials = (access_token, refresh_token, data_renovation) =>{
+  
+  //Object with all credentials
+  const values = {
+    barbeariaId,
+    access_token,
+    refresh_token,
+    data_renovation
+  }
+
+  axios.put(`${urlApi}/api/v1/saveCredentials`, values, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  }).then(res =>{
+    if(res.data.Success === 'Success'){
+      setCredentialsObtained(true)
+    }
+  }).catch(err =>{
+    setIsConectedWithMercadoPago(false)
+    console.log('Error:', err)
+  })
+}
+
+const getRefreshToken = (refresh_token, date_renovation, current_date) => {
+  if(date_renovation === current_date){
     const clientId = '5940575729236381';
     const clientSecret = 'bdRsr5mP74WzRKvFW5bvRAs8KP6b2Rol';  
 
@@ -205,10 +241,15 @@ const getRefreshToken = (refresh_token, date_renovation) => {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
     }).then(res =>{
-      console.log(res)
+      if(res.status === 200){
+        console.log('ss')
+        //Saving the new credentials of barbearia
+        saveCredentials(res.data.access_token, res.data.refresh_token, current_date)
+      }
     }).catch(err =>{
       console.log(err)
     })
+  }
 }
 
 //Função para mostrar o input de alteração do status
@@ -224,7 +265,7 @@ const checkConectionMercadoPago = () =>{
     }
   }).then(res => {
     if(res.data.Success === true){
-      getRefreshToken(res.data.credentials[0].refresh_token, res.data.credentials[0].date_renovation)
+      getRefreshToken(res.data.credentials[0].refresh_token, res.data.credentials[0].date_renovation, current_date)
       setIsConectedWithMercadoPago(true);
     }else{
       setIsConectedWithMercadoPago(false);
