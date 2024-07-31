@@ -31,6 +31,7 @@ const GetAccessToken = () => {
 
   const [accessToken, setAccessToken] = useState('');
   const [refreshToken, setRefreshToken] = useState('');
+  const [credentialsObtained, setCredentialsObtained] = useState(false);
 
 
   //Function to get access token for the first time
@@ -85,6 +86,7 @@ const GetAccessToken = () => {
     date.setDate(date.getDate() + 120); // add 120 days (4 month) from current date
     const data_renovation = date.toISOString();//Date of renovation access_token
 
+    //Object with all credentials
     const values = {
       barbeariaId,
       accessToken,
@@ -109,7 +111,7 @@ const GetAccessToken = () => {
     <div className="container__get__access__token">
       <Loader/>
 
-      {accessToken ? (
+      {credentialsObtained ? (
         <div className="section__get__access__token__successfuly">
           <IoIosCheckmarkCircleOutline className="icon__CheckmarkCircleOutline"/>
           <p className="text__one__conection__succesfuly">Excelente!</p>
