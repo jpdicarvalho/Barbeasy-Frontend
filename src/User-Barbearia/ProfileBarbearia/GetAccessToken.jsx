@@ -33,6 +33,7 @@ const GetAccessToken = () => {
   const [refreshToken, setRefreshToken] = useState('');
   const [credentialsObtained, setCredentialsObtained] = useState(false);
 
+  console.log(accessToken, refreshToken)
 
   //Function to get access token for the first time
   const getAccessToken = async (authorizationCode) => {
@@ -58,6 +59,8 @@ const GetAccessToken = () => {
 
       //Check if all credentials have been obtained
       if(response.data.access_token && response.data.refresh_token){
+  console.log(response.data)
+
         setAccessToken(response.data.access_token)
         setRefreshToken(response.data.refresh_token)
         saveCredentials()
@@ -89,8 +92,8 @@ const GetAccessToken = () => {
     //Object with all credentials
     const values = {
       barbeariaId,
-      accessToken,
-      refreshToken,
+      accessToken: accessToken,
+      refreshToken: refreshToken,
       data_renovation
     }
 
