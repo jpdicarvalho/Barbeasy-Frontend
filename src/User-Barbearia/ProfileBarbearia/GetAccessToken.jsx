@@ -29,8 +29,8 @@ const GetAccessToken = () => {
     navigate("/ProfileBarbearia");
   };
 
-  const [accessToken, setAccessToken] = useState('');
-  const [refreshToken, setRefreshToken] = useState('');
+  const [accessToken, setAccessToken] = useState();
+  const [refreshToken, setRefreshToken] = useState();
   const [credentialsObtained, setCredentialsObtained] = useState(false);
 
   console.log(accessToken, refreshToken)
@@ -59,11 +59,8 @@ const GetAccessToken = () => {
 
       //Check if all credentials have been obtained
       if(response.data.access_token && response.data.refresh_token){
-  console.log(response.data)
-
-        setAccessToken(response.data.access_token)
-        setRefreshToken(response.data.refresh_token)
-        saveCredentials()
+          setAccessToken(response.data.access_token)
+          setRefreshToken(response.data.refresh_token)
       }else{
         setCredentialsObtained(false)
       }
@@ -108,7 +105,13 @@ const GetAccessToken = () => {
     }).catch(err =>{
       console.log('Error:', err)
     })
-}
+  }
+  
+  useEffect(() => {
+    if(accessToken && refreshToken) {
+      saveCredentials();
+    }
+  }, []);
 
   return (
     <div className="container__get__access__token">
