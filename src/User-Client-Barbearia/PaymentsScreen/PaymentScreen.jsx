@@ -34,6 +34,8 @@ export default function PaymentScreen(){
     const [PaymentStatus, setPaymentStatus] = useState('');
     const [paymentUpdated, setPaymentUpdated] = useState(false);
     const [deletedPreBooking, setDeletedPreBooking] = useState(false)
+    const [seconds, setSeconds] = useState(calculateTimeDifference());
+    const [copyMessage, setCopyMessage] = useState('');
 
     //Function to verify status of payment
     const getPayment = () =>{
@@ -53,7 +55,7 @@ export default function PaymentScreen(){
         })
     }
 
-    
+    //Function to delete pre-Booking created
     const deletePreBooking = () =>{
         axios.delete(`${urlApi}/api/v1/delePreBooking/${paymentObject.id}/${identificationToken}`,{
             headers: {
@@ -68,6 +70,7 @@ export default function PaymentScreen(){
             setDeletedPreBooking(false)
         })
     }
+    
     //Function to calculete the time difference betwen date_of_expiration and current date
     const calculateTimeDifference = () => {
         const expirationDate = new Date(date_of_expiration).getTime();
@@ -76,9 +79,6 @@ export default function PaymentScreen(){
         const differenceInSeconds = Math.floor(differenceInMilliseconds / 1000);
         return differenceInSeconds;
     };
-    
-    //Variables to stotage secondes
-    const [seconds, setSeconds] = useState(calculateTimeDifference());
     
     //Hook to setSeconds, call the function deletePreBooking and redirect user
       useEffect(() => {
@@ -95,8 +95,6 @@ export default function PaymentScreen(){
     
         return () => clearInterval(timer);
       }, []);
-    //==========================================================
-
 
     //Function to update status to approved
     const updatePaymentStatus = () =>{
@@ -135,9 +133,6 @@ export default function PaymentScreen(){
 
     //Call function updatePaymentStatus
     updatePaymentStatus()
-
-    //Function to copy the qr_code
-    const [copyMessage, setCopyMessage] = useState('');
 
     const handleCopy = (text) => {
         navigator.clipboard.writeText(text)
