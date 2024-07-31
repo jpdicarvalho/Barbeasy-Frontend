@@ -187,27 +187,27 @@ const handleProfessionalClick = (professional) => {
 
 //=========== Section OAuth Mercado Pago =========== 
 const [showReceivePayment, setShowReceivePayment] = useState(false);
-const [accessTokenBarbearia, setAccessTokenBarbearia] = useState(false);
+const [isConectedWithMercadoPago, setIsConectedWithMercadoPago] = useState(false);
 
 //Function to get access token of barbearia. That access token will be used to send the payment for it
-const getAccessTokenBarbearia = () =>{
+const checkConectionMercadoPago = () =>{
   axios.get(`${urlApi}/api/v1/accessTokenBarbearia/${barbeariaId}`, {
     headers: {
       'Authorization': `Bearer ${token}`
     }
   }).then(res => {
     if(res.data.Success === true){
-      setAccessTokenBarbearia(true);
+      setIsConectedWithMercadoPago(true);
     }else{
-      setAccessTokenBarbearia(false);
+      setIsConectedWithMercadoPago(false);
     }
   }).catch(err => {
-    setAccessTokenBarbearia(false)
-    console.error('Erro ao obter os registros:', err);
+    setIsConectedWithMercadoPago(false)
+    console.error('Erro ao verificar conexão com o mercado pago:', err);
   })
 }
 useEffect(() =>{
-  getAccessTokenBarbearia()
+  checkConectionMercadoPago()
 })
 
 //Função para mostrar o input de alteração do status
@@ -799,7 +799,7 @@ const [oauthUrl, setOauthUrl] = useState('');
 
         {showReceivePayment && (
             <div className="divSelected">
-              {accessTokenBarbearia ? (
+              {isConectedWithMercadoPago ? (
                 <>
                   <p className='information__span'>Tudo em ordem por aqui! Sua barbearia está habilitada a receber pagamentos.</p>
                 </>
