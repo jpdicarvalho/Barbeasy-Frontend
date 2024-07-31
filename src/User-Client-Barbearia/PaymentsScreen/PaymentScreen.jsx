@@ -31,8 +31,29 @@ export default function PaymentScreen(){
         navigate("/Home ");
     };
 
+    const [PaymentStatus, setPaymentStatus] = useState('');
+    const [paymentUpdated, setPaymentUpdated] = useState(false);
     const [deletedPreBooking, setDeletedPreBooking] = useState(false)
 
+    //Function to verify status of payment
+    const getPayment = () =>{
+        axios.get(`${urlGetPayment}${paymentObject.id}`, {
+            headers: {
+                'Authorization': `Bearer ${accessTokenBarbearia}`
+              }
+        }).then(res =>{
+            if(res.data.status === 'pending'){
+                return setPaymentStatus(res.data.status)
+            }
+            if(res.data.status === 'cancelled'){
+                return deletePreBooking()
+            }
+        }).catch(err =>{
+            console.log(err)
+        })
+    }
+
+    
     const deletePreBooking = () =>{
         axios.delete(`${urlApi}/api/v1/delePreBooking/${paymentObject.id}/${identificationToken}`,{
             headers: {
@@ -76,21 +97,6 @@ export default function PaymentScreen(){
       }, []);
     //==========================================================
 
-    const [PaymentStatus, setPaymentStatus] = useState('');
-    const [paymentUpdated, setPaymentUpdated] = useState(false);
-console.log(PaymentStatus)
-    //Function to verify status of payment
-    const getPayment = () =>{
-        axios.get(`${urlGetPayment}${paymentObject.id}`, {
-            headers: {
-                'Authorization': `Bearer ${accessTokenBarbearia}`
-              }
-        }).then(res =>{
-            setPaymentStatus(res.data.status)
-        }).catch(err =>{
-            console.log(err)
-        })
-    }
 
     //Function to update status to approved
     const updatePaymentStatus = () =>{
