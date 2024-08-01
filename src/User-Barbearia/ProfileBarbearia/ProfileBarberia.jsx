@@ -189,8 +189,6 @@ const handleProfessionalClick = (professional) => {
 const [showReceivePayment, setShowReceivePayment] = useState(false);
 const [OAuthUrl, setOAuthUrl] = useState('');
 const [client_id, setClient_id] = useState('');
-const [characters, setCharacters] = useState('');
-const [client_secret, setClient_secret] = useState('');
 
 const [isConectedWithMercadoPago, setIsConectedWithMercadoPago] = useState(false);
 
@@ -212,8 +210,6 @@ useEffect(() =>{
       }
     }).then(res =>{
       setClient_id(res.data.credentials[0].client_id)
-      setClient_secret(res.data.credentials[0].client_secret)
-      setCharacters(res.data.credentials[0].characters)
       console.log(res.data)
     }).catch(err =>{
       console.log(err)
@@ -309,6 +305,7 @@ useEffect(() =>{
 //Function to generate the code_verifier and code_challenge
 useEffect(() => {
   const generateRandomString = (length) => {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~';
     let result = '';
     const charactersLength = characters.length;
     for (let i = 0; i < length; i++) {
