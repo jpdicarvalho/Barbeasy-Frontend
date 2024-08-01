@@ -26,6 +26,24 @@ const GetAccessToken = () => {
   };
 
   const [credentialsObtained, setCredentialsObtained] = useState(false);
+  const [client_id, setClient_id] = useState('');
+  const [client_secret, setClient_secret] = useState('');
+
+  useEffect(() =>{
+    const getCredentialsMercadoPago = () =>{
+      axios.get(`${urlApi}/api/v1/credentialsMercadoPago`,{
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }).then(res =>{
+        setClient_id(res.data.credentials[0].client_id)
+        setClient_secret(res.data.credentials[0].client_secret)
+      }).catch(err =>{
+        console.log(err)
+      })
+    }
+    getCredentialsMercadoPago()
+  }, [])
 
   //Function to save the access token
   const saveCredentials = (access_token, refresh_token) =>{
@@ -62,16 +80,14 @@ const GetAccessToken = () => {
 
   //Function to get access token for the first time
   const getAccessToken = async (authorizationCode) => {
-    const clientId = '5940575729236381';
-    const clientSecret = 'bdRsr5mP74WzRKvFW5bvRAs8KP6b2Rol';  
     const redirectUri = 'https://barbeasy.netlify.app/GetAccessToken';
     const codeVerifier = localStorage.getItem('code_verifier');
 
     try {
       const params = new URLSearchParams();
       params.append('grant_type', 'authorization_code');
-      params.append('client_id', clientId);
-      params.append('client_secret', clientSecret);
+      params.append('client_id', client_id);
+      params.append('client_secret', client_secret);
       params.append('code', authorizationCode);
       params.append('redirect_uri', redirectUri);
       params.append('code_verifier', codeVerifier);
