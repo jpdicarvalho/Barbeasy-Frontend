@@ -34,7 +34,6 @@ export default function PaymentScreen(){
     const [PaymentStatus, setPaymentStatus] = useState('');
     const [paymentUpdated, setPaymentUpdated] = useState(false);
     const [deletedPreBooking, setDeletedPreBooking] = useState(false)
-    const [seconds, setSeconds] = useState(calculateTimeDifference());
     const [copyMessage, setCopyMessage] = useState('');
 
     //Function to verify status of payment
@@ -79,6 +78,7 @@ export default function PaymentScreen(){
         const differenceInSeconds = Math.floor(differenceInMilliseconds / 1000);
         return differenceInSeconds;
     };
+    const [seconds, setSeconds] = useState(calculateTimeDifference());
     
     //Hook to setSeconds, call the function deletePreBooking and redirect user
       useEffect(() => {
@@ -147,7 +147,7 @@ export default function PaymentScreen(){
           });
     };
 
-    //========================================================================
+    console.log(PaymentStatus)
 
     return(
         <div className="container__master">
