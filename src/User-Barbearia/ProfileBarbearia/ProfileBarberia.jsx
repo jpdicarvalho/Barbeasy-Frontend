@@ -199,6 +199,21 @@ const year = date.getFullYear(); // Obtém o ano
 
 const current_date = `${day}-${month}-${year}`;//current date to compare with date_renovation
 
+useEffect(() =>{
+  const getCredentialsMercadoPago = () =>{
+    const credentialId = 1;
+    axios.get(`${urlApi}/api/v1/credentialsMercadoPago/${credentialId}`,{
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).then(res =>{
+      console.log(res.data)
+    }).catch(err =>{
+      console.log(err)
+    })
+  }
+  getCredentialsMercadoPago()
+}, [])
 //Função para mostrar o input de alteração do status
 const changeShowReceivePayment = () => {
   setShowReceivePayment(!showReceivePayment);

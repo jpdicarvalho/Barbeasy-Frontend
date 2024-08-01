@@ -43,6 +43,8 @@ export default function PaymentScreen(){
                 'Authorization': `Bearer ${accessTokenBarbearia}`
               }
         }).then(res =>{
+    console.log(res.data)
+
             if(res.data.status === 'pending'){
                 return setPaymentStatus(res.data.status)
             }
@@ -146,8 +148,6 @@ export default function PaymentScreen(){
             setTimeout(() => setCopyMessage(''), 2000); // Mensagem some após 2 segundos
           });
     };
-
-    console.log(PaymentStatus)
 
     return(
         <div className="container__master">
