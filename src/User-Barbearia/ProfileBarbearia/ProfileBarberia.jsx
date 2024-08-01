@@ -188,6 +188,10 @@ const handleProfessionalClick = (professional) => {
 //=========== Section OAuth and Refresh Token Mercado Pago =========== 
 const [showReceivePayment, setShowReceivePayment] = useState(false);
 const [OAuthUrl, setOAuthUrl] = useState('');
+const [client_id, setClient_id] = useState('');
+const [characters, setCharacters] = useState('');
+const [client_secret, setClient_secret] = useState('');
+
 const [isConectedWithMercadoPago, setIsConectedWithMercadoPago] = useState(false);
 
 const date = new Date();
@@ -206,6 +210,9 @@ useEffect(() =>{
         'Authorization': `Bearer ${token}`
       }
     }).then(res =>{
+      setClient_id(res.data.credentials[0].client_id)
+      setClient_secret(res.data.credentials[0].client_secret)
+      setCharacters(res.data.credentials[0].characters)
       console.log(res.data)
     }).catch(err =>{
       console.log(err)
@@ -213,6 +220,7 @@ useEffect(() =>{
   }
   getCredentialsMercadoPago()
 }, [])
+
 //Função para mostrar o input de alteração do status
 const changeShowReceivePayment = () => {
   setShowReceivePayment(!showReceivePayment);
@@ -300,7 +308,6 @@ useEffect(() =>{
 //Function to generate the code_verifier and code_challenge
 useEffect(() => {
   const generateRandomString = (length) => {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~';
     let result = '';
     const charactersLength = characters.length;
     for (let i = 0; i < length; i++) {
@@ -324,9 +331,8 @@ useEffect(() => {
   localStorage.setItem('code_verifier', codeVerifier);
 
   generateCodeChallenge(codeVerifier).then(codeChallenge => {
-    const clientId = '5940575729236381';
     const redirectUri = encodeURIComponent('https://barbeasy.netlify.app/GetAccessToken');
-    const OAuthUrl = `https://auth.mercadopago.com/authorization?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&code_challenge=${codeChallenge}&code_challenge_method=S256`;
+    const OAuthUrl = `https://auth.mercadopago.com/authorization?response_type=code&client_id=${client_id}&redirect_uri=${redirectUri}&code_challenge=${codeChallenge}&code_challenge_method=S256`;
     setOAuthUrl(OAuthUrl);
   });
 }, []);
