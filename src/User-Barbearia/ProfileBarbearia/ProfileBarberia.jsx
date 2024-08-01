@@ -201,8 +201,7 @@ const current_date = `${day}-${month}-${year}`;//current date to compare with da
 
 useEffect(() =>{
   const getCredentialsMercadoPago = () =>{
-    const credentialId = 1;
-    axios.get(`${urlApi}/api/v1/credentialsMercadoPago/${credentialId}`,{
+    axios.get(`${urlApi}/api/v1/credentialsMercadoPago`,{
       headers: {
         'Authorization': `Bearer ${token}`
       }
