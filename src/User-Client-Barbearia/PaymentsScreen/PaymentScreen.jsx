@@ -44,7 +44,6 @@ export default function PaymentScreen(){
               }
         }).then(res =>{
     console.log(res.data)
-
             if(res.data.status === 'pending'){
                 return setPaymentStatus(res.data.status)
             }
