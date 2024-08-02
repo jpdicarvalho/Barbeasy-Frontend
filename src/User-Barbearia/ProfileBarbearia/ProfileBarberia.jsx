@@ -30,9 +30,8 @@ import { MdOutlineDone } from "react-icons/md";
 import { VscError } from "react-icons/vsc";
 import { GoPlus } from "react-icons/go";
 import { PiContactlessPayment } from "react-icons/pi";
+import { SiMercadopago } from "react-icons/si";
 
-//Images
-import LogoMercadoPago from '../../../logoMercadoPago.png'
 
 import './ProfileBarbearia.css';
 
@@ -188,35 +187,17 @@ const handleProfessionalClick = (professional) => {
 //=========== Section OAuth and Refresh Token Mercado Pago =========== 
 const [showReceivePayment, setShowReceivePayment] = useState(false);
 const [OAuthUrl, setOAuthUrl] = useState('');
-const [client_id, setClient_id] = useState('');
 
 const [isConectedWithMercadoPago, setIsConectedWithMercadoPago] = useState(false);
 
 const date = new Date();
-date.setDate(date.getDate());
+date.setDate(date.getDate() + 120);
 
 const day = String(date.getDate()).padStart(2, '0'); // Obtém o dia e garante dois dígitos
 const month = String(date.getMonth() + 1).padStart(2, '0'); // Obtém o mês e garante dois dígitos (janeiro é 0)
 const year = date.getFullYear(); // Obtém o ano
 
 const current_date = `${day}-${month}-${year}`;//current date to compare with date_renovation
-
-//Function to get credentials of mercado pago
-useEffect(() =>{
-  const getCredentialsMercadoPago = () =>{
-    axios.get(`${urlApi}/api/v1/credentialsMercadoPago`,{
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    }).then(res =>{
-      setClient_id(res.data.credentials[0].client_id)
-      console.log(res.data)
-    }).catch(err =>{
-      console.log(err)
-    })
-  }
-  getCredentialsMercadoPago()
-}, [])
 
 //Função para mostrar o input de alteração do status
 const changeShowReceivePayment = () => {
@@ -894,7 +875,7 @@ useEffect(() => {
                  <div className='Box__btn__conection__mercado__pago'>
                     <p className='information__span'>Conecte-se ao Mercado Pago para começar a receber pagamentos dos seus agendamentos.</p>
                     <a href={OAuthUrl} className='Link__oauth__mercado__pago'>
-                      <img src={urlCloudFront + 'logoMercadoPago.png'} className='logo__mercado__pago' />
+                      <SiMercadopago className='logo__mercado__pago__conection' />
                       <p>Conectar ao Mercado Pago</p>
                     </a>   
                 </div>

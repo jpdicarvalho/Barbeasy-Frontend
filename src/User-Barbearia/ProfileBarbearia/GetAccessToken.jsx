@@ -26,24 +26,6 @@ const GetAccessToken = () => {
   };
 
   const [credentialsObtained, setCredentialsObtained] = useState(false);
-  const [client_id, setClient_id] = useState('');
-  const [client_secret, setClient_secret] = useState('');
-
-  useEffect(() =>{
-    const getCredentialsMercadoPago = () =>{
-      axios.get(`${urlApi}/api/v1/credentialsMercadoPago`,{
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      }).then(res =>{
-        setClient_id(res.data.credentials[0].client_id)
-        setClient_secret(res.data.credentials[0].client_secret)
-      }).catch(err =>{
-        console.log(err)
-      })
-    }
-    getCredentialsMercadoPago()
-  }, [])
 
   //Function to save the access token
   const saveCredentials = (access_token, refresh_token) =>{

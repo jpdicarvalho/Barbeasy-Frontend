@@ -265,10 +265,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #009ee3;
+    background: #4a17d5;
     text-align: center;
     padding: 5px;
-    width: 100%;
+    width: 330px;
     height: 45px;
     border-radius: 5px;
     cursor: pointer;
@@ -281,12 +281,13 @@
     text-decoration: none;
     font-size: 16px;
 }
-.logo__mercado__pago{
-    width: 50px;
+.logo__mercado__pago__conection{
+    width: 40px;
+    height: 40px;
     margin-right: 5px;
 }
 .Link__oauth__mercado__pago:hover{
-    background: #009fe3d4;
+    background: #4a17d5c8;
     transition: 0.5s;
 }
 /*Referente ao input status*/
