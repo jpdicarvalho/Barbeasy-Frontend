@@ -355,7 +355,9 @@
 }
 .Navigation.active{
   width: 285px;
-  background: #4a17d5;
+  background: #4a17d564;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 .Navigation .toggleMenu{
   position: absolute;
@@ -367,7 +369,9 @@
   border-radius: 50%;
   border: none;
   transition: 0.5s;
-  background: #4a17d5;
+  background: #4a17d564;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   cursor: pointer;
   transition-delay: 0.5s;
 }
@@ -432,7 +436,7 @@
   width: auto;
 }
 .Navigation li button:hover{
-  color: #6D48D6;
+  color: #ffffff4c;
   background: transparent;
 }
 .aberto {

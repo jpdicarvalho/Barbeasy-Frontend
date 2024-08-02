@@ -107,29 +107,26 @@
 }
 .Btn__ocult{
     opacity: 0;
-    
     background: transparent;
-    border-radius: 10px;
     border: 1px solid #4a17d5;
     color: #4a17d5;
     transition: 0.5s;
 }
 .AgendamentoButton{
-    width: 370px;
+    width: 380px;
     font-size: 18px;
-    margin-top: 20px;
+    margin-top: 15px;
     margin-bottom: 15px;
     background: transparent;
     padding: 10px;
-    border-radius: 3px;
     border: 1px solid #4a17d5;
-    color: #4a17d5;
+    color: #f6f6f6;
     transition: 0.5s;
     opacity: 1;
 }
 .AgendamentoButton:hover{
     background:#4a17d5;
-    border-radius: 12px;
+    border-radius: 10px;
     color: white;
     transition: 0.5s;
 }
