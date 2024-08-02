@@ -49,7 +49,7 @@ export default function PaymentScreen(){
               }
         }).then(res =>{
     console.log(res.data)
-            if(res.data.status === 'pending'){
+            if(res.data.status === 'pending' || 'approved'){
                 return setPaymentStatus(res.data.status)
             }
             if(res.data.status === 'cancelled'){
@@ -76,29 +76,46 @@ export default function PaymentScreen(){
         })
     }
     
-    //Function to calculete the time difference betwen date_of_expiration and current date
-    const calculateTimeDifference = () => {
+    const calculateTimeDifference = (date_of_expiration) => {
         const expirationDate = new Date(date_of_expiration).getTime();
         const currentDate = Date.now();
         const differenceInMilliseconds = expirationDate - currentDate;
+      
+        if (differenceInMilliseconds <= 0) {
+          return 0; // Retorna 0 segundos se já expirou
+        }
+      
         const differenceInSeconds = Math.floor(differenceInMilliseconds / 1000);
         return differenceInSeconds;
-    };
-    const [seconds, setSeconds] = useState(calculateTimeDifference());
-    
-    //Hook to setSeconds, call the function deletePreBooking and redirect user
+      };
+      
+      const formatTime = (totalSeconds) => {
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = totalSeconds % 60;
+      
+        // Formatar minutos e segundos com dois dígitos
+        const formattedMinutes = String(minutes).padStart(2, '0');
+        const formattedSeconds = String(seconds).padStart(2, '0');
+      
+        return `${formattedMinutes}:${formattedSeconds}`;
+      };
+      
+      const [seconds, setSeconds] = useState(calculateTimeDifference(date_of_expiration));
+      const formattedTime = formatTime(seconds);
+      
+      // Hook para contagem regressiva
       useEffect(() => {
         const timer = setInterval(() => {
           setSeconds((prevSeconds) => {
             if (prevSeconds <= 0) {
-                clearInterval(timer);
-                deletePreBooking()
-                return 0;
+              clearInterval(timer);
+              deletePreBooking();
+              return 0;
             }
             return prevSeconds - 1;
           });
         }, 1000);
-    
+      
         return () => clearInterval(timer);
       }, []);
 
