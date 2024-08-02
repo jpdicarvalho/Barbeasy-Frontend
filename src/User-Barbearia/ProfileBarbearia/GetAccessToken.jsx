@@ -99,7 +99,7 @@ const GetAccessToken = () => {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
       });
-
+      console.log(response)
       //Check if all credentials have been obtained
       if(response.data.access_token && response.data.refresh_token){
           saveCredentials(response.data.access_token, response.data.refresh_token)
@@ -117,6 +117,7 @@ const GetAccessToken = () => {
 
   useEffect(() => {
     if (authorizationCode) {
+      console.log(authorizationCode)
       getAccessToken(authorizationCode);
     }
   }, [location.search]);
