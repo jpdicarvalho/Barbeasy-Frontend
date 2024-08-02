@@ -28,9 +28,14 @@ export default function PaymentScreen(){
     const date_of_expiration = paymentObject.date_of_expiration// está assim o formato: 2024-07-29T12:02:16.828-04:00
 
     const handleBackClick = () => {
+        deletePreBooking()
         navigate("/Home ");
     };
 
+    const handleBackClickPaymentApproved = () => {
+        navigate("/Home ");
+    };
+    
     const [PaymentStatus, setPaymentStatus] = useState('');
     const [paymentUpdated, setPaymentUpdated] = useState(false);
     const [deletedPreBooking, setDeletedPreBooking] = useState(false)
@@ -157,7 +162,7 @@ export default function PaymentScreen(){
                             <IoIosCheckmarkCircleOutline className="icon__CheckmarkCircleOutline"/>
                             <p className="text__one__conection__succesfuly">Pagamento recebido!</p>
                             <p className="text__two__conection__succesfuly">Seu agendamento foi confirmado! Verifique a data e o horário para não perder sua reserva.</p>
-                            <div className="Box__btn__back__Booking__Details" onClick={handleBackClick}>
+                            <div className="Box__btn__back__Booking__Details" onClick={handleBackClickPaymentApproved}>
                                 <button className="Btn__back__Booking__Details" >
                                     Voltar
                                 </button>

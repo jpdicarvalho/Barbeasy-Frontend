@@ -63,6 +63,7 @@ const currentDate = new Date();
 //=========== Get Access Token of barbearia ==============
 const [accessTokenBarbearia, setAccessTokenBarbearia] = useState();
 
+
   useEffect(()=>{
     //Function to get access token of barbearia. That access token will be used to send the payment for it
     const getAccessTokenBarbearia = () =>{
