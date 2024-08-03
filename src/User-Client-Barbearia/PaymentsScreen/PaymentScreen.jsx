@@ -142,12 +142,12 @@ export default function PaymentScreen(){
         }
     }
 
-    //Call function getPayment each 5 secondes
+    //Call function getPayment each 3 secondes
     useEffect(() => {
         if(PaymentStatus != 'approved'){
             const interval = setInterval(() => {
                 getPayment();
-              }, 5000); // 5 segundos
+              }, 3000); // 3segundos
           
               // Limpeza do intervalo quando o componente for desmontado
               return () => clearInterval(interval);
@@ -196,7 +196,7 @@ export default function PaymentScreen(){
                             </div>
                             <div className="section__value__payment">
                                 <h3 className="value__payment">Pague {serviceValues.servicePrice} via Pix</h3>
-                                <p className="date_of_expiration">{seconds > 0 ? `Vencimento em ${seconds} segundos` : 'Tempo esgotado :('}</p>
+                                <p className="date_of_expiration">{seconds > 0 ? `Vencimento em ${formattedTime}` : 'Tempo esgotado :('}</p>
                             </div>
                             <div className="Box__qr_code_base64">
                                 <img className="inner__qr_code_base64" src={`data:image/png;base64,${qr_code_base64}`} alt="QR Code Base64" />

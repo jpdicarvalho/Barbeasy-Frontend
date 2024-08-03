@@ -1,16 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 *{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
 .container__main{ 
   display: flex;
   flex-direction: column;
   width: 390px;
   background: #0c0e19;
-  height: 750px;
-  padding-left: 5px;
+  height: 100vh;
   padding-right: 5px;
+  padding-left: 5px;
 }
 .header_container{
   display: flex;
@@ -19,18 +23,20 @@
   flex-direction: column;
   max-width: 385px;
   color: white;
-  padding-left: 10px;
 }
-.Saudacao{
-  color: #354249;
+.container__text__header{
+}
+.text__salutation{
+  color: gray;
   font-size: 14px;
-  font-weight: 700;
 }
 .img__user{
   display: flex;
+  justify-content: space-between;
+  display: flex;
   align-items: center;
   width: 100%;
-  height: 80px; 
+  height: 80px;
 }
 .img-view-professional{
   width: 60px;
@@ -38,12 +44,13 @@
   border-radius: 50%;
   overflow: hidden;
 }
-.user__name{
+.text__barbearia__name{
   display: flex;
   justify-content: start;
   flex-direction: row;
-  width: 300px;
-  color: #354249;
+  width: 300px; 
+  font-size: 18px; 
+  color: #f6f6f6;
 }
 .settings{
   display: flex;
@@ -55,6 +62,46 @@
   margin-right: 10px;
   color: #fff;
   border-radius: 5px;
+}
+.container__amount{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100px;
+}
+.tittle__amount{
+  font-size: 12px;
+  color: gray;
+}
+.text__amount{
+  font-size: 30px;
+}
+.container__buttons__header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  width: 100%;
+}
+.button__header{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  height: 45px;
+  width: 150px;
+  border-radius: 10px;
+  border: 1px solid #4a17d5;
+  font-size: 16px;
+  background: #4a17d557;
+  color: #f6f6f6;
+}
+.icon__GiHistogram{
+  margin-right: 5px;
+  width: 20px;
+  height: 15px;
 }
 .user__image__professional{
   display: flex;

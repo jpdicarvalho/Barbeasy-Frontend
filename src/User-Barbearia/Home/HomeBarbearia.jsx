@@ -8,7 +8,8 @@ import { GiRazorBlade } from "react-icons/gi";
 import { TfiTime } from "react-icons/tfi";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { FaWhatsapp } from "react-icons/fa";
-import { IoMenuSharp } from "react-icons/io5";
+import { IoIosSettings } from "react-icons/io";
+import { TbChartHistogram } from "react-icons/tb";
 
 
 const monthNames = [
@@ -202,166 +203,181 @@ const toggleItem = (itemId) => {
 return (
 <main>
     <div className="container__main">
-      <div className='header_container'>
-        <div className="img__user">
-            <div className="settings" onClick={navigateToProfileBarbearia}>
-              <IoMenuSharp />
-            </div>
-            <div className="user__name">
-              <h2>Barbeasy</h2>
-            </div>
+        <div className='header_container'>
+          <div>
             
-        </div>
-      {professional.length > 0 ? (
-        <>
-        <div className='tittle_menu'>
-          {professional.length > 1 ?(
-            <>
-              <h3>Profissionais</h3>
-              <hr id='sublime'/>
-            </>
-          ):(
-            <>
-              <h3>Profissional</h3>
-              <hr id='sublime'/>
-            </>
-          )}
-        </div>
-        <div className="section__professional__barbearia">
-          <div className="section__professional">
-
-            {professional.map((professional) => { 
-              // Obtendo a primeira letra do nome do profissional
-              const firstLetter = professional.name.charAt(0).toUpperCase();
-              
-              return (
-                <div key={professional.id} onClick={() => handleProfessionalSelected(professional.id)} className={`Box__professional ${professionalSelected === professional.id? 'barbeariaSelected':''}`}> 
-                 {professional.user_image != 'default.png' ?(
-                  <div className='user__image__professional'>
-                    <img src={urlCloudFront + professional.user_image} id='img__user__professional'/>
-                  </div>
-                 ):(
-                  <div className="Box__image">
-                    <p className='firstLetter'>{firstLetter}</p>
-                  </div>
-                 )}
-                  <p className='name__professional'>{professional.name}</p>
+          </div>
+          <div className="img__user">
+                <div className="container__text__header">
+                  <p className='text__barbearia__name'>Olá, {barbeariaUserName}!</p>
+                  <p className='text__salutation'>{saudacao} </p>
                 </div>
-              );
-            })}
-
-          </div>
+                <div className="settings" onClick={navigateToProfileBarbearia}>
+                  <IoIosSettings />
+                </div>
+                
+            </div>
+            <div className='container__amount'>
+              <p className='text__amount'>R$ 1547,88</p>
+              <p className='tittle__amount'>Total faturado nesse mês</p>
+            </div>
+            <div className='container__buttons__header'>
+              
+              <button className='button__header'>
+                Comissões
+              </button>
+              <button className='button__header'>
+                Histórico
+              </button>
+            </div>
         </div>
+        <div className='body__home__barbearia'>
+        {professional.length > 0 ? (
+              <>
+              <div className='tittle_menu'>
+                {professional.length > 1 ?(
+                  <>
+                    <h3>Profissionais</h3>
+                    <hr id='sublime'/>
+                  </>
+                ):(
+                  <>
+                    <h3>Profissional</h3>
+                    <hr id='sublime'/>
+                  </>
+                )}
+              </div>
+              <div className="section__professional__barbearia">
+                <div className="section__professional">
 
-        {professionalSelected ?(
-          <div className="container__calendar__home__barbearia">
-          <div className='header__agenda'>
-            <GrSchedules className='icon__schedules'/>
-            <h3>Agenda</h3>
-          </div>
-        <div className='calendar__barbearia'>
-          <div className="list__Names__Week__And__Day">
-          {weekDays.map((dayOfWeek, index) => (
-              <div key={`weekDay-${index}`} className="list__name__Week">
-                <div
-                  className={`dayWeekCurrent ${selectedDay === `${dayOfWeek}, ${numberDays[index].number} de ${numberDays[index].month} de ${year}` ? 'selectedDay' : ''} ${numberDays[index].isCurrentDay ? 'currentDay' : ''}`}
-                  onClick={() => handleDateClick(dayOfWeek, numberDays[index].number, numberDays[index].month, year)}
-                >
-                  <p className='Box__day'>{dayOfWeek}</p>
-                  <p className='Box__NumDay'>{numberDays[index].number}</p>
-                  <p className='Box__month'>{numberDays[index].month}</p>
+                  {professional.map((professional) => { 
+                    // Obtendo a primeira letra do nome do profissional
+                    const firstLetter = professional.name.charAt(0).toUpperCase();
+                    
+                    return (
+                      <div key={professional.id} onClick={() => handleProfessionalSelected(professional.id)} className={`Box__professional ${professionalSelected === professional.id? 'barbeariaSelected':''}`}> 
+                      {professional.user_image != 'default.png' ?(
+                        <div className='user__image__professional'>
+                          <img src={urlCloudFront + professional.user_image} id='img__user__professional'/>
+                        </div>
+                      ):(
+                        <div className="Box__image">
+                          <p className='firstLetter'>{firstLetter}</p>
+                        </div>
+                      )}
+                        <p className='name__professional'>{professional.name}</p>
+                      </div>
+                    );
+                  })}
+
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
-        {bookings.length > 0 && (
-          <div className="tittle__bookings">
-            <p>Agendamentos • ({bookings.length})</p>
-          </div>
-        )}
-        {selectedDay ? (
-          <div className="section__bookings" >
-          {bookings.length > 0 ? (
-            bookings.map((booking, index) => {
-              const bookingTimes = booking.booking_time.split(',');
-                return(
-                    <div key={index} className='container__booking' onClick={() => toggleItem(booking.booking_id)}>
-                      <div className={`booking ${expandedCardBooking.includes(booking.booking_id) ? 'expandCard':''}`}>
-                        <div className="container_professional">
-                          <div className="Box__image  Box__first__letter__professional">
-                              <p className='firstLetter__professional_Span'>{booking.professional_name.charAt(0).toUpperCase()}</p>
-                          </div>
-                          <p className='name__Professional'>{booking.professional_name}</p>
-                          <div className="time__booking">
-                              <p className='time'>{booking.booking_time.split(',')[0]}</p>
-                          </div>
-                        </div>
-                        <div className="section__information__booking">
-                          <div className="tittle__information">
-                            <p className='section__icon'>
-                              <GiRazorBlade className='icon__information'/>
-                              {booking.service_name}
-                            </p>
-                            <p>{booking.service_price}</p>
-                          </div>
-                          <div className="tittle__information">
-                            <p className='section__icon'>
-                              <TfiTime className='icon__information'/>
-                              Duração
-                            </p>
-                            <p>{booking.service_duration}</p>
-                          </div>
-                        </div>
-                        <div className="section__information__booking">
-                          <div className="tittle__information">
-                            <p className='section__icon'>
-                              <IoPersonCircleOutline className='icon__information' />
-                              Cliente
-                            </p>
-                            <p>{booking.user_name}</p>
-                          </div>
-                          <div className="tittle__information">
-                            <p className='section__icon'>
-                              <FaWhatsapp className='icon__information'/>
-                              Contato
-                            </p>
-                            <p>{booking.user_phone}</p>
-                          </div>
-                        </div>
-                    </div>
-                    </div>
-                );
-            })
-          ):(
-            <div className="message__notFound">
-            <p style={{fontSize:"20px"}}>{messagemNotFound}</p>
-          </div>
-          )}
 
-      </div>
-        ):(
-          <div className="message__notFound">
-            <p >Selecione um dia para visualizar os agendamentos.</p>
-          </div>
-        )}
+              {professionalSelected ?(
+                <div className="container__calendar__home__barbearia">
+                <div className='header__agenda'>
+                  <GrSchedules className='icon__schedules'/>
+                  <h3>Agenda</h3>
+                </div>
+              <div className='calendar__barbearia'>
+                <div className="list__Names__Week__And__Day">
+                {weekDays.map((dayOfWeek, index) => (
+                    <div key={`weekDay-${index}`} className="list__name__Week">
+                      <div
+                        className={`dayWeekCurrent ${selectedDay === `${dayOfWeek}, ${numberDays[index].number} de ${numberDays[index].month} de ${year}` ? 'selectedDay' : ''} ${numberDays[index].isCurrentDay ? 'currentDay' : ''}`}
+                        onClick={() => handleDateClick(dayOfWeek, numberDays[index].number, numberDays[index].month, year)}
+                      >
+                        <p className='Box__day'>{dayOfWeek}</p>
+                        <p className='Box__NumDay'>{numberDays[index].number}</p>
+                        <p className='Box__month'>{numberDays[index].month}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              {bookings.length > 0 && (
+                <div className="tittle__bookings">
+                  <p>Agendamentos • ({bookings.length})</p>
+                </div>
+              )}
+              {selectedDay ? (
+                <div className="section__bookings" >
+                {bookings.length > 0 ? (
+                  bookings.map((booking, index) => {
+                    const bookingTimes = booking.booking_time.split(',');
+                      return(
+                          <div key={index} className='container__booking' onClick={() => toggleItem(booking.booking_id)}>
+                            <div className={`booking ${expandedCardBooking.includes(booking.booking_id) ? 'expandCard':''}`}>
+                              <div className="container_professional">
+                                <div className="Box__image  Box__first__letter__professional">
+                                    <p className='firstLetter__professional_Span'>{booking.professional_name.charAt(0).toUpperCase()}</p>
+                                </div>
+                                <p className='name__Professional'>{booking.professional_name}</p>
+                                <div className="time__booking">
+                                    <p className='time'>{booking.booking_time.split(',')[0]}</p>
+                                </div>
+                              </div>
+                              <div className="section__information__booking">
+                                <div className="tittle__information">
+                                  <p className='section__icon'>
+                                    <GiRazorBlade className='icon__information'/>
+                                    {booking.service_name}
+                                  </p>
+                                  <p>{booking.service_price}</p>
+                                </div>
+                                <div className="tittle__information">
+                                  <p className='section__icon'>
+                                    <TfiTime className='icon__information'/>
+                                    Duração
+                                  </p>
+                                  <p>{booking.service_duration}</p>
+                                </div>
+                              </div>
+                              <div className="section__information__booking">
+                                <div className="tittle__information">
+                                  <p className='section__icon'>
+                                    <IoPersonCircleOutline className='icon__information' />
+                                    Cliente
+                                  </p>
+                                  <p>{booking.user_name}</p>
+                                </div>
+                                <div className="tittle__information">
+                                  <p className='section__icon'>
+                                    <FaWhatsapp className='icon__information'/>
+                                    Contato
+                                  </p>
+                                  <p>{booking.user_phone}</p>
+                                </div>
+                              </div>
+                          </div>
+                          </div>
+                      );
+                  })
+                ):(
+                  <div className="message__notFound">
+                  <p style={{fontSize:"20px"}}>{messagemNotFound}</p>
+                </div>
+                )}
+
+            </div>
+              ):(
+                <div className="message__notFound">
+                  <p >Selecione um dia para visualizar os agendamentos.</p>
+                </div>
+              )}
+              </div>
+              ):(
+                <>
+                <p className='message__notFound'>Selecione um profissional para visualizar sua agenda. </p>
+              </>
+              )}
+              </>
+            ):(
+              <>
+                <p className='message__notFound'>Configure sua barbearia para começar :) </p>
+              </>
+            )}
         </div>
-        ):(
-          <>
-          <p className='message__notFound'>Selecione um profissional para visualizar sua agenda. </p>
-        </>
-        )}
-        </>
-      ):(
-        <>
-          <p className='message__notFound'>Configure sua barbearia para começar :) </p>
-        </>
-      )}
-      
-      <div>
-      
-    </div>
-      </div>
      </div>
     </main>
 );
