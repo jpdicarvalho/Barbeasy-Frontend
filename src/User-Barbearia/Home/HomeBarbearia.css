@@ -7,14 +7,29 @@
   font-weight: 400;
   font-style: normal;
 }
-.container__main{ 
+.container__main__home__barbearia{
   display: flex;
   flex-direction: column;
   width: 390px;
-  background: #0c0e19;
   height: 100vh;
-  padding-right: 5px;
-  padding-left: 5px;
+  background: #0c0e19;
+  overflow: hidden;
+}
+.section__scroll__home__barbearia{
+  position: absolute;
+  height: 100vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+.section__scroll__home__barbearia::-webkit-scrollbar {
+  width: 3px;
+}
+.section__scroll__home__barbearia::-webkit-scrollbar-thumb {
+  background: #4a17d5; 
+  border-radius: 5px;
+}
+.section__scroll__home__barbearia::-webkit-scrollbar-thumb:hover {
+  background: #f6f6f6; 
 }
 .header_container{
   display: flex;
@@ -35,37 +50,46 @@
   height: 100%;
   object-fit: cover;
 }
-.text__salutation{
-  color: #f6f6f6;
-  font-size: 14px;
-}
 .img__user{
   position: absolute;
   top: 0;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   display: flex;
   align-items: center;
   width: 375px;
   height: 60px;
   border-radius: 15px;
   margin-top: 10px;
-  padding: 10px;
-  background: #44444775;
 }
-.img-view-professional{
-  width: 60px;
+.container__first__letter__barbearia{
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 60px;
+  width: 60px;
   border-radius: 50%;
-  overflow: hidden;
+  background: #44444775;
+  border: 1px solid gray;
+  margin-right: 5px;
+  font-size: 25px;
 }
+.container__text__header{
+  width: 280px;
+}
+
 .text__barbearia__name{
   display: flex;
   justify-content: start;
   flex-direction: row;
-  width: 300px; 
-  font-size: 18px; 
+  width: 200px; 
+  font-size: 16px; 
   color: #f6f6f6;
+}
+
+.text__salutation{
+  color: rgb(175, 174, 174);
+  font-size: 14px;
 }
 .settings{
   display: flex;
@@ -121,6 +145,20 @@
   width: 20px;
   height: 15px;
 }
+.label__tittle__menu{
+  padding-left: 5px;
+}
+.body__home__barbearia{
+  position: absolute;
+  top: 220px;
+  border-radius: 15px;
+}
+.img-view-professional{
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  overflow: hidden;
+}
 .user__image__professional{
   display: flex;
   justify-content: center;
@@ -137,24 +175,31 @@
   object-fit: cover;
 
 }
+.professional__selected__home__barbearia{
+  display: flex;
+  flex-direction: column;
+  width: 120px;
+  height: 120px;
+  color: #4a17d5;
+}
+.container__calendar__home__barbearia{
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  background: #35424930;
+  width: 390px;
+  padding: 5px;
+}
 .header__agenda{
   display: flex;
   justify-content: start;
   align-items: center;
   flex-direction: row;
-  margin-top: 15px;
+  margin-top: 5px;
   padding-left: 5px;
 }
 .icon__schedules{
   font-size: 25px;
   margin-right: 10px;
-}
-.container__calendar__home__barbearia{
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-  margin-right: 10px;
-  background: #35424930;
-  height: 60vh;
 }
 .calendar__barbearia{
   overflow-y: hidden;
