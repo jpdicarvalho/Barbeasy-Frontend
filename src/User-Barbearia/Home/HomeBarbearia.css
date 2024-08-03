@@ -24,19 +24,34 @@
   max-width: 385px;
   color: white;
 }
-.container__text__header{
+.conatiner__img__banner__main{
+  width: 390px;
+  height: 250px;
+  overflow: hidden;
+  mask-image: linear-gradient(to bottom, #4a17d55a 50%, rgba(0,0,0,0.01) 90%);
+}
+.img__banner__main__home{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .text__salutation{
-  color: gray;
+  color: #f6f6f6;
   font-size: 14px;
 }
 .img__user{
+  position: absolute;
+  top: 0;
   display: flex;
   justify-content: space-between;
   display: flex;
   align-items: center;
-  width: 100%;
-  height: 80px;
+  width: 375px;
+  height: 60px;
+  border-radius: 15px;
+  margin-top: 10px;
+  padding: 10px;
+  background: #44444775;
 }
 .img-view-professional{
   width: 60px;
@@ -64,23 +79,26 @@
   border-radius: 5px;
 }
 .container__amount{
+  position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   width: 100%;
-  height: 100px;
+  height: 80px;
 }
 .tittle__amount{
   font-size: 12px;
-  color: gray;
+  color: white;
 }
 .text__amount{
   font-size: 30px;
 }
 .container__buttons__header{
+  position: absolute;
+  margin-top: 130px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   flex-direction: row;
   width: 100%;
@@ -90,12 +108,12 @@
   justify-content: center;
   align-items: center;
   flex-direction: row;
-  height: 45px;
+  height: 35px;
   width: 150px;
-  border-radius: 10px;
-  border: 1px solid #4a17d5;
-  font-size: 16px;
-  background: #4a17d557;
+  border-radius: 5px;
+  border: none;
+  font-size: 14px;
+  background: #44444775;
   color: #f6f6f6;
 }
 .icon__GiHistogram{

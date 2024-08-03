@@ -40,6 +40,8 @@ function HomeBarbearia() {
   const userInformation = JSON.parse(userData);//trasnformando os dados para JSON
   const barbeariaId = userInformation.barbearia[0].id;
   const barbeariaUserName = userInformation.barbearia[0].usuario;
+  const banner__main = userInformation.barbearia[0].banner_main;
+
 
 const navigateToProfileBarbearia = () =>{
   navigate("/ProfileBarbearia");
@@ -204,8 +206,8 @@ return (
 <main>
     <div className="container__main">
         <div className='header_container'>
-          <div>
-            
+          <div className='conatiner__img__banner__main'>
+              <img  className="img__banner__main__home" src={urlCloudFront + banner__main} alt="" />
           </div>
           <div className="img__user">
                 <div className="container__text__header">
@@ -218,14 +220,10 @@ return (
                 
             </div>
             <div className='container__amount'>
-              <p className='text__amount'>R$ 1547,88</p>
+              <p className='text__amount'>R$ 0,00</p>
               <p className='tittle__amount'>Total faturado nesse mês</p>
             </div>
             <div className='container__buttons__header'>
-              
-              <button className='button__header'>
-                Comissões
-              </button>
               <button className='button__header'>
                 Histórico
               </button>
