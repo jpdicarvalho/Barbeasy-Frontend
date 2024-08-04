@@ -263,10 +263,10 @@
 .booking{
   background-color: #4a17d5;
   background: rgba(59, 20, 216, 0.1);
-  border-left: 5px solid #0f0;
+  border-left: 3px solid #0f0;
   border-radius: 10px;
   margin-bottom: 10px;
-  width: 375px;
+  width: 365px;
   height: 125px;
   color: #354249;
   transition: 0.5s;
@@ -300,6 +300,14 @@
   padding-top: 5px;
   margin-bottom: 10px;
 }
+.container__name__client{
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  flex-direction: column;
+  width: 235px;
+  padding-left: 5px;
+}
 .Box__first__letter__professional {
   width: 20px;
   height: 20px;
@@ -308,13 +316,11 @@
   font-size: 30px;
   color: #f6f6f6;
 }
-.name__Professional{
-  display: flex;
-  justify-content: start;
-  align-items: center;
-  margin-left: 10px;
-  width: 250px;
+.name__client{
   color: #f6f6f6;
+}
+.phone__client{
+  color: gray;
 }
 .section__information__booking{
   padding-left: 5px;

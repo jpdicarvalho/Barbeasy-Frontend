@@ -3,13 +3,12 @@ import { useNavigate, useLocation } from "react-router-dom"
 import axios from 'axios';
 
 import './HomeBarbearia.css';
-import { GrSchedules } from "react-icons/gr";
 import { GiRazorBlade } from "react-icons/gi";
 import { TfiTime } from "react-icons/tfi";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { FaWhatsapp } from "react-icons/fa";
 import { IoIosSettings } from "react-icons/io";
-import { TbChartHistogram } from "react-icons/tb";
+import { BsCalendar2Week } from "react-icons/bs";
 
 
 const monthNames = [
@@ -74,6 +73,7 @@ const handleProfessionalSelected = (professionalId) =>{
 }
 //==================================================
 const [saudacao, setSaudacao] = useState('');
+
 //pegando a hora para saudar o usuário
 useEffect(() => {
   const obterSaudacao = () => {
@@ -170,7 +170,7 @@ function orderBookings(bookings) {
 const weekDays = getWeeks();
 const numberDays = getNumber();
 //const currentDay = getCurrentDayOfWeek()
-
+console.log(bookings)
 const handleDateClick = (dayOfWeek, day, month, year) => {
   setSelectedDay(`${dayOfWeek}, ${day} de ${month} de ${year}`);
   let selectedDate = `${dayOfWeek}, ${day} de ${month} de ${year}`;
@@ -278,7 +278,7 @@ return (
                 {professionalSelected ?(
                     <div className="container__calendar__home__barbearia">
                       <div className='header__agenda'>
-                        <GrSchedules className='icon__schedules'/>
+                        <BsCalendar2Week className='icon__schedules'/>
                         <h3>Agenda</h3>
                       </div>
                       <div className='calendar__barbearia'>
@@ -306,15 +306,25 @@ return (
                         <div className="section__bookings" >
                         {bookings.length > 0 ? (
                           bookings.map((booking, index) => {
-                            const bookingTimes = booking.booking_time.split(',');
-                              return(
+
+                            return(
                                   <div key={index} className='container__booking' onClick={() => toggleItem(booking.booking_id)}>
                                     <div className={`booking ${expandedCardBooking.includes(booking.booking_id) ? 'expandCard':''}`}>
                                       <div className="container_professional">
-                                        <div className="Box__image  Box__first__letter__professional">
-                                            <p className='firstLetter__professional_Span'>{booking.professional_name.charAt(0).toUpperCase()}</p>
-                                        </div>
-                                        <p className='name__Professional'>{booking.professional_name}</p>
+                                        {booking.professional_user_image != 'default.png' ?(
+                                            <div className='user__image__professional'>
+                                              <img src={urlCloudFront + booking.user_image} id='img__user__professional'/>
+                                            </div>
+                                          ):(
+                                            <div className="Box__image">
+                                              <p className='firstLetter'>{firstLetter}</p>
+                                            </div>
+                                          )}
+                                          <div className='container__name__client'>
+                                            <p className='name__client'>{booking.user_name}</p>
+                                            <p className='phone__client'>{booking.user_phone}</p>
+                                          </div>
+                                        
                                         <div className="time__booking">
                                             <p className='time'>{booking.booking_time.split(',')[0]}</p>
                                         </div>
@@ -339,9 +349,9 @@ return (
                                         <div className="tittle__information">
                                           <p className='section__icon'>
                                             <IoPersonCircleOutline className='icon__information' />
-                                            Cliente
+                                            Profissional
                                           </p>
-                                          <p>{booking.user_name}</p>
+                                          <p>{booking.professional_name}</p>
                                         </div>
                                         <div className="tittle__information">
                                           <p className='section__icon'>
