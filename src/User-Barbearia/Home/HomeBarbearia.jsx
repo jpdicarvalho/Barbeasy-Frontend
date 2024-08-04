@@ -38,6 +38,7 @@ function HomeBarbearia() {
   //Buscando informações do usuário logado
   const token = localStorage.getItem('token');
   const userData = localStorage.getItem('dataBarbearia');//Obtendo os dados salvo no localStorage
+  const visibility = localStorage.getItem('AmountVisibility');
   const userInformation = JSON.parse(userData);//trasnformando os dados para JSON
   const barbeariaId = userInformation.barbearia[0].id;
   const barbeariaUserName = userInformation.barbearia[0].usuario;
@@ -67,7 +68,7 @@ useEffect(() => {
 obterSaudacao();
 }, []);
 //==================================================
-const [changeVisibilityAmount, setChangeVisibilityAmount] = useState(true)
+const [changeVisibilityAmount, setChangeVisibilityAmount] = useState(visibility === 'true'?true:false)
 const [updatedVisibilityAmount, setUpdatedVisibilityAmount] = useState(false)
 
 useEffect(() =>{
@@ -77,9 +78,11 @@ useEffect(() =>{
         'Authorization': `Bearer ${token}`
       }
     }).then(res =>{
-      console.log(res)
-        if(res.data.status === 200){
-          
+      console.log(res.data.visibility)
+        if(res.data.visibility === 'visible'){
+          setChangeVisibilityAmount(true)
+        }else{
+          setChangeVisibilityAmount(false)
         }
     }).catch(err =>{
       console.log('Erro: ', err)
@@ -87,11 +90,12 @@ useEffect(() =>{
   }
   getAmountVisibility()
 }, [])
+
 console.log(changeVisibilityAmount)
 
-const updateVisibilityAmount = () =>{
+const updateVisibilityAmount = (valueVisibility) =>{
   const values = {
-    changeVisibilityAmount,
+    changeVisibilityAmount: valueVisibility,
     barbeariaId
   }
   axios.put(`${urlApi}/api/v1/updateAmountVisibility`, values, {
@@ -100,7 +104,7 @@ const updateVisibilityAmount = () =>{
     }
   }).then(res =>{
       if(res.data.status === 200){
-        return setChangeVisibilityAmount(changeVisibilityAmount)
+        return setUpdatedVisibilityAmount(true)
       }
   }).catch(err =>{
     console.log('Erro: ', err)
@@ -108,9 +112,16 @@ const updateVisibilityAmount = () =>{
 }
 
 //function to change de value of amount visibility
-const handleVisibilityAmount = () =>{
-  setChangeVisibilityAmount(!changeVisibilityAmount)
-  updateVisibilityAmount()
+const hiddenAmountVisibility = () =>{
+  setChangeVisibilityAmount(false)
+  localStorage.setItem('AmountVisibility', 'false');
+  updateVisibilityAmount('hidden')
+}
+//function to change de value of amount visibility
+const showAmountVisibility = () =>{
+  setChangeVisibilityAmount(true)
+  localStorage.setItem('AmountVisibility', 'true');
+  updateVisibilityAmount('visible')
 }
 //==================================================
 const [professional, setProfessional] = useState([])
@@ -274,12 +285,12 @@ return (
                 {changeVisibilityAmount ?(
                   <div className='box__amount'>
                     <p className='text__amount'>R$ 00,00</p>
-                    <AiOutlineEyeInvisible className='icon__AiOutlineEyeInvisible' onClick={handleVisibilityAmount}/>
+                    <AiOutlineEyeInvisible className='icon__AiOutlineEyeInvisible' onClick={hiddenAmountVisibility}/>
                   </div>
                 ):(
                   <div className='box__amount'>
                     <p className='hidden__amount'></p>
-                    <AiOutlineEye className='icon__AiOutlineEyeInvisible' onClick={handleVisibilityAmount}/>
+                    <AiOutlineEye className='icon__AiOutlineEyeInvisible' onClick={showAmountVisibility}/>
                   </div>
                 )}
                 
