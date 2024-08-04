@@ -75,8 +75,9 @@ const handleVisibilityAmount = () =>{
   setChangeVisibilityAmount(!changeVisibilityAmount)
 }
 console.log(changeVisibilityAmount)
+
 const updateVisibilityAmount = () =>{
-  axios.put(`${urlApi}/api/v1/updateVisibilityAmount`, changeVisibilityAmount, {
+  axios.put(`${urlApi}/api/v1/updateVisibilityAmount/${barbeariaId}`, changeVisibilityAmount, {
     headers: {
       'Authorization': `Bearer ${token}`
     }
