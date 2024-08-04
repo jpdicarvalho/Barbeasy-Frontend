@@ -70,25 +70,46 @@ obterSaudacao();
 const [changeVisibilityAmount, setChangeVisibilityAmount] = useState(true)
 const [updatedVisibilityAmount, setUpdatedVisibilityAmount] = useState(false)
 
-
-const handleVisibilityAmount = () =>{
-  setChangeVisibilityAmount(!changeVisibilityAmount)
-}
+useEffect(() =>{
+  const getAmountVisibility = () =>{
+    axios.get(`${urlApi}/api/v1/amountVibility/`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).then(res =>{
+        if(res.data.status === 200){
+          return console.log(res.data.visibility[0])
+        }
+    }).catch(err =>{
+      console.log('Erro: ', err)
+    })
+  }
+  getAmountVisibility()
+}, [])
 console.log(changeVisibilityAmount)
 
 const updateVisibilityAmount = () =>{
-  axios.put(`${urlApi}/api/v1/updateVisibilityAmount/${barbeariaId}`, changeVisibilityAmount, {
+  const values = {
+    changeVisibilityAmount,
+    barbeariaId
+  }
+  axios.put(`${urlApi}/api/v1/updateAmountVisibility`, values, {
     headers: {
       'Authorization': `Bearer ${token}`
     }
   }).then(res =>{
       if(res.data.status === 200){
-        return setUpdatedVisibilityAmount(true)
+        return setChangeVisibilityAmount(changeVisibilityAmount)
       }
   }).catch(err =>{
-    setUpdatedVisibilityAmount(false)
     console.log('Erro: ', err)
   })
+}
+
+//function to change de value of amount visibility
+const handleVisibilityAmount = () =>{
+  setChangeVisibilityAmount(!changeVisibilityAmount)
+  updateVisibilityAmount()
 }
 //==================================================
 const [professional, setProfessional] = useState([])
