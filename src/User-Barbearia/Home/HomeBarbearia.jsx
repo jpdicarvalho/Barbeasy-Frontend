@@ -67,10 +67,27 @@ useEffect(() => {
 obterSaudacao();
 }, []);
 //==================================================
-const [hiddeAmount, setHiddeAmount] = useState(false)
+const [changeVisibilityAmount, setChangeVisibilityAmount] = useState(true)
+const [updatedVisibilityAmount, setUpdatedVisibilityAmount] = useState(false)
 
-const handleHiddeAmountClick = () =>{
-  setHiddeAmount(!hiddeAmount)
+
+const handleVisibilityAmount = () =>{
+  setChangeVisibilityAmount(!changeVisibilityAmount)
+}
+console.log(changeVisibilityAmount)
+const updateVisibilityAmount = () =>{
+  axios.put(`${urlApi}/api/v1/updateVisibilityAmount`, changeVisibilityAmount, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  }).then(res =>{
+      if(res.data.status === 200){
+        return setUpdatedVisibilityAmount(true)
+      }
+  }).catch(err =>{
+    setUpdatedVisibilityAmount(false)
+    console.log('Erro: ', err)
+  })
 }
 //==================================================
 const [professional, setProfessional] = useState([])
@@ -232,15 +249,15 @@ return (
                   
               </div>
               <div className='container__amount'>
-                {hiddeAmount ?(
+                {changeVisibilityAmount ?(
                   <div className='box__amount'>
                     <p className='text__amount'>R$ 00,00</p>
-                    <AiOutlineEyeInvisible className='icon__AiOutlineEyeInvisible' onClick={handleHiddeAmountClick}/>
+                    <AiOutlineEyeInvisible className='icon__AiOutlineEyeInvisible' onClick={handleVisibilityAmount}/>
                   </div>
                 ):(
                   <div className='box__amount'>
-                    <p className='text__amount'>R$ 00,00</p>
-                    <AiOutlineEye className='icon__AiOutlineEyeInvisible' onClick={handleHiddeAmountClick}/>
+                    <p className='hidden__amount'></p>
+                    <AiOutlineEye className='icon__AiOutlineEyeInvisible' onClick={handleVisibilityAmount}/>
                   </div>
                 )}
                 

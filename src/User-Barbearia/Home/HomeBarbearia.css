@@ -122,6 +122,11 @@
 .text__amount{
   font-size: 30px;
 }
+.hidden__amount{
+  width: 120px;
+  height: 5px;
+  background: #f6f6f6;
+}
 .icon__AiOutlineEyeInvisible{
   margin-left: 10px;
   width: 20px;
