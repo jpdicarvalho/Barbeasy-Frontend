@@ -77,7 +77,6 @@
 .container__text__header{
   width: 280px;
 }
-
 .text__barbearia__name{
   display: flex;
   justify-content: start;
@@ -86,7 +85,6 @@
   font-size: 16px; 
   color: #f6f6f6;
 }
-
 .text__salutation{
   color: rgb(175, 174, 174);
   font-size: 14px;
@@ -111,12 +109,25 @@
   width: 100%;
   height: 80px;
 }
+.box__amount{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+}
 .tittle__amount{
   font-size: 12px;
   color: white;
 }
 .text__amount{
   font-size: 30px;
+}
+.icon__AiOutlineEyeInvisible{
+  margin-left: 10px;
+  width: 20px;
+  height: 20px;
+  color: #f6f6f6;
+  cursor: pointer;
 }
 .container__buttons__header{
   position: absolute;

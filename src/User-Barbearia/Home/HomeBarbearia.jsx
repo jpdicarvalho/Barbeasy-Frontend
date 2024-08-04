@@ -9,6 +9,8 @@ import { IoPersonCircleOutline } from "react-icons/io5";
 import { FaWhatsapp } from "react-icons/fa";
 import { IoIosSettings } from "react-icons/io";
 import { BsCalendar2Week } from "react-icons/bs";
+import { AiOutlineEyeInvisible } from "react-icons/ai";
+import { AiOutlineEye } from "react-icons/ai";
 
 
 const monthNames = [
@@ -47,7 +49,30 @@ const navigateToProfileBarbearia = () =>{
   navigate("/ProfileBarbearia");
 }
 
-//Variáveis para abrir o madal
+//==================================================
+const [saudacao, setSaudacao] = useState('');
+
+//pegando a hora para saudar o usuário
+useEffect(() => {
+  const obterSaudacao = () => {
+  const horaAtual = new Date().getHours();
+    if (horaAtual >= 5 && horaAtual < 12) {
+        setSaudacao('Bom dia!');
+    } else if (horaAtual >= 12 && horaAtual < 18) {
+        setSaudacao('Boa tarde!');
+    } else {
+        setSaudacao('Boa noite!');
+    }
+  }
+obterSaudacao();
+}, []);
+//==================================================
+const [hiddeAmount, setHiddeAmount] = useState(false)
+
+const handleHiddeAmountClick = () =>{
+  setHiddeAmount(!hiddeAmount)
+}
+//==================================================
 const [professional, setProfessional] = useState([])
 const [professionalSelected, setProfessionalSelected] = useState();
 
@@ -71,24 +96,6 @@ const [professionalSelected, setProfessionalSelected] = useState();
 const handleProfessionalSelected = (professionalId) =>{
   setProfessionalSelected(professionalId);
 }
-//==================================================
-const [saudacao, setSaudacao] = useState('');
-
-//pegando a hora para saudar o usuário
-useEffect(() => {
-  const obterSaudacao = () => {
-  const horaAtual = new Date().getHours();
-    if (horaAtual >= 5 && horaAtual < 12) {
-        setSaudacao('Bom dia!');
-    } else if (horaAtual >= 12 && horaAtual < 18) {
-        setSaudacao('Boa tarde!');
-    } else {
-        setSaudacao('Boa noite!');
-    }
-  }
-obterSaudacao();
-}, []);
-
 //==================================================
 //Função para pegar os dias da semana
 const [selectedDay, setSelectedDay] = useState(null);
@@ -171,6 +178,7 @@ const weekDays = getWeeks();
 const numberDays = getNumber();
 //const currentDay = getCurrentDayOfWeek()
 console.log(bookings)
+
 const handleDateClick = (dayOfWeek, day, month, year) => {
   setSelectedDay(`${dayOfWeek}, ${day} de ${month} de ${year}`);
   let selectedDate = `${dayOfWeek}, ${day} de ${month} de ${year}`;
@@ -224,9 +232,21 @@ return (
                   
               </div>
               <div className='container__amount'>
-                <p className='text__amount'>R$ 00,00</p>
+                {hiddeAmount ?(
+                  <div className='box__amount'>
+                    <p className='text__amount'>R$ 00,00</p>
+                    <AiOutlineEyeInvisible className='icon__AiOutlineEyeInvisible' onClick={handleHiddeAmountClick}/>
+                  </div>
+                ):(
+                  <div className='box__amount'>
+                    <p className='text__amount'>R$ 00,00</p>
+                    <AiOutlineEye className='icon__AiOutlineEyeInvisible' onClick={handleHiddeAmountClick}/>
+                  </div>
+                )}
+                
                 <p className='tittle__amount'>Total faturado nesse mês</p>
               </div>
+              
               <div className='container__buttons__header'>
                 <button className='button__header'>
                   Histórico
