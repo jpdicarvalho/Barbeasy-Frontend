@@ -72,13 +72,14 @@ const [updatedVisibilityAmount, setUpdatedVisibilityAmount] = useState(false)
 
 useEffect(() =>{
   const getAmountVisibility = () =>{
-    axios.get(`${urlApi}/api/v1/amountVibility/`, {
+    axios.get(`${urlApi}/api/v1/amountVibility/${barbeariaId}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
     }).then(res =>{
+      console.log(res)
         if(res.data.status === 200){
-          return console.log(res.data.visibility[0])
+          
         }
     }).catch(err =>{
       console.log('Erro: ', err)
@@ -216,7 +217,6 @@ function orderBookings(bookings) {
 const weekDays = getWeeks();
 const numberDays = getNumber();
 //const currentDay = getCurrentDayOfWeek()
-console.log(bookings)
 
 const handleDateClick = (dayOfWeek, day, month, year) => {
   setSelectedDay(`${dayOfWeek}, ${day} de ${month} de ${year}`);
