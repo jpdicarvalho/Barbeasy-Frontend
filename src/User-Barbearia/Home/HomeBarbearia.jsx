@@ -11,6 +11,7 @@ import { IoIosSettings } from "react-icons/io";
 import { BsCalendar2Week } from "react-icons/bs";
 import { AiOutlineEyeInvisible } from "react-icons/ai";
 import { AiOutlineEye } from "react-icons/ai";
+import { RiExchangeFundsLine } from "react-icons/ri";
 
 
 const monthNames = [
@@ -91,8 +92,6 @@ useEffect(() =>{
   getAmountVisibility()
 }, [])
 
-console.log(changeVisibilityAmount)
-
 const updateVisibilityAmount = (valueVisibility) =>{
   const values = {
     changeVisibilityAmount: valueVisibility,
@@ -111,13 +110,14 @@ const updateVisibilityAmount = (valueVisibility) =>{
   })
 }
 
-//function to change de value of amount visibility
+//function to hidden amount visibility
 const hiddenAmountVisibility = () =>{
   setChangeVisibilityAmount(false)
   localStorage.setItem('AmountVisibility', 'false');
   updateVisibilityAmount('hidden')
 }
-//function to change de value of amount visibility
+
+//function to show amount visibility
 const showAmountVisibility = () =>{
   setChangeVisibilityAmount(true)
   localStorage.setItem('AmountVisibility', 'true');
@@ -283,22 +283,24 @@ return (
               </div>
               <div className='container__amount'>
                 {changeVisibilityAmount ?(
+                <>
                   <div className='box__amount'>
                     <p className='text__amount'>R$ 00,00</p>
                     <AiOutlineEyeInvisible className='icon__AiOutlineEyeInvisible' onClick={hiddenAmountVisibility}/>
                   </div>
+                  <p className='tittle__amount'>Total faturado esse mês</p>
+                </>
                 ):(
                   <div className='box__amount'>
                     <p className='hidden__amount'></p>
                     <AiOutlineEye className='icon__AiOutlineEyeInvisible' onClick={showAmountVisibility}/>
                   </div>
                 )}
-                
-                <p className='tittle__amount'>Total faturado nesse mês</p>
               </div>
               
               <div className='container__buttons__header'>
                 <button className='button__header'>
+                  <RiExchangeFundsLine className='icon__RiExchangeFundsLine'/>
                   Histórico
                 </button>
               </div>
