@@ -62,32 +62,29 @@
   border-radius: 15px;
   margin-top: 10px;
 }
-.container__first__letter__barbearia{
+.container__text__header{
+  position: absolute;
+  top: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 60px;
-  width: 60px;
-  border-radius: 50%;
-  background: #44444775;
-  border: 1px solid gray;
-  margin-right: 5px;
-  font-size: 25px;
-}
-.container__text__header{
-  width: 280px;
+  width: 375px;
+  border-radius: 15px;
+  padding-top: 10px;
 }
 .text__barbearia__name{
   display: flex;
   justify-content: start;
   flex-direction: row;
-  width: 200px; 
+  width: 100%;
   font-size: 16px; 
   color: #f6f6f6;
+  font-weight: bold;
 }
 .text__salutation{
-  color: rgb(175, 174, 174);
-  font-size: 14px;
+  width: 95px;
+  color: rgb(180, 178, 178);
+  font-size: 16px;
 }
 .settings{
   display: flex;
@@ -143,17 +140,24 @@
   flex-direction: row;
   width: 100%;
 }
+.inner__buttons__header{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 60px;
+}
 .button__header{
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: row;
-  height: 35px;
-  width: 150px;
+  height: 30px;
+  width: 100%;
   border-radius: 5px;
   border: none;
   font-size: 14px;
-  background: #4a17d5;
+  background: #4a17d53c;
   color: #f6f6f6;
   transition: 0.5s;
 }
@@ -162,10 +166,13 @@
   transition: 0.5s;
 }
 .icon__RiExchangeFundsLine{
-  margin-right: 5px;
   width: 20px;
   height: 20px;
-  color: #f6f6f6;
+  color: #f6f6f6e9;
+}
+.label__button__header{
+  color: gray;
+  font-size: 12px;
 }
 .label__tittle__menu{
   padding-left: 5px;

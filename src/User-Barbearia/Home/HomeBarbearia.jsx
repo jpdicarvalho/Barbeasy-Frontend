@@ -12,6 +12,8 @@ import { BsCalendar2Week } from "react-icons/bs";
 import { AiOutlineEyeInvisible } from "react-icons/ai";
 import { AiOutlineEye } from "react-icons/ai";
 import { RiExchangeFundsLine } from "react-icons/ri";
+import { SlGraph } from "react-icons/sl";
+import { TbLayoutDashboardFilled } from "react-icons/tb";
 
 
 const monthNames = [
@@ -59,11 +61,11 @@ useEffect(() => {
   const obterSaudacao = () => {
   const horaAtual = new Date().getHours();
     if (horaAtual >= 5 && horaAtual < 12) {
-        setSaudacao('Bom dia!');
+        setSaudacao('Bom dia,');
     } else if (horaAtual >= 12 && horaAtual < 18) {
-        setSaudacao('Boa tarde!');
+        setSaudacao('Boa tarde,');
     } else {
-        setSaudacao('Boa noite!');
+        setSaudacao('Boa noite,');
     }
   }
 obterSaudacao();
@@ -268,18 +270,9 @@ return (
             <div className='conatiner__img__banner__main'>
                 <img  className="img__banner__main__home" src={urlCloudFront + banner__main} alt="" />
             </div>
-            <div className="img__user">
-                <div className='container__first__letter__barbearia'>
-                  <p>{barbeariaUserName.charAt(0).toUpperCase()}</p>
-                </div>
-                  <div className="container__text__header">
-                    <p className='text__barbearia__name'>Olá, {barbeariaUserName}</p>
-                    <p className='text__salutation'>{saudacao} </p>
-                  </div>
-                  <div className="settings" onClick={navigateToProfileBarbearia}>
-                    <IoIosSettings />
-                  </div>
-                  
+              <div className="container__text__header">
+                <p className='text__salutation'>{saudacao} </p>
+                <p className='text__barbearia__name'>{barbeariaUserName}</p>
               </div>
               <div className='container__amount'>
                 {changeVisibilityAmount ?(
@@ -299,10 +292,27 @@ return (
               </div>
               
               <div className='container__buttons__header'>
-                <button className='button__header'>
-                  <RiExchangeFundsLine className='icon__RiExchangeFundsLine'/>
-                  Histórico
-                </button>
+                <div className='inner__buttons__header'>
+                  <button className='button__header'>
+                    <SlGraph className='icon__RiExchangeFundsLine'/>
+                  </button>
+                  <p className='label__button__header'>Histórico</p>
+                </div>
+
+                <div className='inner__buttons__header'>
+                  <button className='button__header'>
+                    <RiExchangeFundsLine className='icon__RiExchangeFundsLine'/>
+                  </button>
+                  <p className='label__button__header'>Comissões</p>
+                </div>
+
+                <div className='inner__buttons__header'>
+                  <button className='button__header' onClick={navigateToProfileBarbearia}>
+                    <TbLayoutDashboardFilled className='icon__RiExchangeFundsLine'/>
+                  </button>
+                  <p className='label__button__header'>Menu</p>
+                </div>
+                
               </div>
           </div>
           <div className='body__home__barbearia'>
