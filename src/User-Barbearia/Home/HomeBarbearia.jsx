@@ -7,13 +7,12 @@ import { GiRazorBlade } from "react-icons/gi";
 import { TfiTime } from "react-icons/tfi";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { FaWhatsapp } from "react-icons/fa";
-import { IoIosSettings } from "react-icons/io";
 import { BsCalendar2Week } from "react-icons/bs";
 import { AiOutlineEyeInvisible } from "react-icons/ai";
 import { AiOutlineEye } from "react-icons/ai";
 import { RiExchangeFundsLine } from "react-icons/ri";
 import { SlGraph } from "react-icons/sl";
-import { TbLayoutDashboardFilled } from "react-icons/tb";
+import { RiDashboardFill } from "react-icons/ri";
 
 
 const monthNames = [
@@ -292,185 +291,34 @@ return (
               </div>
               
               <div className='container__buttons__header'>
-                <div className='inner__buttons__header'>
-                  <button className='button__header'>
-                    <SlGraph className='icon__RiExchangeFundsLine'/>
-                  </button>
-                  <p className='label__button__header'>Histórico</p>
-                </div>
+                  <div className='inner__buttons__header'>
+                    <button className='button__header'>
+                      <SlGraph className='icon__RiExchangeFundsLine'/>
+                    </button>
+                    <p className='label__button__header'>Histórico</p>
+                  </div>
 
-                <div className='inner__buttons__header'>
-                  <button className='button__header'>
-                    <RiExchangeFundsLine className='icon__RiExchangeFundsLine'/>
-                  </button>
-                  <p className='label__button__header'>Comissões</p>
-                </div>
+                  <div className='inner__buttons__header'>
+                    <button className='button__header'>
+                      <RiExchangeFundsLine className='icon__RiExchangeFundsLine'/>
+                    </button>
+                    <p className='label__button__header'>Comissões</p>
+                  </div>
 
-                <div className='inner__buttons__header'>
-                  <button className='button__header' onClick={navigateToProfileBarbearia}>
-                    <TbLayoutDashboardFilled className='icon__RiExchangeFundsLine'/>
-                  </button>
-                  <p className='label__button__header'>Menu</p>
-                </div>
+                  <div className='inner__buttons__header'>
+                    <button className='button__header' onClick={navigateToProfileBarbearia}>
+                      <RiDashboardFill className='icon__RiExchangeFundsLine'/>
+                    </button>
+                    <p className='label__button__header'>Menu</p>
+                  </div>
                 
               </div>
           </div>
+          
           <div className='body__home__barbearia'>
-          {professional.length > 0 ? (
-              <>
-                <div className='tittle_menu'>
-                  {professional.length > 1 ?(
-                    <div className='label__tittle__menu'>
-                      <h3>Profissionais</h3>
-                      <hr id='sublime'/>
-                    </div>
-                  ):(
-                    <div className='label__tittle__menu'>
-                      <h3>Profissional</h3>
-                      <hr id='sublime'/>
-                    </div>
-                  )}
-                </div>
-                <div className="section__professional__barbearia">
-                  <div className="section__professional">
-
-                    {professional.map((professional) => { 
-                      // Obtendo a primeira letra do nome do profissional
-                      const firstLetter = professional.name.charAt(0).toUpperCase();
-                      
-                      return (
-                        <div key={professional.id} onClick={() => handleProfessionalSelected(professional.id)} className={`Box__professional ${professionalSelected === professional.id? 'professional__selected__home__barbearia':''}`}> 
-                        {professional.user_image != 'default.png' ?(
-                          <div className='user__image__professional'>
-                            <img src={urlCloudFront + professional.user_image} id='img__user__professional'/>
-                          </div>
-                        ):(
-                          <div className="Box__image">
-                            <p className='firstLetter'>{firstLetter}</p>
-                          </div>
-                        )}
-                          <p className='name__professional'>{professional.name}</p>
-                        </div>
-                      );
-                    })}
-
-                  </div>
-                </div>
-
-                {professionalSelected ?(
-                    <div className="container__calendar__home__barbearia">
-                      <div className='header__agenda'>
-                        <BsCalendar2Week className='icon__schedules'/>
-                        <h3>Agenda</h3>
-                      </div>
-                      <div className='calendar__barbearia'>
-                        <div className="list__Names__Week__And__Day">
-                        {weekDays.map((dayOfWeek, index) => (
-                            <div key={`weekDay-${index}`} className="list__name__Week">
-                              <div
-                                className={`dayWeekCurrent ${selectedDay === `${dayOfWeek}, ${numberDays[index].number} de ${numberDays[index].month} de ${year}` ? 'selectedDay' : ''} ${numberDays[index].isCurrentDay ? 'currentDay' : ''}`}
-                                onClick={() => handleDateClick(dayOfWeek, numberDays[index].number, numberDays[index].month, year)}
-                              >
-                                <p className='Box__day'>{dayOfWeek}</p>
-                                <p className='Box__NumDay'>{numberDays[index].number}</p>
-                                <p className='Box__month'>{numberDays[index].month}</p>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                      {bookings.length > 0 && (
-                        <div className="tittle__bookings">
-                          <p>Agendamentos • ({bookings.length})</p>
-                        </div>
-                      )}
-                      {selectedDay ? (
-                        <div className="section__bookings" >
-                        {bookings.length > 0 ? (
-                          bookings.map((booking, index) => {
-
-                            return(
-                                  <div key={index} className='container__booking' onClick={() => toggleItem(booking.booking_id)}>
-                                    <div className={`booking ${expandedCardBooking.includes(booking.booking_id) ? 'expandCard':''}`}>
-                                      <div className="container_professional">
-                                        {booking.professional_user_image != 'default.png' ?(
-                                            <div className='user__image__professional'>
-                                              <img src={urlCloudFront + booking.user_image} id='img__user__professional'/>
-                                            </div>
-                                          ):(
-                                            <div className="Box__image">
-                                              <p className='firstLetter'>{firstLetter}</p>
-                                            </div>
-                                          )}
-                                          <div className='container__name__client'>
-                                            <p className='name__client'>{booking.user_name}</p>
-                                            <p className='phone__client'>{booking.user_phone}</p>
-                                          </div>
-                                        
-                                        <div className="time__booking">
-                                            <p className='time'>{booking.booking_time.split(',')[0]}</p>
-                                        </div>
-                                      </div>
-                                      <div className="section__information__booking">
-                                        <div className="tittle__information">
-                                          <p className='section__icon'>
-                                            <GiRazorBlade className='icon__information'/>
-                                            {booking.service_name}
-                                          </p>
-                                          <p>{booking.service_price}</p>
-                                        </div>
-                                        <div className="tittle__information">
-                                          <p className='section__icon'>
-                                            <TfiTime className='icon__information'/>
-                                            Duração
-                                          </p>
-                                          <p>{booking.service_duration}</p>
-                                        </div>
-                                      </div>
-                                      <div className="section__information__booking">
-                                        <div className="tittle__information">
-                                          <p className='section__icon'>
-                                            <IoPersonCircleOutline className='icon__information' />
-                                            Profissional
-                                          </p>
-                                          <p>{booking.professional_name}</p>
-                                        </div>
-                                        <div className="tittle__information">
-                                          <p className='section__icon'>
-                                            <FaWhatsapp className='icon__information'/>
-                                            Contato
-                                          </p>
-                                          <p>{booking.user_phone}</p>
-                                        </div>
-                                      </div>
-                                  </div>
-                                  </div>
-                              );
-                          })
-                        ):(
-                          <div className="message__notFound">
-                          <p style={{fontSize:"20px"}}>{messagemNotFound}</p>
-                        </div>
-                        )}
-
-                    </div>
-                      ):(
-                        <div className="message__notFound">
-                          <p >Selecione um dia para visualizar os agendamentos.</p>
-                        </div>
-                      )}
-                  </div>
-                ):(
-                  <>
-                    <p className='message__notFound'>Selecione um profissional para visualizar sua agenda. </p>
-                  </>
-                )}
-              </>
-              ):(
-                <>
-                  <p className='message__notFound'>Configure sua barbearia para começar :) </p>
-                </>
-              )}
+              <div className=''>
+                <h3>Agendamentos</h3>
+              </div>
           </div>
         </div>
      </div>
