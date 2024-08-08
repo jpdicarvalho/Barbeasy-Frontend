@@ -17,6 +17,7 @@ import { IoIosArrowRoundUp } from "react-icons/io";
 import { IoIosArrowRoundDown } from "react-icons/io";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { BsGraphDownArrow } from "react-icons/bs";
+import { HiArrowPath } from "react-icons/hi2";
 
 
 const months = [
@@ -232,7 +233,7 @@ return (
                         <p className='text__today__in__stats'>Hoje</p>
                         <p className='total__bookings__today__in__stats'>10</p>
                         <div className='container__text__bookings__in__stats'>
-                          <p className='text__bookings__in__stats'>Agendamentos</p>
+                          <p className='text__bookings__in__stats'>Total<br/>Agendamentos</p>
                           <IoIosArrowRoundUp className='icon__IoIosArrowRoundUp'/>
                         </div>
                     </div>
@@ -241,14 +242,15 @@ return (
                         <p className='text__today__in__stats'>AGO</p>
                         <p className='total__bookings__today__in__stats'>10</p>
                         <div className='container__text__bookings__in__stats'>
-                          <p className='text__bookings__in__stats'>Cancelamentos</p>
+                          <p className='text__bookings__in__stats'>Total<br/>Cancelamentos</p>
                           <IoIosArrowRoundDown className='icon__IoIosArrowRoundDown'/>
                         </div>
                     </div>
               </div>
 
               <div className='text__for__today'>
-                <h3>Para hoje</h3>
+                <h3>Agendamentos de Hoje</h3>
+                <HiArrowPath className='icon__HiArrowPath'/>
               </div>
 
               <div className='section__for__list__bookings'>

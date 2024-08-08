@@ -239,7 +239,7 @@
 }
 .text__bookings__in__stats{
   color: #f6f6f6;
-  font-size: 14px;
+  font-size: 12px;
 }
 .total__bookings__today__in__stats:hover{
   color: #f6f6f6;
@@ -259,17 +259,22 @@
   color: red;
   border-radius: 50%;
 }
+
+.icon__HiArrowPath{
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
+  cursor: pointer;
+  color: #f6f6f6;
+}
 .text__for__today{
+  display: flex;
+  align-items: center;
   padding-left: 10px;
   margin-top: 15px;
   margin-bottom: 10px;
   color: #f6f6f6;
 }
-
-
-
-
-
 .img-view-professional{
   width: 60px;
   height: 60px;
