@@ -147,6 +147,7 @@
   width: 100%;
   padding: 3px;
   background: #4a17d558;
+  margin-top: 10px;
 }
 .inner__buttons__header{
   display: flex;
