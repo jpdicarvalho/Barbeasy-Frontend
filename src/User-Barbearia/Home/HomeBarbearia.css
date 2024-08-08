@@ -216,6 +216,7 @@
 .text__today__in__stats{
   color: gray;
 }
+
 .total__bookings__today__in__stats{
   display: flex;
   justify-content: start;
@@ -255,11 +256,24 @@
 }
 
 .icon__HiArrowPath{
+  transition: transform 0.5s ease-in-out;
   width: 20px;
   height: 20px;
   margin-left: 10px;
   cursor: pointer;
   color: #f6f6f6;
+}
+.rotating {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 .text__for__today{
   display: flex;

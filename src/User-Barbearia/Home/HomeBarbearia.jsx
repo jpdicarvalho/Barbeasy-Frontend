@@ -16,6 +16,7 @@ import { IoIosArrowRoundDown } from "react-icons/io";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { BsGraphDownArrow } from "react-icons/bs";
 import { HiArrowPath } from "react-icons/hi2";
+import { MdOutlineLogout } from "react-icons/md";
 
 
 const months = [
@@ -57,6 +58,11 @@ const navigateToProfileBarbearia = () =>{
   navigate("/ProfileBarbearia");
 }
 
+//Função LogOut
+const logoutClick = () => {
+  ['token', 'dataBarbearia', 'code_verifier', 'AmountVisibility'].forEach(key => localStorage.removeItem(key));
+  navigate("/");
+};
 //==================================================
 const [saudacao, setSaudacao] = useState('');
 
@@ -134,6 +140,7 @@ const showAmountVisibility = () =>{
 //Função para pegar os dias da semana
 const [bookings, setBookings] = useState([]);
 const [expandedCardBooking, setExpandedCardBooking] = useState([]);
+const [isRotating, setIsRotating] = useState(false);
 const [messagemNotFound, setMessagemNotFound] = useState("");
 
 //function to order all bookings by date
@@ -158,7 +165,7 @@ function orderBookings(bookings) {
 }
 
 //Function to get all bookings of today
-useEffect(() =>{
+
   const handleDateClick = () => {
     axios.get(`${urlApi}/api/v1/bookings/${barbeariaId}/${selectedDate}`, {
       headers: {
@@ -171,14 +178,28 @@ useEffect(() =>{
         // Chamando a função para ordenar os bookings por menor horário
         orderBookings(bookings);
       }else{
+        console.log('call')
         setBookings(false)
         setMessagemNotFound("Sem agendamento por enquanto...")
       }
     })
     .catch(err => console.log(err));
   }
-handleDateClick()
+useEffect(() =>{
+  handleDateClick()
 }, [])
+console.log(isRotating)
+const updateListBookingsToday = () => {
+  // Inicia a rotação
+  setIsRotating(true);
+  handleDateClick()
+
+  // Simula o tempo de atualização (pode ser substituído pela lógica de atualização real)
+  setTimeout(() => {
+    setIsRotating(false);
+  }, 1000);
+}
+
 //Function to expanded booking cards
 const toggleItem = (itemId) => {
     if (expandedCardBooking.includes(itemId)) {
@@ -188,7 +209,7 @@ const toggleItem = (itemId) => {
     }
 };
 
-console.log(bookings.length)
+console.log(bookings)
 return (
     <div className="container__main__home__barbearia">
         <div className='section__scroll__home__barbearia'>
@@ -229,7 +250,7 @@ return (
               <div className='constinner__stats__barbearia'>
                     <div className='inner__stats__barbearia'>
                         <p className='text__today__in__stats'>Hoje</p>
-                        <p className='total__bookings__today__in__stats'>0</p>
+                        <p className='total__bookings__today__in__stats'>{!bookings ? 0:bookings.length}</p>
                         <div className='container__text__bookings__in__stats'>
                           <p className='text__bookings__in__stats'>Total<br/>Agendamentos</p>
                           <IoIosArrowRoundUp className='icon__IoIosArrowRoundUp'/>
@@ -247,8 +268,8 @@ return (
               </div>
 
               <div className='text__for__today'>
-                <h3>Hoje</h3>
-                <HiArrowPath className='icon__HiArrowPath'/>
+                <h3>Para hoje</h3>
+                <HiArrowPath className={`icon__HiArrowPath ${isRotating ? 'rotating' : ''}`} onClick={updateListBookingsToday}/>
               </div>
 
               <div className='section__for__list__bookings'>
@@ -358,6 +379,13 @@ return (
                       <RiDashboardFill className='icon__RiExchangeFundsLine'/>
                     </button>
                     <p className='label__button__header'>Menu</p>
+                  </div>
+
+                  <div className='inner__buttons__header'>
+                    <button className='button__header' onClick={logoutClick}>
+                      <MdOutlineLogout className='icon__RiExchangeFundsLine'/>
+                    </button>
+                    <p className='label__button__header'>Sair</p>
                   </div>
               </div>
           </div>
