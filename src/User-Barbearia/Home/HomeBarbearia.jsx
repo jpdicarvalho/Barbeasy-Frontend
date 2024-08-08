@@ -20,6 +20,7 @@ import { MdOutlineLogout } from "react-icons/md";
 import { BsCalendar2Check } from "react-icons/bs";
 import { GrAppsRounded } from "react-icons/gr";
 import { CiLogout } from "react-icons/ci";
+import { IoStatsChart } from "react-icons/io5";
 
 
 const months = [
@@ -248,6 +249,7 @@ return (
           <div className='body__home__barbearia'>
               <div className='text__stats'>
                 <h3>Estatísticas</h3>
+                <IoStatsChart/>
               </div>
               <div className='constinner__stats__barbearia'>
                     <div className='inner__stats__barbearia'>
