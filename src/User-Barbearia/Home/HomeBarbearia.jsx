@@ -260,14 +260,12 @@ return (
                     </div>
 
                     <div className='inner__stats__barbearia'>
-                    <div className='inner__stats__barbearia'>
                         <p className='text__today__in__stats'>AGO</p>
                         <p className='total__bookings__today__in__stats'>10</p>
                         <div className='container__text__bookings__in__stats'>
                           <p className='text__bookings__in__stats'>Cancelamentos</p>
                           <IoIosArrowRoundDown className='icon__IoIosArrowRoundDown'/>
                         </div>
-                    </div>
                     </div>
               </div>
 
