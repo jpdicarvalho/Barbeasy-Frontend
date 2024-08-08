@@ -138,7 +138,7 @@ return (
             <div className={`header ${scrollPosition > 200 ? 'scrolled' : ''}`}>
                 <div className={`imgBoxSectionUser ${scrollPosition > 200 ? 'hideDiv' : ''}`}>
                   {userImage != 'default.jpg' ?(
-                    <img src={urlCloudFront + userImage} alt="foto de perfil do usuário" />
+                    <img className="img__user__in__home__page"src={urlCloudFront + userImage} alt="foto de perfil do usuário" />
 
                     ):(
                       <div className="box__first__letter__user">

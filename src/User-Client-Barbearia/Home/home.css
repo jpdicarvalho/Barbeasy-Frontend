@@ -56,7 +56,7 @@
   transition: all 0.3s ease;
 }
 
-.imgBoxSectionUser img{
+.img__user__in__home__page{
   position: relative;
   width: 60px;
   height: 60px;
@@ -64,6 +64,7 @@
   overflow: hidden;
   background: transparent;
   margin-right: 10px;
+  object-fit: cover;
   transition: all 0.3s ease; 
 }
 .box__first__letter__user{
