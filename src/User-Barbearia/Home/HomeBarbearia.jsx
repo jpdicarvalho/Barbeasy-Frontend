@@ -13,6 +13,7 @@ import { AiOutlineEye } from "react-icons/ai";
 import { RiExchangeFundsLine } from "react-icons/ri";
 import { SlGraph } from "react-icons/sl";
 import { RiDashboardFill } from "react-icons/ri";
+import { IoIosArrowRoundUp } from "react-icons/io";
 
 
 const monthNames = [
@@ -316,8 +317,31 @@ return (
           </div>
           
           <div className='body__home__barbearia'>
-              <div className=''>
-                <h3>Agendamentos</h3>
+              <div className='text__stats'>
+                <h2>Estatísticas</h2>
+              </div>
+              <div className='constinner__stats__barbearia'>
+                <div className='inner__stats__barbearia'>
+                <div className='inner__stats__barbearia'>
+                    <p className='text__today__in__stats'>Hoje</p>
+                    <p className='total__bookings__today__in__stats'>10</p>
+                    <div className='container__text__bookings__in__stats'>
+                      <p className='text__bookings__in__stats'>Agendamentos</p>
+                      <IoIosArrowRoundUp className='icon__IoIosArrowRoundUp'/>
+                    </div>
+                </div>
+                </div>
+
+                <div className='inner__stats__barbearia'>
+                <div className='inner__stats__barbearia'>
+                  <p className='text__today__in__stats'>Hoje</p>
+                  <p className='total__bookings__today__in__stats'>10</p>
+                  <div className='container__text__bookings__in__stats'>
+                    <p className='text__bookings__in__stats'>Cancelamentos</p>
+                    <IoIosArrowRoundUp className='icon__IoIosArrowRoundUp'/>
+                  </div>
+                </div>
+                </div>
               </div>
           </div>
         </div>

@@ -180,8 +180,59 @@
 .body__home__barbearia{
   position: absolute;
   top: 220px;
-  border-radius: 15px;
 }
+.constinner__stats__barbearia{
+  display: flex;
+  justify-content: space-around;
+  width: 375px;
+  padding-top: 10px;
+}
+.text__stats{
+  padding-left: 5px;
+  color: #354249;
+}
+.inner__stats__barbearia{
+  background: transparent;
+  width: 150px;
+  height: 125px;
+  border-radius: 10px;
+  padding: 5px;
+  border: 1px solid #4a17d5;
+  transition: 0.5s;
+}
+.inner__stats__barbearia:hover{
+  background: #4a17d55b;
+  border: 1px solid #4a17d55b;
+  transition: 0.5s;
+}
+.text__today__in__stats{
+  color: gray;
+}
+.total__bookings__today__in__stats{
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  color: #f6f6f6;
+  font-size: 40px;
+}
+.container__text__bookings__in__stats{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.text__bookings__in__stats{
+  color: #f6f6f6;
+  font-size: 14px;
+}
+.icon__IoIosArrowRoundUp{
+  width: 30px;
+  height: 30px;
+  background: #4a17d557;
+  color: #0f0;
+  border-radius: 50%;
+}
+
+
 .img-view-professional{
   width: 60px;
   height: 60px;
