@@ -36,7 +36,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  max-width: 385px;
+  max-width: 390px;
   color: white;
 }
 .conatiner__img__banner__main{
@@ -66,25 +66,37 @@
   position: absolute;
   top: 0;
   display: flex;
-  justify-content: center;
-  align-items: center;
   width: 375px;
   border-radius: 15px;
   padding-top: 10px;
 }
+.inner__text_header{
+  width: 100%;
+  padding-left: 27px;
+}
 .text__barbearia__name{
   display: flex;
-  justify-content: start;
-  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   width: 100%;
-  font-size: 16px; 
+  font-size: 25px; 
   color: #f6f6f6;
-  font-weight: bold;
 }
 .text__salutation{
-  width: 95px;
-  color: rgb(180, 178, 178);
-  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  color: rgb(189, 187, 187);
+  font-size: 14px;
+}
+.icon__IoNotificationsOutline{
+  background: rgba(128, 128, 128, 0.269);
+  height: 27px;
+  width: 27px;
+  border-radius: 50%;
+  padding: 4px;
 }
 .settings{
   display: flex;
@@ -157,7 +169,7 @@
   border-radius: 5px;
   border: none;
   font-size: 14px;
-  background: #4a17d53c;
+  background: rgba(128, 128, 128, 0.269);
   color: #f6f6f6;
   transition: 0.5s;
 }
@@ -212,7 +224,7 @@
   display: flex;
   justify-content: start;
   align-items: center;
-  color: gray;
+  color: #f6f6f6;
   font-size: 40px;
   height: 55px;
 
@@ -224,14 +236,13 @@
   padding-right: 3px;
 }
 .text__bookings__in__stats{
-  color: gray;
+  color: #f6f6f6;
   font-size: 14px;
 }
 .total__bookings__today__in__stats:hover{
   color: #f6f6f6;
   transition: 0.5s;
 }
-
 .icon__IoIosArrowRoundUp{
   width: 30px;
   height: 30px;

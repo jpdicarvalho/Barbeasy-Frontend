@@ -15,6 +15,7 @@ import { SlGraph } from "react-icons/sl";
 import { RiDashboardFill } from "react-icons/ri";
 import { IoIosArrowRoundUp } from "react-icons/io";
 import { IoIosArrowRoundDown } from "react-icons/io";
+import { IoNotificationsOutline } from "react-icons/io5";
 
 
 const months = [
@@ -196,8 +197,11 @@ return (
                 <img  className="img__banner__main__home" src={urlCloudFront + banner__main} alt="" />
             </div>
               <div className="container__text__header">
-                <p className='text__salutation'>{saudacao} </p>
-                <p className='text__barbearia__name'>{barbeariaUserName}</p>
+                <div className='inner__text_header'>
+                  <p className='text__salutation'>{saudacao} </p>
+                  <p className='text__barbearia__name'>{barbeariaUserName}</p>
+                </div>
+                <IoNotificationsOutline className='icon__IoNotificationsOutline'/>
               </div>
               <div className='container__amount'>
                 {changeVisibilityAmount ?(
