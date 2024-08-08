@@ -38,7 +38,6 @@ function HomeBarbearia() {
   
   let selectedDate = `${dayOfWeek}, ${day} de ${month} de ${year}`;
 
-console.log(selectedDate)
 
   const navigate = useNavigate();
 
@@ -178,7 +177,7 @@ useEffect(() =>{
   }
 handleDateClick()
 }, [])
-
+console.log(bookings)
 //Function to expanded booking cards
 const toggleItem = (itemId) => {
     if (expandedCardBooking.includes(itemId)) {
@@ -244,7 +243,7 @@ return (
           
           <div className='body__home__barbearia'>
               <div className='text__stats'>
-                <h>Estatísticas</h>
+                <h3>Estatísticas</h3>
               </div>
               <div className='constinner__stats__barbearia'>
                     <div className='inner__stats__barbearia'>
@@ -271,14 +270,87 @@ return (
               </div>
 
               <div className='text__for__today'>
-                <h>Para hoje</h>
+                <h3>Para hoje</h3>
               </div>
 
-              <div>
+              <div className='section__for__list__bookings'>
                   {bookings &&(
-                    <div>
-                      teste
-                    </div>
+                    <>
+                      {bookings.length > 0 ? (
+                        bookings.map((booking, index) => {
+
+                          return(
+                                <div key={index} className='container__booking' onClick={() => toggleItem(booking.booking_id)}>
+                                  <div className={`booking ${expandedCardBooking.includes(booking.booking_id) ? 'expandCard':''}`}>
+                                    <div className="container_professional">
+                                      {booking.professional_user_image != 'default.png' ?(
+                                        <div className='container__img__client__booking'>
+                                          <div className='user__image__professional'>
+                                            <img src={urlCloudFront + booking.user_image} id='img__user__professional'/>
+                                          </div>
+                                          <p className='phone__client'>Cliente</p>
+                                        </div>
+                                        ):(
+                                          <div className='container__img__client__booking'>
+                                            <div className="Box__image">
+                                              <p className='firstLetter'>{firstLetter}</p>
+                                            </div>
+                                            <p className='phone__client'>Cliente</p>
+                                          </div>
+                                        )}
+                                        <div className='container__name__client'>
+                                          <p className='name__client'>{booking.user_name}</p>
+                                          <p className='phone__client'>{booking.user_phone}</p>
+                                          
+                                        </div>
+                                      
+                                      <div className="time__booking">
+                                          <p className='time'>{booking.booking_time.split(',')[0]}</p>
+                                      </div>
+
+                                    </div>
+                                    <div className="section__information__booking">
+                                      <div className="tittle__information">
+                                        <p className='section__icon'>
+                                          <GiRazorBlade className='icon__information'/>
+                                          {booking.service_name}
+                                        </p>
+                                        <p>{booking.service_price}</p>
+                                      </div>
+                                      <div className="tittle__information">
+                                        <p className='section__icon'>
+                                          <TfiTime className='icon__information'/>
+                                          Duração
+                                        </p>
+                                        <p>{booking.service_duration}</p>
+                                      </div>
+                                    </div>
+                                    <div className="section__information__booking">
+                                      <div className="tittle__information">
+                                        <p className='section__icon'>
+                                          <IoPersonCircleOutline className='icon__information' />
+                                          Profissional
+                                        </p>
+                                        <p>{booking.professional_name}</p>
+                                      </div>
+                                      <div className="tittle__information">
+                                        <p className='section__icon'>
+                                          <RiExchangeFundsLine className='icon__information' />
+                                          Comissão
+                                        </p>
+                                        <p>{booking.service_commission_fee}</p>
+                                      </div>
+                                    </div>
+                                </div>
+                                </div>
+                            );
+                        })
+                      ):(
+                        <div className="message__notFound">
+                        <p style={{fontSize:"20px"}}>{messagemNotFound}</p>
+                      </div>
+                      )}
+                    </>
                   )}
                   {!bookings &&(
                     <div className='message__notFound'>

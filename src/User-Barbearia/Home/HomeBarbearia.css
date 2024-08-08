@@ -249,6 +249,7 @@
 .text__for__today{
   padding-left: 10px;
   margin-top: 15px;
+  margin-bottom: 10px;
   color: #f6f6f6;
 }
 
@@ -276,51 +277,6 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-
-}
-.professional__selected__home__barbearia{
-  display: flex;
-  flex-direction: column;
-  width: 120px;
-  height: 120px;
-  color: #4a17d5;
-}
-.container__calendar__home__barbearia{
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-  background: #35424930;
-  width: 390px;
-  padding: 5px;
-}
-.header__agenda{
-  display: flex;
-  justify-content: start;
-  align-items: center;
-  flex-direction: row;
-  margin-top: 5px;
-  padding-left: 5px;
-}
-.icon__schedules{
-  font-size: 25px;
-  margin-right: 10px;
-}
-.calendar__barbearia{
-  overflow-y: hidden;
-  overflow-x: auto;
-  width: 385px;
-  height: 70px;
-  margin-top: 15px;
-  margin-bottom: 10px;
-}
-.calendar__barbearia::-webkit-scrollbar {
-  height: 2px;
-}
-.calendar__barbearia::-webkit-scrollbar-thumb {
-  background: #354249; 
-  border-radius: 5px;
-}
-.calendar__barbearia::-webkit-scrollbar-thumb:hover {
-  background: #f6f6f6; 
 }
 .message__notFound{
   display: flex;
@@ -333,19 +289,23 @@
   height: 200px;
   text-align: center;
 }
-.section__bookings{
+.section__for__list__bookings{
+  display: flex;
+  justify-content:baseline;
+  align-items: baseline;
   width: 385px;
-  overflow-y: scroll;
-  overflow-x: hidden;
+  height: 210px;
+  overflow-y: hidden;
+  overflow-x: scroll;
 }
-.section__bookings::-webkit-scrollbar {
-  width: 5px;
+.section__for__list__bookings::-webkit-scrollbar {
+  height: 1px;
 }
-.section__bookings::-webkit-scrollbar-thumb {
-  background: #4a17d5; 
+.section__for__list__bookings::-webkit-scrollbar-thumb {
+  background: transparent; 
   border-radius: 5px;
 }
-.section__bookings::-webkit-scrollbar-thumb:hover {
+.section__for__list__bookings::-webkit-scrollbar-thumb:hover {
   background: #f6f6f6; 
 }
 .tittle__bookings{
@@ -364,19 +324,19 @@
   width: 385px;
 }
 .booking{
-  background-color: #4a17d5;
   background: rgba(59, 20, 216, 0.1);
   border-left: 3px solid #0f0;
   border-radius: 10px;
   margin-bottom: 10px;
-  width: 365px;
-  height: 125px;
+  margin-left: 10px;
+  width: 340px;
+  height: 145px;
   color: #354249;
   transition: 0.5s;
   overflow: hidden;
 }
 .expandCard{
-  height: 180px;
+  height: 205px;
   transition: 0.5s;
 }
 .time__booking{
@@ -403,6 +363,12 @@
   padding-top: 5px;
   margin-bottom: 10px;
 }
+.container__img__client__booking{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 .container__name__client{
   display: flex;
   justify-content: center;
@@ -410,6 +376,7 @@
   flex-direction: column;
   width: 235px;
   padding-left: 5px;
+  padding-bottom: 20px;
 }
 .Box__first__letter__professional {
   width: 20px;
@@ -423,6 +390,7 @@
   color: #f6f6f6;
 }
 .phone__client{
+  font-size: 12px;
   color: gray;
 }
 .section__information__booking{
@@ -432,7 +400,7 @@
   display: flex;
   justify-content: space-between;
   padding-right: 5px;
-  margin-bottom: 5px;
+  margin-bottom: 7px;
   font-size: 14px;
   color: #f6f6f6;
 }
