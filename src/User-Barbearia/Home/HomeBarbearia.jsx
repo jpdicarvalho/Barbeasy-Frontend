@@ -135,15 +135,7 @@ const [bookings, setBookings] = useState([]);
 const [expandedCardBooking, setExpandedCardBooking] = useState([]);
 const [messagemNotFound, setMessagemNotFound] = useState("");
 
-/* Function to get current day in format: [Sex, 12 de Abr de 2024]
-function getCurrentDayOfWeek(){
-  const currentDayOfWeek = weekNames[date.getDay()];//Dia atual da semana
-  const currentDayOfMonth = date.getDate();//Dia atua do mês
-  const currentNameMonth = monthNames[date.getMonth()];//Mês atual  
-  let currentDay = `${currentDayOfWeek}, ${currentDayOfMonth} de ${currentNameMonth} de ${year}`;// Monta a data no formato do dia selecionado
-  return currentDay;
-}*/
-
+//function to order all bookings by date
 function orderBookings(bookings) {
   // Ordenação dos bookings por menor horário (booking_time)
   bookings.sort((a, b) => {
@@ -164,6 +156,7 @@ function orderBookings(bookings) {
   });
 }
 
+//Function to get all bookings of today
 useEffect(() =>{
   const handleDateClick = () => {
     axios.get(`${urlApi}/api/v1/bookings/${barbeariaId}/${selectedDate}`, {
