@@ -251,14 +251,12 @@ return (
               </div>
               <div className='constinner__stats__barbearia'>
                     <div className='inner__stats__barbearia'>
-                    <div className='inner__stats__barbearia'>
                         <p className='text__today__in__stats'>Hoje</p>
                         <p className='total__bookings__today__in__stats'>10</p>
                         <div className='container__text__bookings__in__stats'>
                           <p className='text__bookings__in__stats'>Agendamentos</p>
                           <IoIosArrowRoundUp className='icon__IoIosArrowRoundUp'/>
                         </div>
-                    </div>
                     </div>
 
                     <div className='inner__stats__barbearia'>
