@@ -17,6 +17,9 @@ import { IoNotificationsOutline } from "react-icons/io5";
 import { BsGraphDownArrow } from "react-icons/bs";
 import { HiArrowPath } from "react-icons/hi2";
 import { MdOutlineLogout } from "react-icons/md";
+import { BsCalendar2Check } from "react-icons/bs";
+import { GrAppsRounded } from "react-icons/gr";
+import { CiLogout } from "react-icons/ci";
 
 
 const months = [
@@ -92,7 +95,6 @@ useEffect(() =>{
         'Authorization': `Bearer ${token}`
       }
     }).then(res =>{
-      console.log(res.data.visibility)
         if(res.data.visibility === 'visible'){
           setChangeVisibilityAmount(true)
         }else{
@@ -165,7 +167,6 @@ function orderBookings(bookings) {
 }
 
 //Function to get all bookings of today
-
   const handleDateClick = () => {
     axios.get(`${urlApi}/api/v1/bookings/${barbeariaId}/${selectedDate}`, {
       headers: {
@@ -185,10 +186,11 @@ function orderBookings(bookings) {
     })
     .catch(err => console.log(err));
   }
-useEffect(() =>{
-  handleDateClick()
-}, [])
-console.log(isRotating)
+
+  useEffect(() =>{
+    handleDateClick()
+  }, [])
+
 const updateListBookingsToday = () => {
   // Inicia a rotação
   setIsRotating(true);
@@ -361,32 +363,33 @@ return (
               <div className='container__buttons__header'>
         
                   <div className='inner__buttons__header'>
-                    <button className='button__header'>
-                      <RiExchangeFundsLine className='icon__RiExchangeFundsLine'/>
+                    <button className='button__header' onClick={logoutClick}>
+                      <CiLogout className='icon__RiExchangeFundsLine'/>
                     </button>
-                    <p className='label__button__header'>Comissões</p>
+                    <p className='label__button__header'>Sair</p>
                   </div>
 
                   <div className='inner__buttons__header'>
                     <button className='button__header'>
                       <SlGraph className='icon__RiExchangeFundsLine'/>
                     </button>
-                    <p className='label__button__header'>Histórico</p>
+                    <p className='label__button__header'>Relatório</p>
                   </div>
                   
                   <div className='inner__buttons__header'>
+                    <button className='button__header'>
+                      <BsCalendar2Check className='icon__RiExchangeFundsLine'/>
+                    </button>
+                    <p className='label__button__header'>Agenda</p>
+                  </div>
+
+                  <div className='inner__buttons__header'>
                     <button className='button__header' onClick={navigateToProfileBarbearia}>
-                      <RiDashboardFill className='icon__RiExchangeFundsLine'/>
+                      <GrAppsRounded className='icon__RiExchangeFundsLine'/>
                     </button>
                     <p className='label__button__header'>Menu</p>
                   </div>
 
-                  <div className='inner__buttons__header'>
-                    <button className='button__header' onClick={logoutClick}>
-                      <MdOutlineLogout className='icon__RiExchangeFundsLine'/>
-                    </button>
-                    <p className='label__button__header'>Sair</p>
-                  </div>
               </div>
           </div>
 
