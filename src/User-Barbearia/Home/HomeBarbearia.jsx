@@ -164,9 +164,8 @@ function orderBookings(bookings) {
   });
 }
 
-const handleDateClick = () => {
-  let selectedDate = `${dayOfWeek}, ${day} de ${month} de ${year}`;
-
+useEffect(() =>{
+  const handleDateClick = () => {
     axios.get(`${urlApi}/api/v1/bookings/${barbeariaId}/${selectedDate}`, {
       headers: {
         'Authorization': `Bearer ${token}`
@@ -183,7 +182,9 @@ const handleDateClick = () => {
       }
     })
     .catch(err => console.log(err));
-}
+  }
+handleDateClick()
+}, [])
 
 //Function to expanded booking cards
 const toggleItem = (itemId) => {
