@@ -188,8 +188,8 @@
   padding-top: 10px;
 }
 .text__stats{
-  padding-left: 5px;
-  color: #354249;
+  padding-left: 10px;
+  color: #f6f6f6;
 }
 .inner__stats__barbearia{
   background: transparent;
@@ -212,18 +212,26 @@
   display: flex;
   justify-content: start;
   align-items: center;
-  color: #f6f6f6;
+  color: gray;
   font-size: 40px;
+  height: 55px;
+
 }
 .container__text__bookings__in__stats{
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-right: 3px;
 }
 .text__bookings__in__stats{
-  color: #f6f6f6;
+  color: gray;
   font-size: 14px;
 }
+.total__bookings__today__in__stats:hover{
+  color: #f6f6f6;
+  transition: 0.5s;
+}
+
 .icon__IoIosArrowRoundUp{
   width: 30px;
   height: 30px;
@@ -231,6 +239,21 @@
   color: #0f0;
   border-radius: 50%;
 }
+.icon__IoIosArrowRoundDown{
+  width: 30px;
+  height: 30px;
+  background: #4a17d557;
+  color: red;
+  border-radius: 50%;
+}
+.text__for__today{
+  padding-left: 10px;
+  margin-top: 15px;
+  color: #f6f6f6;
+}
+
+
+
 
 
 .img-view-professional{
