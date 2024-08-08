@@ -17,11 +17,11 @@ import { IoIosArrowRoundUp } from "react-icons/io";
 import { IoIosArrowRoundDown } from "react-icons/io";
 
 
-const monthNames = [
+const months = [
   'Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun', 'Jul', 'Aug', 'Set', 'Out', 'Nov', 'Dez'
 ];
 
-const weekNames = [
+const daysOfWeek = [
   'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'
 ];
 
@@ -30,12 +30,15 @@ function HomeBarbearia() {
   const urlApi = 'https://barbeasy.up.railway.app'
   const urlCloudFront = "https://d15o6h0uxpz56g.cloudfront.net/"
 
-  const date = new Date();
-  const options = { weekday: 'short', locale: 'pt-BR' };
-  let dayOfWeek = date.toLocaleDateString('pt-BR', options);
-  dayOfWeek = dayOfWeek.slice(0, -1);
-  dayOfWeek = dayOfWeek.charAt(0).toUpperCase() + dayOfWeek.slice(1);
-  const year = date.getFullYear();
+  const today = new Date();
+  const dayOfWeek = daysOfWeek[today.getDay()];
+  const day = today.getDate();
+  const month = months[today.getMonth()];
+  const year = today.getFullYear();
+  
+  let selectedDate = `${dayOfWeek}, ${day} de ${month} de ${year}`;
+
+console.log(selectedDate)
 
   const navigate = useNavigate();
 
@@ -127,77 +130,10 @@ const showAmountVisibility = () =>{
   updateVisibilityAmount('visible')
 }
 //==================================================
-const [professional, setProfessional] = useState([])
-const [professionalSelected, setProfessionalSelected] = useState();
-
-  //Function to get all professionais
-  useEffect(() => {
-    const getProfessional = () =>{
-    axios.get(`${urlApi}/api/v1/listProfessionalToBarbearia/${barbeariaId}`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
-      .then(res => {
-        setProfessional(res.data.Professional)
-      })
-      .catch(error => console.log(error));
-    }
-    getProfessional()
-  }, [barbeariaId])
-
-//Function to selected Professional
-const handleProfessionalSelected = (professionalId) =>{
-  setProfessionalSelected(professionalId);
-}
-//==================================================
 //Função para pegar os dias da semana
-const [selectedDay, setSelectedDay] = useState(null);
 const [bookings, setBookings] = useState([]);
 const [expandedCardBooking, setExpandedCardBooking] = useState([]);
 const [messagemNotFound, setMessagemNotFound] = useState("");
-
-
-function getWeeks() {
-  const arrayWeeks = [];
-  const startIndex = weekNames.indexOf(dayOfWeek);
-  const lastDayToShow = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 30);
-
-  for (let i = 0; i < 30; i++) {
-    const currentDay = new Date(date.getFullYear(), date.getMonth(), date.getDate() + i);
-    const index = (startIndex + i) % 7;
-    const nameWeek = weekNames[index];
-
-    if (currentDay <= lastDayToShow) {
-      arrayWeeks.push(nameWeek);
-    }
-  }
-
-  return arrayWeeks;
-}
-
-//Função para gerar a quantidade de dias que a agenda vai ficar aberta
-function getNumber() {
-  const numbersWeek = [];
-  const lastDayToShow = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 30);
-
-  for (let i = 0; i < 30; i++) {
-    const currentDay = new Date(date.getFullYear(), date.getMonth(), date.getDate() + i);
-    const numberWeek = currentDay.getDate();
-    const isCurrentDay = currentDay.toDateString() === date.toDateString();
-    const month = monthNames[currentDay.getMonth()]; // Obtém o nome do mês
-
-    if (currentDay <= lastDayToShow) {
-      numbersWeek.push({
-        number: numberWeek,
-        isCurrentDay: isCurrentDay,
-        month: month, // Adiciona o nome do mês ao objeto
-      });
-    }
-  }
-
-  return numbersWeek;
-}
 
 /* Function to get current day in format: [Sex, 12 de Abr de 2024]
 function getCurrentDayOfWeek(){
@@ -228,12 +164,7 @@ function orderBookings(bookings) {
   });
 }
 
-const weekDays = getWeeks();
-const numberDays = getNumber();
-//const currentDay = getCurrentDayOfWeek()
-
-const handleDateClick = (dayOfWeek, day, month, year) => {
-  setSelectedDay(`${dayOfWeek}, ${day} de ${month} de ${year}`);
+const handleDateClick = () => {
   let selectedDate = `${dayOfWeek}, ${day} de ${month} de ${year}`;
 
     axios.get(`${urlApi}/api/v1/bookings/${barbeariaId}/${selectedDate}`, {
@@ -347,6 +278,10 @@ return (
 
               <div className='text__for__today'>
                 <h>Para hoje</h>
+              </div>
+
+              <div>
+
               </div>
           </div>
         </div>
