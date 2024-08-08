@@ -248,8 +248,8 @@ return (
           
           <div className='body__home__barbearia'>
               <div className='text__stats'>
+                <IoStatsChart className='icon__IoStatsChart'/>
                 <h3>Estatísticas</h3>
-                <IoStatsChart/>
               </div>
               <div className='constinner__stats__barbearia'>
                     <div className='inner__stats__barbearia'>

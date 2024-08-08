@@ -196,8 +196,14 @@
   padding-top: 10px;
 }
 .text__stats{
+  display: flex;
+  align-items: center;
   padding-left: 10px;
   color: #f6f6f6;
+}
+.icon__IoStatsChart{
+  margin-right: 5px;
+  margin-bottom: 3px;
 }
 .inner__stats__barbearia{
   background: transparent;
