@@ -292,7 +292,9 @@
   object-fit: cover;
 }
 .icon__BsGraphDownArrow{
-
+  width: 50px;
+  height: 50px;
+  color: #354249;
 }
 .message__notFound{
   display: flex;
@@ -302,7 +304,6 @@
   font-size: 20px;
   font-weight: bold;
   color: #354249;
-  background: red;
   height: 200px;
   width: 100%;
   text-align: center;
