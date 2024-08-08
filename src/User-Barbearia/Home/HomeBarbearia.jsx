@@ -6,8 +6,6 @@ import './HomeBarbearia.css';
 import { GiRazorBlade } from "react-icons/gi";
 import { TfiTime } from "react-icons/tfi";
 import { IoPersonCircleOutline } from "react-icons/io5";
-import { FaWhatsapp } from "react-icons/fa";
-import { BsCalendar2Week } from "react-icons/bs";
 import { AiOutlineEyeInvisible } from "react-icons/ai";
 import { AiOutlineEye } from "react-icons/ai";
 import { RiExchangeFundsLine } from "react-icons/ri";
@@ -21,7 +19,7 @@ import { HiArrowPath } from "react-icons/hi2";
 
 
 const months = [
-  'Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun', 'Jul', 'Aug', 'Set', 'Out', 'Nov', 'Dez'
+  'Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
 ];
 
 const daysOfWeek = [
@@ -76,6 +74,7 @@ useEffect(() => {
   }
 obterSaudacao();
 }, []);
+
 //==================================================
 const [changeVisibilityAmount, setChangeVisibilityAmount] = useState(visibility === 'true'?true:false)
 const [updatedVisibilityAmount, setUpdatedVisibilityAmount] = useState(false)
@@ -180,7 +179,6 @@ useEffect(() =>{
   }
 handleDateClick()
 }, [])
-console.log(bookings)
 //Function to expanded booking cards
 const toggleItem = (itemId) => {
     if (expandedCardBooking.includes(itemId)) {
@@ -190,7 +188,7 @@ const toggleItem = (itemId) => {
     }
 };
 
-
+console.log(bookings.length)
 return (
     <div className="container__main__home__barbearia">
         <div className='section__scroll__home__barbearia'>
@@ -200,8 +198,8 @@ return (
             </div>
               <div className="container__text__header">
                 <div className='inner__text_header'>
-                  <p className='text__salutation'>{saudacao} </p>
-                  <p className='text__barbearia__name'>{barbeariaUserName}</p>
+                  <p className='text__barbearia__name'>{saudacao} {barbeariaUserName}</p>
+                  <p className='text__salutation'>{selectedDate}</p>
                 </div>
                 <IoNotificationsOutline className='icon__IoNotificationsOutline'/>
               </div>
@@ -231,7 +229,7 @@ return (
               <div className='constinner__stats__barbearia'>
                     <div className='inner__stats__barbearia'>
                         <p className='text__today__in__stats'>Hoje</p>
-                        <p className='total__bookings__today__in__stats'>10</p>
+                        <p className='total__bookings__today__in__stats'>0</p>
                         <div className='container__text__bookings__in__stats'>
                           <p className='text__bookings__in__stats'>Total<br/>Agendamentos</p>
                           <IoIosArrowRoundUp className='icon__IoIosArrowRoundUp'/>
@@ -239,8 +237,8 @@ return (
                     </div>
 
                     <div className='inner__stats__barbearia'>
-                        <p className='text__today__in__stats'>AGO</p>
-                        <p className='total__bookings__today__in__stats'>10</p>
+                        <p className='text__today__in__stats'>{month}</p>
+                        <p className='total__bookings__today__in__stats'>0</p>
                         <div className='container__text__bookings__in__stats'>
                           <p className='text__bookings__in__stats'>Total<br/>Cancelamentos</p>
                           <IoIosArrowRoundDown className='icon__IoIosArrowRoundDown'/>
@@ -249,7 +247,7 @@ return (
               </div>
 
               <div className='text__for__today'>
-                <h3>Agendamentos de Hoje</h3>
+                <h3>Hoje</h3>
                 <HiArrowPath className='icon__HiArrowPath'/>
               </div>
 
