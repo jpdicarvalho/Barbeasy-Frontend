@@ -16,6 +16,7 @@ import { RiDashboardFill } from "react-icons/ri";
 import { IoIosArrowRoundUp } from "react-icons/io";
 import { IoIosArrowRoundDown } from "react-icons/io";
 import { IoNotificationsOutline } from "react-icons/io5";
+import { BsGraphDownArrow } from "react-icons/bs";
 
 
 const months = [
@@ -220,29 +221,6 @@ return (
                 )}
               </div>
               
-              <div className='container__buttons__header'>
-                  <div className='inner__buttons__header'>
-                    <button className='button__header'>
-                      <SlGraph className='icon__RiExchangeFundsLine'/>
-                    </button>
-                    <p className='label__button__header'>Histórico</p>
-                  </div>
-
-                  <div className='inner__buttons__header'>
-                    <button className='button__header'>
-                      <RiExchangeFundsLine className='icon__RiExchangeFundsLine'/>
-                    </button>
-                    <p className='label__button__header'>Comissões</p>
-                  </div>
-
-                  <div className='inner__buttons__header'>
-                    <button className='button__header' onClick={navigateToProfileBarbearia}>
-                      <RiDashboardFill className='icon__RiExchangeFundsLine'/>
-                    </button>
-                    <p className='label__button__header'>Menu</p>
-                  </div>
-                
-              </div>
           </div>
           
           <div className='body__home__barbearia'>
@@ -354,11 +332,36 @@ return (
                   )}
                   {!bookings &&(
                     <div className='message__notFound'>
+                      <BsGraphDownArrow  className='icon__BsGraphDownArrow'/>
                       <p>{messagemNotFound}</p>
                     </div>
                   )}
               </div>
+              <div className='container__buttons__header'>
+        
+                  <div className='inner__buttons__header'>
+                    <button className='button__header'>
+                      <RiExchangeFundsLine className='icon__RiExchangeFundsLine'/>
+                    </button>
+                    <p className='label__button__header'>Comissões</p>
+                  </div>
+
+                  <div className='inner__buttons__header'>
+                    <button className='button__header'>
+                      <SlGraph className='icon__RiExchangeFundsLine'/>
+                    </button>
+                    <p className='label__button__header'>Histórico</p>
+                  </div>
+                  
+                  <div className='inner__buttons__header'>
+                    <button className='button__header' onClick={navigateToProfileBarbearia}>
+                      <RiDashboardFill className='icon__RiExchangeFundsLine'/>
+                    </button>
+                    <p className='label__button__header'>Menu</p>
+                  </div>
+              </div>
           </div>
+
         </div>
      </div>
 );

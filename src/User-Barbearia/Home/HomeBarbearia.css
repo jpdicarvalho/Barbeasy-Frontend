@@ -144,13 +144,15 @@
   cursor: pointer;
 }
 .container__buttons__header{
-  position: absolute;
-  margin-top: 130px;
+  position: relative;
   display: flex;
   justify-content: space-around;
   align-items: center;
   flex-direction: row;
+  border-radius: 40px;
   width: 100%;
+  padding: 3px;
+  background: #4a17d558;
 }
 .inner__buttons__header{
   display: flex;
@@ -166,10 +168,10 @@
   flex-direction: row;
   height: 30px;
   width: 100%;
-  border-radius: 5px;
+  border-radius: 20px;
   border: none;
   font-size: 14px;
-  background: rgba(128, 128, 128, 0.269);
+  background: transparent;
   color: #f6f6f6;
   transition: 0.5s;
 }
@@ -289,6 +291,9 @@
   height: 100%;
   object-fit: cover;
 }
+.icon__BsGraphDownArrow{
+
+}
 .message__notFound{
   display: flex;
   justify-content: center;
@@ -297,7 +302,9 @@
   font-size: 20px;
   font-weight: bold;
   color: #354249;
+  background: red;
   height: 200px;
+  width: 100%;
   text-align: center;
 }
 .section__for__list__bookings{
