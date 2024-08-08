@@ -170,8 +170,8 @@ useEffect(() =>{
         // Chamando a função para ordenar os bookings por menor horário
         orderBookings(bookings);
       }else{
-        setBookings([])
-        setMessagemNotFound("Nenhum agendamento encontrado")
+        setBookings(false)
+        setMessagemNotFound("Sem agendamento por enquanto...")
       }
     })
     .catch(err => console.log(err));
@@ -275,7 +275,16 @@ return (
               </div>
 
               <div>
-
+                  {bookings &&(
+                    <div>
+                      teste
+                    </div>
+                  )}
+                  {!bookings &&(
+                    <div className='message__notFound'>
+                      <p>{messagemNotFound}</p>
+                    </div>
+                  )}
               </div>
           </div>
         </div>
