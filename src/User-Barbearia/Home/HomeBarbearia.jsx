@@ -10,8 +10,8 @@ import { AiOutlineEyeInvisible } from "react-icons/ai";
 import { AiOutlineEye } from "react-icons/ai";
 import { RiExchangeFundsLine } from "react-icons/ri";
 import { SlGraph } from "react-icons/sl";
-import { IoIosArrowRoundUp } from "react-icons/io";
-import { IoIosArrowRoundDown } from "react-icons/io";
+import { GoArrowUpRight } from "react-icons/go";
+import { GoArrowDownLeft } from "react-icons/go";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { BsGraphDownArrow } from "react-icons/bs";
 import { HiArrowPath } from "react-icons/hi2";
@@ -249,36 +249,35 @@ return (
           <div className='body__home__barbearia'>
               <div className='text__stats'>
                 <IoStatsChart className='icon__IoStatsChart'/>
-                <h3 className='inner__text__stats'>Estatísticas de hoje</h3>
+                <h3 className='inner__text__stats'>Visão geral do dia</h3>
                 <MdKeyboardArrowRight className='icon__MdKeyboardArrowRight'/>
               </div>
               <div className='constinner__stats__barbearia'>
-                    <div className='inner__stats__barbearia'>
-                        <p className='text__today__in__stats'>Total</p>
-                        <p className='total__bookings__today__in__stats'>{!bookings ? 0:bookings.length}</p>
-                        <div className='container__text__bookings__in__stats'>
-                          <p className='text__bookings__in__stats'>Aprovado<br/></p>
-                          <IoIosArrowRoundUp className='icon__IoIosArrowRoundUp'/>
-                        </div>
-                    </div>
+                <div className='container__icon__IoIosArrowRoundUp'>
+                  <GoArrowUpRight className='icon__IoIosArrowRoundUp'/>
+                </div>
+              
+                <div className='container__text__bookings__in__stats'>
+                  <div className='inner__stats__barbearia'>
+                      <p className='total__bookings__today__in__stats'>{!bookings ? 0:bookings.length}</p>
+                      <p className='text__approved__bookings__in__stats'>Aprovado</p> 
+                  </div>
 
-                    <div className='inner__stats__barbearia'>
-                        <p className='text__today__in__stats'>Total</p>
-                        <p className='total__bookings__today__in__stats'>{!bookings ? 0:bookings.length}</p>
-                        <div className='container__text__bookings__in__stats'>
-                          <p className='text__bookings__in__stats'>Pendentes</p>
-                          <IoIosArrowRoundUp className='icon__IoIosArrowRoundUp'/>
-                        </div>
-                    </div>
+                  <div className='inner__stats__barbearia'>
+                      <p className='total__bookings__today__in__stats'>5</p>
+                      <p className='text__pending__bookings__in__stats'>Pendente</p> 
+                  </div>
 
-                    <div className='inner__stats__barbearia'>
-                        <p className='text__today__in__stats'>Total</p>
-                        <p className='total__bookings__today__in__stats'>0</p>
-                        <div className='container__text__bookings__in__stats'>
-                          <p className='text__bookings__in__stats'>Cancelamentos</p>
-                          <IoIosArrowRoundDown className='icon__IoIosArrowRoundDown'/>
-                        </div>
-                    </div>
+                  <div className='inner__stats__barbearia'>
+                      <p className='total__bookings__today__in__stats'>9</p>
+                      <p className='text__canceled__bookings__in__stats'>Cancelados</p> 
+                  </div>
+                    
+                </div>
+                          
+                        
+
+          
               </div>
 
               <div className='text__for__today'>
