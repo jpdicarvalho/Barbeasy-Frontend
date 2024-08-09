@@ -250,7 +250,7 @@ return (
               <div className='text__stats'>
                 <IoStatsChart className='icon__IoStatsChart'/>
                 <h3 className='inner__text__stats'>Estatísticas</h3>
-                <MdKeyboardArrowRight />
+                <MdKeyboardArrowRight className='icon__MdKeyboardArrowRight'/>
               </div>
               <div className='constinner__stats__barbearia'>
                     <div className='inner__stats__barbearia'>

@@ -179,11 +179,14 @@
   display: flex;
   align-items: center;
   color: #f6f6f6;
-  background: red;
 }
 .inner__text__stats{
-  background: black;
   width: 100%;
+}
+.icon__MdKeyboardArrowRight{
+  width: 25px;
+  height: 25px;
+  color: #354249;
 }
 .icon__IoStatsChart{
   margin-right: 10px;
@@ -258,7 +261,7 @@
   height: 20px;
   margin-left: 10px;
   cursor: pointer;
-  color: #f6f6f6;
+  color: #354249;
 }
 .inner__text__for__today{
   width: 100%;
