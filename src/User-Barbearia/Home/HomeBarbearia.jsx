@@ -53,9 +53,6 @@ function HomeBarbearia() {
   const barbeariaId = userInformation.barbearia[0].id;
   const barbeariaUserName = userInformation.barbearia[0].usuario;
 
-  const banner__main = userInformation.barbearia[0].banner_main;
-
-
 const navigateToProfileBarbearia = () =>{
   navigate("/ProfileBarbearia");
 }
@@ -213,7 +210,6 @@ const toggleItem = (itemId) => {
 console.log(bookings)
 return (
     <div className="container__main__home__barbearia">
-        <div className='section__scroll__home__barbearia'>
           <div className='header_container'>
               <div className="container__text__header">
                 <div className='inner__text_header'>
@@ -397,7 +393,7 @@ return (
               </div>
           </div>
 
-        </div>
+        
      </div>
 );
 }

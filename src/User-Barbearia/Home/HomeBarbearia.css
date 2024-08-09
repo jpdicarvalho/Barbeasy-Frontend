@@ -12,63 +12,21 @@
   flex-direction: column;
   width: 390px;
   height: 100vh;
-  background: #0c0e19;
   overflow: hidden;
-}
-.section__scroll__home__barbearia{
-  position: absolute;
-  height: 100vh;
-  overflow-y: scroll;
-  overflow-x: hidden;
-}
-.section__scroll__home__barbearia::-webkit-scrollbar {
-  width: 3px;
-}
-.section__scroll__home__barbearia::-webkit-scrollbar-thumb {
-  background: #4a17d5; 
-  border-radius: 5px;
-}
-.section__scroll__home__barbearia::-webkit-scrollbar-thumb:hover {
-  background: #f6f6f6; 
 }
 .header_container{
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
   max-width: 390px;
+  height: 150px;
   color: white;
-}
-.conatiner__img__banner__main{
-  width: 390px;
-  height: 250px;
-  overflow: hidden;
-  mask-image: linear-gradient(to bottom, #4a17d55a 50%, rgba(0,0,0,0.01) 90%);
-}
-.img__banner__main__home{
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.img__user{
-  position: absolute;
-  top: 0;
-  display: flex;
-  justify-content: center;
-  display: flex;
-  align-items: center;
-  width: 375px;
-  height: 60px;
-  border-radius: 15px;
-  margin-top: 10px;
+  padding: 10px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
 }
 .container__text__header{
-  position: absolute;
-  top: 0;
   display: flex;
-  width: 375px;
-  border-radius: 15px;
-  padding-top: 10px;
+  width: 100%;
 }
 .inner__text_header{
   width: 90%;
@@ -104,11 +62,11 @@
   border-radius: 5px;
 }
 .container__amount{
-  position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  margin-top: 10px;
   width: 100%;
   height: 80px;
 }
@@ -116,14 +74,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 200px;
+  width: 100%;
 }
 .tittle__amount{
   font-size: 12px;
-  color: white;
+  color: gray;
 }
 .text__amount{
-  font-size: 30px;
+  font-size: 25px;
+  color: gray;
 }
 .hidden__amount{
   width: 120px;
@@ -188,8 +147,10 @@
   padding-left: 5px;
 }
 .body__home__barbearia{
-  position: absolute;
-  top: 220px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.447);
 }
 .constinner__stats__barbearia{
   display: flex;
@@ -209,10 +170,10 @@
 }
 .inner__stats__barbearia{
   background: transparent;
-  width: 150px;
-  height: 125px;
+  width: 125px;
+  height: 105px;
   border-radius: 10px;
-  padding: 5px;
+  padding: 4px;
   border: 1px solid #4a17d5;
   transition: 0.5s;
 }
@@ -223,15 +184,16 @@
 }
 .text__today__in__stats{
   color: gray;
+  font-size: 14px;
 }
 
 .total__bookings__today__in__stats{
   display: flex;
-  justify-content: start;
+  justify-content: center;
   align-items: center;
   color: #f6f6f6;
-  font-size: 40px;
-  height: 55px;
+  font-size: 30px;
+  height: 40px;
 
 }
 .container__text__bookings__in__stats{
@@ -241,8 +203,8 @@
   padding-right: 3px;
 }
 .text__bookings__in__stats{
-  color: #f6f6f6;
-  font-size: 12px;
+  color: gray;
+  font-size: 11px;
 }
 .total__bookings__today__in__stats:hover{
   color: #f6f6f6;
