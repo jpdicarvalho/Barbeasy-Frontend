@@ -249,42 +249,33 @@ return (
           <div className='body__home__barbearia'>
               <div className='text__stats'>
                 <IoStatsChart className='icon__IoStatsChart'/>
-                <h3 className='inner__text__stats'>Estatísticas</h3>
+                <h3 className='inner__text__stats'>Estatísticas de hoje</h3>
                 <MdKeyboardArrowRight className='icon__MdKeyboardArrowRight'/>
               </div>
               <div className='constinner__stats__barbearia'>
                     <div className='inner__stats__barbearia'>
-                        <p className='text__today__in__stats'>Hoje</p>
+                        <p className='text__today__in__stats'>Total</p>
                         <p className='total__bookings__today__in__stats'>{!bookings ? 0:bookings.length}</p>
                         <div className='container__text__bookings__in__stats'>
-                          <p className='text__bookings__in__stats'>Total<br/>Agendamentos</p>
+                          <p className='text__bookings__in__stats'>Aprovado<br/></p>
                           <IoIosArrowRoundUp className='icon__IoIosArrowRoundUp'/>
                         </div>
                     </div>
 
                     <div className='inner__stats__barbearia'>
-                        <p className='text__today__in__stats'>Hoje</p>
+                        <p className='text__today__in__stats'>Total</p>
                         <p className='total__bookings__today__in__stats'>{!bookings ? 0:bookings.length}</p>
                         <div className='container__text__bookings__in__stats'>
-                          <p className='text__bookings__in__stats'>Total<br/>Agendamentos</p>
+                          <p className='text__bookings__in__stats'>Pendentes</p>
                           <IoIosArrowRoundUp className='icon__IoIosArrowRoundUp'/>
                         </div>
                     </div>
 
                     <div className='inner__stats__barbearia'>
-                        <p className='text__today__in__stats'>Hoje</p>
-                        <p className='total__bookings__today__in__stats'>{!bookings ? 0:bookings.length}</p>
-                        <div className='container__text__bookings__in__stats'>
-                          <p className='text__bookings__in__stats'>Total<br/>Agendamentos</p>
-                          <IoIosArrowRoundUp className='icon__IoIosArrowRoundUp'/>
-                        </div>
-                    </div>
-
-                    <div className='inner__stats__barbearia'>
-                        <p className='text__today__in__stats'>{month}</p>
+                        <p className='text__today__in__stats'>Total</p>
                         <p className='total__bookings__today__in__stats'>0</p>
                         <div className='container__text__bookings__in__stats'>
-                          <p className='text__bookings__in__stats'>Total<br/>Cancelamentos</p>
+                          <p className='text__bookings__in__stats'>Cancelamentos</p>
                           <IoIosArrowRoundDown className='icon__IoIosArrowRoundDown'/>
                         </div>
                     </div>

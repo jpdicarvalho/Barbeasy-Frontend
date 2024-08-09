@@ -10,7 +10,7 @@ import { MdOutlineDone } from "react-icons/md";
 import { VscError } from "react-icons/vsc";
 
 const monthNames = [
-  'Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun', 'Jul', 'Aug', 'Set', 'Out', 'Nov', 'Dez'
+  'Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
 ];
 
 const weekNames = [
@@ -155,7 +155,7 @@ export function Agendamento({
   const numberDays = getNumber();
   const currentDay = getCurrentDayOfWeek()
   const currentTime = getCurrentTime()
-
+console.log(currentDay)
   // Function to get all booking
   const handleDateClick = (dayOfWeek, day, month, year) => {
   setSelectedDay(`${dayOfWeek}, ${day} de ${month} de ${year}`)
