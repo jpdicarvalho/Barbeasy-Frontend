@@ -20,6 +20,7 @@ import { GrAppsRounded } from "react-icons/gr";
 import { CiLogout } from "react-icons/ci";
 import { IoStatsChart } from "react-icons/io5";
 import { SlLayers } from "react-icons/sl";
+import { MdKeyboardArrowRight } from "react-icons/md";
 
 
 const months = [
@@ -248,9 +249,28 @@ return (
           <div className='body__home__barbearia'>
               <div className='text__stats'>
                 <IoStatsChart className='icon__IoStatsChart'/>
-                <h3>Estatísticas</h3>
+                <h3 className='inner__text__stats'>Estatísticas</h3>
+                <MdKeyboardArrowRight />
               </div>
               <div className='constinner__stats__barbearia'>
+                    <div className='inner__stats__barbearia'>
+                        <p className='text__today__in__stats'>Hoje</p>
+                        <p className='total__bookings__today__in__stats'>{!bookings ? 0:bookings.length}</p>
+                        <div className='container__text__bookings__in__stats'>
+                          <p className='text__bookings__in__stats'>Total<br/>Agendamentos</p>
+                          <IoIosArrowRoundUp className='icon__IoIosArrowRoundUp'/>
+                        </div>
+                    </div>
+
+                    <div className='inner__stats__barbearia'>
+                        <p className='text__today__in__stats'>Hoje</p>
+                        <p className='total__bookings__today__in__stats'>{!bookings ? 0:bookings.length}</p>
+                        <div className='container__text__bookings__in__stats'>
+                          <p className='text__bookings__in__stats'>Total<br/>Agendamentos</p>
+                          <IoIosArrowRoundUp className='icon__IoIosArrowRoundUp'/>
+                        </div>
+                    </div>
+
                     <div className='inner__stats__barbearia'>
                         <p className='text__today__in__stats'>Hoje</p>
                         <p className='total__bookings__today__in__stats'>{!bookings ? 0:bookings.length}</p>

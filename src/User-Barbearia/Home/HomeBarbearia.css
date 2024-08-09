@@ -44,7 +44,7 @@
   font-size: 12px;
 }
 .icon__IoNotificationsOutline{
-  background: rgba(128, 128, 128, 0.269);
+  background: #4a17d536;
   height: 30px;
   width: 30px;
   border-radius: 50%;
@@ -82,7 +82,7 @@
 }
 .text__amount{
   font-size: 25px;
-  color: gray;
+  color: #f6f6f6;
 }
 .hidden__amount{
   width: 120px;
@@ -92,9 +92,12 @@
 .icon__AiOutlineEyeInvisible{
   margin-left: 10px;
   margin-right: 10px;
-  width: 25px;
-  height: 25px;
+  width: 30px;
+  height: 30px;
+  padding: 4px;
   color: #f6f6f6;
+  border-radius: 50%;
+  background: #4a17d536;
   cursor: pointer;
 }
 .container__buttons__header{
@@ -148,8 +151,8 @@
   padding-left: 5px;
 }
 .body__home__barbearia{
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
   padding: 10px;
   background: rgba(0, 0, 0, 0.447);
   height: 100%;
@@ -158,12 +161,29 @@
   display: flex;
   justify-content: space-around;
   width: 375px;
+  height: 125px;
   padding-top: 10px;
+  overflow-x: scroll;
+}
+.constinner__stats__barbearia::-webkit-scrollbar {
+  height: 3px;
+}
+.constinner__stats__barbearia::-webkit-scrollbar-thumb {
+  background: #4a17d5; 
+  border-radius: 5px;
+}
+.constinner__stats__barbearia::-webkit-scrollbar-thumb:hover {
+  background: #f6f6f6; 
 }
 .text__stats{
   display: flex;
   align-items: center;
   color: #f6f6f6;
+  background: red;
+}
+.inner__text__stats{
+  background: black;
+  width: 100%;
 }
 .icon__IoStatsChart{
   margin-right: 10px;
@@ -179,6 +199,7 @@
   width: 125px;
   height: 105px;
   border-radius: 10px;
+  margin-right: 25px;
   padding: 4px;
   border: 1px solid #4a17d5;
   transition: 0.5s;
