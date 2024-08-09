@@ -19,6 +19,7 @@ import { BsCalendar2Check } from "react-icons/bs";
 import { GrAppsRounded } from "react-icons/gr";
 import { CiLogout } from "react-icons/ci";
 import { IoStatsChart } from "react-icons/io5";
+import { SlLayers } from "react-icons/sl";
 
 
 const months = [
@@ -270,7 +271,8 @@ return (
               </div>
 
               <div className='text__for__today'>
-                <h3>Para hoje</h3>
+                <SlLayers className='icon__SlLayers'/>
+                <h3 className='inner__text__for__today'>Pra hoje</h3>
                 <HiArrowPath className={`icon__HiArrowPath ${isRotating ? 'rotating' : ''}`} onClick={updateListBookingsToday}/>
               </div>
 

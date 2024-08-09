@@ -87,7 +87,7 @@
 .hidden__amount{
   width: 120px;
   height: 5px;
-  background: #f6f6f6;
+  background: gray;
 }
 .icon__AiOutlineEyeInvisible{
   margin-left: 10px;
@@ -98,13 +98,14 @@
   cursor: pointer;
 }
 .container__buttons__header{
-  position: relative;
+  position: absolute;
+  bottom: 15px;
   display: flex;
   justify-content: space-around;
   align-items: center;
   flex-direction: row;
   border-radius: 40px;
-  width: 100%;
+  width: 370px;
   padding: 3px;
   background: #4a17d558;
   margin-top: 10px;
@@ -151,6 +152,7 @@
   border-top-right-radius: 20px;
   padding: 10px;
   background: rgba(0, 0, 0, 0.447);
+  height: 100%;
 }
 .constinner__stats__barbearia{
   display: flex;
@@ -161,12 +163,16 @@
 .text__stats{
   display: flex;
   align-items: center;
-  padding-left: 10px;
   color: #f6f6f6;
 }
 .icon__IoStatsChart{
-  margin-right: 5px;
+  margin-right: 10px;
   margin-bottom: 3px;
+  color: #f6f6f6;
+}
+.icon__SlLayers{
+  color: #f6f6f6;
+  margin-right: 10px;
 }
 .inner__stats__barbearia{
   background: transparent;
@@ -233,6 +239,9 @@
   cursor: pointer;
   color: #f6f6f6;
 }
+.inner__text__for__today{
+  width: 100%;
+}
 .rotating {
   animation: spin 1s linear infinite;
 }
@@ -248,7 +257,6 @@
 .text__for__today{
   display: flex;
   align-items: center;
-  padding-left: 10px;
   margin-top: 15px;
   margin-bottom: 10px;
   color: #f6f6f6;
