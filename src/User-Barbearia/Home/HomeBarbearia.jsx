@@ -10,13 +10,11 @@ import { AiOutlineEyeInvisible } from "react-icons/ai";
 import { AiOutlineEye } from "react-icons/ai";
 import { RiExchangeFundsLine } from "react-icons/ri";
 import { SlGraph } from "react-icons/sl";
-import { RiDashboardFill } from "react-icons/ri";
 import { IoIosArrowRoundUp } from "react-icons/io";
 import { IoIosArrowRoundDown } from "react-icons/io";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { BsGraphDownArrow } from "react-icons/bs";
 import { HiArrowPath } from "react-icons/hi2";
-import { MdOutlineLogout } from "react-icons/md";
 import { BsCalendar2Check } from "react-icons/bs";
 import { GrAppsRounded } from "react-icons/gr";
 import { CiLogout } from "react-icons/ci";
@@ -217,14 +215,20 @@ return (
     <div className="container__main__home__barbearia">
         <div className='section__scroll__home__barbearia'>
           <div className='header_container'>
-            <div className='conatiner__img__banner__main'>
-                <img  className="img__banner__main__home" src={urlCloudFront + banner__main} alt="" />
-            </div>
               <div className="container__text__header">
                 <div className='inner__text_header'>
                   <p className='text__barbearia__name'>{saudacao} {barbeariaUserName}</p>
                   <p className='text__salutation'>{selectedDate}</p>
                 </div>
+                {changeVisibilityAmount ?(
+                  <>
+                    <AiOutlineEyeInvisible className='icon__AiOutlineEyeInvisible' onClick={hiddenAmountVisibility}/>     
+                  </>
+                ):(
+                  <>
+                  <AiOutlineEye className='icon__AiOutlineEyeInvisible' onClick={showAmountVisibility}/>
+                  </>
+                )}
                 <IoNotificationsOutline className='icon__IoNotificationsOutline'/>
               </div>
               <div className='container__amount'>
@@ -232,14 +236,12 @@ return (
                 <>
                   <div className='box__amount'>
                     <p className='text__amount'>R$ 00,00</p>
-                    <AiOutlineEyeInvisible className='icon__AiOutlineEyeInvisible' onClick={hiddenAmountVisibility}/>
                   </div>
                   <p className='tittle__amount'>Total faturado esse mês</p>
                 </>
                 ):(
                   <div className='box__amount'>
                     <p className='hidden__amount'></p>
-                    <AiOutlineEye className='icon__AiOutlineEyeInvisible' onClick={showAmountVisibility}/>
                   </div>
                 )}
               </div>

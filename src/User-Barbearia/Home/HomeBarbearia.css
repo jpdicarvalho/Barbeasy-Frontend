@@ -71,7 +71,7 @@
   padding-top: 10px;
 }
 .inner__text_header{
-  width: 100%;
+  width: 90%;
   padding-left: 5px;
 }
 .text__barbearia__name{
@@ -132,8 +132,9 @@
 }
 .icon__AiOutlineEyeInvisible{
   margin-left: 10px;
-  width: 20px;
-  height: 20px;
+  margin-right: 10px;
+  width: 25px;
+  height: 25px;
   color: #f6f6f6;
   cursor: pointer;
 }
