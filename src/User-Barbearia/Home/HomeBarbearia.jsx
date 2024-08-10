@@ -236,6 +236,10 @@ return (
                 <>
                   <div className='box__amount'>
                     <p className='text__amount'>R$ 00,00</p>
+                    <div className='status__amount__barbearia'>
+                      <HiMiniArrowUpRight className='icon__MdKeyboardArrowRight'/>
+                      <p className='tittle__amount'>+2,5%</p>
+                    </div>
                   </div>
                   <p className='tittle__amount'>Total faturado esse mês</p>
                 </>
@@ -251,7 +255,6 @@ return (
           <div className='body__home__barbearia'>
               <div className='text__stats'>
                 <h3 className='inner__text__stats'>Visão geral do dia</h3>
-                <HiMiniArrowUpRight className='icon__MdKeyboardArrowRight'/>
               </div>
               <div className='constinner__stats__barbearia'>
               <div className='header__stats__barbearia'>
@@ -262,7 +265,7 @@ return (
                   <div className='inner__stats__barbearia'>
                       <GoCheckCircle className='icon__IoCheckmarkCircleOutline'/>
                       <p className='text__approved__bookings__in__stats'>Aprovado</p>
-                      <p className='total__bookings__today__in__stats'>{!bookings ? 0:bookings.length}</p>
+                      <p className='total__bookings__today__in__stats'>0</p>
                   </div>
 
                   <div className='inner__stats__barbearia'>
@@ -275,7 +278,7 @@ return (
                   <div className='inner__stats__barbearia'>
                       <CiNoWaitingSign className='icon__IoCheckmarkCircleOutline'/>
                       <p className='text__approved__bookings__in__stats'>Cancelados</p>
-                      <p className='total__bookings__today__in__stats'>{!bookings ? 0:bookings.length}</p>
+                      <p className='total__bookings__today__in__stats'>0</p>
                   </div>
                     
                 </div>
