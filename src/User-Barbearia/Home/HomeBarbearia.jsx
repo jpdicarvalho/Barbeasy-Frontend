@@ -10,7 +10,7 @@ import { AiOutlineEyeInvisible } from "react-icons/ai";
 import { AiOutlineEye } from "react-icons/ai";
 import { RiExchangeFundsLine } from "react-icons/ri";
 import { SlGraph } from "react-icons/sl";
-import { HiMiniArrowTrendingUp } from "react-icons/hi2";
+import { MdOutlineLineAxis } from "react-icons/md";
 import { GoCheckCircle } from "react-icons/go";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { BsGraphDownArrow } from "react-icons/bs";
@@ -254,6 +254,7 @@ return (
           
           <div className='body__home__barbearia'>
               <div className='text__stats'>
+                <MdOutlineLineAxis className='icon__MdOutlineLineAxis'/>
                 <h3 className='inner__text__stats'>Visão geral do dia</h3>
               </div>
               <div className='constinner__stats__barbearia'>

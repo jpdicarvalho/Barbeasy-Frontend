@@ -12,7 +12,6 @@
   flex-direction: column;
   width: 390px;
   height: 100vh;
-  overflow: hidden;
 }
 .header_container{
   display: flex;
@@ -158,11 +157,11 @@
   padding-left: 5px;
 }
 .body__home__barbearia{
-  border-top-left-radius: 25px;
-  border-top-right-radius: 25px;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
   padding: 10px;
   background: rgba(0, 0, 0, 0.447);
-  height: 100%;
+  height: 80%;
 }
 .constinner__stats__barbearia{
   display: flex;
@@ -195,9 +194,14 @@
   align-items: center;
   color: #f6f6f6;
 }
+.icon__MdOutlineLineAxis{
+  width: 20px;
+  height: 20px;
+}
 .inner__text__stats{
+  color: #f6f6f6;
   text-align: center;
-  width: 100%;
+  margin-left: 10px;
 }
 .icon__MdKeyboardArrowRight{
   width: 20px;
