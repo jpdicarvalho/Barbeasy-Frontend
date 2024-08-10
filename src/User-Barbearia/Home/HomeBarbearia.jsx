@@ -10,8 +10,8 @@ import { AiOutlineEyeInvisible } from "react-icons/ai";
 import { AiOutlineEye } from "react-icons/ai";
 import { RiExchangeFundsLine } from "react-icons/ri";
 import { SlGraph } from "react-icons/sl";
-import { GoArrowUpRight } from "react-icons/go";
-import { GoArrowDownLeft } from "react-icons/go";
+import { HiMiniArrowTrendingUp } from "react-icons/hi2";
+import { GoCheckCircle } from "react-icons/go";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { BsGraphDownArrow } from "react-icons/bs";
 import { HiArrowPath } from "react-icons/hi2";
@@ -20,7 +20,9 @@ import { GrAppsRounded } from "react-icons/gr";
 import { CiLogout } from "react-icons/ci";
 import { IoStatsChart } from "react-icons/io5";
 import { SlLayers } from "react-icons/sl";
-import { MdKeyboardArrowRight } from "react-icons/md";
+import { HiMiniArrowUpRight } from "react-icons/hi2";
+import { PiClockCountdown } from "react-icons/pi";
+import { CiNoWaitingSign } from "react-icons/ci";
 
 
 const months = [
@@ -248,29 +250,32 @@ return (
           
           <div className='body__home__barbearia'>
               <div className='text__stats'>
-                <IoStatsChart className='icon__IoStatsChart'/>
                 <h3 className='inner__text__stats'>Visão geral do dia</h3>
-                <MdKeyboardArrowRight className='icon__MdKeyboardArrowRight'/>
+                <HiMiniArrowUpRight className='icon__MdKeyboardArrowRight'/>
               </div>
               <div className='constinner__stats__barbearia'>
-                <div className='container__icon__IoIosArrowRoundUp'>
-                  <GoArrowUpRight className='icon__IoIosArrowRoundUp'/>
-                </div>
-              
+              <div className='header__stats__barbearia'>
+                <IoStatsChart className='icon__IoStatsChart'/>
+                <p>Agendamentos</p>
+              </div>
                 <div className='container__text__bookings__in__stats'>
                   <div className='inner__stats__barbearia'>
+                      <GoCheckCircle className='icon__IoCheckmarkCircleOutline'/>
+                      <p className='text__approved__bookings__in__stats'>Aprovado</p>
                       <p className='total__bookings__today__in__stats'>{!bookings ? 0:bookings.length}</p>
-                      <p className='text__approved__bookings__in__stats'>Aprovado</p> 
                   </div>
 
                   <div className='inner__stats__barbearia'>
-                      <p className='total__bookings__today__in__stats'>5</p>
-                      <p className='text__pending__bookings__in__stats'>Pendente</p> 
+                      <PiClockCountdown className='icon__IoCheckmarkCircleOutline'/>
+                      <p className='text__approved__bookings__in__stats'>Pendentes</p>
+                      <p className='total__bookings__today__in__stats'>{!bookings ? 0:bookings.length}</p>
                   </div>
 
+
                   <div className='inner__stats__barbearia'>
-                      <p className='total__bookings__today__in__stats'>9</p>
-                      <p className='text__canceled__bookings__in__stats'>Cancelados</p> 
+                      <CiNoWaitingSign className='icon__IoCheckmarkCircleOutline'/>
+                      <p className='text__approved__bookings__in__stats'>Cancelados</p>
+                      <p className='total__bookings__today__in__stats'>{!bookings ? 0:bookings.length}</p>
                   </div>
                     
                 </div>
