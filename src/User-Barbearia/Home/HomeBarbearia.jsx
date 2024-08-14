@@ -47,10 +47,7 @@ function HomeBarbearia() {
   //date to get bookings of current day
   let selectedDate = `${dayOfWeek}, ${day} de ${month} de ${year}`;
 
-  //date to get bookings of current month
-  const currentMonth = `${today.getMonth() + 1}`;
-  const currentYear = `${today.getFullYear()}`;
-
+  let CurrentMonthAndYear = `${month} de ${year}`
   const navigate = useNavigate();
 
   //Buscando informações do usuário logado
@@ -215,7 +212,7 @@ const toggleItem = (itemId) => {
 };
 //==========Secction to get amout of current month==========
 const getAmountOfMonth = () =>{
-  axios.get(`${urlApi}/api/v1/getAmountOfMonth/${barbeariaId}/${currentMonth}/${currentYear}`, {
+  axios.get(`${urlApi}/api/v1/getAmountOfMonth/${barbeariaId}/${CurrentMonthAndYear}`, {
     headers: {
       'Authorization': `Bearer ${token}`
     }
@@ -225,6 +222,7 @@ const getAmountOfMonth = () =>{
     console.log(err)
   })
 }
+
 return (
     <div className="container__main__home__barbearia">
           <div className='header_container'>
@@ -242,7 +240,7 @@ return (
                   <AiOutlineEye className='icon__AiOutlineEyeInvisible' onClick={showAmountVisibility}/>
                   </>
                 )}
-                <IoNotificationsOutline className='icon__IoNotificationsOutline'/>
+                <IoNotificationsOutline className='icon__IoNotificationsOutline' onClick={getAmountOfMonth}/>
               </div>
               <div className='container__amount'>
                 {changeVisibilityAmount ?(
