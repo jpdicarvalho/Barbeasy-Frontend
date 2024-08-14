@@ -212,7 +212,7 @@ const toggleItem = (itemId) => {
 };
 //==========Secction to get amout of current month==========
 const getAmountOfMonth = () =>{
-  axios.get(`${urlApi}/api/v1/getAmountOfMonth/${barbeariaId}`, {
+  axios.get(`${urlApi}/api/v1/getAmountOfMonth/${barbeariaId}/${CurrentMonthAndYear}`, {
     headers: {
       'Authorization': `Bearer ${token}`
     }
