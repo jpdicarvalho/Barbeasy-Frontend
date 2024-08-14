@@ -46,6 +46,7 @@ function HomeBarbearia() {
   
   //date to get bookings of current day
   let selectedDate = `${dayOfWeek}, ${day} de ${month} de ${year}`;
+
   //date to get bookings of current month
   const currentMonth = `${today.getMonth() + 1}`;
   const currentYear = `${today.getFullYear()}`;
@@ -214,7 +215,15 @@ const toggleItem = (itemId) => {
 };
 //==========Secction to get amout of current month==========
 const getAmountOfMonth = () =>{
-axios.get(`${urlApi}/api/v1/getAmountOfMonth/${barbeariaId}/${currentMonth}`)
+  axios.get(`${urlApi}/api/v1/getAmountOfMonth/${barbeariaId}/${currentMonth}/${currentYear}`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  }).then(res =>{
+    console.log(res)
+  }).catch(err =>{
+    console.log(err)
+  })
 }
 return (
     <div className="container__main__home__barbearia">
