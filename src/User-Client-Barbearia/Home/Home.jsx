@@ -89,6 +89,7 @@ useEffect(() => {
     window.removeEventListener('scroll', handleScroll);
   };
 }, []);
+
 /*===============================================================*/
 //listando as barbearias e seus respectivos serviços
 const [barbearias, setBarbearias] = useState([]);

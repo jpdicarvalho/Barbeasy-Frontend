@@ -179,7 +179,6 @@ function orderBookings(bookings) {
         // Chamando a função para ordenar os bookings por menor horário
         orderBookings(bookings);
       }else{
-        console.log('call')
         setBookings(false)
         setMessagemNotFound("Sem agendamento por enquanto...")
       }
@@ -210,8 +209,10 @@ const toggleItem = (itemId) => {
       setExpandedCardBooking([...expandedCardBooking, itemId]);
     }
 };
+//==========Secction to get amout of current month==========
+const getAmountOfCurrentMonth = () =>{
 
-console.log(bookings)
+}
 return (
     <div className="container__main__home__barbearia">
           <div className='header_container'>
