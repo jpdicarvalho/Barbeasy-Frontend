@@ -1,3 +1,16 @@
+.container__main__Schedule__barbearia{
+    height: 100vh;
+}
+.body__Schedule__barbearia{
+    display: flex;
+    flex-direction: column;
+    padding-top: 5px;
+    padding-right: 10px;
+    height: 500px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    background: red;
+}
 .inner__header__agenda{
     display: flex;
     justify-content: space-between;

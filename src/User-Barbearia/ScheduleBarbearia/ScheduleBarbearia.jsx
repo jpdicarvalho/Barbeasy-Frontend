@@ -9,6 +9,12 @@ import { SlGraph } from "react-icons/sl";
 import { GrAppsRounded } from "react-icons/gr";
 import { CiLogout } from "react-icons/ci";
 import { IoHomeOutline } from "react-icons/io5";
+import { BsGraphDownArrow } from "react-icons/bs";
+import { GiRazorBlade } from "react-icons/gi";
+import { TfiTime } from "react-icons/tfi";
+import { IoPersonCircleOutline } from "react-icons/io5";
+import { RiExchangeFundsLine } from "react-icons/ri";
+
 
 import { SlLayers } from "react-icons/sl";
 const monthNames = [
@@ -152,31 +158,31 @@ function orderBookings(bookings) {
 
 //Function to get all bookings of today
 const handleDateClick = (dayOfWeek, day, month, year) => {
-setSelectedDay(`${dayOfWeek}, ${day} de ${month} de ${year}`)
-let selectedDate = `${dayOfWeek}, ${day} de ${month} de ${year}`;
+    setSelectedDay(`${dayOfWeek}, ${day} de ${month} de ${year}`)
+    let selectedDate = `${dayOfWeek}, ${day} de ${month} de ${year}`;
 
-axios.get(`${urlApi}/api/v1/bookings/${barbeariaId}/${selectedDate}`, {
-    headers: {
-    'Authorization': `Bearer ${token}`
-    }
-})
-.then(res => {
-    if(res.data.Message === "true"){
-    setBookings(res.data.bookings);
-    // Chamando a função para ordenar os bookings por menor horário
-    orderBookings(bookings);
-    }else{
-    setBookings(false)
-    setMessagemNotFound("Sem agendamento por enquanto...")
-    }
-})
-.catch(err => console.log(err));
+    axios.get(`${urlApi}/api/v1/bookings/${barbeariaId}/${selectedDate}`, {
+        headers: {
+        'Authorization': `Bearer ${token}`
+        }
+    })
+    .then(res => {
+        if(res.data.Message === "true"){
+        setBookings(res.data.bookings);
+        // Chamando a função para ordenar os bookings por menor horário
+        orderBookings(bookings || []);
+        }else{
+        setBookings(false)
+        setMessagemNotFound("Sem agendamento por enquanto...")
+        }
+    })
+    .catch(err => console.log(err));
 }
 
 useEffect(() =>{
 handleDateClick()
 }, [])
-
+console.log(bookings)
   //Function to expanded booking cards
 const toggleItem = (itemId) => {
     if (expandedCardBooking.includes(itemId)) {
@@ -186,7 +192,7 @@ const toggleItem = (itemId) => {
     }
 };
 return (
-    <div className="container__main__home__barbearia">
+    <div className="container__main__Schedule__barbearia">
         <div className="header__bookings__history">
             <div className='inner__header__agenda'>
                 <BsCalendar2Check className='icon__RiExchangeFundsLine'/>   
@@ -216,7 +222,93 @@ return (
                 </div>
             </div>
         </div>
-        
+
+        <div className='body__Schedule__barbearia'>
+            {bookings &&(
+                        <>
+                        {bookings.length > 0 ? (
+                            bookings.map((booking, index) => {
+
+                            return(
+                                    <div key={index} className='container__booking' onClick={() => toggleItem(booking.booking_id)}>
+                                    <div className={`booking ${expandedCardBooking.includes(booking.booking_id) ? 'expandCard':''}`}>
+                                        <div className="container_professional">
+                                        {booking.professional_user_image != 'default.png' ?(
+                                            <div className='container__img__client__booking'>
+                                            <div className='user__image__professional'>
+                                                <img src={urlCloudFront + booking.user_image} id='img__user__professional'/>
+                                            </div>
+                                            <p className='phone__client'>Cliente</p>
+                                            </div>
+                                            ):(
+                                            <div className='container__img__client__booking'>
+                                                <div className="Box__image">
+                                                <p className='firstLetter'>{firstLetter}</p>
+                                                </div>
+                                                <p className='phone__client'>Cliente</p>
+                                            </div>
+                                            )}
+                                            <div className='container__name__client'>
+                                            <p className='name__client'>{booking.user_name}</p>
+                                            <p className='phone__client'>{booking.user_phone}</p>
+                                            
+                                            </div>
+                                        
+                                        <div className="time__booking">
+                                            <p className='time'>{booking.booking_time.split(',')[0]}</p>
+                                        </div>
+
+                                        </div>
+                                        <div className="section__information__booking">
+                                        <div className="tittle__information">
+                                            <p className='section__icon'>
+                                            <GiRazorBlade className='icon__information'/>
+                                            {booking.service_name}
+                                            </p>
+                                            <p>{booking.service_price}</p>
+                                        </div>
+                                        <div className="tittle__information">
+                                            <p className='section__icon'>
+                                            <TfiTime className='icon__information'/>
+                                            Duração
+                                            </p>
+                                            <p>{booking.service_duration}</p>
+                                        </div>
+                                        </div>
+                                        <div className="section__information__booking">
+                                        <div className="tittle__information">
+                                            <p className='section__icon'>
+                                            <IoPersonCircleOutline className='icon__information' />
+                                            Profissional
+                                            </p>
+                                            <p>{booking.professional_name}</p>
+                                        </div>
+                                        <div className="tittle__information">
+                                            <p className='section__icon'>
+                                            <RiExchangeFundsLine className='icon__information' />
+                                            Comissão
+                                            </p>
+                                            <p>{booking.service_commission_fee}</p>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                );
+                            })
+                        ):(
+                            <div className="message__notFound">
+                            <p style={{fontSize:"20px"}}>{messagemNotFound}</p>
+                        </div>
+                        )}
+                        </>
+            )}
+            {!bookings &&(
+            <div className='message__notFound'>
+                <BsGraphDownArrow  className='icon__BsGraphDownArrow'/>
+                <p>{messagemNotFound}</p>
+            </div>
+            )}
+        </div>
         
         
         <div className='container__buttons__header'>
