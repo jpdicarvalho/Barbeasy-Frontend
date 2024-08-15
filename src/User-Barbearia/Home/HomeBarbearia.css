@@ -125,7 +125,7 @@
   border-radius: 40px;
   width: 370px;
   padding: 3px;
-  background: #4a17d558;
+  background: #4a17d5d6;
   margin-top: 10px;
 }
 .inner__buttons__header{
@@ -159,7 +159,7 @@
   color: #f6f6f6e9;
 }
 .label__button__header{
-  color: gray;
+  color: #f6f6f6;
   font-size: 12px;
 }
 .label__tittle__menu{
@@ -172,7 +172,7 @@
   flex-direction: column;
   padding-top: 400px;
   padding-right: 10px;
-  height: 650px;
+  height: 100%;
   overflow-y: scroll;
   overflow-x: hidden;
 }
@@ -197,17 +197,6 @@
   width: 20px;
   height: 20px;
 }
-.inner__text__stats{
-  color: #f6f6f6;
-  text-align: center;
-  margin-left: 10px;
-}
-.icon__MdKeyboardArrowRight{
-  width: 20px;
-  height: 20px;
-  margin-right: 5px;
-  color: #0f0;
-}
 .icon__IoStatsChart{
   margin-right: 10px;
   margin-bottom: 3px;
@@ -217,67 +206,6 @@
   color: #f6f6f6;
   margin-right: 10px;
 }
-.inner__stats__barbearia{
-  display: flex;
-  justify-content: start;
-  align-items: center;
-  background: transparent;
-  height: 45px;
-  transition: 0.5s;
-  width: 100%;
-  border-bottom: 1px solid #4a17d53f;
-}
-.inner__stats__barbearia:hover{
-  background: #4a17d55b;
-  transition: 0.5s;
-}
-.icon__IoCheckmarkCircleOutline{
-  width: 20px;
-  height: 20px;
-  margin-right: 10px;
-  color: #4a17d5;
-}
-.total__bookings__today__in__stats{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: gray;
-  font-size: 14px;
-  height: 100%;
-  width: 40px;
-  border-radius: 10px;
-}
-.container__text__bookings__in__stats{
-  display: flex;
-  justify-content: start;
-  align-items: start;
-  flex-direction: column;
-  padding-right: 3px;
-}
-.text__approved__bookings__in__stats{
-  display: flex;
-  justify-content: start;
-  align-items: center;
-  padding: 3px;
-  border-radius: 10px;
-  height: 30px;
-  width: 100%;
-  color: gray;
-  font-size: 14px;
-  text-align: center;
-}
-.total__bookings__today__in__stats:hover{
-  color: #f6f6f6;
-  transition: 0.5s;
-}
-.icon__IoIosArrowRoundDown{
-  width: 25px;
-  height: 25px;
-  background: #4a17d557;
-  color: red;
-  border-radius: 50%;
-}
-
 .icon__HiArrowPath{
   transition: transform 0.5s ease-in-out;
   width: 20px;
