@@ -1,15 +1,25 @@
 .container__main__Schedule__barbearia{
-    height: 100vh;
+    min-height: 97.7vh;
 }
 .body__Schedule__barbearia{
     display: flex;
     flex-direction: column;
     padding-top: 5px;
     padding-right: 10px;
-    height: 500px;
+    margin-top: 10px;
+    height: 515px;
     overflow-y: scroll;
     overflow-x: hidden;
-    background: red;
+}
+.body__Schedule__barbearia::-webkit-scrollbar {
+    width: 5px;
+}
+.body__Schedule__barbearia::-webkit-scrollbar-thumb {
+   background: transparent; 
+   border-radius: 5px;
+}
+.body__Schedule__barbearia::-webkit-scrollbar-thumb:hover {
+    background: #4a17d5; 
 }
 .inner__header__agenda{
     display: flex;

@@ -198,10 +198,6 @@ return (
                 <BsCalendar2Check className='icon__RiExchangeFundsLine'/>   
                 <h2>Agenda</h2>
             </div>
-            <div className='Box__input__Search'>
-                <IoIosSearch id='lupa__in__bookings__history'/>
-                <input type="search" className='Inner__input__search' placeholder='Buscar agendamento'/>
-            </div>
         </div>
 
         <div className='container__Calendar'>
