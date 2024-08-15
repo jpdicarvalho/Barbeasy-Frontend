@@ -1,6 +1,13 @@
 .container__main__Schedule__barbearia{
     min-height: 97.7vh;
 }
+.text__schedule__information{
+    font-size: 14px;
+    padding-left: 10px;
+    margin-bottom: 10px;
+    width: 385px;
+    color: gray;
+}
 .body__Schedule__barbearia{
     display: flex;
     flex-direction: column;

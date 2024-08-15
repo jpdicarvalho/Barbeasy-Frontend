@@ -26,14 +26,18 @@ const weekNames = [
 
 function ScheduleBarbearia() {
 
+    const navigate = useNavigate();
 
     const date = new Date();
 
     const options = { weekday: 'short', locale: 'pt-BR' };
+    const day = date.getDate();
     let dayOfWeek = date.toLocaleDateString('pt-BR', options);
     dayOfWeek = dayOfWeek.slice(0, -1);
     dayOfWeek = dayOfWeek.charAt(0).toUpperCase() + dayOfWeek.slice(1);
+    const month = monthNames[date.getMonth()];
     const year = date.getFullYear();
+    const currenteDate = `${dayOfWeek}, ${day} de ${month} de ${year}`;
 
     //Buscando informações do usuário logado
     const token = localStorage.getItem('token');
@@ -49,8 +53,8 @@ const navigateToProfileBarbearia = () =>{
     navigate("/ProfileBarbearia");
 }
 
-const navigateToScheduleBarbearia = () =>{
-    navigate("/ScheduleBarbearia");
+const navigateToHomeBarbearia = () =>{
+    navigate("/HomeBarbearia");
 }
 
 //Função LogOut
@@ -133,7 +137,7 @@ const [expandedCardBooking, setExpandedCardBooking] = useState([]);
 const [isRotating, setIsRotating] = useState(false);
 const [messagemNotFound, setMessagemNotFound] = useState("");
 
-const [selectedDay, setSelectedDay] = useState(null);
+const [selectedDay, setSelectedDay] = useState(false);
 
 //function to order all bookings by date
 function orderBookings(bookings) {
@@ -158,32 +162,34 @@ function orderBookings(bookings) {
 
 //Function to get all bookings of today
 const handleDateClick = (dayOfWeek, day, month, year) => {
-    setSelectedDay(`${dayOfWeek}, ${day} de ${month} de ${year}`)
-    let selectedDate = `${dayOfWeek}, ${day} de ${month} de ${year}`;
-
-    axios.get(`${urlApi}/api/v1/bookings/${barbeariaId}/${selectedDate}`, {
-        headers: {
-        'Authorization': `Bearer ${token}`
-        }
-    })
-    .then(res => {
-        if(res.data.Message === "true"){
-        setBookings(res.data.bookings);
-        // Chamando a função para ordenar os bookings por menor horário
-        orderBookings(bookings || []);
-        }else{
-        setBookings(false)
-        setMessagemNotFound("Sem agendamento por enquanto...")
-        }
-    })
-    .catch(err => console.log(err));
+    if(dayOfWeek && day && month && year){
+        setSelectedDay(`${dayOfWeek}, ${day} de ${month} de ${year}`)
+        let selectedDate = `${dayOfWeek}, ${day} de ${month} de ${year}`;
+    
+        axios.get(`${urlApi}/api/v1/bookings/${barbeariaId}/${selectedDate}`, {
+            headers: {
+            'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(res => {
+            if(res.data.Message === "true"){
+            setBookings(res.data.bookings);
+            // Chamando a função para ordenar os bookings por menor horário
+            orderBookings(bookings || []);
+            }else{
+            setBookings(false)
+            setMessagemNotFound("Sem agendamento por enquanto...")
+            }
+        })
+        .catch(err => console.log(err));   
+    }
 }
 
 useEffect(() =>{
-handleDateClick()
+    handleDateClick()
 }, [])
-console.log(bookings)
-  //Function to expanded booking cards
+
+//Function to expanded booking cards
 const toggleItem = (itemId) => {
     if (expandedCardBooking.includes(itemId)) {
       setExpandedCardBooking(expandedCardBooking.filter(id => id !== itemId));
@@ -198,6 +204,8 @@ return (
                 <BsCalendar2Check className='icon__RiExchangeFundsLine'/>   
                 <h2>Agenda</h2>
             </div>
+            <p className='text__schedule__information'>{selectedDay ? selectedDay:currenteDate}</p>
+
         </div>
 
         <div className='container__Calendar'>
@@ -324,7 +332,7 @@ return (
             </div>
             
             <div className='inner__buttons__header'>
-            <button className='button__header' onClick={navigateToScheduleBarbearia}>
+            <button className='button__header' onClick={navigateToHomeBarbearia}>
                 <IoHomeOutline className='icon__RiExchangeFundsLine'/>
             </button>
             <p className='label__button__header'>Home</p>

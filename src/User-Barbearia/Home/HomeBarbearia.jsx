@@ -41,8 +41,6 @@ function HomeBarbearia() {
   //date to get bookings of current day
   let selectedDate = `${dayOfWeek}, ${day} de ${month} de ${year}`;
 
-  let CurrentMonthAndYear = `${month} de ${year}`;
-
   const navigate = useNavigate();
 
   //Buscando informações do usuário logado
