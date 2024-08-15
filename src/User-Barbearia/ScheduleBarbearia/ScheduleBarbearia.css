@@ -1,0 +1,10 @@
+.inner__header__agenda{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    width: 120px;
+    padding-left: 10px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}

@@ -155,7 +155,7 @@ export function Agendamento({
   const numberDays = getNumber();
   const currentDay = getCurrentDayOfWeek()
   const currentTime = getCurrentTime()
-console.log(currentDay)
+  
   // Function to get all booking
   const handleDateClick = (dayOfWeek, day, month, year) => {
   setSelectedDay(`${dayOfWeek}, ${day} de ${month} de ${year}`)
