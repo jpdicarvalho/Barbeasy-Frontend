@@ -47,7 +47,8 @@ function HomeBarbearia() {
   //date to get bookings of current day
   let selectedDate = `${dayOfWeek}, ${day} de ${month} de ${year}`;
 
-  let CurrentMonthAndYear = `${month} de ${year}`
+  let CurrentMonthAndYear = `${month} de ${year}`;
+
   const navigate = useNavigate();
 
   //Buscando informações do usuário logado
@@ -211,17 +212,22 @@ const toggleItem = (itemId) => {
     }
 };
 //==========Secction to get amout of current month==========
-const getAmountOfMonth = () =>{
-  axios.get(`${urlApi}/api/v1/getAmountOfMonth/${barbeariaId}/${CurrentMonthAndYear}`, {
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
-  }).then(res =>{
-    console.log(res)
-  }).catch(err =>{
-    console.log(err)
-  })
-}
+const [valuesSerice, setValuesService] = useState ([])
+
+useEffect(() =>{
+  const getAmountOfMonth = () =>{
+    axios.get(`${urlApi}/api/v1/getAmountOfMonth/${barbeariaId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).then(res =>{
+      setValuesService(res.data.totalAmount)
+    }).catch(err =>{
+      console.log(err)
+    })
+  }
+  getAmountOfMonth()
+}, [])
 
 return (
     <div className="container__main__home__barbearia">
@@ -240,13 +246,13 @@ return (
                   <AiOutlineEye className='icon__AiOutlineEyeInvisible' onClick={showAmountVisibility}/>
                   </>
                 )}
-                <IoNotificationsOutline className='icon__IoNotificationsOutline' onClick={getAmountOfMonth}/>
+                <IoNotificationsOutline className='icon__IoNotificationsOutline'/>
               </div>
               <div className='container__amount'>
                 {changeVisibilityAmount ?(
                 <>
                   <div className='box__amount'>
-                    <p className='text__amount'>R$ 00,00</p>
+                    <p className='text__amount'>R$ {valuesSerice}</p>
                     <div className='status__amount__barbearia'>
                       <HiMiniArrowUpRight className='icon__MdKeyboardArrowRight'/>
                       <p className='tittle__amount'>+2,5%</p>
