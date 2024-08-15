@@ -56,6 +56,9 @@ function HomeBarbearia() {
 const navigateToProfileBarbearia = () =>{
   navigate("/ProfileBarbearia");
 }
+const navigateToScheduleBarbearia = () =>{
+  navigate("/ScheduleBarbearia");
+}
 
 //Função LogOut
 const logoutClick = () => {
@@ -360,7 +363,7 @@ return (
                   </div>
                   
                   <div className='inner__buttons__header'>
-                    <button className='button__header'>
+                    <button className='button__header' onClick={navigateToScheduleBarbearia}>
                       <BsCalendar2Check className='icon__RiExchangeFundsLine'/>
                     </button>
                     <p className='label__button__header'>Agenda</p>

@@ -20,8 +20,42 @@ function ScheduleBarbearia() {
 
 return (
     <div className="container__main__home__barbearia">
-        hello word
-     </div>
+        
+        
+        
+        
+        <div className='container__buttons__header'>
+            
+            <div className='inner__buttons__header'>
+            <button className='button__header' onClick={logoutClick}>
+                <CiLogout className='icon__RiExchangeFundsLine'/>
+            </button>
+            <p className='label__button__header'>Sair</p>
+            </div>
+
+            <div className='inner__buttons__header'>
+            <button className='button__header'>
+                <SlGraph className='icon__RiExchangeFundsLine'/>
+            </button>
+            <p className='label__button__header'>Relatório</p>
+            </div>
+            
+            <div className='inner__buttons__header'>
+            <button className='button__header' onClick={navigateToScheduleBarbearia}>
+                <BsCalendar2Check className='icon__RiExchangeFundsLine'/>
+            </button>
+            <p className='label__button__header'>Agenda</p>
+            </div>
+
+            <div className='inner__buttons__header'>
+            <button className='button__header' onClick={navigateToProfileBarbearia}>
+                <GrAppsRounded className='icon__RiExchangeFundsLine'/>
+            </button>
+            <p className='label__button__header'>Menu</p>
+            </div>
+
+        </div>
+    </div>
 );
 }
 
