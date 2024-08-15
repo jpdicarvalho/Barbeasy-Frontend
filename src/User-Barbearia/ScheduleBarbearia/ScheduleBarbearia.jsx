@@ -12,7 +12,7 @@ const daysOfWeek = [
   'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'
 ];
 
-function HomeBarbearia() {
+function ScheduleBarbearia() {
 
   const urlApi = 'https://barbeasy.up.railway.app'
   const urlCloudFront = "https://d15o6h0uxpz56g.cloudfront.net/"
@@ -25,4 +25,4 @@ return (
 );
 }
 
-export default HomeBarbearia;
+export default ScheduleBarbearia;
