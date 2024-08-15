@@ -237,39 +237,29 @@ return (
                   <p className='text__barbearia__name'>{saudacao} {barbeariaUserName}</p>
                   <p className='text__salutation'>{selectedDate}</p>
                 </div>
-                {changeVisibilityAmount ?(
-                  <>
-                    <AiOutlineEyeInvisible className='icon__AiOutlineEyeInvisible' onClick={hiddenAmountVisibility}/>     
-                  </>
-                ):(
-                  <>
-                  <AiOutlineEye className='icon__AiOutlineEyeInvisible' onClick={showAmountVisibility}/>
-                  </>
-                )}
                 <IoNotificationsOutline className='icon__IoNotificationsOutline'/>
               </div>
               <div className='container__amount'>
                 {changeVisibilityAmount ?(
                 <>
+                  <p className='tittle__amount'>Total faturado esse mês</p>
                   <div className='box__amount'>
                     <p className='text__amount'>R$ {valuesSerice}</p>
-                    <div className='status__amount__barbearia'>
-                      <HiMiniArrowUpRight className='icon__MdKeyboardArrowRight'/>
-                      <p className='tittle__amount'>+2,5%</p>
-                    </div>
+                    <AiOutlineEyeInvisible className='icon__AiOutlineEyeInvisible' onClick={hiddenAmountVisibility}/>     
                   </div>
-                  <p className='tittle__amount'>Total faturado esse mês</p>
+                  
                 </>
                 ):(
                   <div className='box__amount'>
                     <p className='hidden__amount'></p>
+                    <AiOutlineEye className='icon__AiOutlineEyeInvisible' onClick={showAmountVisibility}/>
                   </div>
                 )}
               </div>
 
               <div className='text__for__today'>
                 <SlLayers className='icon__SlLayers'/>
-                <h3 className='inner__text__for__today'>Pra hoje</h3>
+                <h3 className='inner__text__for__today'>Agendamentos pra hoje</h3>
                 <HiArrowPath className={`icon__HiArrowPath ${isRotating ? 'rotating' : ''}`} onClick={updateListBookingsToday}/>
               </div>
           </div>

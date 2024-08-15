@@ -93,7 +93,7 @@
 }
 .tittle__amount{
   font-size: 12px;
-  color: #f6f6f6;
+  color: grey;
 }
 .text__amount{
   font-size: 25px;
@@ -112,7 +112,7 @@
   padding: 4px;
   color: #f6f6f6;
   border-radius: 50%;
-  background: #4a17d536;
+  background: transparent;
   cursor: pointer;
 }
 .container__buttons__header{
@@ -170,7 +170,9 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  padding-top: 200px;
+  padding-top: 280px;
+  padding-right: 10px;
+  height: 650px;
   overflow-y: scroll;
   overflow-x: hidden;
 }
@@ -282,7 +284,7 @@
   height: 20px;
   margin-left: 10px;
   cursor: pointer;
-  color: #354249;
+  color: #fff;
 }
 .inner__text__for__today{
   width: 100%;
@@ -358,7 +360,7 @@
   justify-content: start;
   align-items: center;
   flex-direction: row;
-  width: 385px;
+  width: 100%;
 }
 .booking{
   background: rgba(59, 20, 216, 0.1);
@@ -366,7 +368,7 @@
   border-radius: 10px;
   margin-bottom: 10px;
   margin-left: 10px;
-  width: 340px;
+  width: 100%;
   height: 145px;
   color: #354249;
   transition: 0.5s;
