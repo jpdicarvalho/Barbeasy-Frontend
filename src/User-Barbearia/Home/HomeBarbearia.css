@@ -116,7 +116,7 @@
   cursor: pointer;
 }
 .container__buttons__header{
-  position: absolute;
+  position: fixed;
   bottom: 15px;
   display: flex;
   justify-content: space-around;
