@@ -170,9 +170,9 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  padding-top: 300px;
+  padding-top: 350px;
   padding-right: 10px;
-  height: 100%;
+  height: 670px;
   overflow-y: scroll;
   overflow-x: hidden;
 }
