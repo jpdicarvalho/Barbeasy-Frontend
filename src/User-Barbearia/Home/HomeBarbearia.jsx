@@ -259,13 +259,12 @@ return (
 
               <div className='text__for__today'>
                 <SlLayers className='icon__SlLayers'/>
-                <h3 className='inner__text__for__today'>Pra hoje</h3>
+                <h3 className='inner__text__for__today'>Pra hoje ({bookings ? bookings.length:0})</h3>
                 <HiArrowPath className={`icon__HiArrowPath ${isRotating ? 'rotating' : ''}`} onClick={updateListBookingsToday}/>
               </div>
           </div>
           
           <div className='body__home__barbearia'>
-
                   {bookings &&(
                     <>
                       {bookings.length > 0 ? (
