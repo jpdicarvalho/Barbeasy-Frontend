@@ -10,19 +10,13 @@ import { AiOutlineEyeInvisible } from "react-icons/ai";
 import { AiOutlineEye } from "react-icons/ai";
 import { RiExchangeFundsLine } from "react-icons/ri";
 import { SlGraph } from "react-icons/sl";
-import { MdOutlineLineAxis } from "react-icons/md";
-import { GoCheckCircle } from "react-icons/go";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { BsGraphDownArrow } from "react-icons/bs";
 import { HiArrowPath } from "react-icons/hi2";
 import { BsCalendar2Check } from "react-icons/bs";
 import { GrAppsRounded } from "react-icons/gr";
 import { CiLogout } from "react-icons/ci";
-import { IoStatsChart } from "react-icons/io5";
 import { SlLayers } from "react-icons/sl";
-import { HiMiniArrowUpRight } from "react-icons/hi2";
-import { PiClockCountdown } from "react-icons/pi";
-import { CiNoWaitingSign } from "react-icons/ci";
 
 
 const months = [
