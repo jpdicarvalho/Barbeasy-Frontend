@@ -266,53 +266,16 @@ return (
                   </div>
                 )}
               </div>
-              
-          </div>
-          
-          <div className='body__home__barbearia'>
-              <div className='text__stats'>
-                <MdOutlineLineAxis className='icon__MdOutlineLineAxis'/>
-                <h3 className='inner__text__stats'>Visão geral do dia</h3>
-              </div>
-              <div className='constinner__stats__barbearia'>
-              <div className='header__stats__barbearia'>
-                <IoStatsChart className='icon__IoStatsChart'/>
-                <p>Agendamentos</p>
-              </div>
-                <div className='container__text__bookings__in__stats'>
-                  <div className='inner__stats__barbearia'>
-                      <GoCheckCircle className='icon__IoCheckmarkCircleOutline'/>
-                      <p className='text__approved__bookings__in__stats'>Aprovado</p>
-                      <p className='total__bookings__today__in__stats'>0</p>
-                  </div>
-
-                  <div className='inner__stats__barbearia'>
-                      <PiClockCountdown className='icon__IoCheckmarkCircleOutline'/>
-                      <p className='text__approved__bookings__in__stats'>Pendentes</p>
-                      <p className='total__bookings__today__in__stats'>{!bookings ? 0:bookings.length}</p>
-                  </div>
-
-
-                  <div className='inner__stats__barbearia'>
-                      <CiNoWaitingSign className='icon__IoCheckmarkCircleOutline'/>
-                      <p className='text__approved__bookings__in__stats'>Cancelados</p>
-                      <p className='total__bookings__today__in__stats'>0</p>
-                  </div>
-                    
-                </div>
-                          
-                        
-
-          
-              </div>
 
               <div className='text__for__today'>
                 <SlLayers className='icon__SlLayers'/>
                 <h3 className='inner__text__for__today'>Pra hoje</h3>
                 <HiArrowPath className={`icon__HiArrowPath ${isRotating ? 'rotating' : ''}`} onClick={updateListBookingsToday}/>
               </div>
+          </div>
+          
+          <div className='body__home__barbearia'>
 
-              <div className='section__for__list__bookings'>
                   {bookings &&(
                     <>
                       {bookings.length > 0 ? (
@@ -397,7 +360,6 @@ return (
                       <p>{messagemNotFound}</p>
                     </div>
                   )}
-              </div>
               <div className='container__buttons__header'>
         
                   <div className='inner__buttons__header'>
