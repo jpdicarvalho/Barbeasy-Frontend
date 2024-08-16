@@ -305,9 +305,9 @@ return (
                                         </p>
                                         <p>{booking.paymentStatus === "pending"? 'Pendente':'Aprovado'}</p>
                                       </div>
-                                      <div className="tittle__information">
+                                      <div className="tittle__information__GiRazor">
                                         <p className='section__icon'>
-                                          <GiRazor className='icon__information'/>
+                                          <GiRazor className='icon__information__GiRazor'/>
                                           {booking.service_name}
                                         </p>
                                         <p>{booking.service_price}</p>

@@ -313,7 +313,7 @@
   overflow: hidden;
 }
 .expandCard{
-  height: 205px;
+  height: 230px;
   transition: 0.5s;
 }
 .time__booking{
@@ -393,6 +393,24 @@
   margin-right: 5px;
   width: 20px;
   height: 20px;
+}
+
+.tittle__information__GiRazor{
+  display: flex;
+  justify-content: space-between;
+  padding-right: 5px;
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: #f6f6f6;
+}
+.icon__information__GiRazor{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 5px;
+  width: 19px;
+  height: 19px;
+  margin-bottom: 2px;
 }
 .bookingTime{
   display: flex;
