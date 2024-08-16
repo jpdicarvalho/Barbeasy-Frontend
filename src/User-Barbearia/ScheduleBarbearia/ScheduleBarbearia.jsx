@@ -182,6 +182,25 @@ const handleDateClick = (dayOfWeek, day, month, year) => {
             }
         })
         .catch(err => console.log(err));   
+    }else{
+        //Condition to get all bookings of current day
+        let selectedDate = currenteDate;
+        axios.get(`${urlApi}/api/v1/bookings/${barbeariaId}/${selectedDate}`, {
+            headers: {
+            'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(res => {
+            if(res.data.Message === "true"){
+            setBookings(res.data.bookings);
+            // Chamando a função para ordenar os bookings por menor horário
+            orderBookings(bookings || []);
+            }else{
+            setBookings(false)
+            setMessagemNotFound("Sem agendamento por enquanto...")
+            }
+        })
+        .catch(err => console.log(err));
     }
 }
 
@@ -309,7 +328,7 @@ return (
             {!bookings &&(
             <div className='message__notFound'>
                 <BsGraphDownArrow  className='icon__BsGraphDownArrow'/>
-                <p>Selecione um dia para visualizar os agenda</p>
+                <p>{messagemNotFound}</p>
             </div>
             )}
         </div>
