@@ -132,7 +132,7 @@ function getCurrentTime(){
 
 //================ Get Bookings ================
 //Função para pegar os dias da semana
-const [bookings, setBookings] = useState([]);
+const [bookings, setBookings] = useState(false);
 const [expandedCardBooking, setExpandedCardBooking] = useState([]);
 const [isRotating, setIsRotating] = useState(false);
 const [messagemNotFound, setMessagemNotFound] = useState("");
@@ -197,6 +197,7 @@ const toggleItem = (itemId) => {
       setExpandedCardBooking([...expandedCardBooking, itemId]);
     }
 };
+console.log(bookings)
 return (
     <div className="container__main__Schedule__barbearia">
         <div className="header__bookings__history">
@@ -205,10 +206,8 @@ return (
                 <h2>Agenda</h2>
             </div>
             <p className='text__schedule__information'>{selectedDay ? selectedDay:currenteDate}</p>
-
-        </div>
-
-        <div className='container__Calendar'>
+            
+            <div className='container__Calendar'>
             <div className='sectionCalendar'>
                 <div className="list__Names__Week__And__Day">
                     {weekDays.map((dayOfWeek, index) => (
@@ -224,6 +223,7 @@ return (
                         </div>
                     ))}
                 </div>
+            </div>
             </div>
         </div>
 
@@ -309,7 +309,7 @@ return (
             {!bookings &&(
             <div className='message__notFound'>
                 <BsGraphDownArrow  className='icon__BsGraphDownArrow'/>
-                <p>{messagemNotFound}</p>
+                <p>Selecione um dia para visualizar os agenda</p>
             </div>
             )}
         </div>

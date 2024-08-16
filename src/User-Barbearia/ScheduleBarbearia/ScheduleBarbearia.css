@@ -1,5 +1,10 @@
 .container__main__Schedule__barbearia{
     min-height: 97.7vh;
+    width: 390px;
+}
+.header__bookings__history{
+    position: fixed;
+    top: 0;
 }
 .text__schedule__information{
     font-size: 14px;
@@ -11,7 +16,7 @@
 .body__Schedule__barbearia{
     display: flex;
     flex-direction: column;
-    padding-top: 5px;
+    padding-top: 170px;
     padding-right: 10px;
     margin-top: 10px;
     height: 515px;
