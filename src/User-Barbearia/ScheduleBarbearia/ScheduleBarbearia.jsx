@@ -334,8 +334,8 @@ return (
                         </>
             )}
             {!bookings &&(
-            <div className='message__notFound'>
-                <BsGraphDownArrow  className='icon__BsGraphDownArrow'/>
+            <div className='message__notFound animation__fade'>
+                <BsGraphDownArrow  className='icon__BsGraphDownArrow animation__fade'/>
                 <p>{messagemNotFound}</p>
             </div>
             )}

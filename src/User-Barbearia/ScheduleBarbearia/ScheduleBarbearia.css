@@ -49,3 +49,15 @@
     padding-left: 10px;
     margin-bottom: 10px;
 }
+@keyframes fadeOut {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+.animation__fade{
+    animation: fadeOut 6s forwards ease;
+    animation-delay: 0.0s, 0.9s;
+}
