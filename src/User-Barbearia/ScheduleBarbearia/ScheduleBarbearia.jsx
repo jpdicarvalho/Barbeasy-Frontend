@@ -61,6 +61,7 @@ const handleBackClick = () => {
     navigate("/HomeBarbearia");
   };
 
+
 //Função LogOut
 const logoutClick = () => {
     ['token', 'dataBarbearia', 'code_verifier', 'AmountVisibility'].forEach(key => localStorage.removeItem(key));

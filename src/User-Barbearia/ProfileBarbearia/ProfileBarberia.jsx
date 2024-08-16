@@ -33,7 +33,7 @@ import { SiMercadopago } from "react-icons/si";
 
 
 import { SlGraph } from "react-icons/sl";
-import { GrAppsRounded } from "react-icons/gr";
+import { BsCalendar2Check } from "react-icons/bs";
 import { CiLogout } from "react-icons/ci";
 import { IoHomeOutline } from "react-icons/io5";
 
@@ -52,9 +52,10 @@ function ProfileBarbearia() {
   const userInformation = JSON.parse(userData);//trasnformando os dados para JSON
   const barbeariaId = userInformation.barbearia[0].id;
 
-  const navigateToProfileBarbearia = () =>{
-    navigate("/ProfileBarbearia");
+  const navigateToScheduleBarbearia = () =>{
+    navigate("/ScheduleBarbearia");
   }
+
 
   const navigateToHomeBarbearia = () =>{
     navigate("/HomeBarbearia");
@@ -1406,19 +1407,19 @@ useEffect(() => {
             </button>
             <p className='label__button__header'>Relatório</p>
             </div>
-            
+
             <div className='inner__buttons__header'>
-            <button className='button__header' onClick={navigateToHomeBarbearia}>
-                <IoHomeOutline className='icon__RiExchangeFundsLine'/>
-            </button>
-            <p className='label__button__header'>Home</p>
+              <button className='button__header' onClick={navigateToScheduleBarbearia}>
+                <BsCalendar2Check className='icon__RiExchangeFundsLine'/>
+              </button>
+              <p className='label__button__header'>Agenda</p>
             </div>
 
             <div className='inner__buttons__header'>
-            <button className='button__header' onClick={navigateToProfileBarbearia}>
-                <GrAppsRounded className='icon__RiExchangeFundsLine'/>
-            </button>
-            <p className='label__button__header'>Menu</p>
+              <button className='button__header' onClick={navigateToHomeBarbearia}>
+                  <IoHomeOutline className='icon__RiExchangeFundsLine'/>
+              </button>
+              <p className='label__button__header'>Home</p>
             </div>
 
         </div>
