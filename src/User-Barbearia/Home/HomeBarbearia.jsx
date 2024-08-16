@@ -3,8 +3,8 @@ import { useNavigate, useLocation } from "react-router-dom"
 import axios from 'axios';
 
 import './HomeBarbearia.css';
-import { GiRazorBlade } from "react-icons/gi";
-import { TfiTime } from "react-icons/tfi";
+import { GiRazor } from "react-icons/gi";
+import { MdOutlineTimer } from "react-icons/md";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { AiOutlineEyeInvisible } from "react-icons/ai";
 import { AiOutlineEye } from "react-icons/ai";
@@ -17,6 +17,7 @@ import { BsCalendar2Check } from "react-icons/bs";
 import { GrAppsRounded } from "react-icons/gr";
 import { CiLogout } from "react-icons/ci";
 import { SlLayers } from "react-icons/sl";
+import { PiContactlessPayment } from "react-icons/pi";
 
 
 const months = [
@@ -207,7 +208,7 @@ const toggleItem = (itemId) => {
     }
 };
 //==========Secction to get amout of current month==========
-const [valuesSerice, setValuesService] = useState ([])
+const [valuesSerice, setValuesService] = useState (false)
 
 useEffect(() =>{
   const getAmountOfMonth = () =>{
@@ -223,6 +224,7 @@ useEffect(() =>{
   }
   getAmountOfMonth()
 }, [])
+console.log(bookings)
 
 return (
     <div className="container__main__home__barbearia">
@@ -239,7 +241,7 @@ return (
                 <>
                   <p className='tittle__amount'>Total faturado esse mês</p>
                   <div className='box__amount'>
-                    <p className='text__amount'>R$ {valuesSerice}</p>
+                    <p className='text__amount'>R$ {valuesSerice ? valuesSerice:'00,00'}</p>
                     <AiOutlineEyeInvisible className='icon__AiOutlineEyeInvisible' onClick={hiddenAmountVisibility}/>     
                   </div>
                   
@@ -267,7 +269,7 @@ return (
 
                           return(
                                 <div key={index} className='container__booking' onClick={() => toggleItem(booking.booking_id)}>
-                                  <div className={`booking ${expandedCardBooking.includes(booking.booking_id) ? 'expandCard':''}`}>
+                                  <div className={`${booking.paymentStatus === "pending" ? 'booking__pending':'booking' } ${expandedCardBooking.includes(booking.booking_id) ? 'expandCard':''}`}>
                                     <div className="container_professional">
                                       {booking.professional_user_image != 'default.png' ?(
                                         <div className='container__img__client__booking'>
@@ -298,14 +300,21 @@ return (
                                     <div className="section__information__booking">
                                       <div className="tittle__information">
                                         <p className='section__icon'>
-                                          <GiRazorBlade className='icon__information'/>
+                                          <PiContactlessPayment className='icon__information'/>
+                                          Status do pagamento
+                                        </p>
+                                        <p>{booking.paymentStatus === "pending"? 'Pendente':'Aprovado'}</p>
+                                      </div>
+                                      <div className="tittle__information">
+                                        <p className='section__icon'>
+                                          <GiRazor className='icon__information'/>
                                           {booking.service_name}
                                         </p>
                                         <p>{booking.service_price}</p>
                                       </div>
                                       <div className="tittle__information">
                                         <p className='section__icon'>
-                                          <TfiTime className='icon__information'/>
+                                          <MdOutlineTimer className='icon__information'/>
                                           Duração
                                         </p>
                                         <p>{booking.service_duration}</p>
