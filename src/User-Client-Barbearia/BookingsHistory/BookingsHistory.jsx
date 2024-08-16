@@ -9,6 +9,7 @@ import { IoIosSearch } from "react-icons/io";
 import { PiTimerLight } from "react-icons/pi";
 import { GiSandsOfTime } from "react-icons/gi";
 import { BsCalendar2Check } from "react-icons/bs";
+import { FaLayerGroup } from "react-icons/fa";
 
 const numbersMonth = {
     Jan: 1,
@@ -115,6 +116,7 @@ function BookingsHistory (){
                         <IoArrowBackSharp className="Icon__Back" onClick={handleBackClick}/>
                     </div>
                     <div className='tittle__historic'>
+                        <FaLayerGroup className='icon__FaLayerGroup'/>
                         <h2>Histórico</h2>
                     </div>
                     <div className='Box__input__Search'>

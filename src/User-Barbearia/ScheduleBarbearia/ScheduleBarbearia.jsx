@@ -224,7 +224,7 @@ const toggleItem = (itemId) => {
 
 return (
     <div className="container__main__Schedule__barbearia">
-        <div className="header__bookings__history">
+        <div className="header__bookings__schedule">
             <div className="back__in__schedule">
                 <IoArrowBackSharp className="Icon__Back" onClick={handleBackClick}/>
             </div>

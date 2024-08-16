@@ -2,7 +2,7 @@
     min-height: 97.7vh;
     width: 390px;
 }
-.header__bookings__history{
+.header__bookings__schedule{
     position: fixed;
     top: 0;
     backdrop-filter: blur(10px);
