@@ -7,7 +7,7 @@ import './BookingsHistory.css'
 import { IoArrowBackSharp } from "react-icons/io5";
 import { IoIosSearch } from "react-icons/io";
 import { PiTimerLight } from "react-icons/pi";
-import { GiSandsOfTime } from "react-icons/gi";
+import { CiBookmarkCheck } from "react-icons/ci";
 import { BsCalendar2Check } from "react-icons/bs";
 import { FaLayerGroup } from "react-icons/fa";
 
@@ -145,8 +145,8 @@ function BookingsHistory (){
                                         </>
                                     ):(
                                         <>
-                                            <GiSandsOfTime className={` ${formattedDate > valuesDateBooking ? 'icon__GiSandsOfTime':''}`} style={{fontSize: '40px'}}/>
-                                            <p className={`status__bookings__history ${formattedDate > valuesDateBooking ? 'colorTexts':''}`}>Finalizado</p>
+                                            <CiBookmarkCheck className={` ${formattedDate > valuesDateBooking ? 'icon__GiSandsOfTime':''}`} style={{fontSize: '40px'}}/>
+                                            <p className={`status__bookings__history ${formattedDate > valuesDateBooking ? 'colorTexts':''}`}>Agendado</p>
                                         </>
                                     )}
                                     
