@@ -7,7 +7,6 @@ import axios from 'axios';
 import AddNewProfessional from '../AddNewProfessional/addNewProfessional';
  
 //Icons
-import { IoArrowBackSharp } from "react-icons/io5";
 
 import { IoIosArrowDown } from "react-icons/io";
 import { MdOutlineBackup } from "react-icons/md";
@@ -52,10 +51,6 @@ function ProfileBarbearia() {
 
   // Formata a data e hora no formato desejado (por exemplo: YYYYMMDD_HHMMSS)
   const formattedDateTime = `${currentDateTime.getFullYear()}${(currentDateTime.getMonth() + 1).toString().padStart(2, '0')}${currentDateTime.getDate().toString().padStart(2, '0')}_${currentDateTime.getHours().toString().padStart(2, '0')}${currentDateTime.getMinutes().toString().padStart(2, '0')}${currentDateTime.getSeconds().toString().padStart(2, '0')}`;
-  
-  const handleBackClick = () => {
-    navigate("/HomeBarbearia");
-  };
 
   const [confirmPassword, setConfirmPassword] = useState('');
 
@@ -717,10 +712,6 @@ useEffect(() => {
   return (
     <>
       <div className="container__profile">
-          <div className="back">
-            <IoArrowBackSharp className="Icon__Back" onClick={handleBackClick}/>
-          </div>
-
             {bannerMessage === "Banner alterado com sucesso." ? (
                 <div className="mensagem-sucesso">
                   <MdOutlineDone className="icon__success"/>

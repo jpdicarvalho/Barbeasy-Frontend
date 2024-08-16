@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import './ScheduleBarbearia.css';
 import { BsCalendar2Check } from "react-icons/bs";
-import { IoIosSearch } from "react-icons/io";
+import { IoArrowBackSharp } from "react-icons/io5";
 import { SlGraph } from "react-icons/sl";
 import { GrAppsRounded } from "react-icons/gr";
 import { CiLogout } from "react-icons/ci";
@@ -56,6 +56,10 @@ const navigateToProfileBarbearia = () =>{
 const navigateToHomeBarbearia = () =>{
     navigate("/HomeBarbearia");
 }
+
+const handleBackClick = () => {
+    navigate("/HomeBarbearia");
+  };
 
 //Função LogOut
 const logoutClick = () => {
@@ -216,10 +220,13 @@ const toggleItem = (itemId) => {
       setExpandedCardBooking([...expandedCardBooking, itemId]);
     }
 };
-console.log(bookings)
+
 return (
     <div className="container__main__Schedule__barbearia">
         <div className="header__bookings__history">
+            <div className="back__in__schedule">
+                <IoArrowBackSharp className="Icon__Back" onClick={handleBackClick}/>
+            </div>
             <div className='inner__header__agenda'>
                 <BsCalendar2Check className='icon__RiExchangeFundsLine'/>   
                 <h2>Agenda</h2>
