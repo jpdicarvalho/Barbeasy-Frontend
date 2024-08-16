@@ -32,6 +32,11 @@ import { PiContactlessPayment } from "react-icons/pi";
 import { SiMercadopago } from "react-icons/si";
 
 
+import { SlGraph } from "react-icons/sl";
+import { GrAppsRounded } from "react-icons/gr";
+import { CiLogout } from "react-icons/ci";
+import { IoHomeOutline } from "react-icons/io5";
+
 import './ProfileBarbearia.css';
 
 function ProfileBarbearia() {
@@ -46,6 +51,24 @@ function ProfileBarbearia() {
   const userData = localStorage.getItem('dataBarbearia');//Obtendo os dados salvo no localStorage
   const userInformation = JSON.parse(userData);//trasnformando os dados para JSON
   const barbeariaId = userInformation.barbearia[0].id;
+
+  const navigateToProfileBarbearia = () =>{
+    navigate("/ProfileBarbearia");
+  }
+
+  const navigateToHomeBarbearia = () =>{
+    navigate("/HomeBarbearia");
+  }
+
+  const handleBackClick = () => {
+    navigate("/HomeBarbearia");
+  };
+
+  //Função LogOut
+  const logoutClick = () => {
+    ['token', 'dataBarbearia', 'code_verifier', 'AmountVisibility'].forEach(key => localStorage.removeItem(key));
+    navigate("/");
+  };
 
   const currentDateTime = new Date();
 
@@ -802,7 +825,7 @@ useEffect(() => {
         )}
     
 
-  <div className="section_information">       
+      <div className="section_information">       
 <hr />
         <div className='tittle_menu'>
             <h3>Profissional</h3>
@@ -1366,6 +1389,38 @@ useEffect(() => {
 
         </div>
         
+      </div>
+
+      <div className='container__buttons__header in__profile__barbearia'>
+            
+            <div className='inner__buttons__header'>
+            <button className='button__header' onClick={logoutClick}>
+                <CiLogout className='icon__RiExchangeFundsLine'/>
+            </button>
+            <p className='label__button__header'>Sair</p>
+            </div>
+
+            <div className='inner__buttons__header'>
+            <button className='button__header'>
+                <SlGraph className='icon__RiExchangeFundsLine'/>
+            </button>
+            <p className='label__button__header'>Relatório</p>
+            </div>
+            
+            <div className='inner__buttons__header'>
+            <button className='button__header' onClick={navigateToHomeBarbearia}>
+                <IoHomeOutline className='icon__RiExchangeFundsLine'/>
+            </button>
+            <p className='label__button__header'>Home</p>
+            </div>
+
+            <div className='inner__buttons__header'>
+            <button className='button__header' onClick={navigateToProfileBarbearia}>
+                <GrAppsRounded className='icon__RiExchangeFundsLine'/>
+            </button>
+            <p className='label__button__header'>Menu</p>
+            </div>
+
         </div>
   
     </>

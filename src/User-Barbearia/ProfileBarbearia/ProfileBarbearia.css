@@ -90,6 +90,7 @@
     height: 100%;
     padding-left: 10px;
     padding-right: 10px;
+    padding-bottom: 70px;
     background: #0c0e19;
 }
 .container__tittle{
@@ -444,4 +445,7 @@
 }
 .hide_icon__error.icon__error{
     opacity: 1;
+}
+.in__profile__barbearia{
+    margin-left: 10px;
 }
