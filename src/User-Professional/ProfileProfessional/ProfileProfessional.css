@@ -77,8 +77,86 @@
     border: 2px solid #4a17d5;
 
 }
-.hidden__in__elemente__in__profile__professional{
-    opacity: 0;
-    width: 0;
-    height: 0;
+.section__barbearia__in__profile__professional{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    padding-left: 5px;
+    max-height: 250px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+.section__barbearia__in__profile__professional::-webkit-scrollbar {
+    width: 3px;
+}
+.section__barbearia__in__profile__professional::-webkit-scrollbar-thumb {
+    background: #4a17d5; 
+    border-radius: 5px;
+}
+.section__barbearia__in__profile__professional::-webkit-scrollbar-thumb:hover {
+    background: #f6f6f6; 
+}
+.box__barbearia__in__profile__professional{
+    display: flex;
+    justify-content: space-between;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    margin-bottom: 5px;
+    height: 250px;
+    padding: 5px;
+    border-bottom: 1px solid gray;
+    height: 140px;
+}
+.Box__barbearia__inHome{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 3px;
+    width: 120px;
+    height: 120px;
+    cursor: pointer;
+}
+.Box__image__barbearia__inHome{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 120px;
+    width: 100%;
+}
+.inner__firstLetter__barbearia__InHome{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #4a17d5;
+    height: 85px;
+    width: 85px;
+    border-radius: 50%;
+}
+.section__body__barbearia__in__profile__professional {
+    display: flex;
+    flex-direction: column;
+    width: 215px;
+    padding-left: 10px;
+    height: 130px;
+}
+.address__in__profile__professional {
+    font-size: 12px;
+    color: gray;
+    height: 47px;
+}
+.Btn__unlink__barbearia{
+    padding: 5px;
+    background: transparent;
+    color: #f6f6f6;
+    border: 1px solid #4a17d5;
+    width: 100%;
+    transition: 0.5s;
+}
+.Btn__unlink__barbearia:hover{
+    background: #4a17d5;
+    border-radius: 5px;
+    transition: 0.5s;
 }
