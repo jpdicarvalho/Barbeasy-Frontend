@@ -9,11 +9,6 @@ import { IoPersonCircleOutline } from "react-icons/io5";
 import { FaWhatsapp } from "react-icons/fa";
 import { IoIosNotifications } from "react-icons/io";
 import { GrSchedules } from "react-icons/gr";
-import { SlOptionsVertical } from "react-icons/sl";
-import { IoIosRemoveCircleOutline } from "react-icons/io";
-import { PiPassword } from "react-icons/pi";
-import { MdOutlineDone } from "react-icons/md";
-import { VscError } from "react-icons/vsc";
 
 const monthNames = [
   'Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun', 'Jul', 'Aug', 'Set', 'Out', 'Nov', 'Dez'

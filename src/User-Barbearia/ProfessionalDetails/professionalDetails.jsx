@@ -1241,7 +1241,7 @@ return (
 
           <div className="menu__main" onClick={() => setShowButtonUnlinkProfessional(!showButtonUnlinkProfessional)} style={{marginBottom: '15px'}}>
             <IoIosRemoveCircleOutline className='icon_menu'/>
-            Desvincular profissional
+              Desvincular profissional
             <IoIosArrowDown className={`arrow ${showButtonUnlinkProfessional ? 'girar' : ''}`} id='arrow'/>
           </div>
 

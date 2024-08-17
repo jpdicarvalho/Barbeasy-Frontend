@@ -77,3 +77,8 @@
     border: 2px solid #4a17d5;
 
 }
+.hidden__in__elemente__in__profile__professional{
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
