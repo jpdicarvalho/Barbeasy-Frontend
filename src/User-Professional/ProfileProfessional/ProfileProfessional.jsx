@@ -143,6 +143,82 @@ useEffect(() => {
     });
   }
 
+
+//=========== GET BARB TO PROFESSIONAL ==============
+const [barbearias, setBarbearias] = useState([]);
+const [barbeariaSelected, setBarbeariaSelected] = useState();
+
+const getBarbearias = () =>{
+  console.log('oi')
+  axios.get(`${urlApi}/api/v1/listBarbeariaToProfessional/${professionalId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+    }).then(res =>{
+      if(res.data.Success === 'Success'){
+        setBarbearias(res.data.Barbearias)
+      }
+    }).catch(err =>{
+      console.log("Error", err)
+    })
+}
+
+useEffect(() => {
+  getBarbearias();
+}, []); 
+
+const handleBarbeariaSelected = (barbeariaId) =>{
+    setBarbeariaSelected(barbeariaId);
+}
+//Function to show small div for unlink barbearia
+const [showBoxUnlinkBarbearia, setShowBoxUnlinkBarbearia] = useState(false);
+const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+const [barbeariaId, setBarbeariaId] = useState();
+
+
+const handleBoxUnlinkClick = () =>{
+  setShowBoxUnlinkBarbearia(!showBoxUnlinkBarbearia)
+}
+
+const handleConfirmPasswordClick = (barbeariaId) =>{
+  setBarbeariaId(barbeariaId)
+  setShowConfirmPassword(!showConfirmPassword)
+}
+
+//============= Section Unlink professional =============
+const [messageUnlinkBarbearia, setMessageUnlinkBarbearia] = useState('');
+
+const unlinkBarbearia = () =>{
+  let lastBarbearia = barbearias.length;
+  axios.delete(`${urlApi}/api/v1/unlinkBarbearia/${barbeariaId}/${professionalId}/${confirmPassword}`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  })
+    .then(res =>{
+      if(res.data.Success === "Success"){
+        setMessageUnlinkBarbearia('Barbearia desvinculada com sucesso.')
+        getBarbearias()
+
+        setTimeout(() => {
+          setMessageUnlinkBarbearia('');
+          setConfirmPassword('')
+          setShowConfirmPassword(false)
+          if(lastBarbearia === 1){
+            window.location.reload()
+            return
+          }
+        }, 2000);
+      }
+    }).catch(err =>{
+      setMessageUnlinkBarbearia('Erro ao desvincular a barbearia. Tente novamente mais tarde.')
+      console.error("Error:", err)
+      setTimeout(() => {
+        setMessageUnlinkBarbearia('');
+        setConfirmPassword('')
+      }, 2000);
+    })
+}
 /*=================================================*/
 const [mostrarNome, setMostrarNome] = useState(false);
 const [mostrarCelular, setMostrarCelular] = useState(false);
@@ -362,46 +438,27 @@ return (
             </div>
         )}
 
-<div className="container__menu">
+    <div className="container__menu">
 
-<div className="menu__main" onClick={alternarNome}>
-  <FaRegUser className='icon_menu'/>
-    Nome
-  <IoIosArrowDown className={`arrow ${mostrarNome ? 'girar' : ''}`} id='arrow'/>
-  </div>
-
-  {mostrarNome && (
-    <div className="divSelected">
-      <p className='information__span'>Alterar Nome de usuário</p>
-        
-    <div className="inputBox">
-    <input
-        type="text"
-        id="usuario"
-        name="usuario"
-        maxLength={30}
-        onChange={(e) => {
-          const inputValue = e.target.value;
-          // Remover caracteres não alfanuméricos
-          const filteredValue = inputValue.replace(/[^a-zA-Z\s]/g, '');
-          // Limitar a 30 caracteres
-          const userName = filteredValue.slice(0, 30);
-        setNewName(userName);
-        }}
-        placeholder={dataProfessional[0].name}
-        className="white-placeholder"
-        required
-      />{' '}<FaUserEdit className='icon_input'/>
-    </div>
-
-    {newName.length > 0 &&(
-      <div style={{paddingLeft: '10px'}}>
-        <div className="form__change__data">
+    {messageUnlinkBarbearia === 'Barbearia desvinculada com sucesso.' ?(
+          <div className="mensagem-sucesso">
+            <MdOutlineDone className="icon__success"/>
+            <p className="text__message">{messageUnlinkBarbearia}</p>
+          </div>
+          ) : (
+          <div className={` ${messageUnlinkBarbearia ? 'mensagem-erro' : ''}`}>
+            <VscError className={`hide_icon__error ${messageUnlinkBarbearia ? 'icon__error' : ''}`}/>
+            <p className="text__message">{messageUnlinkBarbearia}</p>
+          </div>
+        )}
+        {showConfirmPassword &&(
+          <div >
+            <div className="form__change__data">
             <div className='container__text__change__data'>
                 Digite sua senha para confirmar a alteração
             </div>
-
-          <div className='container__form__change__data'>
+ 
+           <div className='container__form__change__data'>
             <input
                 type="password"
                 id="senha"
@@ -418,16 +475,127 @@ return (
                 maxLength={8}
                 required
                 /><PiPassword className='icon__input__change__data'/>
-                <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={alterarDataProfessional}>
+                <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={unlinkBarbearia}>
                     Confirmar
                 </button>
+           </div>
+        </div>
+          </div>
+        )}
+        
+        {barbearias.length === 1 ?(
+          <div className='tittle_menu'>
+            <h3>Barbearia</h3>
+            <hr id='sublime'/>
+        </div>
+        ):(
+          <>
+            {barbearias.length > 1 &&(
+              <div className='tittle_menu'>
+                <h3>Barbearias</h3>
+              <hr id='sublime'/>
+          </div>
+            )}
+          </>
+        )}
+
+        <div className="section__barbearia__InHome">
+          <div className="section__barbearias__in__home__professional">
+
+            {barbearias.map((barbearias) => { 
+              // Obtendo a primeira letra do nome do profissional
+              const firstLetter = barbearias.nameBarbearia.charAt(0).toUpperCase();
+              
+              return (
+                <div key={barbearias.barbeariaId} onClick={() => handleBarbeariaSelected(barbearias.barbeariaId)} className={`Box__barbearia__inHome ${barbeariaSelected === barbearias.barbeariaId? 'barbeariaSelected':''}`}>
+                    {barbeariaSelected === barbearias.barbeariaId &&(
+                      <div className={`box__unlink__barbearia ${!showBoxUnlinkBarbearia ? 'ocultDivUnlink':''}`} onClick={() => handleConfirmPasswordClick(barbearias.barbeariaId)}>
+                        <IoIosRemoveCircleOutline />
+                        <p>Desvincular</p>
+                      </div>
+                    )}
+                    
+                    <div className='mini__menu__in__homeProfessional'>
+                      <SlOptionsVertical className='icon__SlOptionsVertical__inHomeProfessional'onClick={handleBoxUnlinkClick}/>
+                    </div>
+                    <div className="Box__image__barbearia__inHome">
+                      <div className='inner__firstLetter__barbearia__InHome'>
+                        <p className='firstLetter__barbearia__InHome'>{firstLetter}</p>
+                      </div>
+                      <p className='name__barbearia__InHome'>{barbearias.nameBarbearia}</p>
+                    </div>
+                    
+                </div>
+              );
+            })}
+
           </div>
         </div>
+
+    <div className="menu__main" onClick={alternarNome}>
+      <FaRegUser className='icon_menu'/>
+        Nome
+      <IoIosArrowDown className={`arrow ${mostrarNome ? 'girar' : ''}`} id='arrow'/>
       </div>
-    )}
- </div>
- 
-  )}
+
+      {mostrarNome && (
+        <div className="divSelected">
+          <p className='information__span'>Alterar Nome de usuário</p>
+            
+        <div className="inputBox">
+        <input
+            type="text"
+            id="usuario"
+            name="usuario"
+            maxLength={30}
+            onChange={(e) => {
+              const inputValue = e.target.value;
+              // Remover caracteres não alfanuméricos
+              const filteredValue = inputValue.replace(/[^a-zA-Z\s]/g, '');
+              // Limitar a 30 caracteres
+              const userName = filteredValue.slice(0, 30);
+            setNewName(userName);
+            }}
+            placeholder={dataProfessional[0].name}
+            className="white-placeholder"
+            required
+          />{' '}<FaUserEdit className='icon_input'/>
+        </div>
+
+        {newName.length > 0 &&(
+          <div style={{paddingLeft: '10px'}}>
+            <div className="form__change__data">
+                <div className='container__text__change__data'>
+                    Digite sua senha para confirmar a alteração
+                </div>
+
+              <div className='container__form__change__data'>
+                <input
+                    type="password"
+                    id="senha"
+                    name="senha"
+                    value={confirmPassword}
+                    className={`input__change__data ${confirmPassword ? 'input__valided':''}`}
+                    onChange={(e) => {
+                        const inputValue = e.target.value;
+                        // Limitar a 10 caracteres
+                        const truncatedPasswordConfirm = inputValue.slice(0, 10);
+                        setConfirmPassword(truncatedPasswordConfirm);
+                    }}
+                    placeholder="Senha atual"
+                    maxLength={8}
+                    required
+                    /><PiPassword className='icon__input__change__data'/>
+                    <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={alterarDataProfessional}>
+                        Confirmar
+                    </button>
+              </div>
+            </div>
+          </div>
+        )}
+    </div>
+    
+      )}
 
 <hr className='hr_menu' />
 

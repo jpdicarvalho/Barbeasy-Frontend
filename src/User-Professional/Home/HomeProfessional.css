@@ -1,3 +1,14 @@
+.container__main__in__home__professional{
+    height: 100vh;
+    width: 390px;
+}
+.header_container__in__home__professional{
+
+}
+.section__barbearias__in__home__professional{
+    display: flex;
+    height: 85px;
+}
 .container__calendar__home__professional{
     background: #3542492b;
     border-top-left-radius: 20px;
