@@ -437,7 +437,7 @@ export function Agendamento({
         
         const createdIdentificationToken = valuesToIdentificationToken.join('-');
 
-        createPreBooking()
+        createPreBooking(res.data.payment_id)
 
         return navigateToPaymentScreen(res.data.fullResponse, createdIdentificationToken)
       }
@@ -449,8 +449,8 @@ export function Agendamento({
   };
 
   //Function to create pre-booking
-  const createPreBooking = () =>{
-    if(userId && barbeariaId && professionalId && serviceId && selectedDay && timeSelected && formattedDate){
+  const createPreBooking = (payment_id) =>{
+    if(userId && barbeariaId && professionalId && serviceId && selectedDay && timeSelected && formattedDate && payment_id){
         
         let timeSelected = timesBusyByService.join(',');//All times that will be busy by the selected service
 
@@ -462,6 +462,7 @@ export function Agendamento({
             barbeariaId,
             professionalId,
             serviceId,
+            payment_id,
             selectedDay,
             timeSelected,
             initialPaymentStatus,

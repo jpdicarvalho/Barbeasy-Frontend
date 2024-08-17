@@ -124,8 +124,6 @@ const logoutClick = () => {
 /*=========================== Get professionals =======================*/
   const [professional, setProfessional] = useState([])
   const [professionalName, setProfessionalName] = useState([])
-
-  
   const[serviceProfessional, setServiceProfessional] = useState()
 
   //Function to get all professionais
@@ -155,7 +153,6 @@ const [servicos, setServicos] = useState([]);
 const [selectedService, setSelectedService] = useState();
 const [serviceName, setServiceName] = useState();
 const [servicePrice, setServicePrice] = useState();
-
 const [serviceDuration, setServiceDuration] = useState();
 
   //Função para buscar os serviços cadastrados
@@ -174,7 +171,7 @@ const [serviceDuration, setServiceDuration] = useState();
     .catch(err => {
       console.error("Erro ao buscar serviços!", err);
     });
-    }
+  }
 
   //hook para chamar a função de obtersServiço
   useEffect(() => {
