@@ -254,14 +254,15 @@ return (
                 )}
               </div>
 
-              <div className='text__for__today'>
+          </div>
+          
+
+          <div className='body__home__barbearia'>
+          <div className='text__for__today'>
                 <SlLayers className='icon__SlLayers'/>
                 <h3 className='inner__text__for__today'>Pra hoje ({bookings ? bookings.length:0})</h3>
                 <HiArrowPath className={`icon__HiArrowPath ${isRotating ? 'rotating' : ''}`} onClick={updateListBookingsToday}/>
               </div>
-          </div>
-          
-          <div className='body__home__barbearia'>
                   {bookings &&(
                     <>
                       {bookings.length > 0 ? (
@@ -271,7 +272,7 @@ return (
                                 <div key={index} className='container__booking' onClick={() => toggleItem(booking.booking_id)}>
                                   <div className={`${booking.paymentStatus === "pending" ? 'booking__pending':'booking' } ${expandedCardBooking.includes(booking.booking_id) ? 'expandCard':''}`}>
                                     <div className="container_professional">
-                                      {booking.professional_user_image != 'default.png' ?(
+                                      {booking.user_image != "default.jpg" ?(
                                         <div className='container__img__client__booking'>
                                           <div className='user__image__professional'>
                                             <img src={urlCloudFront + booking.user_image} id='img__user__professional'/>
@@ -281,7 +282,7 @@ return (
                                         ):(
                                           <div className='container__img__client__booking'>
                                             <div className="Box__image">
-                                              <p className='firstLetter'>{firstLetter}</p>
+                                              <p className='firstLetter__client_Span'>{booking.user_name.charAt(0).toUpperCase()}</p>
                                             </div>
                                             <p className='phone__client'>Cliente</p>
                                           </div>

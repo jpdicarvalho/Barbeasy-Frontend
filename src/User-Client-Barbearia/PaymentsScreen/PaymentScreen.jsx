@@ -28,7 +28,7 @@ export default function PaymentScreen(){
     const date_of_expiration = paymentObject.date_of_expiration// está assim o formato: 2024-07-29T12:02:16.828-04:00
 
     const handleBackClick = () => {
-        deletePreBooking()
+        updatePaymentStatus ('cancelled')
         navigate("/Home ");
     };
 
@@ -68,21 +68,21 @@ export default function PaymentScreen(){
       
         const differenceInSeconds = Math.floor(differenceInMilliseconds / 1000);
         return differenceInSeconds;
-      };
+    };
       
-      const formatTime = (totalSeconds) => {
-        const minutes = Math.floor(totalSeconds / 60);
-        const seconds = totalSeconds % 60;
-      
-        // Formatar minutos e segundos com dois dígitos
-        const formattedMinutes = String(minutes).padStart(2, '0');
-        const formattedSeconds = String(seconds).padStart(2, '0');
-      
-        return `${formattedMinutes}:${formattedSeconds}`;
-      };
-      
-      const [seconds, setSeconds] = useState(calculateTimeDifference(date_of_expiration));
-      const formattedTime = formatTime(seconds);
+    const formatTime = (totalSeconds) => {
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    
+    // Formatar minutos e segundos com dois dígitos
+    const formattedMinutes = String(minutes).padStart(2, '0');
+    const formattedSeconds = String(seconds).padStart(2, '0');
+    
+    return `${formattedMinutes}:${formattedSeconds}`;
+    };
+    
+    const [seconds, setSeconds] = useState(calculateTimeDifference(date_of_expiration));
+    const formattedTime = formatTime(seconds);
       
       // Hook para contagem regressiva
       useEffect(() => {
@@ -101,7 +101,7 @@ export default function PaymentScreen(){
       }, []);
 
     //Function to update status to approved
-    const updatePaymentStatus = () =>{
+    const updatePaymentStatus = (payment_cancelled) =>{
         if(PaymentStatus === 'approved'){
             const values = {
                 PaymentStatus,
@@ -114,6 +114,25 @@ export default function PaymentScreen(){
             }).then(res =>{
                 if(res.data.Success === 'Success'){
                     return setPaymentUpdated(true)
+                }
+            }).catch(err =>{
+                console.error('Erro:', err)
+                return setPaymentUpdated(false)
+            })
+        }
+        //if user clicked in 'voltar'
+        if(payment_cancelled === 'cancelled'){
+            const values = {
+                PaymentStatus: payment_cancelled,
+                PaymentId: paymentObject.id
+            }
+            axios.put(`${urlApi}/api/v1/updatePaymentStatus`, values, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                  }
+            }).then(res =>{
+                if(res.data.Success === 'Success'){
+                    return setDeletedPreBooking(true);
                 }
             }).catch(err =>{
                 console.error('Erro:', err)
