@@ -48,31 +48,12 @@ export default function PaymentScreen(){
                 'Authorization': `Bearer ${accessTokenBarbearia}`
               }
         }).then(res =>{
-    console.log(res.data)
+            console.log(res.data)
             if(res.data.status === 'pending' || 'approved'){
                 return setPaymentStatus(res.data.status)
             }
-            if(res.data.status === 'cancelled'){
-                return deletePreBooking()
-            }
         }).catch(err =>{
             console.log(err)
-        })
-    }
-
-    //Function to delete pre-Booking created
-    const deletePreBooking = () =>{
-        axios.delete(`${urlApi}/api/v1/delePreBooking/${paymentObject.id}/${identificationToken}`,{
-            headers: {
-                'Authorization': `Bearer ${token}`
-              }
-        }).then(res =>{
-            if(res.data.Success === true){
-                setDeletedPreBooking(true)
-            }
-        }).catch(err =>{
-            console.log('Erro:', err)
-            setDeletedPreBooking(false)
         })
     }
     
@@ -109,7 +90,7 @@ export default function PaymentScreen(){
           setSeconds((prevSeconds) => {
             if (prevSeconds <= 0) {
               clearInterval(timer);
-              deletePreBooking();
+              setDeletedPreBooking(true);
               return 0;
             }
             return prevSeconds - 1;
@@ -124,7 +105,6 @@ export default function PaymentScreen(){
         if(PaymentStatus === 'approved'){
             const values = {
                 PaymentStatus,
-                identificationToken,
                 PaymentId: paymentObject.id
             }
             axios.put(`${urlApi}/api/v1/updatePaymentStatus`, values, {

@@ -392,8 +392,8 @@ export function Agendamento({
 
 //============================== Section Create Payment AND Pre-Booking ==============================
   //Function to navigate for payment screen with paymentObject, serviceValues and accessTokenBarbearia  
-  const navigateToPaymentScreen = (paymentObject, identificationToken) =>{
-    navigate("/PaymentScreen", { state: { paymentObject, identificationToken, serviceValues, accessTokenBarbearia } });
+  const navigateToPaymentScreen = (paymentObject) =>{
+    navigate("/PaymentScreen", { state: { paymentObject, serviceValues, accessTokenBarbearia } });
   } 
 
   //Function to Create payment
@@ -422,24 +422,8 @@ export function Agendamento({
     })
     .then(res => {
       if(res.data.Success === true){
-
-        let timeSelected = timesBusyByService.join(',');//All times that will be busy by the selected service
-
-        //Object to create an identification token for the pre-booked appointment. it will be used to change the payment status of this pre-booking
-        const valuesToIdentificationToken = [
-          userId,
-          barbeariaId,
-          professionalId,
-          serviceId,
-          selectedDay,
-          timeSelected,
-        ]
-        
-        const createdIdentificationToken = valuesToIdentificationToken.join('-');
-
         createPreBooking(res.data.payment_id)
-
-        return navigateToPaymentScreen(res.data.fullResponse, createdIdentificationToken)
+        return navigateToPaymentScreen(res.data.fullResponse)
       }
     })
     .catch(err => {
