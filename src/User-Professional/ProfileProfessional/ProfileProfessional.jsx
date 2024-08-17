@@ -480,63 +480,6 @@ return (
 
         <div className="container__menu">
           
-            <div className="menu__main" onClick={alternarUnlinkBarbearia}>
-                <IoIosRemoveCircleOutline className='icon_menu'/>
-                {barbearias.length === 1 ?(
-                  <p>Desvincular Barbearia</p>
-                ):(
-                  <p>Desvincular Barbearias</p>
-                )}
-                <IoIosArrowDown className={`arrow ${mostrarNome ? 'girar' : ''}`} id='arrow'/>
-            </div>
-
-            {mostrarUnlinkBarbearia &&(
-              <div className="divSelected">
-                  <div className="section__barbearia__in__profile__professional">
-
-                      {barbearias.map((barbearias) => { 
-                        return (
-                          <div key={barbearias.barbeariaId} className="box__barbearia__in__profile__professional">
-                                <div className="Box__img__capa__barbearia">
-                                    <img src={urlCloudFront + barbearias.bannerBarbearia} className="img__capa__barbearia"/>
-                                </div>
-                                
-                                <div className="section__body__barbearia__in__profile__professional">
-                                    <div className="name__barbearia">
-                                        <p>{barbearias.nameBarbearia}</p>
-                                        <div className="average__inNotification">
-                                            {barbearias.totalAvaliations > 0 ?(
-                                                <>
-                                                    <IoStar className="icon__start__notification"/> {barbearias.average} • ({barbearias.totalAvaliations})
-                                                </>
-                                            ):(
-                                                <>
-                                                <IoStar className="icon__start__notification"/> 0 • (0)
-                                                </>
-                                            )}
-                                        </div>
-                                    </div>
-
-                                    <div className="address__in__profile__professional">
-                                        <p>{barbearias.ruaBarbearia}, Nº {barbearias.nRuaBarbearia}, {barbearias.bairroBarbearia}, {barbearias.cidadeBarbearia}</p>
-                                    </div>
-                                    <div className="container__button__confirm__notification">
-                                        <button className="Btn__unlink__barbearia" onClick={() => handleConfirmPasswordClick(barbearias.barbeariaId)}>
-                                            Desvincular Barbearia
-                                        </button>
-                                    </div>
-                                </div>
-                                
-                                
-                            </div>
-                        );
-                      })}
-
-                  </div>
-              </div>
-            )}
-
-<hr className='hr_menu' />
           <div className="menu__main" onClick={alternarNome}>
             <FaRegUser className='icon_menu'/>
               Nome
@@ -810,7 +753,64 @@ return (
         </div>
         
           )}
+          
+<hr className='hr_menu' />
 
+            <div className="menu__main" onClick={alternarUnlinkBarbearia}>
+                <IoIosRemoveCircleOutline className='icon_menu'/>
+                {barbearias.length === 1 ?(
+                  <p>Desvincular Barbearia</p>
+                ):(
+                  <p>Desvincular Barbearias</p>
+                )}
+                <IoIosArrowDown className={`arrow ${mostrarNome ? 'girar' : ''}`} id='arrow'/>
+            </div>
+
+            {mostrarUnlinkBarbearia &&(
+              <div className="divSelected">
+                  <div className="section__barbearia__in__profile__professional">
+
+                      {barbearias.map((barbearias) => { 
+                        return (
+                          <div key={barbearias.barbeariaId} className="box__barbearia__in__profile__professional">
+                                <div className="Box__img__capa__barbearia">
+                                    <img src={urlCloudFront + barbearias.bannerBarbearia} className="img__capa__barbearia"/>
+                                </div>
+                                
+                                <div className="section__body__barbearia__in__profile__professional">
+                                    <div className="name__barbearia">
+                                        <p>{barbearias.nameBarbearia}</p>
+                                        <div className="average__inNotification">
+                                            {barbearias.totalAvaliations > 0 ?(
+                                                <>
+                                                    <IoStar className="icon__start__notification"/> {barbearias.average} • ({barbearias.totalAvaliations})
+                                                </>
+                                            ):(
+                                                <>
+                                                <IoStar className="icon__start__notification"/> 0 • (0)
+                                                </>
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    <div className="address__in__profile__professional">
+                                        <p>{barbearias.ruaBarbearia}, Nº {barbearias.nRuaBarbearia}, {barbearias.bairroBarbearia}, {barbearias.cidadeBarbearia}</p>
+                                    </div>
+                                    <div className="container__button__confirm__notification">
+                                        <button className="Btn__unlink__barbearia" onClick={() => handleConfirmPasswordClick(barbearias.barbeariaId)}>
+                                            Desvincular Barbearia
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                
+                            </div>
+                        );
+                      })}
+
+                  </div>
+              </div>
+            )}
         </div>
     </div>
     </>
