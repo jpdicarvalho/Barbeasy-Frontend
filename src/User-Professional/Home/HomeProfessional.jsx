@@ -3,13 +3,15 @@ import { useNavigate } from "react-router-dom"
 import axios from 'axios';
 
 import './HomeProfessional.css';
-import { GiRazorBlade } from "react-icons/gi";
-import { TfiTime } from "react-icons/tfi";
-import { IoPersonCircleOutline } from "react-icons/io5";
-import { FaWhatsapp } from "react-icons/fa";
+import { GiRazor } from "react-icons/gi";
+import { MdOutlineTimer } from "react-icons/md";
+import { IoStorefrontOutline } from "react-icons/io5";
+import { PiContactlessPayment } from "react-icons/pi";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { BsCalendar2Check } from "react-icons/bs";
 import { AiOutlineEyeInvisible } from "react-icons/ai";
+import { RiExchangeFundsLine } from "react-icons/ri";
+
 
 const monthNames = [
   'Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
@@ -314,35 +316,42 @@ return (
                       <div className="section__information__booking">
                         <div className="tittle__information">
                           <p className='section__icon'>
-                            <GiRazorBlade className='icon__information'/>
-                            {booking.service_name}
+                            <PiContactlessPayment className='icon__information'/>
+                            Status do pagamento
                           </p>
-                          <p>{booking.service_price}</p>
+                          <p>{booking.paymentStatus === "pending"? 'Pendente':'Aprovado'}</p>
                         </div>
-                        <div className="tittle__information">
-                          <p className='section__icon'>
-                            <TfiTime className='icon__information'/>
-                            Duração
-                          </p>
-                          <p>{booking.service_duration}</p>
+                        <div className="tittle__information__GiRazor">
+                            <p className='section__icon'>
+                              <GiRazor className='icon__information__GiRazor'/>
+                              {booking.service_name}
+                            </p>
+                            <p>{booking.service_price}</p>
+                          </div>
+                          <div className="tittle__information">
+                            <p className='section__icon'>
+                              <MdOutlineTimer className='icon__information'/>
+                              Duração
+                            </p>
+                            <p>{booking.service_duration}</p>
+                          </div>
+                          <div className="tittle__information">
+                            <p className='section__icon'>
+                              <RiExchangeFundsLine className='icon__information' />
+                              Comissão
+                            </p>
+                            <p>{booking.service_commission_fee}</p>
+                          </div>
                         </div>
-                      </div>
-                      <div className="section__information__booking">
-                        <div className="tittle__information">
-                          <p className='section__icon'>
-                            <IoPersonCircleOutline className='icon__information' />
-                            Cliente
-                          </p>
-                          <p>{booking.user_name}</p>
+                        <div className="section__information__booking">
+                          <div className="tittle__information">
+                            <p className='section__icon'>
+                              <IoStorefrontOutline className='icon__information' />
+                              Barbearia
+                            </p>
+                            <p>{booking.nameBarbearia}</p>
+                          </div>
                         </div>
-                        <div className="tittle__information">
-                          <p className='section__icon'>
-                            <FaWhatsapp className='icon__information'/>
-                            Contato
-                          </p>
-                          <p>{booking.user_phone}</p>
-                        </div>
-                      </div>
                   </div>
                   </div>
               );
