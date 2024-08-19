@@ -185,7 +185,7 @@ function HomeProfessional() {
     setSelectedDay(`${dayOfWeek}, ${day} de ${month} de ${year}`);
     let selectedDate = `${dayOfWeek}, ${day} de ${month} de ${year}`;
 
-      axios.get(`${urlApi}/api/v1/professionalBookings/${barbeariaId}/${professionalId}/${selectedDate}`, {
+      axios.get(`${urlApi}/api/v1/professionalBookings/${professionalId}/${selectedDate}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
