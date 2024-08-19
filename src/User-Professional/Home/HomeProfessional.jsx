@@ -11,6 +11,8 @@ import { IoNotificationsOutline } from "react-icons/io5";
 import { BsCalendar2Check } from "react-icons/bs";
 import { AiOutlineEyeInvisible } from "react-icons/ai";
 import { RiExchangeFundsLine } from "react-icons/ri";
+import { CiLogout } from "react-icons/ci";
+import { BsGraphDownArrow } from "react-icons/bs";
 
 
 const monthNames = [
@@ -54,7 +56,11 @@ function HomeProfessional() {
   const navigateToNotification = () =>{
     navigate("/Notification");
   }
-
+  //Função LogOut
+  const logoutClick = () => {
+    ['token', 'dataprofessional', 'AmountVisibility'].forEach(key => localStorage.removeItem(key));
+    navigate("/");
+  };
 //==================== GET NOTIFICATION ================
   const[notification, setNotification] = useState([]);
 
@@ -185,10 +191,11 @@ function HomeProfessional() {
   const weekDays = getWeeks();
   const numberDays = getNumber();
 
-  const handleDateClick = (dayOfWeek, day, month, year, barbeariaId) => {
-    setSelectedDay(`${dayOfWeek}, ${day} de ${month} de ${year}`);
-    let selectedDate = `${dayOfWeek}, ${day} de ${month} de ${year}`;
-
+  const handleDateClick = (dayOfWeek, day, month, year) => {
+    if(dayOfWeek && day && month && year){
+      setSelectedDay(`${dayOfWeek}, ${day} de ${month} de ${year}`)
+      let selectedDate = `${dayOfWeek}, ${day} de ${month} de ${year}`;
+      
       axios.get(`${urlApi}/api/v1/professionalBookings/${professionalId}/${selectedDate}`, {
         headers: {
           'Authorization': `Bearer ${token}`
@@ -205,9 +212,32 @@ function HomeProfessional() {
         }
       })
       .catch(err => console.log(err));
+    }else{
+      //Condition to get all bookings of current day
+      let selectedDate = currenteDate;
+      axios.get(`${urlApi}/api/v1/professionalBookings/${professionalId}/${selectedDate}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      .then(res => {
+        if(res.data.Message === "true"){
+          setBookings(res.data.bookings);
+          // Chamando a função para ordenar os bookings por menor horário
+          orderBookings(bookings);
+        }else{
+          setBookings([])
+          setMessagemNotFound("Nenhum agendamento encontrado")
+        }
+      })
+      .catch(err => console.log(err));
+    }
   }
 
-//Function to expanded booking cards
+  useEffect(() =>{
+    handleDateClick()
+  }, [])
+  //Function to expanded booking cards
   const toggleItem = (itemId) => {
       if (expandedCardBooking.includes(itemId)) {
         setExpandedCardBooking(expandedCardBooking.filter(id => id !== itemId));
@@ -215,6 +245,7 @@ function HomeProfessional() {
         setExpandedCardBooking([...expandedCardBooking, itemId]);
       }
   };
+
  console.log(bookings)
 return (
 <>
@@ -234,12 +265,16 @@ return (
                 <p className='name__professional__InHome'>Olá, {professionalUserName}</p>
                 <p className='saudacao__in__home__professional'> {saudacao}</p>
             </div>
+            
+            <CiLogout className='icon__IoNotificationsOutline' onClick={logoutClick}/>
+
             <div className="icon__notification" onClick={navigateToNotification}>
               {notification.length >= 1 &&(
                 <div className='circle__notification'></div>
               )}
                 <IoNotificationsOutline className='icon__IoNotificationsOutline'/>  
             </div>
+
         </div>
         <div className='container__amount__home__professional'>
           <p className='tittle__amount'>Total faturado esse mês</p>
@@ -281,7 +316,6 @@ return (
             </div>
           )}
       
-      {selectedDay ? (
         <div className="section__bookings__in__home__professional" >
         {bookings.length > 0 ? (
           bookings.map((booking, index) => {
@@ -357,17 +391,13 @@ return (
               );
           })
         ):(
-          <div className="message__notFound">
-          <p style={{fontSize:"20px"}}>{messagemNotFound}</p>
-        </div>
+          <div className='message__notFound animation__fade'>
+                <BsGraphDownArrow  className='icon__BsGraphDownArrow animation__fade'/>
+                <p>{messagemNotFound}</p>
+            </div>
         )}
 
     </div>
-      ):(
-        <div className="message__notFound">
-          <p >Selecione um dia para visualizar os agendamentos.</p>
-        </div>
-      )}
         </div>
       
     </div>
