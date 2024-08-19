@@ -61,6 +61,7 @@ function HomeProfessional() {
     ['token', 'dataprofessional', 'AmountVisibility'].forEach(key => localStorage.removeItem(key));
     navigate("/");
   };
+
 //==================== GET NOTIFICATION ================
   const[notification, setNotification] = useState([]);
 
@@ -118,7 +119,59 @@ function HomeProfessional() {
     }
   obterSaudacao();
   }, []);
+//================Amount Visibility=================
+const [changeVisibilityAmount, setChangeVisibilityAmount] = useState(visibility === 'true' ? true:false)
 
+useEffect(() =>{
+  const getAmountVisibility = () =>{
+    axios.get(`${urlApi}/api/v1/amountVibilityProfessional/${professionalId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).then(res =>{
+        if(res.data.visibility === 'visible'){
+          setChangeVisibilityAmount(true)
+        }else{
+          setChangeVisibilityAmount(false)
+        }
+    }).catch(err =>{
+      console.log('Erro: ', err)
+    })
+  }
+  getAmountVisibility()
+}, [])
+
+const updateVisibilityAmount = (valueVisibility) =>{
+  const values = {
+    changeVisibilityAmount: valueVisibility,
+    barbeariaId
+  }
+  axios.put(`${urlApi}/api/v1/updateAmountVisibilityProfessional`, values, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  }).then(res =>{
+      if(res.data.status === 200){
+        return true
+      }
+  }).catch(err =>{
+    console.log('Erro: ', err)
+  })
+}
+
+//function to hidden amount visibility
+const hiddenAmountVisibility = () =>{
+  setChangeVisibilityAmount(false)
+  localStorage.setItem('AmountVisibility', 'false');
+  updateVisibilityAmount('hidden')
+}
+
+//function to show amount visibility
+const showAmountVisibility = () =>{
+  setChangeVisibilityAmount(true)
+  localStorage.setItem('AmountVisibility', 'true');
+  updateVisibilityAmount('visible')
+}
 //==================================================
 //Função para pegar os dias da semana
   const [selectedDay, setSelectedDay] = useState(null);
@@ -280,7 +333,7 @@ return (
           <p className='tittle__amount'>Total faturado esse mês</p>
           <div className='box__amount'>
             <p className='text__amount'>R$ 20,00</p>
-            <AiOutlineEyeInvisible className='icon__AiOutlineEyeInvisible'/>     
+            <AiOutlineEyeInvisible className='icon__AiOutlineEyeInvisible' onClick={hiddenAmountVisibility}/>     
           </div>
                   
         </div>

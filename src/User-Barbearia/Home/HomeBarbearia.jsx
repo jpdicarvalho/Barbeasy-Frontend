@@ -83,8 +83,7 @@ obterSaudacao();
 }, []);
 
 //==================================================
-const [changeVisibilityAmount, setChangeVisibilityAmount] = useState(visibility === 'true'?true:false)
-const [updatedVisibilityAmount, setUpdatedVisibilityAmount] = useState(false)
+const [changeVisibilityAmount, setChangeVisibilityAmount] = useState(visibility === 'true' ? true:false)
 
 useEffect(() =>{
   const getAmountVisibility = () =>{
@@ -116,7 +115,7 @@ const updateVisibilityAmount = (valueVisibility) =>{
     }
   }).then(res =>{
       if(res.data.status === 200){
-        return setUpdatedVisibilityAmount(true)
+        return true
       }
   }).catch(err =>{
     console.log('Erro: ', err)
