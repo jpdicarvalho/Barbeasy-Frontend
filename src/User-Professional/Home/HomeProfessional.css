@@ -1,6 +1,30 @@
+.header_container__in__home__professional{
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    width: 100%;
+    height: 180px;
+    color: white;
+    padding: 10px;
+    backdrop-filter: blur(10px);
+    z-index: 1px;
+}
+.container__amount__home__professional{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 25px;
+}
 .container__main__in__home__professional{
     height: 100vh;
     width: 390px;
+    padding-top: 190px;
 }
 .container__calendar__home__professional{
     background: #3542492b;
@@ -11,17 +35,25 @@
 }
 .img__user__professional{
     display: flex;
+    justify-content: space-between;
+    align-items: center;
     flex-direction: row;
     padding-top: 15px;
     width: 385px;
+    padding-right: 10px;
     margin-bottom: 10px;
+}
+.user__img__home__professional{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
 }
 .user__name__professional{
     display: flex;
     justify-content: center;
     flex-direction: column;
-    width: 280px;
-    padding-left: 5px;
+    width: 260px;
 }
 .imgViewDefault{
     font-size: 30px;

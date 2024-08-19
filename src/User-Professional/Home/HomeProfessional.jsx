@@ -7,8 +7,9 @@ import { GiRazorBlade } from "react-icons/gi";
 import { TfiTime } from "react-icons/tfi";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { FaWhatsapp } from "react-icons/fa";
-import { IoIosNotifications } from "react-icons/io";
+import { IoNotificationsOutline } from "react-icons/io5";
 import { GrSchedules } from "react-icons/gr";
+import { AiOutlineEyeInvisible } from "react-icons/ai";
 
 const monthNames = [
   'Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun', 'Jul', 'Aug', 'Set', 'Out', 'Nov', 'Dez'
@@ -38,8 +39,6 @@ function HomeProfessional() {
   const professionalId = userInformation.professional[0].id;
   const professionalUserName = userInformation.professional[0].name;
   const firstLetter = professionalUserName.charAt(0).toUpperCase();
-
-  const [confirmPassword, setConfirmPassword] = useState('');
 
 
   const navigateToProfileProfessional = () =>{
@@ -217,7 +216,7 @@ return (
       <div className='header_container__in__home__professional'>
         <div className="img__user__professional">
             {imageUser.length > 49 ? (
-                  <div className="img-view-professional" onClick={navigateToProfileProfessional}>
+                  <div className="user__img__home__professional" onClick={navigateToProfileProfessional}>
                     <img src={imageUser} alt="" id='img-profile' />
                   </div>
                 ) : (
@@ -233,8 +232,16 @@ return (
               {notification.length >= 1 &&(
                 <div className='circle__notification'></div>
               )}
-                <IoIosNotifications/>
+                <IoNotificationsOutline className='icon__IoNotificationsOutline'/>  
             </div>
+        </div>
+        <div className='container__amount__home__professional'>
+          <p className='tittle__amount'>Total faturado esse mês</p>
+          <div className='box__amount'>
+            <p className='text__amount'>R$ 20,00</p>
+            <AiOutlineEyeInvisible className='icon__AiOutlineEyeInvisible'/>     
+          </div>
+                  
         </div>
       </div>
       
