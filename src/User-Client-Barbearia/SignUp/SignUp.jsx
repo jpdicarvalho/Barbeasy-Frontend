@@ -52,7 +52,7 @@ function SignUp() {
         })
         .catch(err => {
           if (err.response && err.response.status === 400) {
-            setMessage('Verifique se todos os campos foram preenchidos.');
+            setMessage('E-mail ou celular já cadastrados.');
           } else {
             setMessage('Erro ao realizar o cadastro!');
             console.error(err);
