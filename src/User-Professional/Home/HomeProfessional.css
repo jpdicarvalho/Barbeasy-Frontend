@@ -14,6 +14,10 @@
     backdrop-filter: blur(10px);
     z-index: 1px;
 }
+.saudacao__in__home__professional{
+    color: gray;
+    font-size: 14px;
+}
 .container__amount__home__professional{
     display: flex;
     justify-content: center;
@@ -74,4 +78,23 @@
     width: 10px;
     height: 10px;
     border-radius: 50%;
+}
+.header__agenda__in__home__professional{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    width: 95px;
+}
+.text__agenda__in__home__professional{
+    color: #f6f6f6;
+    margin-top: 3px;
+}
+.container__currentDate__in__home__professional{
+    margin-top: 5px;
+    padding-bottom: 15px;
+}
+.inner__text__currentDate__in__home__professional{
+    color: gray;
+    font-size: 14px;
 }

@@ -8,11 +8,11 @@ import { TfiTime } from "react-icons/tfi";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { FaWhatsapp } from "react-icons/fa";
 import { IoNotificationsOutline } from "react-icons/io5";
-import { GrSchedules } from "react-icons/gr";
+import { BsCalendar2Check } from "react-icons/bs";
 import { AiOutlineEyeInvisible } from "react-icons/ai";
 
 const monthNames = [
-  'Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun', 'Jul', 'Aug', 'Set', 'Out', 'Nov', 'Dez'
+  'Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
 ];
 
 const weekNames = [
@@ -25,10 +25,13 @@ function HomeProfessional() {
 
   const date = new Date();
   const options = { weekday: 'short', locale: 'pt-BR' };
+  const day = date.getDate();
   let dayOfWeek = date.toLocaleDateString('pt-BR', options);
   dayOfWeek = dayOfWeek.slice(0, -1);
   dayOfWeek = dayOfWeek.charAt(0).toUpperCase() + dayOfWeek.slice(1);
+  const month = monthNames[date.getMonth()];
   const year = date.getFullYear();
+  const currenteDate = `${dayOfWeek}, ${day} de ${month} de ${year}`;
 
   const navigate = useNavigate();
 
@@ -177,7 +180,6 @@ function HomeProfessional() {
 
   const weekDays = getWeeks();
   const numberDays = getNumber();
-//const currentDay = getCurrentDayOfWeek()
 
   const handleDateClick = (dayOfWeek, day, month, year, barbeariaId) => {
     setSelectedDay(`${dayOfWeek}, ${day} de ${month} de ${year}`);
@@ -226,7 +228,7 @@ return (
             )}
             <div className="user__name__professional">
                 <p className='name__professional__InHome'>Olá, {professionalUserName}</p>
-                <p className='subtittle__professional'> {saudacao}</p>
+                <p className='saudacao__in__home__professional'> {saudacao}</p>
             </div>
             <div className="icon__notification" onClick={navigateToNotification}>
               {notification.length >= 1 &&(
@@ -246,9 +248,12 @@ return (
       </div>
       
         <div className="container__calendar__home__professional">
-          <div className='header__agenda'>
-            <GrSchedules className='icon__schedules'/>
-            <h3>Agenda</h3>
+          <div className='header__agenda__in__home__professional'>
+            <BsCalendar2Check className='icon__RiExchangeFundsLine'/> 
+            <h3 className='text__agenda__in__home__professional'>Agenda</h3>
+          </div>
+          <div className='container__currentDate__in__home__professional'>
+            <p className='inner__text__currentDate__in__home__professional'>{selectedDay ? selectedDay:currenteDate}</p>
           </div>
           <div className='calendar__barbearia'>
             <div className="list__Names__Week__And__Day">
@@ -256,7 +261,7 @@ return (
                 <div key={`weekDay-${index}`} className="list__name__Week">
                   <div
                     className={`dayWeekCurrent ${selectedDay === `${dayOfWeek}, ${numberDays[index].number} de ${numberDays[index].month} de ${year}` ? 'selectedDay' : ''} ${numberDays[index].isCurrentDay ? 'currentDay' : ''}`}
-                    onClick={() => handleDateClick(dayOfWeek, numberDays[index].number, numberDays[index].month, year, barbeariaSelected)}
+                    onClick={() => handleDateClick(dayOfWeek, numberDays[index].number, numberDays[index].month, year)}
                   >
                     <p className='Box__day'>{dayOfWeek}</p>
                     <p className='Box__NumDay'>{numberDays[index].number}</p>

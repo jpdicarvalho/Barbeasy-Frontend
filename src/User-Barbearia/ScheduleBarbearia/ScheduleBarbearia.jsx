@@ -15,8 +15,6 @@ import { TfiTime } from "react-icons/tfi";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { RiExchangeFundsLine } from "react-icons/ri";
 
-
-import { SlLayers } from "react-icons/sl";
 const monthNames = [
     'Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
 ];
