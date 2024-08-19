@@ -281,7 +281,7 @@ return (
                                         </div>
                                         ):(
                                           <div className='container__img__client__booking'>
-                                            <div className="Box__image">
+                                            <div className='user__image__professional'>
                                               <p className='firstLetter__client_Span'>{booking.user_name.charAt(0).toUpperCase()}</p>
                                             </div>
                                             <p className='phone__client'>Cliente</p>

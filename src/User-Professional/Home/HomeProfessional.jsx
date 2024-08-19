@@ -288,11 +288,25 @@ return (
                   <div key={index} className='container__booking' onClick={() => toggleItem(booking.booking_id)}>
                     <div className={`booking ${expandedCardBooking.includes(booking.booking_id) ? 'expandCard':''}`}>
                       <div className="container_professional">
-                        <div className="Box__image  Box__first__letter__professional">
-                          {}
-                            <p className='firstLetter__professional_Span'>{firstLetter}</p>
+                          {booking.user_image === 'default.jpg' ?(
+                            <div className='container__img__client__booking'>
+                              <div className='user__image__professional'>
+                                  <p className='firstLetter__professional_Span'>{booking.user_name.charAt(0).toUpperCase()}</p>
+                              </div>
+                            <p className='phone__client'>Cliente</p>
+                          </div>
+                          ):(
+                            <div className='container__img__client__booking'>
+                              <div className='user__image__professional'>
+                                <img src={urlCloudFront + booking.user_image} id='img__user__professional'/>
+                              </div>
+                              <p className='phone__client'>Cliente</p>
+                            </div>
+                          )}
+                        <div className='container__name__client'>
+                          <p className='name__client'>{booking.user_name}</p>
+                          <p className='phone__client'>{booking.user_phone}</p>
                         </div>
-                        <p className='name__Professional'>{booking.professional_name}</p>
                         <div className="time__booking">
                             <p className='time'>{booking.booking_time.split(',')[0]}</p>
                         </div>

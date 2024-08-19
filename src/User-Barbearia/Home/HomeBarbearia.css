@@ -249,6 +249,7 @@
   border-radius: 50%;
   overflow: hidden;
   object-fit: cover;
+  border: 2px solid #4a17d5;
 }
 #img__user__professional{
   width: 100%;
@@ -354,6 +355,7 @@
   width: 235px;
   padding-left: 5px;
   padding-bottom: 20px;
+
 }
 .Box__first__letter__professional {
   width: 20px;

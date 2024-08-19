@@ -104,6 +104,7 @@
     overflow-x: hidden;
     height: 400px;
     padding-bottom: 20px;
+    padding-right: 2px;
 }
 .section__bookings__in__home__professional::-webkit-scrollbar {
     width: 3px;
@@ -114,4 +115,11 @@
   }
   .section__bookings__in__home__professional::-webkit-scrollbar-thumb:hover {
     background: #f6f6f6; 
+  }
+  .container_professional__in__home__professional{
+    background: red;
+  }
+  .firstLetter__professional_Span{
+    color: #f6f6f6;
+    font-size: 20px;
   }
