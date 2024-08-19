@@ -85,7 +85,14 @@
     justify-content: space-between;
     align-items: center;
     flex-direction: row;
-    width: 95px;
+    width: 100px;
+    padding-left: 10px;
+}
+.tittle__bookings__in__home__professional{
+    padding-left: 10px;
+    margin-top: 10px;
+    color: gray;
+    margin-bottom: 10px;
 }
 .text__agenda__in__home__professional{
     color: #f6f6f6;
@@ -94,6 +101,7 @@
 .container__currentDate__in__home__professional{
     margin-top: 5px;
     padding-bottom: 15px;
+    padding-left: 10px;
 }
 .inner__text__currentDate__in__home__professional{
     color: gray;

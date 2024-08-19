@@ -276,10 +276,10 @@ return (
             </div>
           </div>
           {bookings.length > 0 && (
-        <div className="tittle__bookings">
-          <p>Agendamentos • ({bookings.length})</p>
-        </div>
-      )}
+            <div className="tittle__bookings__in__home__professional">
+              <p>Agendamentos • ({bookings.length})</p>
+            </div>
+          )}
       
       {selectedDay ? (
         <div className="section__bookings__in__home__professional" >

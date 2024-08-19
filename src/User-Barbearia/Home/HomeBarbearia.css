@@ -54,6 +54,7 @@
   width: 30px;
   border-radius: 50%;
   padding: 4px;
+  color: #f6f6f6;
 }
 .settings{
   display: flex;
