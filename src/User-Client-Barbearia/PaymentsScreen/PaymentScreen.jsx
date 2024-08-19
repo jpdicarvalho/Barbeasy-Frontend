@@ -261,7 +261,7 @@ export default function PaymentScreen(){
                             </div>
                             <div className="Box__btn__back__Booking__Details" style={{marginBottom: '20px'}} onClick={handleBackClick}>
                                 <button className="Btn__back__Booking__Details" >
-                                    Voltar
+                                    Cancelar
                                 </button>
                             </div>
                         </div>
