@@ -22,6 +22,7 @@ const weekNames = [
 function HomeProfessional() {
 
   const urlApi = 'https://barbeasy.up.railway.app'
+  const urlCloudFront = "https://d15o6h0uxpz56g.cloudfront.net/"
 
   const date = new Date();
   const options = { weekday: 'short', locale: 'pt-BR' };
@@ -94,7 +95,8 @@ function HomeProfessional() {
 
 //==================================================
   const [saudacao, setSaudacao] = useState('');
-//pegando a hora para saudar o usuário
+
+  //pegando a hora para saudar o usuário
   useEffect(() => {
     const obterSaudacao = () => {
     const horaAtual = new Date().getHours();
@@ -211,7 +213,7 @@ function HomeProfessional() {
         setExpandedCardBooking([...expandedCardBooking, itemId]);
       }
   };
-
+ console.log(bookings)
 return (
 <>
     <div className="container__main__in__home__professional">
@@ -278,10 +280,10 @@ return (
       )}
       
       {selectedDay ? (
-        <div className="section__bookings" >
+        <div className="section__bookings__in__home__professional" >
         {bookings.length > 0 ? (
           bookings.map((booking, index) => {
-            const bookingTimes = booking.booking_time.split(',');
+            //const bookingTimes = booking.booking_time.split(',');
               return(
                   <div key={index} className='container__booking' onClick={() => toggleItem(booking.booking_id)}>
                     <div className={`booking ${expandedCardBooking.includes(booking.booking_id) ? 'expandCard':''}`}>
