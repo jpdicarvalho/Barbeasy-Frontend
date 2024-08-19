@@ -52,7 +52,7 @@ function SignUp() {
         })
         .catch(err => {
           if (err.response && err.response.status === 400) {
-            setMessage('E-mail ou Celular já cadastrado');
+            setMessage('Verifique se todos os campos foram preenchidos.');
           } else {
             setMessage('Erro ao realizar o cadastro!');
             console.error(err);
@@ -68,6 +68,8 @@ function SignUp() {
   const nextStep = () => {
     setStep(step + 1);
   };
+ 
+const valuesNoEmpty = values.name && values.email && values.celular && values.senha;
 
   return (
     <>
@@ -167,7 +169,11 @@ function SignUp() {
 
           {step === 3 && (
             <div className='inputBox'>
-              <input type="submit" value="Cadastrar" />
+              {valuesNoEmpty ?(
+                <input type="submit" value="Cadastrar" />
+              ):(
+                <button type="button" id="button_next">Preencha todos os campos</button>
+              )}
             </div>
           )}
         </animated.div>
