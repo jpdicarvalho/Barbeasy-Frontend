@@ -13,6 +13,7 @@ import { AiOutlineEyeInvisible } from "react-icons/ai";
 import { RiExchangeFundsLine } from "react-icons/ri";
 import { CiLogout } from "react-icons/ci";
 import { BsGraphDownArrow } from "react-icons/bs";
+import { AiOutlineEye } from "react-icons/ai";
 
 
 const monthNames = [
@@ -44,6 +45,7 @@ function HomeProfessional() {
   const token = localStorage.getItem('token');
   const userData = localStorage.getItem('dataprofessional');//Obtendo os dados salvo no localStorage
   const userInformation = JSON.parse(userData);//trasnformando os dados para JSON
+  const visibility = localStorage.getItem('AmountVisibility');
   const professionalId = userInformation.professional[0].id;
   const professionalUserName = userInformation.professional[0].name;
   const firstLetter = professionalUserName.charAt(0).toUpperCase();
@@ -146,7 +148,7 @@ useEffect(() =>{
 const updateVisibilityAmount = (valueVisibility) =>{
   const values = {
     changeVisibilityAmount: valueVisibility,
-    barbeariaId
+    professionalId
   }
   axios.put(`${urlApi}/api/v1/updateAmountVisibilityProfessional`, values, {
     headers: {
@@ -174,7 +176,23 @@ const showAmountVisibility = () =>{
   localStorage.setItem('AmountVisibility', 'true');
   updateVisibilityAmount('visible')
 }
-//==================================================
+//===================Amount by Month===============================
+const [valuesSerice, setValuesService] = useState (false)
+
+useEffect(() =>{
+  const getAmountOfMonth = () =>{
+    axios.get(`${urlApi}/api/v1/getAmountOfMonthProfessional/${professionalId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).then(res =>{
+      setValuesService(res.data.totalAmount)
+    }).catch(err =>{
+      console.log(err)
+    })
+  }
+  getAmountOfMonth()
+}, [])
 //Função para pegar os dias da semana
   const [selectedDay, setSelectedDay] = useState(null);
   const [bookings, setBookings] = useState([]);
@@ -332,11 +350,21 @@ return (
 
         </div>
         <div className='container__amount__home__professional'>
-          <p className='tittle__amount'>Total faturado esse mês</p>
-          <div className='box__amount'>
-            <p className='text__amount'>R$ 20,00</p>
-            <AiOutlineEyeInvisible className='icon__AiOutlineEyeInvisible' onClick={hiddenAmountVisibility}/>     
-          </div>
+          {changeVisibilityAmount ?(
+            <>
+              <p className='tittle__amount'>Total faturado esse mês</p>
+              <div className='box__amount'>
+                <p className='text__amount'>R$ {valuesSerice ? valuesSerice:'00,00'}</p>
+                <AiOutlineEyeInvisible className='icon__AiOutlineEyeInvisible' onClick={hiddenAmountVisibility}/>     
+              </div>
+              
+            </>
+            ):(
+              <div className='box__amount'>
+                <p className='hidden__amount'></p>
+                <AiOutlineEye className='icon__AiOutlineEyeInvisible' onClick={showAmountVisibility}/>
+              </div>
+            )}
                   
         </div>
       </div>
