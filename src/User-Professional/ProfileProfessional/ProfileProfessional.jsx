@@ -149,10 +149,8 @@ useEffect(() => {
 
 //=========== GET BARB TO PROFESSIONAL ==============
 const [barbearias, setBarbearias] = useState([]);
-const [barbeariaSelected, setBarbeariaSelected] = useState();
 
 const getBarbearias = () =>{
-  console.log('oi')
   axios.get(`${urlApi}/api/v1/listBarbeariaToProfessional/${professionalId}`, {
         headers: {
           'Authorization': `Bearer ${token}`
@@ -169,7 +167,7 @@ const getBarbearias = () =>{
 useEffect(() => {
   getBarbearias();
 }, []); 
-console.log(barbearias)
+
 //Function to show small div for unlink barbearia
 const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 const [barbeariaId, setBarbeariaId] = useState();
@@ -763,7 +761,7 @@ return (
                 ):(
                   <p>Desvincular Barbearias</p>
                 )}
-                <IoIosArrowDown className={`arrow ${mostrarNome ? 'girar' : ''}`} id='arrow'/>
+                <IoIosArrowDown className={`arrow ${mostrarUnlinkBarbearia ? 'girar' : ''}`} id='arrow'/>
             </div>
 
             {mostrarUnlinkBarbearia &&(

@@ -193,6 +193,7 @@ useEffect(() =>{
   }
   getAmountOfMonth()
 }, [])
+
 //Função para pegar os dias da semana
   const [selectedDay, setSelectedDay] = useState(null);
   const [bookings, setBookings] = useState([]);
@@ -319,7 +320,6 @@ useEffect(() =>{
       }
   };
 
- console.log(bookings)
 return (
 <>
     <div className="container__main__in__home__professional">
