@@ -122,6 +122,7 @@ function HomeProfessional() {
 //================Amount Visibility=================
 const [changeVisibilityAmount, setChangeVisibilityAmount] = useState(visibility === 'true' ? true:false)
 
+//Function to get the visibility salved
 useEffect(() =>{
   const getAmountVisibility = () =>{
     axios.get(`${urlApi}/api/v1/amountVibilityProfessional/${professionalId}`, {
@@ -141,6 +142,7 @@ useEffect(() =>{
   getAmountVisibility()
 }, [])
 
+//Function to update the visibility of amount
 const updateVisibilityAmount = (valueVisibility) =>{
   const values = {
     changeVisibilityAmount: valueVisibility,
