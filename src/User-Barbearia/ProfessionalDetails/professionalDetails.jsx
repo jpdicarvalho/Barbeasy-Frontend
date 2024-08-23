@@ -182,6 +182,7 @@ const [messageAgenda, setMessageAgenda] = useState('');
       </>
     );
   };
+
   //Cadastrando os valores na agenda da barbearia
   const updateAgenda = () =>{
     axios.put(`${urlApi}/api/v1/updateAgenda/${barbeariaId}/${professionalId}`, {daysWeek: daysWeekSelected, qntDays: QntDaysSelected}, {
@@ -190,7 +191,8 @@ const [messageAgenda, setMessageAgenda] = useState('');
       }
     })
     .then(res => {
-      if(res.data.Success === 'Success'){
+      console.log(res)
+      if(res.data.status === 200){
         setMessageAgenda("Sua agenda foi atualizada! Lembre-se de ajustar seus horários de trabalho.")
         getDaysFromAgendaAndQntDaysSelected()
         setTimeout(() => {
@@ -204,7 +206,6 @@ const [messageAgenda, setMessageAgenda] = useState('');
         // Limpar a mensagem após 3 segundos (3000 milissegundos)
         setTimeout(() => {
           setMessageAgenda('');
-          window.location.reload();
         }, 3000);
       console.error('erro ao atualizar a agenda', error)
     })
@@ -228,7 +229,7 @@ const [messageAgenda, setMessageAgenda] = useState('');
     }
 
     getAgenda()
-  }, [])
+  }, [barbeariaId, professionalId])
 
   useEffect(() => {
     const getDaysFromAgendaAndQntDaysSelected = () =>{
@@ -241,7 +242,7 @@ const [messageAgenda, setMessageAgenda] = useState('');
     }
 
     getDaysFromAgendaAndQntDaysSelected()
-  }, []);
+  }, [agenda, mostrarHorario]);
   
   useEffect(() => {
     setDaysWeekSelected(daysFromAgenda);
