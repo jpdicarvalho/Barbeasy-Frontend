@@ -55,6 +55,7 @@ const handleBackClick = () => {
 
 /*----------------------------------*/
 const [mostrarDiasSemana, setMostrarDiasSemana] = useState(false);
+const [mostrarHorario, setMostrarHorario] = useState(false);
 const [daysWeekSelected, setDaysWeekSelected] = useState([]);
 const [QntDaysSelected, setQntDaysSelected] = useState([]);
 const [agenda, setAgenda] = useState([]);
@@ -238,14 +239,13 @@ const [messageAgenda, setMessageAgenda] = useState('');
       setDaysFromAgenda(arrayOrdered);
       setQntDaysSelected(agenda[1].toString());
     }
-  }, [agenda]);
+  }, [agenda, mostrarHorario]);
   
   useEffect(() => {
     setDaysWeekSelected(daysFromAgenda);
   }, [daysFromAgenda]);
   
 /*-------------------------------------------*/
-const [mostrarHorario, setMostrarHorario] = useState(false);
 const [diaSelecionado, setDiaSelecionado] = useState(null);
 const [HorarioFuncionamento, setHorarioFuncionamento] = useState([]);
 const [horarioDefinido, setHorarioDefinido] = useState([]);
