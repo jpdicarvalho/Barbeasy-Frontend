@@ -139,7 +139,6 @@ const [messageAgenda, setMessageAgenda] = useState('');
     }
   };
 
-
   //Passando os valores para o input Dias da Semanas
   const Checkbox = ({ dia }) => {
     return (
@@ -183,7 +182,6 @@ const [messageAgenda, setMessageAgenda] = useState('');
       </>
     );
   };
-
   //Cadastrando os valores na agenda da barbearia
   const updateAgenda = () =>{
     axios.put(`${urlApi}/api/v1/updateAgenda/${barbeariaId}/${professionalId}`, {daysWeek: daysWeekSelected, qntDays: QntDaysSelected}, {
@@ -194,6 +192,7 @@ const [messageAgenda, setMessageAgenda] = useState('');
     .then(res => {
       if(res.data.Success === 'Success'){
         setMessageAgenda("Sua agenda foi atualizada! Lembre-se de ajustar seus horários de trabalho.")
+        getDaysFromAgendaAndQntDaysSelected()
         setTimeout(() => {
           setMessageAgenda('');
           getAgenda()
@@ -212,34 +211,37 @@ const [messageAgenda, setMessageAgenda] = useState('');
   }
   
   //Obtendo os dados da agenda do barbearia atual e do profissional selecionado
-  const getAgenda = () =>{
-    axios.get(`${urlApi}/api/v1/agenda/${barbeariaId}/${professionalId}`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
-    .then(res => {
-      if(res.status === 200){
-        setAgenda(res.data.Agenda)
-      }
-    }).catch(error => {
-      console.error('Erro ao buscar informações da agenda da barbearia', error)
-    })
-  }
-
-  //Chamando a função para obter os dados da agenda da barbearia
   useEffect(() => {
-    getAgenda()
-  }, [barbeariaId, professionalId])
-
-  useEffect(() => {
-    if (Array.isArray(agenda) && agenda.length >= 2) {
-      let daysFromAgendaNoOrdered = agenda[0].split(',');
-      let arrayOrdered = diasSemana.filter(elemento => daysFromAgendaNoOrdered.includes(elemento));
-      setDaysFromAgenda(arrayOrdered);
-      setQntDaysSelected(agenda[1].toString());
+    const getAgenda = () =>{
+      axios.get(`${urlApi}/api/v1/agenda/${barbeariaId}/${professionalId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      .then(res => {
+        if(res.status === 200){
+          setAgenda(res.data.Agenda)
+        }
+      }).catch(error => {
+        console.error('Erro ao buscar informações da agenda da barbearia', error)
+      })
     }
-  }, [agenda, mostrarHorario]);
+
+    getAgenda()
+  }, [])
+
+  useEffect(() => {
+    const getDaysFromAgendaAndQntDaysSelected = () =>{
+      if (Array.isArray(agenda) && agenda.length >= 2) {
+        let daysFromAgendaNoOrdered = agenda[0].split(',');
+        let arrayOrdered = diasSemana.filter(elemento => daysFromAgendaNoOrdered.includes(elemento));
+        setDaysFromAgenda(arrayOrdered);
+        setQntDaysSelected(agenda[1].toString());
+      }
+    }
+
+    getDaysFromAgendaAndQntDaysSelected()
+  }, []);
   
   useEffect(() => {
     setDaysWeekSelected(daysFromAgenda);
