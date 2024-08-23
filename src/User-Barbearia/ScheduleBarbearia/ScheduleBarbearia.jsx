@@ -14,6 +14,7 @@ import { GiRazorBlade } from "react-icons/gi";
 import { TfiTime } from "react-icons/tfi";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { RiExchangeFundsLine } from "react-icons/ri";
+import { PiContactlessPayment } from "react-icons/pi";
 
 const monthNames = [
     'Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
@@ -219,7 +220,7 @@ const toggleItem = (itemId) => {
       setExpandedCardBooking([...expandedCardBooking, itemId]);
     }
 };
-
+console.log(bookings)
 return (
     <div className="container__main__Schedule__barbearia">
         <div className="header__bookings__schedule">
@@ -289,6 +290,13 @@ return (
 
                                         </div>
                                         <div className="section__information__booking">
+                                        <div className="tittle__information">
+                                        <p className='section__icon'>
+                                          <PiContactlessPayment className='icon__information'/>
+                                          Status do pagamento
+                                        </p>
+                                        <p>{booking.paymentStatus === "pending"? 'Pendente':'Aprovado'}</p>
+                                      </div>
                                         <div className="tittle__information">
                                             <p className='section__icon'>
                                             <GiRazorBlade className='icon__information'/>
