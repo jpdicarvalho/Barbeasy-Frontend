@@ -44,11 +44,14 @@
   font-size: 12px;
 }
 .icon__IoNotificationsOutline{
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background: rgba(128, 128, 128, 0.34);
-  height: 30px;
-  width: 30px;
+  height: 35px;
+  width: 35px;
   border-radius: 50%;
-  padding: 4px;
+  padding: 6px;
   margin-left: 10px;
   color: #f6f6f6;
 }
