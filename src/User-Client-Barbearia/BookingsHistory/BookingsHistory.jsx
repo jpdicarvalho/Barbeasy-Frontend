@@ -37,7 +37,6 @@ function BookingsHistory (){
     const userInformation = JSON.parse(userDataFromLocalStorage);//trasnformando os dados para JSON
     const userId = userInformation.user[0].id;
 
-    const date = new Date()
     const currentDate = new Date();
 
     // Formate cada parte da data com padStart para garantir que tenham dois dígitos quando necessário
@@ -58,21 +57,10 @@ function BookingsHistory (){
         navigate("/BookingDetails", { state: { booking } });
     };
 
-    const [expandedCardBooking, setExpandedCardBooking] = useState([]);
     const [allBookings, setAllBookings] = useState ([]);
     const [search, setSearch] = useState('');
 
     const [message, setMessage] = useState ('');
-
-    
-    //Function to expanded booking cards
-    const toggleItem = (itemId) => {
-        if (expandedCardBooking.includes(itemId)) {
-        setExpandedCardBooking(expandedCardBooking.filter(id => id !== itemId));
-        } else {
-        setExpandedCardBooking([...expandedCardBooking, itemId]);
-        }
-    };
 
     const getAllBookings = () =>{
         axios.get(`${urlApi}/api/v1/bookingsOfUser/${userId}`, {
@@ -145,8 +133,8 @@ function BookingsHistory (){
                                         </>
                                     ):(
                                         <>
-                                            <CiBookmarkCheck className={` ${formattedDate > valuesDateBooking ? 'icon__GiSandsOfTime':''}`} style={{fontSize: '40px'}}/>
-                                            <p className={`status__bookings__history ${formattedDate > valuesDateBooking ? 'colorTexts':''}`}>Agendado</p>
+                                            <CiBookmarkCheck className={` ${formattedDate < valuesDateBooking ? 'icon__GiSandsOfTime':''}`} style={{fontSize: '40px'}}/>
+                                            <p className={`status__bookings__history ${formattedDate < valuesDateBooking ? 'colorTexts':''}`}>Agendado</p>
                                         </>
                                     )}
                                     
