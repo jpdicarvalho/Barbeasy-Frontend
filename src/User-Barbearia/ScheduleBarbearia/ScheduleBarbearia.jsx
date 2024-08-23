@@ -10,8 +10,8 @@ import { GrAppsRounded } from "react-icons/gr";
 import { CiLogout } from "react-icons/ci";
 import { IoHomeOutline } from "react-icons/io5";
 import { BsGraphDownArrow } from "react-icons/bs";
-import { GiRazorBlade } from "react-icons/gi";
-import { TfiTime } from "react-icons/tfi";
+import { GiRazor } from "react-icons/gi";
+import { MdOutlineTimer } from "react-icons/md";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { RiExchangeFundsLine } from "react-icons/ri";
 import { PiContactlessPayment } from "react-icons/pi";
@@ -297,16 +297,16 @@ return (
                                         </p>
                                         <p>{booking.paymentStatus === "pending"? 'Pendente':'Aprovado'}</p>
                                       </div>
+                                      <div className="tittle__information__GiRazor">
+                                        <p className='section__icon'>
+                                          <GiRazor className='icon__information__GiRazor'/>
+                                          {booking.service_name}
+                                        </p>
+                                        <p>{booking.service_price}</p>
+                                      </div>
                                         <div className="tittle__information">
                                             <p className='section__icon'>
-                                            <GiRazorBlade className='icon__information'/>
-                                            {booking.service_name}
-                                            </p>
-                                            <p>{booking.service_price}</p>
-                                        </div>
-                                        <div className="tittle__information">
-                                            <p className='section__icon'>
-                                            <TfiTime className='icon__information'/>
+                                            <MdOutlineTimer className='icon__information'/>
                                             Duração
                                             </p>
                                             <p>{booking.service_duration}</p>
