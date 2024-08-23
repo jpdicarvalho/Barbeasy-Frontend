@@ -21,7 +21,6 @@ const navigate = useNavigate();
 const urlApi = 'https://barbeasy.up.railway.app'
 const urlCloudFront = 'https://d15o6h0uxpz56g.cloudfront.net/'
 
-const [isMenuActive, setMenuActive] = useState(false);
 const [saudacao, setSaudacao] = useState('');
 const [search, setSearch] = useState('');
 
@@ -53,11 +52,6 @@ const logoutClick = () => {
   ['token', 'userData'].forEach(key => localStorage.removeItem(key));
   navigate("/");
 };
-
-//verificando se o menu está ativado
-const handleMenuClick = () => {
-  setMenuActive(!isMenuActive);
-}
 
 //pegando a hora para saudar o usuário
 useEffect(() => {
@@ -207,7 +201,7 @@ return (
                 
                 </div>
               ))}
-            <ul className={`Navigation ${isMenuActive ? 'active' : ''}`}>
+            <ul className="Navigation active">
               <li>
                 <button onClick={navigateToUserProfile}>
                   <VscAccount className="color__icon__menu__navigate"/>
@@ -223,7 +217,7 @@ return (
                   <MdOutlineLogout />
                 </button>
               </li>
-              <button onClick={handleMenuClick} className="toggleMenu glassmorphism"></button>
+              
             </ul>
           </div>
     </>

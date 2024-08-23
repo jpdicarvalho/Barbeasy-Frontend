@@ -349,7 +349,7 @@
   justify-content: space-around;
   width: 45px;
   height: 45px;
-  bottom: 40px;
+  bottom: 20px;
   transition: 0.5s;
   transition-delay: 0.5s;
   border-radius: 60px;
@@ -359,60 +359,6 @@
   background: #4a17d564;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-}
-.Navigation .toggleMenu{
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  border: none;
-  transition: 0.5s;
-  background: #4a17d564;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  cursor: pointer;
-  transition-delay: 0.5s;
-}
-.Navigation.active .toggleMenu{
-  transition-delay: 0s;
-  transform: translateY(45px);
-  width: 30px;
-  height: 30px;
-}
-.Navigation .toggleMenu::before{
-  content: '';
-  position: absolute;
-  width: 30px;
-  height: 3px;
-  border-radius: 3px;
-  background: white;
-  transform: translateY(-5px);
-  transition: 0.5s;
-  transition-delay: 0.5s;
-}
-.Navigation .toggleMenu::after{
-  content: '';
-  position: absolute;
-  width: 30px;
-  height: 3px;
-  border-radius: 3px;
-  background: white;
-  transform: translateY(5px);
-  transition: 0.5s;
-  transition-delay: 0.5s;
-}
-.Navigation.active .toggleMenu::before{
-  transition-delay: 0s;
-  color: #f6f6fc;
-  transform: translateY(0px) rotate(45deg) scale(0.6);
-}
-.Navigation.active .toggleMenu::after{
-  transition-delay: 0s;
-  color: #f6f6fc;
-  transform: translateY(0px) rotate(315deg) scale(0.6);
 }
 .Navigation li{
   list-style: none;

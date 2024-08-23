@@ -527,7 +527,7 @@ return (
           </div>
         </div>
         
-        <ul className={`Navigation ${isMenuActive ? 'active' : ''}`}>
+        <ul className="Navigation active">
               <li>
                 <button onClick={navigateToUserProfile}>
                   <VscAccount className="color__icon__menu__navigate"/>
@@ -548,7 +548,6 @@ return (
                   <MdOutlineLogout />
                 </button>
               </li>
-              <button onClick={handleMenuClick} className="toggleMenu glassmorphism"></button>
         </ul>
     </div>
     
