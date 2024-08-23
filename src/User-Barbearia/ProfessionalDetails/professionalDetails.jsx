@@ -62,8 +62,8 @@ const [fullAgenda, setFullAgenda] = useState([]);
 const [daysFromAgenda, setDaysFromAgenda] = useState([]);
 const diasSemana = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
 const [messageAgenda, setMessageAgenda] = useState('');
-
-  //function to get full professional agenda
+  
+//function to get full professional agenda
   //Obtendo os dados da agenda do barbearia atual e do profissional selecionado
   const getFullAgenda = () =>{
     axios.get(`${urlApi}/api/v1/allProfessionalAgenda/${barbeariaId}/${professionalId}`, {
@@ -230,12 +230,6 @@ const [messageAgenda, setMessageAgenda] = useState('');
   useEffect(() => {
     getAgenda()
   }, [barbeariaId, professionalId])
-
-  //Function to order DaysFromAgenda
-  const orderDaysFromAgenda = () =>{
-    let arrayOrdered = diasSemana.filter(elemento => daysFromAgenda.includes(elemento));
-    return arrayOrdered;
-  }
 
   useEffect(() => {
     if (Array.isArray(agenda) && agenda.length >= 2) {
