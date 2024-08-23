@@ -233,8 +233,9 @@ return (
                   <p className='text__barbearia__name'>{saudacao} {barbeariaUserName}</p>
                   <p className='text__salutation'>{selectedDate}</p>
                 </div>
-                {}
-                <GrAppsRounded className='icon__IoNotificationsOutline' onClick={navigateToProfileBarbearia}/>
+                <div className='container__GrAppsRounded' onClick={navigateToProfileBarbearia}>
+                  <GrAppsRounded className='icon__GrAppsRounded' />
+                </div>
               </div>
               <div className='container__amount'>
                 {changeVisibilityAmount ?(
