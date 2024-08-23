@@ -197,7 +197,7 @@ const [messageAgenda, setMessageAgenda] = useState('');
         setTimeout(() => {
           setMessageAgenda('');
           getAgenda()
-          setMostrarDiasSemana(!mostrarDiasSemana);
+          window.location.reload();
         }, 5000);
       }
     }).catch(error => {
