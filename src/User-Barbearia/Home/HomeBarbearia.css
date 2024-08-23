@@ -127,7 +127,8 @@
   width: 370px;
   padding: 3px;
   background: #4a17d5d6;
-  margin-top: 10px;
+  margin-top: 5px;
+  margin-left: 10px;
   backdrop-filter: blur(10px);
 }
 .inner__buttons__header{

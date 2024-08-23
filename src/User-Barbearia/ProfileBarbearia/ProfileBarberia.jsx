@@ -1392,7 +1392,7 @@ useEffect(() => {
         
       </div>
 
-      <div className='container__buttons__header in__profile__barbearia'>
+      <div className='container__buttons__header'>
             
             <div className='inner__buttons__header'>
             <button className='button__header' onClick={logoutClick}>
