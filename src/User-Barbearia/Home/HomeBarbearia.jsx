@@ -91,7 +91,6 @@ const getAmountVisibility = () =>{
       'Authorization': `Bearer ${token}`
     }
   }).then(res =>{
-    console.log(res)
       if(res.data.visibility === 'visible'){
         setChangeVisibilityAmount(true)
       }else{
@@ -234,7 +233,8 @@ return (
                   <p className='text__barbearia__name'>{saudacao} {barbeariaUserName}</p>
                   <p className='text__salutation'>{selectedDate}</p>
                 </div>
-                <IoNotificationsOutline className='icon__IoNotificationsOutline'/>
+                {}
+                <GrAppsRounded className='icon__IoNotificationsOutline' onClick={navigateToProfileBarbearia}/>
               </div>
               <div className='container__amount'>
                 {changeVisibilityAmount ?(
@@ -374,13 +374,6 @@ return (
                       <BsCalendar2Check className='icon__RiExchangeFundsLine'/>
                     </button>
                     <p className='label__button__header'>Agenda</p>
-                  </div>
-
-                  <div className='inner__buttons__header'>
-                    <button className='button__header' onClick={navigateToProfileBarbearia}>
-                      <GrAppsRounded className='icon__RiExchangeFundsLine'/>
-                    </button>
-                    <p className='label__button__header'>Menu</p>
                   </div>
 
               </div>
