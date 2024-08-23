@@ -85,22 +85,23 @@ obterSaudacao();
 //==================================================
 const [changeVisibilityAmount, setChangeVisibilityAmount] = useState(visibility === 'true' ? true:false)
 
-useEffect(() =>{
-  const getAmountVisibility = () =>{
-    axios.get(`${urlApi}/api/v1/amountVibility/${barbeariaId}`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
+const getAmountVisibility = () =>{
+  axios.get(`${urlApi}/api/v1/amountVibility/${barbeariaId}`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  }).then(res =>{
+    console.log(res)
+      if(res.data.visibility === 'visible'){
+        setChangeVisibilityAmount(true)
+      }else{
+        setChangeVisibilityAmount(false)
       }
-    }).then(res =>{
-        if(res.data.visibility === 'visible'){
-          setChangeVisibilityAmount(true)
-        }else{
-          setChangeVisibilityAmount(false)
-        }
-    }).catch(err =>{
-      console.log('Erro: ', err)
-    })
-  }
+  }).catch(err =>{
+    console.log('Erro: ', err)
+  })
+}
+useEffect(() =>{
   getAmountVisibility()
 }, [])
 
