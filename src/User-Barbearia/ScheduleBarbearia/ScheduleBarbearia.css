@@ -3,15 +3,11 @@
     width: 390px;
 }
 .header__bookings__schedule{
-    position: fixed;
-    top: 0;
-    backdrop-filter: blur(10px);
     background: transparent;
 }
 .back__in__schedule{
     margin-top: 10px;
     padding-left: 5px;
-    background: transparent;
 }
 .text__schedule__information{
     font-size: 14px;
@@ -23,9 +19,9 @@
 .body__Schedule__barbearia{
     display: flex;
     flex-direction: column;
-    padding-top: 195px;
     padding-right: 10px;
-    margin-top: 10px;
+    padding-top: 20px;
+    padding-bottom: 65px;
     height: 650px;
     overflow-y: scroll;
     overflow-x: hidden;
