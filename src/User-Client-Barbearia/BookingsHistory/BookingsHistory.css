@@ -104,6 +104,10 @@
     color: #4a17d5;
     margin-bottom: 3px;
 }
+.icon__CiBookmarkCheck{
+    color: #f6f6fc;
+    margin-bottom: 3px;
+}
 .status__bookings__history{
     font-size: 14px;
     margin-top: 5px;

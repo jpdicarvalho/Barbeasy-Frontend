@@ -45,9 +45,12 @@ function BookingsHistory (){
     const month = String(currentDate.getMonth() + 1).padStart(1);
     const hours = String(currentDate.getHours()).padStart(2, '0');
     const minutes = String(currentDate.getMinutes()).padStart(2, '0');
-    // Concatene as partes formatadas
-    const formattedDate = Number(`${day}${year}${month}${hours}${minutes}`);
 
+    const currentMonthAndYear = Number (`${month}` + `${year}`)
+    const currentDay = Number(day)
+    const currentTime = Number(`${hours}` + `${minutes}`)
+
+    // Concatene as partes formatadas
     const handleBackClick = () => {
         navigate("/Home");
     };
@@ -96,6 +99,30 @@ function BookingsHistory (){
         booking.bookingTime.toLowerCase().includes(searchLowerCase)
     );
     
+    function campareCurrentDateWithBookingDate(monthAndYearBookings, bookingDay, bookingTime){
+        if(currentMonthAndYear === monthAndYearBookings){
+            if(currentDay === bookingDay){
+                if(currentTime > bookingTime){
+                    return true
+                }else{
+                    return false
+                }
+            }else{
+                if(currentDay > bookingDay){
+                    return true
+                }else{
+                    return false
+                }
+            }
+        }else{
+            if (currentMonthAndYear > monthAndYearBookings){
+                    return true
+                }else{
+                    return false
+                }
+            }
+    }
+
     return(
         <>
             <div className="container__profile__professional">
@@ -115,26 +142,29 @@ function BookingsHistory (){
                 {allBookings.length > 0 ?(
                     <div className='section__bookings__history'>
                     {bookingSearch.map((booking, index) => {
-                        //Metodo para verificar se os horários do agendamentos já estão obsoletos, caso seja, será aplicado um estilo diferente nos agendamentos passados
-                        const dayAndYearBooking = booking.bookingDate.replace(/[^0-9]/g, '');
+                        //obtendo o mês e o ano do agandamento
+                        const yearBooking = Number (booking.bookingDate.substring(17).replace(/[^0-9]/g, ''));
                         const monthBooking = booking.bookingDate.match(/(Jan|Fev|Mar|Abr|Mai|Jun|Jul|Ago|Set|Out|Nov|Dez)/g, '');
-                        const bookingTimes = booking.bookingTime.split(',')[booking.bookingTime.split(',').length-1].replace(/[^0-9]/g, '');
-                        const valuesDateBooking = Number (dayAndYearBooking+numbersMonth[monthBooking]+bookingTimes)
+                        const monthAndYearBookings = Number (`${numbersMonth[monthBooking]}` + `${yearBooking}`);
+                        //obtendo o dia do agendamento
+                        const bookingDay = Number (booking.bookingDate.split(', ')[1].split(' ')[0]);
+                        //Obtendo o horário inicial do agendamento
+                        const bookingTimes = Number (booking.bookingTime.split(',')[booking.bookingTime.split(',').length-1].replace(/[^0-9]/g, ''));
 
                         let isTrue;
 
                         return(
-                            <div key={index} className={`Box__bookings__history ${formattedDate > valuesDateBooking ? 'colorTexts':''}`} onClick={() => handleBookingClick(booking)} >
+                            <div key={index} className={`Box__bookings__history ${isTrue = campareCurrentDateWithBookingDate(monthAndYearBookings, bookingDay, bookingTimes) ? 'colorTexts':''}`} onClick={() => handleBookingClick(booking)} >
                                 <div className='box__status__bookings__history'>
-                                    {isTrue = formattedDate > valuesDateBooking ?(
+                                    {isTrue = campareCurrentDateWithBookingDate(monthAndYearBookings, bookingDay, bookingTimes) ?(
                                         <>
-                                            <BsCalendar2Check className={` ${formattedDate > valuesDateBooking ? 'icon__GiSandsOfTime':''}`} style={{fontSize: '40px'}}/>
-                                            <p className={`status__bookings__history ${formattedDate > valuesDateBooking ? 'colorTexts':''}`}>Finalizado</p>
+                                            <BsCalendar2Check className='icon__GiSandsOfTime' style={{fontSize: '40px'}}/>
+                                            <p className='status__bookings__history'>Finalizado</p>
                                         </>
                                     ):(
                                         <>
-                                            <CiBookmarkCheck className={` ${formattedDate < valuesDateBooking ? 'icon__GiSandsOfTime':''}`} style={{fontSize: '40px'}}/>
-                                            <p className={`status__bookings__history ${formattedDate < valuesDateBooking ? 'colorTexts':''}`}>Agendado</p>
+                                            <CiBookmarkCheck className='icon__CiBookmarkCheck' style={{fontSize: '40px'}}/>
+                                            <p className='status__bookings__history'>Agendado</p>
                                         </>
                                     )}
                                     
