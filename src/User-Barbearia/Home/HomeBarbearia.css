@@ -126,7 +126,7 @@
   border-radius: 40px;
   width: 370px;
   padding: 3px;
-  background: transparent;
+  background: rgba(128, 128, 128, 0.15);
   margin-top: 5px;
   margin-left: 10px;
   backdrop-filter: blur(10px);
