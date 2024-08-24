@@ -391,6 +391,7 @@ export function Agendamento({
   };
 
 //============================== Section Create Payment AND Pre-Booking ==============================
+  const [preBookingAndPaymentCreated, setPreBookingAndPaymentCreated] = useState(false)
   //Function to navigate for payment screen with paymentObject, serviceValues and accessTokenBarbearia  
   const navigateToPaymentScreen = (paymentObject) =>{
     navigate("/PaymentScreen", { state: { paymentObject, serviceValues, accessTokenBarbearia } });
@@ -398,7 +399,7 @@ export function Agendamento({
 
   //Function to Create payment
   const createPayment = () => {
-
+    setPreBookingAndPaymentCreated(true)
     let priceFormated = servicePrice.replace(/R\$ (\d+),(\d{2})/, '$1.$2');
     
     const values = {
@@ -422,8 +423,7 @@ export function Agendamento({
     })
     .then(res => {
       if(res.data.Success === true){
-        createPreBooking(res.data.payment_id)
-        return navigateToPaymentScreen(res.data.fullResponse)
+        createPreBooking(res.data.payment_id, res.data.fullResponse)
       }
     })
     .catch(err => {
@@ -433,8 +433,8 @@ export function Agendamento({
   };
 
   //Function to create pre-booking
-  const createPreBooking = (payment_id) =>{
-    if(userId && barbeariaId && professionalId && serviceId && selectedDay && timeSelected && formattedDate && payment_id){
+  const createPreBooking = (payment_id, paymentObject) =>{
+    if(userId && barbeariaId && professionalId && serviceId && selectedDay && timeSelected && formattedDate && payment_id && paymentObject){
         
         let timeSelected = timesBusyByService.join(',');//All times that will be busy by the selected service
 
@@ -460,9 +460,9 @@ export function Agendamento({
         })
         .then(res => {
             if(res.data.Success === 'Success'){
-                setMessageConfirmedBooking("Seu agendamento foi pré-reservado. Efetue o pagamento para finalizar!")
+              
                 setTimeout(() => {
-                setMessageConfirmedBooking('');
+                  navigateToPaymentScreen(paymentObject)
                 }, 3000);
             }
 
@@ -538,8 +538,18 @@ export function Agendamento({
       </div>
     )}
     
-    <button onClick={createPayment} className={`Btn__ocult ${serviceId && selectedDay && timeSelected ? 'AgendamentoButton': ''}`}>Continuar</button>
-   
+    <div className="container__btn__create__booking__and__payment">
+      {!preBookingAndPaymentCreated ?(
+        <button onClick={createPayment} className={`Btn__ocult ${serviceId && selectedDay && timeSelected ? 'Btn__create__preBooking':''}`}>
+          Realizar pagamento
+        </button>
+      ):(
+        <button className="createPreBookingAndPayment">
+          Criando pagamento
+        </button>
+      )}
+      
+    </div>
   </>
   );
 }
