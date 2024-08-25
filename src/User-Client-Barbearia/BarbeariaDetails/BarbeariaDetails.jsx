@@ -38,7 +38,6 @@ import './BarbeariaDetails.css'
 function BarbeariaDetails() {
 
 const navigate = useNavigate();
-const location = useLocation();
 
 const urlApi = 'https://barbeasy.up.railway.app'
 const cloudFrontUrl = 'https://d15o6h0uxpz56g.cloudfront.net/'
@@ -52,71 +51,65 @@ const { barbeariaId } = useParams();
 //buscando informações do usuário logado
 const token = localStorage.getItem('token');
 const userData = localStorage.getItem('userData');
-  
-//trasnformando os dados para JSON
 const userInformation = JSON.parse(userData);
-  
-//Buscando os dados do usuário
-const userId = userInformation.user[0].id;
-
+const userId = userInformation.user[0].id
 
 const currentDate = new Date();
 
 //=========== Get barbearia ==============
-  const [barbearia, setBarbearia] = useState ([]);
-  const [banners, setBanners] = useState([]);
-  
-  useEffect(()=>{
-    const getBarbearia = () =>{
-      axios.get(`${urlApi}/api/v1/barbeariaDetails/${barbeariaId}`)
-      .then(res =>{
-        if(res.status === 200){
-          setBarbearia(res.data.barbearia[0])
-          let nameBanners = res.data.barbearia[0].bannersBarbearia.split(',');
-          console.log(nameBanners)
-          setBanners(nameBanners)
-        }
-      }).catch(err =>{
-        console.log(err)
-      })
-    }
-    getBarbearia()
-  }, [])
+const [barbearia, setBarbearia] = useState ([]);
+const [banners, setBanners] = useState([]);
+
+useEffect(()=>{
+  const getBarbearia = () =>{
+    axios.get(`${urlApi}/api/v1/barbeariaDetails/${barbeariaId}`)
+    .then(res =>{
+      if(res.status === 200){
+        setBarbearia(res.data.barbearia[0])
+        let nameBanners = res.data.barbearia[0].bannersBarbearia.split(',');
+        setBanners(nameBanners)
+      }
+    }).catch(err =>{
+      console.log(err)
+    })
+  }
+  getBarbearia()
+}, [])
 //=========== Get Access Token of barbearia ==============
 const [accessTokenBarbearia, setAccessTokenBarbearia] = useState();
 
-  useEffect(()=>{
-    //Function to get access token of barbearia. That access token will be used to send the payment for it
-    const getAccessTokenBarbearia = () =>{
-      axios.get(`${urlApi}/api/v1/barbeariaCredentials/${barbeariaId}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      }).then(res => {
-        if(res.data.Success === true){
-          setAccessTokenBarbearia(false);
+useEffect(()=>{
+  //Function to get access token of barbearia. That access token will be used to send the payment for it
+  const getAccessTokenBarbearia = () =>{
+    axios.get(`${urlApi}/api/v1/barbeariaCredentials/${barbeariaId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).then(res => {
+      if(res.data.Success === true){
+        setAccessTokenBarbearia(false);
 
-          setAccessTokenBarbearia(res.data.credentials[0].access_token);
-        }else{
-          setAccessTokenBarbearia(false);
-        }
-      }).catch(err => {
-        setAccessTokenBarbearia(false)
-        console.error('Erro ao obter os registros:', err);
-      })
-    }
-
-    getAccessTokenBarbearia()
-  }, []) 
-/*=========== copy link barbearia to share ===========*/
-  const [linkCopied, setLinkCopied] = useState(false);
-
-  const handleCopyLink = () =>{
-    const url = `${window.location.origin}/BarbeariaDetails/${barbeariaId}`;
-    navigator.clipboard.writeText(url);
-    setLinkCopied(true);
-    setTimeout(() => setLinkCopied(false), 2000);
+        setAccessTokenBarbearia(res.data.credentials[0].access_token);
+      }else{
+        setAccessTokenBarbearia(false);
+      }
+    }).catch(err => {
+      setAccessTokenBarbearia(false)
+      console.error('Erro ao obter os registros:', err);
+    })
   }
+
+  getAccessTokenBarbearia()
+}, []) 
+/*=========== copy link barbearia to share ===========*/
+const [linkCopied, setLinkCopied] = useState(false);
+
+const handleCopyLink = () =>{
+  const url = `${window.location.origin}/BarbeariaDetails/${barbeariaId}`;
+  navigator.clipboard.writeText(url);
+  setLinkCopied(true);
+  setTimeout(() => setLinkCopied(false), 2000);
+}
 /*=================== Section Menu ===================*/
 
 const navigateToHome = () =>{
@@ -138,25 +131,25 @@ const logoutClick = () => {
 };
 
 /*=========================== Get professionals =======================*/
-  const [professional, setProfessional] = useState([])
-  const [professionalName, setProfessionalName] = useState([])
-  const [serviceProfessional, setServiceProfessional] = useState()
+const [professional, setProfessional] = useState([])
+const [professionalName, setProfessionalName] = useState([])
+const [serviceProfessional, setServiceProfessional] = useState()
 
-  //Function to get all professionais
-  useEffect(() => {
-    const getProfessional = () =>{
-    axios.get(`${urlApi}/api/v1/listProfessionalToBarbearia/${barbeariaId}`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
-      .then(res => {
-        setProfessional(res.data.Professional)
-      })
-      .catch(error => console.log(error));
+//Function to get all professionais
+useEffect(() => {
+  const getProfessional = () =>{
+  axios.get(`${urlApi}/api/v1/listProfessionalToBarbearia/${barbeariaId}`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
     }
-    getProfessional()
-  }, [barbeariaId])
+  })
+    .then(res => {
+      setProfessional(res.data.Professional)
+    })
+    .catch(error => console.log(error));
+  }
+  getProfessional()
+}, [barbeariaId])
 
 
 const handleServiceProfessional = (professional_id, professional_name) => {
@@ -171,28 +164,28 @@ const [serviceName, setServiceName] = useState();
 const [servicePrice, setServicePrice] = useState();
 const [serviceDuration, setServiceDuration] = useState();
 
-  //Função para buscar os serviços cadastrados
-  const obterServicos = () =>{
-    
-    axios.get(`${urlApi}/api/v1/listService/${barbeariaId}`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
-    .then(res => {
-      if (res.data.Success === "Success") {
-        setServicos(res.data.result);
-      }
-    })
-    .catch(err => {
-      console.error("Erro ao buscar serviços!", err);
-    });
-  }
+//Função para buscar os serviços cadastrados
+const obterServicos = () =>{
+  
+  axios.get(`${urlApi}/api/v1/listService/${barbeariaId}`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  })
+  .then(res => {
+    if (res.data.Success === "Success") {
+      setServicos(res.data.result);
+    }
+  })
+  .catch(err => {
+    console.error("Erro ao buscar serviços!", err);
+  });
+}
 
-  //hook para chamar a função de obtersServiço
-  useEffect(() => {
-    obterServicos()
-  }, []);
+//hook para chamar a função de obtersServiço
+useEffect(() => {
+  obterServicos()
+}, []);
 
 const handleServiceChange = (servicoId, name, price, duration) => {
   setSelectedService(servicoId);
@@ -241,8 +234,9 @@ useEffect(() => {
 
 // Cadastrando a avaliação/comentário do usuário do usuário
 const enviarAvaliacao = () => {
+  
     const valuesAvaliation = {
-      user_id: userId,
+      user_id: token ? userId:null,
       comment,
       barbeariaId,
       avaliation,
@@ -443,7 +437,7 @@ return (
                           )}
 
                           <Agendamento 
-                            userId={userId}
+                            userId={token ? userId:null}
                             accessTokenBarbearia={accessTokenBarbearia}
                             barbeariaId={Number (barbeariaId)}
                             professionalId={serviceProfessional}

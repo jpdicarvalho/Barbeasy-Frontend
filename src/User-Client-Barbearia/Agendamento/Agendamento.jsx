@@ -18,7 +18,6 @@ const weekNames = [
 ];
 
 export function Agendamento({
-  userId,
   accessTokenBarbearia,
   barbeariaId,
   professionalId,
@@ -35,8 +34,12 @@ export function Agendamento({
   //trasnformando os dados para JSON
   const userInformation = JSON.parse(userData);
   //Fromatando cada letra inicial do nome do usuário para caixa-alta
-  const userEmail = userInformation.user[0].email;
+  
 
+  //buscando informações do usuário logado
+  const token = localStorage.getItem('token');
+  const userId = userInformation.user[0].email;
+  const userEmail = userInformation.user[0].email;
 
   const date = new Date();
   
@@ -46,7 +49,6 @@ export function Agendamento({
   dayOfWeek = dayOfWeek.charAt(0).toUpperCase() + dayOfWeek.slice(1);
   const year = date.getFullYear();
 
-  const token = localStorage.getItem('token');
   
   //Buscando a quantidade de dias que a agenda vai ficar aberta
   const [horariosDiaSelecionado, setHorariosDiaSelecionado] = useState([]);
