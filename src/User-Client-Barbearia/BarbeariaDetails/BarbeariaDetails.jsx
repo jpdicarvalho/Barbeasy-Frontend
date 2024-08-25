@@ -108,8 +108,15 @@ const [accessTokenBarbearia, setAccessTokenBarbearia] = useState();
 
     getAccessTokenBarbearia()
   }, []) 
-/*=========== Buscandos os nomes dos banners da barbearia selecionada ===========*/
+/*=========== copy link barbearia to share ===========*/
+  const [linkCopied, setLinkCopied] = useState(false);
 
+  const handleCopyLink = () =>{
+    const url = `${window.location.origin}/BarbeariaDetails/${barbeariaId}`;
+    navigator.clipboard.writeText(url);
+    setLinkCopied(true);
+    setTimeout(() => setLinkCopied(false), 2000);
+  }
 /*=================== Section Menu ===================*/
 
 const navigateToHome = () =>{
@@ -330,7 +337,8 @@ return (
                 <p>{barbearia.ruaBarbearia}, Nº {barbearia.NruaBarbearia}, {barbearia.bairroBarbearia}, {barbearia.cidadeBarbearia}</p>
               </div>
           </div>
-          <div className="container__icon__share">
+          {linkCopied && <span>Link copiado!</span>}
+          <div className="container__icon__share" onClick={handleCopyLink}>
             <HiOutlineShare className="icon__HiOutlineShare"/>
           </div>
           </div>
