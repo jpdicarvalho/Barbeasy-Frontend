@@ -43,8 +43,8 @@ const navigateToBookingsHistory = () =>{
 }
 
 //passando os dados da barbearia selecionada
-const handleBarbeariaClick = (barbearia) => {
-  navigate("/BarbeariaDetails", { state: { barbearia } });
+const handleBarbeariaClick = (barbeariaId) => {
+  navigate(`/BarbeariaDetails/:${barbeariaId}`);
 };
 
 //Função LogOut
@@ -130,7 +130,7 @@ const barbeariaSearch = barbearias.filter((barbearia) => {
 
 return (
   <>
-            <div className={`header ${scrollPosition > 200 ? 'scrolled' : ''}`}>
+          <div className={`header ${scrollPosition > 200 ? 'scrolled' : ''}`}>
                 <div className={`imgBoxSectionUser ${scrollPosition > 200 ? 'hideDiv' : ''}`}>
                   {userImage != 'default.jpg' ?(
                     <img className="img__user__in__home__page"src={urlCloudFront + userImage} alt="foto de perfil do usuário" />
@@ -163,7 +163,7 @@ return (
           <div className="containerHome">
               {barbeariaSearch.map((barbearia, index) => (
                 
-                <div key={index} className="containerBarbearia" onClick={() => handleBarbeariaClick(barbearia)}>
+                <div key={index} className="containerBarbearia" onClick={() => handleBarbeariaClick(barbearia.barbearia_id)}>
                      
                     <div className="imgBoxSection">
                       <img src={urlCloudFront + barbearia.bannerBarbearia} alt="Imagem de capa da barbearia" />

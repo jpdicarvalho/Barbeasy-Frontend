@@ -79,7 +79,7 @@ const App = () => {
 
         <Route path="/Home" element={<PrivateRoute element={<Home />} />} />
         <Route path="/UserProfile" element={<PrivateRoute element={<UserProfile />} />} />
-        <Route path="/BarbeariaDetails" element={<PrivateRoute element={<BarbeariaDetails />} />} />
+        <Route path="/BarbeariaDetails/:barbeariaId" element={<BarbeariaDetails />} />
         <Route path="/PaymentScreen" element={<PrivateRoute element={<PaymentScreen />} />} />
         <Route path="/BookingsHistory" element={<PrivateRoute element={<BookingsHistory />} />} />
         <Route path="/BookingDetails" element={<PrivateRoute element={<BookingDetails />} />} />

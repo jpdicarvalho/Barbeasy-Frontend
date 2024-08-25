@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 
 import axios from 'axios';
@@ -40,10 +40,13 @@ const navigate = useNavigate();
 const location = useLocation();
 
 const urlApi = 'https://barbeasy.up.railway.app'
+const cloudFrontUrl = 'https://d15o6h0uxpz56g.cloudfront.net/'
   
-const { barbearia } = location.state;
-const barbeariaId = barbearia.barbearia_id;
-const barbeariaName = barbearia.nameBarbearia
+//const { barbearia } = location.state;
+const { barbeariaId } = useParams();
+
+//const barbeariaId = barbearia.barbearia_id;
+//const barbeariaName = barbearia.nameBarbearia
 
 //buscando informações do usuário logado
 const token = localStorage.getItem('token');
@@ -54,15 +57,28 @@ const userInformation = JSON.parse(userData);
   
 //Buscando os dados do usuário
 const userId = userInformation.user[0].id;
-const userEmail = userInformation.user[0].email;
 
-const cloudFrontUrl = 'https://d15o6h0uxpz56g.cloudfront.net/'
 
 const currentDate = new Date();
 
+//=========== Get barbearia ==============
+  const [barbearia, setBarbearia] = useState ([]);
+
+  const getBarbearia = () =>{
+    axios.get(`${urlApi}/api/v1/barbeariaDetails/${barbeariaId}`)
+    .then(res =>{
+      if(res.status === 200){
+        setBarbearia(res.data.barbearia)
+      }
+    }).catch(err =>{
+      console.log(err)
+    })
+  }
+  useEffect(()=>{
+    getBarbearia
+  }, [])
 //=========== Get Access Token of barbearia ==============
 const [accessTokenBarbearia, setAccessTokenBarbearia] = useState();
-
 
   useEffect(()=>{
     //Function to get access token of barbearia. That access token will be used to send the payment for it
@@ -96,12 +112,6 @@ useEffect(() =>{
 }, []);
 
 /*=================== Section Menu ===================*/
-const [isMenuActive, setMenuActive] = useState(false);
-
-//Ativação do menu principal
-const handleMenuClick = () => {
-  setMenuActive(!isMenuActive);
-}
 
 const navigateToHome = () =>{
   navigate("/Home");
