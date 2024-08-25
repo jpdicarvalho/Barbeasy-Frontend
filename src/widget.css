@@ -1,14 +1,20 @@
 .container__widget {
   width: 390px;
   border-radius: 8px;
+  padding-top: 10px;
   color: white;
+  background: #0c0e19;
+  border-top-right-radius: 15px;
+  border-top-left-radius: 15px;
+  margin-top: -10px;
+  z-index: 2000;
 }
 
 .container__widget > .header__widget {
   width: 100%;
   position: relative;
   display: flex;
-  justify-content: space-between  ;
+  justify-content: space-between;
 }
 
 .container__widget > .header__widget > .tab-button {

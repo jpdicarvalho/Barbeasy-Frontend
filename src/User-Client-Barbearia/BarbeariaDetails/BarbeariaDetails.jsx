@@ -13,6 +13,7 @@ import { MdOutlineLogout } from "react-icons/md";
 import { IoStarSharp } from "react-icons/io5";
 import { MdOutlineDone } from "react-icons/md";
 import { VscError } from "react-icons/vsc";
+import { HiOutlineShare } from "react-icons/hi";
 
 //Import for slide
 import { register } from 'swiper/element/bundle';
@@ -69,12 +70,11 @@ const currentDate = new Date();
     const getBarbearia = () =>{
       axios.get(`${urlApi}/api/v1/barbeariaDetails/${barbeariaId}`)
       .then(res =>{
-        console.log(res.data.barbearia[0])
-
-        if(res.data.status === 200){
+        if(res.status === 200){
           setBarbearia(res.data.barbearia[0])
-          console.log(res.data.barbearia[0].bannerBarbearia.split(','))
-          setBanners(res.data.barbearia[0].bannerBarbearia.split(','))
+          let nameBanners = res.data.barbearia[0].bannersBarbearia.split(',');
+          console.log(nameBanners)
+          setBanners(nameBanners)
         }
       }).catch(err =>{
         console.log(err)
@@ -321,13 +321,18 @@ return (
             </SwiperSlide>
           )}
         </Swiper>
-        <div className="BarbeariaInformation">
+        <div className="containner__BarbeariaInformation">
+          <div className="inner__BarbeariaInformation">
               {barbearia.statusBarbearia === "Aberta" ? <p className="abertoBarbDetails">{barbearia.statusBarbearia}</p> : <p className="fechadoBarbDetails">{barbearia.statusBarbearia}</p>}
               <h2 id="BarbeariaName">{barbearia.nameBarbearia} • {averageAvaliation ? averageAvaliation.toFixed(1):0} <IoStarSharp className="icon__start__in__BarbeariaInformation"/> ({AllAvaliation.length})</h2>
               <div className="location">
                 <CiLocationOn className="location_icon"/>
                 <p>{barbearia.ruaBarbearia}, Nº {barbearia.NruaBarbearia}, {barbearia.bairroBarbearia}, {barbearia.cidadeBarbearia}</p>
               </div>
+          </div>
+          <div className="container__icon__share">
+            <HiOutlineShare className="icon__HiOutlineShare"/>
+          </div>
           </div>
         </div>
       
@@ -432,7 +437,7 @@ return (
                           <Agendamento 
                             userId={userId}
                             accessTokenBarbearia={accessTokenBarbearia}
-                            barbeariaId={barbeariaId}
+                            barbeariaId={Number (barbeariaId)}
                             professionalId={serviceProfessional}
                             serviceId={selectedService}
                             barbeariaName={barbearia.nameBarbearia}

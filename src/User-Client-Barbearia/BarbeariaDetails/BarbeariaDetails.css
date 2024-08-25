@@ -22,7 +22,6 @@
     width: 390px;
     height: auto;
     background: transparent;
-    margin-bottom: 10px;
 }
 .imgOutdoor{
     display: flex;
@@ -37,17 +36,18 @@
     width: 390px;
     height: 270px;
     object-fit: cover;
+    background: #000000;
 }
 .slider__image{
     width: 100%;
     height: 100%;
     object-fit: cover;
-    mask-image: linear-gradient(to bottom, #000 50%, rgba(0,0,0,0.01) 90%);
+    mask-image: linear-gradient(to bottom, #0c0e19 60%, rgba(0, 0, 0, 0.217) 80%);
 }
-.BarbeariaInformation{
+.containner__BarbeariaInformation{
     position: absolute;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     font-size: 12px;
     bottom: 10px;
     width: 100%;
@@ -57,7 +57,9 @@
     color: #f6f6fc;
     z-index: 1000;
 }
-
+.inner__BarbeariaInformation{
+    width: 355px;
+}
 #BarbeariaName{
     display: flex;
     justify-content: start;
@@ -66,11 +68,25 @@
     color: #f6f6fc;
 }
 .icon__start__in__BarbeariaInformation{
-    color: yellow;
     margin-left: 3px;
     margin-right: 3px;
     font-size: 25px;
     padding-bottom: 5px;
+}
+.container__icon__share{
+    display: flex;
+    justify-content: baseline;
+    align-items: end;
+    height: 85px;
+    padding-right: 5px;
+    cursor: pointer;
+}
+.icon__HiOutlineShare{
+    height: 25px;
+    width: 25px;
+    background: rgba(128, 128, 128, 0.215);
+    padding: 3px;
+    border-radius: 50%;
 }
 .location{
     position: relative;
