@@ -12,6 +12,7 @@
   "dependencies": {
     "@mercadopago/sdk-react": "^0.0.15",
     "axios": "^1.5.1",
+    "crypto-js": "^4.2.0",
     "date-fns": "^2.30.0",
     "dotenv": "^16.4.5",
     "framer-motion": "^10.16.16",

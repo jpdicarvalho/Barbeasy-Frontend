@@ -1,6 +1,7 @@
 //Libary necessárias
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
+import CryptoJS from 'crypto-js';
 
 //Arq. de Estilização da página
 import './home.css'
@@ -20,6 +21,12 @@ function Home() {
 const navigate = useNavigate();
 const urlApi = 'https://barbeasy.up.railway.app'
 const urlCloudFront = 'https://d15o6h0uxpz56g.cloudfront.net/'
+
+// Função para criptografar o id
+const encryptId = (id) => {
+  const encryptedId = CryptoJS.AES.encrypt(id.toString(), 'abaporujucaiba').toString();
+  return encodeURIComponent(encryptedId); // Codifica a URL para evitar caracteres especiais
+};
 
 const [saudacao, setSaudacao] = useState('');
 const [search, setSearch] = useState('');
@@ -44,7 +51,8 @@ const navigateToBookingsHistory = () =>{
 
 //passando os dados da barbearia selecionada
 const handleBarbeariaClick = (barbeariaId) => {
-  navigate(`/BarbeariaDetails/${barbeariaId}`);
+  const encryptedId = encryptId(barbeariaId);
+  navigate(`/BarbeariaDetails/profile=${encryptedId}`);
 };
 
 //Função LogOut
