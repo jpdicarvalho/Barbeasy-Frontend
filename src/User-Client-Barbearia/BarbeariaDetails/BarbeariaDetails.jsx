@@ -17,6 +17,7 @@ import { VscError } from "react-icons/vsc";
 import { HiOutlineShare } from "react-icons/hi";
 import { VscSignIn } from "react-icons/vsc";
 import { LuClipboardCheck } from "react-icons/lu";
+import { GrSearch } from "react-icons/gr";
 
 //Import for slide
 import { register } from 'swiper/element/bundle';
@@ -421,11 +422,18 @@ return (
 
                           <div className="tittle">
                             {serviceProfessional && servicos && (
-                              <p>Serviços ({servicos.filter(servico => servico.professional_id === serviceProfessional).length})</p>
+                              <>
+                                <p>Serviços ({servicos.filter(servico => servico.professional_id === serviceProfessional).length})</p>
+                                <div className="container__input__search__service">
+                                  <GrSearch className="icon__GrSearch"/>
+                                  <input type="search" className="inner__input__search__service" placeholder="Buscar serviço"/>
+                                </div>
+                              </>
                             )}
                           </div>
 
                           <div className="Servicos">
+                            
                             {serviceProfessional ? (
                               servicos.filter(servico => servico.professional_id === serviceProfessional)  
                                     .map(servico => (

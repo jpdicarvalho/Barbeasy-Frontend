@@ -221,6 +221,7 @@ h4{
     overflow-x: hidden; 
     overflow-y: scroll;
     margin-top: 10px;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.217);
 }
 .Servicos::-webkit-scrollbar {
     width: 5px;
@@ -231,6 +232,30 @@ h4{
 }
 .Servicos::-webkit-scrollbar-thumb:hover {
     background: #f6f6f6; 
+}
+.container__input__search__service{
+    padding-right: 10px;
+    padding-left: 5px;
+    padding-top: 10px;
+    padding-bottom: 5px;
+}
+.icon__GrSearch{
+    position: absolute;
+    margin-left: 10px;
+    margin-top: 12px;
+    width: 20px;
+    height: 20px;
+    color: #f6f6f6;
+}
+.inner__input__search__service{
+    background: #1c2035;
+    border: 1px solid #1c2035;
+    border-radius: 5px;
+    height: 45px;
+    width: 100%;
+    padding-left: 40px;
+    color: #f6f6fc;
+    outline: none;
 }
 .servicoDiv {
     text-align: center;
