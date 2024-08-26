@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {motion} from 'framer-motion';
-import { useNavigate, useLocation } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
+import CryptoJS from 'crypto-js';
 
 import axios from 'axios';
 //Components
@@ -36,6 +37,7 @@ import { BsCalendar2Check } from "react-icons/bs";
 import { CiLogout } from "react-icons/ci";
 import { IoHomeOutline } from "react-icons/io5";
 import { IoCopyOutline } from "react-icons/io5";
+import { LuCopyCheck } from "react-icons/lu";
 
 import './ProfileBarbearia.css';
 
@@ -383,8 +385,14 @@ const alternarCompartilharPerfil = () => {
   setMostrarCompartilharPerfil(!mostrarCompartilharPerfil);
 };
 
+// Função para criptografar o id
+const encryptId = (id) => {
+  const encryptedId = CryptoJS.AES.encrypt(id.toString(), 'abaporujucaiba').toString();
+  return encodeURIComponent(encryptedId); // Codifica a URL para evitar caracteres especiais
+};
 
 const handleCopyLink = () =>{
+  const barbearia_id = encryptId(barbeariaId);
   const url = `${window.location.origin}/BarbeariaDetails/profile/${barbearia_id}`;
   navigator.clipboard.writeText(url);
   setLinkCopied(true);
@@ -961,9 +969,19 @@ const handleCopyLink = () =>{
 
         {mostrarCompartilharPerfil && (
             <div className="divSelected">
-              <button className='btn__copy__link__profile'>
-                  <IoCopyOutline  className='icon__IoCopyOutline'/>
-                  <p>Copiar link do perfil</p>
+              <button className='btn__copy__link__profile' onClick={handleCopyLink}>
+                {linkCopied ? (
+                  <>
+                    <LuCopyCheck  className='icon__IoCopyOutline'/>
+                    <p>Link copiado!</p>
+                  </>
+                ):(
+                  <>
+                    <IoCopyOutline  className='icon__IoCopyOutline'/>
+                    <p>Copiar link do perfil</p>
+                  </>
+                )}
+                  
               </button>
 
             </div>
