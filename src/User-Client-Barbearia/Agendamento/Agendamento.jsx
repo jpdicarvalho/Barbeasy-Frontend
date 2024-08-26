@@ -511,18 +511,6 @@ export function Agendamento({
     <div className="container__horarios">
       {renderHorariosDiaSelecionado()}
     </div>
-
-    {messageConfirmedBooking === 'Seu agendamento foi pré-reservado. Efetue o pagamento para finalizar!' ?(
-      <div className="mensagem-sucesso">
-        <MdOutlineDone className="icon__success"/>
-        <p className="text__message">{messageConfirmedBooking}</p>
-      </div>
-      ) : (
-      <div className={` ${messageConfirmedBooking ? 'mensagem-erro' : ''}`}>
-        <VscError className={`hide_icon__error ${messageConfirmedBooking ? 'icon__error' : ''}`}/>
-        <p className="text__message">{messageConfirmedBooking}</p>
-      </div>
-    )}
     
     {userType != "visitante" &&(
       <div className="container__btn__create__booking__and__payment">

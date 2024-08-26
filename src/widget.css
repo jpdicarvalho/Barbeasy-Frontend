@@ -54,8 +54,20 @@
 .content {
   position: relative;
   overflow: hidden;
-  height: 700px;
+  height: 680px;
   width: 390px;
+  overflow-y: scroll;
+}
+
+.content::-webkit-scrollbar {
+  width: 1px;
+}
+.content::-webkit-scrollbar-thumb {
+  background: transparent; 
+  border-radius: 5px;
+}
+.content::-webkit-scrollbar-thumb:hover {
+  background: #f6f6f6; 
 }
 
 .content-inner {

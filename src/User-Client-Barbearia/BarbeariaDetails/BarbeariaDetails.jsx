@@ -72,6 +72,7 @@ if(!userData){
 
 const userInformation = JSON.parse(userData);
 const userId = userInformation.user[0].id
+const userType = userInformation.user[0].userType;
 
 const currentDate = new Date();
 
@@ -567,7 +568,7 @@ return (
             </div>
             
             <ul className="Navigation active">
-              {userId === 9999999999 ?(
+              {userType === "visitante" ?(
                 <>
                   <button onClick={navigateToSignIn} className="Btn__create__preBooking">
                     <VscSignIn className="icon__VscSignIn" /> Fazer login

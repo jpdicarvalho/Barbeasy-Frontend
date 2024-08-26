@@ -179,13 +179,15 @@ h4{
     flex-direction: column;
     width: 90px;
     height: 105px;
+    transition: 0.5s;
+
 }
 .img__professional__barbearia__details{
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
     font-size: 30px;
     border-radius: 50%;
     overflow: hidden;
@@ -194,7 +196,9 @@ h4{
 .professionalSelected{
     width: 90px;
     height: 105px;
-    color: #4a17d5;
+    background: transparent;
+    transition: 0.5s;
+    border-bottom: 2px solid #4a17d5;
 }
 .inforService{
     border-radius: 10px;
@@ -210,12 +214,12 @@ h4{
 }
 .Servicos {
     width: 100%;
-    max-height: 230px;
+    height: 250px;
     display: flex;
     flex-direction: column;
     margin-bottom: 20px;
     overflow-x: hidden; 
-    overflow-y: auto;
+    overflow-y: scroll;
     margin-top: 10px;
 }
 .Servicos::-webkit-scrollbar {
@@ -234,6 +238,7 @@ h4{
     padding: 5px;
     margin: 5px;
     border: 1px solid #4a17d5;
+    border-radius: 5px;
     color: #6b3fe4;
     cursor: pointer;
     text-align: left;

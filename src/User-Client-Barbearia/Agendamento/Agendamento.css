@@ -120,12 +120,11 @@
     height: 3em;
     border-radius: 30em;
     font-size: 15px;
-    font-family: inherit;
-    border: none;
     position: relative;
     color: #f6f6f6;
     background-color: transparent;
     border: 1px solid #4a17d5;
+    margin-top: 15px;
     overflow: hidden;
     z-index: 1;
     cursor: pointer;
