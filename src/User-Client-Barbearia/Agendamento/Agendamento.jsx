@@ -73,6 +73,10 @@ export function Agendamento({
     timeSelected
   }
 
+  const navigateToSignIn = () =>{
+    navigate("/SignIn");
+  }
+
   //Function to get current time
   function getCurrentTime(){
     // get default current time
@@ -518,21 +522,17 @@ export function Agendamento({
       </div>
     )}
     
-    {userId === 9999999999 ?(
-      <button className={`Btn__ocult ${serviceId && selectedDay && timeSelected ? 'Btn__create__preBooking':''}`}>
-        Faça login para realizar seu agendamento
-      </button>
-    ):(
+    {!userId === 9999999999 &&(
       <div className="container__btn__create__booking__and__payment">
-          {!preBookingAndPaymentCreated ?(
-            <button onClick={createPayment} className={`Btn__ocult ${serviceId && selectedDay && timeSelected ? 'Btn__create__preBooking':''}`}>
-              Realizar pagamento
-            </button>
-          ):(
-            <button className="createPreBookingAndPayment">
-              Criando pagamento
-            </button>
-          )}
+        {!preBookingAndPaymentCreated ?(
+          <button onClick={createPayment} className={`Btn__ocult ${serviceId && selectedDay && timeSelected ? 'Btn__create__preBooking':''}`}>
+            Realizar pagamento
+          </button>
+        ):(
+          <button className="createPreBookingAndPayment">
+            Criando pagamento
+          </button>
+        )}
       </div>
     )}
     

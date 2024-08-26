@@ -14,6 +14,7 @@ import { IoStarSharp } from "react-icons/io5";
 import { MdOutlineDone } from "react-icons/md";
 import { VscError } from "react-icons/vsc";
 import { HiOutlineShare } from "react-icons/hi";
+import { VscSignIn } from "react-icons/vsc";
 
 //Import for slide
 import { register } from 'swiper/element/bundle';
@@ -132,7 +133,10 @@ const navigateToBookingsHistory = () =>{
   navigate("/BookingsHistory");
 }
 
-//Função LogOut
+const navigateToSignIn = () =>{
+  navigate("/SignIn");
+}
+
 const logoutClick = () => {
   ['token', 'userData'].forEach(key => localStorage.removeItem(key));
   navigate("/");
@@ -544,26 +548,37 @@ return (
             </div>
             
             <ul className="Navigation active">
-                  <li>
-                    <button onClick={navigateToUserProfile}>
-                      <VscAccount className="color__icon__menu__navigate"/>
-                    </button>
-                  </li>
-                  <li>
-                    <button onClick={navigateToHome}>
-                      <IoHomeOutline className="color__icon__menu__navigate"/>
-                    </button>
-                  </li>
-                  <li>
-                    <button>
-                      <BsCalendar2Check onClick={navigateToBookingsHistory}/>
-                    </button>
-                  </li>
-                  <li>
-                    <button onClick={logoutClick}>
-                      <MdOutlineLogout />
-                    </button>
-                  </li>
+              {userId === 9999999999 ?(
+                <>
+                  <button onClick={navigateToSignIn} className="Btn__create__preBooking">
+                    <VscSignIn className="icon__VscSignIn" /> Fazer login
+                  </button>
+                </>
+                  
+              ):(
+                  <>
+                    <li>
+                      <button onClick={navigateToUserProfile}>
+                        <VscAccount className="color__icon__menu__navigate"/>
+                      </button>
+                    </li>
+                    <li>
+                      <button onClick={navigateToHome}>
+                        <IoHomeOutline className="color__icon__menu__navigate"/>
+                      </button>
+                    </li>
+                    <li>
+                      <button>
+                        <BsCalendar2Check onClick={navigateToBookingsHistory}/>
+                      </button>
+                    </li>
+                    <li>
+                      <button onClick={logoutClick}>
+                        <MdOutlineLogout />
+                      </button>
+                    </li>
+                  </>
+              )}
             </ul>
         </div>
       </>
