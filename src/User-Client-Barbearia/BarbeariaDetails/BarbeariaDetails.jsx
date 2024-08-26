@@ -476,34 +476,37 @@ return (
                             ))}
                           </div>
                             <div className="section__send__avaliation">
-                              <div>
-                                <textarea
-                                  className={`ocult__element ${showTextArea ? 'multilineText':''}`}
-                                  id="multilineText"
-                                  name="multilineText"
-                                  rows="4"
-                                  cols="50"
-                                  value={comment}
-                                  onChange={(e) => {
-                                    const inputValue = e.target.value;
-                                    // Remover caracteres não alfanuméricos, ponto e espaço
-                                    const filteredValue = inputValue.replace(/[^a-zA-Z0-9\sçéúíóáõãèòìàêôâ.!?]/g, '');
-                                    // Limitar a 30 caracteres
-                                    const truncatedValue = filteredValue.slice(0, 200);
-                                    setComment(truncatedValue );
-                                  }}
-                                  placeholder="Comentário até 200 caracteres">
-                                </textarea>
-                              </div>
-                              <div className="conteiner__box__add__comment">
-                                  <button className={`ocult__element ${showTextArea ? 'box__add__comment':''}`} onClick={handleCancelClick}>
-                                    Cancelar
-                                  </button>
-                                  <button className={`ocult__element ${showTextArea ? 'box__add__comment':''}`} onClick={enviarAvaliacao}>
-                                    Avaliar
-                                  </button>
-                              </div>
-                                
+                              {!userId === 9999999999 &&(
+                                <>
+                                  <div>
+                                    <textarea
+                                      className={`ocult__element ${showTextArea ? 'multilineText':''}`}
+                                      id="multilineText"
+                                      name="multilineText"
+                                      rows="4"
+                                      cols="50"
+                                      value={comment}
+                                      onChange={(e) => {
+                                        const inputValue = e.target.value;
+                                        // Remover caracteres não alfanuméricos, ponto e espaço
+                                        const filteredValue = inputValue.replace(/[^a-zA-Z0-9\sçéúíóáõãèòìàêôâ.!?]/g, '');
+                                        // Limitar a 30 caracteres
+                                        const truncatedValue = filteredValue.slice(0, 200);
+                                        setComment(truncatedValue );
+                                      }}
+                                      placeholder="Comentário até 200 caracteres">
+                                    </textarea>
+                                  </div>
+                                  <div className="conteiner__box__add__comment">
+                                      <button className={`ocult__element ${showTextArea ? 'box__add__comment':''}`} onClick={handleCancelClick}>
+                                        Cancelar
+                                      </button>
+                                      <button className={`ocult__element ${showTextArea ? 'box__add__comment':''}`} onClick={enviarAvaliacao}>
+                                        Avaliar
+                                      </button>
+                                  </div>
+                                </>
+                              )}                                
                             </div>
                           
                         </div>
