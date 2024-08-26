@@ -30,12 +30,12 @@ import { VscError } from "react-icons/vsc";
 import { GoPlus } from "react-icons/go";
 import { PiContactlessPayment } from "react-icons/pi";
 import { SiMercadopago } from "react-icons/si";
-
-
+import { HiOutlineShare } from "react-icons/hi";
 import { SlGraph } from "react-icons/sl";
 import { BsCalendar2Check } from "react-icons/bs";
 import { CiLogout } from "react-icons/ci";
 import { IoHomeOutline } from "react-icons/io5";
+import { IoCopyOutline } from "react-icons/io5";
 
 import './ProfileBarbearia.css';
 
@@ -374,6 +374,22 @@ useEffect(() => {
       .catch(error => console.log(error));
   }, [barbeariaId])
 
+//============ Share profile ============
+const [mostrarCompartilharPerfil, setMostrarCompartilharPerfil] = useState(false);
+const [linkCopied, setLinkCopied] = useState(false);
+
+//Função para mostrar o input de alteração do nome
+const alternarCompartilharPerfil = () => {
+  setMostrarCompartilharPerfil(!mostrarCompartilharPerfil);
+};
+
+
+const handleCopyLink = () =>{
+  const url = `${window.location.origin}/BarbeariaDetails/profile/${barbearia_id}`;
+  navigator.clipboard.writeText(url);
+  setLinkCopied(true);
+  setTimeout(() => setLinkCopied(false), 2000);
+}
 /*----------------------------------*/
   //Constantes para atualizar o nome da Barbearia
   const [mostrarNomeBarbearia, setMostrarNomeBarbearia] = useState(false);
@@ -937,11 +953,29 @@ useEffect(() => {
           
 <hr className='hr_menu'/>
 
+        <div className="menu__main" onClick={alternarCompartilharPerfil} >
+          <HiOutlineShare className='icon_menu'/>
+            Compartilhar perfil
+            <IoIosArrowDown className={`arrow ${mostrarCompartilharPerfil ? 'girar' : ''}`} id='arrow'/>
+        </div>
+
+        {mostrarCompartilharPerfil && (
+            <div className="divSelected">
+              <button className='btn__copy__link__profile'>
+                  <IoCopyOutline  className='icon__IoCopyOutline'/>
+                  <p>Copiar link do perfil</p>
+              </button>
+
+            </div>
+          )}
+
+<hr className='hr_menu'/>
+
         <div className="menu__main" onClick={alternarNomeBarbearia} >
           <RiStore3Line className='icon_menu'/>
             Nome
             <IoIosArrowDown className={`arrow ${mostrarNomeBarbearia ? 'girar' : ''}`} id='arrow'/>
-          </div>
+        </div>
 
           {mostrarNomeBarbearia && (
             <div className="divSelected">

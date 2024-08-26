@@ -446,6 +446,28 @@
 .hide_icon__error.icon__error{
     opacity: 1;
 }
-.in__profile__barbearia{
-    
+.btn__copy__link__profile{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 45px;
+    background: transparent;
+    border: 1px solid #4a17d5;
+    border-radius: 10px;
+    color: #f6f6f6;
+    margin-top: 5px;
+    transition: 0.5s;
+}
+.icon__IoCopyOutline{
+    width: 20px;
+    height: 20px;
+    color: #f6f6f6;
+    margin-right: 10px;
+}
+.btn__copy__link__profile:hover{
+    background: #4a17d5;
+    transition: 0.5s;
+    border-radius: 15px;
+    cursor: pointer;
 }
