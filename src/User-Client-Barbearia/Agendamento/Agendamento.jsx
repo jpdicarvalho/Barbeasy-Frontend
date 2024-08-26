@@ -164,11 +164,7 @@ export function Agendamento({
   let timesOfDaySelected = timesDays[dayOfWeek]; //Passa o índice do objeto, correspondente ao dia selecionado
   timesOfDaySelected = timesOfDaySelected.split(',');//Separa os horários que estão concatenados
 
-    axios.get(`${urlApi}/api/v1/bookingsTimes/${barbeariaId}/${professionalId}/${selectedDate}`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
+    axios.get(`${urlApi}/api/v1/bookingsTimes/${barbeariaId}/${professionalId}/${selectedDate}`)
     .then(res =>{
       if(res.data.Message === 'true'){//Verifica se a consulta realizada, possuí algum registro
         let bookings = res.data.timesLocked;//passando os registros obtidos na consulta
@@ -499,19 +495,11 @@ export function Agendamento({
     </div>
 
     {selectedDay &&(
-    <div className="tittle">
-      {!accessTokenBarbearia &&(
-        <div className="container__main__barbearia__details">
-          <div className="mensagem-erro">
-            <VscError className="icon__error"/>
-            <p className="text__message">A barbearia não está habilitada a receber pagamentos.</p>
+        <div className="tittle">
+          <div style={{marginTop: '15px'}}>
+            Horários Disponíveis
           </div>
         </div>
-      )}
-       <div style={{marginTop: '15px'}}>
-        Horários Disponíveis
-      </div>
-    </div>
     )} 
 
     <div className="container__horarios">
