@@ -39,6 +39,8 @@ export function Agendamento({
   //buscando informações do usuário logado
   const userId = userInformation.user[0].id;
   const userEmail = userInformation.user[0].email;
+  const userType = userInformation.user[0].userType;
+
 
   const date = new Date();
   
@@ -522,7 +524,7 @@ export function Agendamento({
       </div>
     )}
     
-    {!userId === 9999999999 &&(
+    {userType != "visitante" &&(
       <div className="container__btn__create__booking__and__payment">
         {!preBookingAndPaymentCreated ?(
           <button onClick={createPayment} className={`Btn__ocult ${serviceId && selectedDay && timeSelected ? 'Btn__create__preBooking':''}`}>

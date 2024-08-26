@@ -62,7 +62,7 @@ const userData = localStorage.getItem('userData');
 const DataVisitante = {
   user: [{
     id: 9999999999,
-     name:"visitante"
+    userType:"visitante"
   }]
 }
 
