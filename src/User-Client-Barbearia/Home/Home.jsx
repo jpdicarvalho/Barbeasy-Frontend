@@ -162,7 +162,7 @@ return (
                 <div className={`containerSearch ${scrollPosition > 200 ? 'header__Search' : ''}`}>
                   <div className="inputBoxSearch">
                     <i className="fa-solid fa-magnifying-glass lupa"></i>
-                    <input type="search" id="inputSearch" name="name" value={search} onChange={(e) => setSearch(e.target.value)} placeholder='Buscar'/>
+                    <input type="search" id="inputSearch" name="name" value={search} onChange={(e) => setSearch(e.target.value)} placeholder='Buscar por nome, serviço, aberta...'/>
                     <BsFillGridFill className="icon__filter"/>
                   </div>
                 </div> 

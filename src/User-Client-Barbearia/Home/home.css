@@ -186,7 +186,7 @@
   padding-right: 10px;
 }
 .inputBoxSearch input[type="search"]::placeholder{
-  color: white;
+  color: gray;
   font-weight: 500  ;
   letter-spacing: 1px;
 }
