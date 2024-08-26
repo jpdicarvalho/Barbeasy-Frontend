@@ -1,5 +1,6 @@
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
+import CryptoJS from 'crypto-js';
 
 import axios from 'axios';
 
@@ -44,7 +45,15 @@ const navigate = useNavigate();
 const urlApi = 'https://barbeasy.up.railway.app'
 const cloudFrontUrl = 'https://d15o6h0uxpz56g.cloudfront.net/'
   
-const { barbeariaId } = useParams();
+const { profile } = useParams();
+
+// Função para descriptografar o id
+const decryptId = (encryptedId) => {
+  const bytes = CryptoJS.AES.decrypt(decodeURIComponent(encryptedId), 'abaporujucaiba');
+  return bytes.toString(CryptoJS.enc.Utf8);
+};
+
+const barbeariaId = decryptId(profile);
 
 //buscando informações do usuário logado
 const token = localStorage.getItem('token');
