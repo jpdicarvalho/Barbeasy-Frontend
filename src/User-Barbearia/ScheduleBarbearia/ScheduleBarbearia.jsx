@@ -220,7 +220,7 @@ const toggleItem = (itemId) => {
       setExpandedCardBooking([...expandedCardBooking, itemId]);
     }
 };
-console.log(bookings)
+
 return (
     <div className="container__main__Schedule__barbearia">
         <div className="header__bookings__schedule">
