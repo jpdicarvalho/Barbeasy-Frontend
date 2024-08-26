@@ -85,8 +85,8 @@
 .icon__HiOutlineShare{
     height: 25px;
     width: 25px;
-    background: rgba(128, 128, 128, 0.163);
-    padding: 3px;
+    background: #2706836d;
+    padding: 2px;
     border-radius: 50%;
     color: #f6f6f6;
 }
@@ -115,7 +115,24 @@
     width: 15px;
     height: 15px;
 }
-
+.link__copied{
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 30px;
+    width: 100px;
+    padding: 5px;
+    border-radius: 20px;
+    background: #2706836d;
+    right: 10px;
+    bottom: 30px ;
+}
+.icon__LuClipboardCheck{
+    width: 15px;
+    height: 15px;
+    color: #f6f6f6;
+}
 hr{
     width: 370px;
     border: 1px solid #1c2035;

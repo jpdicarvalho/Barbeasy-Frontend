@@ -15,6 +15,7 @@ import { MdOutlineDone } from "react-icons/md";
 import { VscError } from "react-icons/vsc";
 import { HiOutlineShare } from "react-icons/hi";
 import { VscSignIn } from "react-icons/vsc";
+import { LuClipboardCheck } from "react-icons/lu";
 
 //Import for slide
 import { register } from 'swiper/element/bundle';
@@ -104,12 +105,13 @@ useEffect(()=>{
       }
     }).catch(err => {
       setAccessTokenBarbearia(false)
-      console.error('Erro ao obter os registros:', err);
+      console.error('Erro ao obter os credenciais:', err);
     })
   }
 
   getAccessTokenBarbearia()
-}, []) 
+}, [])
+
 /*=========== copy link barbearia to share ===========*/
 const [linkCopied, setLinkCopied] = useState(false);
 
@@ -331,7 +333,12 @@ return (
                 <p>{barbearia.ruaBarbearia}, Nº {barbearia.NruaBarbearia}, {barbearia.bairroBarbearia}, {barbearia.cidadeBarbearia}</p>
               </div>
           </div>
-          {linkCopied && <span>Link copiado!</span>}
+          {linkCopied &&(
+            <div className="link__copied">
+              <LuClipboardCheck className="icon__LuClipboardCheck"/>
+              <p>Link copiado!</p>
+            </div>
+          )}
           <div className="container__icon__share" onClick={handleCopyLink}>
             <HiOutlineShare className="icon__HiOutlineShare"/>
           </div>
