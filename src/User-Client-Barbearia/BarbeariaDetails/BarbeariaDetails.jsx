@@ -42,15 +42,23 @@ const navigate = useNavigate();
 const urlApi = 'https://barbeasy.up.railway.app'
 const cloudFrontUrl = 'https://d15o6h0uxpz56g.cloudfront.net/'
   
-//const { barbearia } = location.state;
 const { barbeariaId } = useParams();
-
-//const barbeariaId = barbearia.barbearia_id;
-//const barbeariaName = barbearia.nameBarbearia
 
 //buscando informações do usuário logado
 const token = localStorage.getItem('token');
 const userData = localStorage.getItem('userData');
+
+const DataVisitante = {
+  user: [{
+    id: 9999999999,
+     name:"visitante"
+  }]
+}
+
+if(!userData){
+  localStorage.setItem('userData', JSON.stringify(DataVisitante));
+}
+
 const userInformation = JSON.parse(userData);
 const userId = userInformation.user[0].id
 
@@ -138,11 +146,7 @@ const [serviceProfessional, setServiceProfessional] = useState()
 //Function to get all professionais
 useEffect(() => {
   const getProfessional = () =>{
-  axios.get(`${urlApi}/api/v1/listProfessionalToBarbearia/${barbeariaId}`, {
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
-  })
+  axios.get(`${urlApi}/api/v1/listProfessionalToBarbearia/${barbeariaId}`)
     .then(res => {
       setProfessional(res.data.Professional)
     })
@@ -167,11 +171,7 @@ const [serviceDuration, setServiceDuration] = useState();
 //Função para buscar os serviços cadastrados
 const obterServicos = () =>{
   
-  axios.get(`${urlApi}/api/v1/listService/${barbeariaId}`, {
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
-  })
+  axios.get(`${urlApi}/api/v1/listService/${barbeariaId}`)
   .then(res => {
     if (res.data.Success === "Success") {
       setServicos(res.data.result);
@@ -214,11 +214,7 @@ const handleCancelClick = () =>{
 }
 
 const SearchAvaliation = () => {
-  axios.get(`${urlApi}/api/v1/allAvaliation/${barbeariaId}`, {
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
-  })
+  axios.get(`${urlApi}/api/v1/allAvaliation/${barbeariaId}`)
   .then(res => {
     setAllAvaliation(res.data.AllAvaliation);
     setAverageAvaliation(res.data.AverageAvaliation)
@@ -236,7 +232,7 @@ useEffect(() => {
 const enviarAvaliacao = () => {
   
     const valuesAvaliation = {
-      user_id: token ? userId:null,
+      user_id: userId,
       comment,
       barbeariaId,
       avaliation,
@@ -437,7 +433,7 @@ return (
                           )}
 
                           <Agendamento 
-                            userId={token ? userId:null}
+                            userId={userId}
                             accessTokenBarbearia={accessTokenBarbearia}
                             barbeariaId={Number (barbeariaId)}
                             professionalId={serviceProfessional}

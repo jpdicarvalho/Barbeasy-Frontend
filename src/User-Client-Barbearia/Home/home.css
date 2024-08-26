@@ -353,12 +353,14 @@
   transition: 0.5s;
   transition-delay: 0.5s;
   border-radius: 60px;
+  z-index: 3000;
 }
 .Navigation.active{
   width: 285px;
   background: #4a17d564;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  z-index: 3000;
 }
 .Navigation li{
   list-style: none;

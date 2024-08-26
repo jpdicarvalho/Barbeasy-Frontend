@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import axios from 'axios';
 
@@ -30,15 +30,14 @@ export function Agendamento({
   
   const navigate = useNavigate();
 
+  const token = localStorage.getItem('token');
   const userData = localStorage.getItem('userData');
+
   //trasnformando os dados para JSON
-  const userInformation = JSON.parse(userData);
-  //Fromatando cada letra inicial do nome do usuário para caixa-alta
-  
+  const userInformation = JSON.parse(userData);  
 
   //buscando informações do usuário logado
-  const token = localStorage.getItem('token');
-  const userId = userInformation.user[0].email;
+  const userId = userInformation.user[0].id;
   const userEmail = userInformation.user[0].email;
 
   const date = new Date();
@@ -48,7 +47,6 @@ export function Agendamento({
   dayOfWeek = dayOfWeek.slice(0, -1);
   dayOfWeek = dayOfWeek.charAt(0).toUpperCase() + dayOfWeek.slice(1);
   const year = date.getFullYear();
-
   
   //Buscando a quantidade de dias que a agenda vai ficar aberta
   const [horariosDiaSelecionado, setHorariosDiaSelecionado] = useState([]);
@@ -254,11 +252,7 @@ export function Agendamento({
   //Obtendo os dados da agenda do profissional da barbearia
   const getAgenda = () =>{
     if(barbeariaId && professionalId){
-      axios.get(`${urlApi}/api/v1/agenda/${barbeariaId}/${professionalId}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      })
+      axios.get(`${urlApi}/api/v1/agenda/${barbeariaId}/${professionalId}`)
       .then(res => {
         if(res.status === 200){
           setAgenda(res.data.Agenda)
@@ -282,11 +276,7 @@ export function Agendamento({
   
   //Função para obter os horários definidos do dia selecionado
   const getHorariosDefinidos = () =>{
-    axios.get(`${urlApi}/api/v1/agendaDiaSelecionado/${barbeariaId}/${professionalId}`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
+    axios.get(`${urlApi}/api/v1/agendaDiaSelecionado/${barbeariaId}/${professionalId}`)
     .then(res => {
       //Armazenando o objeto com todos os horários definidos
       setTimesDays(res.data.TimesDays)
@@ -540,18 +530,24 @@ export function Agendamento({
       </div>
     )}
     
-    <div className="container__btn__create__booking__and__payment">
-      {!preBookingAndPaymentCreated ?(
-        <button onClick={createPayment} className={`Btn__ocult ${serviceId && selectedDay && timeSelected ? 'Btn__create__preBooking':''}`}>
-          Realizar pagamento
-        </button>
-      ):(
-        <button className="createPreBookingAndPayment">
-          Criando pagamento
-        </button>
-      )}
-      
-    </div>
+    {userId === 9999999999 ?(
+      <button className={`Btn__ocult ${serviceId && selectedDay && timeSelected ? 'Btn__create__preBooking':''}`}>
+        Faça login para realizar seu agendamento
+      </button>
+    ):(
+      <div className="container__btn__create__booking__and__payment">
+          {!preBookingAndPaymentCreated ?(
+            <button onClick={createPayment} className={`Btn__ocult ${serviceId && selectedDay && timeSelected ? 'Btn__create__preBooking':''}`}>
+              Realizar pagamento
+            </button>
+          ):(
+            <button className="createPreBookingAndPayment">
+              Criando pagamento
+            </button>
+          )}
+      </div>
+    )}
+    
   </>
   );
 }

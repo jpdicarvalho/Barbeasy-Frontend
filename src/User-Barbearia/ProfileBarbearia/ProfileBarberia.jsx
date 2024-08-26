@@ -185,11 +185,7 @@ const [professional, setProfessional] = useState([])
   //Function to get all professionais
   useEffect(() => {
     const getProfessional = () =>{
-    axios.get(`${urlApi}/api/v1/listProfessionalToBarbearia/${barbeariaId}`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
+    axios.get(`${urlApi}/api/v1/listProfessionalToBarbearia/${barbeariaId}`)
       .then(res => {
         setProfessional(res.data.Professional)
       })

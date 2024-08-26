@@ -7,7 +7,7 @@
   border-top-right-radius: 15px;
   border-top-left-radius: 15px;
   margin-top: -10px;
-  z-index: 2000;
+  z-index: 1000;
 }
 
 .container__widget > .header__widget {
