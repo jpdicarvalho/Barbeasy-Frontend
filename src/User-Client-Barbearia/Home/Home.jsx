@@ -52,7 +52,7 @@ const navigateToBookingsHistory = () =>{
 //passando os dados da barbearia selecionada
 const handleBarbeariaClick = (barbeariaId) => {
   const encryptedId = encryptId(barbeariaId);
-  navigate(`/BarbeariaDetails/profile=${encryptedId}`);
+  navigate(`/BarbeariaDetails/profile/${encryptedId}`);
 };
 
 //Função LogOut

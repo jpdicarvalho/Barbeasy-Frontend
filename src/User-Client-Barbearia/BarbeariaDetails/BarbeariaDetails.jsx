@@ -45,7 +45,7 @@ const navigate = useNavigate();
 const urlApi = 'https://barbeasy.up.railway.app'
 const cloudFrontUrl = 'https://d15o6h0uxpz56g.cloudfront.net/'
   
-const { profile } = useParams();
+const { barbearia_id } = useParams();
 
 // Função para descriptografar o id
 const decryptId = (encryptedId) => {
@@ -53,7 +53,7 @@ const decryptId = (encryptedId) => {
   return bytes.toString(CryptoJS.enc.Utf8);
 };
 
-const barbeariaId = decryptId(profile);
+const barbeariaId = decryptId(barbearia_id);
 
 //buscando informações do usuário logado
 const token = localStorage.getItem('token');
