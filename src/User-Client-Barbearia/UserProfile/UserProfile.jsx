@@ -638,7 +638,7 @@ return (
     )}
     </div>
     </div>
-      <ul className={`Navigation in__user__profile ${isMenuActive ? 'active' : ''}`}>
+      <ul className="Navigation active in__user__profile">
         <li>
           <button onClick={navigateToHome}>
               <IoHomeOutline />
@@ -654,7 +654,6 @@ return (
             <MdOutlineLogout />
           </button>
         </li>
-        <button onClick={handleMenuClick} className="toggleMenu glassmorphism"></button>
       </ul>
     </>
 );
