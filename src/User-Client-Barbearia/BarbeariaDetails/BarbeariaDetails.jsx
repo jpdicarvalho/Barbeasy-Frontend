@@ -184,6 +184,7 @@ const [selectedService, setSelectedService] = useState();
 const [serviceName, setServiceName] = useState();
 const [servicePrice, setServicePrice] = useState();
 const [serviceDuration, setServiceDuration] = useState();
+const [searchService, setSearchService] = useState('');
 
 //Função para buscar os serviços cadastrados
 const obterServicos = () =>{
@@ -212,7 +213,20 @@ const handleServiceChange = (servicoId, name, price, duration) => {
   number = parseInt(number)
   setServiceDuration(number)
 };
+// Convertendo o valor do search para minúsculo
+const searchLowerCase = searchService.toLowerCase();
 
+// Buscando Barbearia pelo input Search
+const serviceSearch = servicos.filter((servicos) => {
+  // Convertendo todos os campos relevantes para lowercase para facilitar a busca case insensitive
+  const nameMatch = servicos.name.toLowerCase().includes(searchLowerCase);
+  const priceMatch = servicos.preco.toLowerCase().includes(searchLowerCase);
+  const durationMatch = servicos.duracao.toLowerCase().includes(searchLowerCase);
+  
+  // Retorna true se qualquer uma das condições for verdadeira
+  return nameMatch || priceMatch || durationMatch;
+});
+console.log(servicos)
 /*=================== Section Avaliation Barbearia ===================*/
 const [avaliation, setAvaliation] = useState();
 const [averageAvaliation, setAverageAvaliation] = useState();
@@ -384,9 +398,9 @@ return (
                     <div  className="tab-content">
                           <div className="tittle">
                               {professional.length <= 1 ?(
-                                <p>Profissional</p>
+                                <p className="text__total__professional__and__service">Profissional</p>
                               ):(
-                                <p>Profissionais ({professional.length})</p>
+                                <p className="text__total__professional__and__service">Profissionais ({professional.length})</p>
                               )}
                           </div>
                           <div className="professionals">
@@ -423,10 +437,10 @@ return (
                           <div className="tittle">
                             {serviceProfessional && servicos && (
                               <>
-                                <p>Serviços ({servicos.filter(servico => servico.professional_id === serviceProfessional).length})</p>
+                                <p className="text__total__professional__and__service">Serviços ({servicos.filter(servico => servico.professional_id === serviceProfessional).length})</p>
                                 <div className="container__input__search__service">
                                   <GrSearch className="icon__GrSearch"/>
-                                  <input type="search" className="inner__input__search__service" placeholder="Buscar serviço"/>
+                                  <input type="search" className="inner__input__search__service" name="name" value={searchService} onChange={(e) => setSearchService(e.target.value)} placeholder="Buscar serviço por nome, preço ou duração..."/>
                                 </div>
                               </>
                             )}
@@ -435,7 +449,7 @@ return (
                           <div className="Servicos">
                             
                             {serviceProfessional ? (
-                              servicos.filter(servico => servico.professional_id === serviceProfessional)  
+                              serviceSearch.filter(servico => servico.professional_id === serviceProfessional)  
                                     .map(servico => (
                                       <div key={servico.id} onClick={() => handleServiceChange(servico.id, servico.name, servico.preco, servico.duracao)} className={`servicoDiv ${selectedService === servico.id ? 'selected' : ''}`}>
                                         <p>{servico.name} • {servico.preco} </p>
