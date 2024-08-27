@@ -515,7 +515,7 @@ return (
                             ))}
                           </div>
                             <div className="section__send__avaliation">
-                              {!userId === 9999999999 &&(
+                              {userType != "visitante" &&(
                                 <>
                                   <div>
                                     <textarea

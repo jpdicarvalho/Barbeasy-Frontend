@@ -433,6 +433,7 @@ span{
     height: 40px;
     width: 160px;
     border: 1px solid #4a17d5;
+    color: #f6f6f6;
     transition: 0.5s;
     margin-bottom: 10px;
     padding: 3px;
