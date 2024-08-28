@@ -47,6 +47,7 @@ h1 {
   padding-left: 40px;
   outline: none;
   font-size: 14px;
+  color: #f6f6f6;
 }
 .Btn__confirm__changes{
   height: 50px;
@@ -57,6 +58,7 @@ h1 {
   margin-left: 10px;
   transition: 0.5s;
   padding: 10px;
+  color: #f6f6f6;
 }
 .input__valided{
   border: 1px solid #4a17d5;

@@ -328,7 +328,7 @@ useEffect(() => {
 
   generateCodeChallenge(codeVerifier).then(codeChallenge => {
     const clientId = '5940575729236381'
-    const redirectUri = encodeURIComponent('https://barbeasy.netlify.app/GetAccessToken');
+    const redirectUri = encodeURIComponent('https://barbeasy.com.br/GetAccessToken');
     const OAuthUrl = `https://auth.mercadopago.com/authorization?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&code_challenge=${codeChallenge}&code_challenge_method=S256`;
     setOAuthUrl(OAuthUrl);
   });

@@ -64,7 +64,7 @@ const GetAccessToken = () => {
   const getAccessToken = async (authorizationCode) => {
     const clientId = '5940575729236381'
     const clientSecret = 'bdRsr5mP74WzRKvFW5bvRAs8KP6b2Rol'
-    const redirectUri = 'https://barbeasy.netlify.app/GetAccessToken';
+    const redirectUri = 'https://barbeasy.com.br/GetAccessToken';
     const codeVerifier = localStorage.getItem('code_verifier');
 
     try {
