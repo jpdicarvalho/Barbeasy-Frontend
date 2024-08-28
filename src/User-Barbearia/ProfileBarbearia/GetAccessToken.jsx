@@ -105,24 +105,33 @@ const GetAccessToken = () => {
   return (
     <div className="container__get__access__token">
       {credentialsObtained &&(
-        <div className="section__get__access__token__successfuly">
-          <IoIosCheckmarkCircleOutline className="icon__CheckmarkCircleOutline"/>
-          <p className="text__one__conection__succesfuly">Excelente!</p>
-          <p className="text__two__conection__succesfuly">Agora você pode receber pagamentos dos seus agendamentos.</p>
-        </div>
+        <>
+          <div className="section__get__access__token__successfuly">
+            <IoIosCheckmarkCircleOutline className="icon__CheckmarkCircleOutline"/>
+            <p className="text__one__conection__succesfuly">Excelente!</p>
+            <p className="text__two__conection__succesfuly">Agora você pode receber pagamentos dos seus agendamentos.</p>
+          </div>
+          <div className="Box__btn__back__Booking__Details" onClick={handleBackClick}>
+            <button className="Btn__back__Booking__Details" >
+                Voltar
+            </button>
+          </div>
+        </>
       )}
       {credentialsObtained === false &&(
-        <div className="section__get__access__token__successfuly">
-          <VscError className="icon__VscError"/>
-          <p className="text__one__conection__succesfuly">Hummm...</p>
-          <p className="text__two__conection__succesfuly">Houve um problema ao realizar a conexão com o Mercado Pago. Tente novamente em alguns minutos.</p>
-        </div>
+        <>
+          <div className="section__get__access__token__successfuly">
+            <VscError className="icon__VscError"/>
+            <p className="text__one__conection__succesfuly">Hummm...</p>
+            <p className="text__two__conection__succesfuly">Houve um problema ao realizar a conexão com o Mercado Pago. Tente novamente em alguns minutos.</p>
+          </div>
+          <div className="Box__btn__back__Booking__Details" onClick={handleBackClick}>
+            <button className="Btn__back__Booking__Details" >
+                Voltar
+            </button>
+          </div>
+        </>
       )}
-            <div className="Box__btn__back__Booking__Details" onClick={handleBackClick}>
-                <button className="Btn__back__Booking__Details" >
-                    Voltar
-                </button>
-            </div>
     </div>
   );
 };
