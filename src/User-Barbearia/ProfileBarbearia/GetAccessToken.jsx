@@ -25,7 +25,7 @@ const GetAccessToken = () => {
     navigate("/ProfileBarbearia");
   };
 
-  const [credentialsObtained, setCredentialsObtained] = useState(false);
+  const [credentialsObtained, setCredentialsObtained] = useState(null);
 
   //Function to save the access token
   const saveCredentials = (access_token, refresh_token) =>{
@@ -104,13 +104,14 @@ const GetAccessToken = () => {
 
   return (
     <div className="container__get__access__token">
-      {credentialsObtained ? (
+      {credentialsObtained &&(
         <div className="section__get__access__token__successfuly">
           <IoIosCheckmarkCircleOutline className="icon__CheckmarkCircleOutline"/>
           <p className="text__one__conection__succesfuly">Excelente!</p>
           <p className="text__two__conection__succesfuly">Agora você pode receber pagamentos dos seus agendamentos.</p>
         </div>
-      ) : (
+      )}
+      {credentialsObtained === false &&(
         <div className="section__get__access__token__successfuly">
           <VscError className="icon__VscError"/>
           <p className="text__one__conection__succesfuly">Hummm...</p>

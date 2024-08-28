@@ -375,7 +375,7 @@ useEffect(() => {
       })
       .catch(error => console.log(error));
   }, [barbeariaId])
-
+const aaaaaateste = null
 //============ Share profile ============
 const [mostrarCompartilharPerfil, setMostrarCompartilharPerfil] = useState(false);
 const [linkCopied, setLinkCopied] = useState(false);
@@ -846,7 +846,7 @@ const handleCopyLink = () =>{
         )}
     
 
-      <div className="section_information">       
+      <div className="section_information">
 <hr />
         <div className='tittle_menu'>
             <h3>Profissional</h3>
