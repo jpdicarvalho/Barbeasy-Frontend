@@ -38,6 +38,7 @@ import { CiLogout } from "react-icons/ci";
 import { IoHomeOutline } from "react-icons/io5";
 import { IoCopyOutline } from "react-icons/io5";
 import { LuCopyCheck } from "react-icons/lu";
+import { AiOutlineFileProtect } from "react-icons/ai";
 
 import './ProfileBarbearia.css';
 
@@ -334,6 +335,13 @@ useEffect(() => {
   });
 }, []);
 
+//=========== Section Booking Policeis ===========
+const [showBookingsPoliceis, setShowBookingsPoliceis] = useState(false);
+
+//Função para mostrar o menu de definição das políticas de agendamento 
+const changeShowBookingPolicies = () => {
+  setShowBookingsPoliceis(!showBookingsPoliceis);
+};
 //=========== Section Status ===========
 //Constantes para atualizar o status da barbearia
   const [mostrarStatus, setMostrarStatus] = useState(false);
@@ -921,7 +929,41 @@ const handleCopyLink = () =>{
         )}
         
 <hr className='hr_menu'/>
-  
+
+        <div className="menu__main" onClick={changeShowBookingPolicies}>
+          <AiOutlineFileProtect className='icon_menu'/>
+            Políticas de agendamento
+          <IoIosArrowDown className={`arrow ${showBookingsPoliceis ? 'girar' : ''}`} id='arrow'/>
+        </div>
+
+        {showBookingsPoliceis && (
+            <div className="divSelected">
+              <div className="container__checkBox">
+                {status === 'Aberta' ?
+                  <span style={{fontWeight: '500', color: '#f6f6f6'}}>Agendamento apenas com pagamento</span>
+                :
+                  <span style={{fontWeight: '500'}}>Agendamento apenas com pagamento</span>
+                }
+                <input
+                  type="checkbox"
+                  id='status'
+                  checked={status === 'Aberta'} // Marca o input se o status for 'Aberta'
+                  onChange={() => {
+                    const novoStatus = status === 'Aberta' ? 'Fechada' : 'Aberta'; // Inverte o estado atual
+                    setStatus(novoStatus); // Atualiza o estado 'status'
+                    statusUpdate(); // Chama a função para atualizar o status no backend
+                  }}
+                />
+                <label htmlFor="status" className='switch'>
+                  <span className='slider'></span>
+                </label>
+              </div>
+
+            </div>
+          )}
+
+<hr className='hr_menu'/>
+
           <div className="menu__main" onClick={alternarStatus}>
           {status === 'Aberta' ?
             <RiRadioButtonLine className='icon_menu' style={{color: '#1AEE07'}}/>
