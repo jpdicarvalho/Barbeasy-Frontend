@@ -53,10 +53,11 @@
 
 .content {
   position: relative;
-  overflow: hidden;
-  height: 680px;
+  overflow-x: hidden;
+  height: 650px;
   width: 390px;
   overflow-y: scroll;
+  padding-bottom: 500px;
 }
 
 .content::-webkit-scrollbar {
@@ -77,9 +78,13 @@
   display: flex;
   width: 1155px; /* Substitua ${tabWidth * tabContent.length} por um valor fixo */
   transition: 0.35s;
+  height: 720px;
+  height: 780px;
+  overflow-y: scroll;
 }
 
 .tab-content {
   width: 375px; /* Substitua ${tabWidth} por um valor fixo */
   margin: 5px;
+height: 100%;
 }
