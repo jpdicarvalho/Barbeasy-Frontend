@@ -226,7 +226,7 @@ const serviceSearch = servicos.filter((servicos) => {
   // Retorna true se qualquer uma das condições for verdadeira
   return nameMatch || priceMatch || durationMatch;
 });
-console.log(servicos)
+
 /*=================== Section Avaliation Barbearia ===================*/
 const [avaliation, setAvaliation] = useState();
 const [averageAvaliation, setAverageAvaliation] = useState();
