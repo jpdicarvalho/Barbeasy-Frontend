@@ -79,11 +79,18 @@
     padding-right: 5px;
     cursor: pointer;
 }
-.icon__HiOutlineShare{
-    height: 25px;
-    width: 25px;
+.inner__icon__HiOutlineShare{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
     background: #2706836d;
-    padding: 2px;
+}
+.icon__HiOutlineShare{
+    height: 21px;
+    width: 21px;
     border-radius: 50%;
     color: #f6f6f6;
 }
@@ -123,7 +130,7 @@
     border-radius: 20px;
     background: #2706836d;
     right: 10px;
-    bottom: 30px ;
+    bottom: 35px ;
 }
 .icon__LuClipboardCheck{
     width: 15px;

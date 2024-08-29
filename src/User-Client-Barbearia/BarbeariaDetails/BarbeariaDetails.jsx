@@ -365,7 +365,9 @@ return (
             </div>
           )}
           <div className="container__icon__share" onClick={handleCopyLink}>
-            <HiOutlineShare className="icon__HiOutlineShare"/>
+            <div className="inner__icon__HiOutlineShare">
+              <HiOutlineShare className="icon__HiOutlineShare"/>
+            </div>
           </div>
           </div>
         </div>
