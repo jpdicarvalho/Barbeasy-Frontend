@@ -339,6 +339,7 @@ useEffect(() => {
 const [showBookingsPoliceis, setShowBookingsPoliceis] = useState(false);
 const [paymentEnable, setPaymentEnable] = useState(true);
 const [servicePercentage, setServicePercentage] = useState('');
+const [anotherServicePercentage, setAnotherServicePercentage] = useState('');
 
 //Função para mostrar o menu de definição das políticas de agendamento 
 const changeShowBookingPolicies = () => {
@@ -359,7 +360,7 @@ const CheckboxServicePercentage = ({ value }) => {
             setServicePercentage('');
           } else {
             // Caso contrário, selecione a opção
-            servicePercentage(value);
+            setServicePercentage(value);
           }
         }}
         className="days-switch"
@@ -369,6 +370,52 @@ const CheckboxServicePercentage = ({ value }) => {
       </label>
     </>
   );
+};
+
+// Função para formatar a nova porcentagem definida pela barbearia
+const formatarServicePercentage = (valor) => {
+  // Remover todos os caracteres exceto números e vírgula
+  const numero = valor.replace(/[^0-9,]/g, '');
+
+  // Se o valor estiver vazio, retornar uma string vazia
+  if (!numero) return '';
+
+  // Verificar se o número contém vírgula (caso do formato "25,25%")
+  if (numero.includes(',')) {
+    // Formato com vírgula
+    const partes = numero.split(',');
+    const parteInteira = partes[0].slice(0, 2);
+    const parteDecimal = partes[1].slice(0, 2);
+
+    const newServicePercentage = `${parteInteira},${parteDecimal}%`;
+
+    // Verificar se a porcentagem não é um valor indesejado
+    if (newServicePercentage === "0,0%" || newServicePercentage === "00,00%") {
+      return '';
+    }
+    
+    return newServicePercentage;
+  } else {
+    // Formato sem vírgula, apenas com parte inteira
+    const parteInteira = numero.slice(0, 2);
+
+    const newServicePercentage = `${parteInteira}%`;
+
+    // Verificar se a porcentagem não é um valor indesejado
+    if (["100%", "50%", "20%", "10%", "00%", "0%"].includes(newServicePercentage)) {
+      return '';
+    }
+    
+    return newServicePercentage;
+  }
+};
+
+const handleServicePercentageChange = (event) => {
+  setAnotherServicePercentage(event.target.value); // Permitir que o usuário digite livremente
+};
+
+const handleServicePercentageBlur = () => {
+  setAnotherServicePercentage(formatarServicePercentage(anotherServicePercentage));
 };
 //=========== Section Status ===========
 //Constantes para atualizar o status da barbearia
@@ -788,12 +835,7 @@ const handleCopyLink = () =>{
           }, 5000);
     });
   };
-console.log(paymentEnable)
-
-const handleChangeServicePercentage = () =>{
-  setServicePercentage(!servicePercentage)
-}
-
+console.log(anotherServicePercentage)
   return (
     <>
       <div className="container__profile">
@@ -962,7 +1004,7 @@ const handleChangeServicePercentage = () =>{
                 {paymentEnable === true ? (
                   <>
                   <div className='container__checkbox__payment'>
-                    <span style={{fontWeight: '500', color: '#f6f6f6', paddingLeft: '5px'}}>Apenas com pagamento</span>
+                    <span style={{fontWeight: '500', color: '#f6f6f6'}}>Apenas com pagamento</span>
                       <input
                         type="checkbox"
                         id='status'
@@ -997,25 +1039,42 @@ const handleChangeServicePercentage = () =>{
                     </div>
                     <div className='container__valor__payment__booking'>
                       <p>Quanto você deseja recerber pelo agendamento?</p>
-                      <div className='container__service__percentage' onClick={handleChangeServicePercentage}>
-                        <p className='text__service__percentage'>10% do valor serviço</p>
-                        <CheckboxServicePercentage/>
+
+                      <div className='container__service__percentage'>
+                        <p className={`text__service__percentage ${servicePercentage === "10" ? 'text__service__percentage__selected':''}`}>10% do valor do serviço</p>
+                        <CheckboxServicePercentage value="10"/>
                       </div>
 
-                      <div className='container__service__percentage' onClick={handleChangeServicePercentage}>
-                        <p className='text__service__percentage'>20% do valor serviço</p>
-                        <CheckboxServicePercentage/>
+                      <div className='container__service__percentage'>
+                        <p className={`text__service__percentage ${servicePercentage === "20" ? 'text__service__percentage__selected':''}`}>20% do valor do serviço</p>
+                        <CheckboxServicePercentage value="20"/>
                       </div>
 
 
-                      <div className='container__service__percentage' onClick={handleChangeServicePercentage}>
-                        <p className='text__service__percentage'>50% do valor serviço</p>
-                        <CheckboxServicePercentage/>
+                      <div className='container__service__percentage'>
+                        <p className={`text__service__percentage ${servicePercentage === "50" ? 'text__service__percentage__selected':''}`}>50% do valor do serviço</p>
+                        <CheckboxServicePercentage value="50"/>
                       </div>
 
-                      <div className='container__service__percentage' onClick={handleChangeServicePercentage}>
-                        <p className='text__service__percentage'>100% do valor serviço</p>
-                        <CheckboxServicePercentage/>
+                      <div className='container__service__percentage'>
+                        <p className={`text__service__percentage ${servicePercentage === "100" ? 'text__service__percentage__selected':''}`}>100% do valor do serviço</p>
+                        <CheckboxServicePercentage value="100"/>
+                      </div>
+
+                      <div className='container__service__percentage__another' >
+                        <input
+                          type="text"
+                          value={anotherServicePercentage}
+                          className={` ${servicePercentage === "outros" ? 'input__another__percentage':'ocult__input__another__percentage'}`}
+                          onChange={handleServicePercentageChange}
+                          onBlur={handleServicePercentageBlur} // Aplicar a formatação ao perder o foco
+                          placeholder='Ex.: 30%' 
+                        />
+                        <p
+                        className={`text__service__percentage__another ${servicePercentage === "outros" ? 'text__service__percentage__another__selected':''}`}
+                        >{servicePercentage === "outros" ? 'do valor do serviço':'Outros'}
+                        </p>
+                        <CheckboxServicePercentage value="outros"/>
                       </div>
                       
                     </div>

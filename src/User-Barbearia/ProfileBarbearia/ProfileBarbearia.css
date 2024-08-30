@@ -268,8 +268,7 @@
     padding-top: 5px;
 }
 .container__conection__with__mercado__pago{
-    padding-left: 5px;
-    border-bottom: 1px solid #354249;
+    margin-bottom: 10px;
 }
 .information__span__payment__enable{
     color: #52626b;
@@ -282,16 +281,68 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 5px;
+    padding: 5px 5px 5px 0px;
+    margin-top: 5px;
+}
+.container__service__percentage__another{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding: 5px 5px 5px 0px;
     margin-top: 5px;
 }
 .text__service__percentage{
     font-size: 14px;
     font-weight: 400px;
     color: #52626b;
+    transition: 0.5s;
+    padding-left: 5px;
 }
-.input__service__percentage{
-    
+.text__service__percentage__selected{
+    font-size: 14px;
+    font-weight: 400px;
+    color: #f6f6f6;
+    transition: 0.5s;
+    padding: 0px;
+}
+.text__service__percentage__another{
+    font-size: 14px;
+    font-weight: 400px;
+    color: #52626b;
+    padding-left: 5px;
+    width: 288px;
+    transition: 0.5s;
+
+}
+
+.text__service__percentage__another__selected{
+    font-size: 14px;
+    font-weight: 400px;
+    color: #f6f6f6;
+    padding: 0px;
+    width: 218px;
+    transition: 0.5s;
+}
+.input__another__percentage{
+    outline: none;
+    width: 60px;
+    margin-left: 5px;
+    margin-right: 10px;
+    padding-left: 2px;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #52626b;
+    opacity: 1;
+    transition: 0.5s;
+    color: #f6f6f6;
+}
+.input__another__percentage::placeholder {
+    color: #f6f6f6;
+}
+.ocult__input__another__percentage{
+    opacity: 0;
+    width: 0;
+    transition: 0.5s;
 }
 .defined__day {
     color: white;
