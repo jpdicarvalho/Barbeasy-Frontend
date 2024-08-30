@@ -278,9 +278,20 @@
     margin-bottom: 5px;
     text-align: justify;
 }
+.container__service__percentage{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    margin-top: 5px;
+}
+.text__service__percentage{
+    font-size: 14px;
+    font-weight: 400px;
+    color: #52626b;
+}
 .input__service__percentage{
-    background: red;
-    color: red;
+    
 }
 .defined__day {
     color: white;

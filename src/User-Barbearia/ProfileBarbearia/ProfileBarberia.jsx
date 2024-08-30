@@ -345,6 +345,31 @@ const changeShowBookingPolicies = () => {
   setShowBookingsPoliceis(!showBookingsPoliceis);
 };
 
+//Passando os valores para o input Quantidade de dias
+const CheckboxServicePercentage = ({ value }) => {
+  return (
+    <>
+      <input
+        type="checkbox"
+        id={value}
+        checked={servicePercentage === value}
+        onChange={() => {
+          if (servicePercentage === value) {
+            // Se a opção já estiver selecionada, desmarque-a
+            setServicePercentage('');
+          } else {
+            // Caso contrário, selecione a opção
+            servicePercentage(value);
+          }
+        }}
+        className="days-switch"
+      />
+      <label htmlFor={value} className="switch">
+        <span className="slider"></span>
+      </label>
+    </>
+  );
+};
 //=========== Section Status ===========
 //Constantes para atualizar o status da barbearia
   const [mostrarStatus, setMostrarStatus] = useState(false);
@@ -764,6 +789,11 @@ const handleCopyLink = () =>{
     });
   };
 console.log(paymentEnable)
+
+const handleChangeServicePercentage = () =>{
+  setServicePercentage(!servicePercentage)
+}
+
   return (
     <>
       <div className="container__profile">
@@ -967,21 +997,27 @@ console.log(paymentEnable)
                     </div>
                     <div className='container__valor__payment__booking'>
                       <p>Quanto você deseja recerber pelo agendamento?</p>
-                      <input
-                      className="input__service__percentage"
-                      type="checkbox"
-                      id="servicePercentage"
-                      name="serviceName"
-                      value={servicePercentage}
-                      onChange={(e) => {
-                        const inputValue = e.target.value;
-                        // Remover caracteres especiais
-                        const sanitizedValue = inputValue.replace(/[^0-9]/g, '');
-                        // Limitar a 50 caracteres
-                        const truncatedValue = sanitizedValue.slice(0, 6);
-                        setServicePercentage(truncatedValue);
-                      }}
-                      />
+                      <div className='container__service__percentage' onClick={handleChangeServicePercentage}>
+                        <p className='text__service__percentage'>10% do valor serviço</p>
+                        <CheckboxServicePercentage/>
+                      </div>
+
+                      <div className='container__service__percentage' onClick={handleChangeServicePercentage}>
+                        <p className='text__service__percentage'>20% do valor serviço</p>
+                        <CheckboxServicePercentage/>
+                      </div>
+
+
+                      <div className='container__service__percentage' onClick={handleChangeServicePercentage}>
+                        <p className='text__service__percentage'>50% do valor serviço</p>
+                        <CheckboxServicePercentage/>
+                      </div>
+
+                      <div className='container__service__percentage' onClick={handleChangeServicePercentage}>
+                        <p className='text__service__percentage'>100% do valor serviço</p>
+                        <CheckboxServicePercentage/>
+                      </div>
+                      
                     </div>
                     
                   </>
