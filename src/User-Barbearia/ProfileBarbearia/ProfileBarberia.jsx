@@ -337,11 +337,14 @@ useEffect(() => {
 
 //=========== Section Booking Policeis ===========
 const [showBookingsPoliceis, setShowBookingsPoliceis] = useState(false);
+const [paymentEnable, setPaymentEnable] = useState(true);
+const [servicePercentage, setServicePercentage] = useState('');
 
 //Função para mostrar o menu de definição das políticas de agendamento 
 const changeShowBookingPolicies = () => {
   setShowBookingsPoliceis(!showBookingsPoliceis);
 };
+
 //=========== Section Status ===========
 //Constantes para atualizar o status da barbearia
   const [mostrarStatus, setMostrarStatus] = useState(false);
@@ -383,8 +386,8 @@ const changeShowBookingPolicies = () => {
       })
       .catch(error => console.log(error));
   }, [barbeariaId])
-const aaaaaateste = null
-//============ Share profile ============
+
+  //============ Share profile ============
 const [mostrarCompartilharPerfil, setMostrarCompartilharPerfil] = useState(false);
 const [linkCopied, setLinkCopied] = useState(false);
 
@@ -760,7 +763,7 @@ const handleCopyLink = () =>{
           }, 5000);
     });
   };
-
+console.log(paymentEnable)
   return (
     <>
       <div className="container__profile">
@@ -908,22 +911,8 @@ const handleCopyLink = () =>{
         </div>
 
         {showReceivePayment && (
-            <div className="divSelected">
-              {isConectedWithMercadoPago ? (
-                <>
-                  <p className='information__span'>Tudo em ordem por aqui! Sua barbearia está habilitada a receber pagamentos.</p>
-                </>
-              ):(
-                <>
-                 <div className='Box__btn__conection__mercado__pago'>
-                    <p className='information__span'>Conecte-se ao Mercado Pago para começar a receber pagamentos dos seus agendamentos.</p>
-                    <a href={OAuthUrl} className='Link__oauth__mercado__pago'>
-                      <SiMercadopago className='logo__mercado__pago__conection' />
-                      <p>Conectar ao Mercado Pago</p>
-                    </a>   
-                </div>
-                </>
-              )}
+            <div >
+              
                      
             </div>          
         )}
@@ -938,25 +927,85 @@ const handleCopyLink = () =>{
 
         {showBookingsPoliceis && (
             <div className="divSelected">
-              <div className="container__checkBox">
-                {status === 'Aberta' ?
-                  <span style={{fontWeight: '500', color: '#f6f6f6'}}>Agendamento apenas com pagamento</span>
-                :
-                  <span style={{fontWeight: '500'}}>Agendamento apenas com pagamento</span>
-                }
-                <input
-                  type="checkbox"
-                  id='status'
-                  checked={status === 'Aberta'} // Marca o input se o status for 'Aberta'
-                  onChange={() => {
-                    const novoStatus = status === 'Aberta' ? 'Fechada' : 'Aberta'; // Inverte o estado atual
-                    setStatus(novoStatus); // Atualiza o estado 'status'
-                    statusUpdate(); // Chama a função para atualizar o status no backend
-                  }}
-                />
-                <label htmlFor="status" className='switch'>
-                  <span className='slider'></span>
-                </label>
+                <p className='information__span'>Escolha como os agendamentos devem ser feitos em sua barbearia:</p>
+              <div className="container__payment__policeis">
+                {paymentEnable === true ? (
+                  <>
+                  <div className='container__checkbox__payment'>
+                    <span style={{fontWeight: '500', color: '#f6f6f6', paddingLeft: '5px'}}>Apenas com pagamento</span>
+                      <input
+                        type="checkbox"
+                        id='status'
+                        checked={paymentEnable === true} // Marca o input se o paymentEnable for true
+                        onChange={() => {
+                          const paymentChange = paymentEnable === true ? false : true; // Inverte o estado atual
+                          setPaymentEnable(paymentChange); // Atualiza o estado 'status'
+                          paymentPoliceis(); // Chama a função para atualizar o status no backend
+                        }}
+                      />
+                      <label htmlFor="status" className='switch'>
+                        <span className='slider'></span>
+                      </label>
+                  </div>
+                    
+                    <div className="container__conection__with__mercado__pago">
+                      {isConectedWithMercadoPago ? (
+                        <>
+                          <p className='information__span__payment__enable'>Tudo em ordem por aqui! Sua barbearia está habilitada a receber pagamentos.</p>
+                        </>
+                      ):(
+                        <>
+                        <div className='Box__btn__conection__mercado__pago'>
+                            <p className='information__span'>Conecte-se ao Mercado Pago para começar a receber pagamentos dos seus agendamentos.</p>
+                            <a href={OAuthUrl} className='Link__oauth__mercado__pago'>
+                              <SiMercadopago className='logo__mercado__pago__conection' />
+                              <p>Conectar ao Mercado Pago</p>
+                            </a>   
+                        </div>
+                        </>
+                      )}
+                    </div>
+                    <div className='container__valor__payment__booking'>
+                      <p>Quanto você deseja recerber pelo agendamento?</p>
+                      <input
+                      className="input__service__percentage"
+                      type="checkbox"
+                      id="servicePercentage"
+                      name="serviceName"
+                      value={servicePercentage}
+                      onChange={(e) => {
+                        const inputValue = e.target.value;
+                        // Remover caracteres especiais
+                        const sanitizedValue = inputValue.replace(/[^0-9]/g, '');
+                        // Limitar a 50 caracteres
+                        const truncatedValue = sanitizedValue.slice(0, 6);
+                        setServicePercentage(truncatedValue);
+                      }}
+                      />
+                    </div>
+                    
+                  </>
+                ):(
+                  <>
+                    <div className='container__checkbox__payment'>
+                    <span style={{fontWeight: '500', paddingLeft: '10px'}}>Apenas com pagamento</span>
+                      <input
+                        type="checkbox"
+                        id='status'
+                        checked={paymentEnable === true} // Marca o input se o paymentEnable for true
+                        onChange={() => {
+                          const paymentChange = paymentEnable === true ? false : true; // Inverte o estado atual
+                          setPaymentEnable(paymentChange); // Atualiza o estado 'status'
+                          paymentPoliceis(); // Chama a função para atualizar o status no backend
+                        }}
+                      />
+                      <label htmlFor="status" className='switch'>
+                        <span className='slider'></span>
+                      </label>
+                  </div>
+                  </>
+                )}
+                
               </div>
 
             </div>

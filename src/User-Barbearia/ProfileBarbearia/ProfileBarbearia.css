@@ -249,11 +249,38 @@
     margin-bottom: 10px;
     margin-right: 10px;
 }
+.container__payment__policeis{
+    display: flex;
+}
+.container__payment__policeis{
+    display: flex;
+    flex-direction: column;
+}
 .container__checkBox{
     display: flex;
     justify-content: space-between;
     padding-top: 5px;
     padding-bottom: 5px;
+}
+.container__checkbox__payment{
+    display: flex;
+    justify-content: space-between;
+    padding-top: 5px;
+}
+.container__conection__with__mercado__pago{
+    padding-left: 5px;
+    border-bottom: 1px solid #354249;
+}
+.information__span__payment__enable{
+    color: #52626b;
+    font-weight:400;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    text-align: justify;
+}
+.input__service__percentage{
+    background: red;
+    color: red;
 }
 .defined__day {
     color: white;
