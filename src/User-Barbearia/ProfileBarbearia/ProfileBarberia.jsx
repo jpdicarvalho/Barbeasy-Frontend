@@ -331,7 +331,7 @@ useEffect(() => {
 
 //=========== Section Booking Policeis ===========
 const [showBookingsPoliceis, setShowBookingsPoliceis] = useState(false);
-const [paymentEnable, setPaymentEnable] = useState(false);
+const [bookingWithPayment, setBookingWithPayment] = useState(false);
 const [servicePercentage, setServicePercentage] = useState(false);
 const [anotherServicePercentage, setAnotherServicePercentage] = useState(null);
 
@@ -402,7 +402,7 @@ const updateBookingPoliceis = () =>{
   }
 
   const values = {
-    paymentEnable: paymentEnable ? 'enabled':'disabled',
+    bookingWithPayment: bookingWithPayment ? 'enabled':'disabled',
     servicePercentage: servicePercentage !== 'outros' && servicePercentage !== false ? servicePercentage:anotherServicePercentageFormated
   }
   console.log('aa',values)
@@ -978,7 +978,7 @@ const handleCopyLink = () =>{
             <div className="divSelected">
                 <p className='information__span'>Escolha como os agendamentos devem ser feitos em sua barbearia:</p>
               <div className="container__payment__policeis">
-                {paymentEnable === true ? (
+                {bookingWithPayment === true ? (
                   <>
                   <div className='container__checkbox__payment'>
                     <PiContactlessPayment className='icon_menu__payment__enable' style={{color: '#f6f6f6'}}/>
@@ -986,10 +986,10 @@ const handleCopyLink = () =>{
                       <input
                         type="checkbox"
                         id='status'
-                        checked={paymentEnable === true} // Marca o input se o paymentEnable for true
+                        checked={bookingWithPayment === true} // Marca o input se o bookingWithPayment for true
                         onChange={() => {
-                          const paymentChange = paymentEnable === true ? false : true; // Inverte o estado atual
-                          setPaymentEnable(paymentChange); // Atualiza o estado 'status'
+                          const paymentChange = bookingWithPayment === true ? false : true; // Inverte o estado atual
+                          setBookingWithPayment(paymentChange); // Atualiza o estado 'status'
                           paymentPoliceis(); // Chama a função para atualizar o status no backend
                         }}
                       />
@@ -1059,7 +1059,7 @@ const handleCopyLink = () =>{
                         <CheckboxServicePercentage value="outros"/>
                       </div>
 
-                      {paymentEnable && (
+                      {bookingWithPayment && (
                         <>
                           <div style={{ paddingLeft: '10px' }}>
                             
@@ -1113,10 +1113,10 @@ const handleCopyLink = () =>{
                         <input
                           type="checkbox"
                           id='status'
-                          checked={paymentEnable === true} // Marca o input se o paymentEnable for true
+                          checked={bookingWithPayment === true} // Marca o input se o paymentEnable for true
                           onChange={() => {
-                            const paymentChange = paymentEnable === true ? false : true; // Inverte o estado atual
-                            setPaymentEnable(paymentChange); // Atualiza o estado 'status'
+                            const paymentChange = bookingWithPayment === true ? false : true; // Inverte o estado atual
+                            setBookingWithPayment(paymentChange); // Atualiza o estado 'status'
                           }}
                         />
                         <label htmlFor="status" className='switch'>
