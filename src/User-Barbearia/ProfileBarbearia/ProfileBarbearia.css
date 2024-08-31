@@ -264,7 +264,7 @@
 }
 .container__checkbox__payment{
     display: flex;
-    justify-content: space-between;
+    justify-content: start;
     align-items: center;
     padding: 2px 5px 2px 7px;
     border-radius: 5px;
@@ -282,6 +282,15 @@
 }
 .container__conection__with__mercado__pago{
     margin-bottom: 10px;
+}
+.icon_menu__payment__enable{
+    font-size: 25px;
+    transition: 0.5s;
+}
+.span__payment__enable{
+    font-weight: 500;
+    width: 260px;
+    margin-left: 5px;
 }
 .information__span__payment__enable{
     color: #f6f6f6;

@@ -981,21 +981,7 @@ console.log(anotherServicePercentage, servicePercentage, paymentEnable)
         </div>
 
     <div className="container__menu">
-        <div className="menu__main" onClick={changeShowReceivePayment}>
-          <PiContactlessPayment className='icon_menu'/>
-            Receber Pagamentos
-          <IoIosArrowDown className={`arrow ${showReceivePayment ? 'girar' : ''}`} id='arrow'/>
-        </div>
-
-        {showReceivePayment && (
-            <div >
-              
-                     
-            </div>          
-        )}
         
-<hr className='hr_menu'/>
-
         <div className="menu__main" onClick={changeShowBookingPolicies}>
           <AiOutlineFileProtect className='icon_menu'/>
             Políticas de agendamento
@@ -1009,7 +995,8 @@ console.log(anotherServicePercentage, servicePercentage, paymentEnable)
                 {paymentEnable === true ? (
                   <>
                   <div className='container__checkbox__payment'>
-                    <span style={{fontWeight: '500', color: '#f6f6f6'}}>Apenas com pagamento</span>
+                    <PiContactlessPayment className='icon_menu__payment__enable' style={{color: '#f6f6f6'}}/>
+                    <span  className='span__payment__enable' style={{color: '#f6f6f6'}}>Apenas com pagamento</span>
                       <input
                         type="checkbox"
                         id='status'
@@ -1134,20 +1121,22 @@ console.log(anotherServicePercentage, servicePercentage, paymentEnable)
                 ):(
                   <>
                     <div className='container__checkbox__payment'>
-                    <span style={{fontWeight: '500', paddingLeft: '10px'}}>Apenas com pagamento</span>
-                      <input
-                        type="checkbox"
-                        id='status'
-                        checked={paymentEnable === true} // Marca o input se o paymentEnable for true
-                        onChange={() => {
-                          const paymentChange = paymentEnable === true ? false : true; // Inverte o estado atual
-                          setPaymentEnable(paymentChange); // Atualiza o estado 'status'
-                          paymentPoliceis(); // Chama a função para atualizar o status no backend
-                        }}
-                      />
-                      <label htmlFor="status" className='switch'>
-                        <span className='slider'></span>
-                      </label>
+                      <PiContactlessPayment className='icon_menu__payment__enable' style={{color: '#354249'}}/>
+
+                      <span className='span__payment__enable' style={{color: '#354249'}}>Apenas com pagamento</span>
+                        <input
+                          type="checkbox"
+                          id='status'
+                          checked={paymentEnable === true} // Marca o input se o paymentEnable for true
+                          onChange={() => {
+                            const paymentChange = paymentEnable === true ? false : true; // Inverte o estado atual
+                            setPaymentEnable(paymentChange); // Atualiza o estado 'status'
+                            paymentPoliceis(); // Chama a função para atualizar o status no backend
+                          }}
+                        />
+                        <label htmlFor="status" className='switch'>
+                          <span className='slider'></span>
+                        </label>
                   </div>
                   </>
                 )}
