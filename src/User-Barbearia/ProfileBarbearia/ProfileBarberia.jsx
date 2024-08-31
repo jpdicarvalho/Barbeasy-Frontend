@@ -334,13 +334,25 @@ const [showBookingsPoliceis, setShowBookingsPoliceis] = useState(false);
 const [bookingWithPayment, setBookingWithPayment] = useState(false);
 const [servicePercentage, setServicePercentage] = useState(false);
 const [anotherServicePercentage, setAnotherServicePercentage] = useState(null);
+const [messagePoliceisChange, setMessagePoliceisChange] = useState('');
 
-//Função para mostrar o menu de definição das políticas de agendamento 
+const getBookingPoliceis = () =>{
+  axios.get(`${urlApi}/api/v1/bookingPoliceis/:barbeariaId`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+   }
+  }).then(res =>{
+    console.log(res)
+  }).catch(err =>{
+    console.log(err)
+  })
+}
+//Function to show menu of policeis settings
 const changeShowBookingPolicies = () => {
   setShowBookingsPoliceis(!showBookingsPoliceis);
 };
 
-//Passando os valores para o input Quantidade de dias
+//Mini components values of service percentage
 const CheckboxServicePercentage = ({ value }) => {
   return (
     <>
@@ -367,7 +379,7 @@ const CheckboxServicePercentage = ({ value }) => {
   );
 };
 
-// Função para formatar a nova porcentagem definida pela barbearia
+//Function to format a new percentage defined by barbearia
 const formatarServicePercentage = (valor) => {
   // Remover todos os caracteres exceto números
   const numero = valor.replace(/[^0-9]/g, '');
@@ -387,14 +399,17 @@ const formatarServicePercentage = (valor) => {
   return newServicePercentage;
 };
 
+//Function to set a new service percentage
 const handleServicePercentageChange = (event) => {
   setAnotherServicePercentage(event.target.value.slice(0, 3)); // Permitir que o usuário digite livremente
 };
 
+//Function to apply the format after Blur
 const handleServicePercentageBlur = () => {
   setAnotherServicePercentage(formatarServicePercentage(anotherServicePercentage));
 };
 
+//Function to update de policeis of barbearia
 const updateBookingPoliceis = () =>{
 
   let anotherServicePercentageFormated;
@@ -415,7 +430,15 @@ const updateBookingPoliceis = () =>{
       'Authorization': `Bearer ${token}`
    }
   }).then(res =>{
-    console.log(res)
+      if(res.status === 200){
+        setMessagePoliceisChange('Política de agendamento atualizada com sucesso.')
+        setTimeout(() => {
+          setMessagePoliceisChange('');
+          setPasswordConfirm('')
+          setShowBookingsPoliceis('')
+        }, 3000);
+        return
+      }
   }).catch(err =>{
     console.log(err)
   })
@@ -463,28 +486,28 @@ const updateBookingPoliceis = () =>{
       .catch(error => console.log(error));
   }, [barbeariaId])
 
-  //============ Share profile ============
-const [mostrarCompartilharPerfil, setMostrarCompartilharPerfil] = useState(false);
-const [linkCopied, setLinkCopied] = useState(false);
+//============ Share profile ============
+  const [mostrarCompartilharPerfil, setMostrarCompartilharPerfil] = useState(false);
+  const [linkCopied, setLinkCopied] = useState(false);
 
-//Função para mostrar o input de alteração do nome
-const alternarCompartilharPerfil = () => {
-  setMostrarCompartilharPerfil(!mostrarCompartilharPerfil);
-};
+  //Função para mostrar o input de alteração do nome
+  const alternarCompartilharPerfil = () => {
+    setMostrarCompartilharPerfil(!mostrarCompartilharPerfil);
+  };
 
-// Função para criptografar o id
-const encryptId = (id) => {
-  const encryptedId = CryptoJS.AES.encrypt(id.toString(), 'abaporujucaiba').toString();
-  return encodeURIComponent(encryptedId); // Codifica a URL para evitar caracteres especiais
-};
+  // Função para criptografar o id
+  const encryptId = (id) => {
+    const encryptedId = CryptoJS.AES.encrypt(id.toString(), 'abaporujucaiba').toString();
+    return encodeURIComponent(encryptedId); // Codifica a URL para evitar caracteres especiais
+  };
 
-const handleCopyLink = () =>{
-  const barbearia_id = encryptId(barbeariaId);
-  const url = `${window.location.origin}/BarbeariaDetails/profile/${barbearia_id}`;
-  navigator.clipboard.writeText(url);
-  setLinkCopied(true);
-  setTimeout(() => setLinkCopied(false), 2000);
-}
+  const handleCopyLink = () =>{
+    const barbearia_id = encryptId(barbeariaId);
+    const url = `${window.location.origin}/BarbeariaDetails/profile/${barbearia_id}`;
+    navigator.clipboard.writeText(url);
+    setLinkCopied(true);
+    setTimeout(() => setLinkCopied(false), 2000);
+  }
 /*----------------------------------*/
   //Constantes para atualizar o nome da Barbearia
   const [mostrarNomeBarbearia, setMostrarNomeBarbearia] = useState(false);
@@ -1070,7 +1093,17 @@ const handleCopyLink = () =>{
                         </p>
                         <CheckboxServicePercentage value="outros"/>
                       </div>
-
+                      {messagePoliceisChange === "Política de agendamento atualizada com sucesso." ? (
+                        <div className="mensagem-sucesso">
+                          <MdOutlineDone className="icon__success"/>
+                          <p className="text__message">{messagePoliceisChange}</p>
+                        </div>
+                      ) : (
+                        <div className={` ${messagePoliceisChange ? 'mensagem-erro' : ''}`}>
+                          <VscError className={`hide_icon__error ${messagePoliceisChange ? 'icon__error' : ''}`}/>
+                          <p className="text__message">{messagePoliceisChange}</p>
+                        </div>
+                      )}
                       {bookingWithPayment && (
                         <>
                           <div style={{ paddingLeft: '10px' }}>
