@@ -39,7 +39,6 @@ import { IoHomeOutline } from "react-icons/io5";
 import { IoCopyOutline } from "react-icons/io5";
 import { LuCopyCheck } from "react-icons/lu";
 import { AiOutlineFileProtect } from "react-icons/ai";
-import { SlLike } from "react-icons/sl";
 
 import './ProfileBarbearia.css';
 
@@ -204,7 +203,6 @@ const handleProfessionalClick = (professional) => {
 };
 
 //=========== Section OAuth and Refresh Token Mercado Pago =========== 
-const [showReceivePayment, setShowReceivePayment] = useState(false);
 const [OAuthUrl, setOAuthUrl] = useState('');
 
 const [isConectedWithMercadoPago, setIsConectedWithMercadoPago] = useState(false);
@@ -217,11 +215,6 @@ const month = String(date.getMonth() + 1).padStart(2, '0'); // Obtém o mês e g
 const year = date.getFullYear(); // Obtém o ano
 
 const current_date = `${day}-${month}-${year}`;//current date to compare with date_renovation
-
-//Função para mostrar o input de alteração do status
-const changeShowReceivePayment = () => {
-  setShowReceivePayment(!showReceivePayment);
-};
 
 //Function to save the access token
 const saveCredentials = (access_token, refresh_token, data_renovation) =>{
@@ -376,50 +369,44 @@ const CheckboxServicePercentage = ({ value }) => {
 
 // Função para formatar a nova porcentagem definida pela barbearia
 const formatarServicePercentage = (valor) => {
-  // Remover todos os caracteres exceto números e vírgula
-  const numero = valor.replace(/[^0-9,]/g, '');
+  // Remover todos os caracteres exceto números
+  const numero = valor.replace(/[^0-9]/g, '');
 
-  // Se o valor estiver vazio, retornar uma string vazia
   if (!numero) return null;
+  
+  // Formato sem vírgula, apenas com parte inteira
+  const parteInteira = numero.slice(0, 2);
 
-  // Verificar se o número contém vírgula (caso do formato "25,25%")
-  if (numero.includes(',')) {
-    // Formato com vírgula
-    const partes = numero.split(',');
-    const parteInteira = partes[0].slice(0, 2);
-    const parteDecimal = partes[1].slice(0, 2);
+  const newServicePercentage = `${parteInteira}%`;
 
-    const newServicePercentage = `${parteInteira},${parteDecimal}%`;
-
-    // Verificar se a porcentagem não é um valor indesejado
-    if (newServicePercentage === "0,0%" || newServicePercentage === "00,00%") {
-      return null;
-    }
-    
-    return newServicePercentage;
-  } else {
-    // Formato sem vírgula, apenas com parte inteira
-    const parteInteira = numero.slice(0, 2);
-
-    const newServicePercentage = `${parteInteira}%`;
-
-    // Verificar se a porcentagem não é um valor indesejado
-    if (["100%", "50%", "20%", "10%", "00%", "0%"].includes(newServicePercentage)) {
-      return null;
-    }
-    
-    return newServicePercentage;
+  // Verificar se a porcentagem não é um valor indesejado
+  if (["100%", "50%", "20%", "10%", "00%", "0%"].includes(newServicePercentage)) {
+    return null;
   }
+  
+  return newServicePercentage;
 };
 
 const handleServicePercentageChange = (event) => {
-  setAnotherServicePercentage(event.target.value.slice(0, 6)); // Permitir que o usuário digite livremente
+  setAnotherServicePercentage(event.target.value.slice(0, 3)); // Permitir que o usuário digite livremente
 };
 
 const handleServicePercentageBlur = () => {
   setAnotherServicePercentage(formatarServicePercentage(anotherServicePercentage));
 };
 
+const updateBookingPoliceis = () =>{
+  let anotherServicePercentageFormated;
+  if(anotherServicePercentage){
+    anotherServicePercentageFormated = `0.${anotherServicePercentage.replace(/[^0-9]/g, '')}`;
+  }
+
+  const values = {
+    paymentEnable: paymentEnable ? 'enabled':'disabled',
+    servicePercentage: servicePercentage !== 'outros' && servicePercentage !== false ? servicePercentage:anotherServicePercentageFormated
+  }
+  console.log('aa',values)
+}
 
 //=========== Section Status ===========
 //Constantes para atualizar o status da barbearia
@@ -839,7 +826,6 @@ const handleCopyLink = () =>{
           }, 5000);
     });
   };
-console.log(anotherServicePercentage, servicePercentage, paymentEnable)
 
   return (
     <>
@@ -1036,24 +1022,24 @@ console.log(anotherServicePercentage, servicePercentage, paymentEnable)
                       <p>Quanto você deseja recerber pelo agendamento?</p>
 
                       <div className='container__service__percentage'>
-                        <p className={`text__service__percentage ${servicePercentage === "10" ? 'text__service__percentage__selected':''}`}>10% do valor do serviço</p>
-                        <CheckboxServicePercentage value="10"/>
+                        <p className={`text__service__percentage ${servicePercentage === "0.1" ? 'text__service__percentage__selected':''}`}>10% do valor do serviço</p>
+                        <CheckboxServicePercentage value="0.1"/>
                       </div>
 
                       <div className='container__service__percentage'>
-                        <p className={`text__service__percentage ${servicePercentage === "20" ? 'text__service__percentage__selected':''}`}>20% do valor do serviço</p>
-                        <CheckboxServicePercentage value="20"/>
+                        <p className={`text__service__percentage ${servicePercentage === "0.2" ? 'text__service__percentage__selected':''}`}>20% do valor do serviço</p>
+                        <CheckboxServicePercentage value="0.2"/>
                       </div>
 
 
                       <div className='container__service__percentage'>
-                        <p className={`text__service__percentage ${servicePercentage === "50" ? 'text__service__percentage__selected':''}`}>50% do valor do serviço</p>
-                        <CheckboxServicePercentage value="50"/>
+                        <p className={`text__service__percentage ${servicePercentage === "0.5" ? 'text__service__percentage__selected':''}`}>50% do valor do serviço</p>
+                        <CheckboxServicePercentage value="0.5"/>
                       </div>
 
                       <div className='container__service__percentage'>
-                        <p className={`text__service__percentage ${servicePercentage === "100" ? 'text__service__percentage__selected':''}`}>100% do valor do serviço</p>
-                        <CheckboxServicePercentage value="100"/>
+                        <p className={`text__service__percentage ${servicePercentage === "1" ? 'text__service__percentage__selected':''}`}>100% do valor do serviço</p>
+                        <CheckboxServicePercentage value="1"/>
                       </div>
 
                       <div className='container__service__percentage__another' >
@@ -1104,7 +1090,7 @@ console.log(anotherServicePercentage, servicePercentage, paymentEnable)
                                         <PiPassword className="icon__input__change__data" />
                                         <button
                                           className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided' : ''}`}
-                                          onClick={alterarNomeBarbearia}
+                                          onClick={updateBookingPoliceis}
                                         >
                                           Confirmar
                                         </button>
@@ -1131,7 +1117,6 @@ console.log(anotherServicePercentage, servicePercentage, paymentEnable)
                           onChange={() => {
                             const paymentChange = paymentEnable === true ? false : true; // Inverte o estado atual
                             setPaymentEnable(paymentChange); // Atualiza o estado 'status'
-                            paymentPoliceis(); // Chama a função para atualizar o status no backend
                           }}
                         />
                         <label htmlFor="status" className='switch'>
