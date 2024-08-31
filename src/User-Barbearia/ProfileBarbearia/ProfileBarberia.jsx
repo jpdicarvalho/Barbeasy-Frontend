@@ -396,16 +396,29 @@ const handleServicePercentageBlur = () => {
 };
 
 const updateBookingPoliceis = () =>{
+
   let anotherServicePercentageFormated;
+
   if(anotherServicePercentage){
     anotherServicePercentageFormated = `0.${anotherServicePercentage.replace(/[^0-9]/g, '')}`;
   }
 
   const values = {
+    barbeariaId,
+    confirmPassword,
     bookingWithPayment: bookingWithPayment ? 'enabled':'disabled',
     servicePercentage: servicePercentage !== 'outros' && servicePercentage !== false ? servicePercentage:anotherServicePercentageFormated
   }
-  console.log('aa',values)
+
+  axios.put(`${urlApi}/api/v1/updateBookingPoliceis/`, values, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+   }
+  }).then(res =>{
+    console.log(res)
+  }).catch(err =>{
+    console.log(err)
+  })
 }
 
 //=========== Section Status ===========
@@ -989,8 +1002,7 @@ const handleCopyLink = () =>{
                         checked={bookingWithPayment === true} // Marca o input se o bookingWithPayment for true
                         onChange={() => {
                           const paymentChange = bookingWithPayment === true ? false : true; // Inverte o estado atual
-                          setBookingWithPayment(paymentChange); // Atualiza o estado 'status'
-                          paymentPoliceis(); // Chama a função para atualizar o status no backend
+                          setBookingWithPayment(paymentChange);
                         }}
                       />
                       <label htmlFor="status" className='switch'>
