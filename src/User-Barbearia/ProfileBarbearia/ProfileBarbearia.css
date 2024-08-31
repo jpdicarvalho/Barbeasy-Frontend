@@ -265,17 +265,32 @@
 .container__checkbox__payment{
     display: flex;
     justify-content: space-between;
-    padding-top: 5px;
+    align-items: center;
+    padding: 2px 5px 2px 7px;
+    border-radius: 5px;
+    height: 45px;
+    transition: 0.5s;
+    background: transparent;
+}
+.container__barearia__conected{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #4a17d541;
+    padding: 5px;
+    border-radius: 5px;
 }
 .container__conection__with__mercado__pago{
     margin-bottom: 10px;
 }
 .information__span__payment__enable{
-    color: #52626b;
+    color: #f6f6f6;
     font-weight:400;
     margin-top: 10px;
     margin-bottom: 5px;
-    text-align: justify;
+    margin-left: 5px;
+    text-align: center;
+    font-size: 14px;
 }
 .container__service__percentage{
     display: flex;
@@ -290,6 +305,7 @@
     align-items: center;
     padding: 5px 5px 5px 0px;
     margin-top: 5px;
+    margin-bottom: 15px;
 }
 .text__service__percentage{
     font-size: 14px;

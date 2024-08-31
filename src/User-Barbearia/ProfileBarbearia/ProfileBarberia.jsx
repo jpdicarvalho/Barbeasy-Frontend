@@ -39,6 +39,7 @@ import { IoHomeOutline } from "react-icons/io5";
 import { IoCopyOutline } from "react-icons/io5";
 import { LuCopyCheck } from "react-icons/lu";
 import { AiOutlineFileProtect } from "react-icons/ai";
+import { SlLike } from "react-icons/sl";
 
 import './ProfileBarbearia.css';
 
@@ -337,9 +338,9 @@ useEffect(() => {
 
 //=========== Section Booking Policeis ===========
 const [showBookingsPoliceis, setShowBookingsPoliceis] = useState(false);
-const [paymentEnable, setPaymentEnable] = useState(true);
-const [servicePercentage, setServicePercentage] = useState('');
-const [anotherServicePercentage, setAnotherServicePercentage] = useState('');
+const [paymentEnable, setPaymentEnable] = useState(false);
+const [servicePercentage, setServicePercentage] = useState(false);
+const [anotherServicePercentage, setAnotherServicePercentage] = useState(null);
 
 //Função para mostrar o menu de definição das políticas de agendamento 
 const changeShowBookingPolicies = () => {
@@ -357,7 +358,8 @@ const CheckboxServicePercentage = ({ value }) => {
         onChange={() => {
           if (servicePercentage === value) {
             // Se a opção já estiver selecionada, desmarque-a
-            setServicePercentage('');
+            setServicePercentage(false);
+            setAnotherServicePercentage(null)
           } else {
             // Caso contrário, selecione a opção
             setServicePercentage(value);
@@ -378,7 +380,7 @@ const formatarServicePercentage = (valor) => {
   const numero = valor.replace(/[^0-9,]/g, '');
 
   // Se o valor estiver vazio, retornar uma string vazia
-  if (!numero) return '';
+  if (!numero) return null;
 
   // Verificar se o número contém vírgula (caso do formato "25,25%")
   if (numero.includes(',')) {
@@ -391,7 +393,7 @@ const formatarServicePercentage = (valor) => {
 
     // Verificar se a porcentagem não é um valor indesejado
     if (newServicePercentage === "0,0%" || newServicePercentage === "00,00%") {
-      return '';
+      return null;
     }
     
     return newServicePercentage;
@@ -403,7 +405,7 @@ const formatarServicePercentage = (valor) => {
 
     // Verificar se a porcentagem não é um valor indesejado
     if (["100%", "50%", "20%", "10%", "00%", "0%"].includes(newServicePercentage)) {
-      return '';
+      return null;
     }
     
     return newServicePercentage;
@@ -411,12 +413,14 @@ const formatarServicePercentage = (valor) => {
 };
 
 const handleServicePercentageChange = (event) => {
-  setAnotherServicePercentage(event.target.value); // Permitir que o usuário digite livremente
+  setAnotherServicePercentage(event.target.value.slice(0, 6)); // Permitir que o usuário digite livremente
 };
 
 const handleServicePercentageBlur = () => {
   setAnotherServicePercentage(formatarServicePercentage(anotherServicePercentage));
 };
+
+
 //=========== Section Status ===========
 //Constantes para atualizar o status da barbearia
   const [mostrarStatus, setMostrarStatus] = useState(false);
@@ -835,7 +839,8 @@ const handleCopyLink = () =>{
           }, 5000);
     });
   };
-console.log(anotherServicePercentage)
+console.log(anotherServicePercentage, servicePercentage, paymentEnable)
+
   return (
     <>
       <div className="container__profile">
@@ -1023,7 +1028,10 @@ console.log(anotherServicePercentage)
                     <div className="container__conection__with__mercado__pago">
                       {isConectedWithMercadoPago ? (
                         <>
-                          <p className='information__span__payment__enable'>Tudo em ordem por aqui! Sua barbearia está habilitada a receber pagamentos.</p>
+                          <div className='container__barearia__conected'>
+                            <SiMercadopago className='logo__mercado__pago__conection' />
+                            <p className='information__span__payment__enable'>Barbearia conectada ao Mercado Pago</p>
+                          </div>
                         </>
                       ):(
                         <>
@@ -1068,7 +1076,8 @@ console.log(anotherServicePercentage)
                           className={` ${servicePercentage === "outros" ? 'input__another__percentage':'ocult__input__another__percentage'}`}
                           onChange={handleServicePercentageChange}
                           onBlur={handleServicePercentageBlur} // Aplicar a formatação ao perder o foco
-                          placeholder='Ex.: 30%' 
+                          placeholder='Ex.: 30%'
+                          maxLength={6}
                         />
                         <p
                         className={`text__service__percentage__another ${servicePercentage === "outros" ? 'text__service__percentage__another__selected':''}`}
@@ -1076,7 +1085,49 @@ console.log(anotherServicePercentage)
                         </p>
                         <CheckboxServicePercentage value="outros"/>
                       </div>
-                      
+
+                      {paymentEnable && (
+                        <>
+                          <div style={{ paddingLeft: '10px' }}>
+                            
+
+                              {(servicePercentage !== "outros" && servicePercentage !== false) || (servicePercentage === "outros" && anotherServicePercentage !== null) ? (
+                                <>
+                                  <div className="form__change__data">
+                                      <div className="container__text__change__data">
+                                        Digite sua senha para confirmar a alteração
+                                      </div>
+                                      <div className="container__form__change__data">
+                                        <input
+                                          type="password"
+                                          id="senha"
+                                          name="senha"
+                                          value={confirmPassword}
+                                          className={`input__change__data ${confirmPassword ? 'input__valided' : ''}`}
+                                          onChange={(e) => {
+                                            const inputValue = e.target.value;
+                                            // Limitar a 10 caracteres
+                                            const truncatedPasswordConfirm = inputValue.slice(0, 10);
+                                            setConfirmPassword(truncatedPasswordConfirm);
+                                          }}
+                                          placeholder="Senha atual"
+                                          maxLength={8}
+                                          required
+                                        />
+                                        <PiPassword className="icon__input__change__data" />
+                                        <button
+                                          className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided' : ''}`}
+                                          onClick={alterarNomeBarbearia}
+                                        >
+                                          Confirmar
+                                        </button>
+                                      </div>
+                                  </div>
+                                </>
+                              ) : null}
+                          </div>
+                        </>
+                      )}
                     </div>
                     
                   </>
