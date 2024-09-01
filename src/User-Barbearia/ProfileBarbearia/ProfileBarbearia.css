@@ -343,12 +343,10 @@
     transition: 0.5s;
 
 }
-
 .text__service__percentage__another__selected{
     font-size: 14px;
     font-weight: 400px;
     color: #f6f6f6;
-    padding: 0px;
     width: 218px;
     transition: 0.5s;
 }
@@ -360,10 +358,11 @@
     padding-left: 2px;
     background: transparent;
     border: none;
-    border-bottom: 1px solid #52626b;
     opacity: 1;
     transition: 0.5s;
     color: #f6f6f6;
+    border-bottom: 1px solid #52626b;
+
 }
 .input__another__percentage::placeholder {
     color: #52626b;
