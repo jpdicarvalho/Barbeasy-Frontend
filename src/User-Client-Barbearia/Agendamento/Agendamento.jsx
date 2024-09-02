@@ -489,7 +489,47 @@ export function Agendamento({
         })
     }
   }
+//============================== Section Create Booking without payment ==============================
 
+//Function to create pre-booking
+const createBookingWithoutPayment = () =>{
+  if(userId && barbeariaId && professionalId && serviceId && selectedDay && timeSelected && formattedDate){
+      
+      let timeSelected = timesBusyByService.join(',');//All times that will be busy by the selected service
+
+      //Object to agroup all informations to make a new booking
+      const newBooking = {
+          userId,
+          barbeariaId,
+          professionalId,
+          serviceId,
+          payment_id: 0,
+          selectedDay,
+          timeSelected,
+          formattedDate
+      }
+
+      axios.post(`${urlApi}/api/v1/createBookingWithoutPayment/`, newBooking, {
+          headers: {
+              'Authorization': `Bearer ${token}`
+          }
+      })
+      .then(res => {
+          if(res.data.Success === 'Success'){
+              setTimeout(() => {
+                navigateToBookingsHistory()
+              }, 3000);
+          }
+
+      }).catch(error => {
+        console.error('Erro ao criar agendamento', error)
+        setMessageConfirmedBooking("Houve um erro ao criar seu agendamento. Tente novamente mais tarde.")
+        setTimeout(() => {
+          setMessageConfirmedBooking('');
+        }, 3000);
+      })
+  }
+}
 //============================== Section propTypes ==============================
   Agendamento.propTypes = {
     userId: PropTypes.number,
