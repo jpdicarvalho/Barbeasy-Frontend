@@ -76,7 +76,7 @@ export function Agendamento({
      }
     }).then(res =>{
         if(res.status === 200){
-          setBookingWithPayment(res.data.bookingPoliceis.booking_with_payment === "enabled" ? true:false)
+          setBookingWithPayment(res.data.bookingPoliceis.booking_with_payment)
           setServicePercentageStored(res.data.bookingPoliceis.service_percentage === "false" ? '':res.data.bookingPoliceis.service_percentage)        
         }
     }).catch(err =>{
@@ -97,10 +97,6 @@ export function Agendamento({
     serviceDuration,
     selectedDay,
     timeSelected
-  }
-
-  const navigateToSignIn = () =>{
-    navigate("/SignIn");
   }
 
   //Function to get current time
@@ -471,7 +467,7 @@ export function Agendamento({
             formattedDate
         }
 
-        axios.post(`${urlApi}/api/v1/createBooking/`, newBooking, {
+        axios.post(`${urlApi}/api/v1/createBookingWithPayment/`, newBooking, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -538,15 +534,24 @@ export function Agendamento({
     
     {userType != "visitante" &&(
       <div className="container__btn__create__booking__and__payment">
-        {!preBookingAndPaymentCreated ?(
-          <button onClick={createPayment} className={`Btn__ocult ${serviceId && selectedDay && timeSelected ? 'Btn__create__preBooking':''}`}>
-            Realizar pagamento
-          </button>
+        {bookingWithPayment === 'enabled' ?(
+          <>
+            {!preBookingAndPaymentCreated ?(
+              <button onClick={createPayment} className={`Btn__ocult ${serviceId && selectedDay && timeSelected ? 'Btn__create__preBooking':''}`}>
+                Realizar pagamento
+              </button>
+            ):(
+              <button className="createPreBookingAndPayment">
+                Criando pagamento
+              </button>
+            )}
+          </>
         ):(
-          <button className="createPreBookingAndPayment">
-            Criando pagamento
+          <button className={`Btn__ocult ${serviceId && selectedDay && timeSelected ? 'Btn__create__preBooking':''}`}>
+            Realizar agendamento
           </button>
         )}
+        
       </div>
     )}
     

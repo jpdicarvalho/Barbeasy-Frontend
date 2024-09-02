@@ -163,7 +163,7 @@ const updateBookingPoliceis = () =>{
    }
   }).then(res =>{
       if(res.status === 200){
-        setMessagePoliceisChange('Políticas de agendamento atualizada com sucesso.')
+        setMessagePoliceisChange('Políticas de agendamento atualizadas com sucesso.')
         setTimeout(() => {
           setMessagePoliceisChange('');
           setConfirmPassword('')
@@ -277,7 +277,7 @@ return (
                       </div>
                       
                       
-                        {messagePoliceisChange === "Políticas de agendamento atualizada com sucesso." ? (
+                        {messagePoliceisChange === "Políticas de agendamento atualizadas com sucesso." ? (
                           <div className="mensagem-sucesso">
                             <MdOutlineDone className="icon__success"/>
                             <p className="text__message">{messagePoliceisChange}</p>
@@ -493,7 +493,7 @@ return (
                 
                 {inputCheckChange === 'bookingWithPaymentDisable' &&(
                   <>
-                  {messagePoliceisChange === "Políticas de agendamento atualizada com sucesso." ? (
+                  {messagePoliceisChange === "Políticas de agendamento atualizadas com sucesso." ? (
                         <div className="mensagem-sucesso">
                           <MdOutlineDone className="icon__success"/>
                           <p className="text__message">{messagePoliceisChange}</p>
