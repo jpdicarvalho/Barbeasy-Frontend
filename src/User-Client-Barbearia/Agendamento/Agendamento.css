@@ -110,7 +110,6 @@
     background: transparent;
     border: 1px solid #4a17d5;
     color: #4a17d5;
-    transition: 0.5s;
 }
 .Btn__create__preBooking{
     display: flex;

@@ -57,3 +57,36 @@
 .circle:nth-child(5) {
     animation-delay: 0.8s, 0s;
 }
+/*ANOTHER LOADER*/
+
+/* From Uiverse.io by aaronross1 */ 
+.loaderCreatingBooking {
+    border: 4px solid #f6f6fc;
+    border-left-color: transparent;
+    border-radius: 50%;
+  }
+  
+  .loaderCreatingBooking {
+    border: 4px solid #f6f6fc;
+    border-left-color: transparent;
+    width: 36px;
+    height: 36px;
+  }
+  
+  .loaderCreatingBooking {
+    border: 4px solid #f6f6fc;
+    border-left-color: transparent;
+    width: 36px;
+    height: 36px;
+    animation: spin89345 1s linear infinite;
+  }
+  
+  @keyframes spin89345 {
+    0% {
+      transform: rotate(0deg);
+    }
+  
+    100% {
+      transform: rotate(360deg);
+    }
+  }

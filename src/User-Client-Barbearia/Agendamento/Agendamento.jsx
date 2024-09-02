@@ -57,7 +57,7 @@ export function Agendamento({
   const [timesDays, setTimesDays] = useState('');
   const [selectedDay, setSelectedDay] = useState(null);
   const [timeSelected, setTimeSelected] = useState("");
-  const [messageConfirmedBooking, setMessageConfirmedBooking] = useState('');
+  const [messageConfirmedBooking, setMessageConfirmedBooking] = useState(false);
 
   const urlApi = 'https://barbeasy.up.railway.app'
   
@@ -491,48 +491,54 @@ export function Agendamento({
     }
   }
 //============================== Section Create Booking without payment ==============================
+const [isBookingCreated, setIsBookingCreated] = useState(false)
 
-//Function to create pre-booking
-const createBookingWithoutPayment = () =>{
-  if(userId && barbeariaId && professionalId && serviceId && selectedDay && timeSelected && formattedDate){
+  //Function to create pre-booking
+  const createBookingWithoutPayment = () =>{
+    
+    if(userId && barbeariaId && professionalId && serviceId && selectedDay && timeSelected && formattedDate){
+        
+        setIsBookingCreated(true)
 
-      //All times that will be busy by the selected service
-      let timeSelected = timesBusyByService[0].length > 1 ? timesBusyByService.join(','):timesBusyByService;
+        //All times that will be busy by the selected service
+        let timeSelected = timesBusyByService[0].length > 1 ? timesBusyByService.join(','):timesBusyByService;
 
-      //Object to agroup all informations to make a new booking
-      const newBooking = {
-          userId,
-          barbeariaId,
-          professionalId,
-          serviceId,
-          payment_id: 0,
-          selectedDay,
-          timeSelected,
-          formattedDate
-      }
+        //Object to agroup all informations to make a new booking
+        const newBooking = {
+            userId,
+            barbeariaId,
+            professionalId,
+            serviceId,
+            payment_id: 0,
+            selectedDay,
+            timeSelected,
+            formattedDate
+        }
 
-      axios.post(`${urlApi}/api/v1/createBookingWithoutPayment/`, newBooking, {
-          headers: {
-              'Authorization': `Bearer ${token}`
-          }
-      })
-      .then(res => {
-          if(res.data.Success === 'Success'){
-              setMessageConfirmedBooking("Agendamento realizado com sucesso!")
-              setTimeout(() => {
-                 navigate("/BookingsHistory")
-              }, 5000);
-          }
+        axios.post(`${urlApi}/api/v1/createBookingWithoutPayment/`, newBooking, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(res => {
+            if(res.data.Success === 'Success'){
+                setIsBookingCreated(false)
+                setMessageConfirmedBooking("Agendamento realizado com sucesso!")
+                setTimeout(() => {
+                  navigate("/BookingsHistory")
+                }, 5000);
+            }
 
-      }).catch(error => {
-        console.error('Erro ao criar agendamento', error)
-        setMessageConfirmedBooking("Houve um erro ao criar seu agendamento. Tente novamente mais tarde.")
-        setTimeout(() => {
-          setMessageConfirmedBooking('');
-        }, 3000);
-      })
+        }).catch(error => {
+          console.error('Erro ao criar agendamento', error)
+          setMessageConfirmedBooking("Houve um erro ao criar seu agendamento. Tente novamente mais tarde.")
+          setTimeout(() => {
+            setMessageConfirmedBooking('');
+          }, 3000);
+        })
+    }
   }
-}
+
 //============================== Section propTypes ==============================
   Agendamento.propTypes = {
     userId: PropTypes.number,
@@ -574,7 +580,8 @@ const createBookingWithoutPayment = () =>{
     <div className="container__horarios">
       {renderHorariosDiaSelecionado()}
     </div>
-    
+  
+
     {userType != "visitante" &&(
       
       <div className="container__btn__create__booking__and__payment">
@@ -604,8 +611,13 @@ const createBookingWithoutPayment = () =>{
             )}
           </>
         ):(
-          <button onClick={createBookingWithoutPayment} className={`Btn__ocult ${serviceId && selectedDay && timeSelected ? 'Btn__create__preBooking':''}`}>
-            Realizar agendamento
+          <button onClick={createBookingWithoutPayment} className={`Btn__ocult ${serviceId && selectedDay && timeSelected  && !messageConfirmedBooking ? 'Btn__create__preBooking':''}`}>
+
+            {isBookingCreated ? (
+              <div class="loaderCreatingBooking"></div>
+            ):(
+              <p>Realizar agendamento</p>
+            )}
           </button>
         )}
         
