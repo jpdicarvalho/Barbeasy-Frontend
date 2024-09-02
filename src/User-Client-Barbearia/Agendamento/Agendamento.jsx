@@ -64,6 +64,30 @@ export function Agendamento({
   const currentDate = new Date(date);
   const formattedDate = `${currentDate.getDate()}-${currentDate.getMonth() + 1}-${currentDate.getFullYear()}-${currentDate.getHours()}:${currentDate.getMinutes()}`;
 
+  //Function to get booking policeis of barbearia
+
+  const [bookingWithPayment, setBookingWithPayment] = useState(false);
+  const [servicePercentageStored, setServicePercentageStored] = useState('');
+
+  const getBookingPoliceis = () =>{
+    axios.get(`${urlApi}/api/v1/bookingPoliceis/${barbeariaId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+     }
+    }).then(res =>{
+        if(res.status === 200){
+          setBookingWithPayment(res.data.bookingPoliceis.booking_with_payment === "enabled" ? true:false)
+          setServicePercentageStored(res.data.bookingPoliceis.service_percentage === "false" ? '':res.data.bookingPoliceis.service_percentage)        
+        }
+    }).catch(err =>{
+      console.log(err)
+    })
+  }
+  
+  useEffect(() =>{
+    getBookingPoliceis()
+  }, [])
+
   //Object to send for paymentScreen
   const serviceValues = {
     barbeariaName,

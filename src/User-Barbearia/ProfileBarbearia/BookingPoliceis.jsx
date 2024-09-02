@@ -40,13 +40,6 @@ const getBookingPoliceis = () =>{
         setBookingWithPayment(res.data.bookingPoliceis.booking_with_payment === "enabled" ? true:false)
         setServicePercentage(res.data.bookingPoliceis.service_percentage === "false" ? false:res.data.bookingPoliceis.service_percentage)
         setServicePercentageStored(res.data.bookingPoliceis.service_percentage === "false" ? '':res.data.bookingPoliceis.service_percentage)
-
-        const isFirstTimeOfSettingsPoliceis = res.data.bookingPoliceis.service_percentage === '' ? true:false;
-
-        if(isFirstTimeOfSettingsPoliceis){
-          return window.location.reload
-        }
-        
       }
   }).catch(err =>{
     console.log(err)
