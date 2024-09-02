@@ -371,7 +371,10 @@ export function Agendamento({
         busyTimesFormated.unshift(timeSelected)//Adicionando o horário selecionado, finalizando então, o mapeamento de todos os horários a serem ocupados pelo serviço selecionado.
 
         return busyTimesFormated;
-      }  
+      }
+      if(serviceDuration === 15){
+        return timeSelected
+      }
     }
   }
 
@@ -450,7 +453,8 @@ export function Agendamento({
   const createPreBooking = (payment_id, paymentObject) =>{
     if(userId && barbeariaId && professionalId && serviceId && selectedDay && timeSelected && formattedDate && payment_id && paymentObject){
         
-        let timeSelected = timesBusyByService.join(',');//All times that will be busy by the selected service
+        //All times that will be busy by the selected service
+        let timeSelected = timesBusyByService[0].length > 1 ? timesBusyByService.join(','):timesBusyByService;
 
         //Object to agroup all informations to make a new booking
         const newBooking = {
@@ -491,8 +495,9 @@ export function Agendamento({
 //Function to create pre-booking
 const createBookingWithoutPayment = () =>{
   if(userId && barbeariaId && professionalId && serviceId && selectedDay && timeSelected && formattedDate){
-      
-      let timeSelected = timesBusyByService.join(',');//All times that will be busy by the selected service
+
+      //All times that will be busy by the selected service
+      let timeSelected = timesBusyByService[0].length > 1 ? timesBusyByService.join(','):timesBusyByService;
 
       //Object to agroup all informations to make a new booking
       const newBooking = {
@@ -513,9 +518,10 @@ const createBookingWithoutPayment = () =>{
       })
       .then(res => {
           if(res.data.Success === 'Success'){
+              setMessageConfirmedBooking("Agendamento realizado com sucesso!")
               setTimeout(() => {
-                navigateToBookingsHistory()
-              }, 3000);
+                 navigate("/BookingsHistory")
+              }, 5000);
           }
 
       }).catch(error => {
@@ -570,7 +576,21 @@ const createBookingWithoutPayment = () =>{
     </div>
     
     {userType != "visitante" &&(
+      
       <div className="container__btn__create__booking__and__payment">
+
+        {messageConfirmedBooking === "Agendamento realizado com sucesso!" ? (
+          <div className="mensagem-sucesso">
+            <MdOutlineDone className="icon__success"/>
+            <p className="text__message">{messageConfirmedBooking}</p>
+          </div>
+        ) : (
+          <div className={` ${messageConfirmedBooking ? 'mensagem-erro' : ''}`}>
+            <VscError className={`hide_icon__error ${messageConfirmedBooking ? 'icon__error' : ''}`}/>
+            <p className="text__message">{messageConfirmedBooking}</p>
+          </div>
+        )}
+
         {bookingWithPayment === 'enabled' ?(
           <>
             {!preBookingAndPaymentCreated ?(
@@ -584,7 +604,7 @@ const createBookingWithoutPayment = () =>{
             )}
           </>
         ):(
-          <button className={`Btn__ocult ${serviceId && selectedDay && timeSelected ? 'Btn__create__preBooking':''}`}>
+          <button onClick={createBookingWithoutPayment} className={`Btn__ocult ${serviceId && selectedDay && timeSelected ? 'Btn__create__preBooking':''}`}>
             Realizar agendamento
           </button>
         )}
