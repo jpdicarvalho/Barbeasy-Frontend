@@ -452,8 +452,6 @@ export function Agendamento({
         
         let timeSelected = timesBusyByService.join(',');//All times that will be busy by the selected service
 
-        const initialPaymentStatus = "pending";
-
         //Object to agroup all informations to make a new booking
         const newBooking = {
             userId,
@@ -463,7 +461,6 @@ export function Agendamento({
             payment_id,
             selectedDay,
             timeSelected,
-            initialPaymentStatus,
             formattedDate
         }
 
