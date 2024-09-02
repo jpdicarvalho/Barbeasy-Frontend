@@ -11,6 +11,7 @@ import { AiOutlineFileProtect } from "react-icons/ai";
 import { VscError } from "react-icons/vsc";
 import { PiPassword } from "react-icons/pi";
 import { MdOutlineDone } from "react-icons/md";
+import { set } from "date-fns";
 
 export function BookingPoliceis ({barbeariaId, OAuthUrl, isConectedWithMercadoPago}){
 
@@ -25,7 +26,8 @@ const [bookingWithPayment, setBookingWithPayment] = useState(false);
 const [servicePercentageStored, setServicePercentageStored] = useState('');
 const [servicePercentage, setServicePercentage] = useState(false);
 const [inputCheckChange, setInputCheckChange] = useState('');
-const [anotherServicePercentage, setAnotherServicePercentage] = useState(null);
+const [inputCheckAnotherChange, setInputCheckAnotherChange] = useState('');
+const [anotherServicePercentage, setAnotherServicePercentage] = useState('');
 const [messagePoliceisChange, setMessagePoliceisChange] = useState('');
 
 const getBookingPoliceis = () =>{
@@ -38,6 +40,13 @@ const getBookingPoliceis = () =>{
         setBookingWithPayment(res.data.bookingPoliceis.booking_with_payment === "enabled" ? true:false)
         setServicePercentage(res.data.bookingPoliceis.service_percentage === "false" ? false:res.data.bookingPoliceis.service_percentage)
         setServicePercentageStored(res.data.bookingPoliceis.service_percentage === "false" ? '':res.data.bookingPoliceis.service_percentage)
+
+        const isFirstTimeOfSettingsPoliceis = res.data.bookingPoliceis.service_percentage === '' ? true:false;
+
+        if(isFirstTimeOfSettingsPoliceis){
+          return window.location.reload
+        }
+        
       }
   }).catch(err =>{
     console.log(err)
@@ -60,17 +69,17 @@ const CheckboxServicePercentage = ({ value }) => {
       <input
         type="checkbox"
         id={value}
-        checked={servicePercentage === value}
+        checked={servicePercentage === value && inputCheckAnotherChange === ''}
         onChange={() => {
           if (servicePercentage === value) {
             // Se a opção já estiver selecionada, desmarque-a
             setServicePercentage(false);
-            setAnotherServicePercentage(null)
+            setAnotherServicePercentage('')
           } else {
             // Caso contrário, selecione a opção
             setServicePercentage(value);
-            setAnotherServicePercentage(null)
-            
+            setAnotherServicePercentage('')
+            setInputCheckAnotherChange('')
           }
         }}
         className="days-switch"
@@ -89,14 +98,15 @@ const CheckboxAnotherServicePercentage = ({ value }) => {
       <input
         type="checkbox"
         id={value}
-        checked={servicePercentage === value || (!(['0.1', '0.2', '0.5', '1'].includes(servicePercentageStored)) && (servicePercentageStored !== '' && servicePercentage))}
+        checked={inputCheckAnotherChange === value || (!(['0.1', '0.2', '0.5', '1'].includes(servicePercentage)) && (servicePercentageStored !== ''))}
         onChange={() => {
-          if (servicePercentage === value) {
+          if (inputCheckAnotherChange === value) {
             // Se a opção já estiver selecionada, desmarque-a
-            setServicePercentage(false);
+            setInputCheckAnotherChange(false);
           } else {
             // Caso contrário, selecione a opção
-            setServicePercentage(value);
+            setInputCheckAnotherChange(value);
+            setServicePercentage(false)
           }
         }}
         className="days-switch"
@@ -130,7 +140,6 @@ const formatarServicePercentage = (valor) => {
 
 //Function to set a new service percentage
 const handleServicePercentageChange = (event) => {
-  
   setAnotherServicePercentage(event.target.value.slice(0, 3)); // Permitir que o usuário digite livremente
 };
 
@@ -161,13 +170,13 @@ const updateBookingPoliceis = () =>{
    }
   }).then(res =>{
       if(res.status === 200){
-        setMessagePoliceisChange('Política de agendamento atualizada com sucesso.')
+        setMessagePoliceisChange('Políticas de agendamento atualizada com sucesso.')
         setTimeout(() => {
           setMessagePoliceisChange('');
           setConfirmPassword('')
           setShowBookingsPoliceis('')
           setInputCheckChange('')
-          setAnotherServicePercentage(null)
+          setAnotherServicePercentage('')
           getBookingPoliceis()
         }, 3000);
         return
@@ -258,26 +267,24 @@ return (
                         <CheckboxServicePercentage value="1"/>
                       </div>
 
-                      {!['0.1', '0.2', '0.5', '1'].includes(servicePercentage) &&(
                         <div className='container__service__percentage__another' >
                         <input
                           type="text"
                           value={anotherServicePercentage}
-                          className={` ${servicePercentage === "outros" || (!(['0.1', '0.2', '0.5', '1'].includes(servicePercentageStored)) && (servicePercentageStored !== '')) ? 'input__another__percentage':'ocult__input__another__percentage'}`}
+                          className={` ${inputCheckAnotherChange === "outros" || !(['0.1', '0.2', '0.5', '1'].includes(servicePercentage)) && (servicePercentageStored !== '') ? 'input__another__percentage':'ocult__input__another__percentage'}`}
                           onChange={handleServicePercentageChange}
                           onBlur={handleServicePercentageBlur}// Aplicar a formatação ao perder o foco
                           placeholder={['0.1', '0.2', '0.5', '1'].includes(servicePercentageStored) || servicePercentageStored === '' ? 'Ex.: 30%':`${servicePercentageStored.slice(2)}%`}
                           maxLength={6}
                         />
-                        <p className={`text__service__percentage__another ${servicePercentage === "outros" || (!(['0.1', '0.2', '0.5', '1'].includes(servicePercentageStored)) && (servicePercentageStored !== ''))? 'text__service__percentage__another__selected':''}`}>
-                          {servicePercentage === "outros" || (!(['0.1', '0.2', '0.5', '1'].includes(servicePercentageStored)) && (servicePercentageStored !== '')) ? 'do valor do serviço':'Outros'}
+                        <p className={`text__service__percentage__another ${inputCheckAnotherChange === "outros" || (!(['0.1', '0.2', '0.5', '1'].includes(servicePercentage)) && (servicePercentageStored !== ''))? 'text__service__percentage__another__selected':''}`}>
+                          {inputCheckAnotherChange === "outros" || (!(['0.1', '0.2', '0.5', '1'].includes(servicePercentage)) && (servicePercentageStored !== '')) ? 'do valor do serviço':'Outros'}
                         </p>
                         <CheckboxAnotherServicePercentage value="outros"/>
                       </div>
-                      )}
                       
                       
-                        {messagePoliceisChange === "Política de agendamento atualizada com sucesso." ? (
+                        {messagePoliceisChange === "Políticas de agendamento atualizada com sucesso." ? (
                           <div className="mensagem-sucesso">
                             <MdOutlineDone className="icon__success"/>
                             <p className="text__message">{messagePoliceisChange}</p>
@@ -325,7 +332,7 @@ return (
                               </>
                             )}
 
-                            {anotherServicePercentage === null && servicePercentage !== false && servicePercentage !== 'outros' && servicePercentage !== servicePercentageStored && inputCheckChange === '' &&(
+                            {anotherServicePercentage === '' && servicePercentage !== false && servicePercentage !== 'outros' && servicePercentage !== servicePercentageStored && inputCheckChange === '' &&(
                               <>
                                 <div className="form__change__data">
                                     <div className="container__text__change__data">
@@ -360,7 +367,7 @@ return (
                               </>
                             )}
 
-                            {servicePercentage !== false && servicePercentage === 'outros' && anotherServicePercentage !== null &&(
+                            {servicePercentage === false && inputCheckAnotherChange === 'outros' && anotherServicePercentage !== '' &&(
                               <>
                                 <div className="form__change__data">
                                     <div className="container__text__change__data">
@@ -395,7 +402,7 @@ return (
                               </>
                             )}
 
-                            {anotherServicePercentage !== null && inputCheckChange === 'bookingWithPaymentEnable' && servicePercentageStored !== '' &&(
+                            {anotherServicePercentage !== '' && inputCheckChange === 'bookingWithPaymentEnable' && servicePercentageStored !== '' &&(
                               <>
                                 <div className="form__change__data">
                                     <div className="container__text__change__data">
@@ -430,7 +437,7 @@ return (
                               </>
                             )}
                             
-                            {anotherServicePercentage !== null && inputCheckChange === '' && servicePercentageStored === servicePercentage &&(
+                            {anotherServicePercentage !== '' && inputCheckChange === '' && servicePercentageStored === servicePercentage &&(
                               <>
                                 <div className="form__change__data">
                                     <div className="container__text__change__data">
@@ -464,8 +471,6 @@ return (
                                 </div>
                               </>
                             )}
-
-                                
                           </div>
                     </div>
                     
@@ -495,7 +500,7 @@ return (
                 
                 {inputCheckChange === 'bookingWithPaymentDisable' &&(
                   <>
-                  {messagePoliceisChange === "Política de agendamento atualizada com sucesso." ? (
+                  {messagePoliceisChange === "Políticas de agendamento atualizada com sucesso." ? (
                         <div className="mensagem-sucesso">
                           <MdOutlineDone className="icon__success"/>
                           <p className="text__message">{messagePoliceisChange}</p>
