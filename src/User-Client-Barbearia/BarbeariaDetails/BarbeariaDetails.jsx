@@ -18,6 +18,8 @@ import { HiOutlineShare } from "react-icons/hi";
 import { VscSignIn } from "react-icons/vsc";
 import { LuClipboardCheck } from "react-icons/lu";
 import { GrSearch } from "react-icons/gr";
+import { PiContactlessPayment } from "react-icons/pi";
+import { LiaCoinsSolid } from "react-icons/lia";
 
 //Import for slide
 import { register } from 'swiper/element/bundle';
@@ -76,6 +78,30 @@ const userId = userInformation.user[0].id
 const userType = userInformation.user[0].userType;
 
 const currentDate = new Date();
+
+//=========== Get policeis barbearia ==============
+
+const [bookingWithPayment, setBookingWithPayment] = useState(false);
+const [servicePercentageStored, setServicePercentageStored] = useState('');
+
+  const getBookingPoliceis = () =>{
+    axios.get(`${urlApi}/api/v1/bookingPoliceis/${barbeariaId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+     }
+    }).then(res =>{
+        if(res.status === 200){
+          setBookingWithPayment(res.data.bookingPoliceis.booking_with_payment)
+          setServicePercentageStored(res.data.bookingPoliceis.service_percentage === "false" ? '':res.data.bookingPoliceis.service_percentage)        
+        }
+    }).catch(err =>{
+      console.log(err)
+    })
+  }
+  
+  useEffect(() =>{
+    getBookingPoliceis()
+  }, [])
 
 //=========== Get barbearia ==============
 const [barbearia, setBarbearia] = useState ([]);
@@ -352,6 +378,7 @@ return (
         <div className="containner__BarbeariaInformation">
           <div className="inner__BarbeariaInformation">
               {barbearia.statusBarbearia === "Aberta" ? <p className="abertoBarbDetails">{barbearia.statusBarbearia}</p> : <p className="fechadoBarbDetails">{barbearia.statusBarbearia}</p>}
+              
               <h2 id="BarbeariaName">{barbearia.nameBarbearia} • {averageAvaliation ? averageAvaliation.toFixed(1):0} <IoStarSharp className="icon__start__in__BarbeariaInformation"/> ({AllAvaliation.length})</h2>
               <div className="location">
                 <CiLocationOn className="location_icon"/>
@@ -398,6 +425,21 @@ return (
                 <div className="content-inner" style={{transform: `translate(-${activeIndex * tabWidth}px, 0)`,}}>
                 
                     <div  className="tab-content">
+                    {bookingWithPayment === 'enabled' &&(
+                        <div className="container__payment__required">
+                          <p>Políticas de Agendamento</p>
+                          <div className="inner__payment__required">
+                            <PiContactlessPayment className="icon__PiContactlessPayment"/>
+                            <p className="text__policeis">Pagamento requerido</p>
+                          </div>
+                          <div className="inner__payment__required" style={{marginBottom: '10px'}}>
+                            <LiaCoinsSolid className="icon__PiContactlessPayment"/>
+                            <p className="text__policeis"> Valor inicial de {`${servicePercentageStored * 100}% do valor do serviço`}</p>
+                          </div>
+                          <hr />
+                      </div>
+                      )}
+            
                           <div className="tittle">
                               {professional.length <= 1 ?(
                                 <p className="text__total__professional__and__service">Profissional</p>

@@ -197,6 +197,30 @@ h4{
     overflow: hidden;
     border: 1px solid #4a17d5;
 }
+.container__payment__required{
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    flex-direction: column;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+.text__policeis{
+    color: gray;
+    font-size: 13px;
+}
+.icon__PiContactlessPayment{
+    font-size: 17px;
+    margin-right: 5px
+}
+.inner__payment__required{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    flex-direction: row;
+    color: gray;
+    margin-top: 5px;
+}
 .professionalSelected{
     width: 90px;
     height: 105px;
