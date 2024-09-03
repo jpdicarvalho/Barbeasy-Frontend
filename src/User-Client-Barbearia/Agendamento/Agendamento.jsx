@@ -87,7 +87,7 @@ export function Agendamento({
   useEffect(() =>{
     getBookingPoliceis()
   }, [])
-
+  
   //Object to send for paymentScreen
   const serviceValues = {
     barbeariaName,
@@ -418,10 +418,11 @@ export function Agendamento({
   const createPayment = () => {
     setPreBookingAndPaymentCreated(true)
     let priceFormated = servicePrice.replace(/R\$ (\d+),(\d{2})/, '$1.$2');
+    let finalServicePrice = Number(priceFormated) * Number(servicePercentageStored)
     
     const values = {
       accessTokenBarbearia,
-      transaction_amount: priceFormated,
+      transaction_amount: finalServicePrice,
       description: serviceName,
       paymentMethodId: 'pix',
       email: userEmail,
@@ -475,7 +476,6 @@ export function Agendamento({
         })
         .then(res => {
             if(res.data.Success === 'Success'){
-              
                 setTimeout(() => {
                   navigateToPaymentScreen(paymentObject)
                 }, 3000);
@@ -483,6 +483,13 @@ export function Agendamento({
 
         }).catch(error => {
           console.error('Erro ao criar pré-reserva', error)
+          if(error.response.status === 401){
+            setPreBookingAndPaymentCreated(false)
+              setMessageConfirmedBooking("Número de agendamentos para esse dia excedido. Por favor, tente outro dia.")
+              return setTimeout(() => {
+                setMessageConfirmedBooking('')
+              }, 3000);
+          }
           setMessageConfirmedBooking("Houve um erro ao criar sua pré-reserva. Tente novamente mais tarde.")
           setTimeout(() => {
             setMessageConfirmedBooking('');
@@ -521,16 +528,23 @@ const [isBookingCreated, setIsBookingCreated] = useState(false)
             }
         })
         .then(res => {
+          console.log(res)
             if(res.data.Success === 'Success'){
                 setIsBookingCreated(false)
                 setMessageConfirmedBooking("Agendamento realizado com sucesso!")
-                setTimeout(() => {
-                  navigate("/BookingsHistory")
-                }, 5000);
+                return setTimeout(() => {
+                   navigate("/BookingsHistory")
+                }, 3000);
             }
-
         }).catch(error => {
           console.error('Erro ao criar agendamento', error)
+          if(error.response.status === 401){
+            setIsBookingCreated(false)
+              setMessageConfirmedBooking("Número de agendamentos para esse dia excedido. Por favor, tente outro dia.")
+              return setTimeout(() => {
+                setMessageConfirmedBooking('')
+              }, 3000);
+          }
           setMessageConfirmedBooking("Houve um erro ao criar seu agendamento. Tente novamente mais tarde.")
           setTimeout(() => {
             setMessageConfirmedBooking('');

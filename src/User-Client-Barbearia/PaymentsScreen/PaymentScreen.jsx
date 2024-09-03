@@ -21,11 +21,18 @@ export default function PaymentScreen(){
 
     const token = localStorage.getItem('token');
 
-    const { paymentObject, identificationToken, serviceValues, accessTokenBarbearia } = location.state;
+    const { paymentObject, serviceValues, accessTokenBarbearia } = location.state;
 
+    const transaction_amount = paymentObject.transaction_amount;
     const qr_code = paymentObject.point_of_interaction.transaction_data.qr_code
     const qr_code_base64 = paymentObject.point_of_interaction.transaction_data.qr_code_base64
     const date_of_expiration = paymentObject.date_of_expiration// está assim o formato: 2024-07-29T12:02:16.828-04:00
+
+    // Formatar o valor da transação no formato de Real
+    const formattedTransactionAmount = transaction_amount.toLocaleString('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+    });
 
     const handleBackClick = () => {
         updatePaymentStatus ('cancelled')
@@ -194,7 +201,7 @@ export default function PaymentScreen(){
                                 </div>
                             </div>
                             <div className="section__value__payment">
-                                <h3 className="value__payment">Pague {serviceValues.servicePrice} via Pix</h3>
+                                <h3 className="value__payment">Pague {formattedTransactionAmount} via Pix</h3>
                                 <p className="date_of_expiration">{seconds > 0 ? `Vencimento em ${formattedTime}` : 'Tempo esgotado :('}</p>
                             </div>
                             <div className="Box__qr_code_base64">
