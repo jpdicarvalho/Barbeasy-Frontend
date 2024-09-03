@@ -54,7 +54,7 @@
 .content {
   position: relative;
   overflow-x: hidden;
-  height: 850px;
+  height: 970px;
   width: 390px;
   overflow-y: scroll;
 }
