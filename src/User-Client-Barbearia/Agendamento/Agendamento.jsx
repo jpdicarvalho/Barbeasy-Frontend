@@ -614,7 +614,7 @@ const [isBookingCreated, setIsBookingCreated] = useState(false)
           <button onClick={createBookingWithoutPayment} className={`Btn__ocult ${serviceId && selectedDay && timeSelected  && !messageConfirmedBooking ? 'Btn__create__preBooking':''}`}>
 
             {isBookingCreated ? (
-              <div class="loaderCreatingBooking"></div>
+              <div className="loaderCreatingBooking"></div>
             ):(
               <p>Realizar agendamento</p>
             )}
