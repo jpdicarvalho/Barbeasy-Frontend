@@ -62,7 +62,7 @@ function BookingsHistory (){
 
     const [allBookings, setAllBookings] = useState ([]);
     const [search, setSearch] = useState('');
-
+    const [isLoading, setIsLoading] = useState (false);
     const [message, setMessage] = useState ('');
 
     const getAllBookings = () =>{
@@ -72,6 +72,7 @@ function BookingsHistory (){
               }
         }).then(res =>{
             setAllBookings(res.data.Bookings)
+            setIsLoading(true)
             if(res.data.Success != 'Success'){
                 setMessage('Nenhum agendamento encontrado.')
                 setTimeout(() => {
@@ -139,60 +140,69 @@ function BookingsHistory (){
                         <input type="search" className='Inner__input__search' value={search} onChange={(e) => setSearch(e.target.value)} placeholder='Buscar agendamento'/>
                     </div>
                 </div>
-                {allBookings.length > 0 ?(
-                    <div className='section__bookings__history'>
-                    {bookingSearch.map((booking, index) => {
-                        //obtendo o mês e o ano do agandamento
-                        const yearBooking = Number (booking.bookingDate.substring(17).replace(/[^0-9]/g, ''));
-                        const monthBooking = booking.bookingDate.match(/(Jan|Fev|Mar|Abr|Mai|Jun|Jul|Ago|Set|Out|Nov|Dez)/g, '');
-                        const monthAndYearBookings = Number (`${numbersMonth[monthBooking]}` + `${yearBooking}`);
-                        //obtendo o dia do agendamento
-                        const bookingDay = Number (booking.bookingDate.split(', ')[1].split(' ')[0]);
-                        //Obtendo o horário inicial do agendamento
-                        const bookingTimes = Number (booking.bookingTime.split(',')[booking.bookingTime.split(',').length-1].replace(/[^0-9]/g, ''));
+                {!isLoading ?(
+                    <div className='container__loading__in__bookings__history'>
+                        <div className="loaderCreatingBooking"></div>
+                    </div>
+                ):(
+                    <>
+                        {allBookings.length > 0 ?(
+                            <div className='section__bookings__history'>
+                            {bookingSearch.map((booking, index) => {
+                                //obtendo o mês e o ano do agandamento
+                                const yearBooking = Number (booking.bookingDate.substring(17).replace(/[^0-9]/g, ''));
+                                const monthBooking = booking.bookingDate.match(/(Jan|Fev|Mar|Abr|Mai|Jun|Jul|Ago|Set|Out|Nov|Dez)/g, '');
+                                const monthAndYearBookings = Number (`${numbersMonth[monthBooking]}` + `${yearBooking}`);
+                                //obtendo o dia do agendamento
+                                const bookingDay = Number (booking.bookingDate.split(', ')[1].split(' ')[0]);
+                                //Obtendo o horário inicial do agendamento
+                                const bookingTimes = Number (booking.bookingTime.split(',')[booking.bookingTime.split(',').length-1].replace(/[^0-9]/g, ''));
 
-                        let isTrue;
+                                let isTrue;
 
-                        return(
-                            <div key={index} className={`Box__bookings__history ${isTrue = campareCurrentDateWithBookingDate(monthAndYearBookings, bookingDay, bookingTimes) ? 'colorTexts':''}`} onClick={() => handleBookingClick(booking)} >
-                                <div className='box__status__bookings__history'>
-                                    {isTrue = campareCurrentDateWithBookingDate(monthAndYearBookings, bookingDay, bookingTimes) ?(
-                                        <>
-                                            <BsCalendar2Check className='icon__GiSandsOfTime' style={{fontSize: '40px'}}/>
-                                            <p className='status__bookings__history'>Finalizado</p>
-                                        </>
-                                    ):(
-                                        <>
-                                            <CiBookmarkCheck className='icon__CiBookmarkCheck' style={{fontSize: '40px'}}/>
-                                            <p className='status__bookings__history'>Agendado</p>
-                                        </>
-                                    )}
-                                    
-                                    
-                                </div>
+                                return(
+                                    <div key={index} className={`Box__bookings__history ${isTrue = campareCurrentDateWithBookingDate(monthAndYearBookings, bookingDay, bookingTimes) ? 'colorTexts':''}`} onClick={() => handleBookingClick(booking)} >
+                                        <div className='box__status__bookings__history'>
+                                            {isTrue = campareCurrentDateWithBookingDate(monthAndYearBookings, bookingDay, bookingTimes) ?(
+                                                <>
+                                                    <BsCalendar2Check className='icon__GiSandsOfTime' style={{fontSize: '40px'}}/>
+                                                    <p className='status__bookings__history'>Finalizado</p>
+                                                </>
+                                            ):(
+                                                <>
+                                                    <CiBookmarkCheck className='icon__CiBookmarkCheck' style={{fontSize: '40px'}}/>
+                                                    <p className='status__bookings__history'>Agendado</p>
+                                                </>
+                                            )}
+                                            
+                                            
+                                        </div>
 
-                                <div className='body__bookings__history'>
-                                    <p className='date__bookings__history'>
-                                        {booking.bookingDate}
-                                    </p>
-                                    <div className='innner__bookings__history'>
-                                        <p>{booking.serviceName}</p>
-                                        <div className='time__bookings__history'>
-                                            <p className='price__service__bookings__history'>{booking.servicePrice} | </p>
-                                            <PiTimerLight className='icon__PiTimerLight'/>
-                                            <p>{booking.bookingTime.split(',')[0]} - {booking.bookingTime.split(',')[booking.bookingTime.split(',').length-1]}</p>
+                                        <div className='body__bookings__history'>
+                                            <p className='date__bookings__history'>
+                                                {booking.bookingDate}
+                                            </p>
+                                            <div className='innner__bookings__history'>
+                                                <p>{booking.serviceName}</p>
+                                                <div className='time__bookings__history'>
+                                                    <p className='price__service__bookings__history'>{booking.servicePrice} | </p>
+                                                    <PiTimerLight className='icon__PiTimerLight'/>
+                                                    <p>{booking.bookingTime.split(',')[0]} - {booking.bookingTime.split(',')[booking.bookingTime.split(',').length-1]}</p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                )
+                            })}
                             </div>
-                        )
-                    })}
-                </div>
-                ):(
-                    <div className='box__message__no__bookings__history'>
-                        <h3>Nenhum agendamento encontrado.</h3>
-                    </div>
+                        ):(
+                            <div className='box__message__no__bookings__history'>
+                                <h3>Nenhum agendamento encontrado.</h3>
+                            </div>
+                        )}
+                    </>
                 )}
+                
             </div>
         </>
     )

@@ -2,6 +2,13 @@
 *{
   font-family: 'Poppis', sans-serif;
 }
+.container__loading__in__bookings__history{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    height: 400px;
+}
 .header__bookings__history{
     position: fixed;
     top: 0;

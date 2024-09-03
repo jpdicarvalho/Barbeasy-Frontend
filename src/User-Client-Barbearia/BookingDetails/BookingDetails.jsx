@@ -22,7 +22,6 @@ function BookingDetails () {
     const handleBackClick = () => {
         navigate("/BookingsHistory");
     };
-    
     return(
         <>
             <div className="container__Booking__Details">
@@ -65,8 +64,12 @@ function BookingDetails () {
                         <h3>Profissional</h3>
                     </div>
                 <div className="section__professional__Booking__Details">
-                    <div className="box__professional__Booking__Details">
-                        <img className="img__professional__Booking__Details" src={urlCloudFront + booking.userImageProfessional} alt="" />
+                    <div className="img__professional__barbearia__details">
+                        {booking.userImageProfessional != 'default.png' ?(
+                            <img src={urlCloudFront + booking.userImageProfessional} className="user__img__box__comment" alt="" />
+                        ):(
+                            <p className='firstLetter' style={{color: '#fff', fontSize: '40px'}}>{booking.professionalName.charAt(0).toUpperCase()}</p>
+                        )}
                     </div>
                     <div className="inner__professional__Booking__Details">
                         <p className="name__professional__Booking__Details">{booking.professionalName}</p>
