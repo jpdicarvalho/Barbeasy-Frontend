@@ -462,7 +462,7 @@ return (
                                             <p className='firstLetter' style={{color: '#fff', fontSize: '40px'}}>{firstLetter}</p>
                                           )}
                                         </div>
-                                        <p className="name__professional" style={{color: '#fff', fontSize: '16px'}}>{professional.name}</p>
+                                        <p className="name__professional__in__barbearia__details" style={{color: '#fff', fontSize: '14px'}}>{professional.name}</p>
 
                                       </div>
                                       

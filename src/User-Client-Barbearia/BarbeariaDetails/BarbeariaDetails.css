@@ -197,6 +197,15 @@ h4{
     overflow: hidden;
     border: 1px solid #4a17d5;
 }
+.name__professional__in__barbearia__details{
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden; 
+    width: 85px;
+    color: #f6f6f6;
+    font-size: 14px;
+}
 .container__payment__required{
     display: flex;
     justify-content: start;
