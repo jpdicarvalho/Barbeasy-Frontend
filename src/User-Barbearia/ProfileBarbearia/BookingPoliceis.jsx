@@ -223,6 +223,236 @@ return (
                             <SiMercadopago className='logo__mercado__pago__conection' />
                             <p className='information__span__payment__enable'>Barbearia conectada ao Mercado Pago</p>
                           </div>
+                          <div className='container__valor__payment__booking'>
+                            <p className='text__valor__payment__booking'>Quanto você deseja recerber pelo agendamento?</p>
+
+                            <div className='container__service__percentage'>
+                              <p className={`text__service__percentage ${servicePercentage === "0.1" ? 'text__service__percentage__selected':''}`}>10% do valor do serviço</p>
+                              <CheckboxServicePercentage value="0.1"/>
+                            </div>
+
+                            <div className='container__service__percentage'>
+                              <p className={`text__service__percentage ${servicePercentage === "0.2" ? 'text__service__percentage__selected':''}`}>20% do valor do serviço</p>
+                              <CheckboxServicePercentage value="0.2"/>
+                            </div>
+
+
+                            <div className='container__service__percentage'>
+                              <p className={`text__service__percentage ${servicePercentage === "0.5" ? 'text__service__percentage__selected':''}`}>50% do valor do serviço</p>
+                              <CheckboxServicePercentage value="0.5"/>
+                            </div>
+
+                            <div className='container__service__percentage'>
+                              <p className={`text__service__percentage ${servicePercentage === "1" ? 'text__service__percentage__selected':''}`}>100% do valor do serviço</p>
+                              <CheckboxServicePercentage value="1"/>
+                            </div>
+
+                              <div className='container__service__percentage__another' >
+                              <input
+                                type="text"
+                                value={anotherServicePercentage}
+                                className={` ${inputCheckAnotherChange === "outros" || !(['0.1', '0.2', '0.5', '1'].includes(servicePercentage)) && (servicePercentageStored !== '') ? 'input__another__percentage':'ocult__input__another__percentage'}`}
+                                onChange={handleServicePercentageChange}
+                                onBlur={handleServicePercentageBlur}// Aplicar a formatação ao perder o foco
+                                placeholder={['0.1', '0.2', '0.5', '1'].includes(servicePercentageStored) || servicePercentageStored === '' ? 'Ex.: 30%':`${servicePercentageStored.slice(2)}%`}
+                                maxLength={6}
+                              />
+                              <p className={`text__service__percentage__another ${inputCheckAnotherChange === "outros" || (!(['0.1', '0.2', '0.5', '1'].includes(servicePercentage)) && (servicePercentageStored !== ''))? 'text__service__percentage__another__selected':''}`}>
+                                {inputCheckAnotherChange === "outros" || (!(['0.1', '0.2', '0.5', '1'].includes(servicePercentage)) && (servicePercentageStored !== '')) ? 'do valor do serviço':'Outros'}
+                              </p>
+                              <CheckboxAnotherServicePercentage value="outros"/>
+                            </div>
+                            
+                            
+                              {messagePoliceisChange === "Políticas de agendamento atualizadas com sucesso." ? (
+                                <div className="mensagem-sucesso">
+                                  <MdOutlineDone className="icon__success"/>
+                                  <p className="text__message">{messagePoliceisChange}</p>
+                                </div>
+                              ) : (
+                                <div className={` ${messagePoliceisChange ? 'mensagem-erro' : ''}`}>
+                                  <VscError className={`hide_icon__error ${messagePoliceisChange ? 'icon__error' : ''}`}/>
+                                  <p className="text__message">{messagePoliceisChange}</p>
+                                </div>
+                              )}
+
+                                <div style={{ paddingLeft: '10px' }}>
+                                  {inputCheckChange === 'bookingWithPaymentEnable' && servicePercentage !== false && servicePercentage !== 'outros' &&(
+                                    <>
+                                      <div className="form__change__data">
+                                          <div className="container__text__change__data">
+                                            Digite sua senha para confirmar a alteração
+                                          </div>
+                                          <div className="container__form__change__data">
+                                            <input
+                                              type="password"
+                                              id="senha"
+                                              name="senha"
+                                              value={confirmPassword}
+                                              className={`input__change__data ${confirmPassword ? 'input__valided' : ''}`}
+                                              onChange={(e) => {
+                                                const inputValue = e.target.value;
+                                                // Limitar a 10 caracteres
+                                                const truncatedPasswordConfirm = inputValue.slice(0, 10);
+                                                setConfirmPassword(truncatedPasswordConfirm);
+                                              }}
+                                              placeholder="Senha atual"
+                                              maxLength={8}
+                                              required
+                                            />
+                                            <PiPassword className="icon__input__change__data" />
+                                            <button
+                                              className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided' : ''}`}
+                                              onClick={updateBookingPoliceis}
+                                            >
+                                              Confirmar
+                                            </button>
+                                          </div>
+                                      </div>
+                                    </>
+                                  )}
+
+                                  {anotherServicePercentage === '' && servicePercentage !== false && servicePercentage !== 'outros' && servicePercentage !== servicePercentageStored && inputCheckChange === '' &&(
+                                    <>
+                                      <div className="form__change__data">
+                                          <div className="container__text__change__data">
+                                            Digite sua senha para confirmar a alteração
+                                          </div>
+                                          <div className="container__form__change__data">
+                                            <input
+                                              type="password"
+                                              id="senha"
+                                              name="senha"
+                                              value={confirmPassword}
+                                              className={`input__change__data ${confirmPassword ? 'input__valided' : ''}`}
+                                              onChange={(e) => {
+                                                const inputValue = e.target.value;
+                                                // Limitar a 10 caracteres
+                                                const truncatedPasswordConfirm = inputValue.slice(0, 10);
+                                                setConfirmPassword(truncatedPasswordConfirm);
+                                              }}
+                                              placeholder="Senha atual"
+                                              maxLength={8}
+                                              required
+                                            />
+                                            <PiPassword className="icon__input__change__data" />
+                                            <button
+                                              className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided' : ''}`}
+                                              onClick={updateBookingPoliceis}
+                                            >
+                                              Confirmar
+                                            </button>
+                                          </div>
+                                      </div>
+                                    </>
+                                  )}
+
+                                  {servicePercentage === false && inputCheckAnotherChange === 'outros' && anotherServicePercentage !== '' &&(
+                                    <>
+                                      <div className="form__change__data">
+                                          <div className="container__text__change__data">
+                                            Digite sua senha para confirmar a alteração
+                                          </div>
+                                          <div className="container__form__change__data">
+                                            <input
+                                              type="password"
+                                              id="senha"
+                                              name="senha"
+                                              value={confirmPassword}
+                                              className={`input__change__data ${confirmPassword ? 'input__valided' : ''}`}
+                                              onChange={(e) => {
+                                                const inputValue = e.target.value;
+                                                // Limitar a 10 caracteres
+                                                const truncatedPasswordConfirm = inputValue.slice(0, 10);
+                                                setConfirmPassword(truncatedPasswordConfirm);
+                                              }}
+                                              placeholder="Senha atual"
+                                              maxLength={8}
+                                              required
+                                            />
+                                            <PiPassword className="icon__input__change__data" />
+                                            <button
+                                              className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided' : ''}`}
+                                              onClick={updateBookingPoliceis}
+                                            >
+                                              Confirmar
+                                            </button>
+                                          </div>
+                                      </div>
+                                    </>
+                                  )}
+
+                                  {anotherServicePercentage !== '' && inputCheckChange === 'bookingWithPaymentEnable' && servicePercentageStored !== '' &&(
+                                    <>
+                                      <div className="form__change__data">
+                                          <div className="container__text__change__data">
+                                            Digite sua senha para confirmar a alteração
+                                          </div>
+                                          <div className="container__form__change__data">
+                                            <input
+                                              type="password"
+                                              id="senha"
+                                              name="senha"
+                                              value={confirmPassword}
+                                              className={`input__change__data ${confirmPassword ? 'input__valided' : ''}`}
+                                              onChange={(e) => {
+                                                const inputValue = e.target.value;
+                                                // Limitar a 10 caracteres
+                                                const truncatedPasswordConfirm = inputValue.slice(0, 10);
+                                                setConfirmPassword(truncatedPasswordConfirm);
+                                              }}
+                                              placeholder="Senha atual"
+                                              maxLength={8}
+                                              required
+                                            />
+                                            <PiPassword className="icon__input__change__data" />
+                                            <button
+                                              className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided' : ''}`}
+                                              onClick={updateBookingPoliceis}
+                                            >
+                                              Confirmar
+                                            </button>
+                                          </div>
+                                      </div>
+                                    </>
+                                  )}
+                                  
+                                  {anotherServicePercentage !== '' && inputCheckChange === '' && servicePercentageStored === servicePercentage &&(
+                                    <>
+                                      <div className="form__change__data">
+                                          <div className="container__text__change__data">
+                                            Digite sua senha para confirmar a alteração
+                                          </div>
+                                          <div className="container__form__change__data">
+                                            <input
+                                              type="password"
+                                              id="senha"
+                                              name="senha"
+                                              value={confirmPassword}
+                                              className={`input__change__data ${confirmPassword ? 'input__valided' : ''}`}
+                                              onChange={(e) => {
+                                                const inputValue = e.target.value;
+                                                // Limitar a 10 caracteres
+                                                const truncatedPasswordConfirm = inputValue.slice(0, 10);
+                                                setConfirmPassword(truncatedPasswordConfirm);
+                                              }}
+                                              placeholder="Senha atual"
+                                              maxLength={8}
+                                              required
+                                            />
+                                            <PiPassword className="icon__input__change__data" />
+                                            <button
+                                              className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided' : ''}`}
+                                              onClick={updateBookingPoliceis}
+                                            >
+                                              Confirmar
+                                            </button>
+                                          </div>
+                                      </div>
+                                    </>
+                                  )}
+                                </div>
+                          </div>
                         </>
                       ):(
                         <>
@@ -236,237 +466,6 @@ return (
                         </>
                       )}
                     </div>
-                    <div className='container__valor__payment__booking'>
-                      <p className='text__valor__payment__booking'>Quanto você deseja recerber pelo agendamento?</p>
-
-                      <div className='container__service__percentage'>
-                        <p className={`text__service__percentage ${servicePercentage === "0.1" ? 'text__service__percentage__selected':''}`}>10% do valor do serviço</p>
-                        <CheckboxServicePercentage value="0.1"/>
-                      </div>
-
-                      <div className='container__service__percentage'>
-                        <p className={`text__service__percentage ${servicePercentage === "0.2" ? 'text__service__percentage__selected':''}`}>20% do valor do serviço</p>
-                        <CheckboxServicePercentage value="0.2"/>
-                      </div>
-
-
-                      <div className='container__service__percentage'>
-                        <p className={`text__service__percentage ${servicePercentage === "0.5" ? 'text__service__percentage__selected':''}`}>50% do valor do serviço</p>
-                        <CheckboxServicePercentage value="0.5"/>
-                      </div>
-
-                      <div className='container__service__percentage'>
-                        <p className={`text__service__percentage ${servicePercentage === "1" ? 'text__service__percentage__selected':''}`}>100% do valor do serviço</p>
-                        <CheckboxServicePercentage value="1"/>
-                      </div>
-
-                        <div className='container__service__percentage__another' >
-                        <input
-                          type="text"
-                          value={anotherServicePercentage}
-                          className={` ${inputCheckAnotherChange === "outros" || !(['0.1', '0.2', '0.5', '1'].includes(servicePercentage)) && (servicePercentageStored !== '') ? 'input__another__percentage':'ocult__input__another__percentage'}`}
-                          onChange={handleServicePercentageChange}
-                          onBlur={handleServicePercentageBlur}// Aplicar a formatação ao perder o foco
-                          placeholder={['0.1', '0.2', '0.5', '1'].includes(servicePercentageStored) || servicePercentageStored === '' ? 'Ex.: 30%':`${servicePercentageStored.slice(2)}%`}
-                          maxLength={6}
-                        />
-                        <p className={`text__service__percentage__another ${inputCheckAnotherChange === "outros" || (!(['0.1', '0.2', '0.5', '1'].includes(servicePercentage)) && (servicePercentageStored !== ''))? 'text__service__percentage__another__selected':''}`}>
-                          {inputCheckAnotherChange === "outros" || (!(['0.1', '0.2', '0.5', '1'].includes(servicePercentage)) && (servicePercentageStored !== '')) ? 'do valor do serviço':'Outros'}
-                        </p>
-                        <CheckboxAnotherServicePercentage value="outros"/>
-                      </div>
-                      
-                      
-                        {messagePoliceisChange === "Políticas de agendamento atualizadas com sucesso." ? (
-                          <div className="mensagem-sucesso">
-                            <MdOutlineDone className="icon__success"/>
-                            <p className="text__message">{messagePoliceisChange}</p>
-                          </div>
-                        ) : (
-                          <div className={` ${messagePoliceisChange ? 'mensagem-erro' : ''}`}>
-                            <VscError className={`hide_icon__error ${messagePoliceisChange ? 'icon__error' : ''}`}/>
-                            <p className="text__message">{messagePoliceisChange}</p>
-                          </div>
-                        )}
-
-                          <div style={{ paddingLeft: '10px' }}>
-                            {inputCheckChange === 'bookingWithPaymentEnable' && servicePercentage !== false && servicePercentage !== 'outros' &&(
-                              <>
-                                <div className="form__change__data">
-                                    <div className="container__text__change__data">
-                                      Digite sua senha para confirmar a alteração
-                                    </div>
-                                    <div className="container__form__change__data">
-                                      <input
-                                        type="password"
-                                        id="senha"
-                                        name="senha"
-                                        value={confirmPassword}
-                                        className={`input__change__data ${confirmPassword ? 'input__valided' : ''}`}
-                                        onChange={(e) => {
-                                          const inputValue = e.target.value;
-                                          // Limitar a 10 caracteres
-                                          const truncatedPasswordConfirm = inputValue.slice(0, 10);
-                                          setConfirmPassword(truncatedPasswordConfirm);
-                                        }}
-                                        placeholder="Senha atual"
-                                        maxLength={8}
-                                        required
-                                      />
-                                      <PiPassword className="icon__input__change__data" />
-                                      <button
-                                        className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided' : ''}`}
-                                        onClick={updateBookingPoliceis}
-                                      >
-                                        Confirmar
-                                      </button>
-                                    </div>
-                                </div>
-                              </>
-                            )}
-
-                            {anotherServicePercentage === '' && servicePercentage !== false && servicePercentage !== 'outros' && servicePercentage !== servicePercentageStored && inputCheckChange === '' &&(
-                              <>
-                                <div className="form__change__data">
-                                    <div className="container__text__change__data">
-                                      Digite sua senha para confirmar a alteração
-                                    </div>
-                                    <div className="container__form__change__data">
-                                      <input
-                                        type="password"
-                                        id="senha"
-                                        name="senha"
-                                        value={confirmPassword}
-                                        className={`input__change__data ${confirmPassword ? 'input__valided' : ''}`}
-                                        onChange={(e) => {
-                                          const inputValue = e.target.value;
-                                          // Limitar a 10 caracteres
-                                          const truncatedPasswordConfirm = inputValue.slice(0, 10);
-                                          setConfirmPassword(truncatedPasswordConfirm);
-                                        }}
-                                        placeholder="Senha atual"
-                                        maxLength={8}
-                                        required
-                                      />
-                                      <PiPassword className="icon__input__change__data" />
-                                      <button
-                                        className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided' : ''}`}
-                                        onClick={updateBookingPoliceis}
-                                      >
-                                        Confirmar
-                                      </button>
-                                    </div>
-                                </div>
-                              </>
-                            )}
-
-                            {servicePercentage === false && inputCheckAnotherChange === 'outros' && anotherServicePercentage !== '' &&(
-                              <>
-                                <div className="form__change__data">
-                                    <div className="container__text__change__data">
-                                      Digite sua senha para confirmar a alteração
-                                    </div>
-                                    <div className="container__form__change__data">
-                                      <input
-                                        type="password"
-                                        id="senha"
-                                        name="senha"
-                                        value={confirmPassword}
-                                        className={`input__change__data ${confirmPassword ? 'input__valided' : ''}`}
-                                        onChange={(e) => {
-                                          const inputValue = e.target.value;
-                                          // Limitar a 10 caracteres
-                                          const truncatedPasswordConfirm = inputValue.slice(0, 10);
-                                          setConfirmPassword(truncatedPasswordConfirm);
-                                        }}
-                                        placeholder="Senha atual"
-                                        maxLength={8}
-                                        required
-                                      />
-                                      <PiPassword className="icon__input__change__data" />
-                                      <button
-                                        className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided' : ''}`}
-                                        onClick={updateBookingPoliceis}
-                                      >
-                                        Confirmar
-                                      </button>
-                                    </div>
-                                </div>
-                              </>
-                            )}
-
-                            {anotherServicePercentage !== '' && inputCheckChange === 'bookingWithPaymentEnable' && servicePercentageStored !== '' &&(
-                              <>
-                                <div className="form__change__data">
-                                    <div className="container__text__change__data">
-                                      Digite sua senha para confirmar a alteração
-                                    </div>
-                                    <div className="container__form__change__data">
-                                      <input
-                                        type="password"
-                                        id="senha"
-                                        name="senha"
-                                        value={confirmPassword}
-                                        className={`input__change__data ${confirmPassword ? 'input__valided' : ''}`}
-                                        onChange={(e) => {
-                                          const inputValue = e.target.value;
-                                          // Limitar a 10 caracteres
-                                          const truncatedPasswordConfirm = inputValue.slice(0, 10);
-                                          setConfirmPassword(truncatedPasswordConfirm);
-                                        }}
-                                        placeholder="Senha atual"
-                                        maxLength={8}
-                                        required
-                                      />
-                                      <PiPassword className="icon__input__change__data" />
-                                      <button
-                                        className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided' : ''}`}
-                                        onClick={updateBookingPoliceis}
-                                      >
-                                        Confirmar
-                                      </button>
-                                    </div>
-                                </div>
-                              </>
-                            )}
-                            
-                            {anotherServicePercentage !== '' && inputCheckChange === '' && servicePercentageStored === servicePercentage &&(
-                              <>
-                                <div className="form__change__data">
-                                    <div className="container__text__change__data">
-                                      Digite sua senha para confirmar a alteração
-                                    </div>
-                                    <div className="container__form__change__data">
-                                      <input
-                                        type="password"
-                                        id="senha"
-                                        name="senha"
-                                        value={confirmPassword}
-                                        className={`input__change__data ${confirmPassword ? 'input__valided' : ''}`}
-                                        onChange={(e) => {
-                                          const inputValue = e.target.value;
-                                          // Limitar a 10 caracteres
-                                          const truncatedPasswordConfirm = inputValue.slice(0, 10);
-                                          setConfirmPassword(truncatedPasswordConfirm);
-                                        }}
-                                        placeholder="Senha atual"
-                                        maxLength={8}
-                                        required
-                                      />
-                                      <PiPassword className="icon__input__change__data" />
-                                      <button
-                                        className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided' : ''}`}
-                                        onClick={updateBookingPoliceis}
-                                      >
-                                        Confirmar
-                                      </button>
-                                    </div>
-                                </div>
-                              </>
-                            )}
-                          </div>
-                    </div>
-                    
                   </>
                 ):(
                   <>
