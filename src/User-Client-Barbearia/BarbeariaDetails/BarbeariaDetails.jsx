@@ -434,7 +434,7 @@ return (
                           </div>
                           <div className="inner__payment__required" style={{marginBottom: '10px'}}>
                             <LiaCoinsSolid className="icon__PiContactlessPayment"/>
-                            <p className="text__policeis"> Valor inicial de {`${servicePercentageStored * 100}% do serviço`}</p>
+                            <p className="text__policeis">{servicePercentageStored * 100 === 100 ? `${servicePercentageStored * 100}% do serviço`:`Valor inicial de ${servicePercentageStored * 100}% do serviço` } </p>
                           </div>
                           <hr />
                       </div>
