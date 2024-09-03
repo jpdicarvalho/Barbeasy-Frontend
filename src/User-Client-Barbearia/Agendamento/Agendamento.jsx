@@ -450,6 +450,11 @@ export function Agendamento({
     
   };
 
+  if(timeSelected){
+    //All times that will be busy by the selected service
+    let timeSelected = timesBusyByService[0].length > 1 ? timesBusyByService.join(','):timesBusyByService;
+    console.log(timeSelected.split(','))
+  }
   //Function to create pre-booking
   const createPreBooking = (payment_id, paymentObject) =>{
     if(userId && barbeariaId && professionalId && serviceId && selectedDay && timeSelected && formattedDate && payment_id && paymentObject){
