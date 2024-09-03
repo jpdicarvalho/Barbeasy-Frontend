@@ -73,7 +73,7 @@ const alternarShowForm = () =>{
 const handleNameChange = (e) => {
   const value = e.target.value;
   const regex = /^[a-zA-Z\sçéúíóáõãèòìàêôâ]*$/;
-  if (regex.test(value) && value.length <= 50) {
+  if (regex.test(value) && value.length <= 15) {
     setNewNameProfessional(value);
   }
 };
