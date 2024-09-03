@@ -351,18 +351,19 @@
     transition: 0.5s;
 }
 .input__another__percentage{
-    outline: none;
+    background: transparent;
+    border-bottom: 1px solid #7849f4;
+    border-top: none;
+    border-left: none;
+    border-right: none;
     width: 60px;
     margin-left: 5px;
     margin-right: 10px;
     padding-left: 2px;
-    background: transparent;
-    border: none;
     opacity: 1;
     transition: 0.5s;
     color: #f6f6f6;
-    border-bottom: 1px solid #52626b;
-
+    outline: none;
 }
 .input__another__percentage::placeholder {
     color: #52626b;
