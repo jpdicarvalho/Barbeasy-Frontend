@@ -98,9 +98,10 @@
  
 }
 .inputBox input[type="submit"]:hover{
-  letter-spacing: 3px;
+  background: #6938f0;
   transition: 0.5s; 
 }
+
 form .link{
   text-decoration: none;
   color: #f6f6fc;
