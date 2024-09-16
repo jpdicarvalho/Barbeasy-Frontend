@@ -19,7 +19,10 @@ import barberLogo from '../../../barber-logo.png';
 function SignUpBarbearia() {
 
   const urlApi = 'https://barbeasy.up.railway.app'
-  
+
+  const navigate = useNavigate();
+
+  const [isLoading, setIsLoading] = useState(false)
   const [values, setValues] = useState({
     name: '',
     street: '',
@@ -33,8 +36,6 @@ function SignUpBarbearia() {
 
   const [step, setStep] = useState(1);
   const [message, setMessage] = useState(null);
-
-  const navigate = useNavigate();
 
   const props = useSpring({
     opacity: 1,
@@ -54,39 +55,43 @@ function SignUpBarbearia() {
 
   const handleSubmit = (event) => {
     event.preventDefault();//impede o navegador de recaregar a página ao enviar o formulário
+    setIsLoading(true)
+
     if (areAllFieldsFilled()){
       axios.post(`${urlApi}/api/v1/SignUpBarbearia`, values)
       .then(res => {
         if (res.status === 201) {
+          setIsLoading(false)
           setMessage('Cadastro realizado!');
           setTimeout(() => {
             setMessage(null);
             navigate('/SignInBarbearia');
           }, 2000);
         } else {
+          setIsLoading(false)
           setMessage('Erro ao realizar o cadastro!');
           setTimeout(() => {
             setMessage(null);
           }, 3000);
-          console.log(res.data.Error);
         }
       })
       .catch(err => {
         if (err.response.status === 401) {
+          setIsLoading(false)
           setMessage('E-mail ou endereço já cadastrado.');
-          console.error(err.data);
         } else if(err.response.status === 400) {
+          setIsLoading(false)
           setMessage('Erro ao realizar o cadastro! Verifique os campos preenchidos');
-          console.error(err);
         }else{
+          setIsLoading(false)
           setMessage('Erro ao realizar o cadastro!');
-          console.error(err);
         }
         setTimeout(() => {
           setMessage(null);
         }, 3000);
       });
     }else{
+      setIsLoading(false)
       setMessage('Preencha todos os campos.')
     }
   };
@@ -133,8 +138,6 @@ function SignUpBarbearia() {
             maxLength={50}
             required
           /> <MdOutlineStoreMallDirectory className='icon__inSignUp'/>
-          
-          
           </div>
           )}
 
@@ -283,7 +286,14 @@ function SignUpBarbearia() {
 
           {step === 4 && (
             <div className='inputBox'>
-              <input type="submit" value="Cadastrar" />
+              <div className="inputBox__inner__cadastrar">
+                  {isLoading ? (
+                    <div className="loaderCreatingBooking"></div>
+                  ):(
+                    <input type="submit" value="Cadastrar" />
+                  )}
+                </div>
+              
             </div>
           )}
         </animated.div>

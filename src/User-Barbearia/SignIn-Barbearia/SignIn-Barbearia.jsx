@@ -14,6 +14,7 @@ function SignInBarbearia() {
 
     const navigate = useNavigate();
 
+    const [isLoading, setIsLoading] = useState(false)
     const [isProfessional, setIsProfessional] = useState(false);
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
@@ -22,6 +23,8 @@ function SignInBarbearia() {
 
       const sendForm = (event) => {
         event.preventDefault();
+        setIsLoading(true)
+
         if(!isProfessional){
           axios.get(`${urlApi}/api/v1/SignInBarbearia/${email}/${senha}`)
           .then(res => {
@@ -30,6 +33,7 @@ function SignInBarbearia() {
               localStorage.setItem('token', res.data.token);
               localStorage.setItem('dataBarbearia', JSON.stringify(res.data));
 
+              setIsLoading(false)
               setMessage('Seja Bem Vindo!');
               setTimeout(() => {
               setMessage(null);
@@ -37,6 +41,7 @@ function SignInBarbearia() {
             }, 2000);
 
             }else{
+              setIsLoading(false)
               setMessage('Erro ao realizar o Login!');
               setTimeout(() => {
                 setMessage(null);
@@ -44,6 +49,7 @@ function SignInBarbearia() {
             }
           }).catch(err =>{
             console.error('Erro na requisição:', err);
+            setIsLoading(false)
             setMessage('Erro ao realizar o Login!');
             setTimeout(() => {
               setMessage(null);
@@ -59,6 +65,7 @@ function SignInBarbearia() {
               localStorage.setItem('token', res.data.token);
               localStorage.setItem('dataprofessional', JSON.stringify(res.data));
 
+              setIsLoading(false)
               setMessage('Seja Bem Vindo!');
               setTimeout(() => {
               setMessage(null);
@@ -66,6 +73,7 @@ function SignInBarbearia() {
             }, 2000);
 
             }else{
+              setIsLoading(false)
               setMessage('Erro ao realizar o Login!');
               setTimeout(() => {
                 setMessage(null);
@@ -73,6 +81,7 @@ function SignInBarbearia() {
             }
           }).catch(err =>{
             console.error('Erro na requisição:', err);
+            setIsLoading(false)
             setMessage('Erro ao realizar o Login!');
             setTimeout(() => {
               setMessage(null);
@@ -86,11 +95,14 @@ function SignInBarbearia() {
             <div className="imgBox">
                 <img src={barberLogo} alt="" />
             </div>
+
             <h2 id='HeaderSignIn'>Barbeasy</h2>
+
             <span>Login</span>
+
             {message === "Seja Bem Vindo!" ? (
                 <p className="success">{message}</p>
-                ) : (
+              ) : (
                 <p className="error">{message}</p>
             )}
                 <div className="inputBox">
@@ -145,7 +157,11 @@ function SignInBarbearia() {
                 </div>
 
                 <div className='inputBox'>
-                    <input type="submit" value="Entrar"/>
+                {isLoading ? (
+                  <div className="loaderCreatingBooking"></div>
+                ):(
+                  <input type="submit" value="Entrar" />
+                )}
                 </div>
                 <div className="link__signup">
                     <p>Não tem uma conta?</p><Link className="link" to="/SignUpBarbearia">Criar Conta</Link>
