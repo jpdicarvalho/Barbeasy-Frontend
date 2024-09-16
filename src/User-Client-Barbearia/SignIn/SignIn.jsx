@@ -1,13 +1,16 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './style.css';
-import barberLogo from './barber-logo.png';
+import barberLogo from '../../../barber-logo.png';
 
 function SignIn() {
   
   const urlApi = 'https://barbeasy.up.railway.app'
   
   const navigate = useNavigate();
+
+  const [isLoading, setIsLoading] = useState(false)
+  
   const [values, setValues] = useState({
     email: '',
     senha: ''
@@ -16,6 +19,7 @@ function SignIn() {
 
   async function sendForm(e) {
     e.preventDefault();
+    setIsLoading(true)
 
     try {
       const dataUser = await fetch(`${urlApi}/api/v1/SignIn`, {
@@ -35,6 +39,7 @@ function SignIn() {
         localStorage.setItem('userData', JSON.stringify(responseData));
 
         setMessage('Seja Bem Vindo!');
+        setIsLoading(false)
         setTimeout(() => {
           setMessage(null);
           // Mandando dados do usuário para a Home Page
@@ -43,6 +48,7 @@ function SignIn() {
       } else {
         setMessage('Erro ao realizar o Login!');
         setTimeout(() => {
+          setIsLoading(false)
           setMessage(null);
         }, 2000);
       }
@@ -50,6 +56,7 @@ function SignIn() {
       console.error('Erro ao enviar formulário:', error);
       setMessage('Erro ao realizar o Login!');
       setTimeout(() => {
+        setIsLoading(false)
         setMessage(null);
       }, 2000);
     }
@@ -111,8 +118,11 @@ function SignIn() {
       </div>
 
       <div className="inputBox">
-        <div className="loaderCreatingBooking"></div>
-        <input type="submit" value="Entrar" />
+        {isLoading ? (
+          <div className="loaderCreatingBooking"></div>
+        ):(
+          <input type="submit" value="Entrar" />
+        )}
       </div>
 
       <div className="link__signup">

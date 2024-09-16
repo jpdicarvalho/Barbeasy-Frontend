@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import InputMask from "react-input-mask";
 import { useSpring, animated } from "react-spring";
 import './style.css';
-import barberLogo from './barber-logo.png';
+
+import barberLogo from '../../../barber-logo.png';
 
 import { IoPhonePortraitSharp } from "react-icons/io5";
 
@@ -13,16 +13,18 @@ function SignUp() {
 
   const urlApi = 'https://barbeasy.up.railway.app'
 
+  const navigate = useNavigate();
+
   const [values, setValues] = useState({
     name: '',
     email: '',
     celular: '',
     senha: ''
   });
+
+  const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState(null);
   const [step, setStep] = useState(1);
-
-  const navigate = useNavigate();
 
   const props = useSpring({
     opacity: 1,
@@ -32,17 +34,20 @@ function SignUp() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setIsLoading(true)
 
     if (step === 3) {
       axios.post(`${urlApi}/api/v1/SignUp`, values)
         .then(res => {
           if (res.status === 201) {
+            setIsLoading(false)
             setMessage('Cadastro realizado!');
             setTimeout(() => {
               setMessage(null);
               navigate('/SignIn');
             }, 2000);
           } else {
+            setIsLoading(false)
             setMessage('Erro ao realizar o cadastro!');
             setTimeout(() => {
               setMessage(null);
@@ -52,8 +57,10 @@ function SignUp() {
         })
         .catch(err => {
           if (err.response && err.response.status === 400) {
+            setIsLoading(false)
             setMessage('E-mail ou celular já cadastrados.');
           } else {
+            setIsLoading(false)
             setMessage('Erro ao realizar o cadastro!');
             console.error(err);
           }
@@ -170,7 +177,13 @@ const valuesNoEmpty = values.name && values.email && values.celular && values.se
           {step === 3 && (
             <div className='inputBox'>
               {valuesNoEmpty ?(
-                <input type="submit" value="Cadastrar" />
+                <div className="inputBox__inner__cadastrar">
+                  {isLoading ? (
+                    <div className="loaderCreatingBooking"></div>
+                  ):(
+                    <input type="submit" value="Cadastrar" />
+                  )}
+                </div>
               ):(
                 <button type="button" id="button_next">Preencha todos os campos</button>
               )}

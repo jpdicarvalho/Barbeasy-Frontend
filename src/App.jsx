@@ -25,9 +25,6 @@ import HomeProfessional from './User-Professional/Home/HomeProfessional';
 import ProfileProfessional from './User-Professional/ProfileProfessional/ProfileProfessional';
 import Notification from './User-Professional/Notification/Notification';
 
-import Checkout from './Checkout';
-import Widget from './Widget';
-
 import PropTypes from 'prop-types';
 
 // Função para verificar se o usuário está autenticado (baseado na existência de um token no localStorage)
@@ -84,8 +81,6 @@ const App = () => {
         <Route path="/BookingsHistory" element={<PrivateRoute element={<BookingsHistory />} />} />
         <Route path="/BookingDetails" element={<PrivateRoute element={<BookingDetails />} />} />
 
-        <Route path="/Checkout" element={<PrivateRoute element={<Checkout />} />} />
-        <Route path="/Widget" element={<PrivateRoute element={<Widget />} />} />
       </Routes>
     </Router>
   );

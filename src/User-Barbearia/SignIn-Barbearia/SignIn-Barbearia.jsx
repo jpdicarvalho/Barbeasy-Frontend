@@ -7,7 +7,7 @@ import { MdEmail } from "react-icons/md";
 import { PiPassword } from "react-icons/pi";
 
 import './style.css';
-import barberLogo from './barber-logo.png';
+import barberLogo from '../../../barber-logo.png';
 
 function SignInBarbearia() {
     const urlApi = 'https://barbeasy.up.railway.app'

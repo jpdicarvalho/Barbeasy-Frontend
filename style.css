@@ -60,6 +60,7 @@
   color: #f6f6fc;
   background: #7849f4;
   letter-spacing: 1px;
+  font-family: "Poppins", sans-serif;
   transition: 0.5s;
 }
 .inputBox{
@@ -120,4 +121,9 @@ form .link{
   margin-bottom: 10px;
   font-size: 13px;
   text-align: center;
+}
+.inputBox__inner__cadastrar{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

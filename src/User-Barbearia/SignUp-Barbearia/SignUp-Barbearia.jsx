@@ -14,7 +14,7 @@ import { FaRegUser } from "react-icons/fa6";
 import { MdOutlineEmail } from "react-icons/md";
 import { PiPassword } from "react-icons/pi";
 
-import barberLogo from './barber-logo.png';
+import barberLogo from '../../../barber-logo.png';
 
 function SignUpBarbearia() {
 
