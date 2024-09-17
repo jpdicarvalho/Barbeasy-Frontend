@@ -98,7 +98,7 @@ function SignInBarbearia() {
 
             <h2 id='HeaderSignIn'>Barbeasy</h2>
 
-            <span>Login</span>
+            <h3 style={{color: 'gray'}}>Login</h3>
 
             {message === "Seja Bem Vindo!" ? (
                 <p className="success">{message}</p>
@@ -122,7 +122,7 @@ function SignInBarbearia() {
                     placeholder="Email"
                     maxLength={50}
                     required
-                    />{' '} <MdEmail className='icon__inSignUp'/>
+                    />
                 </div>
 
                 <div className="inputBox">
@@ -145,7 +145,7 @@ function SignInBarbearia() {
                     placeholder="Password"
                     maxLength={8}
                     required
-                    />{' '} <PiPassword className='icon__inSignUp'/>
+                    />
                 </div>
 
                 <div className='container__checkbox__professional'>

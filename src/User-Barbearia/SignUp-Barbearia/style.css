@@ -6,8 +6,8 @@
 }
 #tittle_p{
     margin-bottom: 5px;
-    color: #354249;
-    font-weight: 800;
+    color: #f6f6fc;
+    font-weight: 400;
 }
 #street_icon{
     position: absolute;
@@ -64,4 +64,29 @@
     width: 25px;
     height: 25px;
     color: #f6f6fc;
+}
+.Box__cadastro__barbearia{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.icon__IoStorefrontOutline{
+    width: 20px;
+    height: 20px;
+    color: #f6f6fc;
+    margin-right: 5px;
+    margin-bottom: 2px;
+}
+
+.Box__endereco__barbearia{
+    display: flex;
+    justify-content: start;
+    padding-left: 5px;
+}
+.icon__GrMapLocation{
+    width: 22px;
+    height: 22px;
+    color: #f6f6fc;
+    margin-bottom: 2px;
+    margin-right: 5px;
 }

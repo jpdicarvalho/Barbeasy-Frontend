@@ -5,14 +5,10 @@ import { useSpring, animated } from "react-spring";
 
 import './style.css';
 
-import { MdOutlineStoreMallDirectory } from "react-icons/md";
-import { MdAddRoad } from "react-icons/md";
-import { TbNumber } from "react-icons/tb";
-import { GrMapLocation } from "react-icons/gr";
-import { IoMdLocate } from "react-icons/io";
-import { FaRegUser } from "react-icons/fa6";
-import { MdOutlineEmail } from "react-icons/md";
-import { PiPassword } from "react-icons/pi";
+import { IoStorefrontOutline } from "react-icons/io5";
+import { CiLocationArrow1 } from "react-icons/ci";
+import { VscAccount } from "react-icons/vsc";
+
 
 import barberLogo from '../../../barber-logo.png';
 
@@ -109,7 +105,11 @@ function SignUpBarbearia() {
         </div>
 
         <h2 id="HeaderSignUp">Barbeasy</h2>
-        <span>Cadastro de Barbearia</span>
+        
+        <div className="Box__cadastro__barbearia">
+          <IoStorefrontOutline className='icon__IoStorefrontOutline'/>
+          <h3 style={{color: '#f6f6fc'}}>Cadastro de Barbearia</h3>
+        </div>
 
         {message === "Cadastro realizado!" ? (
           <p className="success">{message}</p>
@@ -137,13 +137,17 @@ function SignUpBarbearia() {
             placeholder="Nome da Barbearia"
             maxLength={50}
             required
-          /> <MdOutlineStoreMallDirectory className='icon__inSignUp'/>
+          /> 
           </div>
           )}
 
           {step >= 2 && (
             <div className="inputBox">
-              <p id="tittle_p">Endereço da Barbearia</p>
+              <div style={{marginTop: '10px'}} className="Box__endereco__barbearia">
+                <CiLocationArrow1 className='icon__GrMapLocation'/>
+                <p id="tittle_p">Endereço</p>
+              </div>
+              
               <input
               type="text"
               id="street"
@@ -161,7 +165,7 @@ function SignUpBarbearia() {
               placeholder="Rua"
               maxLength={30}
               required
-            /> <MdAddRoad id="street_icon"/>
+            />
 
               <input
                 type="text"
@@ -179,7 +183,7 @@ function SignUpBarbearia() {
                 placeholder="Nº"
                 maxLength={5}
                 required
-              />{' '} <TbNumber id="street_number"/>
+              />
               
               <input
                 type="text"
@@ -197,7 +201,7 @@ function SignUpBarbearia() {
                 placeholder="Bairro"
                 maxLength={20}
                 required
-              /><GrMapLocation id="neighborhood_icon"/>
+              />
               
               <input
                 type="text"
@@ -215,13 +219,18 @@ function SignUpBarbearia() {
                 placeholder="Cidade"
                 maxLength={20}
                 required
-              />{' '} <IoMdLocate id="city_icon"/>
+              />
             </div>
           )}
 
           {step >= 3 && (
             <div className="inputBox">
-              <p id="tittle_p">Informações de Login</p>
+
+              <div style={{marginTop: '10px'}} className="Box__endereco__barbearia">
+                <VscAccount className='icon__GrMapLocation'/>
+                <p id="tittle_p">Informações de login</p>
+              </div>
+
               <input
                 type="text"
                 id="usuario"
@@ -238,7 +247,7 @@ function SignUpBarbearia() {
                 placeholder="Nome de Usuário"
                 maxLength={15}
                 required
-              />{' '} <FaRegUser id="Icon_user_barbearia"/>
+              />
 
               <input
                 type="email"
@@ -257,7 +266,7 @@ function SignUpBarbearia() {
                 placeholder="Email"
                 maxLength={50}
                 required
-              />{' '} <MdOutlineEmail id="icon_email"/>
+              />
 
               <input
                 type="password"
@@ -274,7 +283,7 @@ function SignUpBarbearia() {
                 placeholder="Password"
                 maxLength={8}
                 required
-                />{' '} <PiPassword id="icon_password"/>
+                />
             </div>
           )}
 
