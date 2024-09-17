@@ -151,7 +151,7 @@ const valuesNoEmpty = values.name && values.email && values.celular && values.se
                   const truncatedValue = filteredValue.slice(0, 11);
                   setValues({ ...values, celular: truncatedValue })
                 }}
-                placeholder="Ex.: 93 997412541"
+                placeholder="Celular"
                 maxLength={16}
                 required
               /> 
