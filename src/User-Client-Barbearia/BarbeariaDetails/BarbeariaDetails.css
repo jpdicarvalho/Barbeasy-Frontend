@@ -94,9 +94,9 @@
     align-items: center;
     height: 19px;
     width: 19px;
-    border-radius: 50%;
     color: #f6f6f6;
-    margin-right: 3px;
+    margin-right: 2px;
+    background: transparent;
 }
 .location{
     position: relative;
