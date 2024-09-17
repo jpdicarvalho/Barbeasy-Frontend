@@ -71,7 +71,8 @@ function SignIn() {
       </div>
 
       <h2 id="HeaderSignIn">Barbeasy</h2>
-      <span>Login</span>
+      <h3 style={{color: 'gray'}}>Login</h3>
+      
       {message === 'Seja Bem Vindo!' ? (
         <p className="success">{message}</p>
       ) : (
@@ -95,7 +96,7 @@ function SignIn() {
           placeholder="Email"
           maxLength={100}
           required
-        />{' '} <i className="fa-solid fa-envelope Icon"></i>
+        />
       </div>
 
       <div className="inputBox">
@@ -113,8 +114,7 @@ function SignIn() {
           placeholder="Password"
           maxLength={8}
           required
-        />{' '}
-        <i className="fa-solid fa-lock Icon"></i>
+        />
       </div>
 
       <div className="inputBox">

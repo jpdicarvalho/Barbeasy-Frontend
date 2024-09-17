@@ -7,6 +7,7 @@ import './style.css';
 import barberLogo from '../../../barber-logo.png';
 
 import { IoPhonePortraitSharp } from "react-icons/io5";
+import { VscAccount } from "react-icons/vsc";
 
 
 function SignUp() {
@@ -87,7 +88,12 @@ const valuesNoEmpty = values.name && values.email && values.celular && values.se
         </div>
 
         <h2 id="HeaderSignUp">Barbeasy</h2>
-        <span>Cadastro de Usuário</span>
+
+        <div className="Box__cadastro__barbearia">
+          <VscAccount className='icon__IoStorefrontOutline'/>
+          <h3 style={{color: '#f6f6fc'}}>Cadastro de usuário</h3>
+        </div>
+
         {message === "Cadastro realizado!" ? (
           <p className="success">{message}</p>
           ) : (
@@ -110,9 +116,9 @@ const valuesNoEmpty = values.name && values.email && values.celular && values.se
               const truncatedValue = filteredValue.slice(0, 30);
               setValues({ ...values, name: truncatedValue });
             }}
-            placeholder="Nome de Usuário"
+            placeholder="Nome"
             required
-          /> <i className="fa-regular fa-user Icon"></i>
+          /> 
 
 
           <input
@@ -128,7 +134,7 @@ const valuesNoEmpty = values.name && values.email && values.celular && values.se
             placeholder="Email"
             maxLength={100}
             required
-          /> <i className="fa-solid fa-envelope" id="Icon_User"></i>
+          /> 
           </div>
 
           {step >= 2 && (
@@ -148,7 +154,7 @@ const valuesNoEmpty = values.name && values.email && values.celular && values.se
                 placeholder="Ex.: 93 997412541"
                 maxLength={16}
                 required
-              /> <IoPhonePortraitSharp id="Icon_Barbearia"/>
+              /> 
               <input
                 type="password"
                 id="senha"
@@ -165,7 +171,7 @@ const valuesNoEmpty = values.name && values.email && values.celular && values.se
                 placeholder="Password"
                 maxLength={8}
                 required
-              /> <i className="fa-solid fa-lock" id="Icon_User"></i>
+              /> 
             </div>
           )}
           {step < 3 && (
