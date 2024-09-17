@@ -86,13 +86,17 @@
     border-radius: 50%;
     height: 30px;
     width: 30px;
-    background: #2706836d;
+    background: #270683;
 }
 .icon__HiOutlineShare{
-    height: 21px;
-    width: 21px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 19px;
+    width: 19px;
     border-radius: 50%;
     color: #f6f6f6;
+    margin-right: 3px;
 }
 .location{
     position: relative;
