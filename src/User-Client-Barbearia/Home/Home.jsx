@@ -179,7 +179,9 @@ return (
                     
                   <div className="section">
                       <div className="box__logo__barbeasy">
+                        <div className="inner__img__logo__barbeasy">
                           <img src={barberLogo} className="img__logo__barbeasy"/>
+                        </div>
                       </div>
 
                       <div className="Barbearias">

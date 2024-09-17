@@ -283,14 +283,21 @@
   height: 80px;
   background: transparent;
 }
-.img__logo__barbeasy{
+.inner__img__logo__barbeasy{
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 50%;
-  padding: 5px;
+  border: 1px solid #f6f6fc;
+  background: #1c2035;
   width: 50px;
   height: 50px;
-  background: #1c2035;
-  border: 1px solid #f6f6fc
-
+  overflow: hidden;
+}
+.img__logo__barbeasy{
+  width: 37px;
+  height: 37px;
+  background: transparent
 }
 .icon__star{
   display: flex;
