@@ -1,0 +1,13 @@
+.container__statistic__barbearia{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100dvh;
+    height: 100dvh;
+}
+.section__grafic__barbearia{
+    width: 385px;
+    height: 250px;
+    overflow-y: hidden;
+    overflow-x: scroll;
+}

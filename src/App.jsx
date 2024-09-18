@@ -13,6 +13,7 @@ import ProfileBarbearia from './User-Barbearia/ProfileBarbearia/ProfileBarberia'
 import GetAccessToken from './User-Barbearia/ProfileBarbearia/GetAccessToken';
 import ProfessionalDetails from './User-Barbearia/ProfessionalDetails/professionalDetails';
 import ScheduleBarbearia from './User-Barbearia/ScheduleBarbearia/ScheduleBarbearia';
+import StatisticBarbearia from './User-Barbearia/StatisticBarbearia/StatisticBarbearia';
 
 import Home from '../src/User-Client-Barbearia/Home/Home';
 import UserProfile from './User-Client-Barbearia/UserProfile/UserProfile';
@@ -66,6 +67,7 @@ const App = () => {
         <Route path="/ProfessionalDetails" element={<PrivateRoute element={<ProfessionalDetails />} />} />
         <Route path="/GetAccessToken" element={<PrivateRoute element={<GetAccessToken />} />} />
         <Route path="/ScheduleBarbearia" element={<PrivateRoute element={<ScheduleBarbearia />} />} />
+        <Route path="/StatisticBarbearia" element={<PrivateRoute element={<StatisticBarbearia />} />} />
         
 
         <Route path="/HomeProfessional" element={<PrivateRoute element={<HomeProfessional />} />} />

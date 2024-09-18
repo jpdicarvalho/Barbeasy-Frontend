@@ -57,6 +57,9 @@ const navigateToProfileBarbearia = () =>{
 const navigateToScheduleBarbearia = () =>{
   navigate("/ScheduleBarbearia");
 }
+const navigateStatisticBarbearia = () =>{
+  navigate("/StatisticBarbearia");
+}
 
 //Função LogOut
 const logoutClick = () => {
@@ -363,7 +366,7 @@ return (
                   </div>
 
                   <div className='inner__buttons__header'>
-                    <button className='button__header'>
+                    <button className='button__header' onClick={navigateStatisticBarbearia}>
                       <SlGraph className='icon__RiExchangeFundsLine'/>
                     </button>
                     <p className='label__button__header'>Relatório</p>
