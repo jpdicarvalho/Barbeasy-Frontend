@@ -27,6 +27,7 @@
     "react-router-dom": "^6.17.0",
     "react-slick": "^0.29.0",
     "react-spring": "^9.7.3",
+    "recharts": "^2.12.7",
     "slick-carousel": "^1.8.1",
     "swiper": "^11.0.7"
   },

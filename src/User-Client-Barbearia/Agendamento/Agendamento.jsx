@@ -450,11 +450,7 @@ export function Agendamento({
     
   };
 
-  if(timeSelected){
-    //All times that will be busy by the selected service
-    let timeSelected = timesBusyByService[0].length > 1 ? timesBusyByService.join(','):timesBusyByService;
-    console.log(timeSelected.split(','))
-  }
+
   //Function to create pre-booking
   const createPreBooking = (payment_id, paymentObject) =>{
     if(userId && barbeariaId && professionalId && serviceId && selectedDay && timeSelected && formattedDate && payment_id && paymentObject){
@@ -545,10 +541,11 @@ const [isBookingCreated, setIsBookingCreated] = useState(false)
           console.error('Erro ao criar agendamento', error)
           if(error.response.status === 401){
             setIsBookingCreated(false)
-              setMessageConfirmedBooking("Número de agendamentos para esse dia excedido. Por favor, tente outro dia.")
+
+              setMessageConfirmedBooking(`Os horários ${error.response.data.timesMach} já estão oculpados. Selecione outro horário ou um serviço com menor duração.`)
               return setTimeout(() => {
                 setMessageConfirmedBooking('')
-              }, 3000);
+              }, 8000);
           }
           setMessageConfirmedBooking("Houve um erro ao criar seu agendamento. Tente novamente mais tarde.")
           setTimeout(() => {

@@ -62,8 +62,7 @@ function BookingsHistory (){
 
     const [allBookings, setAllBookings] = useState ([]);
     const [search, setSearch] = useState('');
-    const [isLoading, setIsLoading] = useState (false);
-    const [message, setMessage] = useState ('');
+    const [isLoading, setIsLoading] = useState (true);
 
     const getAllBookings = () =>{
         axios.get(`${urlApi}/api/v1/bookingsOfUser/${userId}`, {
@@ -71,15 +70,14 @@ function BookingsHistory (){
                 'Authorization': `Bearer ${token}`
               }
         }).then(res =>{
-            setAllBookings(res.data.Bookings)
-            setIsLoading(true)
-            if(res.data.Success != 'Success'){
-                setMessage('Nenhum agendamento encontrado.')
-                setTimeout(() => {
-                    setMessage('');
-                }, 3000);
+            if(res.data.Bookings === 0){
+                return setIsLoading(false)
             }
+            setAllBookings(res.data.Bookings)
+            setIsLoading(false)
+                
         }).catch(err =>{
+            setIsLoading(false)
             console.error('Erro ao buscar agendamentos', err)
         })
     }
@@ -140,7 +138,7 @@ function BookingsHistory (){
                         <input type="search" className='Inner__input__search' value={search} onChange={(e) => setSearch(e.target.value)} placeholder='Buscar agendamento'/>
                     </div>
                 </div>
-                {!isLoading ?(
+                {isLoading?(
                     <div className='container__loading__in__bookings__history'>
                         <div className="loaderCreatingBooking"></div>
                     </div>
