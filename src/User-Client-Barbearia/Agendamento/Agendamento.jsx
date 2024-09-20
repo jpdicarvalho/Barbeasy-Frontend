@@ -182,10 +182,38 @@ export function Agendamento({
   const currentDay = getCurrentDayOfWeek()
   const currentTime = getCurrentTime()
   
+  //Function to convert data selected
+  function converterData(dataStr) {
+    const meses = {
+      'Jan': 1,
+      'Fev': 2,
+      'Mar': 3,
+      'Abr': 4,
+      'Mai': 5,
+      'Jun': 6,
+      'Jul': 7,
+      'Ago': 8,
+      'Set': 9,
+      'Out': 10,
+      'Nov': 11,
+      'Dez': 12
+    };
+  
+    // Remover o nome do dia da semana
+    const partes = dataStr.split(', ')[1].split(' ');
+  
+    const dia = partes[0];
+    const mes = meses[partes[2]];
+    const ano = partes[4];
+  
+    return `${dia}-${mes}-${ano}`;
+  }
+  
   // Function to get all booking
   const handleDateClick = (dayOfWeek, day, month, year) => {
   setSelectedDay(`${dayOfWeek}, ${day} de ${month} de ${year}`)
   let selectedDate = `${dayOfWeek}, ${day} de ${month} de ${year}`;
+  
   
   let timesOfDaySelected = timesDays[dayOfWeek]; //Passa o índice do objeto, correspondente ao dia selecionado
   timesOfDaySelected = timesOfDaySelected.split(',');//Separa os horários que estão concatenados
@@ -457,6 +485,7 @@ export function Agendamento({
         
         //All times that will be busy by the selected service
         let timeSelected = timesBusyByService[0].length > 1 ? timesBusyByService.join(','):timesBusyByService;
+        let selectedDayFormated = converterData(selectedDay)
 
         //Object to agroup all informations to make a new booking
         const newBooking = {
@@ -467,7 +496,8 @@ export function Agendamento({
             payment_id,
             selectedDay,
             timeSelected,
-            formattedDate
+            formattedDate,
+            selectedDayFormated
         }
 
         axios.post(`${urlApi}/api/v1/createBookingWithPayment/`, newBooking, {
@@ -510,6 +540,7 @@ const [isBookingCreated, setIsBookingCreated] = useState(false)
 
         //All times that will be busy by the selected service
         let timeSelected = timesBusyByService[0].length > 1 ? timesBusyByService.join(','):timesBusyByService;
+        let selectedDayFormated = converterData(selectedDay)
 
         //Object to agroup all informations to make a new booking
         const newBooking = {
@@ -520,7 +551,8 @@ const [isBookingCreated, setIsBookingCreated] = useState(false)
             payment_id: 0,
             selectedDay,
             timeSelected,
-            formattedDate
+            formattedDate,
+            selectedDayFormated
         }
 
         axios.post(`${urlApi}/api/v1/createBookingWithoutPayment/`, newBooking, {
@@ -529,7 +561,6 @@ const [isBookingCreated, setIsBookingCreated] = useState(false)
             }
         })
         .then(res => {
-          console.log(res)
             if(res.data.Success === 'Success'){
                 setIsBookingCreated(false)
                 setMessageConfirmedBooking("Agendamento realizado com sucesso!")

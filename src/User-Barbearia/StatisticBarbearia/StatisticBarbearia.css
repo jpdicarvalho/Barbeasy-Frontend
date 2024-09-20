@@ -2,12 +2,28 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    width: 100dvh;
+    width: 385px;
     height: 100dvh;
 }
 .section__grafic__barbearia{
     width: 385px;
-    height: 250px;
+    height: 210px;
     overflow-y: hidden;
     overflow-x: scroll;
+}
+.section__grafic__barbearia::-webkit-scrollbar {
+    height: 2px;
+}
+.section__grafic__barbearia::-webkit-scrollbar-thumb {
+    background: #4a17d5; 
+    border-radius: 5px;
+}
+.section__grafic__barbearia::-webkit-scrollbar-thumb:hover {
+    background: #f6f6f6; 
+}
+.section__input__search__statistic__barbearia{
+    display: flex;
+    justify-content: start;
+    flex-direction: column;
+    width: 100%;
 }
