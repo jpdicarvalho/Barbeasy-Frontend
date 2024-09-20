@@ -206,7 +206,7 @@ export function Agendamento({
     const mes = meses[partes[2]];
     const ano = partes[4];
   
-    return `${dia}-${mes}-${ano}`;
+    return `${ano}-${mes}-${dia}`;
   }
   
   // Function to get all booking
