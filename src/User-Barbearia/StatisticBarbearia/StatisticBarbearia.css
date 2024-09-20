@@ -6,7 +6,7 @@
     height: 100dvh;
 }
 .section__grafic__barbearia{
-    width: 325px;
+    width: 355px;
     height: 210px;
     overflow-y: hidden;
     overflow-x: scroll;
@@ -27,4 +27,21 @@
     justify-content: start;
     flex-direction: column;
     width: 100%;
+}
+.date_time__booking__in__statistic__barbearia{
+    display: flex;
+    flex-direction: column;
+    width: 260px;
+    margin-right: 5px
+}
+.date_booking__in__statistic__barbearia{
+    font-size: 14px;
+    color: gray;
+    text-align: right;
+}
+.time_booking__in__statistic__barbearia{
+    font-size: 15px;
+    color: gray;
+    text-align: right;
+
 }

@@ -5,6 +5,13 @@ import { AreaChart, Area, XAxis, Tooltip } from 'recharts';
 import { FaLayerGroup } from "react-icons/fa";
 import { IoIosSearch } from "react-icons/io";
 
+import { GiRazor } from "react-icons/gi";
+import { MdOutlineTimer } from "react-icons/md";
+import { IoPersonCircleOutline } from "react-icons/io5";
+import { RiExchangeFundsLine } from "react-icons/ri";
+import { BsGraphDownArrow } from "react-icons/bs";
+import { PiContactlessPayment } from "react-icons/pi";
+
 import './StatisticBarbearia.css';
 
 const monthNames = [
@@ -14,10 +21,14 @@ const monthNames = [
 function StatisticBarbearia() {
 
   const urlApi = 'https://barbeasy.up.railway.app';
+  const urlCloudFront = "https://d15o6h0uxpz56g.cloudfront.net/";
+
   const navigate = useNavigate();
   const graficRef = useRef(null);
 
   const date = new Date();
+  const currentMonth = date.getMonth(); // Mês atual (0-11)
+  const month = currentMonth + 1;
   const year = date.getFullYear();
 
   // Buscando informações do usuário logado
@@ -51,7 +62,6 @@ function StatisticBarbearia() {
   useEffect(() => {
     // Função para rolar até o mês atual
     const scrollToCurrentMonth = () => {
-      const currentMonth = date.getMonth(); // Mês atual (0-11)
 
       // Se houver um gráfico e o dataBookings estiver preenchido, rola
       if (graficRef.current && dataBookings.length > 0) {
@@ -67,7 +77,47 @@ function StatisticBarbearia() {
 
     scrollToCurrentMonth(); // Executa após a renderização do gráfico
   }, [dataBookings]);
-//================= Section data for grafic =================
+
+//================= Section list all bookings by month =================
+const [bookings, setBookings] = useState([]);
+const [expandedCardBooking, setExpandedCardBooking] = useState([]);
+const [messagemNotFound, setMessagemNotFound] = useState("");
+
+//Function to get all bookings of today
+const handleDateClick = () => {
+  axios.get(`${urlApi}/api/v1/bookingsByMonth/${barbeariaId}/${month}/${year}`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  })
+  .then(res => {
+    if(res.status === 200){
+      setBookings(res.data.bookings);
+      // Chamando a função para ordenar os bookings por menor horário
+      //orderBookings(bookings);
+    }else{
+      setBookings(false)
+      setMessagemNotFound("Sem agendamento por enquanto...")
+    }
+  })
+  .catch(err => console.log(err));
+}
+
+useEffect(() =>{
+  handleDateClick()
+}, [dataBookings])
+
+//Function to expanded booking cards
+const toggleItem = (itemId) => {
+  if (expandedCardBooking.includes(itemId)) {
+    setExpandedCardBooking(expandedCardBooking.filter(id => id !== itemId));
+  } else {
+    setExpandedCardBooking([...expandedCardBooking, itemId]);
+  }
+};
+
+console.log(bookings)
+
   return (
     <div className='container__statistic__barbearia'>
       <div>
@@ -106,6 +156,98 @@ function StatisticBarbearia() {
           />
         </div>
       </div>
+      {bookings &&(
+                    <>
+                      {bookings.length > 0 ? (
+                        bookings.map((booking, index) => {
+
+                          return(
+                                <div key={index} className='container__booking' onClick={() => toggleItem(booking.booking_id)}>
+                                  <div className={`${booking.paymentStatus === "pending" ? 'booking__pending':'booking' } ${expandedCardBooking.includes(booking.booking_id) ? 'expandCard':''}`}>
+                                    <div className="container_professional">
+                                      {booking.user_image != "default.jpg" ?(
+                                        <div className='container__img__client__booking'>
+                                          <div className='user__image__professional'>
+                                            <img src={urlCloudFront + booking.user_image} id='img__user__professional'/>
+                                          </div>
+                                          <p className='phone__client'>Cliente</p>
+                                        </div>
+                                        ):(
+                                          <div className='container__img__client__booking'>
+                                            <div className='user__image__professional'>
+                                              <p className='firstLetter__client_Span'>{booking.user_name.charAt(0).toUpperCase()}</p>
+                                            </div>
+                                            <p className='phone__client'>Cliente</p>
+                                          </div>
+                                        )}
+                                        <div className='container__name__client'>
+                                          <p className='name__client'>{booking.user_name}</p>
+                                          <p className='phone__client'>{booking.user_phone}</p>
+                                          
+                                        </div>
+                                      
+                                      <div className="date_time__booking__in__statistic__barbearia">
+                                          <p className='date_booking__in__statistic__barbearia'>{booking.booking_date}</p>
+                                          <p className='time_booking__in__statistic__barbearia'>{booking.booking_time.split(',')[0]}</p>
+                                      </div>
+
+                                    </div>
+                                    <div className="section__information__booking">
+                                      <div className="tittle__information">
+                                        <p className='section__icon'>
+                                          <PiContactlessPayment className='icon__information'/>
+                                          Status do pagamento
+                                        </p>
+                                        <p>{booking.paymentStatus === "pending"? 'Pendente':'Aprovado'}</p>
+                                      </div>
+                                      <div className="tittle__information__GiRazor">
+                                        <p className='section__icon'>
+                                          <GiRazor className='icon__information__GiRazor'/>
+                                          {booking.service_name}
+                                        </p>
+                                        <p>{booking.service_price}</p>
+                                      </div>
+                                      <div className="tittle__information">
+                                        <p className='section__icon'>
+                                          <MdOutlineTimer className='icon__information'/>
+                                          Duração
+                                        </p>
+                                        <p>{booking.service_duration}</p>
+                                      </div>
+                                    </div>
+                                    <div className="section__information__booking">
+                                      <div className="tittle__information">
+                                        <p className='section__icon'>
+                                          <IoPersonCircleOutline className='icon__information' />
+                                          Profissional
+                                        </p>
+                                        <p>{booking.professional_name}</p>
+                                      </div>
+                                      <div className="tittle__information">
+                                        <p className='section__icon'>
+                                          <RiExchangeFundsLine className='icon__information' />
+                                          Comissão
+                                        </p>
+                                        <p>{booking.service_commission_fee}</p>
+                                      </div>
+                                    </div>
+                                </div>
+                                </div>
+                            );
+                        })
+                      ):(
+                        <div className="message__notFound">
+                        <p style={{fontSize:"20px"}}>{messagemNotFound}</p>
+                      </div>
+                      )}
+                    </>
+                  )}
+                  {!bookings &&(
+                    <div className='message__notFound'>
+                      <BsGraphDownArrow  className='icon__BsGraphDownArrow'/>
+                      <p>{messagemNotFound}</p>
+                    </div>
+                  )}
     </div>
   );
 }

@@ -225,7 +225,6 @@ useEffect(() =>{
   }
   getAmountOfMonth()
 }, [])
-console.log(bookings)
 
 return (
     <div className="container__main__home__barbearia">
