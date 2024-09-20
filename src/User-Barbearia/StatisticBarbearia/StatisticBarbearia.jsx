@@ -116,7 +116,7 @@ const toggleItem = (itemId) => {
   }
 };
 
-console.log(bookings)
+console.log(bookings, dataBookings)
 
   return (
     <div className='container__statistic__barbearia'>
@@ -157,7 +157,7 @@ console.log(bookings)
         </div>
       </div>
       {bookings &&(
-                    <>
+                    <div className='section__bookings__in__statistic__barbearia'>
                       {bookings.length > 0 ? (
                         bookings.map((booking, index) => {
 
@@ -240,7 +240,7 @@ console.log(bookings)
                         <p style={{fontSize:"20px"}}>{messagemNotFound}</p>
                       </div>
                       )}
-                    </>
+                    </div>
                   )}
                   {!bookings &&(
                     <div className='message__notFound'>

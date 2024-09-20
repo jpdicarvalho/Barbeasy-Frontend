@@ -45,3 +45,20 @@
     text-align: right;
 
 }
+.section__bookings__in__statistic__barbearia{
+    width: 385px;
+    height: 300px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.section__bookings__in__statistic__barbearia::-webkit-scrollbar {
+    width: 5px;
+}
+.section__bookings__in__statistic__barbearia::-webkit-scrollbar-thumb {
+    background: #4a17d5; 
+    border-radius: 5px;
+}
+.section__bookings__in__statistic__barbearia::-webkit-scrollbar-thumb:hover {
+    background: #f6f6f6; 
+}
