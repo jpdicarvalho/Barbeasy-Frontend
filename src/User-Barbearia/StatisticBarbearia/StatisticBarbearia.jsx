@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from "react-router-dom"
 import axios from 'axios';
-import { AreaChart, Area, XAxis, Tooltip } from 'recharts';
+import { AreaChart, Area, XAxis, Tooltip, CartesianGrid } from 'recharts';
 import { FaLayerGroup } from "react-icons/fa";
 import { IoIosSearch } from "react-icons/io";
-
+import { IoIosArrowDown } from "react-icons/io";
 import { GiRazor } from "react-icons/gi";
 import { MdOutlineTimer } from "react-icons/md";
 import { IoPersonCircleOutline } from "react-icons/io5";
@@ -30,7 +30,7 @@ function StatisticBarbearia() {
   const currentMonth = date.getMonth(); // Mês atual (0-11)
   const month = currentMonth + 1;
   const year = date.getFullYear();
-
+console.log(month)
   // Buscando informações do usuário logado
   const token = localStorage.getItem('token');
   const userData = localStorage.getItem('dataBarbearia'); // Obtendo os dados salvos no localStorage
@@ -116,30 +116,94 @@ const toggleItem = (itemId) => {
   }
 };
 
-console.log(bookings, dataBookings)
 
+const CustomTooltip = ({ payload }) => {
+  if (payload && payload.length) {
+    return (
+      <div className="custom-tooltip" style={{
+        color: '#fff'
+      }}>
+        <p className="label">{`Agendamentos: ${payload[0].value}`}</p>
+      </div>
+    );
+  }
+
+  return null;
+};
   return (
     <div className='container__statistic__barbearia'>
-      <div>
-        <h3>{year}</h3>
-      </div>
-      <div className='section__grafic__barbearia' ref={graficRef}>
-        <AreaChart
-          width={550}
-          height={200}
-          data={dataBookings}
-          margin={{
-            top: 10,
-            right: 30,
-            left: 30,
-            bottom: 0,
-          }}>
+        <h3 className='box__details__statistic__barbearia'>2024</h3>
+        <IoIosArrowDown id='arrow'/>  
 
-          <XAxis dataKey='month' />
-          <Tooltip />
-          <Area type="monotone" dataKey="Agendamentos" stroke="#4a17d537" fill="#4a17d537" />
-        </AreaChart>
+        <div className='section__grafic__barbearia' ref={graficRef}>
+
+        <AreaChart
+        width={550}
+        height={200}
+        data={dataBookings}
+        stackOffset="expand"
+        margin={{
+          top: 0,
+          right: 30,
+          left: 30,
+          bottom: 0,
+        }}>
+        <defs>
+          <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor="#4a17d5" stopOpacity={0.8} />
+            <stop offset="95%" stopColor="#4a17d5" stopOpacity={0} />
+          </linearGradient>
+        </defs>
+
+        <XAxis 
+          dataKey="month" 
+          tick={({ x, y, payload }) => {
+            const isCurrentMonth = monthNames[currentMonth] === payload.value;
+            return (
+              <text 
+                x={x} 
+                y={y + 10} 
+                fill={isCurrentMonth ? '#f6f6f6' : 'gray'} 
+                textAnchor="middle"
+              >
+                {payload.value}
+              </text>
+            );
+          }}
+        />
+       
+       <Tooltip
+        content={<CustomTooltip />}
+        />
+        <Area 
+          type="monotone" 
+          dataKey="Agendamentos" 
+          stroke="#8884d8"
+          fillOpacity={1} 
+          fill="url(#colorUv)"  
+        >
+        </Area>
+      </AreaChart>
+
+</div>
+
+      <div className='details__amount__statistic__barbearia'>
+          <div className='inner__details__statistic__barbearia'>
+            <p style={{color: 'gray'}}>Faturamento</p>
+            <h3>R$548,050</h3>
+          </div>
+        <div >
+          <p style={{color: 'gray'}}>Comissões</p>
+          <div className='comission__professional__statistic__barbearia'>
+            <h3>Jorger</h3>
+            <h3>R$548,050</h3>
+          </div>
+          
+        </div>
+        
+              
       </div>
+      
       <div className='section__input__search__statistic__barbearia'>
         <div className='tittle__historic'>
           <FaLayerGroup className='icon__FaLayerGroup' />
@@ -163,7 +227,7 @@ console.log(bookings, dataBookings)
 
                           return(
                                 <div key={index} className='container__booking' onClick={() => toggleItem(booking.booking_id)}>
-                                  <div className={`${booking.paymentStatus === "pending" ? 'booking__pending':'booking' } ${expandedCardBooking.includes(booking.booking_id) ? 'expandCard':''}`}>
+                                  <div className={`${booking.paymentStatus === "pending" ? 'booking__pending':'booking__in__statistic__barbearia' } ${expandedCardBooking.includes(booking.booking_id) ? 'expandCard':''}`}>
                                     <div className="container_professional">
                                       {booking.user_image != "default.jpg" ?(
                                         <div className='container__img__client__booking'>
