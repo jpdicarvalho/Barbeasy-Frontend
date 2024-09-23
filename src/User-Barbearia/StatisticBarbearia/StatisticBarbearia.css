@@ -77,9 +77,28 @@
 }
 .section__input__search__statistic__barbearia{
     display: flex;
-    justify-content: start;
-    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
     width: 100%;
+}
+.inner__input__search__statistic__barbearia{
+    width: 100%;
+}
+.btn__cancel__search__booking{
+    opacity: 1;
+    width: 60px;
+    height: 45px;
+    margin-right: 5px;
+    margin-top: 65px;
+    color: #f6f6f6;
+    border: none;
+    background: transparent;
+}
+.hidden_btn__cancel__search__booking{
+    opacity: 0;
+    width: 0;
+    height: 0;
 }
 .date_time__booking__in__statistic__barbearia{
     display: flex;

@@ -170,24 +170,28 @@ const handleChangeYear = () =>{
   setYear(year === 2024 ? 2023:2024)
   setDropdownYear(!dropdownYear)
 }
-
+console.log(isHiddenSectionStatistic)
   return (
     <div className='container__statistic__barbearia'>
       <div className='section__input__search__statistic__barbearia'>
-        <div className='tittle__historic'>
-          <FaLayerGroup className='icon__FaLayerGroup' />
-          <h2>Histórico</h2>
+        <div className='inner__input__search__statistic__barbearia'>
+          <div className='tittle__historic'>
+            <FaLayerGroup className='icon__FaLayerGroup' />
+            <h2>Histórico</h2>
+          </div>
+          <div className='Box__input__Search' onClick={handleVisibilitySectionStatistic}>
+            <IoIosSearch id='lupa__in__bookings__history' />
+            <input
+              type="search"
+              className='Inner__input__search'
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder='Busque por dia, mês, horário, serviço e profissional'
+            />
+          </div>
         </div>
-        <div className='Box__input__Search' onClick={handleVisibilitySectionStatistic}>
-          <IoIosSearch id='lupa__in__bookings__history' />
-          <input
-            type="search"
-            className='Inner__input__search'
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder='Busque por dia, mês, horário, serviço e profissional'
-          />
-        </div>
+        
+        <button className={` ${isHiddenSectionStatistic ? 'hidden_btn__cancel__search__booking':' btn__cancel__search__booking'}`} onClick={handleVisibilitySectionStatistic}>Cancelar</button>
       </div>
 
       {isHiddenSectionStatistic && (
