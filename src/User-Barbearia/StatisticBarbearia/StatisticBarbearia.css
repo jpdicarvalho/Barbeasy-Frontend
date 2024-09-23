@@ -3,7 +3,7 @@
     align-items: center;
     flex-direction: column;
     width: 385px;
-    height: auto;
+    min-height: 100dvh;
 }
 .dropdown__year__statistic__barbearia{
     display: flex;
@@ -133,4 +133,16 @@
     color: #354249;
     transition: 0.5s;
     overflow: hidden;
+}
+.message__notFound__statistic__barbearia{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        font-size: 20px;
+        font-weight: bold;
+        color: #354249;
+        height: 700px;
+        width: 100%;
+        text-align: center;
 }

@@ -134,6 +134,23 @@ useEffect(() =>{
   handleDateClick()
 }, [dataBookings])
 
+const showSectionStatistic = () =>{
+  getAllBookings()
+  setSearch('')
+  setIsHiddenSectionStatistic(false)
+}
+
+const hiddenSectionStatistic = () =>{
+  getAllBookings()
+  setSearch('')
+  setIsHiddenSectionStatistic(true)
+}
+
+const handleChangeYear = () =>{
+  setYear(year === 2024 ? 2023:2024)
+  setDropdownYear(!dropdownYear)
+}
+
 // Convertendo o valor do search para minúsculo
 const searchLowerCase = search.toLowerCase();
 
@@ -166,10 +183,6 @@ const CustomTooltip = ({ payload }) => {
   return null;
 };
 
-const handleVisibilitySectionStatistic = () =>{
-  getAllBookings()
-  setIsHiddenSectionStatistic(!isHiddenSectionStatistic)
-}
 
 const handleChangePayload = (payloadSelected) =>{
   setChangedPayload(payloadSelected)
@@ -178,12 +191,8 @@ const handleChangePayload = (payloadSelected) =>{
 const handleDropdowYear = () =>{
   setDropdownYear(!dropdownYear)
 }
+console.log(isHiddenSectionStatistic)
 
-const handleChangeYear = () =>{
-  setYear(year === 2024 ? 2023:2024)
-  setDropdownYear(!dropdownYear)
-}
-console.log(bookings)
   return (
     <div className='container__statistic__barbearia'>
       <div className='section__input__search__statistic__barbearia'>
@@ -192,7 +201,7 @@ console.log(bookings)
             <FaLayerGroup className='icon__FaLayerGroup' />
             <h2>Histórico</h2>
           </div>
-          <div className='Box__input__Search' onClick={handleVisibilitySectionStatistic}>
+          <div className='Box__input__Search' onClick={showSectionStatistic}>
             <IoIosSearch id='lupa__in__bookings__history' />
             <input
               type="search"
@@ -204,7 +213,7 @@ console.log(bookings)
           </div>
         </div>
         
-        <button className={` ${isHiddenSectionStatistic ? 'hidden_btn__cancel__search__booking':' btn__cancel__search__booking'}`} onClick={handleVisibilitySectionStatistic}>Cancelar</button>
+        <button className={` ${isHiddenSectionStatistic ? 'hidden_btn__cancel__search__booking':' btn__cancel__search__booking'}`} onClick={hiddenSectionStatistic}>Cancelar</button>
       </div>
 
       {isHiddenSectionStatistic && (
@@ -299,7 +308,7 @@ console.log(bookings)
       
       {bookings &&(
                     <div className='section__bookings__in__statistic__barbearia'>
-                      {bookings.length > 0 ? (
+                      {bookingSearch.length > 0 ? (
                         bookingSearch.map((booking, index) => {
 
                           return(
@@ -377,8 +386,8 @@ console.log(bookings)
                             );
                         })
                       ):(
-                        <div className="message__notFound">
-                        <p style={{fontSize:"20px"}}>{messagemNotFound}</p>
+                        <div className="message__notFound__statistic__barbearia">
+                        <p style={{fontSize:"20px"}}>{messagemNotFound ? messagemNotFound:'Nenhum agendamento encontrado.'}</p>
                       </div>
                       )}
                     </div>
