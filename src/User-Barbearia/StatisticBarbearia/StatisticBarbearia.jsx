@@ -61,6 +61,7 @@ const chartConfig = {
   const [search, setSearch] = useState('');
   const [dataBookings, setDataBookings] = useState([]);
 
+
 //================= Section data for grafic =================
   // Função para buscar os agendamentos
   const getAllBookings = () => {
@@ -99,6 +100,7 @@ const chartConfig = {
     scrollToCurrentMonth(); // Executa após a renderização do gráfico
   }, [dataBookings]);
 
+  
 //================= Section list all bookings by month =================
 const [bookings, setBookings] = useState([]);
 const [expandedCardBooking, setExpandedCardBooking] = useState([]);
@@ -131,6 +133,17 @@ const handleDateClick = () => {
 useEffect(() =>{
   handleDateClick()
 }, [dataBookings])
+
+// Convertendo o valor do search para minúsculo
+const searchLowerCase = search.toLowerCase();
+
+// Buscando Barbearia pelo input Search
+const bookingSearch = bookings.filter((booking) =>
+  booking.booking_date.toLowerCase().includes(searchLowerCase) ||
+  booking.service_name.toLowerCase().includes(searchLowerCase) ||
+  booking.professional_name.toLowerCase().includes(searchLowerCase) ||
+  booking.booking_time.toLowerCase().includes(searchLowerCase)
+);
 
 //Function to expanded booking cards
 const toggleItem = (itemId) => {
@@ -170,7 +183,7 @@ const handleChangeYear = () =>{
   setYear(year === 2024 ? 2023:2024)
   setDropdownYear(!dropdownYear)
 }
-console.log(isHiddenSectionStatistic)
+console.log(bookings)
   return (
     <div className='container__statistic__barbearia'>
       <div className='section__input__search__statistic__barbearia'>
@@ -287,7 +300,7 @@ console.log(isHiddenSectionStatistic)
       {bookings &&(
                     <div className='section__bookings__in__statistic__barbearia'>
                       {bookings.length > 0 ? (
-                        bookings.map((booking, index) => {
+                        bookingSearch.map((booking, index) => {
 
                           return(
                                 <div key={index} className='container__booking' onClick={() => toggleItem(booking.booking_id)}>
