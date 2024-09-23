@@ -58,11 +58,10 @@ const chartConfig = {
   const userInformation = JSON.parse(userData); // Transformando os dados para JSON
   const barbeariaId = userInformation.barbearia[0].id;
 
+  const [isLoading, setIsLoading] = useState (true);
   const [search, setSearch] = useState('');
   const [dataBookings, setDataBookings] = useState([]);
 
-
-//================= Section data for grafic =================
   // Função para buscar os agendamentos
   const getAllBookings = () => {
     axios.get(`${urlApi}/api/v1/amountBookings/${barbeariaId}/${year}`, {
@@ -120,10 +119,10 @@ const handleDateClick = () => {
   .then(res => {
     if(res.status === 200){
       setBookings(res.data.bookings);
-      // Chamando a função para ordenar os bookings por menor horário
-      //orderBookings(bookings);
+      setIsLoading(false)
     }else{
       setBookings(false)
+      setIsLoading(false)
       setMessagemNotFound("Sem agendamento por enquanto...")
     }
   })
@@ -191,213 +190,222 @@ const handleChangePayload = (payloadSelected) =>{
 const handleDropdowYear = () =>{
   setDropdownYear(!dropdownYear)
 }
-console.log(isHiddenSectionStatistic)
 
   return (
     <div className='container__statistic__barbearia'>
-      <div className='section__input__search__statistic__barbearia'>
-        <div className='inner__input__search__statistic__barbearia'>
-          <div className='tittle__historic'>
-            <FaLayerGroup className='icon__FaLayerGroup' />
-            <h2>Histórico</h2>
+        <div className='section__input__search__statistic__barbearia'>
+          <div className='inner__input__search__statistic__barbearia'>
+            <div className='tittle__historic'>
+              <FaLayerGroup className='icon__FaLayerGroup' />
+              <h2>Relatório</h2>
+            </div>
+            <div className='Box__input__Search' onClick={showSectionStatistic}>
+              <IoIosSearch id='lupa__in__bookings__history' />
+              <input
+                type="search"
+                className='Inner__input__search'
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder='Busque por dia, mês, horário, serviço e profissional'
+              />
+            </div>
           </div>
-          <div className='Box__input__Search' onClick={showSectionStatistic}>
-            <IoIosSearch id='lupa__in__bookings__history' />
-            <input
-              type="search"
-              className='Inner__input__search'
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder='Busque por dia, mês, horário, serviço e profissional'
-            />
-          </div>
-        </div>
-        
-        <button className={` ${isHiddenSectionStatistic ? 'hidden_btn__cancel__search__booking':' btn__cancel__search__booking'}`} onClick={hiddenSectionStatistic}>Cancelar</button>
-      </div>
-
-      {isHiddenSectionStatistic && (
-        <>
-          <div className='dropdown__year__statistic__barbearia' onClick={handleDropdowYear}>
-          <h3 className='box__details__statistic__barbearia'>{year}</h3>
-          <IoIosArrowDown className={`arrowYear ${dropdownYear ? 'girar' : ''}`} id='arrow'/>  
-        </div>
-        <div className={`another__year__hidden ${dropdownYear ? 'another__year__statistic__barbearia':''}`} onClick={handleChangeYear}>
-          <h3>{year === 2023 ? 2024:2023}</h3>
+          
+          <button className={` ${isHiddenSectionStatistic ? 'hidden_btn__cancel__search__booking':' btn__cancel__search__booking'}`} onClick={hiddenSectionStatistic}>Cancelar</button>
         </div>
 
-        <div className='section__grafic__barbearia' ref={graficRef}>
-          <AreaChart
-          width={550}
-          height={200}
-          data={dataBookings}
-          stackOffset="expand"
-          margin={{
-            right: 30,
-            left: 30,
-            bottom: 0,
-          }}>
 
-            <defs>
-              <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                <stop
-                  offset="1%"
-                  stopColor="#4a17d5"
-                  stopOpacity={0.8}
-                />
-                <stop
-                  offset="75%"
-                  stopColor="#4a17d5"
-                  stopOpacity={0.1}
-                />
-              </linearGradient>
-          </defs>
+        {isLoading ? (
+          <div className='container__loading__in__bookings__history'>
+          <div className="loaderCreatingBooking"></div>
+        </div>
+        ):(
+          <>
+            {isHiddenSectionStatistic && (
+                  <>
+                    <div className='dropdown__year__statistic__barbearia' onClick={handleDropdowYear}>
+                      <h3 className='box__details__statistic__barbearia'>{year} <IoIosArrowDown className={`arrowYear ${dropdownYear ? 'girar' : ''}`} id='arrow'/></h3>
+                      
+                  </div>
+                  <div className={`another__year__hidden ${dropdownYear ? 'another__year__statistic__barbearia':''}`} onClick={handleChangeYear}>
+                    <h3>{year === 2023 ? 2024:2023}</h3>
+                  </div>
 
-          <XAxis
-            dataKey="month" 
-            tick={({ x, y, payload }) => {
-              const isCurrentMonth = changedPayload === payload.value;
-              return (
-                <text
-                  x={x} 
-                  y={y + 10} 
-                  fill={isCurrentMonth ? '#f6f6f6' : 'gray'} 
-                  textAnchor="middle"
-                  onClick={() => {handleChangePayload(payload.value)}}
-                >
-                  {payload.value}
+                  <div className='section__grafic__barbearia' ref={graficRef}>
+                    <AreaChart
+                    width={550}
+                    height={200}
+                    data={dataBookings}
+                    stackOffset="expand"
+                    margin={{
+                      top: 20,
+                      right: 30,
+                      left: 30,
+                      bottom: 0,
+                    }}>
+
+                      <defs>
+                        <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                          <stop
+                            offset="1%"
+                            stopColor="#4a17d5"
+                            stopOpacity={0.8}
+                          />
+                          <stop
+                            offset="75%"
+                            stopColor="#4a17d5"
+                            stopOpacity={0.1}
+                          />
+                        </linearGradient>
+                    </defs>
+                    <XAxis
+                    tickLine={false}
+                    axisLine={false}
+                      dataKey="month" 
+                      tick={({ x, y, payload }) => {
+                        const isCurrentMonth = changedPayload === payload.value;
+                        return (
+                          <text
+                            x={x} 
+                            y={y + 10} 
+                            fill={isCurrentMonth ? '#f6f6f6' : 'gray'} 
+                            textAnchor="middle"
+                            onClick={() => {handleChangePayload(payload.value)}}
+                          >
+                            {payload.value}
+                            
+                          </text>
+                        );
+                      }}
+                    />
                   
-                </text>
-              );
-            }}
-          />
-        
-        <Tooltip
-          content={<CustomTooltip />}
-          />
-          <Area
-            type="monotone" 
-            dataKey="Agendamentos" 
-            stroke="#4a17d5"
-            fillOpacity={1} 
-            fill="url(#colorUv)"  
-          >
-          </Area>
-          </AreaChart>
-          
-        </div>
+                  <Tooltip
+                    content={<CustomTooltip />}
+                    
+                    />
+                    <Area
+                      type="natural" 
+                      dataKey="Agendamentos" 
+                      stroke="#4a17d5"
+                      fill="url(#colorUv)"  
+                      fillOpacity={0.4}
+                    >
+                    </Area>
+                    </AreaChart>
+                    
+                  </div>
 
-        <div className='details__amount__statistic__barbearia'>
-            <div className='inner__details__statistic__barbearia'>
-              <p style={{color: 'gray'}}>Faturamento</p>
-              <h3>R$548,050</h3>
-            </div>
-          <div>
-            <div className='comission__professional__statistic__barbearia'>
-              <p style={{color: 'gray'}}>Comissões</p>
-              <IoIosArrowDown id='arrow' style={{color: 'gray'}}/>  
-            </div>
-            
-          </div>
-          
-                
-        </div>
-        </>
-      )}
-        
-      
-      {bookings &&(
-                    <div className='section__bookings__in__statistic__barbearia'>
-                      {bookingSearch.length > 0 ? (
-                        bookingSearch.map((booking, index) => {
-
-                          return(
-                                <div key={index} className='container__booking' onClick={() => toggleItem(booking.booking_id)}>
-                                  <div className={`${booking.paymentStatus === "pending" ? 'booking__pending':'booking' } ${expandedCardBooking.includes(booking.booking_id) ? 'expandCard':''}`}>
-                                    <div className="container_professional">
-                                      {booking.user_image != "default.jpg" ?(
-                                        <div className='container__img__client__booking'>
-                                          <div className='user__image__professional'>
-                                            <img src={urlCloudFront + booking.user_image} id='img__user__professional'/>
-                                          </div>
-                                          <p className='phone__client'>Cliente</p>
-                                        </div>
-                                        ):(
-                                          <div className='container__img__client__booking'>
-                                            <div className='user__image__professional'>
-                                              <p className='firstLetter__client_Span'>{booking.user_name.charAt(0).toUpperCase()}</p>
-                                            </div>
-                                            <p className='phone__client'>Cliente</p>
-                                          </div>
-                                        )}
-                                        <div className='container__name__client'>
-                                          <p className='name__client'>{booking.user_name}</p>
-                                          <p className='phone__client'>{booking.user_phone}</p>
-                                          
-                                        </div>
-                                      
-                                      <div className="date_time__booking__in__statistic__barbearia">
-                                          <p className='date_booking__in__statistic__barbearia'>{booking.booking_date}</p>
-                                          <p className='time_booking__in__statistic__barbearia'>{booking.booking_time.split(',')[0]}</p>
-                                      </div>
-
-                                    </div>
-                                    <div className="section__information__booking">
-                                      <div className="tittle__information">
-                                        <p className='section__icon'>
-                                          <PiContactlessPayment className='icon__information'/>
-                                          Status do pagamento
-                                        </p>
-                                        <p>{booking.paymentStatus === "pending"? 'Pendente':'Aprovado'}</p>
-                                      </div>
-                                      <div className="tittle__information__GiRazor">
-                                        <p className='section__icon'>
-                                          <GiRazor className='icon__information__GiRazor'/>
-                                          {booking.service_name}
-                                        </p>
-                                        <p>{booking.service_price}</p>
-                                      </div>
-                                      <div className="tittle__information">
-                                        <p className='section__icon'>
-                                          <MdOutlineTimer className='icon__information'/>
-                                          Duração
-                                        </p>
-                                        <p>{booking.service_duration}</p>
-                                      </div>
-                                    </div>
-                                    <div className="section__information__booking">
-                                      <div className="tittle__information">
-                                        <p className='section__icon'>
-                                          <IoPersonCircleOutline className='icon__information' />
-                                          Profissional
-                                        </p>
-                                        <p>{booking.professional_name}</p>
-                                      </div>
-                                      <div className="tittle__information">
-                                        <p className='section__icon'>
-                                          <RiExchangeFundsLine className='icon__information' />
-                                          Comissão
-                                        </p>
-                                        <p>{booking.service_commission_fee}</p>
-                                      </div>
-                                    </div>
-                                </div>
-                                </div>
-                            );
-                        })
-                      ):(
-                        <div className="message__notFound__statistic__barbearia">
-                        <p style={{fontSize:"20px"}}>{messagemNotFound ? messagemNotFound:'Nenhum agendamento encontrado.'}</p>
+                  <div className='details__amount__statistic__barbearia'>
+                      <div className='inner__details__statistic__barbearia'>
+                        <p style={{color: 'gray'}}>Faturamento</p>
+                        <h3>R$548,050</h3>
                       </div>
-                      )}
+                    <div>
+                      <div className='comission__professional__statistic__barbearia'>
+                        <p style={{color: 'gray'}}>Comissões</p>
+                        <IoIosArrowDown id='arrow' style={{color: 'gray'}}/>  
+                      </div>
+                      
                     </div>
-                  )}
-                  {!bookings &&(
-                    <div className='message__notFound'>
-                      <BsGraphDownArrow  className='icon__BsGraphDownArrow'/>
-                      <p>{messagemNotFound}</p>
-                    </div>
-                  )}
+                    
+                          
+                  </div>
+                  </>
+            )}
+            {bookings &&(
+                        <div className='section__bookings__in__statistic__barbearia'>
+                          {bookingSearch.length > 0 ? (
+                            bookingSearch.map((booking, index) => {
+
+                              return(
+                                    <div key={index} className='container__booking' onClick={() => toggleItem(booking.booking_id)}>
+                                      <div className={`${booking.paymentStatus === "pending" ? 'booking__pending':'booking' } ${expandedCardBooking.includes(booking.booking_id) ? 'expandCard':''}`}>
+                                        <div className="container_professional">
+                                          {booking.user_image != "default.jpg" ?(
+                                            <div className='container__img__client__booking'>
+                                              <div className='user__image__professional'>
+                                                <img src={urlCloudFront + booking.user_image} id='img__user__professional'/>
+                                              </div>
+                                              <p className='phone__client'>Cliente</p>
+                                            </div>
+                                            ):(
+                                              <div className='container__img__client__booking'>
+                                                <div className='user__image__professional'>
+                                                  <p className='firstLetter__client_Span'>{booking.user_name.charAt(0).toUpperCase()}</p>
+                                                </div>
+                                                <p className='phone__client'>Cliente</p>
+                                              </div>
+                                            )}
+                                            <div className='container__name__client'>
+                                              <p className='name__client'>{booking.user_name}</p>
+                                              <p className='phone__client'>{booking.user_phone}</p>
+                                              
+                                            </div>
+                                          
+                                          <div className="date_time__booking__in__statistic__barbearia">
+                                              <p className='date_booking__in__statistic__barbearia'>{booking.booking_date}</p>
+                                              <p className='time_booking__in__statistic__barbearia'>{booking.booking_time.split(',')[0]}</p>
+                                          </div>
+
+                                        </div>
+                                        <div className="section__information__booking">
+                                          <div className="tittle__information">
+                                            <p className='section__icon'>
+                                              <PiContactlessPayment className='icon__information'/>
+                                              Status do pagamento
+                                            </p>
+                                            <p>{booking.paymentStatus === "pending"? 'Pendente':'Aprovado'}</p>
+                                          </div>
+                                          <div className="tittle__information__GiRazor">
+                                            <p className='section__icon'>
+                                              <GiRazor className='icon__information__GiRazor'/>
+                                              {booking.service_name}
+                                            </p>
+                                            <p>{booking.service_price}</p>
+                                          </div>
+                                          <div className="tittle__information">
+                                            <p className='section__icon'>
+                                              <MdOutlineTimer className='icon__information'/>
+                                              Duração
+                                            </p>
+                                            <p>{booking.service_duration}</p>
+                                          </div>
+                                        </div>
+                                        <div className="section__information__booking">
+                                          <div className="tittle__information">
+                                            <p className='section__icon'>
+                                              <IoPersonCircleOutline className='icon__information' />
+                                              Profissional
+                                            </p>
+                                            <p>{booking.professional_name}</p>
+                                          </div>
+                                          <div className="tittle__information">
+                                            <p className='section__icon'>
+                                              <RiExchangeFundsLine className='icon__information' />
+                                              Comissão
+                                            </p>
+                                            <p>{booking.service_commission_fee}</p>
+                                          </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                );
+                            })
+                          ):(
+                            <div className="message__notFound__statistic__barbearia">
+                            <p style={{fontSize:"20px"}}>{messagemNotFound ? messagemNotFound:'Nenhum agendamento encontrado.'}</p>
+                          </div>
+                          )}
+                        </div>
+            )}
+            {!bookings &&(
+              <div className='message__notFound'>
+                <BsGraphDownArrow  className='icon__BsGraphDownArrow'/>
+                <p>{messagemNotFound}</p>
+              </div>
+            )}
+          </>
+        )}
     </div>
   );
 }
