@@ -47,8 +47,11 @@ const chartConfig = {
   const date = new Date();
   const currentMonth = date.getMonth(); // Mês atual (0-11)
   const month = currentMonth + 1;
-  const year = date.getFullYear();
-console.log(month)
+  const currentYear = date.getFullYear();
+
+  const [year, setYear] = useState(currentYear);
+
+
   // Buscando informações do usuário logado
   const token = localStorage.getItem('token');
   const userData = localStorage.getItem('dataBarbearia'); // Obtendo os dados salvos no localStorage
@@ -99,6 +102,10 @@ console.log(month)
 //================= Section list all bookings by month =================
 const [bookings, setBookings] = useState([]);
 const [expandedCardBooking, setExpandedCardBooking] = useState([]);
+const [changedPayload, setChangedPayload] = useState(monthNames[currentMonth]);
+const [isHiddenSectionStatistic, setIsHiddenSectionStatistic] = useState(true);
+const [dropdownYear, setDropdownYear] = useState(false);
+
 const [messagemNotFound, setMessagemNotFound] = useState("");
 
 //Function to get all bookings of today
@@ -134,7 +141,6 @@ const toggleItem = (itemId) => {
   }
 };
 
-
 const CustomTooltip = ({ payload }) => {
   if (payload && payload.length) {
     return (
@@ -146,17 +152,53 @@ const CustomTooltip = ({ payload }) => {
 
   return null;
 };
-const [changedPayload, setChangedPayload] = useState(monthNames[currentMonth]);
+
+const handleVisibilitySectionStatistic = () =>{
+  getAllBookings()
+  setIsHiddenSectionStatistic(!isHiddenSectionStatistic)
+}
 
 const handleChangePayload = (payloadSelected) =>{
   setChangedPayload(payloadSelected)
 }
-console.log(bookings)
+
+const handleDropdowYear = () =>{
+  setDropdownYear(!dropdownYear)
+}
+
+const handleChangeYear = () =>{
+  setYear(year === 2024 ? 2023:2024)
+  setDropdownYear(!dropdownYear)
+}
 
   return (
     <div className='container__statistic__barbearia'>
-        <h3 className='box__details__statistic__barbearia'>2024</h3>
-        <IoIosArrowDown id='arrow'/>  
+      <div className='section__input__search__statistic__barbearia'>
+        <div className='tittle__historic'>
+          <FaLayerGroup className='icon__FaLayerGroup' />
+          <h2>Histórico</h2>
+        </div>
+        <div className='Box__input__Search' onClick={handleVisibilitySectionStatistic}>
+          <IoIosSearch id='lupa__in__bookings__history' />
+          <input
+            type="search"
+            className='Inner__input__search'
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder='Busque por dia, mês, horário, serviço e profissional'
+          />
+        </div>
+      </div>
+
+      {isHiddenSectionStatistic && (
+        <>
+          <div className='dropdown__year__statistic__barbearia' onClick={handleDropdowYear}>
+          <h3 className='box__details__statistic__barbearia'>{year}</h3>
+          <IoIosArrowDown className={`arrowYear ${dropdownYear ? 'girar' : ''}`} id='arrow'/>  
+        </div>
+        <div className={`another__year__hidden ${dropdownYear ? 'another__year__statistic__barbearia':''}`} onClick={handleChangeYear}>
+          <h3>{year === 2023 ? 2024:2023}</h3>
+        </div>
 
         <div className='section__grafic__barbearia' ref={graficRef}>
           <AreaChart
@@ -205,7 +247,6 @@ console.log(bookings)
           />
         
         <Tooltip
-          cursor={false}
           content={<CustomTooltip />}
           />
           <Area
@@ -220,39 +261,25 @@ console.log(bookings)
           
         </div>
 
-      <div className='details__amount__statistic__barbearia'>
-          <div className='inner__details__statistic__barbearia'>
-            <p style={{color: 'gray'}}>Faturamento</p>
-            <h3>R$548,050</h3>
-          </div>
-        <div >
-          <p ></p>
-          <div className='comission__professional__statistic__barbearia'>
-            <p style={{color: 'gray'}}>Comissões</p>
-            <IoIosArrowDown id='arrow' style={{color: 'gray'}}/>  
+        <div className='details__amount__statistic__barbearia'>
+            <div className='inner__details__statistic__barbearia'>
+              <p style={{color: 'gray'}}>Faturamento</p>
+              <h3>R$548,050</h3>
+            </div>
+          <div>
+            <div className='comission__professional__statistic__barbearia'>
+              <p style={{color: 'gray'}}>Comissões</p>
+              <IoIosArrowDown id='arrow' style={{color: 'gray'}}/>  
+            </div>
+            
           </div>
           
+                
         </div>
+        </>
+      )}
         
-              
-      </div>
       
-      <div className='section__input__search__statistic__barbearia'>
-        <div className='tittle__historic'>
-          <FaLayerGroup className='icon__FaLayerGroup' />
-          <h2>Histórico</h2>
-        </div>
-        <div className='Box__input__Search'>
-          <IoIosSearch id='lupa__in__bookings__history' />
-          <input
-            type="search"
-            className='Inner__input__search'
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder='Buscar por dia, mês, horário,'
-          />
-        </div>
-      </div>
       {bookings &&(
                     <div className='section__bookings__in__statistic__barbearia'>
                       {bookings.length > 0 ? (
@@ -260,7 +287,7 @@ console.log(bookings)
 
                           return(
                                 <div key={index} className='container__booking' onClick={() => toggleItem(booking.booking_id)}>
-                                  <div className={`${booking.paymentStatus === "pending" ? 'booking__pending':'booking__in__statistic__barbearia' } ${expandedCardBooking.includes(booking.booking_id) ? 'expandCard':''}`}>
+                                  <div className={`${booking.paymentStatus === "pending" ? 'booking__pending':'booking' } ${expandedCardBooking.includes(booking.booking_id) ? 'expandCard':''}`}>
                                     <div className="container_professional">
                                       {booking.user_image != "default.jpg" ?(
                                         <div className='container__img__client__booking'>
