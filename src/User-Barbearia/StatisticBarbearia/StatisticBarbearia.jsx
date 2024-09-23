@@ -20,6 +20,24 @@ const monthNames = [
 
 function StatisticBarbearia() {
 
+
+
+const chartData = [
+  { month: "January", desktop: 186 },
+  { month: "February", desktop: 305 },
+  { month: "March", desktop: 237 },
+  { month: "April", desktop: 73 },
+  { month: "May", desktop: 209 },
+  { month: "June", desktop: 214 },
+]
+
+const chartConfig = {
+  desktop: {
+    label: "Desktop",
+    color: "hsl(var(--chart-1))",
+  },
+} 
+//=======================================
   const urlApi = 'https://barbeasy.up.railway.app';
   const urlCloudFront = "https://d15o6h0uxpz56g.cloudfront.net/";
 
@@ -120,9 +138,7 @@ const toggleItem = (itemId) => {
 const CustomTooltip = ({ payload }) => {
   if (payload && payload.length) {
     return (
-      <div className="custom-tooltip" style={{
-        color: '#fff'
-      }}>
+      <div className="custom-tooltip">
         <p className="label">{`Agendamentos: ${payload[0].value}`}</p>
       </div>
     );
@@ -130,62 +146,79 @@ const CustomTooltip = ({ payload }) => {
 
   return null;
 };
+const [changedPayload, setChangedPayload] = useState(monthNames[currentMonth]);
+
+const handleChangePayload = (payloadSelected) =>{
+  setChangedPayload(payloadSelected)
+}
+console.log(bookings)
+
   return (
     <div className='container__statistic__barbearia'>
         <h3 className='box__details__statistic__barbearia'>2024</h3>
         <IoIosArrowDown id='arrow'/>  
 
         <div className='section__grafic__barbearia' ref={graficRef}>
+          <AreaChart
+          width={550}
+          height={200}
+          data={dataBookings}
+          stackOffset="expand"
+          margin={{
+            right: 30,
+            left: 30,
+            bottom: 0,
+          }}>
 
-        <AreaChart
-        width={550}
-        height={200}
-        data={dataBookings}
-        stackOffset="expand"
-        margin={{
-          top: 0,
-          right: 30,
-          left: 30,
-          bottom: 0,
-        }}>
-        <defs>
-          <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#4a17d5" stopOpacity={0.8} />
-            <stop offset="95%" stopColor="#4a17d5" stopOpacity={0} />
-          </linearGradient>
-        </defs>
+            <defs>
+              <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                <stop
+                  offset="1%"
+                  stopColor="#4a17d5"
+                  stopOpacity={0.8}
+                />
+                <stop
+                  offset="75%"
+                  stopColor="#4a17d5"
+                  stopOpacity={0.1}
+                />
+              </linearGradient>
+          </defs>
 
-        <XAxis 
-          dataKey="month" 
-          tick={({ x, y, payload }) => {
-            const isCurrentMonth = monthNames[currentMonth] === payload.value;
-            return (
-              <text 
-                x={x} 
-                y={y + 10} 
-                fill={isCurrentMonth ? '#f6f6f6' : 'gray'} 
-                textAnchor="middle"
-              >
-                {payload.value}
-              </text>
-            );
-          }}
-        />
-       
-       <Tooltip
-        content={<CustomTooltip />}
-        />
-        <Area 
-          type="monotone" 
-          dataKey="Agendamentos" 
-          stroke="#8884d8"
-          fillOpacity={1} 
-          fill="url(#colorUv)"  
-        >
-        </Area>
-      </AreaChart>
-
-</div>
+          <XAxis
+            dataKey="month" 
+            tick={({ x, y, payload }) => {
+              const isCurrentMonth = changedPayload === payload.value;
+              return (
+                <text
+                  x={x} 
+                  y={y + 10} 
+                  fill={isCurrentMonth ? '#f6f6f6' : 'gray'} 
+                  textAnchor="middle"
+                  onClick={() => {handleChangePayload(payload.value)}}
+                >
+                  {payload.value}
+                  
+                </text>
+              );
+            }}
+          />
+        
+        <Tooltip
+          cursor={false}
+          content={<CustomTooltip />}
+          />
+          <Area
+            type="monotone" 
+            dataKey="Agendamentos" 
+            stroke="#4a17d5"
+            fillOpacity={1} 
+            fill="url(#colorUv)"  
+          >
+          </Area>
+          </AreaChart>
+          
+        </div>
 
       <div className='details__amount__statistic__barbearia'>
           <div className='inner__details__statistic__barbearia'>
@@ -193,10 +226,10 @@ const CustomTooltip = ({ payload }) => {
             <h3>R$548,050</h3>
           </div>
         <div >
-          <p style={{color: 'gray'}}>Comissões</p>
+          <p ></p>
           <div className='comission__professional__statistic__barbearia'>
-            <h3>Jorger</h3>
-            <h3>R$548,050</h3>
+            <p style={{color: 'gray'}}>Comissões</p>
+            <IoIosArrowDown id='arrow' style={{color: 'gray'}}/>  
           </div>
           
         </div>
@@ -216,7 +249,7 @@ const CustomTooltip = ({ payload }) => {
             className='Inner__input__search'
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder='Buscar agendamento'
+            placeholder='Buscar por dia, mês, horário,'
           />
         </div>
       </div>

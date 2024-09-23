@@ -12,10 +12,20 @@
 }
 .section__grafic__barbearia{
     width: 355px;
-    height: 230px;
+    height: 195px;
     overflow-y: hidden;
     overflow-x: scroll;
     transition: 0.5s;
+}
+.custom-tooltip{
+    display: flex;
+    justify-content: start;
+    flex-direction: column;
+    padding: 5px;
+    border-radius: 5px;
+    border-left: 1px solid #f6f6f6;
+    background: #4a17d524;
+    font-size: 14px;
 }
 .section__grafic__barbearia::-webkit-scrollbar {
     height: 0;
