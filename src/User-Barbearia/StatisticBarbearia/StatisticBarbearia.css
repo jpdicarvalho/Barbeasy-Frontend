@@ -2,8 +2,9 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    width: 385px;
+    max-width: 385px;
     min-height: 100dvh;
+    overflow-x: hidden;
 }
 .icon__LuGanttChartSquare{
     width: 25px;
@@ -16,7 +17,8 @@
     justify-content: end;
     align-items: center;
     width: 100%;
-    margin-top: 15px
+    margin-top: 15px;
+    padding-right: 5px;
 }
 .arrowYear{
     transition: 0.5s;
@@ -122,13 +124,14 @@
 .inner__details__statistic__barbearia{
     margin-bottom: 5px;
     display: flex;
-    width: 385px;
+    width: 375px;
 }
 .box__values__details__statistic__barbearia{
     width: 100%;
     height: auto;
     display: flex;
     flex-direction: column;
+    padding-left: 3px;
 }
 #line__details__statistic__barbearia{
     margin-bottom: 5px;
@@ -138,7 +141,8 @@
     min-height: 80px;
     width: 3px;
     background: #4a17d5;
-    margin-right: 3px;
+    padding-right: 3px;
+    border: none;
 }
 .title__details__statistic__barbearia{
     display: flex;
@@ -193,7 +197,7 @@
 .active__lupa__in__statistic__barbearia{
     position: absolute;
     font-size: 25px;
-    margin-right: 280px;
+    margin-right: 270px;
     color: #f6f6fc;
     background: transparent;
     transition: 0.5s;
@@ -213,7 +217,7 @@
 .active__input__Search__statistic__barbearia{
     background: #3542493b;
     width: 100%;
-    height: 30px;
+    height: 40px;
     border-radius: 50px;
     padding-left: 27px;
 
@@ -226,7 +230,7 @@
     opacity: 1;
     width: 60px;
     height: 45px;
-    margin-right: 5px;
+    padding-right: 5px;
     margin-left: 5px;
     margin-top: 75px;
     color: #f6f6f6;
@@ -243,7 +247,7 @@
     display: flex;
     flex-direction: column;
     width: 260px;
-    margin-right: 5px
+    padding-right: 5px
 }
 .date_booking__in__statistic__barbearia{
     font-size: 14px;
@@ -257,31 +261,45 @@
 
 }
 .section__bookings__in__statistic__barbearia{
-    width: 385px;
+    width: 375px;
     padding-right: 5px;
 }
 
-.Box__booking__in__statistic__barbearia{
-    background: rgba(59, 20, 216, 0.1);
-    border-left: 3px solid #0f0;
-    border-radius: 10px;
+.booking__in__statistic__barbearia {
+    display: flex;
     margin-bottom: 10px;
-    margin-left: 10px;
+    padding-right: 10px;
     width: 100%;
     height: 85px;
     color: #354249;
     transition: 0.5s;
     overflow: hidden;
+    border: none;
+    border-bottom: 1px solid #3542496c;
+}
+.expandCard__booking__in__statistic__barbearia {
+    height: 235px;
+    transition: 0.5s;
+}
+.container__values__booking__in__statistic__barbearia{
+    width: 100%;
+}
+.border__left__booking__in__statistic__barbearia{
+    width: 3px;
+    min-height: 90px;
+    padding: 2px;
+    border-radius: 5px;
+    background: #0f0;
 }
 .message__notFound__statistic__barbearia{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        font-size: 20px;
-        font-weight: bold;
-        color: #354249;
-        height: 700px;
-        width: 100%;
-        text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-size: 20px;
+    font-weight: bold;
+    color: #354249;
+    height: 700px;
+    width: 100%;
+    text-align: center;
 }

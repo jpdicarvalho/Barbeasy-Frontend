@@ -201,7 +201,7 @@ const CustomTooltip = ({ payload }) => {
   return null;
 };
 
-const CustomTooltipGraficBar = ({ payload, dataKey }) => {
+const CustomTooltipGraficBar = ({ payload }) => {
   if (payload && payload.length) {
     return (
       <div className="custom-tooltip">
@@ -230,7 +230,7 @@ const handleDropdowYear = () =>{
           <div className='inner__input__search__statistic__barbearia'>
             <div className='tittle__historic tittle__historic__in__statistic__barbearia'>
               <LuGanttChartSquare className='icon__LuGanttChartSquare' />
-              <h2>Relatório</h2>
+              <h2>Relatório </h2>
             </div>
             <div className={`Box__input__Search__statistic__barbearia ${!isHiddenSectionStatistic ? 'active__box__input__Search__statistic__barbearia':''}`} onClick={showSectionStatistic}>
               <IoIosSearch className={`lupa__in__statistic__barbearia ${!isHiddenSectionStatistic ? 'active__lupa__in__statistic__barbearia':''}`}/>
@@ -348,7 +348,7 @@ const handleDropdowYear = () =>{
                       
                     <div className='container__grafic__statistic__barbearia'>
                         
-                      <h3 className='title__grafic____statistic__barbearia'>Serviços mais agendados</h3>
+                      <h3 className='title__grafic____statistic__barbearia'>Serviços mais agendados em {changedPayload}</h3>
                       <hr />
 
                         <ResponsiveContainer width={385} height={270} >
@@ -380,80 +380,87 @@ const handleDropdowYear = () =>{
             )}
             {bookings &&(
                         <div className='section__bookings__in__statistic__barbearia'>
+                          <h3 className='title__details__statistic__barbearia' style={{marginBottom: '10px'}}>Histórico</h3>
                           {bookingSearch.length > 0 ? (
                             bookingSearch.map((booking, index) => {
 
                               return(
                                     <div key={index} className='container__booking' onClick={() => toggleItem(booking.booking_id)}>
-                                      <div className={`${booking.paymentStatus === "pending" ? 'booking__pending':'booking' } ${expandedCardBooking.includes(booking.booking_id) ? 'expandCard':''}`}>
-                                        <div className="container_professional">
-                                          {booking.user_image != "default.jpg" ?(
-                                            <div className='container__img__client__booking'>
-                                              <div className='user__image__professional'>
-                                                <img src={urlCloudFront + booking.user_image} id='img__user__professional'/>
-                                              </div>
-                                              <p className='phone__client'>Cliente</p>
-                                            </div>
-                                            ):(
+                                      <div className={`${booking.paymentStatus === "pending" ? 'booking__pending':'booking__in__statistic__barbearia' } ${expandedCardBooking.includes(booking.booking_id) ? 'expandCard__booking__in__statistic__barbearia':''}`}>
+                                        
+                                        
+                                        <div className='container__values__booking__in__statistic__barbearia'>
+                                          <div className="container_professional">
+                                            {booking.user_image != "default.jpg" ?(
                                               <div className='container__img__client__booking'>
                                                 <div className='user__image__professional'>
-                                                  <p className='firstLetter__client_Span'>{booking.user_name.charAt(0).toUpperCase()}</p>
+                                                  <img src={urlCloudFront + booking.user_image} id='img__user__professional'/>
                                                 </div>
                                                 <p className='phone__client'>Cliente</p>
                                               </div>
-                                            )}
-                                            <div className='container__name__client'>
-                                              <p className='name__client'>{booking.user_name}</p>
-                                              <p className='phone__client'>{booking.user_phone}</p>
-                                              
+                                              ):(
+                                                <div className='container__img__client__booking'>
+                                                  <div className='user__image__professional'>
+                                                    <p className='firstLetter__client_Span'>{booking.user_name.charAt(0).toUpperCase()}</p>
+                                                  </div>
+                                                  <p className='phone__client'>Cliente</p>
+                                                </div>
+                                              )}
+                                              <div className='container__name__client'>
+                                                <p className='name__client'>{booking.user_name}</p>
+                                                <p className='phone__client'>{booking.user_phone}</p>
+                                                
+                                              </div>
+                                            
+                                            <div className="date_time__booking__in__statistic__barbearia">
+                                                <p className='date_booking__in__statistic__barbearia'>{booking.booking_date}</p>
+                                                <p className='time_booking__in__statistic__barbearia'>{booking.booking_time.split(',')[0]}</p>
                                             </div>
-                                          
-                                          <div className="date_time__booking__in__statistic__barbearia">
-                                              <p className='date_booking__in__statistic__barbearia'>{booking.booking_date}</p>
-                                              <p className='time_booking__in__statistic__barbearia'>{booking.booking_time.split(',')[0]}</p>
-                                          </div>
 
+                                          </div>
+                                          <div className="section__information__booking">
+                                            <div className="tittle__information">
+                                              <p className='section__icon'>
+                                                <PiContactlessPayment className='icon__information'/>
+                                                Status do pagamento
+                                              </p>
+                                              <p>{booking.paymentStatus === "pending"? 'Pendente':'Aprovado'}</p>
+                                            </div>
+                                            <div className="tittle__information__GiRazor">
+                                              <p className='section__icon'>
+                                                <GiRazor className='icon__information__GiRazor'/>
+                                                {booking.service_name}
+                                              </p>
+                                              <p>{booking.service_price}</p>
+                                            </div>
+                                            <div className="tittle__information">
+                                              <p className='section__icon'>
+                                                <MdOutlineTimer className='icon__information'/>
+                                                Duração
+                                              </p>
+                                              <p>{booking.service_duration}</p>
+                                            </div>
+                                          </div>
+                                          <div className="section__information__booking">
+                                            <div className="tittle__information">
+                                              <p className='section__icon'>
+                                                <IoPersonCircleOutline className='icon__information' />
+                                                Profissional
+                                              </p>
+                                              <p>{booking.professional_name}</p>
+                                            </div>
+                                            <div className="tittle__information">
+                                              <p className='section__icon'>
+                                                <RiExchangeFundsLine className='icon__information' />
+                                                Comissão
+                                              </p>
+                                              <p>{booking.service_commission_fee}</p>
+                                            </div>
+                                          </div>
                                         </div>
-                                        <div className="section__information__booking">
-                                          <div className="tittle__information">
-                                            <p className='section__icon'>
-                                              <PiContactlessPayment className='icon__information'/>
-                                              Status do pagamento
-                                            </p>
-                                            <p>{booking.paymentStatus === "pending"? 'Pendente':'Aprovado'}</p>
-                                          </div>
-                                          <div className="tittle__information__GiRazor">
-                                            <p className='section__icon'>
-                                              <GiRazor className='icon__information__GiRazor'/>
-                                              {booking.service_name}
-                                            </p>
-                                            <p>{booking.service_price}</p>
-                                          </div>
-                                          <div className="tittle__information">
-                                            <p className='section__icon'>
-                                              <MdOutlineTimer className='icon__information'/>
-                                              Duração
-                                            </p>
-                                            <p>{booking.service_duration}</p>
-                                          </div>
-                                        </div>
-                                        <div className="section__information__booking">
-                                          <div className="tittle__information">
-                                            <p className='section__icon'>
-                                              <IoPersonCircleOutline className='icon__information' />
-                                              Profissional
-                                            </p>
-                                            <p>{booking.professional_name}</p>
-                                          </div>
-                                          <div className="tittle__information">
-                                            <p className='section__icon'>
-                                              <RiExchangeFundsLine className='icon__information' />
-                                              Comissão
-                                            </p>
-                                            <p>{booking.service_commission_fee}</p>
-                                          </div>
-                                        </div>
+
                                     </div>
+
                                     </div>
                                 );
                             })
