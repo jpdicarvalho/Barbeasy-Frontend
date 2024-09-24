@@ -58,7 +58,7 @@
     transition: 0.5s;
 
 }
-.container__grafic__area__statistic__barbearia{
+.container__grafic__statistic__barbearia{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -66,6 +66,7 @@
     border: 1px solid #354249;
     border-radius: 12px;
     width: 100%;
+    margin-bottom: 20px;
 }
 .title__grafic____statistic__barbearia{
     width: 100%;
@@ -90,9 +91,6 @@
     border-left: 1px solid #f6f6f6;
     background: #4a17d524;
     font-size: 14px;
-}
-.fillforeground{
-    color: #f6f6f6;
 }
 .section__grafic__barbearia::-webkit-scrollbar {
     height: 0;

@@ -258,7 +258,7 @@ const handleDropdowYear = () =>{
                       
                     </div>
                     
-                    <div className='container__grafic__area__statistic__barbearia'>
+                    <div className='container__grafic__statistic__barbearia'>
                       <h3 className='title__grafic____statistic__barbearia'>Agendamentos por mês</h3>
                       <hr />
                       <div className='section__grafic__barbearia' ref={graficRef}>
@@ -291,7 +291,7 @@ const handleDropdowYear = () =>{
                         <XAxis
                         tickLine={false}
                         axisLine={false}
-                        tickMargin={20}
+                        tickMargin={10}
                           dataKey="month" 
                           tick={({ x, y, payload }) => {
                             const isCurrentMonth = changedPayload === payload.value;
@@ -327,37 +327,35 @@ const handleDropdowYear = () =>{
 
                     </div>
                       
-                  <div className='details__amount__statistic__barbearia'>
+                  <div className='container__grafic__statistic__barbearia'>
                       
-                    <div style={{marginBottom: '15px'}}>
-                      <h3 style={{marginBottom: '25px'}}>Serviços mais agendados</h3>
-                      <ResponsiveContainer width={385} height={300}>
-                      <BarChart
-                        data={data}
-                        margin={{
-                          top: 5
-                        }}
-                      >
-                        <XAxis dataKey="name"
-                          tickLine={false}  
-                          axisLine={false}
-                          tickFormatter={(value) => value.slice(0, 6)}
-                          tickMargin={10}/>
-                          <Tooltip
-                          cursor={false}
-                        />
-                        <Bar dataKey="uv" fill="#4a17d564" radius={10}>
-                          <LabelList dataKey="uv" position="top"
-                            offset={12}
-                            className="fillforeground"
-                            fontSize={12} />
-                        </Bar>
-                        
-                      </BarChart>
-                    </ResponsiveContainer>
+                    <h3 className='title__grafic____statistic__barbearia'>Serviços mais agendados</h3>
+                    <hr />
+
+                      <ResponsiveContainer width={385} height={270} >
+                        <BarChart
+                          data={data}
+                          margin={{
+                            top: 40,
+                            bottom: 15
+                          }}
+                        >
+                          <XAxis dataKey="name"
+                            tickLine={false}  
+                            axisLine={false}
+                            tickFormatter={(value) => value.slice(0, 6)}
+                            tickMargin={10}/>
+                            <Tooltip
+                            cursor={false}
+                          />
+                          <Bar dataKey="uv" fill="#4a17d564" radius={10} width={20}>
+                            <LabelList dataKey="uv" position="top"
+                              offset={12}
+                              fontSize={12} />
+                          </Bar>
+                        </BarChart>
+                      </ResponsiveContainer>
                       </div>
-                      
-                  </div>
                   </>
             )}
             {bookings &&(
