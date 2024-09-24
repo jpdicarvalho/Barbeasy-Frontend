@@ -111,6 +111,31 @@
 }
 .inner__details__statistic__barbearia{
     margin-bottom: 5px;
+    display: flex;
+    width: 385px;
+}
+.box__values__details__statistic__barbearia{
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}
+#line__details__statistic__barbearia{
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+.border__left__details__statistic__barbearia{
+    min-height: 80px;
+    width: 3px;
+    background: #4a17d5;
+    margin-right: 3px;
+}
+.title__details__statistic__barbearia{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    color: gray;
 }
 .comission__professional__statistic__barbearia{
     display: flex;
@@ -127,11 +152,67 @@
 .inner__input__search__statistic__barbearia{
     width: 100%;
 }
+.Box__input__Search__statistic__barbearia {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    width: 100%;
+    height: 30px;
+    transition: 0.5s;
+}
+.active__box__input__Search__statistic__barbearia{
+    width: 100%;
+    border-radius: 50px;
+    outline: none;
+    border: transparent;
+    background: transparent;
+    font-size: 14px;
+    padding-left: 12px;
+    transition: 0.5s;
+}
+.lupa__in__statistic__barbearia {
+    position: absolute;
+    font-size: 25px;
+    margin-right: 2px;
+    color: #f6f6fc;
+    background: transparent;
+    transition: 0.5s;
+
+}
+.active__lupa__in__statistic__barbearia{
+    position: absolute;
+    font-size: 25px;
+    margin-right: 280px;
+    color: #f6f6fc;
+    background: transparent;
+    transition: 0.5s;
+
+}
+.input__search__statistic__barbearia {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    outline: none;
+    border: transparent;
+    background: #3542493b;
+    font-size: 14px;
+    padding-left: 20px;
+    transition: 0.5s;
+}
+.active__input__Search__statistic__barbearia{
+    background: #3542493b;
+    width: 100%;
+    height: 30px;
+    border-radius: 50px;
+    padding-left: 27px;
+
+}
 .btn__cancel__search__booking{
     opacity: 1;
     width: 60px;
     height: 45px;
     margin-right: 5px;
+    margin-left: 5px;
     margin-top: 65px;
     color: #f6f6f6;
     border: none;

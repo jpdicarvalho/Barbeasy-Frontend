@@ -218,11 +218,11 @@ const handleDropdowYear = () =>{
               <LuGanttChartSquare className='icon__LuGanttChartSquare' />
               <h2>Relatório</h2>
             </div>
-            <div className='Box__input__Search' onClick={showSectionStatistic}>
-              <IoIosSearch id='lupa__in__bookings__history' />
+            <div className={`Box__input__Search__statistic__barbearia ${!isHiddenSectionStatistic ? 'active__box__input__Search__statistic__barbearia':''}`} onClick={showSectionStatistic}>
+              <IoIosSearch className={`lupa__in__statistic__barbearia ${!isHiddenSectionStatistic ? 'active__lupa__in__statistic__barbearia':''}`}/>
               <input
                 type="search"
-                className='Inner__input__search'
+                className={`input__search__statistic__barbearia ${!isHiddenSectionStatistic ? 'active__input__Search__statistic__barbearia':''}`}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder='Busque por dia, mês, horário, serviço e profissional'
@@ -242,20 +242,24 @@ const handleDropdowYear = () =>{
           <>
             {isHiddenSectionStatistic && (
                   <>
+                   <div className='inner__details__statistic__barbearia'>
+                      <hr className='border__left__details__statistic__barbearia'/>
+                      <div className='box__values__details__statistic__barbearia'>
+                        <p className='title__details__statistic__barbearia'>Faturamento</p>
+                        <h3>R$548,050</h3>
+                        <hr id='line__details__statistic__barbearia'/>
+                        <p className='title__details__statistic__barbearia'>Comissões</p>
+                        <h3>Riba   R$150,00</h3>
+                      </div>
+                        
+                    </div>
+
                     <div className='dropdown__year__statistic__barbearia' onClick={handleDropdowYear}>
                       <h3 className='box__details__statistic__barbearia'>{year} <IoIosArrowDown className={`arrowYear ${dropdownYear ? 'girar' : ''}`} id='arrow'/></h3>
                       
-                  </div>
-                  <div className={`another__year__hidden ${dropdownYear ? 'another__year__statistic__barbearia':''}`} onClick={handleChangeYear}>
+                    </div>
+                    <div className={`another__year__hidden ${dropdownYear ? 'another__year__statistic__barbearia':''}`} onClick={handleChangeYear}>
                     <h3 className='box__details__statistic__barbearia'>{year === 2023 ? 2024:2023}</h3>
-                  </div>
-                  <div className='inner__details__statistic__barbearia'>
-                        <p style={{color: 'gray'}}>Faturamento</p>
-                        <h3>R$548,050</h3>
-                      </div>
-                    <div>
-                      
-                      
                     </div>
                     
                     <div className='container__grafic__statistic__barbearia'>
@@ -327,35 +331,35 @@ const handleDropdowYear = () =>{
 
                     </div>
                       
-                  <div className='container__grafic__statistic__barbearia'>
-                      
-                    <h3 className='title__grafic____statistic__barbearia'>Serviços mais agendados</h3>
-                    <hr />
+                    <div className='container__grafic__statistic__barbearia'>
+                        
+                      <h3 className='title__grafic____statistic__barbearia'>Serviços mais agendados</h3>
+                      <hr />
 
-                      <ResponsiveContainer width={385} height={270} >
-                        <BarChart
-                          data={data}
-                          margin={{
-                            top: 40,
-                            bottom: 15
-                          }}
-                        >
-                          <XAxis dataKey="name"
-                            tickLine={false}  
-                            axisLine={false}
-                            tickFormatter={(value) => value.slice(0, 6)}
-                            tickMargin={10}/>
-                            <Tooltip
-                            cursor={false}
-                          />
-                          <Bar dataKey="uv" fill="#4a17d564" radius={10} width={20}>
-                            <LabelList dataKey="uv" position="top"
-                              offset={12}
-                              fontSize={12} />
-                          </Bar>
-                        </BarChart>
-                      </ResponsiveContainer>
-                      </div>
+                        <ResponsiveContainer width={385} height={270} >
+                          <BarChart
+                            data={data}
+                            margin={{
+                              top: 40,
+                              bottom: 15
+                            }}
+                          >
+                            <XAxis dataKey="name"
+                              tickLine={false}  
+                              axisLine={false}
+                              tickFormatter={(value) => value.slice(0, 6)}
+                              tickMargin={10}/>
+                              <Tooltip
+                              cursor={false}
+                            />
+                            <Bar dataKey="uv" fill="#4a17d564" radius={10} width={20}>
+                              <LabelList dataKey="uv" position="top"
+                                offset={12}
+                                fontSize={12} />
+                            </Bar>
+                          </BarChart>
+                        </ResponsiveContainer>
+                    </div>
                   </>
             )}
             {bookings &&(
