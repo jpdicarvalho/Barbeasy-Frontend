@@ -5,45 +5,62 @@
     width: 385px;
     min-height: 100dvh;
 }
+.icon__LuGanttChartSquare{
+    width: 25px;
+    height: 25px;
+    color: #f6f6f6;
+    margin-right: 5px;
+}
 .dropdown__year__statistic__barbearia{
     display: flex;
-    justify-content: center;
+    justify-content: end;
     align-items: center;
     width: 100%;
     margin-top: 15px
 }
 .arrowYear{
     transition: 0.5s;
-    color: #354249;
+    color: #f6f6f6;
     margin-left: 2px;
 }
 .another__year__hidden{
     opacity: 0;
+    margin-bottom: 5px
+
 }
 .another__year__statistic__barbearia{
     opacity: 1;
-    width: 70px;
+    width: 100%;
     display: flex;
     align-items: center;
-    justify-content: start;
+    justify-content: end;
     padding-left: 8px;
-    background: rgba(128, 128, 128, 0.174);
+    background: transparent;
+    margin-top: 3px;
     transition: 0.5s;
     border-radius: 5px;
     cursor: pointer;
+}
+.box__details__statistic__barbearia:hover{
+    background: #4a17d564;
+    transition: 0.5s;
 }
 .box__details__statistic__barbearia{
     display: flex;
     align-items: center;
     text-align: center;
     justify-content: center;
-    width: 100%;
+    width: 70px;
     padding-left: 5px;
-    color: #354249;
+    color: #f6f6f6;
+    border: 1px solid #4a17d5;
+    border-radius: 5px;
+    transition: 0.5s;
+
 }
 .section__grafic__barbearia{
     width: 355px;
-    height: 195px;
+    height: 205px;
     overflow-y: hidden;
     overflow-x: scroll;
     transition: 0.5s;
@@ -57,6 +74,9 @@
     border-left: 1px solid #f6f6f6;
     background: #4a17d524;
     font-size: 14px;
+}
+.fillforeground{
+    color: #f6f6f6;
 }
 .section__grafic__barbearia::-webkit-scrollbar {
     height: 0;

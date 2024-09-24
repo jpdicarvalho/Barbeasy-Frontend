@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from "react-router-dom"
 import axios from 'axios';
-import { AreaChart, Area, XAxis, Tooltip, CartesianGrid } from 'recharts';
-import { FaLayerGroup } from "react-icons/fa";
+
+
+import { AreaChart, Area, XAxis, Tooltip, BarChart, Bar, Legend, ResponsiveContainer, LabelList} from 'recharts';
+
+
 import { IoIosSearch } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
 import { GiRazor } from "react-icons/gi";
@@ -11,6 +14,7 @@ import { IoPersonCircleOutline } from "react-icons/io5";
 import { RiExchangeFundsLine } from "react-icons/ri";
 import { BsGraphDownArrow } from "react-icons/bs";
 import { PiContactlessPayment } from "react-icons/pi";
+import { LuGanttChartSquare } from "react-icons/lu";
 
 import './StatisticBarbearia.css';
 
@@ -18,26 +22,40 @@ const monthNames = [
   'Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
 ];
 
+const data = [
+  {
+    name: 'Navalhado',
+    uv: 4000,
+    pv: 2400,
+    amt: 2400,
+  },
+  {
+    name: 'Degradê',
+    uv: 3000,
+    pv: 1398,
+    amt: 2210,
+  },
+  {
+    name: 'Social',
+    uv: 2000,
+    pv: 9800,
+    amt: 2290,
+  },
+  {
+    name: 'Barba',
+    uv: 2000,
+    pv: 9800,
+    amt: 2290,
+  },
+  {
+    name: 'Sobrancelha',
+    uv: 2000,
+    pv: 9800,
+    amt: 2290,
+  }
+];
 function StatisticBarbearia() {
 
-
-
-const chartData = [
-  { month: "January", desktop: 186 },
-  { month: "February", desktop: 305 },
-  { month: "March", desktop: 237 },
-  { month: "April", desktop: 73 },
-  { month: "May", desktop: 209 },
-  { month: "June", desktop: 214 },
-]
-
-const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "hsl(var(--chart-1))",
-  },
-} 
-//=======================================
   const urlApi = 'https://barbeasy.up.railway.app';
   const urlCloudFront = "https://d15o6h0uxpz56g.cloudfront.net/";
 
@@ -190,13 +208,14 @@ const handleChangePayload = (payloadSelected) =>{
 const handleDropdowYear = () =>{
   setDropdownYear(!dropdownYear)
 }
+//=============================================
 
   return (
     <div className='container__statistic__barbearia'>
         <div className='section__input__search__statistic__barbearia'>
           <div className='inner__input__search__statistic__barbearia'>
             <div className='tittle__historic'>
-              <FaLayerGroup className='icon__FaLayerGroup' />
+              <LuGanttChartSquare className='icon__LuGanttChartSquare' />
               <h2>Relatório</h2>
             </div>
             <div className='Box__input__Search' onClick={showSectionStatistic}>
@@ -228,9 +247,16 @@ const handleDropdowYear = () =>{
                       
                   </div>
                   <div className={`another__year__hidden ${dropdownYear ? 'another__year__statistic__barbearia':''}`} onClick={handleChangeYear}>
-                    <h3>{year === 2023 ? 2024:2023}</h3>
+                    <h3 className='box__details__statistic__barbearia'>{year === 2023 ? 2024:2023}</h3>
                   </div>
-
+                  <div className='inner__details__statistic__barbearia'>
+                        <p style={{color: 'gray'}}>Faturamento</p>
+                        <h3>R$548,050</h3>
+                      </div>
+                    <div>
+                      
+                      
+                    </div>
                   <div className='section__grafic__barbearia' ref={graficRef}>
                     <AreaChart
                     width={550}
@@ -261,6 +287,7 @@ const handleDropdowYear = () =>{
                     <XAxis
                     tickLine={false}
                     axisLine={false}
+                    tickMargin={15}
                       dataKey="month" 
                       tick={({ x, y, payload }) => {
                         const isCurrentMonth = changedPayload === payload.value;
@@ -296,19 +323,35 @@ const handleDropdowYear = () =>{
                   </div>
 
                   <div className='details__amount__statistic__barbearia'>
-                      <div className='inner__details__statistic__barbearia'>
-                        <p style={{color: 'gray'}}>Faturamento</p>
-                        <h3>R$548,050</h3>
-                      </div>
-                    <div>
-                      <div className='comission__professional__statistic__barbearia'>
-                        <p style={{color: 'gray'}}>Comissões</p>
-                        <IoIosArrowDown id='arrow' style={{color: 'gray'}}/>  
+                      
+                    <div style={{marginBottom: '15px'}}>
+                      <h3 style={{marginBottom: '25px'}}>Serviços mais agendados</h3>
+                      <ResponsiveContainer width={385} height={300}>
+                      <BarChart
+                        data={data}
+                        margin={{
+                          top: 5
+                        }}
+                      >
+                        <XAxis dataKey="name"
+                          tickLine={false}  
+                          axisLine={false}
+                          tickFormatter={(value) => value.slice(0, 6)}
+                          tickMargin={10}/>
+                          <Tooltip
+                          cursor={false}
+                        />
+                        <Bar dataKey="uv" fill="#4a17d564" radius={10}>
+                          <LabelList dataKey="uv" position="top"
+                            offset={12}
+                            className="fillforeground"
+                            fontSize={12} />
+                        </Bar>
+                        
+                      </BarChart>
+                    </ResponsiveContainer>
                       </div>
                       
-                    </div>
-                    
-                          
                   </div>
                   </>
             )}
