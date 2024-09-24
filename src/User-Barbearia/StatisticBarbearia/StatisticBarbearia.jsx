@@ -257,71 +257,76 @@ const handleDropdowYear = () =>{
                       
                       
                     </div>
-                  <div className='section__grafic__barbearia' ref={graficRef}>
-                    <AreaChart
-                    width={550}
-                    height={200}
-                    data={dataBookings}
-                    stackOffset="expand"
-                    margin={{
-                      top: 20,
-                      right: 30,
-                      left: 30,
-                      bottom: 0,
-                    }}>
-
-                      <defs>
-                        <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                          <stop
-                            offset="1%"
-                            stopColor="#4a17d5"
-                            stopOpacity={0.8}
-                          />
-                          <stop
-                            offset="75%"
-                            stopColor="#4a17d5"
-                            stopOpacity={0.1}
-                          />
-                        </linearGradient>
-                    </defs>
-                    <XAxis
-                    tickLine={false}
-                    axisLine={false}
-                    tickMargin={15}
-                      dataKey="month" 
-                      tick={({ x, y, payload }) => {
-                        const isCurrentMonth = changedPayload === payload.value;
-                        return (
-                          <text
-                            x={x} 
-                            y={y + 10} 
-                            fill={isCurrentMonth ? '#f6f6f6' : 'gray'} 
-                            textAnchor="middle"
-                            onClick={() => {handleChangePayload(payload.value)}}
-                          >
-                            {payload.value}
-                            
-                          </text>
-                        );
-                      }}
-                    />
-                  
-                  <Tooltip
-                    content={<CustomTooltip />}
                     
-                    />
-                    <Area
-                      type="natural" 
-                      dataKey="Agendamentos" 
-                      stroke="#4a17d5"
-                      fill="url(#colorUv)"  
-                      fillOpacity={0.4}
-                    >
-                    </Area>
-                    </AreaChart>
-                    
-                  </div>
+                    <div className='container__grafic__area__statistic__barbearia'>
+                      <h3 className='title__grafic____statistic__barbearia'>Agendamentos por mês</h3>
+                      <hr />
+                      <div className='section__grafic__barbearia' ref={graficRef}>
+                        <AreaChart
+                        width={550}
+                        height={200}
+                        data={dataBookings}
+                        stackOffset="expand"
+                        margin={{
+                          top: 20,
+                          right: 30,
+                          left: 30,
+                          bottom: 0,
+                        }}>
 
+                          <defs>
+                            <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                              <stop
+                                offset="1%"
+                                stopColor="#4a17d5"
+                                stopOpacity={0.8}
+                              />
+                              <stop
+                                offset="75%"
+                                stopColor="#4a17d5"
+                                stopOpacity={0.1}
+                              />
+                            </linearGradient>
+                        </defs>
+                        <XAxis
+                        tickLine={false}
+                        axisLine={false}
+                        tickMargin={20}
+                          dataKey="month" 
+                          tick={({ x, y, payload }) => {
+                            const isCurrentMonth = changedPayload === payload.value;
+                            return (
+                              <text
+                                x={x} 
+                                y={y + 10} 
+                                fill={isCurrentMonth ? '#f6f6f6' : 'gray'} 
+                                textAnchor="middle"
+                                onClick={() => {handleChangePayload(payload.value)}}
+                              >
+                                {payload.value}
+                                
+                              </text>
+                            );
+                          }}
+                        />
+                      
+                      <Tooltip
+                        content={<CustomTooltip />}
+                        
+                        />
+                        <Area
+                          type="basis" 
+                          dataKey="Agendamentos" 
+                          stroke="#4a17d5"
+                          fill="url(#colorUv)"  
+                          fillOpacity={0.4}
+                        >
+                        </Area>
+                        </AreaChart>
+                      </div>
+
+                    </div>
+                      
                   <div className='details__amount__statistic__barbearia'>
                       
                     <div style={{marginBottom: '15px'}}>

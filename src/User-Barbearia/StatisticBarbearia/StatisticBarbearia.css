@@ -58,9 +58,25 @@
     transition: 0.5s;
 
 }
+.container__grafic__area__statistic__barbearia{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border: 1px solid #354249;
+    border-radius: 12px;
+    width: 100%;
+}
+.title__grafic____statistic__barbearia{
+    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    font-size: 14px;
+}
 .section__grafic__barbearia{
     width: 355px;
-    height: 205px;
+    height: 225px;
     overflow-y: hidden;
     overflow-x: scroll;
     transition: 0.5s;
