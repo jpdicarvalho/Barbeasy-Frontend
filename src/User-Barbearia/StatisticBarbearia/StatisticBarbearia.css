@@ -85,12 +85,19 @@
 .custom-tooltip{
     display: flex;
     justify-content: start;
-    flex-direction: column;
+    flex-direction: row;
     padding: 5px;
     border-radius: 5px;
-    border-left: 1px solid #f6f6f6;
     background: #4a17d524;
     font-size: 14px;
+}
+#line__tooltip{
+    background: #4a17d5;
+    height: 20px;
+    width: 5px;
+    border: none;
+    border-radius: 3px;
+    margin-right: 5px;
 }
 .section__grafic__barbearia::-webkit-scrollbar {
     height: 0;
@@ -101,6 +108,9 @@
 }
 .section__grafic__barbearia::-webkit-scrollbar-thumb:hover {
     background: #f6f6f6; 
+}
+.tittle__historic__in__statistic__barbearia{
+    margin-bottom: 10px;
 }
 .details__amount__statistic__barbearia{
     display: flex;
@@ -148,6 +158,7 @@
     align-items: center;
     flex-direction: row;
     width: 100%;
+    margin-bottom: 10px;
 }
 .inner__input__search__statistic__barbearia{
     width: 100%;
@@ -196,7 +207,7 @@
     border: transparent;
     background: #3542493b;
     font-size: 14px;
-    padding-left: 20px;
+    padding-left: 30px;
     transition: 0.5s;
 }
 .active__input__Search__statistic__barbearia{
@@ -207,15 +218,20 @@
     padding-left: 27px;
 
 }
+.inner__comission__professional__statistic__barbearia{
+    display: flex;
+    justify-content: space-between;
+}
 .btn__cancel__search__booking{
     opacity: 1;
     width: 60px;
     height: 45px;
     margin-right: 5px;
     margin-left: 5px;
-    margin-top: 65px;
+    margin-top: 75px;
     color: #f6f6f6;
     border: none;
+    font-size: 14px;
     background: transparent;
 }
 .hidden_btn__cancel__search__booking{

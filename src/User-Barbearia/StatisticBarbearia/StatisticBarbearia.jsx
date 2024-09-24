@@ -192,7 +192,21 @@ const CustomTooltip = ({ payload }) => {
   if (payload && payload.length) {
     return (
       <div className="custom-tooltip">
+        <hr id='line__tooltip'/>
         <p className="label">{`Agendamentos: ${payload[0].value}`}</p>
+      </div>
+    );
+  }
+
+  return null;
+};
+
+const CustomTooltipGraficBar = ({ payload, dataKey }) => {
+  if (payload && payload.length) {
+    return (
+      <div className="custom-tooltip">
+        <hr id='line__tooltip'/>
+        <p className="label">{`${payload[0].payload.name}: ${payload[0].value}`}</p>
       </div>
     );
   }
@@ -214,7 +228,7 @@ const handleDropdowYear = () =>{
     <div className='container__statistic__barbearia'>
         <div className='section__input__search__statistic__barbearia'>
           <div className='inner__input__search__statistic__barbearia'>
-            <div className='tittle__historic'>
+            <div className='tittle__historic tittle__historic__in__statistic__barbearia'>
               <LuGanttChartSquare className='icon__LuGanttChartSquare' />
               <h2>Relatório</h2>
             </div>
@@ -225,7 +239,7 @@ const handleDropdowYear = () =>{
                 className={`input__search__statistic__barbearia ${!isHiddenSectionStatistic ? 'active__input__Search__statistic__barbearia':''}`}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder='Busque por dia, mês, horário, serviço e profissional'
+                placeholder='Buscar por dia, mês, horário, serviço e profissional'
               />
             </div>
           </div>
@@ -248,8 +262,9 @@ const handleDropdowYear = () =>{
                         <p className='title__details__statistic__barbearia'>Faturamento</p>
                         <h3>R$548,050</h3>
                         <hr id='line__details__statistic__barbearia'/>
-                        <p className='title__details__statistic__barbearia'>Comissões</p>
-                        <h3>Riba   R$150,00</h3>
+                        <p className='title__details__statistic__barbearia'>Comissões dos profissionais</p>
+                        <h3 className='inner__comission__professional__statistic__barbearia'>Riba <p>R$150,00</p></h3>
+                        <h3 className='inner__comission__professional__statistic__barbearia'>Saul <p>R$150,00</p></h3>
                       </div>
                         
                     </div>
@@ -293,25 +308,25 @@ const handleDropdowYear = () =>{
                             </linearGradient>
                         </defs>
                         <XAxis
-                        tickLine={false}
-                        axisLine={false}
-                        tickMargin={10}
+                          tickLine={false}
+                          axisLine={false}
+                          tickMargin={10}
                           dataKey="month" 
-                          tick={({ x, y, payload }) => {
-                            const isCurrentMonth = changedPayload === payload.value;
-                            return (
-                              <text
-                                x={x} 
-                                y={y + 10} 
-                                fill={isCurrentMonth ? '#f6f6f6' : 'gray'} 
-                                textAnchor="middle"
-                                onClick={() => {handleChangePayload(payload.value)}}
-                              >
-                                {payload.value}
-                                
-                              </text>
-                            );
-                          }}
+                            tick={({ x, y, payload }) => {
+                              const isCurrentMonth = changedPayload === payload.value;
+                              return (
+                                <text
+                                  x={x} 
+                                  y={y + 10} 
+                                  fill={isCurrentMonth ? '#f6f6f6' : 'gray'} 
+                                  textAnchor="middle"
+                                  onClick={() => {handleChangePayload(payload.value)}}
+                                >
+                                  {payload.value}
+                                  
+                                </text>
+                              );
+                            }}
                         />
                       
                       <Tooltip
@@ -350,7 +365,8 @@ const handleDropdowYear = () =>{
                               tickFormatter={(value) => value.slice(0, 6)}
                               tickMargin={10}/>
                               <Tooltip
-                              cursor={false}
+                                cursor={false}
+                                content={<CustomTooltipGraficBar />}
                             />
                             <Bar dataKey="uv" fill="#4a17d564" radius={10} width={20}>
                               <LabelList dataKey="uv" position="top"
