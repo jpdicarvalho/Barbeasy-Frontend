@@ -2,7 +2,7 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    max-width: 385px;
+    min-width: 385px;
     min-height: 100dvh;
     overflow-x: hidden;
 }
@@ -36,7 +36,7 @@
     display: flex;
     align-items: center;
     justify-content: end;
-    padding-left: 8px;
+    padding-right: 5px;
     background: transparent;
     margin-top: 3px;
     transition: 0.5s;
@@ -246,7 +246,7 @@
 .date_time__booking__in__statistic__barbearia{
     display: flex;
     flex-direction: column;
-    width: 260px;
+    width: 265px;
     padding-right: 5px
 }
 .date_booking__in__statistic__barbearia{

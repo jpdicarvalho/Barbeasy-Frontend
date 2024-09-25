@@ -64,7 +64,6 @@ function StatisticBarbearia() {
 
   const date = new Date();
   const currentMonth = date.getMonth(); // Mês atual (0-11)
-  const month = currentMonth + 1;
   const currentYear = date.getFullYear();
 
   const [year, setYear] = useState(currentYear);
@@ -97,23 +96,23 @@ function StatisticBarbearia() {
     getAllBookings();
   }, []);
 
-  //Function to move scroll for current month
-  useEffect(() => {
+  
     // Função para rolar até o mês atual
     const scrollToCurrentMonth = () => {
 
       // Se houver um gráfico e o dataBookings estiver preenchido, rola
       if (graficRef.current && dataBookings.length > 0) {
-        const scrollX = (graficRef.current.scrollWidth / 12) * currentMonth;
+          const scrollX = (graficRef.current.scrollWidth / 12) * currentMonth;
 
-        // Adicionando scroll suave
-        graficRef.current.scrollTo({
-          left: scrollX,
-          behavior: 'smooth' // Faz o scroll ser suave
-        });
+          // Adicionando scroll suave
+          graficRef.current.scrollTo({
+            left: scrollX,
+            behavior: 'smooth' // Faz o scroll ser suave
+          });
       }
     };
 
+  useEffect(() => {
     scrollToCurrentMonth(); // Executa após a renderização do gráfico
   }, [dataBookings]);
   
@@ -138,8 +137,9 @@ const handleDateClick = () => {
   })
   .then(res => {
     if(res.status === 200){
-      setBookings(res.data.bookings);
+      setBookings(res.data.bookings != 0 ? res.data.bookings:[]);
       setIsLoading(false)
+      scrollToCurrentMonth()
     }else{
       setBookings(false)
       setIsLoading(false)
@@ -148,10 +148,6 @@ const handleDateClick = () => {
   })
   .catch(err => console.log(err));
 }
-
-useEffect(() =>{
-  handleDateClick()
-}, [dataBookings, CurrentMonthAndYear])
 
 // Function to get amount by month and year
   const getAmountOfMonth = () =>{
@@ -162,11 +158,15 @@ useEffect(() =>{
     }).then(res =>{
       setAmountBarbearia(res.data.totalAmountBarbearia)
       setComissionProfessional(res.data.comissionByProfessional)
-      console.log(res.data)
+      scrollToCurrentMonth()
     }).catch(err =>{
       console.log(err)
     })
   }
+
+useEffect(() =>{
+  handleDateClick()
+}, [CurrentMonthAndYear])
 
 useEffect(() =>{
   getAmountOfMonth()
@@ -190,6 +190,7 @@ const hiddenSectionStatistic = () =>{
 const handleChangeYear = () =>{
   setYear(year === 2024 ? 2023:2024)
   setDropdownYear(!dropdownYear)
+  updateAllData()
 }
 
 // Convertendo o valor do search para minúsculo
@@ -241,15 +242,24 @@ const CustomTooltipGraficBar = ({ payload }) => {
 // Function to handle change the month of grafic area
 const handleChangePayload = (payloadSelected) =>{
   setChangedPayload(payloadSelected)
-  getAmountOfMonth()
+  updateAllData()
 }
 
 const handleDropdowYear = () =>{
   setDropdownYear(!dropdownYear)
 }
 
-//=============================================
+const updateAllData = () =>{
+  setIsLoading(true)
 
+  setTimeout(() =>{
+      setIsLoading(false)
+  }, 2000)
+
+  handleDateClick()
+  getAmountOfMonth()
+}
+//=============================================
   return (
     <div className='container__statistic__barbearia'>
         <div className='section__input__search__statistic__barbearia'>
@@ -303,7 +313,6 @@ const handleDropdowYear = () =>{
 
                     <div className='dropdown__year__statistic__barbearia' onClick={handleDropdowYear}>
                       <h3 className='box__details__statistic__barbearia'>{year} <IoIosArrowDown className={`arrowYear ${dropdownYear ? 'girar' : ''}`} id='arrow'/></h3>
-                      
                     </div>
                     <div className={`another__year__hidden ${dropdownYear ? 'another__year__statistic__barbearia':''}`} onClick={handleChangeYear}>
                         <h3 className='box__details__statistic__barbearia'>{year === 2023 ? 2024:2023}</h3>
