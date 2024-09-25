@@ -131,7 +131,7 @@ const CurrentMonthAndYear = `${changedPayload} de ${year}`;
 
 //Function to get all bookings of today
 const handleDateClick = () => {
-  axios.get(`${urlApi}/api/v1/bookingsByMonth/${barbeariaId}/${month}/${year}`, {
+  axios.get(`${urlApi}/api/v1/bookingsByMonth/${barbeariaId}/${CurrentMonthAndYear}`, {
     headers: {
       'Authorization': `Bearer ${token}`
     }
@@ -151,7 +151,7 @@ const handleDateClick = () => {
 
 useEffect(() =>{
   handleDateClick()
-}, [dataBookings])
+}, [dataBookings, CurrentMonthAndYear])
 
 // Function to get amount by month and year
   const getAmountOfMonth = () =>{
@@ -306,7 +306,7 @@ const handleDropdowYear = () =>{
                       
                     </div>
                     <div className={`another__year__hidden ${dropdownYear ? 'another__year__statistic__barbearia':''}`} onClick={handleChangeYear}>
-                    <h3 className='box__details__statistic__barbearia'>{year === 2023 ? 2024:2023}</h3>
+                        <h3 className='box__details__statistic__barbearia'>{year === 2023 ? 2024:2023}</h3>
                     </div>
                     
                     <div className='container__grafic__statistic__barbearia'>
@@ -314,16 +314,16 @@ const handleDropdowYear = () =>{
                       <hr />
                       <div className='section__grafic__barbearia' ref={graficRef}>
                         <AreaChart
-                        width={550}
-                        height={200}
-                        data={dataBookings}
-                        stackOffset="expand"
-                        margin={{
-                          top: 20,
-                          right: 30,
-                          left: 30,
-                          bottom: 0,
-                        }}>
+                          width={550}
+                          height={200}
+                          data={dataBookings}
+                          stackOffset="expand"
+                          margin={{
+                            top: 20,
+                            right: 30,
+                            left: 30,
+                            bottom: 0,
+                          }}>
 
                           <defs>
                             <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
@@ -375,7 +375,6 @@ const handleDropdowYear = () =>{
                         </Area>
                         </AreaChart>
                       </div>
-
                     </div>
                       
                     <div className='container__grafic__statistic__barbearia'>
