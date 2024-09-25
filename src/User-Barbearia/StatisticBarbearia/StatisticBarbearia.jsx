@@ -388,7 +388,6 @@ const handleDropdowYear = () =>{
                                     <div key={index} className='container__booking' onClick={() => toggleItem(booking.booking_id)}>
                                       <div className={`${booking.paymentStatus === "pending" ? 'booking__pending':'booking__in__statistic__barbearia' } ${expandedCardBooking.includes(booking.booking_id) ? 'expandCard__booking__in__statistic__barbearia':''}`}>
                                         
-                                        
                                         <div className='container__values__booking__in__statistic__barbearia'>
                                           <div className="container_professional">
                                             {booking.user_image != "default.jpg" ?(

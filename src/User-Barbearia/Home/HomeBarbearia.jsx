@@ -211,9 +211,11 @@ const toggleItem = (itemId) => {
 //==========Secction to get amout of current month==========
 const [valuesSerice, setValuesService] = useState (false)
 
+const CurrentMonthAndYear = `${month} de ${year}`;
+
 useEffect(() =>{
   const getAmountOfMonth = () =>{
-    axios.get(`${urlApi}/api/v1/getAmountOfMonth/${barbeariaId}`, {
+    axios.get(`${urlApi}/api/v1/getAmountOfMonth/${barbeariaId}/${CurrentMonthAndYear}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
