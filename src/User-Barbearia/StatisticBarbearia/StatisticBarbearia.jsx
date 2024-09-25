@@ -162,7 +162,8 @@ const [comissionProfessional, setComissionProfessional] = useState ([])
         'Authorization': `Bearer ${token}`
       }
     }).then(res =>{
-      setAmountBarbearia(res.data.totalAmount)
+      setAmountBarbearia(res.data.totalAmountBarbearia)
+      setComissionProfessional(res.data.comissionByProfessional)
     }).catch(err =>{
       console.log(err)
     })
@@ -171,7 +172,7 @@ const [comissionProfessional, setComissionProfessional] = useState ([])
 useEffect(() =>{
   getAmountOfMonth()
 }, [])
-
+console.log(comissionProfessional)
 // Function to show the section statistic with grafics
 const showSectionStatistic = () =>{
   getAllBookings()
@@ -283,14 +284,20 @@ const handleDropdowYear = () =>{
                    <div className='inner__details__statistic__barbearia'>
                       <hr className='border__left__details__statistic__barbearia'/>
                       <div className='box__values__details__statistic__barbearia'>
-                        <p className='title__details__statistic__barbearia'>Faturamento</p>
-                        <h3>R$ {amount}</h3>
-                        <hr id='line__details__statistic__barbearia'/>
-                        <p className='title__details__statistic__barbearia'>Comissões dos profissionais</p>
-                        <h3 className='inner__comission__professional__statistic__barbearia'>Riba <p>R$150,00</p></h3>
-                        <h3 className='inner__comission__professional__statistic__barbearia'>Saul <p>R$150,00</p></h3>
+                          <p className='title__details__statistic__barbearia'>Faturamento</p>
+                          <h3>R$ {amountBarbearia}</h3>
+                          <hr id='line__details__statistic__barbearia'/>
+                          {comissionProfessional &&(
+                            <>
+                              <p className='title__details__statistic__barbearia'>{comissionProfessional.length}</p>
+                              {Object.entries(comissionProfessional).map(([professional, comissionFee]) =>(
+                                <div key={professional}>
+                                  <h3 className='inner__comission__professional__statistic__barbearia'>{professional}<p>{comissionFee}</p></h3>
+                                </div>
+                              ))}
+                            </>
+                          )}
                       </div>
-                        
                     </div>
 
                     <div className='dropdown__year__statistic__barbearia' onClick={handleDropdowYear}>

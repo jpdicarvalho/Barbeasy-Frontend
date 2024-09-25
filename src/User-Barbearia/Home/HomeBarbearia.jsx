@@ -220,7 +220,7 @@ useEffect(() =>{
         'Authorization': `Bearer ${token}`
       }
     }).then(res =>{
-      setAmountBarbearia(res.data.totalAmount)
+      setAmountBarbearia(res.data.totalAmountBarbearia)
     }).catch(err =>{
       console.log(err)
     })
