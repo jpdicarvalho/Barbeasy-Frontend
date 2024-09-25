@@ -116,16 +116,17 @@ function StatisticBarbearia() {
 
     scrollToCurrentMonth(); // Executa após a renderização do gráfico
   }, [dataBookings]);
-
   
 //================= Section list all bookings by month =================
 const [bookings, setBookings] = useState([]);
 const [expandedCardBooking, setExpandedCardBooking] = useState([]);
 const [changedPayload, setChangedPayload] = useState(monthNames[currentMonth]);
+const [amount, setAmount] = useState (false)
 const [isHiddenSectionStatistic, setIsHiddenSectionStatistic] = useState(true);
 const [dropdownYear, setDropdownYear] = useState(false);
-
 const [messagemNotFound, setMessagemNotFound] = useState("");
+
+const CurrentMonthAndYear = `${changedPayload} de ${year}`;
 
 //Function to get all bookings of today
 const handleDateClick = () => {
@@ -151,18 +152,38 @@ useEffect(() =>{
   handleDateClick()
 }, [dataBookings])
 
+// Function to get amount by month and year
+const getAmountOfMonth = () =>{
+  axios.get(`${urlApi}/api/v1/getAmountOfMonth/${barbeariaId}/${CurrentMonthAndYear}`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  }).then(res =>{
+    setAmount(res.data.totalAmount)
+  }).catch(err =>{
+    console.log(err)
+  })
+}
+// hook to call the function getAmountOfMonth
+useEffect(() =>{
+  getAmountOfMonth()
+}, [])
+
+// Function to show the section statistic with grafics
 const showSectionStatistic = () =>{
   getAllBookings()
   setSearch('')
   setIsHiddenSectionStatistic(false)
 }
 
+// Function to hidden the section statistic with grafics
 const hiddenSectionStatistic = () =>{
   getAllBookings()
   setSearch('')
   setIsHiddenSectionStatistic(true)
 }
 
+// Function to change the value of year
 const handleChangeYear = () =>{
   setYear(year === 2024 ? 2023:2024)
   setDropdownYear(!dropdownYear)
@@ -214,7 +235,6 @@ const CustomTooltipGraficBar = ({ payload }) => {
   return null;
 };
 
-
 const handleChangePayload = (payloadSelected) =>{
   setChangedPayload(payloadSelected)
 }
@@ -222,6 +242,7 @@ const handleChangePayload = (payloadSelected) =>{
 const handleDropdowYear = () =>{
   setDropdownYear(!dropdownYear)
 }
+
 //=============================================
 
   return (
@@ -260,7 +281,7 @@ const handleDropdowYear = () =>{
                       <hr className='border__left__details__statistic__barbearia'/>
                       <div className='box__values__details__statistic__barbearia'>
                         <p className='title__details__statistic__barbearia'>Faturamento</p>
-                        <h3>R$548,050</h3>
+                        <h3>R$ {amount}</h3>
                         <hr id='line__details__statistic__barbearia'/>
                         <p className='title__details__statistic__barbearia'>Comissões dos profissionais</p>
                         <h3 className='inner__comission__professional__statistic__barbearia'>Riba <p>R$150,00</p></h3>
