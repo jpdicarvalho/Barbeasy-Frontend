@@ -121,7 +121,8 @@ function StatisticBarbearia() {
 const [bookings, setBookings] = useState([]);
 const [expandedCardBooking, setExpandedCardBooking] = useState([]);
 const [changedPayload, setChangedPayload] = useState(monthNames[currentMonth]);
-const [amount, setAmount] = useState (false)
+const [amountBarbearia, setAmountBarbearia] = useState ([])
+const [comissionProfessional, setComissionProfessional] = useState ([])
 const [isHiddenSectionStatistic, setIsHiddenSectionStatistic] = useState(true);
 const [dropdownYear, setDropdownYear] = useState(false);
 const [messagemNotFound, setMessagemNotFound] = useState("");
@@ -153,9 +154,6 @@ useEffect(() =>{
 }, [dataBookings])
 
 // Function to get amount by month and year
-const [amountBarbearia, setAmountBarbearia] = useState ([])
-const [comissionProfessional, setComissionProfessional] = useState ([])
-
   const getAmountOfMonth = () =>{
     axios.get(`${urlApi}/api/v1/getAmountOfMonth/${barbeariaId}/${CurrentMonthAndYear}`, {
       headers: {
@@ -164,6 +162,7 @@ const [comissionProfessional, setComissionProfessional] = useState ([])
     }).then(res =>{
       setAmountBarbearia(res.data.totalAmountBarbearia)
       setComissionProfessional(res.data.comissionByProfessional)
+      console.log(res.data)
     }).catch(err =>{
       console.log(err)
     })
@@ -171,8 +170,8 @@ const [comissionProfessional, setComissionProfessional] = useState ([])
 
 useEffect(() =>{
   getAmountOfMonth()
-}, [])
-console.log(comissionProfessional)
+}, [CurrentMonthAndYear])
+
 // Function to show the section statistic with grafics
 const showSectionStatistic = () =>{
   getAllBookings()
@@ -239,8 +238,10 @@ const CustomTooltipGraficBar = ({ payload }) => {
   return null;
 };
 
+// Function to handle change the month of grafic area
 const handleChangePayload = (payloadSelected) =>{
   setChangedPayload(payloadSelected)
+  getAmountOfMonth()
 }
 
 const handleDropdowYear = () =>{
@@ -285,14 +286,14 @@ const handleDropdowYear = () =>{
                       <hr className='border__left__details__statistic__barbearia'/>
                       <div className='box__values__details__statistic__barbearia'>
                           <p className='title__details__statistic__barbearia'>Faturamento</p>
-                          <h3>R$ {amountBarbearia}</h3>
+                          <h3>{amountBarbearia ? `R$ ${amountBarbearia}`:'R$ 00,00'}</h3>
                           <hr id='line__details__statistic__barbearia'/>
                           {comissionProfessional &&(
                             <>
                               <p className='title__details__statistic__barbearia'>{comissionProfessional.length}</p>
                               {Object.entries(comissionProfessional).map(([professional, comissionFee]) =>(
                                 <div key={professional}>
-                                  <h3 className='inner__comission__professional__statistic__barbearia'>{professional}<p>{comissionFee}</p></h3>
+                                  <h3 className='inner__comission__professional__statistic__barbearia'>{professional}<p>R$ {comissionFee}</p></h3>
                                 </div>
                               ))}
                             </>
