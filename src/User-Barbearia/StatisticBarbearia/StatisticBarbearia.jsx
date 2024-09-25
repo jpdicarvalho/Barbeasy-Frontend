@@ -153,18 +153,21 @@ useEffect(() =>{
 }, [dataBookings])
 
 // Function to get amount by month and year
-const getAmountOfMonth = () =>{
-  axios.get(`${urlApi}/api/v1/getAmountOfMonth/${barbeariaId}/${CurrentMonthAndYear}`, {
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
-  }).then(res =>{
-    setAmount(res.data.totalAmount)
-  }).catch(err =>{
-    console.log(err)
-  })
-}
-// hook to call the function getAmountOfMonth
+const [amountBarbearia, setAmountBarbearia] = useState ([])
+const [comissionProfessional, setComissionProfessional] = useState ([])
+
+  const getAmountOfMonth = () =>{
+    axios.get(`${urlApi}/api/v1/getAmountOfMonth/${barbeariaId}/${CurrentMonthAndYear}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).then(res =>{
+      setAmountBarbearia(res.data.totalAmount)
+    }).catch(err =>{
+      console.log(err)
+    })
+  }
+
 useEffect(() =>{
   getAmountOfMonth()
 }, [])

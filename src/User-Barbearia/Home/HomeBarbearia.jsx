@@ -209,7 +209,7 @@ const toggleItem = (itemId) => {
     }
 };
 //==========Secction to get amout of current month==========
-const [valuesSerice, setValuesService] = useState (false)
+const [amountBarbearia, setAmountBarbearia] = useState ([])
 
 const CurrentMonthAndYear = `${month} de ${year}`;
 
@@ -220,7 +220,7 @@ useEffect(() =>{
         'Authorization': `Bearer ${token}`
       }
     }).then(res =>{
-      setValuesService(res.data.totalAmount)
+      setAmountBarbearia(res.data.totalAmount)
     }).catch(err =>{
       console.log(err)
     })
@@ -245,7 +245,7 @@ return (
                 <>
                   <p className='tittle__amount'>Total faturado esse mês</p>
                   <div className='box__amount'>
-                    <p className='text__amount'>R$ {valuesSerice ? valuesSerice:'00,00'}</p>
+                    <p className='text__amount'>R$ {amountBarbearia ? amountBarbearia:'00,00'}</p>
                     <AiOutlineEyeInvisible className='icon__AiOutlineEyeInvisible' onClick={hiddenAmountVisibility}/>     
                   </div>
                   
