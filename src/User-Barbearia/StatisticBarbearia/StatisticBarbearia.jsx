@@ -81,12 +81,14 @@ function StatisticBarbearia() {
 
   // Função para buscar os agendamentos
   const getAllBookings = () => {
-    axios.get(`${urlApi}/api/v1/amountBookings/${barbeariaId}/${year}`, {
+    axios.get(`${urlApi}/api/v1/totalBookings/${barbeariaId}/${year}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
     }).then(res => {
-      setDataBookings(res.data.amountBookings);
+  console.log(res.data)
+
+      setDataBookings(res.data.totalBookings);
     }).catch(err => {
       console.error('Erro ao buscar agendamentos', err);
     });
@@ -94,8 +96,7 @@ function StatisticBarbearia() {
 
   useEffect(() => {
     getAllBookings();
-  }, []);
-
+  }, [year]);
   
     // Função para rolar até o mês atual
     const scrollToCurrentMonth = () => {
@@ -115,7 +116,6 @@ function StatisticBarbearia() {
   useEffect(() => {
     scrollToCurrentMonth(); // Executa após a renderização do gráfico
   }, [dataBookings]);
-  
 //================= Section list all bookings by month =================
 const [bookings, setBookings] = useState([]);
 const [expandedCardBooking, setExpandedCardBooking] = useState([]);
@@ -150,19 +150,19 @@ const handleDateClick = () => {
 }
 
 // Function to get amount by month and year
-  const getAmountOfMonth = () =>{
-    axios.get(`${urlApi}/api/v1/getAmountOfMonth/${barbeariaId}/${CurrentMonthAndYear}`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    }).then(res =>{
-      setAmountBarbearia(res.data.totalAmountBarbearia)
-      setComissionProfessional(res.data.comissionByProfessional)
-      scrollToCurrentMonth()
-    }).catch(err =>{
-      console.log(err)
-    })
-  }
+const getAmountOfMonth = () =>{
+  axios.get(`${urlApi}/api/v1/getAmountOfMonth/${barbeariaId}/${CurrentMonthAndYear}`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  }).then(res =>{
+    setAmountBarbearia(res.data.totalAmountBarbearia)
+    setComissionProfessional(res.data.comissionByProfessional)
+    scrollToCurrentMonth()
+  }).catch(err =>{
+    console.log(err)
+  })
+}
 
 useEffect(() =>{
   handleDateClick()
@@ -252,12 +252,13 @@ const handleDropdowYear = () =>{
 const updateAllData = () =>{
   setIsLoading(true)
 
+  handleDateClick()
+  getAmountOfMonth()
+  getAllBookings()
+
   setTimeout(() =>{
       setIsLoading(false)
   }, 2000)
-
-  handleDateClick()
-  getAmountOfMonth()
 }
 //=============================================
   return (
@@ -315,7 +316,7 @@ const updateAllData = () =>{
                       <h3 className='box__details__statistic__barbearia'>{year} <IoIosArrowDown className={`arrowYear ${dropdownYear ? 'girar' : ''}`} id='arrow'/></h3>
                     </div>
                     <div className={`another__year__hidden ${dropdownYear ? 'another__year__statistic__barbearia':''}`} onClick={handleChangeYear}>
-                        <h3 className='box__details__statistic__barbearia'>{year === 2023 ? 2024:2023}</h3>
+                        <h3 className='box__details__statistic__barbearia'>{year === 2024 ? 2023:2023}</h3>
                     </div>
                     
                     <div className='container__grafic__statistic__barbearia'>
