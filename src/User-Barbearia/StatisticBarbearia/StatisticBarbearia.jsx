@@ -86,8 +86,6 @@ function StatisticBarbearia() {
         'Authorization': `Bearer ${token}`
       }
     }).then(res => {
-  console.log(res.data)
-
       setDataBookings(res.data.totalBookings);
     }).catch(err => {
       console.error('Erro ao buscar agendamentos', err);
@@ -96,7 +94,7 @@ function StatisticBarbearia() {
 
   useEffect(() => {
     getAllBookings();
-  }, [year]);
+  }, []);
   
     // Função para rolar até o mês atual
     const scrollToCurrentMonth = () => {
@@ -166,11 +164,11 @@ const getAmountOfMonth = () =>{
 
 useEffect(() =>{
   handleDateClick()
-}, [CurrentMonthAndYear])
+}, [])
 
 useEffect(() =>{
   getAmountOfMonth()
-}, [CurrentMonthAndYear])
+}, [])
 
 // Function to show the section statistic with grafics
 const showSectionStatistic = () =>{
@@ -188,9 +186,8 @@ const hiddenSectionStatistic = () =>{
 
 // Function to change the value of year
 const handleChangeYear = () =>{
-  setYear(year === 2024 ? 2023:2024)
+  setYear(year)
   setDropdownYear(!dropdownYear)
-  updateAllData()
 }
 
 // Convertendo o valor do search para minúsculo
@@ -242,13 +239,13 @@ const CustomTooltipGraficBar = ({ payload }) => {
 // Function to handle change the month of grafic area
 const handleChangePayload = (payloadSelected) =>{
   setChangedPayload(payloadSelected)
-  updateAllData()
 }
 
 const handleDropdowYear = () =>{
   setDropdownYear(!dropdownYear)
 }
 
+//Function to update all data after change month
 const updateAllData = () =>{
   setIsLoading(true)
 
@@ -260,6 +257,11 @@ const updateAllData = () =>{
       setIsLoading(false)
   }, 2000)
 }
+
+useEffect(() =>{
+  updateAllData()
+}, [changedPayload])
+
 //=============================================
   return (
     <div className='container__statistic__barbearia'>
@@ -316,7 +318,7 @@ const updateAllData = () =>{
                       <h3 className='box__details__statistic__barbearia'>{year} <IoIosArrowDown className={`arrowYear ${dropdownYear ? 'girar' : ''}`} id='arrow'/></h3>
                     </div>
                     <div className={`another__year__hidden ${dropdownYear ? 'another__year__statistic__barbearia':''}`} onClick={handleChangeYear}>
-                        <h3 className='box__details__statistic__barbearia'>{year === 2024 ? 2023:2023}</h3>
+                        <h3 className='box__details__statistic__barbearia'></h3>
                     </div>
                     
                     <div className='container__grafic__statistic__barbearia'>
