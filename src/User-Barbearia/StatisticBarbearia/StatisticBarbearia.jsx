@@ -125,11 +125,11 @@ const [isHiddenSectionStatistic, setIsHiddenSectionStatistic] = useState(true);
 const [dropdownYear, setDropdownYear] = useState(false);
 const [messagemNotFound, setMessagemNotFound] = useState("");
 
-const CurrentMonthAndYear = `${changedPayload} de ${year}`;
+const monthAndYear = `${changedPayload} de ${year}`;
 
 //Function to get all bookings by getAllBookingsByMonthAndYear
 const getAllBookingsByMonthAndYear = () => {
-  axios.get(`${urlApi}/api/v1/bookingsByMonth/${barbeariaId}/${CurrentMonthAndYear}`, {
+  axios.get(`${urlApi}/api/v1/bookingsByMonth/${barbeariaId}/${monthAndYear}`, {
     headers: {
       'Authorization': `Bearer ${token}`
     }
@@ -150,7 +150,7 @@ const getAllBookingsByMonthAndYear = () => {
 
 // Function to get amount by month and year
 const getAmountOfMonth = () =>{
-  axios.get(`${urlApi}/api/v1/getAmountOfMonth/${barbeariaId}/${CurrentMonthAndYear}`, {
+  axios.get(`${urlApi}/api/v1/getAmountOfMonth/${barbeariaId}/${monthAndYear}`, {
     headers: {
       'Authorization': `Bearer ${token}`
     }
@@ -165,7 +165,7 @@ const getAmountOfMonth = () =>{
 
 // Function to get amount by month and year
 const getMostScheduledServices = () =>{
-  axios.get(`${urlApi}/api/v1/MostScheduledServices/${barbeariaId}/${CurrentMonthAndYear}`, {
+  axios.get(`${urlApi}/api/v1/MostScheduledServices/${barbeariaId}/${monthAndYear}`, {
     headers: {
       'Authorization': `Bearer ${token}`
     }
