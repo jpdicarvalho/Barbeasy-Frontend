@@ -74,7 +74,7 @@ function StatisticBarbearia() {
   const userData = localStorage.getItem('dataBarbearia'); // Obtendo os dados salvos no localStorage
   const userInformation = JSON.parse(userData); // Transformando os dados para JSON
   const barbeariaId = userInformation.barbearia[0].id;
-
+//================= Section to get total of bookings for grafic area =================
   const [isLoading, setIsLoading] = useState (true);
   const [search, setSearch] = useState('');
   const [dataBookings, setDataBookings] = useState([]);
@@ -114,7 +114,7 @@ function StatisticBarbearia() {
   useEffect(() => {
     scrollToCurrentMonth(); // Executa após a renderização do gráfico
   }, [dataBookings]);
-//================= Section list all bookings by month =================
+//================= Section list all bookings and barbearia's amount by month =================
 const [bookings, setBookings] = useState([]);
 const [expandedCardBooking, setExpandedCardBooking] = useState([]);
 const [changedPayload, setChangedPayload] = useState(monthNames[currentMonth]);
@@ -126,8 +126,8 @@ const [messagemNotFound, setMessagemNotFound] = useState("");
 
 const CurrentMonthAndYear = `${changedPayload} de ${year}`;
 
-//Function to get all bookings of today
-const handleDateClick = () => {
+//Function to get all bookings by getAllBookingsByMonthAndYear
+const getAllBookingsByMonthAndYear = () => {
   axios.get(`${urlApi}/api/v1/bookingsByMonth/${barbeariaId}/${CurrentMonthAndYear}`, {
     headers: {
       'Authorization': `Bearer ${token}`
@@ -163,10 +163,7 @@ const getAmountOfMonth = () =>{
 }
 
 useEffect(() =>{
-  handleDateClick()
-}, [])
-
-useEffect(() =>{
+  getAllBookingsByMonthAndYear()
   getAmountOfMonth()
 }, [])
 
@@ -190,6 +187,61 @@ const handleChangeYear = () =>{
   setDropdownYear(!dropdownYear)
 }
 
+// Function to handle change the month of grafic area
+const handleChangePayload = (payloadSelected) =>{
+  setChangedPayload(payloadSelected)
+}
+
+const handleDropdowYear = () =>{
+  setDropdownYear(!dropdownYear)
+}
+
+//Function to update all data after change month
+const updateAllData = () =>{
+  setIsLoading(true)
+
+  getAllBookingsByMonthAndYear()
+  getAmountOfMonth()
+  getAllBookings()
+
+  setTimeout(() =>{
+      setIsLoading(false)
+  }, 2000)
+}
+
+useEffect(() =>{
+  updateAllData()
+}, [changedPayload])
+
+//function to customize tooltip of grafic area
+const CustomTooltip = ({ payload }) => {
+  if (payload && payload.length) {
+    return (
+      <div className="custom-tooltip">
+        <hr id='line__tooltip'/>
+        <p className="label">{`Agendamentos: ${payload[0].value}`}</p>
+      </div>
+    );
+  }
+
+  return null;
+};
+
+//function to customize tooltip of grafic bar
+const CustomTooltipGraficBar = ({ payload }) => {
+  if (payload && payload.length) {
+    return (
+      <div className="custom-tooltip">
+        <hr id='line__tooltip'/>
+        <p className="label">{`${payload[0].payload.name}: ${payload[0].value}`}</p>
+      </div>
+    );
+  }
+
+  return null;
+};
+
+//================= Section to filter all bookings by input search =================
 // Convertendo o valor do search para minúsculo
 const searchLowerCase = search.toLowerCase();
 
@@ -209,59 +261,6 @@ const toggleItem = (itemId) => {
     setExpandedCardBooking([...expandedCardBooking, itemId]);
   }
 };
-
-const CustomTooltip = ({ payload }) => {
-  if (payload && payload.length) {
-    return (
-      <div className="custom-tooltip">
-        <hr id='line__tooltip'/>
-        <p className="label">{`Agendamentos: ${payload[0].value}`}</p>
-      </div>
-    );
-  }
-
-  return null;
-};
-
-const CustomTooltipGraficBar = ({ payload }) => {
-  if (payload && payload.length) {
-    return (
-      <div className="custom-tooltip">
-        <hr id='line__tooltip'/>
-        <p className="label">{`${payload[0].payload.name}: ${payload[0].value}`}</p>
-      </div>
-    );
-  }
-
-  return null;
-};
-
-// Function to handle change the month of grafic area
-const handleChangePayload = (payloadSelected) =>{
-  setChangedPayload(payloadSelected)
-}
-
-const handleDropdowYear = () =>{
-  setDropdownYear(!dropdownYear)
-}
-
-//Function to update all data after change month
-const updateAllData = () =>{
-  setIsLoading(true)
-
-  handleDateClick()
-  getAmountOfMonth()
-  getAllBookings()
-
-  setTimeout(() =>{
-      setIsLoading(false)
-  }, 2000)
-}
-
-useEffect(() =>{
-  updateAllData()
-}, [changedPayload])
-
 //=============================================
   return (
     <div className='container__statistic__barbearia'>
