@@ -15,45 +15,13 @@ import { RiExchangeFundsLine } from "react-icons/ri";
 import { BsGraphDownArrow } from "react-icons/bs";
 import { PiContactlessPayment } from "react-icons/pi";
 import { LuGanttChartSquare } from "react-icons/lu";
+import { BiSolidBarChartAlt2 } from "react-icons/bi";
 
 import './StatisticBarbearia.css';
 
-const monthNames = [
-  'Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
-];
+const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
 
-const data = [
-  {
-    name: 'Navalhado',
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    name: 'Degradê',
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: 'Social',
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-  },
-  {
-    name: 'Barba',
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-  },
-  {
-    name: 'Sobrancelha',
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-  }
-];
+
 function StatisticBarbearia() {
 
   const urlApi = 'https://barbeasy.up.railway.app';
@@ -74,6 +42,7 @@ function StatisticBarbearia() {
   const userData = localStorage.getItem('dataBarbearia'); // Obtendo os dados salvos no localStorage
   const userInformation = JSON.parse(userData); // Transformando os dados para JSON
   const barbeariaId = userInformation.barbearia[0].id;
+
 //================= Section to get total of bookings for grafic area =================
   const [isLoading, setIsLoading] = useState (true);
   const [search, setSearch] = useState('');
@@ -96,20 +65,20 @@ function StatisticBarbearia() {
     getAllBookings();
   }, []);
   
-    // Função para rolar até o mês atual
-    const scrollToCurrentMonth = () => {
+  // Função para rolar até o mês atual
+  const scrollToCurrentMonth = () => {
 
-      // Se houver um gráfico e o dataBookings estiver preenchido, rola
-      if (graficRef.current && dataBookings.length > 0) {
-          const scrollX = (graficRef.current.scrollWidth / 12) * currentMonth;
+    // Se houver um gráfico e o dataBookings estiver preenchido, rola
+    if (graficRef.current && dataBookings.length > 0) {
+        const scrollX = (graficRef.current.scrollWidth / 12) * currentMonth;
 
-          // Adicionando scroll suave
-          graficRef.current.scrollTo({
-            left: scrollX,
-            behavior: 'smooth' // Faz o scroll ser suave
-          });
-      }
-    };
+        // Adicionando scroll suave
+        graficRef.current.scrollTo({
+          left: scrollX,
+          behavior: 'smooth' // Faz o scroll ser suave
+        });
+    }
+  };
 
   useEffect(() => {
     scrollToCurrentMonth(); // Executa após a renderização do gráfico
@@ -125,7 +94,7 @@ const [isHiddenSectionStatistic, setIsHiddenSectionStatistic] = useState(true);
 const [dropdownYear, setDropdownYear] = useState(false);
 const [messagemNotFound, setMessagemNotFound] = useState("");
 
-const monthAndYear = `${changedPayload} de ${year}`;
+const monthAndYear = `${changedPayload.length === 3 ? changedPayload:changedPayload.slice(0, 3)} de ${year}`;
 
 //Function to get all bookings by getAllBookingsByMonthAndYear
 const getAllBookingsByMonthAndYear = () => {
@@ -179,6 +148,7 @@ const getMostScheduledServices = () =>{
 useEffect(() =>{
   getAllBookingsByMonthAndYear()
   getAmountOfMonth()
+  getMostScheduledServices()
 }, [])
 
 // Function to show the section statistic with grafics
@@ -214,9 +184,10 @@ const handleDropdowYear = () =>{
 const updateAllData = () =>{
   setIsLoading(true)
 
-  getAllBookingsByMonthAndYear()
   getAmountOfMonth()
   getAllBookings()
+  getMostScheduledServices()
+  getAllBookingsByMonthAndYear()
 
   setTimeout(() =>{
       setIsLoading(false)
@@ -247,7 +218,7 @@ const CustomTooltipGraficBar = ({ payload }) => {
     return (
       <div className="custom-tooltip">
         <hr id='line__tooltip'/>
-        <p className="label">{`${payload[0].payload.name}: ${payload[0].value}`}</p>
+        <p className="label">{`${payload[0].payload.name_service}: ${payload[0].value}`}</p>
       </div>
     );
   }
@@ -335,7 +306,7 @@ const toggleItem = (itemId) => {
                     </div>
                     
                     <div className='container__grafic__statistic__barbearia'>
-                      <h3 className='title__grafic____statistic__barbearia'>Agendamentos por mês</h3>
+                      <h3 className='title__grafic____statistic__barbearia'>Agendamentos por mês • {changedPayload} </h3>
                       <hr />
                       <div className='section__grafic__barbearia' ref={graficRef}>
                         <AreaChart
@@ -368,9 +339,10 @@ const toggleItem = (itemId) => {
                           tickLine={false}
                           axisLine={false}
                           tickMargin={10}
+                          tickFormatter={(value) => value.slice(0, 3)}
                           dataKey="month" 
                             tick={({ x, y, payload }) => {
-                              const isCurrentMonth = changedPayload === payload.value;
+                              const isCurrentMonth = changedPayload.slice(0, 3) === payload.value.slice(0, 3);
                               return (
                                 <text
                                   x={x} 
@@ -379,7 +351,7 @@ const toggleItem = (itemId) => {
                                   textAnchor="middle"
                                   onClick={() => {handleChangePayload(payload.value)}}
                                 >
-                                  {payload.value}
+                                  {payload.value.slice(0, 3)}
                                   
                                 </text>
                               );
@@ -404,33 +376,40 @@ const toggleItem = (itemId) => {
                       
                     <div className='container__grafic__statistic__barbearia'>
                         
-                      <h3 className='title__grafic____statistic__barbearia'>Serviços mais agendados em {changedPayload}</h3>
+                      <h3 className='title__grafic____statistic__barbearia'>Serviços mais agendados • {changedPayload}</h3>
                       <hr />
 
+                      {mostScheduledServices.length > 0 ? (
                         <ResponsiveContainer width={385} height={270} >
-                          <BarChart
-                            data={data}
-                            margin={{
-                              top: 40,
-                              bottom: 15
-                            }}
-                          >
-                            <XAxis dataKey="name"
-                              tickLine={false}  
-                              axisLine={false}
-                              tickFormatter={(value) => value.slice(0, 6)}
-                              tickMargin={10}/>
-                              <Tooltip
-                                cursor={false}
-                                content={<CustomTooltipGraficBar />}
-                            />
-                            <Bar dataKey="uv" fill="#4a17d564" radius={10} width={20}>
-                              <LabelList dataKey="uv" position="top"
-                                offset={12}
-                                fontSize={12} />
-                            </Bar>
-                          </BarChart>
-                        </ResponsiveContainer>
+                        <BarChart
+                          data={mostScheduledServices}
+                          margin={{
+                            top: 40,
+                            bottom: 15
+                          }}
+                        >
+                          <XAxis dataKey="name_service"
+                            tickLine={false}  
+                            axisLine={false}
+                            tickFormatter={(value) => value.slice(0, 6)}
+                            tickMargin={10}/>
+                            <Tooltip
+                              cursor={false}
+                              content={<CustomTooltipGraficBar />}
+                          />
+                          <Bar dataKey="quantidade" fill="#4a17d564" radius={10} width={20} height={10}>
+                            <LabelList dataKey="quantidade" position="top"
+                              offset={12}
+                              fontSize={10} />
+                          </Bar>
+                        </BarChart>
+                      </ResponsiveContainer>
+                      ):(
+                        <div className='box__grafic__bar__empty'>
+                          <BiSolidBarChartAlt2 className='icon__BiSolidBarChartAlt2'/>
+                          <p>Nenhum serviço agendado em {changedPayload}</p>
+                        </div>
+                      )}
                     </div>
                   </>
             )}
