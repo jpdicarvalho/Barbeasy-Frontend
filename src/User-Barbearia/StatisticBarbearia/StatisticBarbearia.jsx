@@ -120,6 +120,7 @@ const [expandedCardBooking, setExpandedCardBooking] = useState([]);
 const [changedPayload, setChangedPayload] = useState(monthNames[currentMonth]);
 const [amountBarbearia, setAmountBarbearia] = useState ([])
 const [comissionProfessional, setComissionProfessional] = useState ([])
+const [mostScheduledServices, setMostScheduledServices] = useState([]);
 const [isHiddenSectionStatistic, setIsHiddenSectionStatistic] = useState(true);
 const [dropdownYear, setDropdownYear] = useState(false);
 const [messagemNotFound, setMessagemNotFound] = useState("");
@@ -157,6 +158,19 @@ const getAmountOfMonth = () =>{
     setAmountBarbearia(res.data.totalAmountBarbearia)
     setComissionProfessional(res.data.comissionByProfessional)
     scrollToCurrentMonth()
+  }).catch(err =>{
+    console.log(err)
+  })
+}
+
+// Function to get amount by month and year
+const getMostScheduledServices = () =>{
+  axios.get(`${urlApi}/api/v1/MostScheduledServices/${barbeariaId}/${CurrentMonthAndYear}`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  }).then(res =>{
+      setMostScheduledServices(res.data.mostScheduledServices)
   }).catch(err =>{
     console.log(err)
   })
