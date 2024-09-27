@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"
 import axios from 'axios';
 
 
-import { AreaChart, Area, XAxis, Tooltip, BarChart, Bar, Legend, ResponsiveContainer, LabelList} from 'recharts';
+import { AreaChart, Area, XAxis, Tooltip, BarChart, Bar, YAxis, ResponsiveContainer, LabelList} from 'recharts';
 
 
 import { IoIosSearch } from "react-icons/io";
@@ -335,6 +335,7 @@ const toggleItem = (itemId) => {
                               />
                             </linearGradient>
                         </defs>
+                          
                         <XAxis
                           tickLine={false}
                           axisLine={false}
@@ -363,7 +364,7 @@ const toggleItem = (itemId) => {
                         
                         />
                         <Area
-                          type="basis" 
+                          type="monotone" 
                           dataKey="Agendamentos" 
                           stroke="#4a17d5"
                           fill="url(#colorUv)"  
