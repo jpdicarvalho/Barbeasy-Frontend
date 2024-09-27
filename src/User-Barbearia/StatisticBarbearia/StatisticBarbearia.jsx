@@ -397,10 +397,10 @@ const toggleItem = (itemId) => {
                               cursor={false}
                               content={<CustomTooltipGraficBar />}
                           />
-                          <Bar dataKey="quantidade" fill="#4a17d564" radius={10} width={20} height={10}>
+                          <Bar dataKey="quantidade" fill="#4a17d564" radius={10} width={20} height={10} barSize={70}>
                             <LabelList dataKey="quantidade" position="top"
                               offset={12}
-                              fontSize={10} />
+                              fontSize={16} />
                           </Bar>
                         </BarChart>
                       </ResponsiveContainer>
