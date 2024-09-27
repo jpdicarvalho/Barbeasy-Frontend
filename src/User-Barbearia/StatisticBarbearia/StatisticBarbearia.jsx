@@ -16,6 +16,10 @@ import { BsGraphDownArrow } from "react-icons/bs";
 import { PiContactlessPayment } from "react-icons/pi";
 import { LuGanttChartSquare } from "react-icons/lu";
 import { BiSolidBarChartAlt2 } from "react-icons/bi";
+import { GrAppsRounded } from "react-icons/gr";
+import { BsCalendar2Check } from "react-icons/bs";
+import { CiLogout } from "react-icons/ci";
+import { IoHomeOutline } from "react-icons/io5";
 
 import './StatisticBarbearia.css';
 
@@ -43,6 +47,21 @@ function StatisticBarbearia() {
   const userInformation = JSON.parse(userData); // Transformando os dados para JSON
   const barbeariaId = userInformation.barbearia[0].id;
 
+  const navigateToProfileBarbearia = () =>{
+    navigate("/ProfileBarbearia");
+  }
+  const navigateToScheduleBarbearia = () =>{
+    navigate("/ScheduleBarbearia");
+  }
+  const navigateToHomeBarbearia = () =>{
+    navigate("/HomeBarbearia");
+  }
+
+  //Função LogOut
+  const logoutClick = () => {
+    ['token', 'dataBarbearia', 'code_verifier'].forEach(key => localStorage.removeItem(key));
+    navigate("/");
+  };
 //================= Section to get total of bookings for grafic area =================
   const [isLoading, setIsLoading] = useState (true);
   const [search, setSearch] = useState('');
@@ -514,6 +533,37 @@ const toggleItem = (itemId) => {
             )}
           </>
         )}
+        <div className='container__buttons__header'>
+        
+        <div className='inner__buttons__header'>
+          <button className='button__header' onClick={logoutClick}>
+            <CiLogout className='icon__RiExchangeFundsLine'/>
+          </button>
+          <p className='label__button__header'>Sair</p>
+        </div>
+
+        <div className='inner__buttons__header'>
+          <button className='button__header' onClick={navigateToHomeBarbearia}>
+              <IoHomeOutline className='icon__RiExchangeFundsLine'/>
+          </button>
+          <p className='label__button__header'>Home</p>
+        </div>
+
+        <div className='inner__buttons__header'>
+          <button className='button__header' onClick={navigateToScheduleBarbearia}>
+            <BsCalendar2Check className='icon__RiExchangeFundsLine'/>
+          </button>
+          <p className='label__button__header'>Agenda</p>
+          
+        </div>
+
+        <div className='inner__buttons__header'>
+          <button className='button__header' onClick={navigateToProfileBarbearia}>
+            <GrAppsRounded className='icon__GrAppsRounded' />
+          </button>
+          <p className='label__button__header'>Menu</p>
+        </div>
+    </div>
     </div>
   );
 }

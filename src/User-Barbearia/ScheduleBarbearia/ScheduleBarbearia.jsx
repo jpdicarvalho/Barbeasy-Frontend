@@ -56,6 +56,10 @@ const navigateToHomeBarbearia = () =>{
     navigate("/HomeBarbearia");
 }
 
+const navigateStatisticBarbearia = () =>{
+    navigate("/StatisticBarbearia");
+}
+
 const handleBackClick = () => {
     navigate("/HomeBarbearia");
   };
@@ -358,12 +362,12 @@ return (
             </div>
 
             <div className='inner__buttons__header'>
-            <button className='button__header'>
-                <SlGraph className='icon__RiExchangeFundsLine'/>
-            </button>
-            <p className='label__button__header'>Relatório</p>
+                <button className='button__header' onClick={navigateStatisticBarbearia}>
+                    <SlGraph className='icon__RiExchangeFundsLine'/>
+                </button>
+                <p className='label__button__header'>Relatório</p>
             </div>
-            
+
             <div className='inner__buttons__header'>
             <button className='button__header' onClick={navigateToHomeBarbearia}>
                 <IoHomeOutline className='icon__RiExchangeFundsLine'/>

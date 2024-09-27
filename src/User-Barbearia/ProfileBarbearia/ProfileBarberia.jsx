@@ -56,14 +56,13 @@ function ProfileBarbearia() {
     navigate("/ScheduleBarbearia");
   }
 
-
   const navigateToHomeBarbearia = () =>{
     navigate("/HomeBarbearia");
   }
 
-  const handleBackClick = () => {
-    navigate("/HomeBarbearia");
-  };
+  const navigateStatisticBarbearia = () =>{
+    navigate("/StatisticBarbearia");
+  }
 
   //Função LogOut
   const logoutClick = () => {
@@ -1418,10 +1417,10 @@ useEffect(() => {
             </div>
 
             <div className='inner__buttons__header'>
-            <button className='button__header'>
+              <button className='button__header' onClick={navigateStatisticBarbearia}>
                 <SlGraph className='icon__RiExchangeFundsLine'/>
-            </button>
-            <p className='label__button__header'>Relatório</p>
+              </button>
+              <p className='label__button__header'>Relatório</p>
             </div>
 
             <div className='inner__buttons__header'>
