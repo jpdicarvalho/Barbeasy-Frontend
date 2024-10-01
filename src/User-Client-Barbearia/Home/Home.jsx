@@ -13,8 +13,8 @@ import { IoIosStar } from "react-icons/io";
 import { BsFillGridFill } from "react-icons/bs";
 import { BsCalendar2Check } from "react-icons/bs";
 import { VscAccount } from "react-icons/vsc";
-import { MdOutlineLogout } from "react-icons/md";
 import { CiImageOn } from "react-icons/ci";
+import { CiLogout } from "react-icons/ci";
 
 
 function Home() {
@@ -220,18 +220,19 @@ return (
               ))}
             <ul className="Navigation active">
               <li>
+              <button onClick={logoutClick}>
+                  <CiLogout />
+                </button>
+                
+              </li>
+              <li>
                 <button onClick={navigateToUserProfile}>
                   <VscAccount className="color__icon__menu__navigate"/>
                 </button>
               </li>
               <li>
-                <button>
+              <button>
                   <BsCalendar2Check onClick={navigateToBookingsHistory}/>
-                </button>
-              </li>
-              <li>
-                <button onClick={logoutClick}>
-                  <MdOutlineLogout />
                 </button>
               </li>
               
