@@ -20,6 +20,7 @@ import { LuClipboardCheck } from "react-icons/lu";
 import { GrSearch } from "react-icons/gr";
 import { PiContactlessPayment } from "react-icons/pi";
 import { LiaCoinsSolid } from "react-icons/lia";
+import { CiImageOn } from "react-icons/ci";
 
 //Import for slide
 import { register } from 'swiper/element/bundle';
@@ -148,7 +149,6 @@ useEffect(()=>{
 
   getAccessTokenBarbearia()
 }, [])
-
 /*=========== copy link barbearia to share ===========*/
 const [linkCopied, setLinkCopied] = useState(false);
 
@@ -370,9 +370,17 @@ return (
         <div className="Outdoor">
         <Swiper slidesPerView={1} effect={'fade'} modules={[EffectFade]} autoplay={{ delay: 3000 }}>
           {banners.map((item) =>
-            <SwiperSlide key={item} className="Slide__Box">
-              <img className='slider__image' src={`${cloudFrontUrl}${item}`} alt="Imagem da Barbearia" />
-            </SwiperSlide>
+            
+              <SwiperSlide key={item} className="Slide__Box">
+                {item === "banners" ? (
+                  <>
+                    <CiImageOn className="icon__CiImageOn"/>
+                  </>
+                ):(
+                  <img className='slider__image' src={`${cloudFrontUrl}${item}`} alt="Imagem da Barbearia" />
+                )}
+              </SwiperSlide>
+           
           )}
         </Swiper>
         <div className="containner__BarbeariaInformation">

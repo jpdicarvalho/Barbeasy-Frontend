@@ -14,6 +14,7 @@ import { BsFillGridFill } from "react-icons/bs";
 import { BsCalendar2Check } from "react-icons/bs";
 import { VscAccount } from "react-icons/vsc";
 import { MdOutlineLogout } from "react-icons/md";
+import { CiImageOn } from "react-icons/ci";
 
 
 function Home() {
@@ -174,7 +175,13 @@ return (
                 <div key={index} className="containerBarbearia" onClick={() => handleBarbeariaClick(barbearia.barbearia_id)}>
                      
                     <div className="imgBoxSection">
-                      <img src={urlCloudFront + barbearia.bannerBarbearia} alt="Imagem de capa da barbearia" />
+                      {barbearia.bannerBarbearia === "banner_main" ?(
+                        <>
+                          <CiImageOn className="icon__CiImageOn"/>
+                        </>
+                      ):(
+                        <img src={urlCloudFront + barbearia.bannerBarbearia} alt="Imagem de capa da barbearia" />
+                      )}
                     </div>
                     
                   <div className="section">

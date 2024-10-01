@@ -127,7 +127,7 @@ function ProfileBarbearia() {
     // Obtém a extensão do arquivo original
     const fileExtension = file ? file.name.split('.').pop() : '';
     // Renomeia a imagem com o ID do usuário mantendo a extensão original
-    const renamedFile = new File([file], `barbeariaId_${barbeariaId}_banner_${i + 1}_${formattedDateTime}.${fileExtension}`, { type: file.type });
+    const renamedFile = new File([file], `barbeariaId_${barbeariaId < 100 ? `0${barbeariaId}`:barbeariaId}_banner_${i + 1}_${formattedDateTime}.${fileExtension}`, { type: file.type });
 
     // Adiciona o arquivo ao FormData
     bannerFormData.append(`images`, renamedFile);
@@ -142,6 +142,7 @@ function ProfileBarbearia() {
       }
     })
       .then(res => {
+        console.log(res)
         if (res.data.Status === "Success") {
           setBannerMessage("Banner alterado com sucesso.");
           setConfirmPassword('')
