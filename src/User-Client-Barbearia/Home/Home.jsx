@@ -8,13 +8,14 @@ import './home.css'
 //imagens estáticas
 
 import barberLogo from '../../../barber-logo.png';
-
 import { IoIosStar } from "react-icons/io";
 import { BsFillGridFill } from "react-icons/bs";
 import { BsCalendar2Check } from "react-icons/bs";
 import { VscAccount } from "react-icons/vsc";
 import { CiImageOn } from "react-icons/ci";
 import { CiLogout } from "react-icons/ci";
+import { BsSearch } from "react-icons/bs";
+import { HomeSkeleton } from "./HomeSkeleton";
 
 
 function Home() {
@@ -136,11 +137,11 @@ const barbeariaSearch = barbearias.filter((barbearia) => {
   // Retorna true se qualquer uma das condições for verdadeira
   return nameMatch || statusMatch || averageMatch || servicoMatch;
 });
-
+console.log()
 return (
   <>
           <div className={`header ${scrollPosition > 200 ? 'scrolled' : ''}`}>
-                <div className={`imgBoxSectionUser ${scrollPosition > 200 ? 'hideDiv' : ''}`}>
+                <div className={`imgBoxSectionUser ${scrollPosition > 200 ? 'hideDiv' : ''}`} onClick={navigateToUserProfile}>
                   {userImage != 'default.jpg' ?(
                     <img className="img__user__in__home__page"src={urlCloudFront + userImage} alt="foto de perfil do usuário" />
 
@@ -170,54 +171,70 @@ return (
           </div>
           
           <div className="containerHome">
-              {barbeariaSearch.map((barbearia, index) => (
-                
-                <div key={index} className="containerBarbearia" onClick={() => handleBarbeariaClick(barbearia.barbearia_id)}>
-                     
-                    <div className="imgBoxSection">
-                      {barbearia.bannerBarbearia === "banner_main" ?(
-                        <>
-                          <CiImageOn className="icon__CiImageOn"/>
-                        </>
-                      ):(
-                        <img src={urlCloudFront + barbearia.bannerBarbearia} alt="Imagem de capa da barbearia" />
-                      )}
-                    </div>
-                    
-                  <div className="section">
-                      <div className="box__logo__barbeasy">
-                        <div className="inner__img__logo__barbeasy">
-                          <img src={barberLogo} className="img__logo__barbeasy"/>
+            {barbearias.length > 0 ? (
+                barbeariaSearch.length > 0 ? (
+                  barbeariaSearch.map((barbearia, index) => (
+                    <div key={index} className="containerBarbearia" onClick={() => handleBarbeariaClick(barbearia.barbearia_id)}>
+                        
+                        <div className="imgBoxSection">
+                          {barbearia.bannerBarbearia === "banner_main" ?(
+                            <>
+                              <CiImageOn className="icon__CiImageOn"/>
+                            </>
+                          ):(
+                            <img src={urlCloudFront + barbearia.bannerBarbearia} alt="Imagem de capa da barbearia" />
+                          )}
                         </div>
-                      </div>
+                        
+                      <div className="section">
+                          <div className="box__logo__barbeasy">
+                            <div className="inner__img__logo__barbeasy">
+                              <img src={barberLogo} className="img__logo__barbeasy"/>
+                            </div>
+                          </div>
 
-                      <div className="Barbearias">
-                        <h2>
-                          {barbearia.nameBarbearia}
-                        </h2>
-                      </div>
+                          <div className="Barbearias">
+                            <h2>
+                              {barbearia.nameBarbearia}
+                            </h2>
+                          </div>
 
-                      <div className="endereco">
-                        <p>{barbearia.ruaBarbearia}, Nº {barbearia.NruaBarbearia}, {barbearia.bairroBarbearia}, {barbearia.cidadeBarbearia}</p>
-                      </div>
+                          <div className="endereco">
+                            <p>{barbearia.ruaBarbearia}, Nº {barbearia.NruaBarbearia}, {barbearia.bairroBarbearia}, {barbearia.cidadeBarbearia}</p>
+                          </div>
 
-                      <div className="section__status">
-                        {barbearia.statusBarbearia === "Aberta" ? (
-                          <p className="aberto"> {barbearia.statusBarbearia}</p>
-                          ) : (
-                          <p className="fechado">{barbearia.statusBarbearia}</p>
-                        )}
-                        <div className="section__star">
-                          <IoIosStar className="icon__star" /> 
-                          <p>{barbearia.averageAvaliationsBarbearia ? barbearia.averageAvaliationsBarbearia:0} • ({barbearia.totalAvaliationsBarbearia ? barbearia.totalAvaliationsBarbearia:0})</p>
+                          <div className="section__status">
+                            {barbearia.statusBarbearia === "Aberta" ? (
+                              <p className="aberto"> {barbearia.statusBarbearia}</p>
+                              ) : (
+                              <p className="fechado">{barbearia.statusBarbearia}</p>
+                            )}
+                            <div className="section__star">
+                              <IoIosStar className="icon__star" /> 
+                              <p>{barbearia.averageAvaliationsBarbearia ? barbearia.averageAvaliationsBarbearia:0} • ({barbearia.totalAvaliationsBarbearia ? barbearia.totalAvaliationsBarbearia:0})</p>
+                          </div>
+                          </div>
+                          
                       </div>
-                      </div>
-                      
-                  </div>
-                  <button className="agendar">Ver barbearia</button>
-                
+                      <button className="agendar">Ver barbearia</button>
+                    
+                    </div>
+                  ))
+                ):(
+                <div className='box__message__no__bookings__history in__home__barbearia'>
+                  <BsSearch className="icon__LuSearchX"/>
+                    <h3 className="message__barbearia__not__found">Nenhuma barbearia encontrada para "{search}"</h3>
                 </div>
-              ))}
+                )
+            ):(
+              <div className="container__skeletons">
+                <HomeSkeleton />
+                <HomeSkeleton />
+              </div>
+                
+            )}
+            
+              
             <ul className="Navigation active">
               <li>
               <button onClick={logoutClick}>

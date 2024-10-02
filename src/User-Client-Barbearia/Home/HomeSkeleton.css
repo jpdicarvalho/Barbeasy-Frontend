@@ -1,0 +1,64 @@
+.imgBoxSection__skeleton{
+    background-image: linear-gradient(
+          90deg,
+          #33374f84 10px,
+          #1c2035a4 40px,
+          #1c2035 80px
+      );
+    background-size: 300%;
+    background-position: 100% 0;
+    border-radius: inherit;
+    border: 1px solid #33374f84;
+    color: #1c2035;
+  animation: shimmer 1.5s infinite;
+}
+
+.img__logo__barbeasy__skeleton{
+    background-image: linear-gradient(
+          90deg,
+          #33374f84 10px,
+          #1c2035a4 40px,
+          #1c2035 80px
+      );
+    background-size: 300%;
+    background-position: 100% 0;
+    border-radius: inherit;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    border: 1px solid #33374f84;
+    animation: shimmer 1.5s infinite;
+}
+.name__barbearia__skeleton{
+    background-image: linear-gradient(
+          90deg,
+          #33374f84 10px,
+          #1c2035a4 40px,
+          #1c2035 80px
+      );
+    background-size: 300%;
+    background-position: 100% 0;
+    border-radius: inherit;
+    margin-top: 70px;
+    width: 200px;
+    border-radius: 50px;
+    border: 1px solid #33374f84;
+    color: #1c2035;
+    animation: shimmer 1.5s infinite;
+
+}
+.agendar__skeleton{
+    background-image: linear-gradient(
+          90deg,
+          #1c2035cd 0px,
+          #1c2035a4 40px,
+          #1c2035 80px
+      );
+    background-size: 300%;
+    background-position: 100% 0;
+    border-radius: inherit;
+    border: 1px solid #33374f84;
+    color: #1c2035;
+    animation: shimmer 1.5s infinite;
+
+}

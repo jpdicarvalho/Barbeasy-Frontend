@@ -788,8 +788,8 @@ useEffect(() => {
                     </label>
                   </>
               ):(
-              <div class="card">
-                <div class="card__skeleton card__description"></div>
+              <div className="card">
+                <div className="card__skeleton card__description"></div>
               </div>
               )}
             </div>
