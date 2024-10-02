@@ -296,9 +296,7 @@
   width: 100%;
 }
 .booking{
-  background: rgba(59, 20, 216, 0.1);
-  border-left: 3px solid #0f0;
-  border-radius: 10px;
+  background: transparent;
   margin-bottom: 10px;
   margin-left: 10px;
   width: 100%;
@@ -306,6 +304,8 @@
   color: #354249;
   transition: 0.5s;
   overflow: hidden;
+  border: none;
+  border-bottom: 1px solid #3542496c;
 }
 .booking__pending{
   background: rgba(59, 20, 216, 0.1);

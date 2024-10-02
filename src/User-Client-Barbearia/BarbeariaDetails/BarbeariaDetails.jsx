@@ -153,7 +153,7 @@ useEffect(()=>{
 const [linkCopied, setLinkCopied] = useState(false);
 
 const handleCopyLink = () =>{
-  const url = `${window.location.origin}/BarbeariaDetails/profile/${barbearia_id}`;
+  const url = `${window.location.origin}/BarbeariaDetails/profile/${barbeariaId}`;
   navigator.clipboard.writeText(url);
   setLinkCopied(true);
   setTimeout(() => setLinkCopied(false), 2000);

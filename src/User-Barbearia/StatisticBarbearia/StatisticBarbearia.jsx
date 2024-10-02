@@ -306,7 +306,7 @@ const toggleItem = (itemId) => {
                           <hr id='line__details__statistic__barbearia'/>
                           {comissionProfessional &&(
                             <>
-                              <p className='title__details__statistic__barbearia'>{comissionProfessional.length}</p>
+                              <p className='title__details__statistic__barbearia'>Comissão</p>
                               {Object.entries(comissionProfessional).map(([professional, comissionFee]) =>(
                                 <div key={professional}>
                                   <h3 className='inner__comission__professional__statistic__barbearia'>{professional}<p>R$ {comissionFee}</p></h3>

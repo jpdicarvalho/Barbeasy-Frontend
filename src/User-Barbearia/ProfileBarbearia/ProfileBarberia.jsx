@@ -746,7 +746,7 @@ useEffect(() => {
   };
   return (
     <>
-      <div className="container__profile">
+          <div className="container__profile">
             {bannerMessage === "Banner alterado com sucesso." ? (
                 <div className="mensagem-sucesso">
                   <MdOutlineDone className="icon__success"/>
@@ -760,49 +760,41 @@ useEffect(() => {
               )}
           </div>
 
-        <motion.div  className="banner">
-          <motion.div
-          className="container__banner"
-          whileTap={{cursor:"grabbing"}}
-          drag="x"
-          dragConstraints={bannerImages.length === 5 ? { right: 0, left: -1600}:
-                           bannerImages.length === 4 ? { right: 0, left: -1400}:
-                           bannerImages.length === 3 ? { right: 0, left: -1000}:
-                           bannerImages.length === 2 ? { right: 0, left: -600}:
-                           bannerImages.length === 1 ? { right: 0, left: -200}:{ right: 0, left: 0}}
-
-          >
-          {bannerImages.length > 0 && (
-          <>
-          {bannerImages[0] != 'https://d15o6h0uxpz56g.cloudfront.net/banners' ? (
-            // Se o nome da primeira imagem tiver mais de 11 letras
-            bannerImages.map((image, index) => (
-              <motion.div key={index} className='container-img-upload' whileTap={{cursor:"grabbing"}} >
-                <img src={image} alt="" className='img-uploaded'  />
-              </motion.div>
-            ))
-          ) : (
-            // Se o nome da primeira imagem não tiver mais de 11 letras
-            null
-          )}
-          </>
-          )}
-            <label htmlFor="input-file" id='drop-area'>
-              <input
-                type="file"
-                accept="image/*"
-                id='input-file'
-                onChange={handleBannerImages}
-                hidden
-                multiple
-              />
-              <motion.div className="img-view" style={{ width: bannerImages[0] != 'https://d15o6h0uxpz56g.cloudfront.net/banners' ? '150px' : '380px' }}>
-                <MdOutlineBackup className='icon_upload'/>
-                <p>Incluir Imagem <br/>da Barbearia</p>
-              </motion.div>
-            </label>
-          </motion.div>
-        </motion.div>
+        <div className="banner__in__profile__barbearia">
+            <div className='containner__banner__in__profile__barbearia'>
+              {bannerImages.length > 0 ? (
+                  <>
+                    {bannerImages[0] != `${urlCloudFront}` + 'banners' && (
+                      // Se o nome da primeira imagem tiver mais de 11 letras
+                      bannerImages.map((image, index) => (
+                        <div key={index} className='box__img__banner__in__profile__barbearia'>
+                          <img src={image} alt="" className='img-uploaded'  />
+                        </div>
+                      ))
+                    )}
+                    <label htmlFor="input-file" id='drop-area'>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        id='input-file'
+                        onChange={handleBannerImages}
+                        hidden
+                        multiple
+                      />
+                      <div className="img-view" style={{ width: bannerImages[0] != 'https://d15o6h0uxpz56g.cloudfront.net/banners' ? '150px' : '380px' }}>
+                        <MdOutlineBackup className='icon_upload'/>
+                        <p>Incluir Imagem <br/>da Barbearia</p>
+                      </div>
+                    </label>
+                  </>
+              ):(
+              <div class="card">
+                <div class="card__skeleton card__description"></div>
+              </div>
+              )}
+            </div>
+            
+        </div>
 
         {bannerFiles.length > 0 &&(
           <div style={{paddingLeft: '10px'}}>
