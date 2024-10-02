@@ -152,8 +152,16 @@ useEffect(()=>{
 /*=========== copy link barbearia to share ===========*/
 const [linkCopied, setLinkCopied] = useState(false);
 
+// Função para criptografar o id
+const encryptId = (id) => {
+  const encryptedId = CryptoJS.AES.encrypt(id.toString(), 'abaporujucaiba').toString();
+  return encodeURIComponent(encryptedId); // Codifica a URL para evitar caracteres especiais
+};
+
+// Functio to copy profile barbearia
 const handleCopyLink = () =>{
-  const url = `${window.location.origin}/BarbeariaDetails/profile/${barbeariaId}`;
+  const barbeariaIdEncrypt = encryptId(barbeariaId);
+  const url = `${window.location.origin}/BarbeariaDetails/profile/${barbeariaIdEncrypt}`;
   navigator.clipboard.writeText(url);
   setLinkCopied(true);
   setTimeout(() => setLinkCopied(false), 2000);
