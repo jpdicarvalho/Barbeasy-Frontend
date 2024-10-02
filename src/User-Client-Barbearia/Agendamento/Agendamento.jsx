@@ -462,7 +462,7 @@ export function Agendamento({
       serviceId,
     }
 
-    axios.post(`${urlApi}/api/v1/payment`, values, {
+    axios.post(`${urlApi}/api/v1/createPayment`, values, {
       headers: {
         'Authorization': `Bearer ${token}`  
       }
