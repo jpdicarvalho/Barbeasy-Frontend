@@ -1139,7 +1139,7 @@ return (
 
           <div className="menu__main" onClick={alternarCalendar}>
             <CiAlarmOff className='icon_menu'/>
-              Definir Folga
+              Fechar horários
             <IoIosArrowDown className={`arrow ${showCalendar ? 'girar' : ''}`} id='arrow'/>
           </div>
 
