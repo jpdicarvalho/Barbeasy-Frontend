@@ -408,8 +408,8 @@ export function AddNewService ({ professionalId }){
                         </div>
                       )}
                         <button className="button__Salve__Service" onClick={addNewService}>
-                        Adicionar Serviço
-                      </button>
+                          Cadastrar
+                        </button>
                 </div>
               )}
 
