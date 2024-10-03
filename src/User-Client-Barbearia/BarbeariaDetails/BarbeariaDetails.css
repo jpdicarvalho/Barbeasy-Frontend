@@ -258,7 +258,7 @@ h4{
 }
 .Servicos {
     width: 100%;
-    height: 210px;
+    max-height: 210px;
     display: flex;
     flex-direction: column;
     margin-bottom: 20px;
@@ -496,11 +496,11 @@ span{
     display: flex;
     flex-direction: column;
     width: 385px;
-    height: 500px;
     padding-left: 10px;
     padding-right: 5px;
     overflow-y: scroll;
     overflow-x: hidden;
+    padding-bottom: 60px;
 }
 
 .section__comments::-webkit-scrollbar {

@@ -15,11 +15,13 @@
   padding-right: 10px;
   font-family: 'Poppis', sans-serif;
   background: transparent;
+  overflow: hidden;
 }
 .container__skeletons{
   background: transparent;
   position: absolute;
   top: 330px;
+  height: 100dvh;
 }
 .header {
   position: fixed;

@@ -598,10 +598,10 @@ const [isBookingCreated, setIsBookingCreated] = useState(false)
     serviceId: PropTypes.number,
     serviceDuration: PropTypes.number
   };
-
   return (
   <>
-    <div className='container__Calendar'>
+    {serviceId &&(
+      <div className='container__Calendar'>
       <div className='sectionCalendar'>
         <div className="list__Names__Week__And__Day">
         {weekDays.map((dayOfWeek, index) => (
@@ -619,6 +619,7 @@ const [isBookingCreated, setIsBookingCreated] = useState(false)
         </div>
       </div>
     </div>
+    )}
 
     {selectedDay &&(
         <div className="tittle">

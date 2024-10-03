@@ -141,6 +141,7 @@
 }
 .container__btn__create__booking__and__payment{
     background: transparent;
+    margin-bottom: 70px;
 }
 .createPreBookingAndPayment {
     width: 100%;

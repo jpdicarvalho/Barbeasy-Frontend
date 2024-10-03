@@ -3,7 +3,7 @@ import './HomeSkeleton.css'
 export function HomeSkeleton (){
     return(
         <>
-         <div className="containerBarbearia ">
+         <div className="containerBarbearia containerBarbearia__skeleton">
                      
             <div className="imgBoxSection imgBoxSection__skeleton">
               
