@@ -121,7 +121,7 @@ function BookingsHistory (){
                 }
             }
     }
-console.log(allBookings)
+
     return(
         <>
             <div className="container__profile__professional">
@@ -133,9 +133,14 @@ console.log(allBookings)
                         <FaLayerGroup className='icon__FaLayerGroup'/>
                         <h2>Histórico</h2>
                     </div>
+                    <p style={{paddingLeft: '10px', paddingTop: '5px', color: 'gray', fontSize: '13px'}}>Encontre seus agendamentos por dia, mês, ano, nome e valor do serviço, nome da barbearia ou horário agendado.</p>
+
                     <div className='Box__input__Search'>
                         <IoIosSearch id='lupa__in__bookings__history'/>
-                        <input type="search" className='Inner__input__search' value={search} onChange={(e) => setSearch(e.target.value)} placeholder='Buscar agendamento'/>
+                        <input type="search"
+                        className='Inner__input__search'
+                        value={search} onChange={(e) => setSearch(e.target.value)}
+                        placeholder='Buscar agendamento'/>
                     </div>
                 </div>
                 {isLoading?(
