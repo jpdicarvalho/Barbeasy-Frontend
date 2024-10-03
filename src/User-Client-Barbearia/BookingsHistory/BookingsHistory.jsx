@@ -121,7 +121,7 @@ function BookingsHistory (){
                 }
             }
     }
-
+console.log(allBookings)
     return(
         <>
             <div className="container__profile__professional">

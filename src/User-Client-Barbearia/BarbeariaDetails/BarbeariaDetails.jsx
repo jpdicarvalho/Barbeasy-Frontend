@@ -10,7 +10,7 @@ import { GiSandsOfTime } from "react-icons/gi";
 import { IoHomeOutline } from "react-icons/io5";
 import { VscAccount } from "react-icons/vsc";
 import { BsCalendar2Check } from "react-icons/bs";
-import { MdOutlineLogout } from "react-icons/md";
+import { CiLogout } from "react-icons/ci";
 import { IoStarSharp } from "react-icons/io5";
 import { MdOutlineDone } from "react-icons/md";
 import { VscError } from "react-icons/vsc";
@@ -660,8 +660,8 @@ return (
               ):(
                   <>
                     <li>
-                      <button onClick={navigateToUserProfile}>
-                        <VscAccount className="color__icon__menu__navigate"/>
+                      <button onClick={logoutClick}>
+                        <CiLogout />
                       </button>
                     </li>
                     <li>
@@ -670,13 +670,13 @@ return (
                       </button>
                     </li>
                     <li>
-                      <button>
-                        <BsCalendar2Check onClick={navigateToBookingsHistory}/>
+                      <button onClick={navigateToUserProfile}>
+                        <VscAccount className="color__icon__menu__navigate"/>
                       </button>
                     </li>
                     <li>
-                      <button onClick={logoutClick}>
-                        <MdOutlineLogout />
+                      <button>
+                        <BsCalendar2Check onClick={navigateToBookingsHistory}/>
                       </button>
                     </li>
                   </>

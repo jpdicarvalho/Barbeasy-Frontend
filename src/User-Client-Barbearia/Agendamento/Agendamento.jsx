@@ -222,7 +222,6 @@ export function Agendamento({
     .then(res =>{
       if(res.data.Message === 'true'){//Verifica se a consulta realizada, possuí algum registro
         let bookings = res.data.timesLocked;//passando os registros obtidos na consulta
-
         if (dayOfWeek in timesDays) {// Verifica se o dia selecionado está no objeto 'timesDays' que contém os horários dos dias definidos
 
           if(selectedDate === currentDay){//Condição par verificar se o dia selecionado e o mesmo do dia atual
@@ -251,6 +250,7 @@ export function Agendamento({
           }else{
             //Condição par verificar se o primeiro elemento do array é um horário
             if(timesOfDaySelected[0].length === 5){
+
               const timesLockedStr = Object.values(bookings).map(item => item.timesLocked.split(','));
               
               //Function to remove all bookings
@@ -286,7 +286,8 @@ export function Agendamento({
             }
           }else{
             //Condição par verificar se o primeiro elemento do array é um horário
-            if(timesOfDaySelected[0].length === 5){              
+            if(timesOfDaySelected[0].length === 5){         
+                   
               setHorariosDiaSelecionado(timesOfDaySelected);
             }else{
               setHorariosDiaSelecionado(['Não há horários disponíveis para esse dia']);
@@ -516,11 +517,14 @@ export function Agendamento({
           console.error('Erro ao criar pré-reserva', error)
           if(error.response.status === 401){
             setPreBookingAndPaymentCreated(false)
-              setMessageConfirmedBooking("Número de agendamentos para esse dia excedido. Por favor, tente outro dia.")
+            setIsBookingCreated(false)
+
+              setMessageConfirmedBooking(`Os horários ${error.response.data.timesMach} já estão oculpados. Selecione outro horário ou um serviço com menor duração.`)
               return setTimeout(() => {
                 setMessageConfirmedBooking('')
-              }, 3000);
+              }, 8000);
           }
+          setPreBookingAndPaymentCreated(false)
           setMessageConfirmedBooking("Houve um erro ao criar sua pré-reserva. Tente novamente mais tarde.")
           setTimeout(() => {
             setMessageConfirmedBooking('');

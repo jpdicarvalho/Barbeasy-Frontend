@@ -55,7 +55,7 @@ function BookingDetails () {
                     </div>
                     <div className="inner__details__service__Booking__Details">
                         <VscCalendar className="icon__details__service__Booking__Details"/>
-                        <p style={{paddingTop:'2px'}}> Date/hora da realização do agendamento: {booking.dateMakedBooking}</p>
+                        <p style={{paddingTop:'2px'}}> Date/hora da criação do agendamento: {booking.dateMakedBooking}</p>
                     </div>
                     
                 </div>
