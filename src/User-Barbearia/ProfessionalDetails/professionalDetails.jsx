@@ -1144,7 +1144,7 @@ return (
           </div>
 
           {showCalendar && (
-            <p className="information__span">Selecione um dia para fechar os horários:</p>
+            <p className="information__span">Escolha um dia:</p>
           )}
 
           {showCalendar &&(

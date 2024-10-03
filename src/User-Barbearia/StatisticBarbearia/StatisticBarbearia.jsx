@@ -20,6 +20,8 @@ import { GrAppsRounded } from "react-icons/gr";
 import { BsCalendar2Check } from "react-icons/bs";
 import { CiLogout } from "react-icons/ci";
 import { IoHomeOutline } from "react-icons/io5";
+import { PiQuestionLight } from "react-icons/pi";
+import { IoCloseCircleOutline } from "react-icons/io5";
 
 import './StatisticBarbearia.css';
 
@@ -64,9 +66,13 @@ function StatisticBarbearia() {
   };
 //================= Section to get total of bookings for grafic area =================
   const [isLoading, setIsLoading] = useState (true);
+  const [showInformationToSearch, setShowInformationToSearch] = useState (false);
   const [search, setSearch] = useState('');
   const [dataBookings, setDataBookings] = useState([]);
 
+  const handleShowInformationToSearch = () =>{
+    setShowInformationToSearch(!showInformationToSearch)
+  }
   // Função para buscar os agendamentos
   const getAllBookings = () => {
     axios.get(`${urlApi}/api/v1/totalBookings/${barbeariaId}/${year}`, {
@@ -253,6 +259,8 @@ const searchLowerCase = search.toLowerCase();
 const bookingSearch = bookings.filter((booking) =>
   booking.booking_date.toLowerCase().includes(searchLowerCase) ||
   booking.service_name.toLowerCase().includes(searchLowerCase) ||
+  booking.service_price.toLowerCase().includes(searchLowerCase) ||
+  booking.service_duration.toLowerCase().includes(searchLowerCase) ||
   booking.professional_name.toLowerCase().includes(searchLowerCase) ||
   booking.booking_time.toLowerCase().includes(searchLowerCase)
 );
@@ -272,8 +280,16 @@ const toggleItem = (itemId) => {
           <div className='inner__input__search__statistic__barbearia'>
             <div className='tittle__historic tittle__historic__in__statistic__barbearia'>
               <LuGanttChartSquare className='icon__LuGanttChartSquare' />
-              <h2>Relatório </h2>
+              <h2 >Relatório </h2>
+              {!isHiddenSectionStatistic && !showInformationToSearch &&(
+                <PiQuestionLight className='icon__PiQuestionLight' onClick={handleShowInformationToSearch}/>
+              )}
+              {!isHiddenSectionStatistic && showInformationToSearch &&(
+                <IoCloseCircleOutline className='icon__PiQuestionLight' onClick={handleShowInformationToSearch}/>
+              )}
             </div>
+            <p  className={`${showInformationToSearch ? 'information__to__search':'hidden__information__to__search'}`}>Encontre seus agendamentos por dia, mês, ano, horário agendado, profissional, nome, duração ou valor do serviço.</p>
+
             <div className={`Box__input__Search__statistic__barbearia ${!isHiddenSectionStatistic ? 'active__box__input__Search__statistic__barbearia':''}`} onClick={showSectionStatistic}>
               <IoIosSearch className={`lupa__in__statistic__barbearia ${!isHiddenSectionStatistic ? 'active__lupa__in__statistic__barbearia':''}`}/>
               <input
@@ -281,14 +297,13 @@ const toggleItem = (itemId) => {
                 className={`input__search__statistic__barbearia ${!isHiddenSectionStatistic ? 'active__input__Search__statistic__barbearia':''}`}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder='Buscar por dia, mês, horário, serviço e profissional'
+                placeholder='Buscar agendamento'
               />
             </div>
           </div>
           
           <button className={` ${isHiddenSectionStatistic ? 'hidden_btn__cancel__search__booking':' btn__cancel__search__booking'}`} onClick={hiddenSectionStatistic}>Cancelar</button>
         </div>
-
 
         {isLoading ? (
           <div className='container__loading__in__bookings__history'>
@@ -435,7 +450,9 @@ const toggleItem = (itemId) => {
             )}
             {bookings &&(
                         <div className='section__bookings__in__statistic__barbearia'>
-                          <h3 className='title__details__statistic__barbearia' style={{marginBottom: '10px'}}>Histórico</h3>
+                          {isHiddenSectionStatistic &&(
+                            <h3 className='title__details__statistic__barbearia' style={{marginBottom: '10px'}}>Histórico</h3>
+                          )}
                           {bookingSearch.length > 0 ? (
                             bookingSearch.map((booking, index) => {
 
