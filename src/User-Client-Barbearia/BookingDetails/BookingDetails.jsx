@@ -22,6 +22,13 @@ function BookingDetails () {
     const handleBackClick = () => {
         navigate("/BookingsHistory");
     };
+
+    // Formatar o valor da transação no formato de Real
+    const formattedTransactionAmount = booking.transaction_amount ? Number(booking.transaction_amount).toLocaleString('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+    }):null;
+
     return(
         <>
             <div className="container__Booking__Details">
@@ -52,6 +59,7 @@ function BookingDetails () {
                     <div className="inner__details__service__Booking__Details">
                         <GiRazor className="icon__details__service__Booking__Details"/>
                         <p>{booking.serviceName} • {booking.servicePrice}</p>
+                        <p style={{borderLeft: '1px solid gray', marginLeft: '5px', paddingLeft: '3px'}}>{formattedTransactionAmount ? `Valor pago: ${formattedTransactionAmount}`:null}</p>
                     </div>
                     <div className="inner__details__service__Booking__Details">
                         <VscCalendar className="icon__details__service__Booking__Details"/>
