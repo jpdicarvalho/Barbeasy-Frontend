@@ -237,7 +237,7 @@ function formattedTransactionAmount (transaction_amount){
   })
   return amountFormatted;
 }
-console.log(bookings)
+
 return (
     <div className="container__main__home__barbearia">
           <div className='header_container'>

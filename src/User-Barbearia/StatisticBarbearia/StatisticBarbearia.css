@@ -302,6 +302,7 @@
 .section__bookings__in__statistic__barbearia{
     width: 375px;
     padding-right: 5px;
+    padding-bottom: 70px;
 }
 
 .booking__in__statistic__barbearia {
@@ -317,7 +318,7 @@
     border-bottom: 1px solid #3542496c;
 }
 .expandCard__booking__in__statistic__barbearia {
-    height: 235px;
+    height: 260px;
     transition: 0.5s;
 }
 .container__values__booking__in__statistic__barbearia{

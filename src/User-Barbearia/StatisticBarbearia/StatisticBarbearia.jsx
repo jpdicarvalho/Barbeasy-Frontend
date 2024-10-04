@@ -11,7 +11,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import { GiRazor } from "react-icons/gi";
 import { MdOutlineTimer } from "react-icons/md";
 import { IoPersonCircleOutline } from "react-icons/io5";
-import { RiExchangeFundsLine } from "react-icons/ri";
+import { PiCoinsLight } from "react-icons/pi";
 import { BsGraphDownArrow } from "react-icons/bs";
 import { PiContactlessPayment } from "react-icons/pi";
 import { LuGanttChartSquare } from "react-icons/lu";
@@ -22,6 +22,7 @@ import { CiLogout } from "react-icons/ci";
 import { IoHomeOutline } from "react-icons/io5";
 import { PiQuestionLight } from "react-icons/pi";
 import { IoCloseCircleOutline } from "react-icons/io5";
+import { GiReceiveMoney } from "react-icons/gi";
 
 import './StatisticBarbearia.css';
 
@@ -64,6 +65,16 @@ function StatisticBarbearia() {
     ['token', 'dataBarbearia', 'code_verifier'].forEach(key => localStorage.removeItem(key));
     navigate("/");
   };
+
+  //Function to formatted received amount
+  function formattedTransactionAmount (transaction_amount){
+    let amountFormatted = Number (transaction_amount).toLocaleString('pt-BR', {
+      style: 'currency',
+      currency: 'BRL'
+    })
+    return amountFormatted;
+  }
+
 //================= Section to get total of bookings for grafic area =================
   const [isLoading, setIsLoading] = useState (true);
   const [showInformationToSearch, setShowInformationToSearch] = useState (false);
@@ -273,6 +284,8 @@ const toggleItem = (itemId) => {
     setExpandedCardBooking([...expandedCardBooking, itemId]);
   }
 };
+
+console.log(bookings)
 //=============================================
   return (
     <div className='container__statistic__barbearia'>
@@ -490,13 +503,35 @@ const toggleItem = (itemId) => {
 
                                           </div>
                                           <div className="section__information__booking">
-                                            <div className="tittle__information">
-                                              <p className='section__icon'>
-                                                <PiContactlessPayment className='icon__information'/>
-                                                Status do pagamento
-                                              </p>
-                                              <p>{booking.paymentStatus === "pending"? 'Pendente':'Aprovado'}</p>
-                                            </div>
+                                            {booking.paymentStatus === "approved" &&(
+                                              <>
+                                                <div className="tittle__information">
+                                                  <p className='section__icon'>
+                                                    <PiContactlessPayment className='icon__information'/>
+                                                    Status do pagamento
+                                                  </p>
+                                                  <p>Aprovado</p>
+                                                </div>
+                                                <div className="tittle__information__GiRazor">
+                                                  <p className='section__icon'>
+                                                    <GiReceiveMoney className='icon__information__GiRazor'/>
+                                                    Valor Recebido
+                                                  </p>
+                                                  <p>{booking.transaction_amount ? `${formattedTransactionAmount(booking.transaction_amount)}`:null}</p>
+                                                </div>
+                                              </>
+                                            )}
+                                            {booking.paymentStatus === null &&(
+                                              <>
+                                                <div className="tittle__information">
+                                                  <p className='section__icon'>
+                                                    <PiContactlessPayment className='icon__information'/>
+                                                    Status do pagamento
+                                                  </p>
+                                                  <p>Não realizado</p>
+                                                </div>
+                                              </>
+                                            )}
                                             <div className="tittle__information__GiRazor">
                                               <p className='section__icon'>
                                                 <GiRazor className='icon__information__GiRazor'/>
@@ -522,7 +557,7 @@ const toggleItem = (itemId) => {
                                             </div>
                                             <div className="tittle__information">
                                               <p className='section__icon'>
-                                                <RiExchangeFundsLine className='icon__information' />
+                                                <PiCoinsLight className='icon__information' />
                                                 Comissão
                                               </p>
                                               <p>{booking.service_commission_fee}</p>
