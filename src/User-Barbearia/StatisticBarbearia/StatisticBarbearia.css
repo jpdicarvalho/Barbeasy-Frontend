@@ -189,13 +189,14 @@
 .information__to__search{
     position: absolute;
     width: 382px;
+    height: 75px;
     font-size: 13px;
-    color: gray;
+    color: #f6f6f6;
     border: none;
     text-align: justify;
     opacity: 1;
-    background: #35424937;
-    padding: 3px;
+    background: #4a17d54a;
+    padding: 10px;
     border-radius: 8px;
     z-index: 10;
     backdrop-filter: blur(10px);
