@@ -228,6 +228,7 @@ useEffect(() =>{
   getAmountOfMonth()
 }, [])
 
+console.log(bookings)
 return (
     <div className="container__main__home__barbearia">
           <div className='header_container'>
@@ -307,7 +308,16 @@ return (
                                           <PiContactlessPayment className='icon__information'/>
                                           Status do pagamento
                                         </p>
-                                        <p>{booking.paymentStatus === "pending"? 'Pendente':'Aprovado'}</p>
+                                        {booking.paymentStatus === "approved" &&(
+                                          <>
+                                          <p>Aprovado</p>
+                                          </>
+                                        )}
+                                        {booking.paymentStatus === null &&(
+                                          <>
+                                          <p>Não realizado</p>
+                                          </>
+                                        )}
                                       </div>
                                       <div className="tittle__information__GiRazor">
                                         <p className='section__icon'>
