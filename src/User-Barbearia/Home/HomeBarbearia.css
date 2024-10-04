@@ -320,7 +320,7 @@
   overflow: hidden;
 }
 .expandCard{
-  height: 230px;
+  height: 260px;
   transition: 0.5s;
 }
 .time__booking{
@@ -402,7 +402,9 @@
   width: 20px;
   height: 20px;
 }
-
+.GiPayMoney{
+  margin-top: 2px;
+}
 .tittle__information__GiRazor{
   display: flex;
   justify-content: space-between;

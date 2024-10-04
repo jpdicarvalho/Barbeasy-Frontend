@@ -8,7 +8,7 @@ import { MdOutlineTimer } from "react-icons/md";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { AiOutlineEyeInvisible } from "react-icons/ai";
 import { AiOutlineEye } from "react-icons/ai";
-import { RiExchangeFundsLine } from "react-icons/ri";
+import { PiCoinsLight } from "react-icons/pi";
 import { SlGraph } from "react-icons/sl";
 import { BsGraphDownArrow } from "react-icons/bs";
 import { HiArrowPath } from "react-icons/hi2";
@@ -17,6 +17,7 @@ import { GrAppsRounded } from "react-icons/gr";
 import { CiLogout } from "react-icons/ci";
 import { SlLayers } from "react-icons/sl";
 import { PiContactlessPayment } from "react-icons/pi";
+import { GiReceiveMoney } from "react-icons/gi";
 
 
 const months = [
@@ -228,6 +229,14 @@ useEffect(() =>{
   getAmountOfMonth()
 }, [])
 
+//Function to formatted received amount
+function formattedTransactionAmount (transaction_amount){
+  let amountFormatted = Number (transaction_amount).toLocaleString('pt-BR', {
+    style: 'currency',
+    currency: 'BRL'
+  })
+  return amountFormatted;
+}
 console.log(bookings)
 return (
     <div className="container__main__home__barbearia">
@@ -303,22 +312,37 @@ return (
 
                                     </div>
                                     <div className="section__information__booking">
-                                      <div className="tittle__information">
-                                        <p className='section__icon'>
-                                          <PiContactlessPayment className='icon__information'/>
-                                          Status do pagamento
-                                        </p>
+                                        
                                         {booking.paymentStatus === "approved" &&(
                                           <>
-                                          <p>Aprovado</p>
+                                            <div className="tittle__information">
+                                              <p className='section__icon'>
+                                                <PiContactlessPayment className='icon__information'/>
+                                                Status do pagamento
+                                              </p>
+                                              <p>Aprovado</p>
+                                            </div>
+                                            <div className="tittle__information__GiRazor">
+                                              <p className='section__icon'>
+                                                <GiReceiveMoney className='icon__information__GiRazor'/>
+                                                Valor Recebido
+                                              </p>
+                                              <p>{booking.transaction_amount ? `${formattedTransactionAmount(booking.transaction_amount)}`:null}</p>
+                                            </div>
                                           </>
                                         )}
                                         {booking.paymentStatus === null &&(
                                           <>
-                                          <p>Não realizado</p>
+                                            <div className="tittle__information">
+                                              <p className='section__icon'>
+                                                <PiContactlessPayment className='icon__information'/>
+                                                Status do pagamento
+                                              </p>
+                                              <p>Não realizado</p>
+                                            </div>
                                           </>
                                         )}
-                                      </div>
+                                      
                                       <div className="tittle__information__GiRazor">
                                         <p className='section__icon'>
                                           <GiRazor className='icon__information__GiRazor'/>
@@ -344,7 +368,7 @@ return (
                                       </div>
                                       <div className="tittle__information">
                                         <p className='section__icon'>
-                                          <RiExchangeFundsLine className='icon__information' />
+                                          <PiCoinsLight className='icon__information' />
                                           Comissão
                                         </p>
                                         <p>{booking.service_commission_fee}</p>
