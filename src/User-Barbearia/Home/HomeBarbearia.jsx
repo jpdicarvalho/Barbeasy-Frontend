@@ -68,6 +68,7 @@ const logoutClick = () => {
   navigate("/");
 };
 //==================================================
+const [isLoading, setIsLoading] = useState (true);
 const [saudacao, setSaudacao] = useState('');
 
 //pegando a hora para saudar o usuário
@@ -178,9 +179,11 @@ function orderBookings(bookings) {
         setBookings(res.data.bookings);
         // Chamando a função para ordenar os bookings por menor horário
         orderBookings(bookings);
+        setIsLoading(false)
       }else{
         setBookings(false)
         setMessagemNotFound("Sem agendamento por enquanto...")
+        setIsLoading(false)
       }
     })
     .catch(err => console.log(err));
@@ -240,36 +243,47 @@ function formattedTransactionAmount (transaction_amount){
 
 return (
     <div className="container__main__home__barbearia">
-          <div className='header_container'>
-              <div className="container__text__header">
-                <div className='inner__text_header'>
-                  <p className='text__barbearia__name'>{saudacao} {barbeariaUserName}</p>
-                  <p className='text__salutation'>{selectedDate}</p>
-                </div>
-                <div className='container__GrAppsRounded' onClick={navigateToProfileBarbearia}>
-                  <GrAppsRounded className='icon__GrAppsRounded' />
-                </div>
+        <div className='header_container'>
+            <div className="container__text__header">
+              <div className='inner__text_header'>
+                <p className='text__barbearia__name'>{saudacao} {barbeariaUserName}</p>
+                <p className='text__salutation'>{selectedDate}</p>
               </div>
+              <div className='container__GrAppsRounded' onClick={navigateToProfileBarbearia}>
+                <GrAppsRounded className='icon__GrAppsRounded' />
+              </div>
+            </div>
+            {isLoading ? (
+              null
+            ):(
               <div className='container__amount'>
-                {changeVisibilityAmount ?(
+            <div className='box__amount'>
+              <hr className='border__left__details__statistic__barbearia'/> 
+              {changeVisibilityAmount ?(
                 <>
-                  <p className='tittle__amount'>Total faturado esse mês</p>
-                  <div className='box__amount'>
-                    <p className='text__amount'>R$ {amountBarbearia ? amountBarbearia:'00,00'}</p>
-                    <AiOutlineEyeInvisible className='icon__AiOutlineEyeInvisible' onClick={hiddenAmountVisibility}/>     
+                  <div className='inner__amonut__tittle'>
+                    <p className='tittle__amount'>Total faturado esse mês</p>
+                    <div className='inner__amount__btn__hidden'>
+                      <p className='text__amount'>R$ {amountBarbearia ? amountBarbearia:'00,00'}</p>
+                      <AiOutlineEyeInvisible className='icon__AiOutlineEyeInvisible' onClick={hiddenAmountVisibility}/>     
+                    </div>
                   </div>
-                  
                 </>
-                ):(
-                  <div className='box__amount'>
-                    <p className='hidden__amount'></p>
-                    <AiOutlineEye className='icon__AiOutlineEyeInvisible' onClick={showAmountVisibility}/>
-                  </div>
-                )}
+              ):(
+                <div className='box__amount'>
+                  <p className='hidden__amount'></p>
+                  <AiOutlineEye className='icon__AiOutlineEyeInvisible' onClick={showAmountVisibility}/>
+                </div>
+              )}
+            </div>
               </div>
-          </div>
-          
-
+            )}  
+        </div>
+          {isLoading ? (
+            <div className='container__loading__in__bookings__history'>
+              <div className="loaderCreatingBooking"></div>
+            </div>
+          ):(
           <div className='body__home__barbearia'>
               <div className='text__for__today'>
                 <SlLayers className='icon__SlLayers'/>
@@ -416,9 +430,8 @@ return (
 
               </div>
           </div>
-
-        
-     </div>
+          )}
+          </div>
 );
 }
 

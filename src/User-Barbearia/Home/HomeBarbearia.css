@@ -7,6 +7,7 @@
   font-weight: 400;
   font-style: normal;
 }
+
 .container__main__home__barbearia{
   display: flex;
   flex-direction: column;
@@ -16,12 +17,11 @@
 .header_container{
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   width: 100%;
   height: 150px;
   color: white;
   padding: 10px;
+  margin-bottom: 20px;
   backdrop-filter: blur(10px);
 }
 .container__text__header{
@@ -71,24 +71,35 @@
 .container__amount{
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: start;
   flex-direction: column;
   margin-top: 30px;
+  padding-left: 5px;
   width: 250px;
   height: 70px;
-  border-radius: 20px;
-  background: #3542495e;
+  background: transparent;
 }
 .box__amount{
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   width: 100%;
+}
+.inner__amonut__tittle{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  height: 100%;
+  width: 100%;
+}
+.inner__amount__btn__hidden{
+  display: flex;
 }
 .status__amount__barbearia{
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: start;
   background: #4a17d536;
   margin-left: 10px;
   padding: 5px;
@@ -97,15 +108,19 @@
 .tittle__amount{
   font-size: 12px;
   color: grey;
+  padding-left: 10px;
+
 }
 .text__amount{
   font-size: 20px;
   color: #f6f6f6;
+  padding-left: 10px;
 }
 .hidden__amount{
   width: 120px;
   height: 5px;
   background: gray;
+  margin-left: 5px;
 }
 .icon__AiOutlineEyeInvisible{
   width: 30px;
