@@ -8,6 +8,8 @@ import SignUp from './User-Client-Barbearia/SignUp/SignUp';//não sei porque ess
 import SignInBarbearia from '../src/User-Barbearia/SignIn-Barbearia/SignIn-Barbearia';
 import SignUpBarbearia from '../src/User-Barbearia/SignUp-Barbearia/SignUp-Barbearia';
 
+import AccountActivationClient from './User-Client-Barbearia/AccountActivationClient/AccountActivationClient';
+
 import HomeBarbearia from './User-Barbearia/Home/HomeBarbearia';
 import ProfileBarbearia from './User-Barbearia/ProfileBarbearia/ProfileBarberia';
 import GetAccessToken from './User-Barbearia/ProfileBarbearia/GetAccessToken';
@@ -62,13 +64,14 @@ const App = () => {
         <Route path="/SignInBarbearia" element={<SignInBarbearia />} />
         <Route path="/SignUpBarbearia" element={<SignUpBarbearia />} />
 
+        <Route path="/AccountActivationClient" element={<AccountActivationClient />} />
+
         <Route path="/HomeBarbearia" element={<PrivateRoute element={<HomeBarbearia />} />} />
         <Route path="/ProfileBarbearia" element={<PrivateRoute element={<ProfileBarbearia />}/>} />
         <Route path="/ProfessionalDetails" element={<PrivateRoute element={<ProfessionalDetails />} />} />
         <Route path="/GetAccessToken" element={<PrivateRoute element={<GetAccessToken />} />} />
         <Route path="/ScheduleBarbearia" element={<PrivateRoute element={<ScheduleBarbearia />} />} />
         <Route path="/StatisticBarbearia" element={<PrivateRoute element={<StatisticBarbearia />} />} />
-        
 
         <Route path="/HomeProfessional" element={<PrivateRoute element={<HomeProfessional />} />} />
         <Route path="/ProfileProfessional" element={<PrivateRoute element={<ProfileProfessional />} />} />

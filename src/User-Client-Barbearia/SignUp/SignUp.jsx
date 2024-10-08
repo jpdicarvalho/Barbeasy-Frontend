@@ -6,7 +6,6 @@ import './style.css';
 
 import barberLogo from '../../../barber-logo.png';
 
-import { IoPhonePortraitSharp } from "react-icons/io5";
 import { VscAccount } from "react-icons/vsc";
 
 
@@ -42,18 +41,10 @@ function SignUp() {
         .then(res => {
           if (res.status === 201) {
             setIsLoading(false)
-            setMessage('Cadastro realizado!');
             setTimeout(() => {
               setMessage(null);
-              navigate('/SignIn');
+              navigate('/AccountActivationClient');
             }, 2000);
-          } else {
-            setIsLoading(false)
-            setMessage('Erro ao realizar o cadastro!');
-            setTimeout(() => {
-              setMessage(null);
-            }, 3000);
-            console.log(res.data.Error);
           }
         })
         .catch(err => {

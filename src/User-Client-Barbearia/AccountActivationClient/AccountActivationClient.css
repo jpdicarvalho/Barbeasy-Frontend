@@ -1,0 +1,46 @@
+.container__in__AccountActivationClient{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 385px;
+    height: 100dvh;
+}
+.information__in__AccountActivationClient{
+    color: gray;
+    text-align: center;
+    font-size: 14px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+.form__in__AccountActivationClient{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.box__input__in__AccountActivationClient{
+    display: flex;
+    justify-content: space-between;
+    gap: 10px; /* Espaço entre as caixinhas */
+}
+.input__code__verification{
+    text-align: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    background: transparent;
+    border: 1px solid #4a17d5;
+    outline: none;
+}
+.input__submit__code__verification{
+    background: transparent;
+    width: 100%;
+    height: 40px;
+    border-radius: 8px;
+    margin-top: 25px;
+    border: 1px solid #4a17d5;
+    color: #f6f6fc;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
