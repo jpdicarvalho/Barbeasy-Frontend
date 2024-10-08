@@ -18,6 +18,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    margin-top: 20px;
 }
 .box__input__in__AccountActivationClient{
     display: flex;
@@ -31,10 +32,9 @@
     border-radius: 8px;
     background: transparent;
     border: 1px solid #4a17d5;
-    outline: none;
 }
 .input__submit__code__verification{
-    background: transparent;
+    background: #4a17d5;
     width: 100%;
     height: 40px;
     border-radius: 8px;
@@ -43,4 +43,16 @@
     color: #f6f6fc;
     font-size: 14px;
     margin-bottom: 20px;
+}
+.resend__code__verification{
+    color: #f6f6fc;
+    transition: 0.5s;
+
+}
+.resend__code__verification:hover{
+    color: #f6f6fc89;
+    transition: 0.5s;
+}
+.time__resend__code__verification{
+    color: gray;
 }

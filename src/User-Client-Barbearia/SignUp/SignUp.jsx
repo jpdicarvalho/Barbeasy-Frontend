@@ -40,10 +40,16 @@ function SignUp() {
       axios.post(`${urlApi}/api/v1/SignUp`, values)
         .then(res => {
           if (res.status === 201) {
+            //Object to Account Activation
+            const objectNewAccount = {
+              email: values.email,
+              celular: values.celular,
+              data_request: Date.now() + 50 * 1000
+            }
             setIsLoading(false)
             setTimeout(() => {
               setMessage(null);
-              navigate('/AccountActivationClient');
+              navigate('/AccountActivationClient', { state: { objectNewAccount } });
             }, 2000);
           }
         })
@@ -67,7 +73,7 @@ function SignUp() {
   const nextStep = () => {
     setStep(step + 1);
   };
- 
+
 const valuesNoEmpty = values.name && values.email && values.celular && values.senha;
 
   return (
