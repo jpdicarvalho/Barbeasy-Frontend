@@ -40,6 +40,7 @@ function SignUp() {
       axios.post(`${urlApi}/api/v1/SignUp`, values)
         .then(res => {
           if (res.status === 201) {
+            setMessage(`Conta foi criada com sucesso!`);
             //Object to Account Activation
             const objectNewAccount = {
               email: values.email,
@@ -48,10 +49,10 @@ function SignUp() {
             }
             setIsLoading(false)
             setTimeout(() => {
-              setMessage('Conta foi criada com sucesso! redirecionando para login...');
+              setMessage(null)
               //navigate('/AccountActivationClient', { state: { objectNewAccount } });
               navigate('/SignIn')
-            }, 3000);
+            }, 2000);
           }
         })
         .catch(err => {
@@ -92,7 +93,7 @@ const valuesNoEmpty = values.name && values.email && values.celular && values.se
           <h3 style={{color: '#f6f6fc'}}>Cadastro de usuário</h3>
         </div>
 
-        {message === "Cadastro realizado!" ? (
+        {message === "Conta foi criada com sucesso!" ? (
           <p className="success">{message}</p>
           ) : (
           <p className="error">{message}</p>
