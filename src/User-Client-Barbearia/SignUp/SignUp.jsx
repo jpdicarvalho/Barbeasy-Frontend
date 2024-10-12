@@ -48,9 +48,10 @@ function SignUp() {
             }
             setIsLoading(false)
             setTimeout(() => {
-              setMessage(null);
-              navigate('/AccountActivationClient', { state: { objectNewAccount } });
-            }, 2000);
+              setMessage('Conta foi criada com sucesso! redirecionando para login...');
+              //navigate('/AccountActivationClient', { state: { objectNewAccount } });
+              navigate('/SignIn')
+            }, 3000);
           }
         })
         .catch(err => {
