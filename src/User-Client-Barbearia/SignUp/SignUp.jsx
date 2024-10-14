@@ -40,11 +40,7 @@ function SignUp() {
       axios.post(`${urlApi}/api/v1/SignUp`, values)
         .then(res => {
           if (res.status === 201) {
-<<<<<<< HEAD
-            setMessage('Conta foi criada com sucesso!');
-=======
-            setMessage(`Conta criada com sucesso!`);
->>>>>>> 0236a9df51bc873f58d6869a95fbddf1781dc7ec
+            setMessage('Conta criada com sucesso!');
             //Object to Account Activation
             const objectNewAccount = {
               email: values.email,
