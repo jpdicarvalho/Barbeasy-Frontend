@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import PropTypes from 'prop-types';
 
 import axios from 'axios';
-
+import './addNewService.css'
 import { IoIosArrowDown } from "react-icons/io";
 import { GiRazor } from "react-icons/gi";
 import { MdOutlineDone } from "react-icons/md";
@@ -67,6 +67,7 @@ export function AddNewService ({ professionalId }){
   const [newPriceService, setNewPriceService] = useState('');
   const [newCommissionFee, setNewCommissionFee] = useState('');
   const [newServiceDuration, setNewServiceDuration] = useState([]);
+  const [expandedCardBooking, setExpandedCardBooking] = useState([]);
 
   const [messageAddService, setMessageAddService] = useState('');
 
@@ -184,6 +185,14 @@ export function AddNewService ({ professionalId }){
     };
   }, []);
 
+  //Function to expanded booking cards
+const toggleItem = (itemId) => {
+  if (expandedCardBooking.includes(itemId)) {
+    setExpandedCardBooking(expandedCardBooking.filter(id => id !== itemId));
+  } else {
+    setExpandedCardBooking([...expandedCardBooking, itemId]);
+  }
+};
 /*===== Section to edit a current service ======*/
   const [selectedService, setSelectedService] = useState(null);
 
@@ -327,7 +336,6 @@ export function AddNewService ({ professionalId }){
   AddNewService.propTypes = {
     professionalId: PropTypes.number
   };
-
     return (
         <>
         <div className="menu__main" onClick={alternarServico}>
@@ -420,10 +428,10 @@ export function AddNewService ({ professionalId }){
                     servicos.map((servico, index) => (
                       <div 
                       key={index}
-                      className={`box__service ${selectedService === index ? 'expandir__Service' : ''}`}
-                      onClick={() => ShowServiceEditMenu(index)}
+                      
+                      className={`box__service ${expandedCardBooking.includes(servico.id) ? 'expandir__Service':''}`}
                     >
-                      <p style={{marginBottom: '10px', width: '100%'}}>{servico.name}</p>
+                      <p style={{marginBottom: '10px', width: '100%', color: 'gray'}} onClick={() => toggleItem(servico.id)}>{servico.name}</p>
 
                       <p>Deseja alterar o nome do serviço?</p>
                       <input
@@ -480,19 +488,23 @@ export function AddNewService ({ professionalId }){
                         ))}
                       </div>
                       <p style={{marginTop: '10px'}}>Duração Atual • {servico.duracao}</p>
-                      {messageEditedService === "Nenhuma alteração identificada." ? (
-                        <div className={` ${messageEditedService ? 'mensagem-erro' : ''}`}>
-                          <VscError className={`hide_icon__error ${messageEditedService ? 'icon__error' : ''}`}/>
-                          <p className="text__message">{messageEditedService}</p>
-                        </div>
-                          ) : (
-                          <div className={`hide__message ${messageEditedService ? 'mensagem-sucesso' : ''}`}>
-                            <MdOutlineDone className="icon__success"/>
+                      
+                      <div className="section__message__in__addNewService">
+                        {messageEditedService === "Nenhuma alteração identificada." ? (
+                          <div className={` ${messageEditedService ? 'mensagem-erro' : ''}`}>
+                            <VscError className={`hide_icon__error ${messageEditedService ? 'icon__error' : ''}`}/>
                             <p className="text__message">{messageEditedService}</p>
                           </div>
-                      )}
-                    
+                            ) : (
+                            <div className={`hide__message ${messageEditedService ? 'mensagem-sucesso' : ''}`}>
+                              <MdOutlineDone className="icon__success"/>
+                              <p className="text__message">{messageEditedService}</p>
+                            </div>
+                        )}
+                      </div>
+
                       <div className="section__service__button">
+                      
                         <button className={`button_ocult ${confirmDeleteServico ? 'section__confirm__delete' : ''}`} onClick={() => deleteServico(servico.id)}>
                           Confirmar
                         </button>

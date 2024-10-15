@@ -204,14 +204,7 @@ const updateListBookingsToday = () => {
   }, 1000);
 }
 
-//Function to expanded booking cards
-const toggleItem = (itemId) => {
-    if (expandedCardBooking.includes(itemId)) {
-      setExpandedCardBooking(expandedCardBooking.filter(id => id !== itemId));
-    } else {
-      setExpandedCardBooking([...expandedCardBooking, itemId]);
-    }
-};
+
 //==========Secction to get amout of current month==========
 const [amountBarbearia, setAmountBarbearia] = useState ([])
 
