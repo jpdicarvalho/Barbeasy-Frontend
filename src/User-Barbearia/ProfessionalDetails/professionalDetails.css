@@ -97,7 +97,7 @@
 .inputs-horarios{
     display: flex;
     background: transparent;
-    width: 250px;
+    width: 280px;
     padding: 10px;
     overflow: auto;
     cursor: grab;
