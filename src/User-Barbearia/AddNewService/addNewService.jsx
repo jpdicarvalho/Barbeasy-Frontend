@@ -146,6 +146,7 @@ export function AddNewService ({ professionalId }){
                 setNewNameService('')
                 setNewPriceService('')
                 setNewServiceDuration('')
+                setNewCommissionFee('')
                 fecharExpandir()
               }, 2000);
               
@@ -195,8 +196,6 @@ const toggleItem = (itemId) => {
   }
 };
 /*===== Section to edit a current service ======*/
-  const [selectedService, setSelectedService] = useState(null);
-
   const [editedServiceName, setEditedServiceName] = useState('');
   const [editedServicePrice, setEditedServicePrice] = useState('');
   const [editedCommissionFee, setEditedCommissionFee] = useState('');
@@ -204,10 +203,6 @@ const toggleItem = (itemId) => {
 
   const [messageEditedService, setMessageEditedService] = useState('');
 
-  //Função para mostrar o menu de edição de um serviço selecionado
-  const ShowServiceEditMenu = (index) => {
-    setSelectedService(index);
-  }; 
 
   //Função para adicionar o preço editado do serviço, a variável definida
   const handleEditedServicePrice = (event) => {
@@ -321,7 +316,6 @@ const toggleItem = (itemId) => {
             }
             obterServicos()
             setConfirmDeleteServico(false);
-            setSelectedService(null)
           }, 2000);
         }
       })
