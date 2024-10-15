@@ -25,7 +25,7 @@ const GetStartedPage = () => {
           onClick={() => handleOptionUser('cliente')}
         >
           <p className="tittle__option">Agendar Serviço</p>
-          <hr id='hr' />
+          <hr className={`hr__in__get__started ${optionUser === 'cliente' ? 'hr__selected' : ''}`}/>
           <p>Descubra as melhores opções de serviços de barbearias.</p>
         </div>
 
@@ -34,7 +34,7 @@ const GetStartedPage = () => {
           onClick={() => handleOptionUser('barbearia')}
         >
           <p className="tittle__option">Oferecer Serviço</p>
-          <hr id='hr' />
+          <hr className={`hr__in__get__started ${optionUser === 'barbearia' ? 'hr__selected' : ''}`}/>
           <p>Ofereça serviços de barbearia e conecte-se com clientes.</p>
         </div>
         <Link to="/SignIn">

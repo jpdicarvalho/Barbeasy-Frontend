@@ -63,10 +63,20 @@
   margin-bottom: 3px;
   width: 100%;
 }
-#hr{
+.hr__in__get__started{
   width: 100px;
-  border: 1px solid;
+  border: 1px solid #354249;
   margin-bottom: 10px;
+  transition: 0.5s;
+
+}
+
+.hr__selected{
+  width: 100px;
+  border: 1px solid #f6f6fc;
+  margin-bottom: 10px;
+  transition: 0.5s;
+
 }
 
 .button__link{
