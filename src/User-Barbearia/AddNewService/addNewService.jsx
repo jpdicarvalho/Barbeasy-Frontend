@@ -68,11 +68,9 @@ export function AddNewService ({ professionalId }){
   const [newCommissionFee, setNewCommissionFee] = useState('');
   const [newServiceDuration, setNewServiceDuration] = useState([]);
   const [expandedCardBooking, setExpandedCardBooking] = useState([]);
-
   const [messageAddService, setMessageAddService] = useState('');
 
   //Função para mostar o menu Adicionar Serviço
-  
   const ShowAddService = () => {
     setShowAddServico(true);
   };
@@ -90,11 +88,14 @@ export function AddNewService ({ professionalId }){
     setNewPriceService(formatarPreco(numero));
   };
 
+
   const AddNewComissioFee = (event) => {
     const valor = event.target.value;
     // Filtrar apenas os números
-    const numero = valor.replace(/\D/g, '');//Regex para aceitar apenas números no input
-    setNewCommissionFee(formatarPreco(numero));
+    const comission = valor.replace(/\D/g, '');//Regex para aceitar apenas números no input
+    const price = newPriceService.replace(/\D/g, '')//Regex limpar o preço informado, deixando apenas números
+    const isGreater = comission > price ? false:true; //Verificando se a comissão é maior que o preço informado
+    setNewCommissionFee(isGreater ? formatarPreco(comission):'');
   };
 
   // Função responsável por adicionar ou remover o novo tempo de duração do serviço a ser cadastrado
