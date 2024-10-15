@@ -43,7 +43,7 @@
 }
 .section_option{
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 12px;
   color: #354249;
   cursor: pointer;
   transition: 0.5s;
