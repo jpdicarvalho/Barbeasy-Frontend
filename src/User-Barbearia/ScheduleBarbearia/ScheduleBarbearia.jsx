@@ -15,6 +15,7 @@ import { MdOutlineTimer } from "react-icons/md";
 import { IoPersonCircleOutline } from "react-icons/io5";
 import { RiExchangeFundsLine } from "react-icons/ri";
 import { PiContactlessPayment } from "react-icons/pi";
+import { GiReceiveMoney } from "react-icons/gi";
 
 const monthNames = [
     'Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
@@ -135,14 +136,11 @@ function getCurrentTime(){
 
   const weekDays = getWeeks();
   const numberDays = getNumber();
-  const currentDay = getCurrentDayOfWeek()
-  const currentTime = getCurrentTime()
 
 //================ Get Bookings ================
 //Função para pegar os dias da semana
 const [bookings, setBookings] = useState(false);
 const [expandedCardBooking, setExpandedCardBooking] = useState([]);
-const [isRotating, setIsRotating] = useState(false);
 const [messagemNotFound, setMessagemNotFound] = useState("");
 
 const [selectedDay, setSelectedDay] = useState(false);
@@ -216,6 +214,15 @@ useEffect(() =>{
     handleDateClick()
 }, [])
 
+//Function to formatted received amount
+function formattedTransactionAmount (transaction_amount){
+    let amountFormatted = Number (transaction_amount).toLocaleString('pt-BR', {
+      style: 'currency',
+      currency: 'BRL'
+    })
+    return amountFormatted;
+  }
+  
 //Function to expanded booking cards
 const toggleItem = (itemId) => {
     if (expandedCardBooking.includes(itemId)) {
@@ -225,6 +232,7 @@ const toggleItem = (itemId) => {
     }
 };
 
+console.log(bookings)
 return (
     <div className="container__main__Schedule__barbearia">
         <div className="header__bookings__schedule">
@@ -267,7 +275,7 @@ return (
                                     <div key={index} className='container__booking' onClick={() => toggleItem(booking.booking_id)}>
                                     <div className={`booking ${expandedCardBooking.includes(booking.booking_id) ? 'expandCard':''}`}>
                                         <div className="container_professional">
-                                        {booking.professional_user_image != 'default.png' ?(
+                                        {booking.user_image != 'default.jpg' ?(
                                             <div className='container__img__client__booking'>
                                             <div className='user__image__professional'>
                                                 <img src={urlCloudFront + booking.user_image} id='img__user__professional'/>
@@ -277,7 +285,7 @@ return (
                                             ):(
                                             <div className='container__img__client__booking'>
                                                 <div className="Box__image">
-                                                <p className='firstLetter'>{firstLetter}</p>
+                                                <p className='firstLetter__client_Span'>{booking.user_name.charAt(0).toUpperCase()}</p>
                                                 </div>
                                                 <p className='phone__client'>Cliente</p>
                                             </div>
@@ -294,27 +302,49 @@ return (
 
                                         </div>
                                         <div className="section__information__booking">
-                                        <div className="tittle__information">
-                                        <p className='section__icon'>
-                                          <PiContactlessPayment className='icon__information'/>
-                                          Status do pagamento
-                                        </p>
-                                        <p>{booking.paymentStatus === "pending"? 'Pendente':'Aprovado'}</p>
-                                      </div>
-                                      <div className="tittle__information__GiRazor">
-                                        <p className='section__icon'>
-                                          <GiRazor className='icon__information__GiRazor'/>
-                                          {booking.service_name}
-                                        </p>
-                                        <p>{booking.service_price}</p>
-                                      </div>
-                                        <div className="tittle__information">
-                                            <p className='section__icon'>
-                                            <MdOutlineTimer className='icon__information'/>
-                                            Duração
-                                            </p>
-                                            <p>{booking.service_duration}</p>
-                                        </div>
+                                            {booking.paymentStatus === "approved" &&(
+                                            <>
+                                                <div className="tittle__information">
+                                                <p className='section__icon'>
+                                                    <PiContactlessPayment className='icon__information'/>
+                                                    Status do pagamento
+                                                </p>
+                                                <p>Aprovado</p>
+                                                </div>
+                                                <div className="tittle__information__GiRazor">
+                                                <p className='section__icon'>
+                                                    <GiReceiveMoney className='icon__information__GiRazor'/>
+                                                    Valor Recebido
+                                                </p>
+                                                <p>{booking.transaction_amount ? `${formattedTransactionAmount(booking.transaction_amount)}`:null}</p>
+                                                </div>
+                                            </>
+                                            )}
+                                            {booking.paymentStatus === null &&(
+                                            <>
+                                                <div className="tittle__information">
+                                                <p className='section__icon'>
+                                                    <PiContactlessPayment className='icon__information'/>
+                                                    Status do pagamento
+                                                </p>
+                                                <p>Não realizado</p>
+                                                </div>
+                                            </>
+                                            )}
+                                            <div className="tittle__information__GiRazor">
+                                                <p className='section__icon'>
+                                                <GiRazor className='icon__information__GiRazor'/>
+                                                {booking.service_name}
+                                                </p>
+                                                <p>{booking.service_price}</p>
+                                            </div>
+                                            <div className="tittle__information">
+                                                <p className='section__icon'>
+                                                <MdOutlineTimer className='icon__information'/>
+                                                Duração
+                                                </p>
+                                                <p>{booking.service_duration}</p>
+                                            </div>
                                         </div>
                                         <div className="section__information__booking">
                                         <div className="tittle__information">

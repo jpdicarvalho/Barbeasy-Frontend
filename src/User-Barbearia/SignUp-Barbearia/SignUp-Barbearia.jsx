@@ -38,7 +38,7 @@ function SignUpBarbearia() {
     transform: "translateX(0%)",
     from: { opacity: 0, transform: "translateX(-100%)" }
   });
-
+console.log(values)
   //Function to verify if all values is not empty
   const areAllFieldsFilled = () => {
     for (const key in values) {
