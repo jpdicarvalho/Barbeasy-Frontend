@@ -28,6 +28,7 @@ import HomeProfessional from './User-Professional/Home/HomeProfessional';
 import ProfileProfessional from './User-Professional/ProfileProfessional/ProfileProfessional';
 import Notification from './User-Professional/Notification/Notification';
 
+import SessionExpired from './SessionExpired/SessionExpired';
 import Widget from './Widget';
 
 import PropTypes from 'prop-types';
@@ -61,11 +62,16 @@ const App = () => {
       <Routes>
         <Route path="/" element={<GetStartedPage />} />
 
+        <Route path="/SignIn" element={<SignIn />} />
+        <Route path="/SignUp" element={<SignUp />} />
+
         <Route path="/SignInBarbearia" element={<SignInBarbearia />} />
         <Route path="/SignUpBarbearia" element={<SignUpBarbearia />} />
 
         <Route path="/AccountActivationClient" element={<AccountActivationClient />} />
 
+        <Route path="/SessionExpired" element={<SessionExpired />} />
+        
         <Route path="/HomeBarbearia" element={<PrivateRoute element={<HomeBarbearia />} />} />
         <Route path="/ProfileBarbearia" element={<PrivateRoute element={<ProfileBarbearia />}/>} />
         <Route path="/ProfessionalDetails" element={<PrivateRoute element={<ProfessionalDetails />} />} />
@@ -76,10 +82,6 @@ const App = () => {
         <Route path="/HomeProfessional" element={<PrivateRoute element={<HomeProfessional />} />} />
         <Route path="/ProfileProfessional" element={<PrivateRoute element={<ProfileProfessional />} />} />
         <Route path="/Notification" element={<PrivateRoute element={<Notification />} />} />
-
-
-        <Route path="/SignIn" element={<SignIn />} />
-        <Route path="/SignUp" element={<SignUp />} />
 
         <Route path="/Home" element={<PrivateRoute element={<Home />} />} />
         <Route path="/UserProfile" element={<PrivateRoute element={<UserProfile />} />} />

@@ -1,6 +1,9 @@
 //Libary necessárias
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
+
+import axios from 'axios';
+
 import CryptoJS from 'crypto-js';
 
 //Arq. de Estilização da página
@@ -100,25 +103,18 @@ const [barbearias, setBarbearias] = useState([]);
 
 //listando as barbearias cadastradas
 useEffect(() => {
-  const fetchData = async () => {
-    try {
-        const response = await fetch(`${urlApi}/api/v1/getAllBarbearias`, {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          },
-        });
-        //Armazenando a resposta da requisição
-        const data = await response.json();
-
-        setBarbearias(data.barbearias);
-
-    } catch (error) {
-      console.error('Erro ao obter os registros:', error);
+  axios.get(`${urlApi}/api/v1/getAllBarbearias`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
     }
-  };
-
-  fetchData();
+  }).then(res =>{
+      setBarbearias(res.data.barbearias)
+  }).catch(err =>{
+    if(err.response.status === 403){
+      return navigate("/")
+    }
+    console.log("Error: ", err)
+  })  
 }, []);
 
 // Convertendo o valor do search para minúsculo
@@ -137,7 +133,7 @@ const barbeariaSearch = barbearias.filter((barbearia) => {
   // Retorna true se qualquer uma das condições for verdadeira
   return nameMatch || statusMatch || averageMatch || servicoMatch;
 });
-console.log(barbearias)
+
 return (
   <>
           <div className={`header ${scrollPosition > 200 ? 'scrolled' : ''}`}>
