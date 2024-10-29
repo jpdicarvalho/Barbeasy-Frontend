@@ -78,6 +78,9 @@ function HomeProfessional() {
             setNotification(res.data.AllNotification)
           }
       }).catch(err =>{
+        if(err.response.status === 403){
+          return navigate("/SessionExpired")
+        }
           console.log("Error", err)
       })
   }
@@ -101,7 +104,11 @@ function HomeProfessional() {
     .then(res => {
       setImageUser(res.data.url);
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      if(err.response.status === 403){
+        return navigate("/SessionExpired")
+      }
+      console.log(err)});
   }, [professionalId]);
 
 //==================================================
@@ -138,6 +145,9 @@ useEffect(() =>{
           setChangeVisibilityAmount(false)
         }
     }).catch(err =>{
+      if(err.response.status === 403){
+        return navigate("/SessionExpired")
+      }
       console.log('Erro: ', err)
     })
   }
@@ -159,6 +169,9 @@ const updateVisibilityAmount = (valueVisibility) =>{
         return true
       }
   }).catch(err =>{
+    if(err.response.status === 403){
+      return navigate("/SessionExpired")
+    }
     console.log('Erro: ', err)
   })
 }
@@ -188,6 +201,9 @@ useEffect(() =>{
     }).then(res =>{
       setValuesService(res.data.totalAmount)
     }).catch(err =>{
+      if(err.response.status === 403){
+        return navigate("/SessionExpired")
+      }
       console.log(err)
     })
   }
@@ -285,7 +301,11 @@ useEffect(() =>{
           setMessagemNotFound("Nenhum agendamento encontrado")
         }
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        if(err.response.status === 403){
+          return navigate("/SessionExpired")
+        }
+        console.log(err)});
     }else{
       //Condition to get all bookings of current day
       let selectedDate = currenteDate;
@@ -304,7 +324,11 @@ useEffect(() =>{
           setMessagemNotFound("Nenhum agendamento encontrado")
         }
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        if(err.response.status === 403){
+          return navigate("/SessionExpired")
+        }
+        console.log(err)});
     }
   }
 
