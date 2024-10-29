@@ -115,12 +115,18 @@ form .link{
   margin-bottom: 10px;
   font-size: 13px;
   text-align: center;
+  padding: 5px;
+  border-radius: 3px;
+  background: rgba(0, 255, 0, 0.266);
 }
 .error{
   color: rgb(255, 0, 0);
   margin-bottom: 10px;
   font-size: 13px;
   text-align: center;
+  padding: 5px;
+  border-radius: 3px;
+  background: rgba(255, 0, 0, 0.229);
 }
 .inputBox__inner__cadastrar{
   display: flex;

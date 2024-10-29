@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+
+import axios from 'axios';
+
 import './style.css';
 import barberLogo from '../../../barber-logo.png';
 
@@ -21,46 +24,39 @@ function SignIn() {
     e.preventDefault();
     setIsLoading(true)
 
-    try {
-      const dataUser = await fetch(`${urlApi}/api/v1/SignIn`, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-type': 'application/json',
-        },
-        body: JSON.stringify(values), // Passar os valores do estado no corpo da requisição
-      });
+    axios.get(`${urlApi}/api/v1/SignIn/${values.email}/${values.senha}`)
+    .then(res =>{
+      console.log(res)
+      // Armazene o token no localStorage
+      localStorage.clear();
+      localStorage.setItem('token', res.data.token);
+      localStorage.setItem('userData', JSON.stringify(res.data));
 
-      const responseData = await dataUser.json();
+      setMessage('Seja Bem Vindo!');
+      setIsLoading(false)
+      setTimeout(() => {
+        setMessage(null);
+        // Mandando dados do usuário para a Home Page
+        navigate('/Home');
+      }, 2000);
 
-      if (responseData.success) {
-        // Armazene o token no localStorage
-        localStorage.clear();
-        localStorage.setItem('token', responseData.token);
-        localStorage.setItem('userData', JSON.stringify(responseData));
+    }).catch(err => {
+      if(err.response.status === 404){
+        setMessage('Usuário não encontrado!');
 
-        setMessage('Seja Bem Vindo!');
-        setIsLoading(false)
-        setTimeout(() => {
-          setMessage(null);
-          // Mandando dados do usuário para a Home Page
-          navigate('/Home');
-        }, 2000);
-      } else {
-        setMessage('Erro ao realizar o Login!');
-        setTimeout(() => {
+        return setTimeout(() => {
           setIsLoading(false)
           setMessage(null);
         }, 2000);
       }
-    } catch (error) {
-      console.error('Erro ao enviar formulário:', error);
-      setMessage('Erro ao realizar o Login!');
+      setMessage('Erro ao realizar o Login! Tente novamente mais tarde.');
       setTimeout(() => {
         setIsLoading(false)
         setMessage(null);
       }, 2000);
-    }
+      console.log(err)
+
+    })
   }
 
   return (

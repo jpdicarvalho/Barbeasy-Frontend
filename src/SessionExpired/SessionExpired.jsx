@@ -7,6 +7,8 @@ function SessionExpired (){
     //Verificando no localStorage o tipo de usuário que está logado
     const userBarbeariaData = localStorage.getItem('dataBarbearia');
     const userClienteData = localStorage.getItem('userData');
+    const userProfessionalData = localStorage.getItem('dataprofessional');
+
     //trasnformando os dados para JSON
     const userBarbearia = JSON.parse(userBarbeariaData);
     const userCliente = JSON.parse(userClienteData);
@@ -14,7 +16,7 @@ function SessionExpired (){
     const navigate = useNavigate();
     
     const handleTypeUserLogado = () =>{
-        if(userBarbearia){
+        if(userBarbearia || userProfessionalData){
             return navigate("/SignInBarbearia")
         }
         if(userCliente){
