@@ -50,6 +50,7 @@ const firstLetter = userName.charAt(0).toUpperCase();
 const navigateToUserProfile = () =>{
   navigate("/UserProfile");
 }
+
 const navigateToBookingsHistory = () =>{
   navigate("/BookingsHistory");
 }
@@ -111,7 +112,7 @@ useEffect(() => {
       setBarbearias(res.data.barbearias)
   }).catch(err =>{
     if(err.response.status === 403){
-      return navigate("/")
+      return navigate("/SessionExpired")
     }
     console.log("Error: ", err)
   })  

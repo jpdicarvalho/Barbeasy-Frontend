@@ -77,6 +77,9 @@ function BookingsHistory (){
             setIsLoading(false)
                 
         }).catch(err =>{
+            if(err.response.status === 403){
+                return navigate("/SessionExpired")
+            }
             setIsLoading(false)
             console.error('Erro ao buscar agendamentos', err)
         })

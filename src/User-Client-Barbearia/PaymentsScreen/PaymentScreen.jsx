@@ -60,6 +60,9 @@ export default function PaymentScreen(){
                 return setPaymentStatus(res.data.status)
             }
         }).catch(err =>{
+            if(err.response.status === 403){
+                return navigate("/SessionExpired")
+              }
             console.log(err)
         })
     }
@@ -91,21 +94,21 @@ export default function PaymentScreen(){
     const [seconds, setSeconds] = useState(calculateTimeDifference(date_of_expiration));
     const formattedTime = formatTime(seconds);
       
-      // Hook para contagem regressiva
-      useEffect(() => {
-        const timer = setInterval(() => {
-          setSeconds((prevSeconds) => {
-            if (prevSeconds <= 0) {
-              clearInterval(timer);
-              setDeletedPreBooking(true);
-              return 0;
-            }
-            return prevSeconds - 1;
-          });
-        }, 1000);
-      
-        return () => clearInterval(timer);
-      }, []);
+    // Hook para contagem regressiva
+    useEffect(() => {
+    const timer = setInterval(() => {
+        setSeconds((prevSeconds) => {
+        if (prevSeconds <= 0) {
+            clearInterval(timer);
+            setDeletedPreBooking(true);
+            return 0;
+        }
+        return prevSeconds - 1;
+        });
+    }, 1000);
+    
+    return () => clearInterval(timer);
+    }, []);
 
     //Function to update status to approved
     const updatePaymentStatus = (payment_cancelled) =>{
@@ -123,6 +126,9 @@ export default function PaymentScreen(){
                     return setPaymentUpdated(true)
                 }
             }).catch(err =>{
+                if(err.response.status === 403){
+                    return navigate("/SessionExpired")
+                }
                 console.error('Erro:', err)
                 return setPaymentUpdated(false)
             })
@@ -142,6 +148,9 @@ export default function PaymentScreen(){
                     return setDeletedPreBooking(true);
                 }
             }).catch(err =>{
+                if(err.response.status === 403){
+                    return navigate("/SessionExpired")
+                }
                 console.error('Erro:', err)
                 return setPaymentUpdated(false)
             })

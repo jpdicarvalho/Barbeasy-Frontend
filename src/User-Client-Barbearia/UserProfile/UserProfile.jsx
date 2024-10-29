@@ -51,13 +51,6 @@ const logoutClick = () => {
 
 const [confirmPassword, setConfirmPassword] = useState('');
 
-const [isMenuActive, setMenuActive] = useState(false);
-
-//verificando se o menu está ativado
-const handleMenuClick = () => {
-  setMenuActive(!isMenuActive);
-}
-
 //==========GET USER IMAGE PROFESSIONAL==========
 const [userImage, setUserImage] = useState([]);
 
@@ -74,7 +67,12 @@ useEffect(() => {
   .then(res => {
     setUserImage(res.data.url);
   })
-  .catch(err => console.log(err));
+  .catch(err => {
+    if(err.response.status === 403){
+      return navigate("/SessionExpired")
+    }
+    console.log(err)
+  });
 }, [userId]);
 
 //================UPDATE USER IMAGE================
@@ -142,7 +140,12 @@ useEffect(() => {
         }, 3000);
       }
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      if(err.response.status === 403){
+        return navigate("/SessionExpired")
+      }
+      console.log(err)
+    });
   }
 /*=================================================*/
 const [mostrarNome, setMostrarNome] = useState(false);
@@ -177,7 +180,12 @@ const getUserData = () =>{
       .then(res => {
         setUserData(res.data.User)
       })
-      .catch(error => console.log(error));
+      .catch(error => {
+        if(error.response.status === 403){
+          return navigate("/SessionExpired")
+        }
+        console.log(error)
+      });
   }
 
 //Função responsável por enviar o novo nome de usuário ao back-end
@@ -211,6 +219,9 @@ const alterUserData = () => {
         }
       })
       .catch(error => {
+        if(error.response.status === 403){
+          return navigate("/SessionExpired")
+        }
         setMessage("Erro ao realizar alteração.")
         setConfirmPassword('')
 
@@ -267,6 +278,9 @@ const alterarSenha = () => {
         }, 5000);
     }
   }).catch(error => {
+    if(error.response.status === 403){
+      return navigate("/SessionExpired")
+    }
     setMessagePassword("Erro ao alterar senha, tente novamente mais tarde!")
         // Limpar a mensagem após 3 segundos (3000 milissegundos)
         setTimeout(() => {

@@ -474,6 +474,9 @@ export function Agendamento({
       }
     })
     .catch(err => {
+      if(err.response.status === 403){
+        return navigate("/SessionExpired")
+      }
       console.log(err)
     })
     
@@ -515,6 +518,11 @@ export function Agendamento({
 
         }).catch(error => {
           console.error('Erro ao criar pré-reserva', error)
+
+          if(error.response.status === 403){
+            return navigate("/SessionExpired")
+          }
+
           if(error.response.status === 401){
             setPreBookingAndPaymentCreated(false)
             setIsBookingCreated(false)
@@ -574,6 +582,11 @@ const [isBookingCreated, setIsBookingCreated] = useState(false)
             }
         }).catch(error => {
           console.error('Erro ao criar agendamento', error)
+          
+          if(error.response.status === 403){
+            return navigate("/SessionExpired")
+          }
+
           if(error.response.status === 401){
             setIsBookingCreated(false)
 

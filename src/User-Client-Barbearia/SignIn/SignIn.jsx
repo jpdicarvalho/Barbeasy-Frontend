@@ -35,6 +35,7 @@ function SignIn() {
 
       if (responseData.success) {
         // Armazene o token no localStorage
+        localStorage.clear();
         localStorage.setItem('token', responseData.token);
         localStorage.setItem('userData', JSON.stringify(responseData));
 
