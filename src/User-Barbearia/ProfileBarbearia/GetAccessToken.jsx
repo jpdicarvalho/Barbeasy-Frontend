@@ -56,6 +56,9 @@ const GetAccessToken = () => {
         setCredentialsObtained(true)
       }
     }).catch(err =>{
+      if(err.response.status === 403){
+        return navigate("/SessionExpired")
+      }
       console.log('Error:', err)
     })
   }

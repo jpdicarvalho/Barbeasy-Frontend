@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"
 
 import PropTypes from 'prop-types';
 
@@ -13,6 +14,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 export function AddNewService ({ professionalId }){
 
   const urlApi = 'https://barbeasy.up.railway.app'
+  const navigate = useNavigate();
 
   const token = localStorage.getItem('token');
 
@@ -43,6 +45,9 @@ export function AddNewService ({ professionalId }){
         }
       })
       .catch(err => {
+        if(err.response.status === 403){
+          return navigate("/SessionExpired")
+        }
         console.error("Erro ao buscar serviços!", err);
       });
     }
@@ -129,11 +134,11 @@ export function AddNewService ({ professionalId }){
 
       let firstService = servicos.length;
 
-      axios.post(`${urlApi}/api/v1/addService/${barbeariaId}/${professionalId}`, newServiceData, {
-        headers: {
-        'Authorization': `Bearer ${token}`
-        }
-      })
+        axios.post(`${urlApi}/api/v1/addService/${barbeariaId}/${professionalId}`, newServiceData, {
+          headers: {
+          'Authorization': `Bearer ${token}`
+          }
+        })
           .then(res => {
             if (res.data.Success === "Success") {
               setMessageAddService("Serviço adicionado com sucesso.");
@@ -153,6 +158,9 @@ export function AddNewService ({ professionalId }){
             }
           })
           .catch(err => {
+            if(err.response.status === 403){
+              return navigate("/SessionExpired")
+            }
             setMessageAddService("Erro ao adicionar serviço!");
 
             setTimeout(() => {
@@ -320,6 +328,9 @@ const toggleItem = (itemId) => {
         }
       })
       .catch(err => {
+        if(err.response.status === 403){
+          return navigate("/SessionExpired")
+        }
         console.log("Erro ao apagar o serviço.", err);
         setMessageEditedService("Erro ao apagar o serviço.");
         setTimeout(() => {

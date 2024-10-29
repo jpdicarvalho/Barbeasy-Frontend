@@ -101,6 +101,9 @@ const getAmountVisibility = () =>{
         setChangeVisibilityAmount(false)
       }
   }).catch(err =>{
+    if(err.response.status === 403){
+      return navigate("/SessionExpired")
+    }
     console.log('Erro: ', err)
   })
 }
@@ -122,6 +125,9 @@ const updateVisibilityAmount = (valueVisibility) =>{
         return true
       }
   }).catch(err =>{
+    if(err.response.status === 403){
+      return navigate("/SessionExpired")
+    }
     console.log('Erro: ', err)
   })
 }
@@ -186,7 +192,11 @@ function orderBookings(bookings) {
         setIsLoading(false)
       }
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      if(err.response.status === 403){
+        return navigate("/SessionExpired")
+      }
+      console.log(err)});
   }
 
   useEffect(() =>{
@@ -219,6 +229,9 @@ useEffect(() =>{
     }).then(res =>{
       setAmountBarbearia(res.data.totalAmountBarbearia)
     }).catch(err =>{
+      if(err.response.status === 403){
+        return navigate("/SessionExpired")
+      }
       console.log(err)
     })
   }

@@ -77,6 +77,9 @@ const [messageAgenda, setMessageAgenda] = useState('');
         setFullAgenda(res.data.Agenda)
       }
     }).catch(error => {
+      if(error.response.status === 403){
+        return navigate("/SessionExpired")
+      }
       console.error('Erro ao buscar informações da agenda da barbearia', error)
     })
   }
@@ -201,6 +204,9 @@ const [messageAgenda, setMessageAgenda] = useState('');
         }, 5000);
       }
     }).catch(error => {
+      if(error.response.status === 403){
+        return navigate("/SessionExpired")
+      }
       setMessageAgenda("Não foi possível atualizar sua agenda.")
         // Limpar a mensagem após 3 segundos (3000 milissegundos)
         setTimeout(() => {
@@ -222,6 +228,9 @@ const [messageAgenda, setMessageAgenda] = useState('');
         setAgenda(res.data.Agenda)
       }
     }).catch(error => {
+      if(error.response.status === 403){
+        return navigate("/SessionExpired")
+      }
       console.error('Erro ao buscar informações da agenda da barbearia', error)
     })
   }
@@ -391,6 +400,10 @@ const salvarHorariosDiaSelecionado = () =>{
         }, 3000);
     }
   }).catch(error => {
+    if(error.response.status === 403){
+      return navigate("/SessionExpired")
+    }
+    console.error('Error: ', error)
     setMessageAgendaHorarios("Erro ao Salvar Horários, tente novamente mais tarde.")
         // Limpar a mensagem após 3 segundos (3000 milissegundos)
         setTimeout(() => {
@@ -412,6 +425,9 @@ const getHorariosDefinidos = () =>{
    setTimesDays(res.data.TimesDays)
     
   }).catch(error => {
+    if(error.response.status === 403){
+      return navigate("/SessionExpired")
+    }
     console.error('Erro ao buscar informações da agenda da barbearia', error)
   })
 }
@@ -461,6 +477,10 @@ const salvarHorariosTodosOsDias = () =>{
         }, 2000);
     }
   }).catch(error => {
+    if(error.response.status === 403){
+      return navigate("/SessionExpired")
+    }
+    console.error('Error: ', error)
     setMessageAgendaHorarios("Erro ao Salvar Horários, tente novamente mais tarde.")
         // Limpar a mensagem após 3 segundos (3000 milissegundos)
         setTimeout(() => {
@@ -574,6 +594,9 @@ const clearTimesDefined = (day) =>{
       }, 2000);
     }
   }).catch(err =>{
+    if(err.response.status === 403){
+      return navigate("/SessionExpired")
+    }
     console.error("Erro ao remover horários.", err)
     setMessageClearTimes("Erro ao remover horários.")
   })
@@ -789,6 +812,9 @@ const handleDateClick = (dayOfWeek, day, month, year) => {
         }
       }
     }).catch(err =>{
+      if(err.response.status === 403){
+        return navigate("/SessionExpired")
+      }
       console.error('Não há horários agendado/fechado para esse dia', err);
     })
 }
@@ -810,6 +836,7 @@ const handleDayOff = (time) => {
 const closeAllTimes = () => {
   setTimesLockedByProfessional(horariosDiaSelecionado)
 }
+
 const openAlltimes = () =>{
   setTimesLockedByProfessional([])
   
@@ -864,6 +891,9 @@ const saveDayOff = () =>{
         }, 2000);
       }
     }).catch(err =>{
+      if(err.response.status === 403){
+        return navigate("/SessionExpired")
+      }
       setMessageSaveDayOff("Erro ao definir folga. Tente novamente mais tarde.")
         setTimeout(() => {
           setMessageSaveDayOff(null);
@@ -894,6 +924,9 @@ const unlinkProfessional = () =>{
         }, 2000);
       }
     }).catch(err =>{
+      if(err.response.status === 403){
+        return navigate("/SessionExpired")
+      }
       setMessageUnlinkProfessional('Erro ao desvincular o profissional. Tente novamente mais tarde.')
       console.error("Error:", err)
       setTimeout(() => {

@@ -1,5 +1,8 @@
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom"
+
 import axios from "axios";
+
 import './addNewProfessional.css'
 import Loader from "../../Loader/Loader";
 
@@ -13,6 +16,8 @@ import { IoIosArrowBack } from "react-icons/io";
 import { BsSearch } from "react-icons/bs";
 
 export default function AddNewProfessional ({ openModal, setCloseModal }){
+
+const navigate = useNavigate();
 
 //Buscando informações da Barbearia logada
 const token = localStorage.getItem('token');
@@ -52,7 +57,12 @@ const getProfessional = () => {
         setMessagemSearchProfessional("Nenhum profissional encontrado")
       }
     })
-    .catch(error => console.log(error));
+    .catch(error => {
+      if(error.response.status === 403){
+        return navigate("/SessionExpired")
+      }
+      console.log(error)
+    });
 }
 // ===== Function to create a new professional =====
 const [expandedCardBooking, setExpandedCardBooking] = useState([]);
@@ -126,6 +136,9 @@ const createNewProfessional = () =>{
       }
     })
     .catch(err => {
+      if(err.response.status === 403){
+        return navigate("/SessionExpired")
+      }
       setMessageAddProfessional('Erro ao cadastrar profissional. Verifique o email digitado e tente novamente.')
       setTimeout(() => {
         setMessageAddProfessional(null);
@@ -171,7 +184,11 @@ const getAllRequestOfLink = (professional_id) =>{
         setRemoveLoader(false)
       }
     })
-    .catch(error => console.log(error));
+    .catch(error => {
+      if(error.response.status === 403){
+        return navigate("/SessionExpired")
+      }
+      console.log(error)});
   }
 }
 
@@ -199,6 +216,9 @@ const sendRequesToProfessional = () =>{
       }
     })
     .catch(error => {
+      if(error.response.status === 403){
+        return navigate("/SessionExpired")
+      }
       console.log(error)
       setMessagemRequestProfessional("Não foi possível enviar a solicitação! Tente novamente mais tarde.")
     });

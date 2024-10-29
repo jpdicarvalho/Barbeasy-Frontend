@@ -93,6 +93,9 @@ function StatisticBarbearia() {
     }).then(res => {
       setDataBookings(res.data.totalBookings);
     }).catch(err => {
+      if(err.response.status === 403){
+        return navigate("/SessionExpired")
+      }
       console.error('Erro ao buscar agendamentos', err);
     });
   };
@@ -150,7 +153,11 @@ const getAllBookingsByMonthAndYear = () => {
       setMessagemNotFound("Sem agendamento por enquanto...")
     }
   })
-  .catch(err => console.log(err));
+  .catch(err => {
+    if(err.response.status === 403){
+      return navigate("/SessionExpired")
+    }
+    console.log(err)});
 }
 
 // Function to get amount by month and year
@@ -164,6 +171,9 @@ const getAmountOfMonth = () =>{
     setComissionProfessional(res.data.comissionByProfessional)
     scrollToCurrentMonth()
   }).catch(err =>{
+    if(err.response.status === 403){
+      return navigate("/SessionExpired")
+    }
     console.log(err)
   })
 }
@@ -177,6 +187,9 @@ const getMostScheduledServices = () =>{
   }).then(res =>{
       setMostScheduledServices(res.data.mostScheduledServices)
   }).catch(err =>{
+    if(err.response.status === 403){
+      return navigate("/SessionExpired")
+    }
     console.log(err)
   })
 }
@@ -285,9 +298,7 @@ const toggleItem = (itemId) => {
   }
 };
 
-console.log(bookings)
-//=============================================
-  return (
+return (
     <div className='container__statistic__barbearia'>
         <div className='section__input__search__statistic__barbearia'>
           <div className='inner__input__search__statistic__barbearia'>

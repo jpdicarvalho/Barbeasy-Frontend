@@ -72,16 +72,6 @@ const logoutClick = () => {
     navigate("/");
 };
 //================ Get date ====================
-//Function to get current time
-function getCurrentTime(){
-    // get default current time
-    const currentTime = new Date().getHours();
-    const currentMinute = new Date().getMinutes();
-    const currentTimeStr = String(currentTime).padStart(2, '0');
-    const currentMinuteStr = String(currentMinute).padStart(2, '0');
-    const fullCurrentTime = Number(`${currentTimeStr}${currentMinuteStr}`);
-    return fullCurrentTime;
-  }
 
   //Função para pegar os dias da semana
   function getWeeks() {
@@ -123,15 +113,6 @@ function getCurrentTime(){
     }
   
     return numbersWeek;
-  }
-
-  // Function to get current day in format: [Sex, 12 de Abr de 2024]
-  function getCurrentDayOfWeek(){
-    const currentDayOfWeek = weekNames[date.getDay()];//Dia atual da semana
-    const currentDayOfMonth = date.getDate();//Dia atua do mês
-    const currentNameMonth = monthNames[date.getMonth()];//Mês atual  
-    let currentDay = `${currentDayOfWeek}, ${currentDayOfMonth} de ${currentNameMonth} de ${year}`;// Monta a data no formato do dia selecionado
-    return currentDay;
   }
 
   const weekDays = getWeeks();
@@ -187,7 +168,11 @@ const handleDateClick = (dayOfWeek, day, month, year) => {
             setMessagemNotFound("Sem agendamento por enquanto...")
             }
         })
-        .catch(err => console.log(err));   
+        .catch(err => {
+            if(err.response.status === 403){
+                return navigate("/SessionExpired")
+              }
+            console.log(err)});   
     }else{
         //Condition to get all bookings of current day
         let selectedDate = currenteDate;
@@ -206,7 +191,11 @@ const handleDateClick = (dayOfWeek, day, month, year) => {
             setMessagemNotFound("Sem agendamento por enquanto...")
             }
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+            if(err.response.status === 403){
+                return navigate("/SessionExpired")
+              }
+            console.log(err)});
     }
 }
 
@@ -232,7 +221,6 @@ const toggleItem = (itemId) => {
     }
 };
 
-console.log(bookings)
 return (
     <div className="container__main__Schedule__barbearia">
         <div className="header__bookings__schedule">

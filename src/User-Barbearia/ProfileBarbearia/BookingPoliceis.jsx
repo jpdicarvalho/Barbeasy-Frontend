@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"
 
 import PropTypes from 'prop-types';
 
@@ -17,6 +18,7 @@ export function BookingPoliceis ({barbeariaId, OAuthUrl, isConectedWithMercadoPa
 
     const urlApi = 'https://barbeasy.up.railway.app'
     const token = localStorage.getItem('token');
+    const navigate = useNavigate();
 
     const [confirmPassword, setConfirmPassword] = useState('');
 
@@ -42,6 +44,9 @@ const getBookingPoliceis = () =>{
         setServicePercentageStored(res.data.bookingPoliceis.service_percentage === "false" ? '':res.data.bookingPoliceis.service_percentage)
       }
   }).catch(err =>{
+    if(err.response.status === 403){
+      return navigate("/SessionExpired")
+    }
     console.log(err)
   })
 }
@@ -175,6 +180,9 @@ const updateBookingPoliceis = () =>{
         return
       }
   }).catch(err =>{
+    if(err.response.status === 403){
+      return navigate("/SessionExpired")
+    }
     console.log(err)
   })
 }

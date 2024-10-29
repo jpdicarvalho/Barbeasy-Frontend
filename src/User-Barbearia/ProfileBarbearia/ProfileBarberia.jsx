@@ -159,7 +159,11 @@ function ProfileBarbearia() {
           }, 3000);
         }
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        if(err.response.status === 403){
+          return navigate("/SessionExpired")
+        }
+        console.log(err)});
   }
 
   //Função para obter as imagens cadastradas
@@ -175,7 +179,11 @@ function ProfileBarbearia() {
     .then(result => {
       setBannerImages(result.data.urls);
     })
-    .catch(error => console.log(error));
+    .catch(error => {
+      if(error.response.status === 403){
+        return navigate("/SessionExpired")
+      }
+      console.log(error)});
   }, [barbeariaId]);
 
 //========== Variáveis para abrir o madal ==========
@@ -189,7 +197,11 @@ const [professional, setProfessional] = useState([])
       .then(res => {
         setProfessional(res.data.Professional)
       })
-      .catch(error => console.log(error));
+      .catch(error => {
+        if(err.response.status === 403){
+          return navigate("/SessionExpired")
+        }
+        console.log(error)});
     }
     getProfessional()
   }, [barbeariaId, !showAddNewProfessional])
@@ -233,6 +245,9 @@ const saveCredentials = (access_token, refresh_token, data_renovation) =>{
       setIsConectedWithMercadoPago(true)
     }
   }).catch(err =>{
+    if(err.response.status === 403){
+      return navigate("/SessionExpired")
+    }
     setIsConectedWithMercadoPago(false)
     console.log('Error:', err)
   })
@@ -284,6 +299,9 @@ useEffect(() =>{
         setIsConectedWithMercadoPago(false);
       }
     }).catch(err => {
+      if(err.response.status === 403){
+        return navigate("/SessionExpired")
+      }
       setIsConectedWithMercadoPago(false)
       console.error('Erro ao verificar conexão com o mercado pago:', err);
     })
@@ -350,6 +368,9 @@ useEffect(() => {
         }
       })
       .catch(error => {
+        if(error.response.status === 403){
+          return navigate("/SessionExpired")
+        }
         // Lógica a ser executada em caso de erro na solicitação
         console.error('Erro ao atualizar o status:', error);
       });
@@ -365,7 +386,11 @@ useEffect(() => {
       .then(res => {
         setStatus(res.data.StatusBarbearia)
       })
-      .catch(error => console.log(error));
+      .catch(error => {
+        if(error.response.status === 403){
+          return navigate("/SessionExpired")
+        }
+        console.log(error)});
   }, [barbeariaId])
 
 //============ Share profile ============
@@ -452,7 +477,11 @@ useEffect(() => {
       .then(res => {
         setNomeBarbeariaAtual(res.data.NomeBarbearia)
       })
-      .catch(error => console.log(error));
+      .catch(error => {
+        if(error.response.status === 403){
+          return navigate("/SessionExpired")
+        }
+        console.log(error)});
   }
 
   useEffect(() => {
@@ -524,6 +553,9 @@ useEffect(() => {
           }
         })
         .catch(error => {
+          if(error.response.status === 403){
+            return navigate("/SessionExpired")
+          }
           setMessageEndereco('Erro ao atualizar o endereço.');
           // Limpar a mensagem de erro após 3 segundos (3000 milissegundos)
           setTimeout(() => {
@@ -551,7 +583,11 @@ useEffect(() => {
       .then(res => {
         setEndereco(res.data.Endereco)
       })
-      .catch(error => console.log(error));
+      .catch(error => {
+        if(error.response.status === 403){
+          return navigate("/SessionExpired")
+        }
+        console.log(error)});
   }
   useEffect(() => {
     getAdressBarbearia()
@@ -604,6 +640,9 @@ useEffect(() => {
           }
         })
         .catch(error => {
+          if(error.response.status === 403){
+            return navigate("/SessionExpired")
+          }
           setMessageUserName("Erro ao atualizar o nome de usuário.")
             // Limpar a mensagem após 3 segundos (3000 milissegundos)
             setTimeout(() => {
@@ -624,7 +663,11 @@ useEffect(() => {
       .then(res => {
         setUserNameBarbearia(res.data.UserNameBarbearia)
       })
-      .catch(error => console.log(error));
+      .catch(error => {
+        if(error.response.status === 403){
+          return navigate("/SessionExpired")
+        }
+        console.log(error)});
   }
   //Hook para chamar a função getUserName()
   useEffect(() => {
@@ -679,6 +722,9 @@ useEffect(() => {
         }
       })
       .catch(error => {
+        if(error.response.status === 403){
+          return navigate("/SessionExpired")
+        }
         setMessageEmail("Erro ao atualizar o email de usuário")
             // Limpar a mensagem após 3 segundos (3000 milissegundos)
             setTimeout(() => {
@@ -700,7 +746,11 @@ useEffect(() => {
       .then(result => {
         setCurrentEmail(result.data.EmailBarbearia);
       })
-      .catch(error => console.log(error));
+      .catch(error => {
+        if(error.response.status === 403){
+          return navigate("/SessionExpired")
+        }
+        console.log(error)});
   }
 
   useEffect(() => {
@@ -736,6 +786,9 @@ useEffect(() => {
           }, 3000);
       }
     }).catch(error => {
+      if(error.response.status === 403){
+        return navigate("/SessionExpired")
+      }
       console.log('Error:', error)
       setMessagePassword("Senha atual não confirmada!")
           // Limpar a mensagem após 3 segundos (3000 milissegundos)
