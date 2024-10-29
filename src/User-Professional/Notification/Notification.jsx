@@ -77,7 +77,7 @@ export default function Notification (){
                 return navigate("/SessionExpired")
               }
 
-            if(err.status === 401){
+            if(err.response.status === 401){
                 setMessage('Erro ao aceitar solicitação. Você já possui um vínculo com essa barbearia.')
                 console.error('Error ao aceitar notificação', err)
                 setTimeout(() => {
@@ -112,6 +112,9 @@ export default function Notification (){
       
             }
         }).catch(err =>{
+            if(err.response.status === 403){
+                return navigate("/SessionExpired")
+              }
             setMessage('Erro ao recusar solicitação, tente novamente mais tarde.')
             console.log('Error ao recusar notificação', err)
             setTimeout(() => {

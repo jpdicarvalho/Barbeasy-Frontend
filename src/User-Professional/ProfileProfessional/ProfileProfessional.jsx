@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
-import {motion} from 'framer-motion';
 
 import axios from 'axios';
 
@@ -22,15 +21,6 @@ import { IoStar } from "react-icons/io5";
 import { IoIosRemoveCircleOutline } from "react-icons/io";
 
 import './ProfileProfessional.css';
-
-
-const monthNames = [
-  'Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun', 'Jul', 'Aug', 'Set', 'Out', 'Nov', 'Dez'
-];
-
-const weekNames = [
-  'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'
-];
 
 function ProfileProfessional() {
 
@@ -69,7 +59,11 @@ useEffect(() => {
   .then(res => {
     setImageUser(res.data.url);
   })
-  .catch(err => console.log(err));
+  .catch(err => {
+    if(err.response.status === 403){
+      return navigate("/SessionExpired")
+    }
+    console.log(err)});
 }, [professionalId]);
 
 //================UPDATE USER IMAGE================
@@ -131,7 +125,10 @@ useEffect(() => {
     })
     .catch(err => {
       console.log(err)
-      if(err.status === 400){
+      if(err.response.status === 403){
+        return navigate("/SessionExpired")
+      }
+      if(err.response.status === 400){
         setUserImageMessage('Erro ao atualizar a imagem. Verifique a imagem selecionada e tente novamente.')
         setTimeout(() => {
           setUserImageMessage(null);
@@ -160,6 +157,9 @@ const getBarbearias = () =>{
         setBarbearias(res.data.Barbearias)
       }
     }).catch(err =>{
+      if(err.response.status === 403){
+        return navigate("/SessionExpired")
+      }
       console.log("Error", err)
     })
 }
@@ -208,6 +208,9 @@ const unlinkBarbearia = () =>{
         }, 2000);
       }
     }).catch(err =>{
+      if(err.response.status === 403){
+        return navigate("/SessionExpired")
+      }
       setMessageUnlinkBarbearia('Erro ao desvincular a barbearia. Tente novamente mais tarde.')
       console.error("Error:", err)
       setTimeout(() => {
@@ -270,6 +273,9 @@ const alterarDataProfessional = () => {
         }
       })
       .catch(error => {
+        if(error.response.status === 403){
+          return navigate("/SessionExpired")
+        }
         setMessage("Erro ao atualizar o nome de usuário.")
         setConfirmPassword('')
 
@@ -292,7 +298,11 @@ const getDataProfessional = () =>{
     .then(res => {
       setDataProfessional(res.data.data_professional)
     })
-    .catch(error => console.log(error));
+    .catch(error => {
+      if(error.response.status === 403){
+        return navigate("/SessionExpired")
+      }
+      console.log(error)});
 }
 
 //Hook para chamar a função getDataProfessional()
@@ -330,6 +340,9 @@ const alterarSenha = () => {
         }, 3000);
     }
   }).catch(error => {
+    if(error.response.status === 403){
+      return navigate("/SessionExpired")
+    }
     console.error('Error:', error)
     setMessagePassword("Senha atual não confirmada!")
         // Limpar a mensagem após 3 segundos (3000 milissegundos)
