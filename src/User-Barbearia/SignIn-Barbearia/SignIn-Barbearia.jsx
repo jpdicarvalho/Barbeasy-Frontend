@@ -103,7 +103,7 @@ function SignInBarbearia() {
             {message === "Seja Bem Vindo!" ? (
                 <p className="success">{message}</p>
               ) : (
-                <p className="error">{message}</p>
+                <p className={message ? 'error':''}>{message}</p>
             )}
                 <div className="inputBox">
                 <input

@@ -96,7 +96,7 @@ const valuesNoEmpty = values.name && values.email && values.celular && values.se
         {message === "Conta criada com sucesso!" ? (
           <p className="success">{message}</p>
           ) : (
-          <p className="error">{message}</p>
+          <p className={message ? 'error':''}>{message}</p>
         )}
 
         <animated.div style={props} className="inputContainer">

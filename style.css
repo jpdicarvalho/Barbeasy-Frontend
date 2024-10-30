@@ -115,9 +115,6 @@ form .link{
   margin-bottom: 10px;
   font-size: 13px;
   text-align: center;
-  padding: 5px;
-  border-radius: 3px;
-  background: rgba(0, 255, 0, 0.266);
 }
 .error{
   color: rgb(255, 0, 0);
