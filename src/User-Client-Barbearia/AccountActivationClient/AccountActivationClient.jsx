@@ -11,15 +11,86 @@ import { MdOutlineEdit } from "react-icons/md";
 function AccountActivationClient (){
   
   const urlApi = 'https://barbeasy.up.railway.app'
+  const urlAuth = 'https://barbeasy-authenticators.up.railway.app'
+
   
   const location = useLocation();
               //navigate('/SignIn')
 
   const { objectNewAccount } = location.state;
-//================= Handle edit number ================
+  
+
+
+//================== Section cronometro ====================
+const calculateTimeDifference = (data_request) => {
+  const expirationDate = new Date(data_request).getTime();
+  const currentDate = Date.now();
+  const differenceInMilliseconds = expirationDate - currentDate;
+
+  if (differenceInMilliseconds <= 0) {
+    return 0; // Retorna 0 segundos se já expirou
+  }
+
+  const differenceInSeconds = Math.floor(differenceInMilliseconds / 1000);
+  return differenceInSeconds;
+};
+
+const formatTime = (totalSeconds) => {
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  
+  // Formatar minutos e segundos com dois dígitos
+  const formattedMinutes = String(minutes).padStart(2, '0');
+  const formattedSeconds = String(seconds).padStart(2, '0');
+  
+  return `${formattedMinutes}:${formattedSeconds}`;
+};
+
+const [seconds, setSeconds] = useState(calculateTimeDifference(objectNewAccount.data_request));
+  
+const formattedTime = formatTime(seconds);
+
+function cronometro () {
+  const timer = setInterval(() => {
+    setSeconds((prevSeconds) => {
+      if (prevSeconds <= 0) {
+        clearInterval(timer);
+        return 0;
+      }
+      return prevSeconds - 1;
+    });
+  }, 1000);
+
+  return () => clearInterval(timer);
+}
+  // Hook para contagem regressiva
+  useEffect(() => {
+    cronometro()
+  }, []);
+//================= Handle edit number & resend code ================
 const [editNumber, setEditNumber] = useState(false);
 const [numberEdited, setNumberEdited] = useState(objectNewAccount.phoneNumber.slice(0,12));
 
+const resendCodeAutentication = () => {
+  let numberWhithoutNine;
+
+  if(numberEdited.length === 11){//Ex.:93 9 94455445
+    numberWhithoutNine = numberEdited.slice(0, 3) + numberEdited.slice(3 + 1);//Number formatted: 93 94455445
+  }
+  
+  axios.post(`${urlAuth}/api/v1/sendCodeWhatsapp`, { phoneNumber: `55${numberWhithoutNine}@c.us` })
+  .then(res =>{
+    const newDataRequest = Date.now() + 59 * 1000
+    setSeconds(calculateTimeDifference(newDataRequest))
+    cronometro()
+
+    console.log('Código reenviado', res)
+  })
+  .catch(err =>{
+    console.log(err)
+  })
+
+}
 
 //================= Handle code from input ================
   // Estado que armazena os valores digitados
@@ -62,13 +133,12 @@ const [numberEdited, setNumberEdited] = useState(objectNewAccount.phoneNumber.sl
 const [message, setMessage] = useState(null);
 
 const verifyCodeActivation = () =>{
+  if(code.join('').length === 5){
     const values = {
-      //email: objectNewAccount.email,
-      phoneNumber: objectNewAccount.celular,
-      message: 'teste from my frontend!'
-      //code: code.join('')
+      email: objectNewAccount.email,
+      code: code.join('')
     }
-    axios.post(`${urlApi}/api/v1/sendCodeWhatsapp`, values)
+    axios.post(`${urlApi}/api/v1/`, values)
     .then(res =>{
       if(res.status === 201){
         setMessage('Sua conta foi ativada com sucesso!')
@@ -77,56 +147,16 @@ const verifyCodeActivation = () =>{
     .catch(err =>{
       console.log('Erro ao ativar a conta', err)
       setMessage('Erro ao ativar a conta')
-
     })
-  /*if(code.join('').length === 5){
-
   }else{
-    return setMessage('Preencha todos os campos.')
-  }*/
-}
-//================== Section cronometro ====================
-const calculateTimeDifference = (data_request) => {
-  const expirationDate = new Date(data_request).getTime();
-  const currentDate = Date.now();
-  const differenceInMilliseconds = expirationDate - currentDate;
-
-  if (differenceInMilliseconds <= 0) {
-    return 0; // Retorna 0 segundos se já expirou
+    setMessage('Preencha todos os campos.')
+    setTimeout(() => {
+      setMessage(null)
+    }, 2000);
+    
   }
+}
 
-  const differenceInSeconds = Math.floor(differenceInMilliseconds / 1000);
-  return differenceInSeconds;
-};
-
-const formatTime = (totalSeconds) => {
-const minutes = Math.floor(totalSeconds / 60);
-const seconds = totalSeconds % 60;
-
-// Formatar minutos e segundos com dois dígitos
-const formattedMinutes = String(minutes).padStart(2, '0');
-const formattedSeconds = String(seconds).padStart(2, '0');
-
-return `${formattedMinutes}:${formattedSeconds}`;
-};
-
-const [seconds, setSeconds] = useState(calculateTimeDifference(objectNewAccount.data_request));
-const formattedTime = formatTime(seconds);
-
-// Hook para contagem regressiva
-useEffect(() => {
-  const timer = setInterval(() => {
-    setSeconds((prevSeconds) => {
-      if (prevSeconds <= 0) {
-        clearInterval(timer);
-        return 0;
-      }
-      return prevSeconds - 1;
-    });
-  }, 1000);
-
-  return () => clearInterval(timer);
-}, []);
 
 return (
     <>
@@ -169,7 +199,7 @@ return (
           
         </div>
         {message}
-        <div className="form__in__AccountActivationClient" onClick={verifyCodeActivation}>
+        <div className="form__in__AccountActivationClient">
           <div className="box__input__in__AccountActivationClient">
             {code.map((_, index) => (
               <input
@@ -185,10 +215,13 @@ return (
             ))}
           </div>
 
-          <input type="submit" value="Ativar conta" className="input__submit__code__verification"/>
+          <button className="input__submit__code__verification" onClick={verifyCodeActivation}>
+            Ativar conta
+          </button>
+
         </div>
         {formattedTime === '00:00' ? (
-          <div className="resend__code__verification">
+          <div className="resend__code__verification" onClick={resendCodeAutentication}>
             Reenviar código
           </div>
         ):(

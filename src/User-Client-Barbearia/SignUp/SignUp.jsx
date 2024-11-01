@@ -33,7 +33,7 @@ function SignUp() {
     from: { opacity: 0, transform: "translateX(-100%)" }
   });
 
- //=======================================================
+ //=================== Request to send code verification =========================
   const sendCodeAutentication = (numberWhatsapp) => {
     let numberWhithoutNine;
 
@@ -96,7 +96,6 @@ function SignUp() {
   };
 
 const valuesNoEmpty = values.name && values.email && values.celular && values.senha;
-//<QRCodeSVG value="2@zV4SwUCbo/enscauTO2VDcMKTNgwrslf8+cj/7ZoXS3feEC1OebtU1CmGRRvXRB+ccIprnHcxXlj4mNPnHvbUo3AMnd0uqJRW18=,cYqZ3JsXGhYg70hF83QZQ5cljHM52u5GFibIOreYjC0=,mG8mnUIKl/7fUf0JbxV+DGlHDUuXjbY2ZCEXYqdMt0s=,w1ODOcJbkybC8j7WLrNeU+0BxGScmJWA0/4YXT7T4Lw=,1"/>
 
   return (
     <>
