@@ -7,11 +7,12 @@ import './style.css';
 import barberLogo from '../../../barber-logo.png';
 
 import { VscAccount } from "react-icons/vsc";
-
+import {QRCodeSVG} from 'qrcode.react';
 
 function SignUp() {
 
   const urlApi = 'https://barbeasy.up.railway.app'
+  const urlAuth = 'https://barbeasy-authenticators.up.railway.app'
 
   const navigate = useNavigate();
 
@@ -32,6 +33,24 @@ function SignUp() {
     from: { opacity: 0, transform: "translateX(-100%)" }
   });
 
+ //=======================================================
+  const sendCodeAutentication = (numberWhatsapp) => {
+    let numberWhithoutNine;
+
+    if(numberWhatsapp.length === 11){//Ex.:93 9 94455445
+      numberWhithoutNine = numberWhatsapp.slice(0, 3) + numberWhatsapp.slice(3 + 1);//Number formatted: 93 94455445
+    }
+    
+    axios.post(`${urlAuth}/api/v1/sendCodeWhatsapp`, { phoneNumber: `55${numberWhithoutNine}@c.us` })
+    .then(res =>{
+      console.log('enviado', res)
+    })
+    .catch(err =>{
+      console.log(err)
+    })
+
+  }
+  //Submit form
   const handleSubmit = (event) => {
     event.preventDefault();
     setIsLoading(true)
@@ -40,19 +59,18 @@ function SignUp() {
       axios.post(`${urlApi}/api/v1/SignUp`, values)
         .then(res => {
           if (res.status === 201) {
-            setMessage('Conta criada com sucesso!');
+            setMessage('Muito bem! Agora para ativar sua conta, precisamos validar seu número de whatsapp. Redirecionando...');
             //Object to Account Activation
             const objectNewAccount = {
-              email: values.email,
-              celular: values.celular,
+              phoneNumber: values.celular,
               data_request: Date.now() + 50 * 1000
             }
             setIsLoading(false)
+            sendCodeAutentication(objectNewAccount.phoneNumber)
             setTimeout(() => {
               setMessage(null)
-              //navigate('/AccountActivationClient', { state: { objectNewAccount } });
-              navigate('/SignIn')
-            }, 2000);
+              navigate('/AccountActivationClient', { state: { objectNewAccount } });
+            }, 4000);
           }
         })
         .catch(err => {
@@ -72,11 +90,13 @@ function SignUp() {
       setStep(step + 1);
     }
   };
+
   const nextStep = () => {
     setStep(step + 1);
   };
 
 const valuesNoEmpty = values.name && values.email && values.celular && values.senha;
+//<QRCodeSVG value="2@zV4SwUCbo/enscauTO2VDcMKTNgwrslf8+cj/7ZoXS3feEC1OebtU1CmGRRvXRB+ccIprnHcxXlj4mNPnHvbUo3AMnd0uqJRW18=,cYqZ3JsXGhYg70hF83QZQ5cljHM52u5GFibIOreYjC0=,mG8mnUIKl/7fUf0JbxV+DGlHDUuXjbY2ZCEXYqdMt0s=,w1ODOcJbkybC8j7WLrNeU+0BxGScmJWA0/4YXT7T4Lw=,1"/>
 
   return (
     <>
@@ -87,16 +107,17 @@ const valuesNoEmpty = values.name && values.email && values.celular && values.se
         </div>
 
         <h2 id="HeaderSignUp">Barbeasy</h2>
-
         <div className="Box__cadastro__barbearia">
           <VscAccount className='icon__IoStorefrontOutline'/>
           <h3 style={{color: '#f6f6fc'}}>Cadastro de usuário</h3>
         </div>
 
-        {message === "Conta criada com sucesso!" ? (
-          <p className="success">{message}</p>
+        {message && (
+          message.length > 35 ? (
+            <p className="success">{message}</p>
           ) : (
-          <p className={message ? 'error':''}>{message}</p>
+            <p className={message ? 'error':''}>{message}</p>
+          )
         )}
 
         <animated.div style={props} className="inputContainer">
@@ -150,7 +171,7 @@ const valuesNoEmpty = values.name && values.email && values.celular && values.se
                   const truncatedValue = filteredValue.slice(0, 11);
                   setValues({ ...values, celular: truncatedValue })
                 }}
-                placeholder="Celular"
+                placeholder="WhatsApp"
                 maxLength={16}
                 required
               /> 

@@ -1,9 +1,11 @@
 import { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 import './AccountActivationClient.css';
 
 import barberLogo from '../../../barber-logo.png';
+import { MdOutlineEdit } from "react-icons/md";
 
 
 function AccountActivationClient (){
@@ -11,9 +13,15 @@ function AccountActivationClient (){
   const urlApi = 'https://barbeasy.up.railway.app'
   
   const location = useLocation();
+              //navigate('/SignIn')
 
   const { objectNewAccount } = location.state;
+//================= Handle edit number ================
+const [editNumber, setEditNumber] = useState(false);
+const [numberEdited, setNumberEdited] = useState(objectNewAccount.phoneNumber.slice(0,12));
 
+
+//================= Handle code from input ================
   // Estado que armazena os valores digitados
   const [code, setCode] = useState(new Array(5).fill(""));
   // Referências para os inputs
@@ -49,6 +57,34 @@ function AccountActivationClient (){
       }
     }
   };
+
+//==================== Section verify code activation =================
+const [message, setMessage] = useState(null);
+
+const verifyCodeActivation = () =>{
+    const values = {
+      //email: objectNewAccount.email,
+      phoneNumber: objectNewAccount.celular,
+      message: 'teste from my frontend!'
+      //code: code.join('')
+    }
+    axios.post(`${urlApi}/api/v1/sendCodeWhatsapp`, values)
+    .then(res =>{
+      if(res.status === 201){
+        setMessage('Sua conta foi ativada com sucesso!')
+      }
+    })
+    .catch(err =>{
+      console.log('Erro ao ativar a conta', err)
+      setMessage('Erro ao ativar a conta')
+
+    })
+  /*if(code.join('').length === 5){
+
+  }else{
+    return setMessage('Preencha todos os campos.')
+  }*/
+}
 //================== Section cronometro ====================
 const calculateTimeDifference = (data_request) => {
   const expirationDate = new Date(data_request).getTime();
@@ -91,31 +127,6 @@ useEffect(() => {
 
   return () => clearInterval(timer);
 }, []);
-//==================== Section verify code activation =================
-const [message, setMessage] = useState(null);
-
-const verifyCodeActivation = () =>{
-  if(code.join('').length === 5){
-    const values = {
-      email: objectNewAccount.email,
-      celular: objectNewAccount.celular,
-      code: code.join('')
-    }
-    axios.post(`${urlApi}/api/v1/verifyCodeActivationClient`, values)
-    .then(res =>{
-      if(res.status === 201){
-        setMessage('Sua conta foi ativada com sucesso!')
-      }
-    })
-    .catch(err =>{
-      console.log('Erro ao ativar a conta', err)
-      setMessage('Erro ao ativar a conta')
-
-    })
-  }else{
-    return setMessage('Preencha todos os campos.')
-  }
-}
 
 return (
     <>
@@ -127,11 +138,35 @@ return (
         <h2 id="HeaderSignUp">Barbeasy</h2>
 
         <div className="Box__cadastro__barbearia">
-          <h3 style={{color: '#f6f6fc'}}>Verificação de e-mail</h3>
+          <h3 style={{color: '#f6f6fc'}}>Verificação de WhatsApp</h3>
         </div>
 
         <div className="information__in__AccountActivationClient">
-          <p>Enviamos um código de ativação para o e-mail {objectNewAccount.email}</p>
+          {!editNumber && (
+            <>
+              <p>Enviamos um código de ativação para o número {objectNewAccount.phoneNumber.slice(0,12)}<MdOutlineEdit className="icon__edit__number" onClick={() => setEditNumber(!editNumber)}/>  </p>
+            </>
+          )}
+          {editNumber && (
+            <>
+              <p>Enviamos um código de ativação para o número {!editNumber ? objectNewAccount.phoneNumber.slice(0,12):''}{}</p>
+              <div className="Box__edit__number">
+                <input
+                type="text"
+                className="input__number__edit"
+                value={numberEdited} 
+                onChange={(e) => {
+                  const inputValue = e.target.value;
+                  const filteredValue = inputValue.replace(/[^0-9]/g, '');
+                  // Limitar a 11 caracteres
+                  const truncatedValue = filteredValue.slice(0, 11);
+                  setNumberEdited(truncatedValue)
+                }}/>
+                <MdOutlineEdit className="icon__edit__number" onClick={() => setEditNumber(!editNumber)}/>
+              </div>
+            </>
+          )}
+          
         </div>
         {message}
         <div className="form__in__AccountActivationClient" onClick={verifyCodeActivation}>
@@ -163,6 +198,7 @@ return (
         )}
         
       </div>
+      
     </>
   );
 }

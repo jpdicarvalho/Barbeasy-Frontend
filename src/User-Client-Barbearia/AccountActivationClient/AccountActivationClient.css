@@ -56,3 +56,29 @@
 .time__resend__code__verification{
     color: gray;
 }
+.Box__edit__number__disable{
+    display: flex;
+}
+.Box__edit__number{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-top: 5px;
+}
+.input__number__edit{
+    text-align: center;
+    height: 20px;
+    width: 90px;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #f6f6fc;
+    border-bottom: 1px solid #4a17d5;
+    margin-right: 3px;
+}
+.icon__edit__number{
+    color: #f6f6fc;
+    font-size: 15px;
+    margin-left: 5px;
+}
