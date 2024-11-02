@@ -101,7 +101,7 @@ useEffect(() => {
   cronometro()
 }, []);
 
-//================= Handle edit number & resend code ================
+//================= resend code ================
 
 const resendCodeAutentication = () => {
 
@@ -184,24 +184,35 @@ const resendCodeAutentication = () => {
 //==================== Section verify code activation =================
 const verifyCodeActivation = () =>{
   if(code.join('').length === 5){
+    //Object to Auth user
     const values = {
       phoneNumber: numberCodeSended,
       email: objectNewAccount.email,
       code: code.join('')
     }
-    axios.post(`${urlAuth}/api/v1/verifyUserCode-WhatsApp`, values)
+    axios.put(`${urlAuth}/api/v1/verifyUserCode-WhatsApp`, values)
     .then(res =>{
       if(res.status === 201){
         setMessage('Sua conta foi ativada com sucesso!')
+         return setTimeout(() => {
+          setMessage(null)
+          navigate("/SignIn");
+        }, 2000);
+      }
+      if(res.status === 204){
+        setMessage('Código de ativação incorreto.')
+        return setTimeout(() => {
+          setMessage(null)
+        }, 3000);
       }
     })
     .catch(err =>{
       console.log('Erro ao ativar a conta', err)
-      setMessage('Erro ao ativar a conta. Verifique os dados informados e tente novamente')
+      return setMessage('Erro ao ativar a conta.Ttente novamente mais tarde.')
     })
   }else{
     setMessage('Preencha todos os campos.')
-    setTimeout(() => {
+    return setTimeout(() => {
       setMessage(null)
     }, 2000);
     
@@ -209,7 +220,6 @@ const verifyCodeActivation = () =>{
 }
 
 //<QRCodeSVG value=""/>
-
 return (
     <>
       <div className="container__in__AccountActivationClient">
@@ -251,7 +261,12 @@ return (
           )}
           
         </div>
-        {message}
+          {message === 'Sua conta foi ativada com sucesso!' ? (
+            <p className="success">{message}</p>
+          ) : (
+            <p className={message ? 'error':''}>{message}</p>
+          )}
+        
         <div className="form__in__AccountActivationClient">
           <div className="box__input__in__AccountActivationClient">
             {code.map((_, index) => (
