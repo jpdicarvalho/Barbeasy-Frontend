@@ -58,8 +58,8 @@
   border: none;
   border-radius: 12px;
   color: #f6f6fc;
-  background: #7849f4;
-  letter-spacing: 1px;
+  background: #4a17d5;
+  font-size: 14px;
   font-family: "Poppins", sans-serif;
   transition: 0.5s;
 }

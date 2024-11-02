@@ -28,3 +28,12 @@ body{
     align-items: center;
     flex-direction: row;
 }
+.box__recover__account{
+    text-align: justify;
+    margin-top: 5px;
+}
+.text__information__recover__account{
+    font-size: 14px;
+    margin-bottom: 15px;
+    color: gray;
+}

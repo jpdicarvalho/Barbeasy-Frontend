@@ -3,7 +3,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    width: 385px;
+    width: 380px;
     height: 100dvh;
 }
 .information__in__AccountActivationClient{
@@ -81,4 +81,8 @@
     color: #f6f6fc;
     font-size: 15px;
     margin-left: 5px;
+}
+.icon__CiSquareCheck__number{
+    color: #4a17d5;
+    font-size: 15px;
 }

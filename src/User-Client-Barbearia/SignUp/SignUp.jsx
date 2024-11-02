@@ -34,14 +34,26 @@ function SignUp() {
   });
 
  //=================== Request to send code verification =========================
-  const sendCodeAutentication = (numberWhatsapp) => {
+  const sendCodeAutentication = (numberWhatsapp, email) => {
+    console.log(numberWhatsapp)
+
     let numberWhithoutNine;
 
     if(numberWhatsapp.length === 11){//Ex.:93 9 94455445
       numberWhithoutNine = numberWhatsapp.slice(0, 3) + numberWhatsapp.slice(3 + 1);//Number formatted: 93 94455445
     }
-    
-    axios.post(`${urlAuth}/api/v1/sendCodeWhatsapp`, { phoneNumber: `55${numberWhithoutNine}@c.us` })
+
+    if(numberWhatsapp.length === 10){//Ex.:93 94455445
+      numberWhithoutNine = numberWhatsapp
+    }
+
+    //Object with values to save and send code verification
+    const valuesAutentication = {
+       phoneNumberToSendMessage: `55${numberWhithoutNine}@c.us`,
+       email
+    }
+
+    axios.post(`${urlAuth}/api/v1/sendCodeWhatsapp`, valuesAutentication)
     .then(res =>{
       console.log('enviado', res)
     })
@@ -50,7 +62,10 @@ function SignUp() {
     })
 
   }
-  //Submit form
+
+//================== Submit form ==============================
+const [pendingActivation, setPendingActivation] = useState(false)
+
   const handleSubmit = (event) => {
     event.preventDefault();
     setIsLoading(true)
@@ -59,24 +74,25 @@ function SignUp() {
       axios.post(`${urlApi}/api/v1/SignUp`, values)
         .then(res => {
           if (res.status === 201) {
-            setMessage('Muito bem! Agora para ativar sua conta, precisamos validar seu número de whatsapp. Redirecionando...');
             //Object to Account Activation
             const objectNewAccount = {
               phoneNumber: values.celular,
+              email: values.email,
               data_request: Date.now() + 50 * 1000
             }
             setIsLoading(false)
-            sendCodeAutentication(objectNewAccount.phoneNumber)
-            setTimeout(() => {
-              setMessage(null)
+            sendCodeAutentication(objectNewAccount.phoneNumber, values.email)
               navigate('/AccountActivationClient', { state: { objectNewAccount } });
-            }, 4000);
           }
         })
         .catch(err => {
-          if (err.response && err.response.status === 400) {
+          if(err.response.status === 302){
             setIsLoading(false)
-            setMessage('E-mail ou celular já cadastrados.');
+            return setPendingActivation(true)
+          }
+          if (err.response.status === 400) {
+            setIsLoading(false)
+            return setMessage('E-mail ou celular já cadastrados.');
           } else {
             setIsLoading(false)
             setMessage('Erro ao realizar o cadastro!');
@@ -96,6 +112,7 @@ function SignUp() {
   };
 
 const valuesNoEmpty = values.name && values.email && values.celular && values.senha;
+//<QRCodeSVG value="2@CnKcX1zp6CCDjeYBTVqSjtuNI5XFQv6sD37fw9H3GDbasSqK7KFo7W/X4muty0a5bsH84PDYpX1pMOsepjOyeQNGBitvZtAYxgs=,4R6y+IDpn+Q21wfaIPlVeJWw4mZcI4UKZQ6ALu9NrDY=,P4ZMJZB9bknfdZ8JEdlED6NZMllCEK889FQDsGxvqzU=,K/SF7JKxX+hRv3kstNzJM+WIxPFtp49k6dKqb+FPD0Y=,1"/>
 
   return (
     <>
@@ -118,8 +135,8 @@ const valuesNoEmpty = values.name && values.email && values.celular && values.se
             <p className={message ? 'error':''}>{message}</p>
           )
         )}
-
-        <animated.div style={props} className="inputContainer">
+        {!pendingActivation ? (
+          <animated.div style={props} className="inputContainer">
           <div className="inputBox">
           <input
             type="text"
@@ -215,6 +232,15 @@ const valuesNoEmpty = values.name && values.email && values.celular && values.se
             </div>
           )}
         </animated.div>
+        ):(
+          <div className="box__recover__account">
+            <p className="text__information__recover__account">Já existe uma conta com ativação pendente para esse email ou senha informado. Deseja recuperá-la?</p>
+            <button type="button" id="button_next">Recuperar conta</button>
+          </div>
+          
+          
+        )}
+        
 
         <div className="link__login">
           <p>Você já tem uma conta?</p><Link className="link" to="/SignIn">Login</Link>

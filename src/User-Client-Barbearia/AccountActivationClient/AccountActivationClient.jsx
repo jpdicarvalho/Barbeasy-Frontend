@@ -6,6 +6,8 @@ import './AccountActivationClient.css';
 
 import barberLogo from '../../../barber-logo.png';
 import { MdOutlineEdit } from "react-icons/md";
+import { FaCircleCheck } from "react-icons/fa6";
+import { MdCancel } from "react-icons/md";
 
 
 function AccountActivationClient (){
@@ -19,8 +21,6 @@ function AccountActivationClient (){
 
   const { objectNewAccount } = location.state;
   
-
-
 //================== Section cronometro ====================
 const calculateTimeDifference = (data_request) => {
   const expirationDate = new Date(data_request).getTime();
@@ -45,7 +45,8 @@ const formatTime = (totalSeconds) => {
   
   return `${formattedMinutes}:${formattedSeconds}`;
 };
-
+const [numberCodeSended, setNumberCodeSended] = useState(objectNewAccount.phoneNumber);
+const [message, setMessage] = useState(null);
 const [seconds, setSeconds] = useState(calculateTimeDifference(objectNewAccount.data_request));
   
 const formattedTime = formatTime(seconds);
@@ -72,19 +73,38 @@ const [editNumber, setEditNumber] = useState(false);
 const [numberEdited, setNumberEdited] = useState(objectNewAccount.phoneNumber.slice(0,12));
 
 const resendCodeAutentication = () => {
-  let numberWhithoutNine;
+
+  //Basics Validations
+  if(numberEdited.length < 10){
+    setMessage('Informe um número válido.')
+    return setTimeout(() => {
+      setMessage(null)
+    }, 3000);
+  }
+
+  let validedNumber;
 
   if(numberEdited.length === 11){//Ex.:93 9 94455445
-    numberWhithoutNine = numberEdited.slice(0, 3) + numberEdited.slice(3 + 1);//Number formatted: 93 94455445
+    validedNumber = numberEdited.slice(0, 3) + numberEdited.slice(3 + 1);//Number formatted: 93 94455445
   }
   
-  axios.post(`${urlAuth}/api/v1/sendCodeWhatsapp`, { phoneNumber: `55${numberWhithoutNine}@c.us` })
-  .then(res =>{
+  if(numberEdited.length === 10){//Ex.:93 94455445
+    validedNumber = numberEdited
+  }
+
+  //Object with values to save and resend code verification
+  const valuesAutentication = {
+    phoneNumberToSendMessage: `55${validedNumber}@c.us`,
+    phoneNumberToSotorage: validedNumber,
+    email: objectNewAccount.email
+ }
+  axios.post(`${urlAuth}/api/v1/resendCodeWhatsapp`, valuesAutentication)
+  .then(() =>{
     const newDataRequest = Date.now() + 59 * 1000
     setSeconds(calculateTimeDifference(newDataRequest))
     cronometro()
-
-    console.log('Código reenviado', res)
+    setNumberCodeSended(numberEdited)
+    setEditNumber(false)
   })
   .catch(err =>{
     console.log(err)
@@ -130,15 +150,14 @@ const resendCodeAutentication = () => {
   };
 
 //==================== Section verify code activation =================
-const [message, setMessage] = useState(null);
-
 const verifyCodeActivation = () =>{
   if(code.join('').length === 5){
     const values = {
+      phoneNumber: numberCodeSended,
       email: objectNewAccount.email,
       code: code.join('')
     }
-    axios.post(`${urlApi}/api/v1/`, values)
+    axios.post(`${urlAuth}/api/v1/verifyUserCode-WhatsApp`, values)
     .then(res =>{
       if(res.status === 201){
         setMessage('Sua conta foi ativada com sucesso!')
@@ -146,7 +165,7 @@ const verifyCodeActivation = () =>{
     })
     .catch(err =>{
       console.log('Erro ao ativar a conta', err)
-      setMessage('Erro ao ativar a conta')
+      setMessage('Erro ao ativar a conta. Verifique os dados informados e tente novamente')
     })
   }else{
     setMessage('Preencha todos os campos.')
@@ -174,12 +193,12 @@ return (
         <div className="information__in__AccountActivationClient">
           {!editNumber && (
             <>
-              <p>Enviamos um código de ativação para o número {objectNewAccount.phoneNumber.slice(0,12)}<MdOutlineEdit className="icon__edit__number" onClick={() => setEditNumber(!editNumber)}/>  </p>
+              <p>Enviamos um código de ativação para o número {numberCodeSended.slice(0,12)}<MdOutlineEdit className="icon__edit__number" onClick={() => setEditNumber(!editNumber)}/>  </p>
             </>
           )}
           {editNumber && (
             <>
-              <p>Enviamos um código de ativação para o número {!editNumber ? objectNewAccount.phoneNumber.slice(0,12):''}{}</p>
+              <p>Enviaremos um código de ativação para o número {!editNumber ? objectNewAccount.phoneNumber.slice(0,12):''}{}</p>
               <div className="Box__edit__number">
                 <input
                 type="text"
@@ -192,7 +211,8 @@ return (
                   const truncatedValue = filteredValue.slice(0, 11);
                   setNumberEdited(truncatedValue)
                 }}/>
-                <MdOutlineEdit className="icon__edit__number" onClick={() => setEditNumber(!editNumber)}/>
+                <MdCancel className="icon__CiSquareCheck__number" onClick={() => setEditNumber(!editNumber)}/>
+
               </div>
             </>
           )}
