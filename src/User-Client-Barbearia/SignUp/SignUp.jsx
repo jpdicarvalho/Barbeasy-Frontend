@@ -75,14 +75,14 @@ const [pendingActivation, setPendingActivation] = useState(false)
         .then(res => {
           if (res.status === 201) {
             //Object to Account Activation
-            const objectNewAccount = {
+            const objectNewAccountForActivation = {
               phoneNumber: values.celular,
               email: values.email,
               data_request: Date.now() + 50 * 1000
             }
             setIsLoading(false)
-            sendCodeAutentication(objectNewAccount.phoneNumber, values.email)
-              navigate('/AccountActivationClient', { state: { objectNewAccount } });
+            sendCodeAutentication(objectNewAccountForActivation.phoneNumber, values.email)
+              navigate('/AccountActivationClient', { state: { objectNewAccountForActivation } });
           }
         })
         .catch(err => {
@@ -112,7 +112,6 @@ const [pendingActivation, setPendingActivation] = useState(false)
   };
 
 const valuesNoEmpty = values.name && values.email && values.celular && values.senha;
-//<QRCodeSVG value="2@CnKcX1zp6CCDjeYBTVqSjtuNI5XFQv6sD37fw9H3GDbasSqK7KFo7W/X4muty0a5bsH84PDYpX1pMOsepjOyeQNGBitvZtAYxgs=,4R6y+IDpn+Q21wfaIPlVeJWw4mZcI4UKZQ6ALu9NrDY=,P4ZMJZB9bknfdZ8JEdlED6NZMllCEK889FQDsGxvqzU=,K/SF7JKxX+hRv3kstNzJM+WIxPFtp49k6dKqb+FPD0Y=,1"/>
 
   return (
     <>

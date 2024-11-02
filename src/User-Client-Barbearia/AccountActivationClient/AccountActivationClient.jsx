@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import './AccountActivationClient.css';
+import {QRCodeSVG} from 'qrcode.react';
 
 import barberLogo from '../../../barber-logo.png';
 import { MdOutlineEdit } from "react-icons/md";
@@ -12,15 +13,9 @@ import { MdCancel } from "react-icons/md";
 
 function AccountActivationClient (){
   
-  const urlApi = 'https://barbeasy.up.railway.app'
-  const urlAuth = 'https://barbeasy-authenticators.up.railway.app'
+const urlApi = 'https://barbeasy.up.railway.app'
+const urlAuth = 'https://barbeasy-authenticators.up.railway.app'
 
-  
-  const location = useLocation();
-              //navigate('/SignIn')
-
-  const { objectNewAccount } = location.state;
-  
 //================== Section cronometro ====================
 const calculateTimeDifference = (data_request) => {
   const expirationDate = new Date(data_request).getTime();
@@ -45,11 +40,6 @@ const formatTime = (totalSeconds) => {
   
   return `${formattedMinutes}:${formattedSeconds}`;
 };
-const [numberCodeSended, setNumberCodeSended] = useState(objectNewAccount.phoneNumber);
-const [message, setMessage] = useState(null);
-const [seconds, setSeconds] = useState(calculateTimeDifference(objectNewAccount.data_request));
-  
-const formattedTime = formatTime(seconds);
 
 function cronometro () {
   const timer = setInterval(() => {
@@ -64,13 +54,54 @@ function cronometro () {
 
   return () => clearInterval(timer);
 }
-  // Hook para contagem regressiva
-  useEffect(() => {
-    cronometro()
-  }, []);
+
+const navigate = useNavigate();
+const location = useLocation();
+
+const [objectNewAccount, setObjectNewAccount] = useState(null);
+const [numberCodeSended, setNumberCodeSended] = useState('');  
+const [editNumber, setEditNumber] = useState(false);           
+const [numberEdited, setNumberEdited] = useState('');          
+const [message, setMessage] = useState('');                    
+const [seconds, setSeconds] = useState(0);               
+
+
+// Função para formatar o tempo
+const formattedTime = formatTime(seconds);
+//================= dados from db =========================
+const getDataToAuthUser = () =>{
+  axios.get(`${urlAuth}/api/v1/dataToAuth/${objectNewAccount.email}`)
+  .then(res =>{
+    setNumberCodeSended(res.data.phone[0].celular)
+  }).catch(err =>{
+    console.log(err)
+  })
+}
+//============================= Initialize Variables =========================
+useEffect(() => {
+  if (!location.state) {
+    navigate("/SignIn");
+  } else {
+    const { objectNewAccountForActivation } = location.state;
+    setObjectNewAccount(objectNewAccountForActivation);
+  }
+}, [location, navigate]);
+
+// Segundo useEffect: Atualiza dados relacionados a objectNewAccount
+useEffect(() => {
+  if (objectNewAccount) {
+      getDataToAuthUser()
+      setSeconds(calculateTimeDifference(objectNewAccount.data_request || ''));
+      setNumberEdited(objectNewAccount.phoneNumber);
+  }
+}, [objectNewAccount]);
+
+// Hook para contagem regressiva
+useEffect(() => {
+  cronometro()
+}, []);
+
 //================= Handle edit number & resend code ================
-const [editNumber, setEditNumber] = useState(false);
-const [numberEdited, setNumberEdited] = useState(objectNewAccount.phoneNumber.slice(0,12));
 
 const resendCodeAutentication = () => {
 
@@ -98,12 +129,13 @@ const resendCodeAutentication = () => {
     phoneNumberToSotorage: validedNumber,
     email: objectNewAccount.email
  }
+ 
   axios.post(`${urlAuth}/api/v1/resendCodeWhatsapp`, valuesAutentication)
   .then(() =>{
     const newDataRequest = Date.now() + 59 * 1000
     setSeconds(calculateTimeDifference(newDataRequest))
     cronometro()
-    setNumberCodeSended(numberEdited)
+    getDataToAuthUser()
     setEditNumber(false)
   })
   .catch(err =>{
@@ -176,6 +208,7 @@ const verifyCodeActivation = () =>{
   }
 }
 
+//<QRCodeSVG value=""/>
 
 return (
     <>
@@ -193,7 +226,7 @@ return (
         <div className="information__in__AccountActivationClient">
           {!editNumber && (
             <>
-              <p>Enviamos um código de ativação para o número {numberCodeSended.slice(0,12)}<MdOutlineEdit className="icon__edit__number" onClick={() => setEditNumber(!editNumber)}/>  </p>
+              <p>Enviamos um código de ativação para o número {numberCodeSended}<MdOutlineEdit className="icon__edit__number" onClick={() => setEditNumber(!editNumber)}/>  </p>
             </>
           )}
           {editNumber && (
