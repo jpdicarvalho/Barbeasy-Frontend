@@ -9,6 +9,7 @@ import SignInBarbearia from '../src/User-Barbearia/SignIn-Barbearia/SignIn-Barbe
 import SignUpBarbearia from '../src/User-Barbearia/SignUp-Barbearia/SignUp-Barbearia';
 
 import AccountActivationClient from './User-Client-Barbearia/AccountActivationClient/AccountActivationClient';
+import RecoverAccount from './User-Client-Barbearia/RevoverAccount/RecoverAccount';
 
 import HomeBarbearia from './User-Barbearia/Home/HomeBarbearia';
 import ProfileBarbearia from './User-Barbearia/ProfileBarbearia/ProfileBarberia';
@@ -69,6 +70,7 @@ const App = () => {
         <Route path="/SignUpBarbearia" element={<SignUpBarbearia />} />
 
         <Route path="/AccountActivationClient" element={<AccountActivationClient />} />
+        <Route path="/RecoverAccount" element={<RecoverAccount />} />
 
         <Route path="/SessionExpired" element={<SessionExpired />} />
         

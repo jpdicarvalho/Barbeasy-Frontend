@@ -7,7 +7,6 @@ import {QRCodeSVG} from 'qrcode.react';
 
 import barberLogo from '../../../barber-logo.png';
 import { MdOutlineEdit } from "react-icons/md";
-import { FaCircleCheck } from "react-icons/fa6";
 import { MdCancel } from "react-icons/md";
 
 

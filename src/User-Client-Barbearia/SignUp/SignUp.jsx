@@ -82,7 +82,7 @@ const [pendingActivation, setPendingActivation] = useState(false)
             }
             setIsLoading(false)
             sendCodeAutentication(objectNewAccountForActivation.phoneNumber, values.email)
-              navigate('/AccountActivationClient', { state: { objectNewAccountForActivation } });
+            navigate('/AccountActivationClient', { state: { objectNewAccountForActivation } });
           }
         })
         .catch(err => {
@@ -106,11 +106,20 @@ const [pendingActivation, setPendingActivation] = useState(false)
       setStep(step + 1);
     }
   };
-
   const nextStep = () => {
     setStep(step + 1);
   };
-
+//================ send code to whatsApp e redirect user to recover account =============
+const sendCodeAndRedirectUser = () =>{
+  //Object to Recover Account
+  const objectNewAccountForActivation = {
+    phoneNumber: values.celular,
+    email: values.email,
+    data_request: Date.now() + 50 * 1000
+  }
+  sendCodeAutentication(objectNewAccountForActivation.phoneNumber, objectNewAccountForActivation.email)
+  navigate('/RecoverAccount', { state: { objectNewAccountForActivation } });
+}
 const valuesNoEmpty = values.name && values.email && values.celular && values.senha;
 
   return (
@@ -234,7 +243,7 @@ const valuesNoEmpty = values.name && values.email && values.celular && values.se
         ):(
           <div className="box__recover__account">
             <p className="text__information__recover__account">Já existe uma conta com ativação pendente para esse email ou senha informado. Deseja recuperá-la?</p>
-            <button type="button" id="button_next">Recuperar conta</button>
+            <button type="button" id="button_next" onClick={sendCodeAndRedirectUser}>Recuperar conta</button>
           </div>
           
           
