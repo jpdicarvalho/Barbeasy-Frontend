@@ -92,15 +92,15 @@ const [pendingActivation, setPendingActivation] = useState(false)
           }
           if (err.response.status === 400) {
             setIsLoading(false)
-            return setMessage('E-mail ou celular já cadastrados.');
+            setMessage('E-mail ou celular já cadastrados.');
+            return setTimeout(() => {
+              setMessage(null);
+            }, 3000);
           } else {
             setIsLoading(false)
-            setMessage('Erro ao realizar o cadastro!');
+            setMessage('Erro ao realizar o cadastro. Tente novamente mais tarde.');
             console.error(err);
           }
-          setTimeout(() => {
-            setMessage(null);
-          }, 3000);
         });
     } else {
       setStep(step + 1);

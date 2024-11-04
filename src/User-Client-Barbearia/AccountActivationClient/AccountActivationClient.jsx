@@ -218,7 +218,6 @@ const verifyCodeActivation = () =>{
   }
 }
 
-//<QRCodeSVG value=""/>
 return (
     <>
       <div className="container__in__AccountActivationClient">

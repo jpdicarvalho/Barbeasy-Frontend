@@ -133,3 +133,52 @@ form .link{
   justify-content: center;
   align-items: center;
 }
+.container__steppers{
+  background: transparent;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 190px;
+  height: 50px;
+}
+.inner__steppers{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  background: #4a17d5;
+
+}
+.inner__steppers__no__done{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  background: #354249;
+}
+.inner__way__steppers{
+  background: #4a17d5;
+  height: 5px;
+  width: 100px;
+  border: none;
+  border-radius: 5px;
+}
+.inner__way__steppers__no__active{
+  background: #354249;
+  height: 5px;
+  width: 100px;
+  border: none;
+  border-radius: 5px;
+}
+.icon__steppers{
+  font-size: 20px;
+  color: #f6f6fc;
+}
+.icon__steppers__no__active{
+  font-size: 20px;
+  color: gray;
+}

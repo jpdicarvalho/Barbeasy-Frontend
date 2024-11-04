@@ -7,6 +7,10 @@
     height: 100dvh;
 }
 .information__in__AccountActivationClient{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
     color: gray;
     text-align: center;
     font-size: 14px;

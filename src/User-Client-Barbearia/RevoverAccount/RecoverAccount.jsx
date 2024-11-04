@@ -1,10 +1,15 @@
 import { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSpring, animated } from "react-spring";
+import { QRCodeSVG } from 'qrcode.react';
 
 import axios from "axios";
 
 import barberLogo from '../../../barber-logo.png';
+
+import { FaWhatsapp } from "react-icons/fa";
+import { MdOutlineEmail } from "react-icons/md";
+import { FaCheck } from "react-icons/fa";
 
 function RecoverAccount () {
 
@@ -18,12 +23,17 @@ const [phoneNumber, setPhoneNumber] = useState(false);
 const [objectNewAccount, setObjectNewAccount] = useState(null);
 const [seconds, setSeconds] = useState(0);               
 const [message, setMessage] = useState('');                    
+const [code, setCode] = useState(new Array(5).fill(""));
+const [whatsAppVerified, setWhatsAppVerified] = useState(false);                    
 
 const props = useSpring({
     opacity: 1,
     transform: step === 1 ? "translateX(0%)" : `translateX(-${(step - 1) * 0}%)`,
     from: { opacity: 0, transform: "translateX(-100%)" }
 });
+
+// Referências para os inputs
+const inputRefs = useRef([]);
 //================== Section cronometro ====================
 const calculateTimeDifference = (data_request) => {
     const expirationDate = new Date(data_request).getTime();
@@ -73,7 +83,6 @@ const getDataToAuthUser = () =>{
 }
 // Função para formatar o tempo
 const formattedTime = formatTime(seconds);
-console.log(objectNewAccount)
 
 useEffect(() => {
     if (!location.state) {
@@ -96,10 +105,6 @@ useEffect(() => {
     cronometro()
 }, []);
 //================= Handle code from input ================
-// Estado que armazena os valores digitados
-const [code, setCode] = useState(new Array(5).fill(""));
-// Referências para os inputs
-const inputRefs = useRef([]);
 
 // Função que lida com as mudanças no input
 const handleChange = (e, index) => {
@@ -166,8 +171,8 @@ const resendCodeAutentication = () => {
 //==================== Section verify code activation =================
 const nextStep = () => {
     setStep(step + 1);
-  };
-
+};
+console.log(code)
 const verifyCodeActivation = () =>{
     if(code.join('').length === 5){
       //Object to Auth user
@@ -182,7 +187,8 @@ const verifyCodeActivation = () =>{
           setMessage('Número validado com sucesso!')
            return setTimeout(() => {
             setMessage(null)
-            nextStep()
+            setWhatsAppVerified(true)
+            setCode(new Array(5).fill(""))
           }, 2000);
         }
         if(res.status === 204){
@@ -204,6 +210,8 @@ const verifyCodeActivation = () =>{
       
     }
 }
+//<QRCodeSVG value=""/>
+
 return(
     <>
         <div className="container__in__AccountActivationClient">
@@ -216,63 +224,80 @@ return(
             <div className="Box__cadastro__barbearia">
                 <h3 style={{color: '#f6f6fc'}}>Recuperação de Conta</h3>
             </div>
-
+            
             <animated.div style={props} className="inputContainer">
-                <div className="information__in__AccountActivationClient">
-                
-                    <p>Enviamos um código de verificação para o número de WhatsApp {phoneNumber} </p>
-                    
-                    <div className="form__in__AccountActivationClient">
-                    {message === 'Número validado com sucesso!' ? (
-                    <p className="success">{message}</p>
-                    ) : (
-                        <p className={message ? 'error':''}>{message}</p>
-                    )}
-                        <div className="box__input__in__AccountActivationClient">
-                            {code.map((_, index) => (
-                            <input
-                                key={index}
-                                type="text"
-                                maxLength="1"
-                                value={code[index]}
-                                onChange={(e) => handleChange(e, index)}
-                                onKeyDown={(e) => handleKeyDown(e, index)}
-                                ref={(el) => inputRefs.current[index] = el}  // Referenciar o input
-                                className="input__code__verification"
-                                />
-                            ))}
-                        </div>
-                        <button className="input__submit__code__verification" onClick={verifyCodeActivation}>
-                            Continuar
-                        </button>
-                    </div>
-                </div>
-
-                {step >= 2 && (
+                {!whatsAppVerified ? (
                     <div className="information__in__AccountActivationClient">
                 
-                    <p>Enviamos um código de verificação para o número de WhatsApp 99999999999 </p>
-                    
-                    <div className="form__in__AccountActivationClient">
-                        <div className="box__input__in__AccountActivationClient">
-                            {code.map((_, index) => (
-                            <input
-                                key={index}
-                                type="text"
-                                maxLength="1"
-                                value={code[index]}
-                                onChange={(e) => handleChange(e, index)}
-                                onKeyDown={(e) => handleKeyDown(e, index)}
-                                ref={(el) => inputRefs.current[index] = el}  // Referenciar o input
-                                className="input__code__verification"
-                                />
-                            ))}
+                        <p>Enviamos um código de verificação para o número de WhatsApp {phoneNumber.slice(0,4)}...{phoneNumber[9]} </p>
+                        <div className="container__steppers">
+                            <div className="inner__steppers">
+                                <FaWhatsapp className="icon__steppers"/>
+                            </div>
+                            <hr  className="inner__way__steppers__no__active" />
+                            <div className="inner__steppers__no__done" >
+                                <MdOutlineEmail className="icon__steppers__no__active"/>
+                            </div>
                         </div>
-                        <button className="input__submit__code__verification">
-                            Continuar
-                        </button>
+                        <div className="form__in__AccountActivationClient">
+                        {message === 'Número validado com sucesso!' ? (
+                        <p className="success">{message}</p>
+                        ) : (
+                            <p className={message ? 'error':''}>{message}</p>
+                        )}
+                            <div className="box__input__in__AccountActivationClient">
+                                {code.map((_, index) => (
+                                <input
+                                    key={index}
+                                    type="text"
+                                    maxLength="1"
+                                    value={code[index]}
+                                    onChange={(e) => handleChange(e, index)}
+                                    onKeyDown={(e) => handleKeyDown(e, index)}
+                                    ref={(el) => inputRefs.current[index] = el}  // Referenciar o input
+                                    className="input__code__verification"
+                                    />
+                                ))}
+                            </div>
+                            <button className="input__submit__code__verification" onClick={verifyCodeActivation}>
+                                Continuar
+                            </button>
+                        </div>
                     </div>
-                </div>
+                ):(
+                    <div className="information__in__AccountActivationClient">
+                    
+                        <p>Enviamos um código de verificação para o e-mail {objectNewAccount ? objectNewAccount.email:''}</p>
+                        <div className="container__steppers">
+                            <div className="inner__steppers">
+                                <FaCheck className="icon__steppers"/>
+                            </div>
+                            <hr  className="inner__way__steppers" />
+                            <div className="inner__steppers" >
+                                <MdOutlineEmail className="icon__steppers"/>
+                            </div>
+                        </div>
+                        
+                        <div className="form__in__AccountActivationClient">
+                            <div className="box__input__in__AccountActivationClient">
+                                {code.map((_, index) => (
+                                <input
+                                    key={index}
+                                    type="text"
+                                    maxLength="1"
+                                    value={code[index]}
+                                    onChange={(e) => handleChange(e, index)}
+                                    onKeyDown={(e) => handleKeyDown(e, index)}
+                                    ref={(el) => inputRefs.current[index] = el}  // Referenciar o input
+                                    className="input__code__verification"
+                                    />
+                                ))}
+                            </div>
+                            <button className="input__submit__code__verification">
+                                Continuar
+                            </button>
+                        </div>
+                    </div>
                 )}
             </animated.div>
             {formattedTime === '00:00' ? (
