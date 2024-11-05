@@ -242,7 +242,7 @@ return (
               <p>Enviaremos um código de ativação para o número {!editNumber ? objectNewAccount.phoneNumber.slice(0,12):''}{}</p>
               <div className="Box__edit__number">
                 <input
-                type="text"
+                type="tel"
                 className="input__number__edit"
                 value={numberEdited} 
                 onChange={(e) => {
@@ -270,7 +270,7 @@ return (
             {code.map((_, index) => (
               <input
                 key={index}
-                type="text"
+                type="tel"
                 maxLength="1"
                 value={code[index]}
                 onChange={(e) => handleChange(e, index)}

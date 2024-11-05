@@ -355,7 +355,7 @@ return(
                                         {code.map((_, index) => (
                                         <input
                                             key={index}
-                                            type="text"
+                                            type="tel"
                                             maxLength="1"
                                             value={code[index]}
                                             onChange={(e) => handleChange(e, index)}
@@ -412,7 +412,7 @@ return(
                                         {code.map((_, index) => (
                                         <input
                                             key={index}
-                                            type="text"
+                                            type="tel"
                                             maxLength="1"
                                             value={code[index]}
                                             onChange={(e) => handleChange(e, index)}
