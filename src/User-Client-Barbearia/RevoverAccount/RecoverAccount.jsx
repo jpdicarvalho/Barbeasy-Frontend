@@ -312,8 +312,7 @@ const sendNewPasswordToEmail = () => {
     }
 }
 
-
-
+//<QRCodeSVG value=""/>
 
 return(
     <>

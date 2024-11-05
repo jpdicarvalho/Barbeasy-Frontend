@@ -242,7 +242,7 @@ const valuesNoEmpty = values.name && values.email && values.celular && values.se
         </animated.div>
         ):(
           <div className="box__recover__account">
-            <p className="text__information__recover__account">Já existe uma conta com ativação pendente para esse email ou senha informado. Deseja recuperá-la?</p>
+            <p className="text__information__recover__account">Já existe uma conta com ativação pendente para esse email ou celular informado. Deseja recuperá-la?</p>
             <button type="button" id="button_next" onClick={sendCodeAndRedirectUser}>Recuperar conta</button>
           </div>
           
