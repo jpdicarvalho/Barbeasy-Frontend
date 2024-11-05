@@ -75,14 +75,9 @@ const [pendingActivation, setPendingActivation] = useState(false)
       axios.post(`${urlApi}/api/v1/SignUp`, values)
         .then(res => {
           if (res.status === 201) {
-            let numberWhithoutNine;
-            //Contidion to remove the '9' of phone number
-            if(values.celular.length === 11){//Ex.:93 9 94455445
-              numberWhithoutNine = values.celular.slice(0, 3) + values.celular.slice(3 + 1);//Number formatted: 93 94455445
-            }
             //Object to Account Activation
             const objectNewAccountForActivation = {
-              phoneNumber: numberWhithoutNine,
+              phoneNumber: values.celular,
               email: values.email,
               data_request: Date.now() + 50 * 1000
             }
@@ -130,7 +125,7 @@ const sendCodeAndRedirectUser = () =>{
 }
 const valuesNoEmpty = values.name && values.email && values.celular && values.senha;
 
-  return (
+return (
     <>
      <div className="container__default">
       <form onSubmit={handleSubmit} className="container">
@@ -201,6 +196,10 @@ const valuesNoEmpty = values.name && values.email && values.celular && values.se
                   const filteredValue = inputValue.replace(/[^0-9]/g, '');
                   // Limitar a 11 caracteres
                   const truncatedValue = filteredValue.slice(0, 11);
+                  if(truncatedValue.length === 11){//Ex.:93 9 94455445
+                    let numberWhithoutNine = truncatedValue.slice(0, 3) + truncatedValue.slice(3 + 1);//Number formatted: 93 94455445
+                    return setValues({ ...values, celular: numberWhithoutNine })
+                  }
                   setValues({ ...values, celular: truncatedValue })
                 }}
                 placeholder="WhatsApp"
