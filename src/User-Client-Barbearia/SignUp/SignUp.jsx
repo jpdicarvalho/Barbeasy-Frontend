@@ -37,7 +37,6 @@ function SignUp() {
 
  //=================== Request to send code verification =========================
   const sendCodeAutentication = (numberWhatsapp, email) => {
-    console.log(numberWhatsapp)
 
     let numberWhithoutNine;
 
@@ -76,9 +75,14 @@ const [pendingActivation, setPendingActivation] = useState(false)
       axios.post(`${urlApi}/api/v1/SignUp`, values)
         .then(res => {
           if (res.status === 201) {
+            let numberWhithoutNine;
+            //Contidion to remove the '9' of phone number
+            if(values.celular.length === 11){//Ex.:93 9 94455445
+              numberWhithoutNine = values.celular.slice(0, 3) + values.celular.slice(3 + 1);//Number formatted: 93 94455445
+            }
             //Object to Account Activation
             const objectNewAccountForActivation = {
-              phoneNumber: values.celular,
+              phoneNumber: numberWhithoutNine,
               email: values.email,
               data_request: Date.now() + 50 * 1000
             }
