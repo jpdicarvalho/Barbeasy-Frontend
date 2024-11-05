@@ -22,6 +22,8 @@ function SignUp() {
     celular: '',
     senha: ''
   });
+  const [emailStored, setEmailStored] = useState('');
+  const [phoneNumberStored, setPhoneNumberStored] = useState('');
 
   const [isLoading, setIsLoading] = useState(false)
   const [message, setMessage] = useState(null);
@@ -55,7 +57,7 @@ function SignUp() {
 
     axios.post(`${urlAuth}/api/v1/sendCodeWhatsapp`, valuesAutentication)
     .then(res =>{
-      console.log('enviado', res)
+      console.log('Código de autenticação enviado')
     })
     .catch(err =>{
       console.log(err)
@@ -88,6 +90,8 @@ const [pendingActivation, setPendingActivation] = useState(false)
         .catch(err => {
           if(err.response.status === 302){
             setIsLoading(false)
+            setEmailStored(err.response.data.userPending.email)
+            setPhoneNumberStored(err.response.data.userPending.celular)
             return setPendingActivation(true)
           }
           if (err.response.status === 400) {
@@ -113,8 +117,8 @@ const [pendingActivation, setPendingActivation] = useState(false)
 const sendCodeAndRedirectUser = () =>{
   //Object to Recover Account
   const objectNewAccountForActivation = {
-    phoneNumber: values.celular,
-    email: values.email,
+    phoneNumber: phoneNumberStored,
+    email: emailStored,
     data_request: Date.now() + 50 * 1000
   }
   sendCodeAutentication(objectNewAccountForActivation.phoneNumber, objectNewAccountForActivation.email)
