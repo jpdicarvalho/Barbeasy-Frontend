@@ -21,7 +21,30 @@ const location = useLocation();
 
 const [methodSendCode, setMethodSendCode] = useState('');
 const [email, setEmail] = useState('');  
-const [whatsApp, setWhatsApp] = useState('');           
+const [whatsApp, setWhatsApp] = useState('');
+
+const sendCodeAutentication = () =>{
+    if(methodSendCode === 'email'){
+        
+        axios.post(`${urlAuth}/api/v1/resetPassword`, {email: email})
+        .then(res =>{
+            console.log(res)
+        })
+        .catch(err =>{
+            console.log(err)
+        })
+    }
+
+    if(methodSendCode === 'whatsApp'){
+        axios.post(`${urlAuth}/api/v1/resetPassword`, {whatsApp: whatsApp})
+        .then(res =>{
+            console.log(res)
+        })
+        .catch(err =>{
+            console.log(err)
+        })
+    }
+}
 
 
 return(
@@ -79,7 +102,7 @@ return(
                         const truncatedValue = sanitizedValue.slice(0, 50);
                         setEmail(truncatedValue);
                       }}
-                      placeholder="Email"
+                      placeholder="Email de usuário"
                       maxLength={100}
                       required
                     />
@@ -108,7 +131,7 @@ return(
                         }
                         setWhatsApp(numberWhithoutNine)
                       }}
-                      placeholder="WhatsApp"
+                      placeholder="WhatsApp da conta de usuário"
                       maxLength={11}
                       required
                     />
