@@ -8,6 +8,7 @@ import SignUp from './User-Client-Barbearia/SignUp/SignUp';//não sei porque ess
 import SignInBarbearia from '../src/User-Barbearia/SignIn-Barbearia/SignIn-Barbearia';
 import SignUpBarbearia from '../src/User-Barbearia/SignUp-Barbearia/SignUp-Barbearia';
 
+import ResetPassword from './ResetPassword/ResetPassword';
 import AccountActivationClient from './User-Client-Barbearia/AccountActivationClient/AccountActivationClient';
 import RecoverAccount from './User-Client-Barbearia/RevoverAccount/RecoverAccount';
 
@@ -69,6 +70,7 @@ const App = () => {
         <Route path="/SignInBarbearia" element={<SignInBarbearia />} />
         <Route path="/SignUpBarbearia" element={<SignUpBarbearia />} />
 
+        <Route path="/ResetPassword" element={<ResetPassword />} />
         <Route path="/AccountActivationClient" element={<AccountActivationClient />} />
         <Route path="/RecoverAccount" element={<RecoverAccount />} />
 

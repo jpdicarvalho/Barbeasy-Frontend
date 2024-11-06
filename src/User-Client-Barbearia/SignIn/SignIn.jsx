@@ -68,7 +68,7 @@ function SignIn() {
       </div>
 
       <h2 id="HeaderSignIn">Barbeasy</h2>
-      <h3 style={{color: 'gray'}}>Login</h3>
+      <h3 style={{color: 'gray', marginBottom: '10px'}}>Login</h3>
       
       {message === 'Seja Bem Vindo!' ? (
         <p className="success">{message}</p>
@@ -114,6 +114,9 @@ function SignIn() {
         />
       </div>
 
+      <div className="Box__forgot__password" onClick={() => {navigate("/ResetPassword")}}>
+        Esqueceu a senha?
+      </div>
       <div className="inputBox">
         {isLoading ? (
           <div className="loaderCreatingBooking"></div>
@@ -123,11 +126,12 @@ function SignIn() {
       </div>
 
       <div className="link__signup">
-        <p>Não tem uma conta?</p>
+        <p >Não tem uma conta?</p>
         <Link className="link" to="/SignUp">
           Criar Conta
         </Link>
       </div>
+      
       </form>
 
     </div>

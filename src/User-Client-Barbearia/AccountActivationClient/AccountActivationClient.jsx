@@ -127,7 +127,7 @@ const resendCodeAutentication = () => {
     phoneNumberToSendMessage: `55${validedNumber}@c.us`,
     phoneNumberToSotorage: validedNumber,
     email: objectNewAccount.email
- }
+  }
  
   axios.post(`${urlAuth}/api/v1/resendCodeWhatsapp`, valuesAutentication)
   .then(() =>{
@@ -140,7 +140,6 @@ const resendCodeAutentication = () => {
   .catch(err =>{
     console.log(err)
   })
-
 }
 
 //================= Handle code from input ================

@@ -80,7 +80,7 @@
  position: relative;
  width: 300px;
  padding: 15px 20px;
- border: 1px solid #7849f4;
+ border: 1px solid #4a17d5;
  color: #f6f6fc;
 }
 
@@ -93,7 +93,7 @@
   border: none;
   border-radius: 12px;
   color: #f6f6fc;
-  background: #7849f4;
+  background: #4a17d5;
   letter-spacing: 1px;
   transition: 0.5s;
  

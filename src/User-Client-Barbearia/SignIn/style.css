@@ -33,3 +33,10 @@ body{
     flex-direction: row;
     font-size: 16px;
 }
+.Box__forgot__password{
+    width: 100%;
+    text-align: right;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
