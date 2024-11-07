@@ -27,7 +27,8 @@ function SignUpBarbearia() {
     city: '',
     usuario: '',
     email: '',
-    senha: ''
+    senha: '',
+    celular: '',
   });
 
   const [step, setStep] = useState(1);
@@ -61,7 +62,7 @@ function SignUpBarbearia() {
           setMessage('Cadastro realizado!');
           setTimeout(() => {
             setMessage(null);
-            navigate('/SignInBarbearia');
+            //navigate('/SignInBarbearia');
           }, 2000);
         } else {
           setIsLoading(false)
@@ -96,6 +97,7 @@ function SignUpBarbearia() {
     setStep(step + 1);
   };
 
+  console.log(values)
   return (
     <>
     <div className="container__default">
@@ -136,6 +138,23 @@ function SignUpBarbearia() {
             }}
             placeholder="Nome da Barbearia"
             maxLength={50}
+            required
+          /> 
+
+          <input
+            type="tel"
+            id="celular"
+            name="celular"
+            value={values.celular}
+            onChange={(e) => {
+              const inputValue = e.target.value;
+              const filteredValue = inputValue.replace(/[^0-9]/g, '');
+              // Limitar a 11 caracteres
+              const truncatedValue = filteredValue.slice(0, 11);
+              setValues({ ...values, celular: truncatedValue })
+            }}
+            placeholder="WhatsApp"
+            maxLength={16}
             required
           /> 
           </div>
