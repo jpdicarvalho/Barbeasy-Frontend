@@ -3,7 +3,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import './AccountActivationClient.css';
-import {QRCodeSVG} from 'qrcode.react';
 
 import barberLogo from '../../../barber-logo.png';
 import { MdOutlineEdit } from "react-icons/md";
