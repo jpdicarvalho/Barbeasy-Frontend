@@ -284,6 +284,7 @@ return(
                                 type="checkbox"
                                 className="cyberpunk-checkbox"
                                 checked={methodSendCode === 'email'}
+                                onChange={() =>{setMethodSendCode("email")}} 
                             />
                                 E-mail
                             </label>
@@ -294,7 +295,8 @@ return(
                             <input
                                 type="checkbox"    
                                 className="cyberpunk-checkbox"
-                                checked={methodSendCode === 'whatsApp'}                            
+                                checked={methodSendCode === 'whatsApp'}
+                                onChange={() =>{setMethodSendCode("whatsApp")}}                            
                                 />
                                 WhatsApp
                             </label>
