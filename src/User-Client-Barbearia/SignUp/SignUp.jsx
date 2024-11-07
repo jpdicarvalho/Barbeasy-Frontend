@@ -54,7 +54,7 @@ function SignUp() {
        email
     }
 
-    axios.post(`${urlAuth}/api/v1/sendCodeWhatsapp`, valuesAutentication)
+    axios.put(`${urlAuth}/api/v1/sendCodeWhatsapp`, valuesAutentication)
     .then(res =>{
       console.log('Código de autenticação enviado')
     })

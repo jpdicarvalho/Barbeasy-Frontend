@@ -230,7 +230,7 @@ return(
 
                 <h2 id="HeaderSignUp">Barbeasy</h2>
                 <div className="Box__cadastro__barbearia">
-                    <h3 style={{color: '#f6f6fc'}}>Recuperação de Conta</h3>
+                    <h3 style={{color: '#f6f6fc'}}>Redefinição de Senha</h3>
                 </div>
 
                 {message === 'Excelente! Enviamos uma nova senha de acesso para esse contato verificado.' ? (
