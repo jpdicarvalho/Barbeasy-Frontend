@@ -19,6 +19,18 @@ const urlAuth = 'https://barbeasy-authenticators.up.railway.app'
 const navigate = useNavigate();
 const location = useLocation();
 
+const [userType, setUserType] = useState(null);
+
+
+useEffect(() => {
+    if (!location.state) {
+      navigate("/");
+    } else {
+      const { userType } = location.state;
+      setUserType(userType);
+    }
+  }, [location, navigate]);
+
 const [isLoading, setIsLoading] = useState(false)
 const [methodSendCode, setMethodSendCode] = useState('');
 const [email, setEmail] = useState('');  
@@ -104,7 +116,7 @@ const sendCodeToResetPassword = () =>{
 
             return false
         }
-        axios.put(`${urlAuth}/api/v1/sendCodeEmail`, {email: email})
+        axios.put(`${urlAuth}/api/v1/sendCodeEmail`, {type: userType, email: email})
         .then(res =>{
             if(res.status === 204){
                 setMessage('E-mail de usuário não encontrado.')
@@ -135,6 +147,7 @@ const sendCodeToResetPassword = () =>{
         if(validedNumber) {
             //Object with values to send a new password
             const valuesToSendPassword = {
+                type: userType,
                 phoneNumberToSendMessage: `55${validedNumber}@c.us`,
                 phoneNumberToFindUser: validedNumber
             }
@@ -173,13 +186,17 @@ const verifyCodeToResetPassword = () => {
 
     if (codeString.length !== 5) {
         setMessage('Preencha todos os campos.');
-        return setTimeout(() => setMessage(null), 2000);
+        return setTimeout(() => {
+            setMessage(null)
+            setIsLoading(false)
+        }, 2000);
     }
 
     let objectToResetPassword = null;
 
     if (email) {
         objectToResetPassword = {
+            type: userType,
             methodSendCode: { type: 'email' },
             valueToFindUser: email,
             code: codeString
@@ -187,6 +204,7 @@ const verifyCodeToResetPassword = () => {
     } else if (whatsApp) {
         const validedNumber = formatPhoneNumber(whatsApp);
         objectToResetPassword = {
+            type: userType,
             methodSendCode: {
                 type: 'WhatsApp',
                 value: `55${validedNumber}@c.us`

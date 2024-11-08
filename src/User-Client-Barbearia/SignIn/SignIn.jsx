@@ -114,7 +114,7 @@ function SignIn() {
         />
       </div>
 
-      <div className="Box__forgot__password" onClick={() => {navigate("/ResetPassword")}}>
+      <div className="Box__forgot__password" onClick={() => {navigate("/ResetPassword", { state: { userType: 'client' } })}}>
         Esqueceu a senha?
       </div>
       <div className="inputBox">

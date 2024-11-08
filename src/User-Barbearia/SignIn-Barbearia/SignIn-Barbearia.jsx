@@ -166,7 +166,7 @@ function SignInBarbearia() {
                 <div className="link__signup">
                     <p>Não tem uma conta?</p><Link className="link" to="/SignUpBarbearia">Criar Conta</Link>
                 </div>
-                <div className="Box__forgot__password__in__barbearia" onClick={() => {navigate("/ResetPassword")}}>
+                <div className="Box__forgot__password__in__barbearia" onClick={() => {navigate("/ResetPassword", { state: { userType: 'barbearia' } })}}>
                   Esqueci a senha
                 </div>
         </form>
