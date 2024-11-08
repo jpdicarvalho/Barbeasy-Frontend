@@ -222,7 +222,11 @@ const verifyCodeToResetPassword = () => {
                     return setTimeout(() => {
                         setMessage(null);
                         setIsLoading(false)
-                        navigate("/SignIn");
+                        if(userType === 'client'){
+                            navigate("/SignIn");
+                        }else if (userType === 'barbearia'){
+                            navigate("/SignInBarbearia");
+                        }
                     }, 4000);
                 } else if (res.status === 204) {
                     setMessage('Código de ativação incorreto.');
@@ -251,18 +255,18 @@ return(
                     <h3 style={{color: '#f6f6fc'}}>Redefinição de Senha</h3>
                 </div>
 
-                {message === 'Excelente! Enviamos uma nova senha de acesso para esse contato verificado.' ? (
-                    <p className="success">{message}</p>
-                ) : (
-                    <p className={message ? 'error':''}>{message}</p>
-                )}
-
                 {codeSend ? (
                     <>
-                    <p style={{textAlign: 'center', color: 'gray', fontSize: '14px', paddingLeft: '10px', paddingRight: '10px'}}>
+                    <p style={{textAlign: 'center', color: 'gray', fontSize: '14px', paddingLeft: '10px', paddingRight: '10px', marginBottom: '10px'}}>
                         Enviamos um código de verificação para o 
                         {methodSendCode === 'email' ? ` e-mail ${email}`:methodSendCode === 'whatsApp' ? ` WhatsApp ${whatsApp}`:''}
                     </p>
+
+                    {message === 'Excelente! Enviamos uma nova senha de acesso para esse contato verificado.' ? (
+                    <p className="success">{message}</p>
+                    ) : (
+                        <p className={message ? 'error':''}>{message}</p>
+                    )}
 
                         <div className="form__in__AccountActivationClient">
                             <div className="box__input__in__AccountActivationClient">
