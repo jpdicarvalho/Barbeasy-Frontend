@@ -16,12 +16,11 @@ function SignUp() {
 
   const navigate = useNavigate();
 
-  const [values, setValues] = useState({
-    name: '',
-    email: '',
-    celular: '',
-    senha: ''
-  });
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
+  const [celular, setCelular] = useState('');
+
   const [emailStored, setEmailStored] = useState('');
   const [phoneNumberStored, setPhoneNumberStored] = useState('');
 
@@ -36,17 +35,35 @@ function SignUp() {
   });
 
  //=================== Request to send code verification =========================
+  //Function to farmated whatsApp number
+  function formatPhoneNumber (whatsApp) {
+    //Basics Validations
+    if(whatsApp.length < 10){
+        setMessage('Informe um número válido.')
+        setTimeout(() => {
+            setIsLoading(false)
+            setMessage(null)
+        }, 2000);
+
+        return false
+    }
+
+    let validedNumber;
+
+    if(whatsApp.length === 11){//Ex.:93 9 94455445
+        validedNumber = whatsApp.slice(0, 3) + whatsApp.slice(3 + 1);//Number formatted: 93 94455445
+    }
+
+    if(whatsApp.length === 10){//Ex.:93 94455445
+        validedNumber = whatsApp
+    }
+
+    return validedNumber;
+  }
+
   const sendCodeAutentication = (numberWhatsapp, email) => {
 
-    let numberWhithoutNine;
-
-    if(numberWhatsapp.length === 11){//Ex.:93 9 94455445
-      numberWhithoutNine = numberWhatsapp.slice(0, 3) + numberWhatsapp.slice(3 + 1);//Number formatted: 93 94455445
-    }
-
-    if(numberWhatsapp.length === 10){//Ex.:93 94455445
-      numberWhithoutNine = numberWhatsapp
-    }
+    const numberWhithoutNine = formatPhoneNumber(numberWhatsapp)
 
     //Object with values to save and send code verification
     const valuesAutentication = {
@@ -66,23 +83,35 @@ function SignUp() {
 
 //================== Submit form ==============================
 const [pendingActivation, setPendingActivation] = useState(false)
+const valuesNoEmpty = name && email && celular && senha;
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    
     setIsLoading(true)
+    const numberWhithoutNine = formatPhoneNumber(celular);
+
+    const values = {
+      name,
+      email,
+      senha,
+      celular: numberWhithoutNine
+    };
 
     if (step === 3) {
       axios.post(`${urlApi}/api/v1/SignUp`, values)
         .then(res => {
           if (res.status === 201) {
             //Object to Account Activation
+            const numberWhithoutNine = formatPhoneNumber(celular)
             const objectNewAccountForActivation = {
-              phoneNumber: values.celular,
-              email: values.email,
+              type: 'client',
+              phoneNumber: numberWhithoutNine,
+              email: email,
               data_request: Date.now() + 50 * 1000
             }
             setIsLoading(false)
-            sendCodeAutentication(objectNewAccountForActivation.phoneNumber, values.email)
+            sendCodeAutentication(objectNewAccountForActivation.phoneNumber, email)
             navigate('/AccountActivationClient', { state: { objectNewAccountForActivation } });
           }
         })
@@ -116,6 +145,7 @@ const [pendingActivation, setPendingActivation] = useState(false)
 const sendCodeAndRedirectUser = () =>{
   //Object to Recover Account
   const objectNewAccountForActivation = {
+    type: 'client',
     phoneNumber: phoneNumberStored,
     email: emailStored,
     data_request: Date.now() + 50 * 1000
@@ -123,7 +153,6 @@ const sendCodeAndRedirectUser = () =>{
   sendCodeAutentication(objectNewAccountForActivation.phoneNumber, objectNewAccountForActivation.email)
   navigate('/RecoverAccount', { state: { objectNewAccountForActivation } });
 }
-const valuesNoEmpty = values.name && values.email && values.celular && values.senha;
 
 return (
     <>
@@ -148,41 +177,41 @@ return (
         )}
         {!pendingActivation ? (
           <animated.div style={props} className="inputContainer">
-          <div className="inputBox">
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={values.name}
-            maxLength={50}
-            onChange={(e) => {
-              const inputValue = e.target.value;
-              // Remover caracteres não alfanuméricos, ponto e espaço
-              const filteredValue = inputValue.replace(/[^a-zA-Z0-9\sçéúíóáõãèòìàêôâ.]/g, '');
-              // Limitar a 30 caracteres
-              const truncatedValue = filteredValue.slice(0, 30);
-              setValues({ ...values, name: truncatedValue });
-            }}
-            placeholder="Nome"
-            required
-          /> 
+            <div className="inputBox">
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={name}
+                maxLength={50}
+                onChange={(e) => {
+                  const inputValue = e.target.value;
+                  // Remover caracteres não alfanuméricos, ponto e espaço
+                  const filteredValue = inputValue.replace(/[^a-zA-Z0-9\sçéúíóáõãèòìàêôâ.]/g, '');
+                  // Limitar a 30 caracteres
+                  const truncatedValue = filteredValue.slice(0, 30);
+                  setName(truncatedValue);
+                }}
+                placeholder="Nome"
+                required
+              /> 
 
-
-          <input
-            type="email"
-            id="email"
-            name="email"
-            onChange={(e) => {
-              const inputValue = e.target.value;
-              // Remover caracteres não permitidos no e-mail
-              const filteredValue = inputValue.replace(/[^a-zA-Z0-9@.]/g, '');
-              setValues({ ...values, email: filteredValue });
-            }}
-            placeholder="Email"
-            maxLength={100}
-            required
-          /> 
-          </div>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={email}
+                onChange={(e) => {
+                  const inputValue = e.target.value;
+                  // Remover caracteres não permitidos no e-mail
+                  const filteredValue = inputValue.replace(/[^a-zA-Z0-9@.]/g, '');
+                  setEmail(filteredValue);
+                }}
+                placeholder="Email"
+                maxLength={100}
+                required
+              /> 
+            </div>
 
           {step >= 2 && (
             <div className="inputBox">
@@ -190,35 +219,31 @@ return (
                 type="tel"
                 id="celular"
                 name="celular"
-                value={values.celular}
+                value={celular}
                 onChange={(e) => {
                   const inputValue = e.target.value;
                   const filteredValue = inputValue.replace(/[^0-9]/g, '');
                   // Limitar a 11 caracteres
                   const truncatedValue = filteredValue.slice(0, 11);
-                  if(truncatedValue.length === 11){//Ex.:93 9 94455445
-                    let numberWhithoutNine = truncatedValue.slice(0, 3) + truncatedValue.slice(3 + 1);//Number formatted: 93 94455445
-                    return setValues({ ...values, celular: numberWhithoutNine })
-                  }
-                  setValues({ ...values, celular: truncatedValue })
+                  setCelular(truncatedValue)
                 }}
                 placeholder="WhatsApp"
                 maxLength={16}
                 required
               /> 
-              
+
               <input
                 type="password"
                 id="senha"
                 name="senha"
-                value={values.senha}
+                value={senha}
                 onChange={(e) => {
                   const inputValue = e.target.value;
                   //regex to valided password
                   const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9@.#%]/g, '');
                   // Limitar a 8 caracteres
                   const truncatedValue = sanitizedValue.slice(0, 8);
-                  setValues({ ...values, senha: truncatedValue });
+                  setSenha(truncatedValue);
                 }}
                 placeholder="Password"
                 maxLength={8}

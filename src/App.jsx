@@ -9,8 +9,8 @@ import SignInBarbearia from '../src/User-Barbearia/SignIn-Barbearia/SignIn-Barbe
 import SignUpBarbearia from '../src/User-Barbearia/SignUp-Barbearia/SignUp-Barbearia';
 
 import ResetPassword from './ResetPassword/ResetPassword';
-import AccountActivationClient from './User-Client-Barbearia/AccountActivationClient/AccountActivationClient';
-import RecoverAccount from './User-Client-Barbearia/RevoverAccount/RecoverAccount';
+import AccountActivationClient from './AccountActivationClient/AccountActivationClient';
+import RecoverAccount from './RevoverAccount/RecoverAccount';
 
 import HomeBarbearia from './User-Barbearia/Home/HomeBarbearia';
 import ProfileBarbearia from './User-Barbearia/ProfileBarbearia/ProfileBarberia';

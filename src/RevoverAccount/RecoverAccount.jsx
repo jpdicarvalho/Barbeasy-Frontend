@@ -5,7 +5,7 @@ import { QRCodeSVG } from 'qrcode.react';
 
 import axios from "axios";
 
-import barberLogo from '../../../barber-logo.png';
+import barberLogo from '../../barber-logo.png';
 
 import { FaWhatsapp } from "react-icons/fa";
 import { MdOutlineEmail } from "react-icons/md";
@@ -78,7 +78,7 @@ function cronometro () {
 }
 
 const getDataToAuthUser = () =>{
-    axios.get(`${urlAuth}/api/v1/dataToAuth/${objectNewAccount.email}`)
+    axios.get(`${urlAuth}/api/v1/dataToAuth/${objectNewAccount.email}/${objectNewAccount.type}`)
     .then(res =>{
         setPhoneNumber(res.data.phone[0].celular)
     }).catch(err =>{
@@ -158,7 +158,8 @@ const resendCodeAutenticationToWhatsApp = () => {
     const valuesAutentication = {
       phoneNumberToSendMessage: `55${validedNumber}@c.us`,
       phoneNumberToSotorage: validedNumber,
-      email: objectNewAccount.email
+      email: objectNewAccount.email,
+      type: objectNewAccount.type,
    }
    
     axios.post(`${urlAuth}/api/v1/resendCodeWhatsapp`, valuesAutentication)
@@ -178,6 +179,7 @@ const verifyCodeActivationFromWhatsApp = () =>{
     if(code.join('').length === 5){
       //Object to Auth user
       const values = {
+        type: objectNewAccount.type,
         phoneNumber: phoneNumber,
         email: objectNewAccount.email,
         code: code.join('')
@@ -224,7 +226,7 @@ const verifyCodeActivationFromWhatsApp = () =>{
 //=================== Recover Account by Email=========================
 const sendCodeAutenticationToEmail = () => {
 
-    axios.put(`${urlAuth}/api/v1/sendCodeEmail`, { email: objectNewAccount.email })
+    axios.put(`${urlAuth}/api/v1/sendCodeEmail`, { type: objectNewAccount.type, email: objectNewAccount.email })
     .then(() =>{
       return
     })
@@ -237,7 +239,7 @@ const sendCodeAutenticationToEmail = () => {
 //resend code autentication to email
 const resendCodeAutenticationToEmail = () => {
    
-    axios.put(`${urlAuth}/api/v1/sendCodeEmail`, { email: objectNewAccount.email })
+    axios.put(`${urlAuth}/api/v1/sendCodeEmail`, { type: objectNewAccount.type, email: objectNewAccount.email })
     .then(() =>{
       const newDataRequest = Date.now() + 59 * 1000
       setSeconds(calculateTimeDifference(newDataRequest))
@@ -254,6 +256,7 @@ const verifyCodeActivationFromEmail = () =>{
     if(code.join('').length === 5){
       //Object to Auth user
       const values = {
+        type: objectNewAccount.type,
         email: objectNewAccount.email,
         code: code.join('')
       }
@@ -299,6 +302,7 @@ const sendNewPasswordToEmail = () => {
 
     if(objectNewAccount){
         const values = {
+            type: objectNewAccount.type,
             email: objectNewAccount.email,
             phoneNumber: objectNewAccount.phoneNumber
         }
@@ -449,7 +453,7 @@ return(
                     <IoIosCheckmarkCircleOutline className="icon__CheckmarkCircleOutline"/>
                     <p className="text__one__conection__succesfuly">Sua conta foi recuperada!</p>
                     <p className="text__two__conection__succesfuly">Enviamos uma senha provisória para seu e-mail! Lembre-se de troca-lá após fazer login.</p>
-                    <div className="Box__btn__back__Booking__Details" onClick={() => {navigate("/SignIn")}}>
+                    <div className="Box__btn__back__Booking__Details" onClick={() => {objectNewAccount.type === 'client' ? navigate("/SignIn"):navigate("/SignInBarbearia")}}>
                         <button className="Btn__back__Booking__Details" >
                             Login
                         </button>

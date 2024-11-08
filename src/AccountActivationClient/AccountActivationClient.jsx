@@ -4,14 +4,14 @@ import axios from "axios";
 
 import './AccountActivationClient.css';
 
-import barberLogo from '../../../barber-logo.png';
+import barberLogo from '../../barber-logo.png';
 import { MdOutlineEdit } from "react-icons/md";
 import { MdCancel } from "react-icons/md";
 
+import {QRCodeSVG} from 'qrcode.react';
 
 function AccountActivationClient (){
   
-const urlApi = 'https://barbeasy.up.railway.app'
 const urlAuth = 'https://barbeasy-authenticators.up.railway.app'
 
 //================== Section cronometro ====================
@@ -68,8 +68,9 @@ const [seconds, setSeconds] = useState(0);
 const formattedTime = formatTime(seconds);
 //================= dados from db =========================
 const getDataToAuthUser = () =>{
-  axios.get(`${urlAuth}/api/v1/dataToAuth/${objectNewAccount.email}`)
+  axios.get(`${urlAuth}/api/v1/dataToAuth/${objectNewAccount.email}/${objectNewAccount.type}`)
   .then(res =>{
+    console.log(res)
     setNumberCodeSended(res.data.phone[0].celular)
   }).catch(err =>{
     console.log(err)
@@ -125,7 +126,8 @@ const resendCodeAutentication = () => {
   const valuesAutentication = {
     phoneNumberToSendMessage: `55${validedNumber}@c.us`,
     phoneNumberToSotorage: validedNumber,
-    email: objectNewAccount.email
+    email: objectNewAccount.email,
+    type: objectNewAccount.type
   }
  
   axios.post(`${urlAuth}/api/v1/resendCodeWhatsapp`, valuesAutentication)
@@ -185,7 +187,8 @@ const verifyCodeActivation = () =>{
     const values = {
       phoneNumber: numberCodeSended,
       email: objectNewAccount.email,
-      code: code.join('')
+      code: code.join(''),
+      type: objectNewAccount.type
     }
     axios.put(`${urlAuth}/api/v1/verifyUserCode-WhatsApp`, values)
     .then(res =>{
@@ -193,7 +196,12 @@ const verifyCodeActivation = () =>{
         setMessage('Sua conta foi ativada com sucesso!')
          return setTimeout(() => {
           setMessage(null)
-          navigate("/SignIn");
+          if(objectNewAccount.type === 'barbearia'){
+            navigate("/SignInBarbearia");
+          }
+          if(objectNewAccount.type === 'client'){
+            navigate("/SignIn");
+          }
         }, 2000);
       }
       if(res.status === 204){
@@ -215,6 +223,7 @@ const verifyCodeActivation = () =>{
     
   }
 }
+//<QRCodeSVG value=""/>
 
 return (
     <>

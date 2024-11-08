@@ -2,7 +2,7 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import './getStarted.css';
-import barberLogo from './barber-logo.png';
+import barberLogo from '../../barber-logo.png';
 
 const GetStartedPage = () => {
   const [optionUser, setOptionUser] = useState(null);
