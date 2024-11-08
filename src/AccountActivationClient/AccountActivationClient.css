@@ -73,14 +73,18 @@
 }
 .input__number__edit{
     text-align: center;
-    height: 20px;
-    width: 90px;
+    height: 23px;
+    width: 105px;
     background: transparent;
-    border: none;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    border-bottom: 1px solid #4a17d5;
     outline: none;
     color: #f6f6fc;
-    border-bottom: 1px solid #4a17d5;
     margin-right: 3px;
+    font-size: 16px;
+    padding: 2px;
 }
 .icon__edit__number{
     color: #f6f6fc;

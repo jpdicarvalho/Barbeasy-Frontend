@@ -68,7 +68,8 @@ function SignUp() {
     //Object with values to save and send code verification
     const valuesAutentication = {
        phoneNumberToSendMessage: `55${numberWhithoutNine}@c.us`,
-       email
+       email,
+       type: 'client'
     }
 
     axios.put(`${urlAuth}/api/v1/sendCodeWhatsapp`, valuesAutentication)
@@ -103,7 +104,6 @@ const valuesNoEmpty = name && email && celular && senha;
         .then(res => {
           if (res.status === 201) {
             //Object to Account Activation
-            const numberWhithoutNine = formatPhoneNumber(celular)
             const objectNewAccountForActivation = {
               type: 'client',
               phoneNumber: numberWhithoutNine,

@@ -262,7 +262,7 @@ function SignUpBarbearia() {
                 />
 
                   <input
-                    type="text"
+                    type="tel"
                     id="number"
                     name="number"
                     value={number}
