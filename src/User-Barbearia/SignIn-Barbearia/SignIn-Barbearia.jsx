@@ -149,12 +149,12 @@ function SignInBarbearia() {
                 </div>
 
                 <div className='container__checkbox__professional'>
-                  <input type="checkbox"
-                         className='input__checkbox__professional'
-                         onChange={(e) => setIsProfessional(!isProfessional)}
-                  />
-                  <label>Sou profissional</label>
-                </div>
+                    <input type="checkbox"
+                          className='input__checkbox__professional'
+                          onChange={(e) => setIsProfessional(!isProfessional)}
+                    />
+                    <label>Sou profissional</label>
+                  </div>                
 
                 <div className='inputBox'>
                 {isLoading ? (
@@ -165,6 +165,9 @@ function SignInBarbearia() {
                 </div>
                 <div className="link__signup">
                     <p>Não tem uma conta?</p><Link className="link" to="/SignUpBarbearia">Criar Conta</Link>
+                </div>
+                <div className="Box__forgot__password__in__barbearia" onClick={() => {navigate("/ResetPassword")}}>
+                  Esqueci a senha
                 </div>
         </form>
       </div>
