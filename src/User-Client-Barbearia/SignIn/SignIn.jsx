@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 
 import axios from 'axios';
 
@@ -24,7 +25,12 @@ function SignIn() {
     e.preventDefault();
     setIsLoading(true)
 
-    axios.get(`${urlApi}/api/v1/SignIn/${values.email}/${values.senha}`)
+    const credentials = {
+      email: values.email,
+      senha: values.senha
+    }
+
+    axios.post(`${urlApi}/api/v1/SignIn`, credentials)
     .then(res =>{
       console.log(res)
       // Armazene o token no localStorage
@@ -59,6 +65,43 @@ function SignIn() {
     })
   }
 
+  const signInWithGoogle = (credentials) =>{
+    if(credentials){
+      setIsLoading(true)
+
+      axios.post(`${urlApi}/api/v1/googleSignIn`, {credential: credentials})
+        .then(res => {
+          console.log(res)
+          // Armazene o token no localStorage
+          localStorage.clear();
+          localStorage.setItem('token', res.data.token);
+          localStorage.setItem('userData', JSON.stringify(res.data));
+
+          setMessage('Seja Bem Vindo!');
+          setIsLoading(false)
+          setTimeout(() => {
+            setMessage(null);
+            // Mandando dados do usuário para a Home Page
+            navigate('/Home');
+          }, 2000);
+        }).catch(err =>{
+          if(err.response.status === 404){
+            setMessage('Usuário não encontrado!');
+    
+            return setTimeout(() => {
+              setIsLoading(false)
+              setMessage(null);
+            }, 2000);
+          }
+          setMessage('Erro ao realizar o Login! Tente novamente mais tarde.');
+          setTimeout(() => {
+            setIsLoading(false)
+            setMessage(null);
+          }, 2000);
+          console.log(err)
+        })
+    }
+  }
   return (
     <div className="container__default">
       <form onSubmit={sendForm} className="container">
@@ -117,6 +160,7 @@ function SignIn() {
       <div className="Box__forgot__password" onClick={() => {navigate("/ResetPassword", { state: { userType: 'client' } })}}>
         Esqueceu a senha?
       </div>
+
       <div className="inputBox">
         {isLoading ? (
           <div className="loaderCreatingBooking"></div>
@@ -131,6 +175,25 @@ function SignIn() {
           Criar Conta
         </Link>
       </div>
+
+      <div className='box__another__option__login'>
+        <hr />
+        <p className='text__other'>OU</p>
+        <hr />
+      </div>
+
+      <GoogleOAuthProvider clientId="1049085760569-b1ic098034d809i62i4bn6i5gq49f492.apps.googleusercontent.com">
+        <GoogleLogin
+          onSuccess={credentialResponse => {
+            signInWithGoogle(credentialResponse.credential);
+          }}
+          onError={() => {
+            console.log('Login Failed');
+          }}
+        >
+        </GoogleLogin>
+      </GoogleOAuthProvider>
+
       
       </form>
       <footer className="footer">

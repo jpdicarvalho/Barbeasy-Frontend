@@ -43,8 +43,8 @@ const userData = localStorage.getItem('userData');
 //trasnformando os dados para JSON
 const userInformation = JSON.parse(userData);
 //Fromatando cada letra inicial do nome do usuário para caixa-alta
-const userImage = userInformation.user[0].user_image;
-const userName = userInformation.user[0].name;
+const userImage = userInformation.user.user_image;
+const userName = userInformation.user.name;
 const firstLetter = userName.charAt(0).toUpperCase();
 
 const navigateToUserProfile = () =>{

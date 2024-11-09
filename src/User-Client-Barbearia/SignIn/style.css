@@ -40,3 +40,16 @@ body{
     margin-bottom: 10px;
     font-size: 14px;
 }
+.box__another__option__login{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 300px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.text__other{
+    margin-left: 10px;
+    margin-right: 10px;
+    color: gray;
+}

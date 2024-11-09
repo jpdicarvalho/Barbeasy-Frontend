@@ -169,10 +169,11 @@ return (
         </div>
 
         {message && (
-          message.length > 35 ? (
-            <p className="success">{message}</p>
-          ) : (
+          message.length > 30 ? (
             <p className={message ? 'error':''}>{message}</p>
+          ) : (
+            <p className="success">{message}</p>
+            
           )
         )}
         {!pendingActivation ? (
