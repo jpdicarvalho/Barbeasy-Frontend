@@ -205,7 +205,7 @@ return (
                 onChange={(e) => {
                   const inputValue = e.target.value;
                   // Remover caracteres não permitidos no e-mail
-                  const filteredValue = inputValue.replace(/[^a-zA-Z0-9@.]/g, '');
+                  const filteredValue = inputValue.replace(/[^a-zA-Z0-9@._]/g, '');
                   setEmail(filteredValue);
                 }}
                 placeholder="Email"
