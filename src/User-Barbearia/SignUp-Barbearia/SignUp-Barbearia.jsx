@@ -351,7 +351,7 @@ function SignUpBarbearia() {
                     onChange={(e) => {
                       const inputValue = e.target.value;
                       // Substituir o conteúdo do campo para conter apenas números, letras, "@" e "."
-                      const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9@.]/g, '');
+                      const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9@._]/g, '');
                       // Limitar a 50 caracteres
                       const truncatedValue = sanitizedValue.slice(0, 50);
                       // Validar se o valor atende ao formato de email esperado
