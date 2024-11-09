@@ -296,6 +296,11 @@ return(
                     </>
                 ):(
                     <>
+                    {message === 'Excelente! Enviamos uma nova senha de acesso para esse contato verificado.' ? (
+                        <p className="success">{message}</p>
+                    ) : (
+                        <p className={message ? 'error':''}>{message}</p>
+                    )}
                     <p style={{textAlign: 'left', color: 'gray', fontSize: '14px', paddingLeft: '10px', paddingRight: '10px'}}>Por onde você prefere recerber o código de verificação?</p>
                     
                     <div className="container__method__receive__code">
@@ -328,7 +333,6 @@ return(
                     </>
 
                 )}
-                
 
                 {methodSendCode === 'email' && !codeSend &&(
                     <div className="inputBox__in__reset__password">
