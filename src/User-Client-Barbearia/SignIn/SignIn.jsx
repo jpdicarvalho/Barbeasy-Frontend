@@ -133,7 +133,20 @@ function SignIn() {
       </div>
       
       </form>
-
+      <footer className="footer">
+        <div className="footer-links">
+          <Link to="/TermsOfUse" className="footer-link">
+            Termos de Uso
+          </Link>
+          <span className="footer-divider">|</span>
+          <Link to="/PrivacyPolicies" className="footer-link">
+            Políticas de Privacidade
+          </Link>
+        </div>
+        <p className="copyright-text">
+          © 2024 Barbeasy. Todos os direitos reservados.
+        </p>
+      </footer>
     </div>
   );
 }
