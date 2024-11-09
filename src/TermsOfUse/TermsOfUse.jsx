@@ -7,11 +7,11 @@ function TermsOfUse() {
     <div className="header__container">
         <img id="logoBarbeasy" src={barberLogo} alt="logo-Barbeasy" />
         <h1>Barbeasy</h1>
-        <h1>Termos de Uso</h1>
+        <h1 className="responsive-title">Termos de Uso</h1>
         <h5 className="updated-date">Atualizado em: 8 de outubro de 2024</h5>
     </div>
     <div className="header-terms">
-        <p>Em vigor: 8 de outubro de 2024</p>
+        <p>Em vigor: 8 de outubro de 2024</p><br/>
         <p>Primeiramente, gostaríamos de agradecer por usar o Barbeasy. Obrigado!</p>
     </div>
     
