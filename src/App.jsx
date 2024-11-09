@@ -33,6 +33,9 @@ import Notification from './User-Professional/Notification/Notification';
 import SessionExpired from './SessionExpired/SessionExpired';
 import Widget from './Widget';
 
+import TermsOfUse from './TermsOfUse/TermsOfUse';
+import PrivacyPolicies from './PrivacyPolicies/PrivacyPolicies';
+
 import PropTypes from 'prop-types';
 
 // Função para verificar se o usuário está autenticado (baseado na existência de um token no localStorage)
@@ -63,6 +66,9 @@ const App = () => {
     <Router>
       <Routes>
         <Route path="/" element={<GetStartedPage />} />
+        <Route path="/TermsOfUse" element={<TermsOfUse />} />
+        <Route path="/PrivacyPolicies" element={<PrivacyPolicies />} />
+
 
         <Route path="/SignIn" element={<SignIn />} />
         <Route path="/SignUp" element={<SignUp />} />

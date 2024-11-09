@@ -1,0 +1,17 @@
+/* CSS */
+.responsive-title {
+    font-size: 2.5rem; /* Tamanho padrão para telas grandes */
+    text-align: center; /* Centraliza o texto */
+}
+
+@media (max-width: 768px) {
+    .responsive-title {
+        font-size: 2rem; /* Ajuste para telas médias */
+    }
+}
+
+@media (max-width: 480px) {
+    .responsive-title {
+        font-size: 1.5rem; /* Ajuste para telas pequenas */
+    }
+}
