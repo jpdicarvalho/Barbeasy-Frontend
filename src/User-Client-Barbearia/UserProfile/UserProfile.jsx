@@ -33,8 +33,8 @@ function UserProfile() {
   const token = localStorage.getItem('token');
   const userDataFromLocalStorage = localStorage.getItem('userData');//Obtendo os dados salvo no localStorage
   const userInformation = JSON.parse(userDataFromLocalStorage);//trasnformando os dados para JSON
-  const userId = userInformation.user[0].id;
-  const userName = userInformation.user[0].name;
+  const userId = userInformation.user.id;
+  const userName = userInformation.user.name;
   const firstLetter = userName.charAt(0).toUpperCase();
 
 const navigateToHome = () =>{

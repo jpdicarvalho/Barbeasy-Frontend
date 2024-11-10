@@ -75,8 +75,8 @@ if(!userData){
 }
 
 const userInformation = JSON.parse(userData);
-const userId = userInformation.user[0].id
-const userType = userInformation.user[0].userType;
+const userId = userInformation.user.id
+const userType = userInformation.user.userType;
 
 const currentDate = new Date();
 

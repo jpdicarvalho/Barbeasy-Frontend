@@ -133,7 +133,7 @@ function SignUpBarbearia() {
         }
       })
       .catch(err => {
-        console.error(err);
+        console.log(err);
         if(err.response.status === 302){
           setIsLoading(false)
           setEmailStored(err.response.data.userPending.email)

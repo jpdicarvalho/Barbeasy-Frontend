@@ -37,9 +37,9 @@ export function Agendamento({
   const userInformation = JSON.parse(userData);  
 
   //buscando informações do usuário logado
-  const userId = userInformation.user[0].id;
-  const userEmail = userInformation.user[0].email;
-  const userType = userInformation.user[0].userType;
+  const userId = userInformation.user.id;
+  const userEmail = userInformation.user.email;
+  const userType = userInformation.user.userType;
 
 
   const date = new Date();

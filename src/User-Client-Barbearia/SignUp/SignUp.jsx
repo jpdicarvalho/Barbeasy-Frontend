@@ -116,6 +116,7 @@ const valuesNoEmpty = name && email && celular && senha;
           }
         })
         .catch(err => {
+          console.log(err)
           if(err.response.status === 302){
             setIsLoading(false)
             setEmailStored(err.response.data.userPending.email)
@@ -133,6 +134,7 @@ const valuesNoEmpty = name && email && celular && senha;
             setMessage('Erro ao realizar o cadastro. Tente novamente mais tarde.');
             console.error(err);
           }
+          console.log(err)
         });
     } else {
       setStep(step + 1);
@@ -279,8 +281,6 @@ return (
             <p className="text__information__recover__account">Já existe uma conta com ativação pendente para esse email ou celular informado. Deseja recuperá-la?</p>
             <button type="button" id="button_next" onClick={sendCodeAndRedirectUser}>Recuperar conta</button>
           </div>
-          
-          
         )}
         
 
