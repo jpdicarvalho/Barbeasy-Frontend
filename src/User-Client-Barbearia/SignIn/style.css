@@ -55,10 +55,11 @@ body{
 }
 /* Estilo para o iframe interno */
 .g_id_signin iframe {
-    background-color: #0c0e19;
+    background-color: transparent;
     border: none;
-    width: 10px;
-    border-radius: 10px;
+    width: 0px;
+    height: 0px;
+    border-radius: 50%;
     box-shadow: none;
     padding: 0;
   }

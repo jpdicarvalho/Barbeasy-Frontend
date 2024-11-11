@@ -152,6 +152,7 @@ const GoogleSignInButton = () => {
       {/* Botão de login personalizado */}
       <div
         className="g_id_signin"
+        style={{background: '#0c0e19'}}
       ></div>
     </div>
   );
