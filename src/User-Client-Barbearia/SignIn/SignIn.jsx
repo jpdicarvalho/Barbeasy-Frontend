@@ -123,13 +123,11 @@ const GoogleSignInButton = () => {
       google.accounts.id.renderButton(
         document.querySelector('.g_id_signin'),
         {
-          type: 'standard',
+          theme: 'outline', // Remove o preenchimento padrão
           size: 'large',
-          theme: 'outline', // Opções: outline, filled_black, filled_blue
-          text: 'sign_in_with',
-          shape: 'rectangular', // Opções: rectangular, pill, circle
-          logo_alignment: 'left',
-          width: '250', // Largura personalizada
+          type: 'pill', // Exibe apenas o ícone (se necessário)
+          text: 'signin_with', // Mantém o texto, caso necessário
+          shape: 'pill',
         }
       );
     };
@@ -154,12 +152,10 @@ const GoogleSignInButton = () => {
       <div
         className="g_id_signin"
         style={{
-          borderRadius: '5px', // Bordas arredondadas
+          backgroundColor: 'transparent',
+          boxShadow: 'none',
           border: 'none',
-          padding: '5px',
-          backgroundColor: '#0c0e19', // Fundo customizado
-          cursor: 'pointer',
-          textAlign: 'center',
+          padding: 0,
         }}
       ></div>
     </div>
