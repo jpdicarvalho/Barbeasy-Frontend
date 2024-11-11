@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useGoogleLogin } from '@react-oauth/google';
+import { VscEyeClosed } from "react-icons/vsc";
+import { VscEye } from "react-icons/vsc";
 
 import axios from 'axios';
 
@@ -19,6 +21,7 @@ function SignIn() {
     senha: ''
   });
   const [message, setMessage] = useState(null);
+  const [passwordVisibility, setPasswordVisibility] = useState(false)
 
   async function sendForm(e) {
     e.preventDefault();
@@ -76,7 +79,7 @@ function SignIn() {
           localStorage.setItem('token', res.data.token);
           localStorage.setItem('userData', JSON.stringify(res.data));
 
-          setMessage('Seja Bem Vindo!');
+          setMessage('Seja Bem-Vindo!');
           setIsLoading(false)
           setTimeout(() => {
             setMessage(null);
@@ -151,7 +154,7 @@ function SignIn() {
 
       <div className="inputBox">
         <input
-          type="password"
+          type={!passwordVisibility ? "password":"text"}
           id="senha"
           name="senha"
           value={values.senha}
@@ -165,6 +168,12 @@ function SignIn() {
           maxLength={22}
           required
         />
+        {!passwordVisibility ?(
+          <VscEyeClosed className="icon__VscEyeClosed_in_signin" onClick={() =>{setPasswordVisibility(true)}}/>
+
+        ):(
+          <VscEye className="icon__VscEyeClosed_in_signin" onClick={() =>{setPasswordVisibility(false)}}/>
+        )}
       </div>
 
       <div className="Box__forgot__password" onClick={() => {navigate("/ResetPassword", { state: { userType: 'client' } })}}>
@@ -185,13 +194,15 @@ function SignIn() {
           Criar Conta
         </Link>
       </div>
+      
+      </form>
 
       <div className='box__another__option__login'>
         <hr />
         <p className='text__other'>OU</p>
         <hr />
       </div>
-      
+
       <button className="button google" onClick={login}>
         <svg
           viewBox="0 0 256 262"
@@ -218,8 +229,6 @@ function SignIn() {
         Entrar com o Google
       </button>
 
-      
-      </form>
       <footer className="footer">
         <div className="footer-links">
           <Link to="/TermsOfUse" className="footer-link">

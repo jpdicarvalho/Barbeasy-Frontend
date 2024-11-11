@@ -53,6 +53,7 @@ body{
     margin-left: 10px;
     margin-right: 10px;
     color: gray;
+    font-size: 14px;
 } 
   /* From Uiverse.io by TreepDeep */ 
 .button.google {
@@ -78,4 +79,9 @@ body{
     fill: #fff;
     margin-right: 0.5rem;
   }
-  
+  .icon__VscEyeClosed_in_signin{
+    position: absolute;
+    margin-left: 250px;
+    font-size: 22px;
+    margin-top: -10px;
+  }
