@@ -125,10 +125,11 @@ const GoogleSignInButton = () => {
         {
           type: 'standard',
           size: 'large',
-          theme: 'outline',
+          theme: 'outline', // Opções: outline, filled_black, filled_blue
           text: 'sign_in_with',
-          shape: 'rectangular',
+          shape: 'rectangular', // Opções: rectangular, pill, circle
           logo_alignment: 'left',
+          width: '250', // Largura personalizada
         }
       );
     };
@@ -152,12 +153,14 @@ const GoogleSignInButton = () => {
       {/* Botão de login personalizado */}
       <div
         className="g_id_signin"
-        data-type="standard"
-        data-size="large"
-        data-theme="outline"
-        data-text="sign_in_with"
-        data-shape="rectangular"
-        data-logo_alignment="left"
+        style={{
+          borderRadius: '5px', // Bordas arredondadas
+          border: 'none',
+          padding: '5px',
+          backgroundColor: '#0c0e19', // Fundo customizado
+          cursor: 'pointer',
+          textAlign: 'center',
+        }}
       ></div>
     </div>
   );
