@@ -55,13 +55,14 @@ body{
 } 
   /* From Uiverse.io by TreepDeep */ 
 .button.google {
-    width: 250px;
-    height: 45px;
+    width: 300px;
+    height: 50px;
     display: flex;
     padding: 15px;
     font-size: 16px;
     font-weight: 400;
     align-items: center;
+    justify-content: center;
     border-radius: 10px;
     border: 1px solid rgba(50, 50, 80, 0.25);
     gap: 0.75rem;
