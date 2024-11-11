@@ -1,12 +1,14 @@
-.container__default{
+.container__signup__barbearia{
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    flex-direction: column;
+    min-height: 100dvh;
 }
 #tittle_p{
     margin-bottom: 5px;
     color: #f6f6fc;
+    width: 100%;
     font-weight: 400;
 }
 #street_icon{
@@ -81,7 +83,8 @@
 .Box__endereco__barbearia{
     display: flex;
     justify-content: start;
-    padding-left: 5px;
+    padding-left: 25px;
+    width: 100%;
 }
 .icon__GrMapLocation{
     width: 22px;
@@ -89,4 +92,10 @@
     color: #f6f6fc;
     margin-bottom: 2px;
     margin-right: 5px;
+}
+.icon__VscEyeClosed__in__signup__barbearia{
+    position: absolute;
+    margin-left: 250px;
+    font-size: 22px;
+    margin-top: 150px;
 }

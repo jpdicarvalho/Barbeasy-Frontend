@@ -40,7 +40,7 @@ function SignIn() {
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('userData', JSON.stringify(res.data));
 
-      setMessage('Seja Bem Vindo!');
+      setMessage('Seja Bem-Vindo!');
       setIsLoading(false)
       setTimeout(() => {
         setMessage(null);
@@ -71,7 +71,7 @@ function SignIn() {
     if(credentials){
       setIsLoading(true)
 
-      axios.post(`${urlApi}/api/v1/googleSignIn`, {credential: credentials})
+      axios.post(`${urlApi}/api/v1/googleSignIn`, {credential: credentials, type: 'client'})
         .then(res => {
           console.log(res)
           // Armazene o token no localStorage
@@ -126,7 +126,7 @@ function SignIn() {
       <h2 id="HeaderSignIn">Barbeasy</h2>
       <h3 style={{color: 'gray', marginBottom: '10px'}}>Login</h3>
       
-      {message === 'Seja Bem Vindo!' ? (
+      {message === 'Seja Bem-Vindo!' ? (
         <p className="success">{message}</p>
       ) : (
         <p className={message ? 'error':''}>{message}</p>

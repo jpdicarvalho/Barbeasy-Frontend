@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useSpring, animated } from "react-spring";
+import { useGoogleLogin } from '@react-oauth/google';
 
 import './style.css';
 
@@ -10,6 +11,8 @@ import { CiLocationArrow1 } from "react-icons/ci";
 import { VscAccount } from "react-icons/vsc";
 import {QRCodeSVG} from 'qrcode.react';
 
+import { VscEyeClosed } from "react-icons/vsc";
+import { VscEye } from "react-icons/vsc";
 
 import barberLogo from '../../../barber-logo.png';
 
@@ -20,6 +23,7 @@ function SignUpBarbearia() {
 
   const navigate = useNavigate();
 
+  const [passwordVisibility, setPasswordVisibility] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [name, setName] = useState('');
   const [street, setStreet] = useState('');
@@ -173,10 +177,33 @@ function SignUpBarbearia() {
     sendCodeAutentication(objectNewAccountForActivation.phoneNumber, objectNewAccountForActivation.email)
     navigate('/RecoverAccount', { state: { objectNewAccountForActivation } });
   }
-    
+//=============== SignUp With Google =========================
+const sendTokenToGoogle = (accessToken) =>{
+  if(accessToken){
+    axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${accessToken}`)
+      .then(res => {
+        setUsuario(`${res.data.given_name} ${res.data.family_name}`)
+        setEmail(res.data.email)
+        setSenha(res.data.id)
+        setStep(4);
+      }).catch(err =>{
+        console.log(err)
+      })
+  }
+}
+
+const login = useGoogleLogin({ 
+  onSuccess: (tokenResponse)  =>{
+    sendTokenToGoogle(tokenResponse.access_token)
+  },
+  onError: (err)  =>{
+    console.log(err)
+  }, 
+});
+
   return (
     <>
-    <div className="container__default">
+    <div className="container__signup__barbearia">
         <form onSubmit={handleSubmit} className="container">
             <div className="imgBox">
               <img src={barberLogo} alt="" />
@@ -363,7 +390,7 @@ function SignUpBarbearia() {
                   />
 
                   <input
-                    type="password"
+                    type={!passwordVisibility ? "password":"text"}
                     id="senha"
                     name="senha"
                     value={senha}
@@ -371,13 +398,18 @@ function SignUpBarbearia() {
                       const inputValue = e.target.value;
                       
                       // Limitar a 8 caracteres
-                      const truncatedValue = inputValue.slice(0, 8);
+                      const truncatedValue = inputValue.slice(0, 22);
                       setSenha(truncatedValue);
                     }}
                     placeholder="Password"
-                    maxLength={8}
+                    maxLength={22}
                     required
                     />
+                    {!passwordVisibility ?(
+                      <VscEyeClosed className="icon__VscEyeClosed__in__signup__barbearia" onClick={() =>{setPasswordVisibility(true)}}/>
+                    ):(
+                      <VscEye className="icon__VscEyeClosed__in__signup__barbearia" onClick={() =>{setPasswordVisibility(false)}}/>
+                    )}
                 </div>
               )}
 
@@ -393,7 +425,19 @@ function SignUpBarbearia() {
                       {isLoading ? (
                         <div className="loaderCreatingBooking"></div>
                       ):(
-                        <input type="submit" value="Cadastrar" />
+                        <div className="terms__and__btn__create__account">
+                          <div className="footer-links in__SignUp">
+                            Ao clicar em "Concordar", você aceita nossos
+                            <Link to="/TermsOfUse" className="footer-link">
+                              Termos de Uso
+                            </Link>
+                            e declara ter lido nossa
+                            <Link to="/PrivacyPolicies" className="footer-link">
+                              Políticas de Privacidade
+                            </Link>
+                          </div>
+                        <input type="submit" value="Concordar" />
+                      </div>
                       )}
                     </div>
                   
@@ -411,6 +455,46 @@ function SignUpBarbearia() {
               <p>Você já tem uma conta?</p><Link className="link" to="/SignInBarbearia">Login</Link>
             </div>
         </form>
+        {!pendingActivation && (
+        <>
+          <div className='box__another__option__login'>
+              <hr />
+              <p className='text__other'>OU</p>
+              <hr />
+          </div>
+          <button className="button google" onClick={login}>
+                <svg
+                  viewBox="0 0 256 262"
+                  preserveAspectRatio="xMidYMid"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M255.878 133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45 12.04-9.283 30.172-26.69 42.356l-.244 1.622 38.755 30.023 2.685.268c24.659-22.774 38.875-56.282 38.875-96.027"
+                    fill="#4285F4"
+                  ></path>
+                  <path
+                    d="M130.55 261.1c35.248 0 64.839-11.605 86.453-31.622l-41.196-31.913c-11.024 7.688-25.82 13.055-45.257 13.055-34.523 0-63.824-22.773-74.269-54.25l-1.531.13-40.298 31.187-.527 1.465C35.393 231.798 79.49 261.1 130.55 261.1"
+                    fill="#34A853"
+                  ></path>
+                  <path
+                    d="M56.281 156.37c-2.756-8.123-4.351-16.827-4.351-25.82 0-8.994 1.595-17.697 4.206-25.82l-.073-1.73L15.26 71.312l-1.335.635C5.077 89.644 0 109.517 0 130.55s5.077 40.905 13.925 58.602l42.356-32.782"
+                    fill="#FBBC05"
+                  ></path>
+                  <path
+                    d="M130.55 50.479c24.514 0 41.05 10.589 50.479 19.438l36.844-35.974C195.245 12.91 165.798 0 130.55 0 79.49 0 35.393 29.301 13.925 71.947l42.211 32.783c10.59-31.477 39.891-54.251 74.414-54.251"
+                    fill="#EB4335"
+                  ></path>
+                </svg>
+                Continuar com o Google
+          </button>
+
+          <footer className="footer">
+            <p className="copyright-text">
+              © 2024 Barbeasy. Todos os direitos reservados.
+            </p>
+          </footer>
+        </>
+      )}
       </div>
       
     </>
