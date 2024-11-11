@@ -230,7 +230,7 @@ function SignIn() {
             fill="#EB4335"
           ></path>
         </svg>
-        Continue com o Google
+        Entrar com o Google
       </button>
 
       
