@@ -53,13 +53,6 @@ body{
     margin-right: 10px;
     color: gray;
 }
-/* Estilo para o iframe interno */
-.g_id_signin iframe {
-    background-color: transparent;
-    border: none;
-    width: 0px;
-    height: 0px;
-    border-radius: 50%;
-    box-shadow: none;
-    padding: 0;
-  }
+.testeaaa{
+    background: red;
+}

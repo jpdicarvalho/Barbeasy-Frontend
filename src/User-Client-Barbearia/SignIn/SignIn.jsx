@@ -185,7 +185,8 @@ function SignIn() {
         <hr />
       </div>
 
-      <GoogleOAuthProvider clientId="1049085760569-b1ic098034d809i62i4bn6i5gq49f492.apps.googleusercontent.com">
+<div className='testeaaa'>
+<GoogleOAuthProvider clientId="1049085760569-b1ic098034d809i62i4bn6i5gq49f492.apps.googleusercontent.com">
       <GoogleLogin
         onSuccess={credentialResponse => {
           sendTokenFromGoogleToServer(credentialResponse.credential);
@@ -195,6 +196,8 @@ function SignIn() {
         }}
       />
       </GoogleOAuthProvider>
+</div>
+      
 
       
       </form>
