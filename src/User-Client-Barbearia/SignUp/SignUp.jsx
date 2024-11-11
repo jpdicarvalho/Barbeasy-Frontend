@@ -25,8 +25,6 @@ function SignUp() {
   const [senha, setSenha] = useState('');
   const [passwordVisibility, setPasswordVisibility] = useState(false)
   const [celular, setCelular] = useState('');
-  const [googleID, setGoogleID] = useState('');
-
 
   const [emailStored, setEmailStored] = useState('');
   const [phoneNumberStored, setPhoneNumberStored] = useState('');
@@ -104,7 +102,6 @@ const valuesNoEmpty = name && email && celular && senha;
       email,
       senha,
       celular: numberWhithoutNine,
-      google_id: googleID?googleID:'normal_signup'
     };
 
     if (step === 3) {
@@ -171,9 +168,7 @@ const sendTokenToGoogle = (accessToken) =>{
         setName(`${res.data.given_name} ${res.data.family_name}`)
         setEmail(res.data.email)
         setSenha(res.data.id)
-        setGoogleID(res.data.id)
         setStep(3);
-        console.log(res)
       }).catch(err =>{
         console.log(err)
       })

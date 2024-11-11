@@ -102,20 +102,9 @@ function SignIn() {
     }
   }
 
-  const sendTokenToGoogle = (accessToken) =>{
-    if(accessToken){
-      axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${accessToken}`)
-        .then(res => {
-          console.log(res)
-        }).catch(err =>{
-          console.log(err)
-        })
-    }
-  }
-
   const login = useGoogleLogin({ 
     onSuccess: (tokenResponse)  =>{
-      sendTokenToGoogle(tokenResponse.access_token)
+      sendTokenFromGoogleToServer(tokenResponse.access_token)
     },
     onError: (err)  =>{
       console.log(err)
