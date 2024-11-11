@@ -55,17 +55,17 @@ body{
 } 
   /* From Uiverse.io by TreepDeep */ 
 .button.google {
-    width: 250px;
+    width: 300px;
+    height: 45px;
     display: flex;
-    padding: 10px;
+    padding: 15px;
     font-size: 16px;
     font-weight: 400;
-    text-align: center;
     align-items: center;
-    border-radius: 50px;
+    border-radius: 10px;
     border: 1px solid rgba(50, 50, 80, 0.25);
     gap: 0.75rem;
-    color: black;
+    color: #100d2a;
     background-color: #f6f6f6;
     cursor: pointer;
   }
