@@ -13,6 +13,7 @@ body{
     border-radius: 30px;
     padding: 5px;
     width: 350px;
+    margin-top: 15px;
 }
 .imgBox{
     position: relative;
@@ -29,6 +30,10 @@ body{
     flex-direction: row;
 }
 .box__recover__account{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
     text-align: justify;
     margin-top: 5px;
 }
@@ -36,6 +41,7 @@ body{
     font-size: 14px;
     margin-bottom: 15px;
     color: gray;
+    text-align: center;
 }
 .Box__cadastro__barbearia{
     margin-bottom: 15px;

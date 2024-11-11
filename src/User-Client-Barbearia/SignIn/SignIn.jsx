@@ -169,11 +169,11 @@ function SignIn() {
           onChange={(e) => {
             const inputValue = e.target.value;
             // Limitar a 8 caracteres
-            const truncatedValue = inputValue.slice(0, 8);
+            const truncatedValue = inputValue.slice(0, 22);
             setValues({ ...values, senha: truncatedValue });
           }}
           placeholder="Password"
-          maxLength={8}
+          maxLength={22}
           required
         />
       </div>
