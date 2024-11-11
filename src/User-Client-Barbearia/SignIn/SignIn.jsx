@@ -125,7 +125,7 @@ const GoogleSignInButton = () => {
         {
           theme: 'filled_black', // Remove o preenchimento padrão
           size: 'large',
-          type: 'pill', // Exibe apenas o ícone (se necessário)
+          type: 'icon', // Exibe apenas o ícone (se necessário)
           text: 'signin_with', // Mantém o texto, caso necessário
           shape: 'pill',
         }
@@ -139,7 +139,7 @@ const GoogleSignInButton = () => {
   }, []);
 
   return (
-    <div>
+    <>
       {/* Elemento de inicialização */}
       <div
         id="g_id_onload"
@@ -152,7 +152,7 @@ const GoogleSignInButton = () => {
       <div
         className="g_id_signin"
       ></div>
-    </div>
+    </>
   );
 };
 
