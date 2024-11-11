@@ -39,6 +39,7 @@ body{
     margin-top: 5px;
     margin-bottom: 10px;
     font-size: 14px;
+    padding-right: 25px;
 }
 .box__another__option__login{
     display: flex;

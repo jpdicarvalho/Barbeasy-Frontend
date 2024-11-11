@@ -12,7 +12,7 @@ body{
     flex-direction: column;
     border-radius: 30px;
     padding: 5px;
-    width: 300px;
+    width: 350px;
 }
 .imgBox{
     position: relative;
@@ -39,4 +39,21 @@ body{
 }
 .Box__cadastro__barbearia{
     margin-bottom: 15px;
+}
+.terms__and__btn__create__account{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.in__SignUp{
+    margin-top: 5px;
+    text-align: center;
+    font-size: 12px;
+}
+.icon__VscEyeClosed{
+    position: absolute;
+    margin-left: 250px;
+    font-size: 22px;
+    margin-top: 50px;
 }

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useGoogleLogin, GoogleLogin } from '@react-oauth/google';
+import { useGoogleLogin } from '@react-oauth/google';
 
 import axios from 'axios';
 
@@ -64,7 +64,7 @@ function SignIn() {
     })
   }
 
-  /*const sendTokenFromGoogleToServer = (credentials) =>{
+  const sendTokenFromGoogleToServer = (credentials) =>{
     if(credentials){
       setIsLoading(true)
 
@@ -120,7 +120,7 @@ function SignIn() {
     onError: (err)  =>{
       console.log(err)
     }, 
-  });*/
+  });
 //==================== Google SignIn Button ============================
 
   return (
@@ -202,12 +202,8 @@ function SignIn() {
         <p className='text__other'>OU</p>
         <hr />
       </div>
-
-      <div className='testeaaa'>
-            
-      </div>
       
-      <button className="button google">
+      <button className="button google" onClick={login}>
         <svg
           viewBox="0 0 256 262"
           preserveAspectRatio="xMidYMid"
