@@ -69,7 +69,6 @@ const App = () => {
         <Route path="/TermsOfUse" element={<TermsOfUse />} />
         <Route path="/PrivacyPolicies" element={<PrivacyPolicies />} />
 
-
         <Route path="/SignIn" element={<SignIn />} />
         <Route path="/SignUp" element={<SignUp />} />
 
