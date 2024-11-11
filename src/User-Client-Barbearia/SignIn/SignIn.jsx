@@ -123,11 +123,12 @@ const GoogleSignInButton = () => {
       google.accounts.id.renderButton(
         document.querySelector('.g_id_signin'),
         {
-          theme: 'filled_black', // Remove o preenchimento padrão
+          theme: 'outline', // Remove o preenchimento padrão
           size: 'large',
-          type: 'icon', // Exibe apenas o ícone (se necessário)
+          type: 'standard', // Exibe apenas o ícone (se necessário)
           text: 'signin_with', // Mantém o texto, caso necessário
           shape: 'pill',
+          width: '100%'
         }
       );
     };
@@ -139,7 +140,7 @@ const GoogleSignInButton = () => {
   }, []);
 
   return (
-    <>
+    <div style={{background: '#0c0e19'}}>
       {/* Elemento de inicialização */}
       <div
         id="g_id_onload"
@@ -152,7 +153,7 @@ const GoogleSignInButton = () => {
       <div
         className="g_id_signin"
       ></div>
-    </>
+    </div>
   );
 };
 
