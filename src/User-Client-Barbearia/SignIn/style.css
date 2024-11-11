@@ -55,10 +55,10 @@ body{
 }
 /* Estilo para o iframe interno */
 .g_id_signin iframe {
-    background: #0c0e19;
-    border: none; /* Remove bordas do iframe */
-    width: 100%; /* Faz o botão ocupar 100% do espaço disponível */
-    border-radius: 50px; /* Arredonda os cantos do botão, opcional */
-    display: block;
-    box-shadow: none; /* Remove sombras extras */
+    background-color: #0c0e19;
+    border: none;
+    width: 10px;
+    border-radius: 50px;
+    box-shadow: none;
+    padding: 0;
   }
