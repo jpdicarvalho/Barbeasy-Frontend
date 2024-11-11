@@ -53,3 +53,12 @@ body{
     margin-right: 10px;
     color: gray;
 }
+/* Estilo para o iframe interno */
+.g_id_signin iframe {
+    background: transparent !important; /* Remove fundo interno */
+    border: none !important; /* Remove bordas do iframe */
+    width: 100%; /* Faz o botão ocupar 100% do espaço disponível */
+    border-radius: 50px; /* Arredonda os cantos do botão, opcional */
+    display: block;
+    box-shadow: none !important; /* Remove sombras extras */
+  }
