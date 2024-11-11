@@ -123,7 +123,7 @@ const GoogleSignInButton = () => {
       google.accounts.id.renderButton(
         document.querySelector('.g_id_signin'),
         {
-          theme: 'outline', // Remove o preenchimento padrão
+          theme: 'filled_black', // Remove o preenchimento padrão
           size: 'large',
           type: 'pill', // Exibe apenas o ícone (se necessário)
           text: 'signin_with', // Mantém o texto, caso necessário
@@ -151,12 +151,6 @@ const GoogleSignInButton = () => {
       {/* Botão de login personalizado */}
       <div
         className="g_id_signin"
-        style={{
-          backgroundColor: 'transparent',
-          boxShadow: 'none',
-          border: 'none',
-          padding: 0,
-        }}
       ></div>
     </div>
   );

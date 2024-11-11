@@ -53,15 +53,3 @@ body{
     margin-right: 10px;
     color: gray;
 }
-
-/* Estilos para remover fundo branco do botão do Google */
-.g_id_signin {
-    background-color: transparent !important; /* Remove fundo branco */
-    border: none !important; /* Remove bordas */
-    box-shadow: none !important; /* Remove sombras */
-    padding: 0 !important; /* Ajusta espaçamento */
-  }
-  
-  .g_id_signin iframe {
-    background-color: transparent !important; /* Remove fundo interno */
-  }
