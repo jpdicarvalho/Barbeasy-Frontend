@@ -220,6 +220,7 @@ const sendCodeAndRedirectUser = () =>{
   sendCodeAutentication(objectNewAccountForActivation.phoneNumber, objectNewAccountForActivation.email)
   navigate('/RecoverAccount', { state: { objectNewAccountForActivation } });
 }
+
     return (
       <div className="container__default">
         <form onSubmit={sendForm} className="container">

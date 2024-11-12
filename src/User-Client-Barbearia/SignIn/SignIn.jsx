@@ -4,6 +4,8 @@ import { useGoogleLogin } from '@react-oauth/google';
 import { VscEyeClosed } from "react-icons/vsc";
 import { VscEye } from "react-icons/vsc";
 
+import TurnstileComponent from '../../TurnstileComponent/TurnstileComponent';
+
 import axios from 'axios';
 
 import './style.css';
@@ -253,6 +255,8 @@ const sendCodeAndRedirectUser = () =>{
       <div className="Box__forgot__password" onClick={() => {navigate("/ResetPassword", { state: { userType: 'client' } })}}>
         Esqueceu a senha?
       </div>
+
+      <TurnstileComponent />
 
       <div className="inputBox">
         {isLoading ? (

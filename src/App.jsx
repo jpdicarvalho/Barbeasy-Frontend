@@ -1,5 +1,7 @@
 // Importando os componentes e funcionalidades necessários do react-router-dom e prop-types
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import React, { useState } from 'react';
+
 import GetStartedPage from '../src/Get-Started/getStarted';
 
 import SignIn from '../src/User-Client-Barbearia/SignIn/SignIn';
@@ -31,6 +33,7 @@ import ProfileProfessional from './User-Professional/ProfileProfessional/Profile
 import Notification from './User-Professional/Notification/Notification';
 
 import SessionExpired from './SessionExpired/SessionExpired';
+
 import Widget from './Widget';
 
 import TermsOfUse from './TermsOfUse/TermsOfUse';
@@ -62,8 +65,10 @@ PrivateRoute.propTypes = {
 
 // Componente principal App: definindo as rotas da aplicação
 const App = () => {
+  
   return (
     <Router>
+
       <Routes>
         <Route path="/" element={<GetStartedPage />} />
         <Route path="/TermsOfUse" element={<TermsOfUse />} />
