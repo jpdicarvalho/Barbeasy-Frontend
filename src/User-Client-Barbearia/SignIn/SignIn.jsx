@@ -1,10 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useGoogleLogin } from '@react-oauth/google';
 import { VscEyeClosed } from "react-icons/vsc";
 import { VscEye } from "react-icons/vsc";
-
-import TurnstileComponent from '../../TurnstileComponent/TurnstileComponent';
+import TurnstileComponent from '../../TurnstileCloudFlare/TurnstileComponent';
 
 import axios from 'axios';
 
@@ -13,169 +12,186 @@ import barberLogo from '../../../barber-logo.png';
 
 function SignIn() {
   
-  const urlApi = 'https://barbeasy.up.railway.app'
-  const urlAuth = 'https://barbeasy-authenticators.up.railway.app'
-  
-  const navigate = useNavigate();
+const urlApi = 'https://barbeasy.up.railway.app'
+const urlAuth = 'https://barbeasy-authenticators.up.railway.app'
 
-  const [isLoading, setIsLoading] = useState(false)
-  const [values, setValues] = useState({
-    email: '',
-    senha: ''
-  });
-  const [message, setMessage] = useState(null);
-  const [passwordVisibility, setPasswordVisibility] = useState(false)
-  const [pendingActivation, setPendingActivation] = useState(false)
-  const [emailStored, setEmailStored] = useState('');
-  const [phoneNumberStored, setPhoneNumberStored] = useState('');
+const navigate = useNavigate();
 
-  async function sendForm(e) {
-    e.preventDefault();
+const [isLoading, setIsLoading] = useState(false)
+const [values, setValues] = useState({
+  email: '',
+  senha: ''
+});
+const [message, setMessage] = useState(null);
+const [passwordVisibility, setPasswordVisibility] = useState(false)
+const [pendingActivation, setPendingActivation] = useState(false)
+const [emailStored, setEmailStored] = useState('');
+const [phoneNumberStored, setPhoneNumberStored] = useState('');
+const [tokenCloudFlare, setTokenCloudFlare] = useState('');
+const [captchaKey, setCaptchaKey] = useState(0);
+
+const handleTokenVerification = (token) => {
+  setTokenCloudFlare(token);
+};
+//=================================== Sign in functions ==================================
+const sendForm = () =>{
+  setIsLoading(true)
+
+  const credentials = {
+    email: values.email,
+    senha: values.senha, 
+  }
+
+  axios.post(`${urlApi}/api/v1/SignIn`, credentials, {
+    headers: {
+      'Authorization': `Bearer ${tokenCloudFlare}`
+    }
+  })
+  .then(res =>{
+    // Armazene o token no localStorage
+    localStorage.clear();
+    localStorage.setItem('token', res.data.token);
+    localStorage.setItem('userData', JSON.stringify(res.data));
+
+    setMessage('Seja Bem-Vindo!');
+    setIsLoading(false)
+    setTimeout(() => {
+      setMessage(null);
+      // Mandando dados do usuário para a Home Page
+      navigate('/Home');
+    }, 2000);
+
+  }).catch(err => {
+    setCaptchaKey(prev => prev + 1); // Reinicie o CAPTCHA após erro também
+    if(err.response.status === 302){
+      setIsLoading(false)
+      setEmailStored(err.response.data.userPending.email)
+      setPhoneNumberStored(err.response.data.userPending.celular)
+      return setPendingActivation(true)
+    }
+    if(err.response.status === 404){
+      setMessage('Usuário não encontrado!');
+
+      return setTimeout(() => {
+        setIsLoading(false)
+        setMessage(null);
+      }, 2000);
+    }
+    if(err.response.status === 403){
+      setMessage('Cloudflare erro!');
+      return setTimeout(() => {
+        setIsLoading(false)
+        setMessage(null);
+      }, 2000);
+    }
+    setMessage('Erro ao realizar o Login! Tente novamente mais tarde.');
+    setTimeout(() => {
+      setIsLoading(false)
+      setMessage(null);
+    }, 2000);
+    console.log(err)
+
+  })
+}
+
+const sendTokenFromGoogleToServer = (credentials) =>{
+  if(credentials){
     setIsLoading(true)
 
-    const credentials = {
-      email: values.email,
-      senha: values.senha
-    }
+    axios.post(`${urlApi}/api/v1/googleSignIn`, {credential: credentials, type: 'client'})
+      .then(res => {
+        // Armazene o token no localStorage
+        localStorage.clear();
+        localStorage.setItem('token', res.data.token);
+        localStorage.setItem('userData', JSON.stringify(res.data));
 
-    axios.post(`${urlApi}/api/v1/SignIn`, credentials)
-    .then(res =>{
-      // Armazene o token no localStorage
-      localStorage.clear();
-      localStorage.setItem('token', res.data.token);
-      localStorage.setItem('userData', JSON.stringify(res.data));
-
-      setMessage('Seja Bem-Vindo!');
-      setIsLoading(false)
-      setTimeout(() => {
-        setMessage(null);
-        // Mandando dados do usuário para a Home Page
-        navigate('/Home');
-      }, 2000);
-
-    }).catch(err => {
-      if(err.response.status === 302){
+        setMessage('Seja Bem-Vindo!');
         setIsLoading(false)
-        setEmailStored(err.response.data.userPending.email)
-        setPhoneNumberStored(err.response.data.userPending.celular)
-        return setPendingActivation(true)
-      }
-      if(err.response.status === 404){
-        setMessage('Usuário não encontrado!');
-
-        return setTimeout(() => {
+        setTimeout(() => {
+          setMessage(null);
+          // Mandando dados do usuário para a Home Page
+          navigate('/Home');
+        }, 2000);
+      }).catch(err =>{
+        if(err.response.status === 302){
+          setIsLoading(false)
+          setEmailStored(err.response.data.userPending.email)
+          setPhoneNumberStored(err.response.data.userPending.celular)
+          return setPendingActivation(true)
+        }
+        if(err.response.status === 404){
+          setMessage('Usuário não encontrado!');
+  
+          return setTimeout(() => {
+            setIsLoading(false)
+            setMessage(null);
+          }, 2000);
+        }
+        setMessage('Erro ao realizar o Login! Tente novamente mais tarde.');
+        setTimeout(() => {
           setIsLoading(false)
           setMessage(null);
         }, 2000);
-      }
-      setMessage('Erro ao realizar o Login! Tente novamente mais tarde.');
+        console.log(err)
+      })
+  }
+}
+
+const login = useGoogleLogin({ 
+  onSuccess: (tokenResponse)  =>{
+    sendTokenFromGoogleToServer(tokenResponse.access_token)
+  },
+  onError: (err)  =>{
+    console.log(err)
+  }, 
+});
+//=================== Request to send code verification =========================
+//Function to farmated whatsApp number
+function formatPhoneNumber (whatsApp) {
+  //Basics Validations
+  if(whatsApp.length < 10){
+      setMessage('Informe um número válido.')
       setTimeout(() => {
-        setIsLoading(false)
-        setMessage(null);
-      }, 2000);
-      console.log(err)
-
-    })
-  }
-
-  const sendTokenFromGoogleToServer = (credentials) =>{
-    if(credentials){
-      setIsLoading(true)
-
-      axios.post(`${urlApi}/api/v1/googleSignIn`, {credential: credentials, type: 'client'})
-        .then(res => {
-          // Armazene o token no localStorage
-          localStorage.clear();
-          localStorage.setItem('token', res.data.token);
-          localStorage.setItem('userData', JSON.stringify(res.data));
-
-          setMessage('Seja Bem-Vindo!');
           setIsLoading(false)
-          setTimeout(() => {
-            setMessage(null);
-            // Mandando dados do usuário para a Home Page
-            navigate('/Home');
-          }, 2000);
-        }).catch(err =>{
-          if(err.response.status === 302){
-            setIsLoading(false)
-            setEmailStored(err.response.data.userPending.email)
-            setPhoneNumberStored(err.response.data.userPending.celular)
-            return setPendingActivation(true)
-          }
-          if(err.response.status === 404){
-            setMessage('Usuário não encontrado!');
-    
-            return setTimeout(() => {
-              setIsLoading(false)
-              setMessage(null);
-            }, 2000);
-          }
-          setMessage('Erro ao realizar o Login! Tente novamente mais tarde.');
-          setTimeout(() => {
-            setIsLoading(false)
-            setMessage(null);
-          }, 2000);
-          console.log(err)
-        })
-    }
+          setMessage(null)
+      }, 2000);
+
+      return false
   }
 
-  const login = useGoogleLogin({ 
-    onSuccess: (tokenResponse)  =>{
-      sendTokenFromGoogleToServer(tokenResponse.access_token)
-    },
-    onError: (err)  =>{
-      console.log(err)
-    }, 
-  });
-  //=================== Request to send code verification =========================
-  //Function to farmated whatsApp number
-  function formatPhoneNumber (whatsApp) {
-    //Basics Validations
-    if(whatsApp.length < 10){
-        setMessage('Informe um número válido.')
-        setTimeout(() => {
-            setIsLoading(false)
-            setMessage(null)
-        }, 2000);
+  let validedNumber;
 
-        return false
-    }
-
-    let validedNumber;
-
-    if(whatsApp.length === 11){//Ex.:93 9 94455445
-        validedNumber = whatsApp.slice(0, 3) + whatsApp.slice(3 + 1);//Number formatted: 93 94455445
-    }
-
-    if(whatsApp.length === 10){//Ex.:93 94455445
-        validedNumber = whatsApp
-    }
-
-    return validedNumber;
+  if(whatsApp.length === 11){//Ex.:93 9 94455445
+      validedNumber = whatsApp.slice(0, 3) + whatsApp.slice(3 + 1);//Number formatted: 93 94455445
   }
 
-  const sendCodeAutentication = (numberWhatsapp, email) => {
-
-    const numberWhithoutNine = formatPhoneNumber(numberWhatsapp)
-
-    //Object with values to save and send code verification
-    const valuesAutentication = {
-       phoneNumberToSendMessage: `55${numberWhithoutNine}@c.us`,
-       email,
-       type: 'client'
-    }
-
-    axios.put(`${urlAuth}/api/v1/sendCodeWhatsapp`, valuesAutentication)
-    .then(res =>{
-      console.log('Código de autenticação enviado')
-    })
-    .catch(err =>{
-      console.log(err)
-    })
-
+  if(whatsApp.length === 10){//Ex.:93 94455445
+      validedNumber = whatsApp
   }
+
+  return validedNumber;
+}
+
+const sendCodeAutentication = (numberWhatsapp, email) => {
+
+  const numberWhithoutNine = formatPhoneNumber(numberWhatsapp)
+
+  //Object with values to save and send code verification
+  const valuesAutentication = {
+      phoneNumberToSendMessage: `55${numberWhithoutNine}@c.us`,
+      email,
+      type: 'client'
+  }
+
+  axios.put(`${urlAuth}/api/v1/sendCodeWhatsapp`, valuesAutentication)
+  .then(res =>{
+    console.log('Código de autenticação enviado')
+  })
+  .catch(err =>{
+    console.log(err)
+  })
+
+}
 //================ send code to whatsApp e redirect user to recover account =============
 const sendCodeAndRedirectUser = () =>{
   //Object to Recover Account
@@ -189,9 +205,12 @@ const sendCodeAndRedirectUser = () =>{
   sendCodeAutentication(objectNewAccountForActivation.phoneNumber, objectNewAccountForActivation.email)
   navigate('/RecoverAccount', { state: { objectNewAccountForActivation } });
 }
+//<Turnstile siteKey="0x4AAAAAAAz289DCfx9-VvHc" onVerify={handleTokenVerification} />
+
   return (
     <div className="container__default">
-      <form onSubmit={sendForm} className="container">
+      
+      <form className="container">
 
       <div className="imgBox">
         <img src={barberLogo} alt="" />
@@ -256,13 +275,13 @@ const sendCodeAndRedirectUser = () =>{
         Esqueceu a senha?
       </div>
 
-      <TurnstileComponent />
+      <TurnstileComponent key={captchaKey} siteKey="0x4AAAAAAAz289DCfx9-VvHc" onVerify={handleTokenVerification} />
 
       <div className="inputBox">
         {isLoading ? (
           <div className="loaderCreatingBooking"></div>
         ):(
-          <input type="submit" value="Entrar" />
+          <input type="submit" value="Entrar" onClick={sendForm}/>
         )}
       </div>
         </>
