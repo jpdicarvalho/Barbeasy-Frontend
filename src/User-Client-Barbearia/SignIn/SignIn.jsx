@@ -12,6 +12,7 @@ import barberLogo from '../../../barber-logo.png';
 function SignIn() {
   
   const urlApi = 'https://barbeasy.up.railway.app'
+  const urlAuth = 'https://barbeasy-authenticators.up.railway.app'
   
   const navigate = useNavigate();
 
@@ -22,6 +23,9 @@ function SignIn() {
   });
   const [message, setMessage] = useState(null);
   const [passwordVisibility, setPasswordVisibility] = useState(false)
+  const [pendingActivation, setPendingActivation] = useState(false)
+  const [emailStored, setEmailStored] = useState('');
+  const [phoneNumberStored, setPhoneNumberStored] = useState('');
 
   async function sendForm(e) {
     e.preventDefault();
@@ -34,7 +38,6 @@ function SignIn() {
 
     axios.post(`${urlApi}/api/v1/SignIn`, credentials)
     .then(res =>{
-      console.log(res)
       // Armazene o token no localStorage
       localStorage.clear();
       localStorage.setItem('token', res.data.token);
@@ -49,6 +52,12 @@ function SignIn() {
       }, 2000);
 
     }).catch(err => {
+      if(err.response.status === 302){
+        setIsLoading(false)
+        setEmailStored(err.response.data.userPending.email)
+        setPhoneNumberStored(err.response.data.userPending.celular)
+        return setPendingActivation(true)
+      }
       if(err.response.status === 404){
         setMessage('Usuário não encontrado!');
 
@@ -73,7 +82,6 @@ function SignIn() {
 
       axios.post(`${urlApi}/api/v1/googleSignIn`, {credential: credentials, type: 'client'})
         .then(res => {
-          console.log(res)
           // Armazene o token no localStorage
           localStorage.clear();
           localStorage.setItem('token', res.data.token);
@@ -87,6 +95,12 @@ function SignIn() {
             navigate('/Home');
           }, 2000);
         }).catch(err =>{
+          if(err.response.status === 302){
+            setIsLoading(false)
+            setEmailStored(err.response.data.userPending.email)
+            setPhoneNumberStored(err.response.data.userPending.celular)
+            return setPendingActivation(true)
+          }
           if(err.response.status === 404){
             setMessage('Usuário não encontrado!');
     
@@ -113,8 +127,66 @@ function SignIn() {
       console.log(err)
     }, 
   });
-//==================== Google SignIn Button ============================
+  //=================== Request to send code verification =========================
+  //Function to farmated whatsApp number
+  function formatPhoneNumber (whatsApp) {
+    //Basics Validations
+    if(whatsApp.length < 10){
+        setMessage('Informe um número válido.')
+        setTimeout(() => {
+            setIsLoading(false)
+            setMessage(null)
+        }, 2000);
 
+        return false
+    }
+
+    let validedNumber;
+
+    if(whatsApp.length === 11){//Ex.:93 9 94455445
+        validedNumber = whatsApp.slice(0, 3) + whatsApp.slice(3 + 1);//Number formatted: 93 94455445
+    }
+
+    if(whatsApp.length === 10){//Ex.:93 94455445
+        validedNumber = whatsApp
+    }
+
+    return validedNumber;
+  }
+
+  const sendCodeAutentication = (numberWhatsapp, email) => {
+
+    const numberWhithoutNine = formatPhoneNumber(numberWhatsapp)
+
+    //Object with values to save and send code verification
+    const valuesAutentication = {
+       phoneNumberToSendMessage: `55${numberWhithoutNine}@c.us`,
+       email,
+       type: 'client'
+    }
+
+    axios.put(`${urlAuth}/api/v1/sendCodeWhatsapp`, valuesAutentication)
+    .then(res =>{
+      console.log('Código de autenticação enviado')
+    })
+    .catch(err =>{
+      console.log(err)
+    })
+
+  }
+//================ send code to whatsApp e redirect user to recover account =============
+const sendCodeAndRedirectUser = () =>{
+  //Object to Recover Account
+  const objectNewAccountForActivation = {
+    type: 'client',
+    phoneNumber: phoneNumberStored,
+    email: emailStored,
+    data_request: Date.now() + 50 * 1000,
+    
+  }
+  sendCodeAutentication(objectNewAccountForActivation.phoneNumber, objectNewAccountForActivation.email)
+  navigate('/RecoverAccount', { state: { objectNewAccountForActivation } });
+}
   return (
     <div className="container__default">
       <form onSubmit={sendForm} className="container">
@@ -124,7 +196,9 @@ function SignIn() {
       </div>
 
       <h2 id="HeaderSignIn">Barbeasy</h2>
-      <h3 style={{color: 'gray', marginBottom: '10px'}}>Login</h3>
+      {!pendingActivation ? (
+        <>
+          <h3 style={{color: 'gray', marginBottom: '10px'}}>Login</h3>
       
       {message === 'Seja Bem-Vindo!' ? (
         <p className="success">{message}</p>
@@ -187,6 +261,16 @@ function SignIn() {
           <input type="submit" value="Entrar" />
         )}
       </div>
+        </>
+      ):(
+        <div className="box__recover__account">
+          <div className="Box__cadastro__barbearia">
+              <h3 style={{color: '#f6f6fc'}}>Recuperação de Conta</h3>
+          </div>
+          <p className="text__information__recover__account">Já existe uma conta com ativação pendente para esse email ou celular informado. Deseja recuperá-la?</p>
+          <button type="button" id="button_next" onClick={sendCodeAndRedirectUser}>Recuperar conta</button>
+        </div>
+      )}
 
       <div className="link__signup">
         <p >Não tem uma conta?</p>

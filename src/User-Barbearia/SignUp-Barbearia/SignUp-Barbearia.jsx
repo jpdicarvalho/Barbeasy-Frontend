@@ -366,7 +366,7 @@ const login = useGoogleLogin({
                     setUsuario(truncatedValue);
                     }}
                     placeholder="Nome de Usuário"
-                    maxLength={15}
+                    maxLength={20}
                     required
                   />
 

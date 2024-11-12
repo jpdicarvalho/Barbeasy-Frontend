@@ -9,6 +9,8 @@ import barberLogo from '../../../barber-logo.png';
 
 function SignInBarbearia() {
     const urlApi = 'https://barbeasy.up.railway.app'
+    const urlAuth = 'https://barbeasy-authenticators.up.railway.app'
+
 
     const navigate = useNavigate();
 
@@ -16,7 +18,9 @@ function SignInBarbearia() {
     const [isProfessional, setIsProfessional] = useState(false);
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
-
+    const [emailStored, setEmailStored] = useState('');
+    const [phoneNumberStored, setPhoneNumberStored] = useState('');
+    const [pendingActivation, setPendingActivation] = useState(false)
     const [message, setMessage] = useState(null);
 
     const sendForm = (event) => {
@@ -24,22 +28,33 @@ function SignInBarbearia() {
       setIsLoading(true)
 
       if(!isProfessional){
-        axios.get(`${urlApi}/api/v1/SignInBarbearia/${email}/${senha}`)
+
+        const values = {
+          email,
+          senha
+        }
+
+        axios.post(`${urlApi}/api/v1/SignInBarbearia`, values)
         .then(res => {
             localStorage.clear();
             localStorage.setItem('token', res.data.token);
             localStorage.setItem('dataBarbearia', JSON.stringify(res.data));
 
             setIsLoading(false)
-            setMessage('Seja Bem Vindo!');
+            setMessage('Seja Bem-Vindo!');
             setTimeout(() => {
             setMessage(null);
             navigate('/HomeBarbearia');
           }, 2000);
         }).catch(err =>{
+          if(err.response.status === 302){
+            setIsLoading(false)
+            setEmailStored(err.response.data.userPending.email)
+            setPhoneNumberStored(err.response.data.userPending.celular)
+            return setPendingActivation(true)
+          }
           if(err.response.status === 404){
             setMessage('Usuário não encontrado!');
-    
             return setTimeout(() => {
               setIsLoading(false)
               setMessage(null);
@@ -55,8 +70,13 @@ function SignInBarbearia() {
 
       }else{
 
-        axios.get(`${urlApi}/api/v1/SignInProfessional/${email}/${senha}`)
-        .then(res => {            
+        const values = {
+          email,
+          senha
+        }
+
+        axios.post(`${urlApi}/api/v1/SignInProfessional`, values)
+        .then(res => {
             localStorage.clear();
             localStorage.setItem('token', res.data.token);
             localStorage.setItem('dataprofessional', JSON.stringify(res.data));
@@ -68,9 +88,14 @@ function SignInBarbearia() {
             navigate('/HomeProfessional');
           }, 2000);
         }).catch(err =>{
+          if(err.response.status === 302){
+            setIsLoading(false)
+            setEmailStored(err.response.data.userPending.email)
+            setPhoneNumberStored(err.response.data.userPending.celular)
+            return setPendingActivation(true)
+          }
           if(err.response.status === 404){
             setMessage('Usuário não encontrado!');
-    
             return setTimeout(() => {
               setIsLoading(false)
               setMessage(null);
@@ -92,7 +117,6 @@ const sendTokenFromGoogleToServer = (credentials) =>{
 
     axios.post(`${urlApi}/api/v1/googleSignIn`, {credential: credentials, type: 'barbearia'})
       .then(res => {
-          console.log(res)
           localStorage.clear();
           localStorage.setItem('token', res.data.token);
           localStorage.setItem('dataBarbearia', JSON.stringify(res.data));
@@ -104,6 +128,12 @@ const sendTokenFromGoogleToServer = (credentials) =>{
           navigate('/HomeBarbearia');
         }, 2000);
       }).catch(err =>{
+        if(err.response.status === 302){
+          setIsLoading(false)
+          setEmailStored(err.response.data.userPending.email)
+          setPhoneNumberStored(err.response.data.userPending.celular)
+          return setPendingActivation(true)
+        }
         if(err.response.status === 404){
           setMessage('Usuário não encontrado!');
   
@@ -130,7 +160,66 @@ const login = useGoogleLogin({
     console.log(err)
   }, 
 });
+//=================== Request to send code verification =========================
+  //Function to farmated whatsApp number
+  function formatPhoneNumber (whatsApp) {
+    //Basics Validations
+    if(whatsApp.length < 10){
+        setMessage('Informe um número válido.')
+        setTimeout(() => {
+            setIsLoading(false)
+            setMessage(null)
+        }, 2000);
 
+        return false
+    }
+
+    let validedNumber;
+
+    if(whatsApp.length === 11){//Ex.:93 9 94455445
+        validedNumber = whatsApp.slice(0, 3) + whatsApp.slice(3 + 1);//Number formatted: 93 94455445
+    }
+
+    if(whatsApp.length === 10){//Ex.:93 94455445
+        validedNumber = whatsApp
+    }
+
+    return validedNumber;
+  }
+
+  const sendCodeAutentication = (numberWhatsapp, email) => {
+
+    const numberWhithoutNine = formatPhoneNumber(numberWhatsapp)
+
+    //Object with values to save and send code verification
+    const valuesAutentication = {
+       phoneNumberToSendMessage: `55${numberWhithoutNine}@c.us`,
+       email,
+       type: 'barbearia'
+    }
+
+    axios.put(`${urlAuth}/api/v1/sendCodeWhatsapp`, valuesAutentication)
+    .then(res =>{
+      console.log('Código de autenticação enviado')
+    })
+    .catch(err =>{
+      console.log(err)
+    })
+
+  }
+//================ send code to whatsApp e redirect user to recover account =============
+const sendCodeAndRedirectUser = () =>{
+  //Object to Recover Account
+  const objectNewAccountForActivation = {
+    type: 'barbearia',
+    phoneNumber: phoneNumberStored,
+    email: emailStored,
+    data_request: Date.now() + 50 * 1000,
+    
+  }
+  sendCodeAutentication(objectNewAccountForActivation.phoneNumber, objectNewAccountForActivation.email)
+  navigate('/RecoverAccount', { state: { objectNewAccountForActivation } });
+}
     return (
       <div className="container__default">
         <form onSubmit={sendForm} className="container">
@@ -140,13 +229,15 @@ const login = useGoogleLogin({
 
             <h2 id='HeaderSignIn'>Barbeasy</h2>
 
-            <h3 style={{color: 'gray'}}>Login</h3>
+            {!pendingActivation ? (
+              <>
+                <h3 style={{color: 'gray'}}>Login</h3>
 
-            {message === "Seja Bem-Vindo!" ? (
-                <p className="success">{message}</p>
-              ) : (
-                <p className={message ? 'error':''}>{message}</p>
-            )}
+                {message === "Seja Bem-Vindo!" ? (
+                    <p className="success">{message}</p>
+                  ) : (
+                    <p className={message ? 'error':''}>{message}</p>
+                )}
                 <div className="inputBox">
                 <input
                     type="email"
@@ -191,12 +282,12 @@ const login = useGoogleLogin({
                 </div>
 
                 <div className='container__checkbox__professional'>
-                    <input type="checkbox"
-                          className='input__checkbox__professional'
-                          onChange={(e) => setIsProfessional(!isProfessional)}
-                    />
-                    <label>Sou profissional</label>
-                  </div>                
+                  <input type="checkbox"
+                        className='input__checkbox__professional'
+                        onChange={(e) => setIsProfessional(!isProfessional)}
+                  />
+                  <label>Sou profissional</label>
+                </div>                
 
                 <div className='inputBox'>
                 {isLoading ? (
@@ -211,6 +302,17 @@ const login = useGoogleLogin({
                 <div className="Box__forgot__password__in__barbearia" onClick={() => {navigate("/ResetPassword", { state: { userType: 'barbearia' } })}}>
                   Esqueci a senha
                 </div>
+              </>
+            ):(
+              <div className="box__recover__account">
+                <div className="Box__cadastro__barbearia">
+                    <h3 style={{color: '#f6f6fc'}}>Recuperação de Conta</h3>
+                </div>
+                <p className="text__information__recover__account">Já existe uma conta com ativação pendente para esse email ou celular informado. Deseja recuperá-la?</p>
+                <button type="button" id="button_next" onClick={sendCodeAndRedirectUser}>Recuperar conta</button>
+            </div>
+            )}
+            
         </form>
 
         <div className='box__another__option__login'>
