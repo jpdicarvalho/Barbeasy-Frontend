@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useGoogleLogin } from '@react-oauth/google';
+import { VscEyeClosed } from "react-icons/vsc";
+import { VscEye } from "react-icons/vsc";
+import TurnstileComponent from '../../TurnstileCloudFlare/TurnstileComponent';
 
 import axios from 'axios';
 
@@ -21,7 +24,14 @@ function SignInBarbearia() {
     const [emailStored, setEmailStored] = useState('');
     const [phoneNumberStored, setPhoneNumberStored] = useState('');
     const [pendingActivation, setPendingActivation] = useState(false)
+    const [passwordVisibility, setPasswordVisibility] = useState(false)
     const [message, setMessage] = useState(null);
+    const [tokenCloudFlare, setTokenCloudFlare] = useState('');
+    const [captchaKey, setCaptchaKey] = useState(0);
+
+    const handleTokenVerification = (token) => {
+      setTokenCloudFlare(token);
+    };
 
     const sendForm = (event) => {
       event.preventDefault();
@@ -31,7 +41,8 @@ function SignInBarbearia() {
 
         const values = {
           email,
-          senha
+          senha,
+          token_cloudflare: tokenCloudFlare
         }
 
         axios.post(`${urlApi}/api/v1/SignInBarbearia`, values)
@@ -47,11 +58,26 @@ function SignInBarbearia() {
             navigate('/HomeBarbearia');
           }, 2000);
         }).catch(err =>{
+          setCaptchaKey(prev => prev + 1); // Reiniciar o turnstile caso haja erro
           if(err.response.status === 302){
             setIsLoading(false)
             setEmailStored(err.response.data.userPending.email)
             setPhoneNumberStored(err.response.data.userPending.celular)
             return setPendingActivation(true)
+          }
+          if(err.response.status === 401){
+            setMessage('E-mail ou senha incorreto.');
+            return setTimeout(() => {
+              setIsLoading(false)
+              setMessage(null);
+            }, 2000);
+          }
+          if(err.response.status === 403){
+            setMessage('Falha na verificação de autenticação humana.');
+            return setTimeout(() => {
+              setIsLoading(false)
+              setMessage(null);
+            }, 2000);
           }
           if(err.response.status === 404){
             setMessage('Usuário não encontrado!');
@@ -72,7 +98,8 @@ function SignInBarbearia() {
 
         const values = {
           email,
-          senha
+          senha,
+          token_cloudflare: tokenCloudFlare
         }
 
         axios.post(`${urlApi}/api/v1/SignInProfessional`, values)
@@ -88,14 +115,16 @@ function SignInBarbearia() {
             navigate('/HomeProfessional');
           }, 2000);
         }).catch(err =>{
-          if(err.response.status === 302){
+          setCaptchaKey(prev => prev + 1); // Reiniciar o turnstile caso haja erro
+          if (err.response.status === 400) {
             setIsLoading(false)
-            setEmailStored(err.response.data.userPending.email)
-            setPhoneNumberStored(err.response.data.userPending.celular)
-            return setPendingActivation(true)
+            setMessage('Verifique os dados informados. E-mail ou celular incorreto.');
+            return setTimeout(() => {
+              setMessage(null);
+            }, 3000);
           }
           if(err.response.status === 404){
-            setMessage('Usuário não encontrado!');
+            setMessage('Usuário não encontrado.');
             return setTimeout(() => {
               setIsLoading(false)
               setMessage(null);
@@ -111,55 +140,60 @@ function SignInBarbearia() {
       }
     }
 //================= SignIn with google =====================
-const sendTokenFromGoogleToServer = (credentials) =>{
-  if(credentials){
-    setIsLoading(true)
+    const sendTokenFromGoogleToServer = (credentials) =>{
+      if(credentials){
+        setIsLoading(true)
 
-    axios.post(`${urlApi}/api/v1/googleSignIn`, {credential: credentials, type: 'barbearia'})
-      .then(res => {
-          localStorage.clear();
-          localStorage.setItem('token', res.data.token);
-          localStorage.setItem('dataBarbearia', JSON.stringify(res.data));
+        const values ={
+          credential: credentials,
+          type: isProfessional ? 'professional':'barbearia'
+        }
+        
+        axios.post(`${urlApi}/api/v1/googleSignIn`, values)
+          .then(res => {
+              localStorage.clear();
+              localStorage.setItem('token', res.data.token);
+              localStorage.setItem('dataBarbearia', JSON.stringify(res.data));
 
-          setIsLoading(false)
-          setMessage('Seja Bem-Vindo!');
-          setTimeout(() => {
-          setMessage(null);
-          navigate('/HomeBarbearia');
-        }, 2000);
-      }).catch(err =>{
-        if(err.response.status === 302){
-          setIsLoading(false)
-          setEmailStored(err.response.data.userPending.email)
-          setPhoneNumberStored(err.response.data.userPending.celular)
-          return setPendingActivation(true)
-        }
-        if(err.response.status === 404){
-          setMessage('Usuário não encontrado!');
-  
-          return setTimeout(() => {
-            setIsLoading(false)
-            setMessage(null);
-          }, 2000);
-        }
-        setMessage('Erro ao realizar o Login! Tente novamente mais tarde.');
-        setTimeout(() => {
-          setIsLoading(false)
-          setMessage(null);
-        }, 2000);
+              setIsLoading(false)
+              setMessage('Seja Bem-Vindo!');
+              setTimeout(() => {
+              setMessage(null);
+              navigate('/HomeBarbearia');
+            }, 2000);
+          }).catch(err =>{
+            if(err.response.status === 302){
+              setIsLoading(false)
+              setEmailStored(err.response.data.userPending.email)
+              setPhoneNumberStored(err.response.data.userPending.celular)
+              return setPendingActivation(true)
+            }
+            if(err.response.status === 404){
+              setMessage('Usuário não encontrado!');
+      
+              return setTimeout(() => {
+                setIsLoading(false)
+                setMessage(null);
+              }, 2000);
+            }
+            setMessage('Erro ao realizar o Login! Tente novamente mais tarde.');
+            setTimeout(() => {
+              setIsLoading(false)
+              setMessage(null);
+            }, 2000);
+            console.log(err)
+          })
+      }
+    }
+
+    const login = useGoogleLogin({ 
+      onSuccess: (tokenResponse)  =>{
+        sendTokenFromGoogleToServer(tokenResponse.access_token)
+      },
+      onError: (err)  =>{
         console.log(err)
-      })
-  }
-}
-
-const login = useGoogleLogin({ 
-  onSuccess: (tokenResponse)  =>{
-    sendTokenFromGoogleToServer(tokenResponse.access_token)
-  },
-  onError: (err)  =>{
-    console.log(err)
-  }, 
-});
+      }, 
+    });
 //=================== Request to send code verification =========================
   //Function to farmated whatsApp number
   function formatPhoneNumber (whatsApp) {
@@ -208,18 +242,18 @@ const login = useGoogleLogin({
 
   }
 //================ send code to whatsApp e redirect user to recover account =============
-const sendCodeAndRedirectUser = () =>{
-  //Object to Recover Account
-  const objectNewAccountForActivation = {
-    type: 'barbearia',
-    phoneNumber: phoneNumberStored,
-    email: emailStored,
-    data_request: Date.now() + 50 * 1000,
-    
+  const sendCodeAndRedirectUser = () =>{
+    //Object to Recover Account
+    const objectNewAccountForActivation = {
+      type: 'barbearia',
+      phoneNumber: phoneNumberStored,
+      email: emailStored,
+      data_request: Date.now() + 50 * 1000,
+      
+    }
+    sendCodeAutentication(objectNewAccountForActivation.phoneNumber, objectNewAccountForActivation.email)
+    navigate('/RecoverAccount', { state: { objectNewAccountForActivation } });
   }
-  sendCodeAutentication(objectNewAccountForActivation.phoneNumber, objectNewAccountForActivation.email)
-  navigate('/RecoverAccount', { state: { objectNewAccountForActivation } });
-}
 
     return (
       <div className="container__default">
@@ -261,7 +295,7 @@ const sendCodeAndRedirectUser = () =>{
 
                 <div className="inputBox">
                 <input
-                    type="password"
+                    type={!passwordVisibility ? "password":"text"}
                     id="senha"
                     name="senha"
                     value={senha}
@@ -280,6 +314,12 @@ const sendCodeAndRedirectUser = () =>{
                     maxLength={8}
                     required
                     />
+                    {!passwordVisibility ?(
+                      <VscEyeClosed className="icon__VscEyeClosed_in_signin" onClick={() =>{setPasswordVisibility(true)}}/>
+
+                    ):(
+                      <VscEye className="icon__VscEyeClosed_in_signin" onClick={() =>{setPasswordVisibility(false)}}/>
+                    )}
                 </div>
 
                 <div className='container__checkbox__professional'>
@@ -288,7 +328,9 @@ const sendCodeAndRedirectUser = () =>{
                         onChange={(e) => setIsProfessional(!isProfessional)}
                   />
                   <label>Sou profissional</label>
-                </div>                
+                </div>
+
+                <TurnstileComponent key={captchaKey} siteKey="0x4AAAAAAAz289DCfx9-VvHc" onVerify={handleTokenVerification} />
 
                 <div className='inputBox'>
                 {isLoading ? (

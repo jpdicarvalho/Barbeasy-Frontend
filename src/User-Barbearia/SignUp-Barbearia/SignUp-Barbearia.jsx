@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useSpring, animated } from "react-spring";
 import { useGoogleLogin } from '@react-oauth/google';
+import TurnstileComponent from "../../TurnstileCloudFlare/TurnstileComponent";
 
 import './style.css';
 
@@ -39,12 +40,19 @@ function SignUpBarbearia() {
   const [step, setStep] = useState(1);
   const [message, setMessage] = useState(null);
   const [pendingActivation, setPendingActivation] = useState(false)
+  const [tokenCloudFlare, setTokenCloudFlare] = useState('');
+  const [captchaKey, setCaptchaKey] = useState(0);
 
   const props = useSpring({
     opacity: 1,
     transform: "translateX(0%)",
     from: { opacity: 0, transform: "translateX(-100%)" }
   });
+
+  const handleTokenVerification = (token) => {
+    setTokenCloudFlare(token);
+  };
+
   //Function to farmated whatsApp number
   function formatPhoneNumber (whatsApp) {
     //Basics Validations
@@ -108,7 +116,8 @@ function SignUpBarbearia() {
       usuario,
       email,
       senha,
-      celular: numberWhithoutNine
+      celular: numberWhithoutNine,
+      token_cloudflare: tokenCloudFlare
     };
     
     const objectIsValid = name && street && number && neighborhood && city && usuario && email && senha && celular;
@@ -138,13 +147,21 @@ function SignUpBarbearia() {
       })
       .catch(err => {
         console.log(err);
+        setCaptchaKey(prev => prev + 1); // Reiniciar o turnstile caso haja erro
         if(err.response.status === 302){
           setIsLoading(false)
           setEmailStored(err.response.data.userPending.email)
           setPhoneNumberStored(err.response.data.userPending.celular)
           return setPendingActivation(true)
         }
-        if (err.response.status === 400) {
+        if(err.response.status === 403){
+          setMessage('Falha na verificação de autenticação humana.');
+          return setTimeout(() => {
+            setIsLoading(false)
+            setMessage(null);
+          }, 2000);
+        }
+        if(err.response.status === 400) {
           setIsLoading(false)
           setMessage('E-mail ou celular já cadastrados.');
           return setTimeout(() => {
@@ -426,6 +443,9 @@ const login = useGoogleLogin({
                         <div className="loaderCreatingBooking"></div>
                       ):(
                         <div className="terms__and__btn__create__account">
+
+                          <TurnstileComponent key={captchaKey} siteKey="0x4AAAAAAAz289DCfx9-VvHc" onVerify={handleTokenVerification} />
+
                           <div className="footer-links in__SignUp">
                             Ao clicar em "Concordar", você aceita nossos
                             <Link to="/TermsOfUse" className="footer-link">

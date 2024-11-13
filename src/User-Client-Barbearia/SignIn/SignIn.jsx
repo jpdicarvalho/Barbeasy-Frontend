@@ -75,7 +75,7 @@ const sendForm = () =>{
       }, 2000);
     }
     if(err.response.status === 403){
-      setMessage('Cloudflare erro.');
+      setMessage('Falha na verificação de autenticação humana.');
       return setTimeout(() => {
         setIsLoading(false)
         setMessage(null);

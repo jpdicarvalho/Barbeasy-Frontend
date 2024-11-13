@@ -10,7 +10,6 @@ import './style.css';
 import barberLogo from '../../../barber-logo.png';
 
 import { VscAccount } from "react-icons/vsc";
-import {QRCodeSVG} from 'qrcode.react';
 import { VscEyeClosed } from "react-icons/vsc";
 import { VscEye } from "react-icons/vsc";
 
@@ -137,6 +136,13 @@ const valuesNoEmpty = name && email && celular && senha;
             setEmailStored(err.response.data.userPending.email)
             setPhoneNumberStored(err.response.data.userPending.celular)
             return setPendingActivation(true)
+          }
+          if(err.response.status === 403){
+            setMessage('Falha na verificação de autenticação humana. Por favor, tente novamente.');
+            return setTimeout(() => {
+              setIsLoading(false)
+              setMessage(null);
+            }, 2000);
           }
           if (err.response.status === 400) {
             setIsLoading(false)
@@ -312,7 +318,9 @@ return (
                     <div className="loaderCreatingBooking"></div>
                   ):(
                     <div className="terms__and__btn__create__account">
+
                       <TurnstileComponent key={captchaKey} siteKey="0x4AAAAAAAz289DCfx9-VvHc" onVerify={handleTokenVerification} />
+                      
                       <div className="footer-links in__SignUp">
                         Ao clicar em "Concordar", você aceita nossos
                           <Link to="/TermsOfUse" className="footer-link">
