@@ -40,13 +40,10 @@ const sendForm = () =>{
   const credentials = {
     email: values.email,
     senha: values.senha, 
+    token_cloudflare: tokenCloudFlare
   }
 
-  axios.post(`${urlApi}/api/v1/SignIn`, credentials, {
-    headers: {
-      'Authorization': `Bearer ${tokenCloudFlare}`
-    }
-  })
+  axios.post(`${urlApi}/api/v1/SignIn`, credentials)
   .then(res =>{
     // Armazene o token no localStorage
     localStorage.clear();
