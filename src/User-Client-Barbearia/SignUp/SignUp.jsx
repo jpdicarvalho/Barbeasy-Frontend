@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useSpring, animated } from "react-spring";
 import { useGoogleLogin } from '@react-oauth/google';
+import TurnstileComponent from "../../TurnstileCloudFlare/TurnstileComponent";
 
 import './style.css';
 
@@ -33,11 +34,18 @@ function SignUp() {
   const [message, setMessage] = useState(null);
   const [step, setStep] = useState(1);
 
+  const [tokenCloudFlare, setTokenCloudFlare] = useState('');
+  const [captchaKey, setCaptchaKey] = useState(0);
+
   const props = useSpring({
     opacity: 1,
     transform: step === 1 ? "translateX(0%)" : `translateX(-${(step - 1) * 0}%)`,
     from: { opacity: 0, transform: "translateX(-100%)" }
   });
+
+  const handleTokenVerification = (token) => {
+    setTokenCloudFlare(token);
+  };
 
  //=================== Request to send code verification =========================
   //Function to farmated whatsApp number
@@ -102,6 +110,7 @@ const valuesNoEmpty = name && email && celular && senha;
       email,
       senha,
       celular: numberWhithoutNine,
+      token_cloudflare: tokenCloudFlare
     };
 
     if (step === 3) {
@@ -122,6 +131,7 @@ const valuesNoEmpty = name && email && celular && senha;
         })
         .catch(err => {
           console.log(err)
+          setCaptchaKey(prev => prev + 1); // Reiniciar o turnstile caso haja erro
           if(err.response.status === 302){
             setIsLoading(false)
             setEmailStored(err.response.data.userPending.email)
@@ -282,7 +292,6 @@ return (
               />
               {!passwordVisibility ?(
                 <VscEyeClosed className="icon__VscEyeClosed" onClick={() =>{setPasswordVisibility(true)}}/>
-
               ):(
                 <VscEye className="icon__VscEyeClosed" onClick={() =>{setPasswordVisibility(false)}}/>
               )}
@@ -303,6 +312,7 @@ return (
                     <div className="loaderCreatingBooking"></div>
                   ):(
                     <div className="terms__and__btn__create__account">
+                      <TurnstileComponent key={captchaKey} siteKey="0x4AAAAAAAz289DCfx9-VvHc" onVerify={handleTokenVerification} />
                       <div className="footer-links in__SignUp">
                         Ao clicar em "Concordar", você aceita nossos
                           <Link to="/TermsOfUse" className="footer-link">

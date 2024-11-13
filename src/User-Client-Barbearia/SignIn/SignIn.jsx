@@ -59,15 +59,23 @@ const sendForm = () =>{
     }, 2000);
 
   }).catch(err => {
-    setCaptchaKey(prev => prev + 1); // Reinicie o CAPTCHA após erro também
+    setCaptchaKey(prev => prev + 1); // Reiniciar o turnstile caso haja erro
     if(err.response.status === 302){
       setIsLoading(false)
       setEmailStored(err.response.data.userPending.email)
       setPhoneNumberStored(err.response.data.userPending.celular)
       return setPendingActivation(true)
     }
+    
+    if(err.response.status === 401){
+      setMessage('E-mail ou senha incorreto.');
+      return setTimeout(() => {
+        setIsLoading(false)
+        setMessage(null);
+      }, 2000);
+    }
     if(err.response.status === 404){
-      setMessage('Usuário não encontrado!');
+      setMessage('Usuário não encontrado.');
 
       return setTimeout(() => {
         setIsLoading(false)
@@ -75,7 +83,7 @@ const sendForm = () =>{
       }, 2000);
     }
     if(err.response.status === 403){
-      setMessage('Cloudflare erro!');
+      setMessage('Cloudflare erro.');
       return setTimeout(() => {
         setIsLoading(false)
         setMessage(null);
@@ -189,6 +197,7 @@ const sendCodeAutentication = (numberWhatsapp, email) => {
   })
 
 }
+
 //================ send code to whatsApp e redirect user to recover account =============
 const sendCodeAndRedirectUser = () =>{
   //Object to Recover Account
@@ -202,7 +211,6 @@ const sendCodeAndRedirectUser = () =>{
   sendCodeAutentication(objectNewAccountForActivation.phoneNumber, objectNewAccountForActivation.email)
   navigate('/RecoverAccount', { state: { objectNewAccountForActivation } });
 }
-//<Turnstile siteKey="0x4AAAAAAAz289DCfx9-VvHc" onVerify={handleTokenVerification} />
 
   return (
     <div className="container__default">
