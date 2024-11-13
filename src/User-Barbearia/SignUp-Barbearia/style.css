@@ -83,8 +83,7 @@
 .Box__endereco__barbearia{
     display: flex;
     justify-content: start;
-    padding-left: 25px;
-    width: 100%;
+    width: 300px;
 }
 .icon__GrMapLocation{
     width: 22px;

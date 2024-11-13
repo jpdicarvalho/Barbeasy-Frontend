@@ -195,28 +195,28 @@ function SignUpBarbearia() {
     navigate('/RecoverAccount', { state: { objectNewAccountForActivation } });
   }
 //=============== SignUp With Google =========================
-const sendTokenToGoogle = (accessToken) =>{
-  if(accessToken){
-    axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${accessToken}`)
-      .then(res => {
-        setUsuario(`${res.data.given_name} ${res.data.family_name}`)
-        setEmail(res.data.email)
-        setSenha(res.data.id)
-        setStep(4);
-      }).catch(err =>{
-        console.log(err)
-      })
+  const sendTokenToGoogle = (accessToken) =>{
+    if(accessToken){
+      axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${accessToken}`)
+        .then(res => {
+          setUsuario(`${res.data.given_name} ${res.data.family_name}`)
+          setEmail(res.data.email)
+          setSenha(res.data.id)
+          setStep(4);
+        }).catch(err =>{
+          console.log(err)
+        })
+    }
   }
-}
 
-const login = useGoogleLogin({ 
-  onSuccess: (tokenResponse)  =>{
-    sendTokenToGoogle(tokenResponse.access_token)
-  },
-  onError: (err)  =>{
-    console.log(err)
-  }, 
-});
+  const login = useGoogleLogin({ 
+    onSuccess: (tokenResponse)  =>{
+      sendTokenToGoogle(tokenResponse.access_token)
+    },
+    onError: (err)  =>{
+      console.log(err)
+    }, 
+  });
 
   return (
     <>
@@ -242,7 +242,7 @@ const login = useGoogleLogin({
             {!pendingActivation ? (
               <animated.div style={props}>
               {step >= 1 && (
-              <div className="inputBox">
+              <div className="inputBox center__form">
                 <input
                 type="text"
                 id="name"
@@ -281,7 +281,7 @@ const login = useGoogleLogin({
               )}
 
               {step >= 2 && (
-                <div className="inputBox">
+                <div className="inputBox center__form">
                   <div style={{marginTop: '10px'}} className="Box__endereco__barbearia">
                     <CiLocationArrow1 className='icon__GrMapLocation'/>
                     <p id="tittle_p">Endereço</p>
@@ -362,7 +362,7 @@ const login = useGoogleLogin({
               )}
 
               {step >= 3 && (
-                <div className="inputBox">
+                <div className="inputBox center__form">
 
                   <div style={{marginTop: '10px'}} className="Box__endereco__barbearia">
                     <VscAccount className='icon__GrMapLocation'/>
@@ -431,13 +431,13 @@ const login = useGoogleLogin({
               )}
 
               {step < 4 && (
-                <div className='inputBox'>
+                <div className='inputBox center__form'>
                   <button type="submit" onClick={nextStep} id="button_next">Continuar</button>
                 </div>
               )}
 
               {step === 4 && (
-                <div className='inputBox'>
+                <div className='inputBox center__form'>
                   <div className="inputBox__inner__cadastrar">
                       {isLoading ? (
                         <div className="loaderCreatingBooking"></div>

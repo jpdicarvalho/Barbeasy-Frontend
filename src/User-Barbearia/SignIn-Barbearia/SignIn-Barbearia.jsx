@@ -148,18 +148,25 @@ function SignInBarbearia() {
           credential: credentials,
           type: isProfessional ? 'professional':'barbearia'
         }
-        
+
         axios.post(`${urlApi}/api/v1/googleSignIn`, values)
           .then(res => {
-              localStorage.clear();
-              localStorage.setItem('token', res.data.token);
-              localStorage.setItem('dataBarbearia', JSON.stringify(res.data));
 
               setIsLoading(false)
               setMessage('Seja Bem-Vindo!');
               setTimeout(() => {
               setMessage(null);
-              navigate('/HomeBarbearia');
+              if(!isProfessional){
+                localStorage.clear();
+                localStorage.setItem('token', res.data.token);
+                localStorage.setItem('dataBarbearia', JSON.stringify(res.data));
+                navigate('/HomeBarbearia');
+              }else{
+                localStorage.clear();
+                localStorage.setItem('token', res.data.token);
+                localStorage.setItem('dataprofessional', JSON.stringify(res.data));
+                navigate('/HomeProfessional');
+              }
             }, 2000);
           }).catch(err =>{
             if(err.response.status === 302){

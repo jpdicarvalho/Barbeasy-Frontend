@@ -224,7 +224,7 @@ return (
         )}
         {!pendingActivation ? (
           <animated.div style={props} className="inputContainer">
-            <div className="inputBox">
+            <div className="inputBox center__form">
               <input
                 type="text"
                 id="name"
@@ -261,7 +261,7 @@ return (
             </div>
 
           {step >= 2 && (
-            <div className="inputBox">
+            <div className="inputBox center__form">
               <input
                 type="tel"
                 id="celular"
@@ -305,7 +305,7 @@ return (
             </div>
           )}
           {step < 3 && (
-            <div className='inputBox'>
+            <div className='inputBox center__form'>
               <button type="button" onClick={nextStep} id="button_next">Continuar</button>
             </div>
           )}
@@ -320,7 +320,7 @@ return (
                     <div className="terms__and__btn__create__account">
 
                       <TurnstileComponent key={captchaKey} siteKey="0x4AAAAAAAz289DCfx9-VvHc" onVerify={handleTokenVerification} />
-                      
+
                       <div className="footer-links in__SignUp">
                         Ao clicar em "Concordar", você aceita nossos
                           <Link to="/TermsOfUse" className="footer-link">
