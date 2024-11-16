@@ -311,7 +311,7 @@ return (
           )}
 
           {step === 3 && (
-            <div className='inputBox'>
+            <div className='inputBox center__form'>
               {valuesNoEmpty ?(
                 <div className="inputBox__inner__cadastrar">
                   {isLoading ? (

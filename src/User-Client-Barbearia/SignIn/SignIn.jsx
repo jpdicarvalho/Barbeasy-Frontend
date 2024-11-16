@@ -233,7 +233,7 @@ const sendCodeAndRedirectUser = () =>{
         <p className={message ? 'error':''}>{message}</p>
       )}
 
-      <div className="inputBox">
+      <div className="inputBox center__form">
         <input
           type="email"
           id="email"
@@ -253,7 +253,7 @@ const sendCodeAndRedirectUser = () =>{
         />
       </div>
 
-      <div className="inputBox">
+      <div className="inputBox center__form">
         <input
           type={!passwordVisibility ? "password":"text"}
           id="senha"
