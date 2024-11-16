@@ -1098,7 +1098,10 @@ useEffect(() => {
             </div>
 
             {isLoading ? (
+                <div className='center__form'>
                   <div className="loaderCreatingBooking"></div>
+                </div>
+                  
                 ):(
                   <>
                     {novoNomeBarbearia.length > 0 &&(
@@ -1237,38 +1240,46 @@ useEffect(() => {
                       required
                     />{' '} <IoMdLocate id="icon_input_city"/>
                       </div>
-
-                    {isValuesValided &&(
-                      <div style={{paddingLeft: '10px'}}>
-                        <div className="form__change__data">
-                          <div className='container__text__change__data'>
-                              Digite sua senha para confirmar a alteração
-                          </div>
-              
-                          <div className='container__form__change__data'>
-                            <input
-                                type="password"
-                                id="senha"
-                                name="senha"
-                                value={confirmPassword}
-                                className={`input__change__data ${confirmPassword ? 'input__valided':''}`}
-                                onChange={(e) => {
-                                    const inputValue = e.target.value;
-                                    // Limitar a 10 caracteres
-                                    const truncatedPasswordConfirm = inputValue.slice(0, 10);
-                                    setConfirmPassword(truncatedPasswordConfirm);
-                                }}
-                                placeholder="Senha atual"
-                                maxLength={8}
-                                required
-                                /><PiPassword className='icon__input__change__data'/>
-                                <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={alterarEndereco}>
-                                    Confirmar
-                                </button>
-                          </div>
+                      {isLoading ? (
+                        <div className='center__form'>
+                          <div className="loaderCreatingBooking"></div>
                         </div>
-                      </div>
-                    )}
+                        ):(
+                          <>
+                            {isValuesValided &&(
+                              <div style={{paddingLeft: '10px'}}>
+                                <div className="form__change__data">
+                                  <div className='container__text__change__data'>
+                                      Digite sua senha para confirmar a alteração
+                                  </div>
+                      
+                                  <div className='container__form__change__data'>
+                                    <input
+                                        type="password"
+                                        id="senha"
+                                        name="senha"
+                                        value={confirmPassword}
+                                        className={`input__change__data ${confirmPassword ? 'input__valided':''}`}
+                                        onChange={(e) => {
+                                            const inputValue = e.target.value;
+                                            // Limitar a 10 caracteres
+                                            const truncatedPasswordConfirm = inputValue.slice(0, 10);
+                                            setConfirmPassword(truncatedPasswordConfirm);
+                                        }}
+                                        placeholder="Senha atual"
+                                        maxLength={8}
+                                        required
+                                        /><PiPassword className='icon__input__change__data'/>
+                                        <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={alterarEndereco}>
+                                            Confirmar
+                                        </button>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                          </>
+                        )}
+                    
                     </div>
                     
         )}
