@@ -144,10 +144,10 @@ function ProfileBarbearia() {
       }
     })
       .then(res => {
-          setBannerMessage("Banner alterado com sucesso.");
           setConfirmPassword('')
           setBannerFiles(0)
           setIsLoading(false)
+          setBannerMessage("Banner alterado com sucesso.");
           setTimeout(() => {
             setBannerMessage(null);
             window.location.reload()
@@ -155,6 +155,7 @@ function ProfileBarbearia() {
       })
       .catch(err => {
         setIsLoading(false)
+        console.log(err)
         if(err.response.status === 403){
           return navigate("/SessionExpired")
         }else if(err.response.status === 401){
@@ -181,7 +182,6 @@ function ProfileBarbearia() {
             window.location.reload()
           }, 3000);
         }
-        console.log(err)
       });
   }
 
@@ -448,40 +448,45 @@ useEffect(() => {
 
   //Função para mandar o novo nome da barbearia
   const alterarNomeBarbearia = () => {
+    setIsLoading(true)
     axios.put(`${urlApi}/api/v1/updateBarbeariaName`, {barbeariaId: barbeariaId, novoNome: novoNomeBarbearia, confirmPassword: confirmPassword}, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
     })
     .then(res => {
-      console.log(res.data)
-        if(res.data.Success === 'Success'){
+          setIsLoading(false)
           setNovoNomeBarbearia('')
           setMessageNameBarbearia("Nome da Barbearia Alterado com Sucesso!")
           setConfirmPassword('')
-            // Limpar a mensagem após 3 segundos (3000 milissegundos)
             setTimeout(() => {
               setMessageNameBarbearia('');
               getNameBarbearia()
             }, 3000);
-        }else{
-          setMessageNameBarbearia("Erro: verifique os dados informados e tente novamente.")
-          setNovoNomeBarbearia('')
-          setConfirmPassword('')
-            // Limpar a mensagem após 3 segundos (3000 milissegundos)
-            setTimeout(() => {
-              setMessageNameBarbearia('');
-              getNameBarbearia()
-            }, 3000);
-        }
       })
       .catch(error => {
-        setMessageNameBarbearia("Não foi possível alterar o nome da Barbearia.")
-            // Limpar a mensagem após 3 segundos (3000 milissegundos)
-            setTimeout(() => {
+        setIsLoading(true)
+        if(error.response.status === 400){
+          setConfirmPassword('')
+          setMessageNameBarbearia("Nome inválido. Verifique o nome informado e tente novamente.")
+          return setTimeout(() => {
               setMessageNameBarbearia('');
             }, 3000);
-        // Lógica a ser executada em caso de erro na solicitação
+        }
+        if(error.response.status === 403){
+          return navigate("/SessionExpired")
+        }
+        if(error.response.status === 401){
+          setConfirmPassword('')
+          setMessageNameBarbearia("Verifique a senha informada e tente novamente.")
+            return setTimeout(() => {
+              setMessageNameBarbearia('');
+            }, 3000);
+        }
+        setMessageNameBarbearia("Não foi possível alterar o nome da Barbearia. Tente novamente mais tarde.")
+        setTimeout(() => {
+          setMessageNameBarbearia('');
+        }, 3000);
         console.error('Erro ao atualizar o nome da barbearia:', error);
       });
   };
@@ -533,6 +538,7 @@ useEffect(() => {
   //Função responsável por enviar os valores ao back-end
   const alterarEndereco = () => {
     if (isValuesAddressValided) {
+      setIsLoading(true)
       const ValuesAddress = {
         street,
         number,
@@ -547,45 +553,46 @@ useEffect(() => {
         }
       })
         .then(res => {
-          if (res.data.Success === 'Success') {
             setMessageEndereco("Endereço Alterado com Sucesso!")
-            setIsValuesAddressValided(false)
+            setIsLoading(false)
+            setStreet('')
+            setNumber('')
+            setNeighborhood('')
+            setCity('')
             setConfirmPassword('')
             setTimeout(() => {
               setMessageEndereco('');
               getAdressBarbearia()
               setMostrarEndereco(!mostrarEndereco);
             }, 3000);
-          }else{
-            setMessageEndereco("Erro: verifique os dados informados e tente novamente.")
-            setIsValuesAddressValided(false)
-            setStreet('')
-            setNumber('')
-            setNeighborhood('')
-            setCity('')
-            setConfirmPassword('')
-              // Limpar a mensagem após 3 segundos (3000 milissegundos)
-              setTimeout(() => {
-                setMessageEndereco('');
-                getAdressBarbearia()
-              }, 3000);
-          }
         })
         .catch(error => {
+          setIsLoading(false)
+          console.error('Erro ao atualizar o nome da barbearia:', error);
+          if(error.response.status === 400){
+            setConfirmPassword('')
+            setMessageEndereco("Endereço inválido. Verifique o endereço informado e tente novamente.")
+            return setTimeout(() => {
+              setMessageEndereco('');
+              }, 3000);
+          }
+          if(error.response.status === 401){
+            setConfirmPassword('')
+            setMessageEndereco("Verifique a senha informada e tente novamente.")
+              return setTimeout(() => {
+                setMessageEndereco('');
+              }, 3000);
+          }
           if(error.response.status === 403){
             return navigate("/SessionExpired")
           }
-          setMessageEndereco('Erro ao atualizar o endereço.');
-          // Limpar a mensagem de erro após 3 segundos (3000 milissegundos)
-          setTimeout(() => {
+          setMessageEndereco('Erro ao atualizar o endereço. Tente');
+          return setTimeout(() => {
             setMessageEndereco('');
-          }, 3000);
-          // Lógica a ser executada em caso de erro na solicitação
-          console.error('Erro ao atualizar o nome da barbearia:', error);
+          }, 3000);          
         });
     } else {
       setMessageEndereco('Altere todos os campos de endereço.');
-
       setTimeout(() => {
         setMessageEndereco('');
       }, 3000);
@@ -624,6 +631,7 @@ useEffect(() => {
 
   //Função responsável por enviar o novo nome de usuário ao back-end
   const alterarUserName = () => {
+    setIsLoading(true)
 
     const valuesUserName = {
       newUserName: novoUserName,
@@ -637,37 +645,40 @@ useEffect(() => {
       }
     })
       .then(res => {
-          if(res.data.Success === 'Success'){
+            setIsLoading(false)
             setMessageUserName("Nome de usuário alterado com sucesso.")
             setConfirmPassword('')
-            // Limpar a mensagem após 3 segundos (3000 milissegundos)
             setTimeout(() => {
               setMessageUserName('');
               setNovoUserName('')
               getUserName()
               setMostrarNome(!mostrarNome);
-            }, 3000);
-          }else{
-            setMessageUserName("Erro: verifique os dados informados e tente novamente.")
-            setConfirmPassword('')
-              // Limpar a mensagem após 3 segundos (3000 milissegundos)
-              setTimeout(() => {
-                setMessageUserName('');
-                setNovoUserName('')
-                getUserName()
-              }, 3000);
-          }
+            }, 3000);            
         })
         .catch(error => {
+          setIsLoading(false)
+          if(error.response.status === 400){
+            setConfirmPassword('')
+            setMessageUserName("Nome inválido. Verifique o nome informado e tente novamente.")
+            return setTimeout(() => {
+              setMessageUserName('');
+              }, 3000);
+          }
+          if(error.response.status === 401){
+            setConfirmPassword('')
+            setMessageUserName("Verifique a senha informada e tente novamente.")
+              return setTimeout(() => {
+                setMessageUserName('');
+              }, 3000);
+          }
           if(error.response.status === 403){
             return navigate("/SessionExpired")
           }
           setMessageUserName("Erro ao atualizar o nome de usuário.")
-            // Limpar a mensagem após 3 segundos (3000 milissegundos)
-            setTimeout(() => {
-              setMessageUserName('');
-              window.location.reload();
-            }, 3000);
+          setTimeout(() => {
+            setMessageUserName('');
+            window.location.reload();
+          }, 3000);
           console.error('Erro ao atualizar o nome de usuário:', error);
         });
   };
@@ -706,6 +717,7 @@ useEffect(() => {
 
   //Function to update email
   const alterarEmail = () => {
+    setIsLoading(true)
 
     const valuesNewEmail ={
       newEmail,
@@ -719,39 +731,41 @@ useEffect(() => {
       }
     })
     .then(res => {
-        if(res.data.Success === 'Success'){
+          setIsLoading(false)
           setMessageEmail("Email alterado com sucesso.")
           setConfirmPassword('')
-            // Limpar a mensagem após 3 segundos (3000 milissegundos)
             setTimeout(() => {
               setMessageEmail('');
               setNewEmail('')
               getEmail()
               setMostrarEmail(!mostrarEmail);
             }, 3000);
-        }else{
-          setMessageEmail("Erro: verifique os dados informados e tente novamente.")
-          setConfirmPassword('')
-            // Limpar a mensagem após 3 segundos (3000 milissegundos)
-            setTimeout(() => {
-              setMessageEmail('');
-              setNewEmail('')
-              getEmail()
-            }, 3000);
-        }
       })
       .catch(error => {
+        console.error('Erro ao atualizar o email de usuário:', error);
+        setIsLoading(false)
+        if(error.response.status === 400){
+          setConfirmPassword('')
+          setMessageEmail("E-mail inválido. Verifique o e-mail informado e tente novamente.")
+          return setTimeout(() => {
+            setMessageEmail('');
+            }, 3000);
+        }
+        if(error.response.status === 401){
+          setConfirmPassword('')
+          setMessageEmail("Verifique a senha informada e tente novamente.")
+            return setTimeout(() => {
+              setMessageEmail('');
+            }, 3000);
+        }
         if(error.response.status === 403){
           return navigate("/SessionExpired")
         }
         setMessageEmail("Erro ao atualizar o email de usuário")
-            // Limpar a mensagem após 3 segundos (3000 milissegundos)
-            setTimeout(() => {
-              setMessageEmail('');
-              window.location.reload();
-            }, 3000);
-        // Lógica a ser executada em caso de erro na solicitação
-        console.error('Erro ao atualizar o email de usuário:', error);
+        setTimeout(() => {
+          setMessageEmail('');
+          window.location.reload();
+        }, 3000);
       });
   };
   
@@ -786,6 +800,7 @@ useEffect(() => {
   };
 
   const alterarSenha = () => {
+    setIsLoading(true)
     const values = {
       barbeariaId,
       passwordConfirm,
@@ -796,21 +811,40 @@ useEffect(() => {
         'Authorization': `Bearer ${token}`
       }
     }).then(res => {
-      if(res.data.Success === 'Success'){
+        setIsLoading(false)
         setMessagePassword("Senha alterada com sucesso.")
-          // Limpar a mensagem após 3 segundos (3000 milissegundos)
           setTimeout(() => {
             setMessagePassword('');
             window.location.reload();
           }, 3000);
-      }
     }).catch(error => {
+      setIsLoading(false)
+      console.log('Error:', error)
+      if(error.response.status === 400){
+        setConfirmPassword('')
+        setMessagePassword("Formato de senha inválido.")
+        return setTimeout(() => {
+          setMessagePassword('');
+          }, 3000);
+      }
+      if(error.response.data.message === "Email existente"){
+        setConfirmPassword('')
+        setMessagePassword("Já existe uma barbearia com esse e-mail cadastrado.")
+          return setTimeout(() => {
+            setMessagePassword('');
+          }, 3000);
+      }
+      if(error.response.data.message === "Senha incorreta"){
+        setConfirmPassword('')
+        setMessagePassword("Senha incorreta. Verifique a senha informada e tente novamente.")
+          return setTimeout(() => {
+            setMessagePassword('');
+          }, 3000);
+      }
       if(error.response.status === 403){
         return navigate("/SessionExpired")
       }
-      console.log('Error:', error)
       setMessagePassword("Senha atual não confirmada!")
-          // Limpar a mensagem após 3 segundos (3000 milissegundos)
           setTimeout(() => {
             setMessagePassword('');
           }, 5000);
@@ -818,22 +852,7 @@ useEffect(() => {
   };
   return (
     <>
-          <div className="container__profile">
-            {bannerMessage === "Banner alterado com sucesso." ? (
-                <div className="mensagem-sucesso">
-                  <MdOutlineDone className="icon__success"/>
-                  <p className="text__message">{bannerMessage}</p>
-                </div>
-              ) : (
-                <div className={` ${bannerMessage ? 'mensagem-erro' : ''}`}>
-                  <VscError className={`hide_icon__error ${bannerMessage ? 'icon__error' : ''}`}/>
-                  <p className="text__message">{bannerMessage}</p>
-                </div>
-              )
-            }
-          </div>
-
-        <div className="banner__in__profile__barbearia">
+          <div className="banner__in__profile__barbearia">
             <div className='containner__banner__in__profile__barbearia'>
               {bannerImages.length > 0 ? (
                   <>
@@ -867,8 +886,19 @@ useEffect(() => {
               )}
             </div>
             
-        </div>
-
+          </div>
+            {bannerMessage === "Banner alterado com sucesso." ? (
+                <div className="mensagem-sucesso">
+                  <MdOutlineDone className="icon__success"/>
+                  <p className="text__message">{bannerMessage}</p>
+                </div>
+              ) : (
+                <div className={`${bannerMessage ? 'mensagem-erro' : ''}`}>
+                  <VscError className={`hide_icon__error ${bannerMessage ? 'icon__error' : ''}`}/>
+                  <p className="text__message">{bannerMessage}</p>
+                </div>
+              )
+            }
         {bannerFiles.length > 0 &&(
           <div className='center__form'>
             {isLoading ? (
@@ -906,9 +936,9 @@ useEffect(() => {
           </div>
         )}
     
+    <hr />
 
       <div className="section_information">
-<hr />
         <div className='tittle_menu'>
             <h3>Profissional</h3>
             <hr id='sublime'/>
@@ -1022,7 +1052,7 @@ useEffect(() => {
               </button>
 
             </div>
-          )}
+        )}
 
 <hr className='hr_menu'/>
 
@@ -1067,37 +1097,44 @@ useEffect(() => {
               /> <MdOutlineAddBusiness className='icon_input'/>
             </div>
 
-            {novoNomeBarbearia.length > 0 &&(
-              <div style={{paddingLeft: '10px'}}>
-                <div className="form__change__data">
-                    <div className='container__text__change__data'>
-                        Digite sua senha para confirmar a alteração
+            {isLoading ? (
+                  <div className="loaderCreatingBooking"></div>
+                ):(
+                  <>
+                    {novoNomeBarbearia.length > 0 &&(
+                    <div style={{paddingLeft: '10px'}}>
+                      <div className="form__change__data">
+                          <div className='container__text__change__data'>
+                              Digite sua senha para confirmar a alteração
+                          </div>
+              
+                        <div className='container__form__change__data'>
+                          <input
+                              type="password"
+                              id="senha"
+                              name="senha"
+                              value={confirmPassword}
+                              className={`input__change__data ${confirmPassword ? 'input__valided':''}`}
+                              onChange={(e) => {
+                                  const inputValue = e.target.value;
+                                  // Limitar a 10 caracteres
+                                  const truncatedPasswordConfirm = inputValue.slice(0, 10);
+                                  setConfirmPassword(truncatedPasswordConfirm);
+                              }}
+                              placeholder="Senha atual"
+                              maxLength={8}
+                              required
+                              /><PiPassword className='icon__input__change__data'/>
+                              <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={alterarNomeBarbearia}>
+                                  Confirmar
+                              </button>
+                        </div>
+                      </div>
                     </div>
-        
-                  <div className='container__form__change__data'>
-                    <input
-                        type="password"
-                        id="senha"
-                        name="senha"
-                        value={confirmPassword}
-                        className={`input__change__data ${confirmPassword ? 'input__valided':''}`}
-                        onChange={(e) => {
-                            const inputValue = e.target.value;
-                            // Limitar a 10 caracteres
-                            const truncatedPasswordConfirm = inputValue.slice(0, 10);
-                            setConfirmPassword(truncatedPasswordConfirm);
-                        }}
-                        placeholder="Senha atual"
-                        maxLength={8}
-                        required
-                        /><PiPassword className='icon__input__change__data'/>
-                        <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={alterarNomeBarbearia}>
-                            Confirmar
-                        </button>
-                  </div>
-                </div>
-              </div>
+                    )}
+                  </>
             )}
+            
           
           </div>          
          

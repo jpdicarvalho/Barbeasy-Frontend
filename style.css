@@ -198,3 +198,8 @@ form .link{
   font-size: 20px;
   color: gray;
 }
+.div_ocult{
+  opacity: 0;
+  width: 0;
+  height: 0;
+}

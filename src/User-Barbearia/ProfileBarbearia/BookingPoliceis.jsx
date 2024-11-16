@@ -12,7 +12,6 @@ import { AiOutlineFileProtect } from "react-icons/ai";
 import { VscError } from "react-icons/vsc";
 import { PiPassword } from "react-icons/pi";
 import { MdOutlineDone } from "react-icons/md";
-import { set } from "date-fns";
 
 export function BookingPoliceis ({barbeariaId, OAuthUrl, isConectedWithMercadoPago}){
 
@@ -94,7 +93,7 @@ const updateBookingPoliceis = () =>{
     servicePercentage: servicePercentage ? servicePercentage:'false'
   }
 
-  axios.put(`${urlApi}/api/v1/updateBookingPoliceis/`, values, {
+  axios.put(`${urlApi}/api/v1/updateBookingPoliceis`, values, {
     headers: {
       'Authorization': `Bearer ${token}`
    }
@@ -114,15 +113,27 @@ const updateBookingPoliceis = () =>{
     if(err.response.status === 403){
       return navigate("/SessionExpired")
     }
+    if(err.response.status === 401){
+      setMessagePoliceisChange('Verifique a senha informada e tente novamente')
+      return setTimeout(() => {
+          setMessagePoliceisChange('');
+          setConfirmPassword('')
+          setInputCheckChange('')
+        }, 3000);
+    }
+      setMessagePoliceisChange('Houve um erro ao salvar as políticas de agendamento, tente novamente mais tarde.')
+      return setTimeout(() => {
+          setMessagePoliceisChange('');
+          setConfirmPassword('')
+          setInputCheckChange('')
+        }, 3000);
     console.log(err)
   })
 }
 
 BookingPoliceis.propTypes = {
     barbeariaId: PropTypes.number
-  };
-console.log('servicePercentageStored',servicePercentageStored)
-console.log('servicePercentage',servicePercentage)
+};
 
 return (
     <>
@@ -143,7 +154,7 @@ return (
                     <span  className='span__payment__enable' style={{color: '#f6f6f6'}}>Apenas com pagamento</span>
                       <input
                         type="checkbox"
-                        id='status'
+                        id='bookingPoliceis'
                         checked={bookingWithPayment === true} // Marca o input se o bookingWithPayment for true
                         onChange={() => {
                           const paymentChange = bookingWithPayment === true ? false : true; // Inverte o estado atual
@@ -152,7 +163,7 @@ return (
                           setServicePercentage(false)
                         }}
                       />
-                      <label htmlFor="status" className='switch'>
+                      <label htmlFor="bookingPoliceis" className='switch'>
                         <span className='slider'></span>
                       </label>
                   </div>
@@ -296,7 +307,7 @@ return (
                       <span className='span__payment__enable' style={{color: '#354249'}}>Apenas com pagamento</span>
                         <input
                           type="checkbox"
-                          id='status'
+                          id='bookingPoliceis'
                           checked={bookingWithPayment === true} // Marca o input se o paymentEnable for true
                           onChange={() => {
                             const paymentChange = bookingWithPayment === true ? false : true; // Inverte o estado atual
@@ -304,7 +315,7 @@ return (
                             setInputCheckChange('bookingWithPaymentEnable')
                           }}
                         />
-                        <label htmlFor="status" className='switch'>
+                        <label htmlFor="bookingPoliceis" className='switch'>
                           <span className='slider'></span>
                         </label>
                   </div>
