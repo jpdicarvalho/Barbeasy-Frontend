@@ -75,6 +75,7 @@ function ProfileBarbearia() {
   // Formata a data e hora no formato desejado (por exemplo: YYYYMMDD_HHMMSS)
   const formattedDateTime = `${currentDateTime.getFullYear()}${(currentDateTime.getMonth() + 1).toString().padStart(2, '0')}${currentDateTime.getDate().toString().padStart(2, '0')}_${currentDateTime.getHours().toString().padStart(2, '0')}${currentDateTime.getMinutes().toString().padStart(2, '0')}${currentDateTime.getSeconds().toString().padStart(2, '0')}`;
 
+  const [isLoading, setIsLoading] = useState(false) 
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const allowedExtensions = ['jpg', 'jpeg', 'png'];
@@ -121,6 +122,7 @@ function ProfileBarbearia() {
   //Preparando as imagens selecionadas para serem enviadas ao back-end
   const handleBannerImagesUpload = () => {
 
+  setIsLoading(true)
   // Itera sobre os arquivos selecionados
   for (let i = 0; i < bannerFiles.length; i++) {
     const file = bannerFiles[i];
@@ -142,28 +144,45 @@ function ProfileBarbearia() {
       }
     })
       .then(res => {
-        console.log(res)
-        if (res.data.Status === "Success") {
           setBannerMessage("Banner alterado com sucesso.");
           setConfirmPassword('')
+          setBannerFiles(0)
+          setIsLoading(false)
           setTimeout(() => {
             setBannerMessage(null);
             window.location.reload()
           }, 2000);
-        } else {
-          setBannerMessage("Erro ao realizar alteração. Verifique os arquivos ou a senha informada.");
+      })
+      .catch(err => {
+        setIsLoading(false)
+        if(err.response.status === 403){
+          return navigate("/SessionExpired")
+        }else if(err.response.status === 401){
+          setBannerMessage("Verifique a senha informada e tente novamente.");
+          setBannerFiles(0)
+          setTimeout(() => {
+            setBannerMessage(null);
+            setConfirmPassword('')
+            window.location.reload()
+          }, 3000);
+        }else if(err.response.status === 404){
+          setBannerMessage("Barbearia não encontrada. Tente novamente mais tarde.");
+          setBannerFiles(0)
+          setTimeout(() => {
+            setBannerMessage(null);
+            setConfirmPassword('')
+            window.location.reload()
+          }, 3000);
+        }else if(err.response.status === 500){
+          setBannerMessage("Erro ao realizar alteração. Tente novamente mais tarde.");
           setBannerFiles(0)
           setTimeout(() => {
             setBannerMessage(null);
             window.location.reload()
           }, 3000);
         }
-      })
-      .catch(err => {
-        if(err.response.status === 403){
-          return navigate("/SessionExpired")
-        }
-        console.log(err)});
+        console.log(err)
+      });
   }
 
   //Função para obter as imagens cadastradas
@@ -810,7 +829,8 @@ useEffect(() => {
                   <VscError className={`hide_icon__error ${bannerMessage ? 'icon__error' : ''}`}/>
                   <p className="text__message">{bannerMessage}</p>
                 </div>
-              )}
+              )
+            }
           </div>
 
         <div className="banner__in__profile__barbearia">
@@ -850,34 +870,39 @@ useEffect(() => {
         </div>
 
         {bannerFiles.length > 0 &&(
-          <div style={{paddingLeft: '10px'}}>
-            <div className="form__change__data">
-            <div className='container__text__change__data'>
-                Digite sua senha para confirmar a alteração
-            </div>
- 
-           <div className='container__form__change__data'>
-            <input
-                type="password"
-                id="senha"
-                name="senha"
-                value={confirmPassword}
-                className={`input__change__data ${confirmPassword ? 'input__valided':''}`}
-                onChange={(e) => {
-                    const inputValue = e.target.value;
-                    // Limitar a 10 caracteres
-                    const truncatedPasswordConfirm = inputValue.slice(0, 10);
-                    setConfirmPassword(truncatedPasswordConfirm);
-                }}
-                placeholder="Senha atual"
-                maxLength={8}
-                required
-                /><PiPassword className='icon__input__change__data'/>
-                <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={handleBannerImagesUpload}>
-                    Confirmar
-                </button>
-           </div>
-        </div>
+          <div className='center__form'>
+            {isLoading ? (
+                  <div className="loaderCreatingBooking"></div>
+                ):(
+                  <div className="form__change__data">
+                    <div className='container__text__change__data'>
+                        Digite sua senha para confirmar a alteração
+                    </div>
+        
+                    <div className='container__form__change__data'>
+                      <input
+                          type="password"
+                          id="senha"
+                          name="senha"
+                          value={confirmPassword}
+                          className={`input__change__data ${confirmPassword ? 'input__valided':''}`}
+                          onChange={(e) => {
+                              const inputValue = e.target.value;
+                              // Limitar a 10 caracteres
+                              const truncatedPasswordConfirm = inputValue.slice(0, 10);
+                              setConfirmPassword(truncatedPasswordConfirm);
+                          }}
+                          placeholder="Senha atual"
+                          maxLength={8}
+                          required
+                          /><PiPassword className='icon__input__change__data'/>
+                          
+                          <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={handleBannerImagesUpload}>
+                            Confirmar
+                          </button>
+                    </div>
+                  </div>
+                )}
           </div>
         )}
     
