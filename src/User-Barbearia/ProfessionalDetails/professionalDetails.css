@@ -251,11 +251,12 @@
 }
 .alert__unlink{
     display: flex;
-    background: #4a17d5;
+    background: #4a17d54f;
     border-radius: 10px;
     color: #f6f6f6;
     text-align: justify;
     padding: 5px;
+    font-size: 14px;
 }
 .icon__warnig{
     display: flex;

@@ -650,6 +650,7 @@ const year = date.getFullYear();
 //Função para mostra calendario
 const alternarCalendar = () => {
   setShowCalendar(!showCalendar);
+  setShowButtonUnlinkProfessional(false)
 };
 
 //Função para mostra calendario
@@ -880,6 +881,7 @@ const renderHorariosDiaSelecionado = () => {
 //Função para salvar o folga do profissional
 const saveDayOff = () =>{
   if(barbeariaId && professionalId && selectedDay && timesLockedByProfessional){
+    setIsLoading(true)
     let timesLocked = timesLockedByProfessional.join(',');
     const objectDayOff = {
       selectedDay,
@@ -893,7 +895,8 @@ const saveDayOff = () =>{
     })
     .then(res =>{
       if(res.data.Success === 'Success'){
-        setMessageSaveDayOff("Folga salva com sucesso!")
+        setIsLoading(false)
+        setMessageSaveDayOff("Horário fechado com sucesso!")
         setTimeout(() => {
           setMessageSaveDayOff(null);
           setTimesLockedByProfessional([])
@@ -901,13 +904,18 @@ const saveDayOff = () =>{
           setButtonSaveDayOff(false)
           setConfirmPassword('')
         }, 2000);
-      }else{
-        setMessageSaveDayOff("Senha Incorreta.")
-        setTimeout(() => {
-          setMessageSaveDayOff(null);
-        }, 2000);
       }
     }).catch(err =>{
+      setIsLoading(false)
+      if(err.response.status === 401){
+        setMessageSaveDayOff("Verifique a senha informada e tente novamente.");
+        return setTimeout(() => {
+          setMessageSaveDayOff(null);
+          setConfirmPassword('')
+          setSelectedDay(null)
+          setTimesLockedByProfessional([])
+        }, 3000);
+      }
       if(err.response.status === 403){
         return navigate("/SessionExpired")
       }
@@ -926,6 +934,7 @@ const [showButtonUnlinkProfessional, setShowButtonUnlinkProfessional] = useState
 const [messageUnlinkProfessional, setMessageUnlinkProfessional] = useState('');
 
 const unlinkProfessional = () =>{
+  setIsLoading(true)
   axios.delete(`${urlApi}/api/v1/unlinkProfessional/${barbeariaId}/${professionalId}/${confirmPassword}`, {
     headers: {
       'Authorization': `Bearer ${token}`
@@ -933,6 +942,7 @@ const unlinkProfessional = () =>{
   })
     .then(res =>{
       if(res.data.Success === "Success"){
+        setIsLoading(false)
         setMessageUnlinkProfessional('Profissional desvinculado com sucesso.')
         setTimeout(() => {
           setMessageUnlinkProfessional('');
@@ -941,6 +951,15 @@ const unlinkProfessional = () =>{
         }, 2000);
       }
     }).catch(err =>{
+      setIsLoading(false)
+      if(err.response.status === 401){
+        setMessageUnlinkProfessional("Verifique a senha informada e tente novamente.");
+        return setTimeout(() => {
+          setMessageUnlinkProfessional(null);
+          setConfirmPassword('')
+          setShowButtonUnlinkProfessional(!showButtonUnlinkProfessional)
+        }, 3000);
+      }
       if(err.response.status === 403){
         return navigate("/SessionExpired")
       }
@@ -1245,47 +1264,57 @@ return (
                 </div>
               )}
             </div>
-            {messageSaveDayOff === "Folga salva com sucesso!" ? (
-                    <div className="mensagem-sucesso">
-                      <MdOutlineDone className="icon__success"/>
-                      <p className="text__message">{messageSaveDayOff}</p>
-                    </div>
-                      ) : (
-                      <div className={` ${messageSaveDayOff ? 'mensagem-erro' : ''}`}>
-                        <VscError className={`hide_icon__error ${messageSaveDayOff ? 'icon__error' : ''}`}/>
-                        <p className="text__message">{messageSaveDayOff}</p>
-                    </div>
-              )}
-              {showButtonSaveDayOff &&(
-              <div style={{paddingLeft: '10px'}}>
-                <div className="form__change__data">
-                  <div className='container__text__change__data'>
-                      Digite sua senha para confirmar a alteração
-                  </div>
-      
-                  <div className='container__form__change__data'>
-                    <input
-                        type="password"
-                        id="senha"
-                        name="senha"
-                        value={confirmPassword}
-                        className={`input__change__data ${confirmPassword ? 'input__valided':''}`}
-                        onChange={(e) => {
-                            const inputValue = e.target.value;
-                            // Limitar a 10 caracteres
-                            const truncatedPasswordConfirm = inputValue.slice(0, 10);
-                            setConfirmPassword(truncatedPasswordConfirm);
-                        }}
-                        placeholder="Senha atual"
-                        maxLength={8}
-                        required
-                        /><PiPassword className='icon__input__change__data'/>
-                        <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={saveDayOff}>
-                            Confirmar
-                        </button>
-                  </div>
-                </div>
+            {messageSaveDayOff === "Horário fechado com sucesso!" ? (
+              <div className="mensagem-sucesso">
+                <MdOutlineDone className="icon__success"/>
+                <p className="text__message">{messageSaveDayOff}</p>
               </div>
+                ) : (
+                <div className={` ${messageSaveDayOff ? 'mensagem-erro' : ''}`}>
+                  <VscError className={`hide_icon__error ${messageSaveDayOff ? 'icon__error' : ''}`}/>
+                  <p className="text__message">{messageSaveDayOff}</p>
+              </div>
+              )}
+              
+              {isLoading  ? (
+                <div className='center__form'>
+                  <div className="loaderCreatingBooking"></div>
+                </div>
+              ):(
+                <>
+                  {showButtonSaveDayOff &&(
+                    <div style={{paddingLeft: '10px'}}>
+                      <div className="form__change__data">
+                        <div className='container__text__change__data'>
+                            Digite sua senha para confirmar a alteração
+                        </div>
+            
+                        <div className='container__form__change__data'>
+                          <input
+                              type="password"
+                              id="senha"
+                              name="senha"
+                              value={confirmPassword}
+                              className={`input__change__data ${confirmPassword ? 'input__valided':''}`}
+                              onChange={(e) => {
+                                  const inputValue = e.target.value;
+                                  // Limitar a 10 caracteres
+                                  const truncatedPasswordConfirm = inputValue.slice(0, 10);
+                                  setConfirmPassword(truncatedPasswordConfirm);
+                              }}
+                              placeholder="Senha atual"
+                              maxLength={8}
+                              required
+                              /><PiPassword className='icon__input__change__data'/>
+                                
+                              <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={saveDayOff}>
+                                  Confirmar
+                              </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </>
               )}
               {selectedDay && horariosDiaSelecionado[0] != 'Não há horários disponíveis para esse dia' &&(
                 <div className={`container__btn__closeANDopen__alltimes ${timesLockedByProfessional.length >= 1 && showButtonSaveDayOff === false ? 'flexDirectionRow':'flexDirectionColumn'}`}>
@@ -1300,7 +1329,7 @@ return (
 
 <hr className='hr_menu'/>
 
-          <div className="menu__main" onClick={() => setShowButtonUnlinkProfessional(!showButtonUnlinkProfessional)} style={{marginBottom: '15px'}}>
+          <div className="menu__main" onClick={() => {setShowButtonUnlinkProfessional(!showButtonUnlinkProfessional), setShowCalendar(false)}} style={{marginBottom: '15px'}}>
             <IoIosRemoveCircleOutline className='icon_menu'/>
               Desvincular profissional
             <IoIosArrowDown className={`arrow ${showButtonUnlinkProfessional ? 'girar' : ''}`} id='arrow'/>
