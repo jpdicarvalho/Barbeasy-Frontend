@@ -224,13 +224,10 @@
     justify-content: space-around;
     align-items: center;
     flex-direction: column;
-}
-
-.aaaaa{
     width: 100%;
 }
+
 .button__change__times__day__off{
-    border: none;
     height: 30px;
     border-radius: 5px;
     font-weight: bold;
@@ -239,12 +236,14 @@
     border: 1px solid #7849f4;
     opacity: 0;
     transition: 0.5s ease;
+    width: 150px;
 }
 .button__change__times__day__off.show {
     opacity: 1;
-    width: 175px;
+    width: 100%;
     height: 40px;
-    font-size: 14px;
+    font-size: 13px;
+    margin-right: 3px;
 }
 .span__unlink{
     color: #52626b;
@@ -266,4 +265,14 @@
     font-size: 30px;
     margin: 3px;
     height: 65px
+}
+.button__save_times{
+    width: 100%;
+    height: 45px;
+    margin-bottom: 5px;
+    font-size: 16px;
+    color: #f6f6f6;
+    background: #4a17d52f;
+    border: 1px solid #4a17d5;
+    border-radius: 8px;
 }

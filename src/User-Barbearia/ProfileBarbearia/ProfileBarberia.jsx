@@ -1097,48 +1097,46 @@ useEffect(() => {
               /> <MdOutlineAddBusiness className='icon_input'/>
             </div>
 
-            {isLoading ? (
-                <div className='center__form'>
-                  <div className="loaderCreatingBooking"></div>
-                </div>
+            {isLoading && novoNomeBarbearia.length > 0? (
+              <div className='center__form'>
+                <div className="loaderCreatingBooking"></div>
+              </div>
                   
-                ):(
-                  <>
-                    {novoNomeBarbearia.length > 0 &&(
-                    <div style={{paddingLeft: '10px'}}>
-                      <div className="form__change__data">
-                          <div className='container__text__change__data'>
-                              Digite sua senha para confirmar a alteração
-                          </div>
-              
-                        <div className='container__form__change__data'>
-                          <input
-                              type="password"
-                              id="senha"
-                              name="senha"
-                              value={confirmPassword}
-                              className={`input__change__data ${confirmPassword ? 'input__valided':''}`}
-                              onChange={(e) => {
-                                  const inputValue = e.target.value;
-                                  // Limitar a 10 caracteres
-                                  const truncatedPasswordConfirm = inputValue.slice(0, 10);
-                                  setConfirmPassword(truncatedPasswordConfirm);
-                              }}
-                              placeholder="Senha atual"
-                              maxLength={8}
-                              required
-                              /><PiPassword className='icon__input__change__data'/>
-                              <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={alterarNomeBarbearia}>
-                                  Confirmar
-                              </button>
-                        </div>
+            ):(
+              <>
+                {novoNomeBarbearia.length > 0 &&(
+                <div style={{paddingLeft: '10px'}}>
+                  <div className="form__change__data">
+                      <div className='container__text__change__data'>
+                          Digite sua senha para confirmar a alteração
                       </div>
-                    </div>
-                    )}
-                  </>
-            )}
-            
           
+                    <div className='container__form__change__data'>
+                      <input
+                          type="password"
+                          id="senha"
+                          name="senha"
+                          value={confirmPassword}
+                          className={`input__change__data ${confirmPassword ? 'input__valided':''}`}
+                          onChange={(e) => {
+                              const inputValue = e.target.value;
+                              // Limitar a 10 caracteres
+                              const truncatedPasswordConfirm = inputValue.slice(0, 10);
+                              setConfirmPassword(truncatedPasswordConfirm);
+                          }}
+                          placeholder="Senha atual"
+                          maxLength={8}
+                          required
+                          /><PiPassword className='icon__input__change__data'/>
+                          <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={alterarNomeBarbearia}>
+                              Confirmar
+                          </button>
+                    </div>
+                  </div>
+                </div>
+                )}
+              </>
+            )}
           </div>          
          
           )}
@@ -1240,7 +1238,7 @@ useEffect(() => {
                       required
                     />{' '} <IoMdLocate id="icon_input_city"/>
                       </div>
-                      {isLoading ? (
+                      {isLoading && isValuesValided ? (
                         <div className='center__form'>
                           <div className="loaderCreatingBooking"></div>
                         </div>
@@ -1333,37 +1331,47 @@ useEffect(() => {
               />{' '}<FaUserEdit className='icon_input'/>
             </div>
 
-            {novoUserName &&(
-              <div style={{paddingLeft: '10px'}}>
-                <div className="form__change__data">
-                  <div className='container__text__change__data'>
-                      Digite sua senha para confirmar a alteração
-                  </div>
-      
-                  <div className='container__form__change__data'>
-                    <input
-                        type="password"
-                        id="senha"
-                        name="senha"
-                        value={confirmPassword}
-                        className={`input__change__data ${confirmPassword ? 'input__valided':''}`}
-                        onChange={(e) => {
-                            const inputValue = e.target.value;
-                            // Limitar a 10 caracteres
-                            const truncatedPasswordConfirm = inputValue.slice(0, 10);
-                            setConfirmPassword(truncatedPasswordConfirm);
-                        }}
-                        placeholder="Senha atual"
-                        maxLength={8}
-                        required
-                        /><PiPassword className='icon__input__change__data'/>
-                        <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={alterarUserName}>
-                            Confirmar
-                        </button>
-                  </div>
-                </div>
+            {isLoading && novoUserName ? (
+              <div className='center__form'>
+                <div className="loaderCreatingBooking"></div>
               </div>
+                  
+            ):(
+              <>
+                {novoUserName &&(
+                  <div style={{paddingLeft: '10px'}}>
+                    <div className="form__change__data">
+                      <div className='container__text__change__data'>
+                          Digite sua senha para confirmar a alteração
+                      </div>
+          
+                      <div className='container__form__change__data'>
+                        <input
+                            type="password"
+                            id="senha"
+                            name="senha"
+                            value={confirmPassword}
+                            className={`input__change__data ${confirmPassword ? 'input__valided':''}`}
+                            onChange={(e) => {
+                                const inputValue = e.target.value;
+                                // Limitar a 10 caracteres
+                                const truncatedPasswordConfirm = inputValue.slice(0, 10);
+                                setConfirmPassword(truncatedPasswordConfirm);
+                            }}
+                            placeholder="Senha atual"
+                            maxLength={8}
+                            required
+                            /><PiPassword className='icon__input__change__data'/>
+                            <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={alterarUserName}>
+                                Confirmar
+                            </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </>
             )}
+            
          </div>
          
           )}
@@ -1417,38 +1425,48 @@ useEffect(() => {
                 required
               />{' '}<MdOutlineAlternateEmail className='icon_input'/>
             </div>
-
-            {newEmail &&(
-              <div style={{paddingLeft: '10px'}}>
-                <div className="form__change__data">
-                  <div className='container__text__change__data'>
-                      Digite sua senha para confirmar a alteração
-                  </div>
-      
-                  <div className='container__form__change__data'>
-                    <input
-                        type="password"
-                        id="senha"
-                        name="senha"
-                        value={confirmPassword}
-                        className={`input__change__data ${confirmPassword ? 'input__valided':''}`}
-                        onChange={(e) => {
-                            const inputValue = e.target.value;
-                            // Limitar a 10 caracteres
-                            const truncatedPasswordConfirm = inputValue.slice(0, 10);
-                            setConfirmPassword(truncatedPasswordConfirm);
-                        }}
-                        placeholder="Senha atual"
-                        maxLength={8}
-                        required
-                        /><PiPassword className='icon__input__change__data'/>
-                        <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={alterarEmail}>
-                            Confirmar
-                        </button>
-                  </div>
-                </div>
+            
+            {isLoading && newEmail ? (
+              <div className='center__form'>
+                <div className="loaderCreatingBooking"></div>
               </div>
+                  
+            ):(
+              <>
+                {newEmail &&(
+                  <div style={{paddingLeft: '10px'}}>
+                    <div className="form__change__data">
+                      <div className='container__text__change__data'>
+                          Digite sua senha para confirmar a alteração
+                      </div>
+          
+                      <div className='container__form__change__data'>
+                        <input
+                            type="password"
+                            id="senha"
+                            name="senha"
+                            value={confirmPassword}
+                            className={`input__change__data ${confirmPassword ? 'input__valided':''}`}
+                            onChange={(e) => {
+                                const inputValue = e.target.value;
+                                // Limitar a 10 caracteres
+                                const truncatedPasswordConfirm = inputValue.slice(0, 10);
+                                setConfirmPassword(truncatedPasswordConfirm);
+                            }}
+                            placeholder="Senha atual"
+                            maxLength={8}
+                            required
+                            /><PiPassword className='icon__input__change__data'/>
+                            <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={alterarEmail}>
+                                Confirmar
+                            </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </>
             )}
+            
          </div>
          
           )}          
@@ -1513,10 +1531,20 @@ useEffect(() => {
                 required
                 />{' '} <PiPasswordDuotone className='icon_input'/>
             </div>
-
-            <button className={`button__change ${newPassword ? 'show' : ''}`} onClick={alterarSenha}>
-              Alterar
-            </button>
+            
+            {isLoading && newPassword ? (
+              <div className='center__form'>
+                <div className="loaderCreatingBooking"></div>
+              </div>
+                  
+            ):(
+              <>
+                <button className={`button__change ${newPassword ? 'show' : ''}`} onClick={alterarSenha}>
+                  Alterar
+                </button>
+              </>
+            )}
+            
          </div>
          
           )}

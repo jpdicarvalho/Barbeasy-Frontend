@@ -23,6 +23,8 @@ export function AddNewService ({ professionalId }){
   const userInformation = JSON.parse(userData);//trasnformando os dados para JSON
   const barbeariaId = userInformation.barbearia[0].id;
 
+  const [isLoading, setIsLoading] = useState(false) 
+
   //Função para mostar o menu Serviço
   const [mostrarServico, setMostrarServico] = useState(false);
   const [servicos, setServicos] = useState([]);
@@ -124,6 +126,7 @@ export function AddNewService ({ professionalId }){
   const addNewService = () => {
     // Verifica se os campos obrigatórios estão preenchidos
     if(newNameService && newPriceService && newServiceDuration[0]){
+      setIsLoading(true)
       // Cria um objeto com os dados do serviço a serem enviados
       const newServiceData = {
         newNameService,
@@ -141,6 +144,7 @@ export function AddNewService ({ professionalId }){
         })
           .then(res => {
             if (res.data.Success === "Success") {
+              setIsLoading(false)
               setMessageAddService("Serviço adicionado com sucesso.");
               obterServicos()
               setTimeout(() => {
@@ -158,6 +162,7 @@ export function AddNewService ({ professionalId }){
             }
           })
           .catch(err => {
+            setIsLoading(false)
             if(err.response.status === 403){
               return navigate("/SessionExpired")
             }
@@ -170,6 +175,7 @@ export function AddNewService ({ professionalId }){
             console.error(err);
           });
     }else{
+      setIsLoading(false)
       setMessageAddService("Preencha todos os campos.");
         setTimeout(() => {
           setMessageAddService(null);
@@ -421,9 +427,16 @@ const toggleItem = (itemId) => {
                             <p className="text__message">{messageAddService}</p>
                         </div>
                       )}
+                      {isLoading ? (
+                        <div className='center__form'>
+                          <div className="loaderCreatingBooking"></div>
+                        </div>
+                      ):(
                         <button className="button__Salve__Service" onClick={addNewService}>
                           Cadastrar
                         </button>
+                      )}
+                       
                 </div>
               )}
 
@@ -437,7 +450,7 @@ const toggleItem = (itemId) => {
                       
                       className={`box__service ${expandedCardBooking.includes(servico.id) ? 'expandir__Service':''}`}
                     >
-                      <p style={{marginBottom: '10px', width: '100%', color: 'gray'}} onClick={() => toggleItem(servico.id)}>{servico.name}</p>
+                      <p style={{marginBottom: '10px', width: '100%', color: 'white'}} onClick={() => toggleItem(servico.id)}>{servico.name}</p>
 
                       <p>Deseja alterar o nome do serviço?</p>
                       <input

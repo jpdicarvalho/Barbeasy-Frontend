@@ -47,6 +47,7 @@ const userInformation = JSON.parse(userData);//trasnformando os dados para JSON
 const barbeariaId = userInformation.barbearia[0].id;
 
 const [confirmPassword, setConfirmPassword] = useState('');
+const [isLoading, setIsLoading] = useState(false) 
 
 //passando os dados do profissional selecionado
 const handleBackClick = () => {
@@ -55,6 +56,7 @@ const handleBackClick = () => {
 
 /*----------------------------------*/
 const [mostrarDiasSemana, setMostrarDiasSemana] = useState(false);
+const [showBtnChangeAgenda, setShowBtnChangeAgenda] = useState(false);
 const [mostrarHorario, setMostrarHorario] = useState(false);
 const [daysWeekSelected, setDaysWeekSelected] = useState([]);
 const [QntDaysSelected, setQntDaysSelected] = useState([]);
@@ -136,9 +138,11 @@ const [messageAgenda, setMessageAgenda] = useState('');
     if (daysWeekSelected.includes(dia)) {
       // Se o dia já estiver selecionado, remova-o
       setDaysWeekSelected(daysWeekSelected.filter((selectedDia) => selectedDia !== dia));
+      setShowBtnChangeAgenda(true)
     } else {
       // Se o dia não estiver selecionado, adicione-o
       setDaysWeekSelected([...daysWeekSelected, dia]);
+      setShowBtnChangeAgenda(true)
     }
   };
 
@@ -172,9 +176,11 @@ const [messageAgenda, setMessageAgenda] = useState('');
             if (QntDaysSelected === value) {
               // Se a opção já estiver selecionada, desmarque-a
               setQntDaysSelected('');
+              setShowBtnChangeAgenda(true)
             } else {
               // Caso contrário, selecione a opção
               setQntDaysSelected(value);
+              setShowBtnChangeAgenda(true)
             }
           }}
           className="days-switch"
@@ -188,6 +194,7 @@ const [messageAgenda, setMessageAgenda] = useState('');
 
   //Cadastrando os valores na agenda da barbearia
   const updateAgenda = () =>{
+    setIsLoading(true)
     axios.put(`${urlApi}/api/v1/updateAgenda/${barbeariaId}/${professionalId}`, {daysWeek: daysWeekSelected, qntDays: QntDaysSelected}, {
       headers: {
         'Authorization': `Bearer ${token}`
@@ -195,6 +202,7 @@ const [messageAgenda, setMessageAgenda] = useState('');
     })
     .then(res => {
       if(res.status === 200){
+        setIsLoading(false)
         setMessageAgenda("Sua agenda foi atualizada! Lembre-se de ajustar seus horários de trabalho.")
         getDaysFromAgendaAndQntDaysSelected()
         setTimeout(() => {
@@ -203,7 +211,9 @@ const [messageAgenda, setMessageAgenda] = useState('');
           window.location.reload();
         }, 5000);
       }
-    }).catch(error => {
+        
+      }).catch(error => {
+        setIsLoading(false)
       if(error.response.status === 403){
         return navigate("/SessionExpired")
       }
@@ -234,6 +244,7 @@ const [messageAgenda, setMessageAgenda] = useState('');
       console.error('Erro ao buscar informações da agenda da barbearia', error)
     })
   }
+
   useEffect(() => {
     getAgenda()
   }, [barbeariaId, professionalId])
@@ -380,6 +391,7 @@ const configAgendaDiaSelecionado = () => {
 
 //Função para salvar os horários definidos para o dia selecionado
 const salvarHorariosDiaSelecionado = () =>{
+  setIsLoading(true)
   let strAgendaDiaSelecionado = agendaDoDiaSelecionado.join(',');
   
   axios.put(`${urlApi}/api/v1/updateAgendaDiaSelecionado/${barbeariaId}/${professionalId}`, {StrAgenda: strAgendaDiaSelecionado}, {
@@ -390,6 +402,7 @@ const salvarHorariosDiaSelecionado = () =>{
   .then(res => {
     if(res.data.Success === 'Success'){
       setMessageAgendaHorarios("Horários Salvos com Sucesso.")
+      setIsLoading(false)
         // Limpar a mensagem após 3 segundos (3000 milissegundos)
         setTimeout(() => {
           setAgendaDoDiaSelecionado([])
@@ -399,7 +412,9 @@ const salvarHorariosDiaSelecionado = () =>{
           setHorarioFuncionamento('')
         }, 3000);
     }
-  }).catch(error => {
+      
+    }).catch(error => {
+      setIsLoading(false)
     if(error.response.status === 403){
       return navigate("/SessionExpired")
     }
@@ -452,6 +467,7 @@ const functionFormatDaysFromAgenda = () => {
 
 //Função para salvar os horários definidos para todos os dias
 const salvarHorariosTodosOsDias = () =>{
+  setIsLoading(true)
   //função que executa a formatação dos dias a serem padronizados
   functionFormatDaysFromAgenda();
   
@@ -466,6 +482,7 @@ const salvarHorariosTodosOsDias = () =>{
   })
   .then(res => {
     if(res.data.Success === 'Success'){
+      setIsLoading(false)
       setMessageAgendaHorarios("Horários Salvos com Sucesso.")
         // Limpar a mensagem após 3 segundos (2000 milissegundos)
         setTimeout(() => {
@@ -473,10 +490,10 @@ const salvarHorariosTodosOsDias = () =>{
           getHorariosDefinidos()
           setDiaSelecionado(null);
           setHorarioFuncionamento('')
-        
         }, 2000);
     }
   }).catch(error => {
+    setIsLoading(false)
     if(error.response.status === 403){
       return navigate("/SessionExpired")
     }
@@ -964,45 +981,56 @@ return (
         </div>
           
         {mostrarDiasSemana && (
-        <div className="divSelected">
-          {messageAgenda === 'Sua agenda foi atualizada! Lembre-se de ajustar seus horários de trabalho.' ?(
-            <div className="mensagem-sucesso">
-              <MdOutlineDone className="icon__success"/>
-              <p className="text__message">{messageAgenda}</p>
-            </div>
-            ) : (
-            <div className={` ${messageAgenda ? 'mensagem-erro' : ''}`}>
-              <VscError className={`hide_icon__error ${messageAgenda ? 'icon__error' : ''}`}/>
-              <p className="text__message">{messageAgenda}</p>
-            </div>
-            )}
-  
-        <p className='information__span'>Selecione os dias da semana em que deseja trabalhar:</p>
-        {daysCurrentBarbearia.map((dia, index) => (
-          <div className="container__checkBox" key={index}>
-            <span className={daysWeekSelected.includes(dia) ? 'defined__day' : ''}>{dia}</span>
-            <Checkbox dia={dia} />
+          <div className="divSelected">
+              <p className='information__span'>Selecione os dias da semana em que deseja trabalhar:</p>
+              {daysCurrentBarbearia.map((dia, index) => (
+                <div className="container__checkBox" key={index}>
+                  <span className={daysWeekSelected.includes(dia) ? 'defined__day' : ''}>{dia}</span>
+                  <Checkbox dia={dia} />
+                </div>
+              ))}
+
+              <p className='information__span'>Escolha a quantidade de dias a serem disponibilizados para agendamento:</p>
+              <div className="container__checkBox">
+                <span className={QntDaysSelected === '7' ? 'selectedOption' : ''}>Próximos 7 dias</span>
+                <CheckboxQntDias value="7" />
+              </div>
+              <div className="container__checkBox">
+                <span className={QntDaysSelected === '15' ? 'selectedOption' : ''}>Próximos 15 dias</span>
+                <CheckboxQntDias value="15" />
+              </div>
+              <div className="container__checkBox">
+                <span className={QntDaysSelected === '30' ? 'selectedOption' : ''}>Próximos 30 dias</span>
+                <CheckboxQntDias value="30" />
+              </div>
+
+              {messageAgenda === 'Sua agenda foi atualizada! Lembre-se de ajustar seus horários de trabalho.' ?(
+                <div className="mensagem-sucesso">
+                  <MdOutlineDone className="icon__success"/>
+                  <p className="text__message">{messageAgenda}</p>
+                </div>
+                ) : (
+                <div className={` ${messageAgenda ? 'mensagem-erro' : ''}`}>
+                  <VscError className={`hide_icon__error ${messageAgenda ? 'icon__error' : ''}`}/>
+                  <p className="text__message">{messageAgenda}</p>
+                </div>
+              )}
+
+              {isLoading && showBtnChangeAgenda ? (
+                <div className='center__form'>
+                  <div className="loaderCreatingBooking"></div>
+                </div>
+                    
+              ):(
+                <>
+                  <button className={`button__change ${QntDaysSelected.length > 0 && daysWeekSelected.length > 0 && showBtnChangeAgenda ? 'show' : ''}`} onClick={updateAgenda}>
+                    Alterar
+                  </button>
+                </>
+              )}
+              
+
           </div>
-        ))}
-
-        <p className='information__span'>Escolha a quantidade de dias a serem disponibilizados para agendamento:</p>
-        <div className="container__checkBox">
-          <span className={QntDaysSelected === '7' ? 'selectedOption' : ''}>Próximos 7 dias</span>
-          <CheckboxQntDias value="7" />
-        </div>
-        <div className="container__checkBox">
-          <span className={QntDaysSelected === '15' ? 'selectedOption' : ''}>Próximos 15 dias</span>
-          <CheckboxQntDias value="15" />
-        </div>
-        <div className="container__checkBox">
-          <span className={QntDaysSelected === '30' ? 'selectedOption' : ''}>Próximos 30 dias</span>
-          <CheckboxQntDias value="30" />
-        </div>
-        <button className={`button__change ${QntDaysSelected.length > 0 && daysWeekSelected.length > 0 ? 'show' : ''}`} onClick={updateAgenda}>
-          Alterar
-        </button>
-
-      </div>
         )}
 
 <hr className='hr_menu'/>
@@ -1068,10 +1096,16 @@ return (
                             </div>
                           )}
           
-                          <div className="container_button">
-                            <button className="add_Service" onClick={salvarHorariosDiaSelecionado}>Salvar</button>
-                            <button className="add_Service" onClick={salvarHorariosTodosOsDias}>Salvar para todos os outros dias</button>
-                          </div>
+                          {isLoading ? (
+                            <div className='center__form'>
+                              <div className="loaderCreatingBooking"></div>
+                            </div>
+                          ):(
+                            <div className="container_button">
+                              <button className="button__save_times" onClick={salvarHorariosDiaSelecionado}>Salvar</button>
+                              <button className="button__save_times" onClick={salvarHorariosTodosOsDias}>Salvar para todos os outros dias</button>
+                            </div>
+                          )}
                         </div>
                       )}
                     </div>
@@ -1153,7 +1187,7 @@ return (
                           )}
           
                           <div className="container_button">
-                            <button className="add_Service" onClick={salvarHorariosDiaSelecionado}>Salvar</button>
+                            <button className="button__save_times" onClick={salvarHorariosDiaSelecionado}>Salvar</button>
                           </div>
                         </div>
                       )}
