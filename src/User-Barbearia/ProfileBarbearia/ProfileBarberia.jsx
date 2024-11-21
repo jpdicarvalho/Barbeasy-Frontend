@@ -36,6 +36,8 @@ import { CiLogout } from "react-icons/ci";
 import { IoHomeOutline } from "react-icons/io5";
 import { IoCopyOutline } from "react-icons/io5";
 import { LuCopyCheck } from "react-icons/lu";
+import { FaWhatsapp } from "react-icons/fa6";
+import { MdNumbers } from "react-icons/md";
 
 import './ProfileBarbearia.css';
 
@@ -137,6 +139,7 @@ function ProfileBarbearia() {
     //Adicionando parametros necessários para a validação da alteração
     bannerFormData.append('barbeariaId', barbeariaId);
     bannerFormData.append('confirmPassword', confirmPassword);
+    bannerFormData.append('formattedDateTime', formattedDateTime);
 
     axios.put(`${urlApi}/api/v1/updateBannersImages`, bannerFormData, {
       headers: {
@@ -182,6 +185,12 @@ function ProfileBarbearia() {
             window.location.reload()
           }, 3000);
         }
+        setBannerMessage("Erro ao realizar alteração. Tente novamente mais tarde.");
+          setBannerFiles(0)
+          setTimeout(() => {
+            setBannerMessage(null);
+            window.location.reload()
+          }, 3000);
       });
   }
 
@@ -511,7 +520,103 @@ useEffect(() => {
   useEffect(() => {
     getNameBarbearia()
   }, [barbeariaId])
+/*------------------------------------*/
+const [mostrarCelular, setMostrarCelular] = useState(false);
+const [newWhatsApp, setNewWhatsApp] = useState('');
+const [whatsApp, setWhatsApp] = useState('');
+const [messageWhatsApp, setMessageWhatsApp] = useState('');
 
+const alternarCelular = () => {
+  setMostrarCelular(!mostrarCelular);
+};
+
+const changeWhatsApp = () =>{
+  //Basics Validations
+  if(newWhatsApp.length < 10){
+    setMessageWhatsApp('Informe um número válido.')
+    return setTimeout(() => {
+      setMessageWhatsApp(null)
+    }, 3000);
+  }
+
+  let validedNumber;
+
+  if(newWhatsApp.length === 11){//Ex.:93 9 94455445
+    validedNumber = newWhatsApp.slice(0, 3) + newWhatsApp.slice(3 + 1);//Number formatted: 93 94455445
+  }
+
+  if(newWhatsApp.length === 10){//Ex.:93 94455445
+    validedNumber = newWhatsApp
+  }
+
+  const values = {
+    barbeariaId: barbeariaId,
+    newWhatsApp: validedNumber,
+    confirmPassword: confirmPassword
+  }
+
+  setIsLoading(true)
+    axios.put(`${urlApi}/api/v1/updateWhatsAppBarbearia`, values, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    .then(res => {
+          setIsLoading(false)
+          setNewWhatsApp('')
+          setMessageWhatsApp("Número de WhatsApp Alterado com Sucesso!")
+          setConfirmPassword('')
+            setTimeout(() => {
+              setMessageWhatsApp('');
+              getWhatsApp()
+            }, 3000);
+      })
+      .catch(error => {
+        setIsLoading(false)
+        console.log('Erro ao atualizar o WhatsApp da barbearia:', error);
+        if(error.response.status === 400){
+          setConfirmPassword('')
+          setMessageWhatsApp(error.response.data.message)
+          return setTimeout(() => {
+            setMessageWhatsApp('');
+            }, 3000);
+        }
+        if(error.response.status === 403){
+          return navigate("/SessionExpired")
+        }
+        if(error.response.status === 401){
+          setConfirmPassword('')
+          setMessageWhatsApp("Verifique a senha informada e tente novamente.")
+            return setTimeout(() => {
+              setMessageWhatsApp('');
+            }, 3000);
+        }
+        setMessageWhatsApp("Não foi possível alterar o WhatsApp da Barbearia. Tente novamente mais tarde.")
+        setTimeout(() => {
+          setMessageWhatsApp('');
+        }, 3000);
+        
+      });
+}
+
+const getWhatsApp = () =>{
+  axios.get(`${urlApi}/api/v1/whatsAppBarbearia/${barbeariaId}`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  })
+  .then(res => {
+    setWhatsApp(res.data.WhatsApp)
+  })
+  .catch(error => {
+    if(error.response.status === 403){
+      return navigate("/SessionExpired")
+    }
+    console.log(error)});
+}
+useEffect(() =>{
+  getWhatsApp()
+}, [])
 /*----------------------------------*/
   const [mostrarEndereco, setMostrarEndereco] = useState(false);
   const [isValuesAddressValided, setIsValuesAddressValided] = useState(false);
@@ -899,44 +1004,44 @@ useEffect(() => {
                 </div>
               )
             }
-        {bannerFiles.length > 0 &&(
-          <div className='center__form'>
-            {isLoading ? (
-                  <div className="loaderCreatingBooking"></div>
-                ):(
-                  <div className="form__change__data">
-                    <div className='container__text__change__data'>
-                        Digite sua senha para confirmar a alteração
+          {bannerFiles.length > 0 &&(
+            <div className='center__form'>
+              {isLoading ? (
+                    <div className="loaderCreatingBooking"></div>
+                  ):(
+                    <div className="form__change__data">
+                      <div className='container__text__change__data'>
+                          Digite sua senha para confirmar a alteração
+                      </div>
+          
+                      <div className='container__form__change__data'>
+                        <input
+                            type="password"
+                            id="senha"
+                            name="senha"
+                            value={confirmPassword}
+                            className={`input__change__data ${confirmPassword ? 'input__valided':''}`}
+                            onChange={(e) => {
+                                const inputValue = e.target.value;
+                                // Limitar a 10 caracteres
+                                const truncatedPasswordConfirm = inputValue.slice(0, 10);
+                                setConfirmPassword(truncatedPasswordConfirm);
+                            }}
+                            placeholder="Senha atual"
+                            maxLength={8}
+                            required
+                            /><PiPassword className='icon__input__change__data'/>
+                            
+                            <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={handleBannerImagesUpload}>
+                              Confirmar
+                            </button>
+                      </div>
                     </div>
-        
-                    <div className='container__form__change__data'>
-                      <input
-                          type="password"
-                          id="senha"
-                          name="senha"
-                          value={confirmPassword}
-                          className={`input__change__data ${confirmPassword ? 'input__valided':''}`}
-                          onChange={(e) => {
-                              const inputValue = e.target.value;
-                              // Limitar a 10 caracteres
-                              const truncatedPasswordConfirm = inputValue.slice(0, 10);
-                              setConfirmPassword(truncatedPasswordConfirm);
-                          }}
-                          placeholder="Senha atual"
-                          maxLength={8}
-                          required
-                          /><PiPassword className='icon__input__change__data'/>
-                          
-                          <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={handleBannerImagesUpload}>
-                            Confirmar
-                          </button>
-                    </div>
-                  </div>
-                )}
-          </div>
-        )}
-    
-    <hr />
+                  )}
+            </div>
+          )}
+      
+    <hr style={{width: '100%'}}/>
 
       <div className="section_information">
         <div className='tittle_menu'>
@@ -1140,6 +1245,86 @@ useEffect(() => {
           </div>          
          
           )}
+
+<hr className='hr_menu' />
+
+    <div className="menu__main" onClick={alternarCelular}>
+        <FaWhatsapp className='icon_menu'/>
+        WhatsApp
+        <IoIosArrowDown className={`arrow ${mostrarCelular ? 'girar' : ''}`} id='arrow'/>
+    </div>
+
+    {mostrarCelular && (
+        <div className="divSelected">
+            <p className='information__span'>Alterar número de WhatsApp</p>
+
+            {messageWhatsApp === 'Número de WhatsApp Alterado com Sucesso!' ?(
+                <div className="mensagem-sucesso">
+                  <MdOutlineDone className="icon__success"/>
+                  <p className="text__message">{messageWhatsApp}</p>
+                </div>
+              ) : (
+                <div className={` ${messageWhatsApp ? 'mensagem-erro' : ''}`}>
+                  <VscError className={`hide_icon__error ${messageWhatsApp ? 'icon__error' : ''}`}/>
+                  <p className="text__message">{messageWhatsApp}</p>
+              </div>
+              )}
+            <div className="inputBox">
+                <input
+                type="tel"
+                id="celular"
+                name="celular"
+                onChange={(e) => {
+                    const inputValue = e.target.value;
+                    //regex to valided password
+                    const sanitizedValue = inputValue.replace(/[^0-9]/g, '');
+                    // Limitar a 10 caracteres
+                    const truncatedPasswordConfirm = sanitizedValue.slice(0, 11);
+                    setNewWhatsApp(truncatedPasswordConfirm);
+                }}
+                placeholder={whatsApp}
+                maxLength={11}
+                required
+                />{' '}<MdNumbers  className='icon_input'/>
+            </div>
+
+            {newWhatsApp.length >= 10 &&(
+                <div style={{paddingLeft: '10px'}} className='center__form'>
+                {isLoading ? (
+                  <div className="loaderCreatingBooking"></div>
+                ):(
+                  <div className="form__change__data">
+                      <div className='container__text__change__data'>
+                          Digite sua senha para confirmar a alteração
+                      </div>
+
+                      <div className='container__form__change__data'>
+                      <input
+                          type="password"
+                          id="senha"
+                          name="senha"
+                          value={confirmPassword}
+                          className={`input__change__data ${confirmPassword ? 'input__valided':''}`}
+                          onChange={(e) => {
+                              const inputValue = e.target.value;
+                              // Limitar a 10 caracteres
+                              const truncatedPasswordConfirm = inputValue.slice(0, 10);
+                              setConfirmPassword(truncatedPasswordConfirm);
+                          }}
+                          placeholder="Senha atual"
+                          maxLength={8}
+                          required
+                          /><PiPassword className='icon__input__change__data'/>
+                          <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={changeWhatsApp}>
+                              Confirmar
+                          </button>
+                      </div>
+                  </div>
+                )}
+                </div>
+            )}
+        </div>
+        )}
 
 <hr className='hr_menu' />
 

@@ -14,7 +14,7 @@ import { PiPassword } from "react-icons/pi";
 import { FaUserEdit } from "react-icons/fa";
 import { MdOutlineAlternateEmail } from "react-icons/md";
 import { PiPasswordDuotone } from "react-icons/pi";
-import { MdOutlinePhonelinkRing } from "react-icons/md";
+import { FaWhatsapp } from "react-icons/fa6";
 import { MdNumbers } from "react-icons/md";
 import { BsCalendar2Check } from "react-icons/bs";
 import { IoHomeOutline } from "react-icons/io5";
@@ -34,8 +34,6 @@ function UserProfile() {
   const userDataFromLocalStorage = localStorage.getItem('userData');//Obtendo os dados salvo no localStorage
   const userInformation = JSON.parse(userDataFromLocalStorage);//trasnformando os dados para JSON
   const userId = userInformation.user.id;
-  const userName = userInformation.user.name;
-  const firstLetter = userName.charAt(0).toUpperCase();
 
 const navigateToHome = () =>{
     navigate("/Home");
@@ -50,6 +48,7 @@ const logoutClick = () => {
 };
 
 const [confirmPassword, setConfirmPassword] = useState('');
+const [isLoading, setIsLoading] = useState(false) 
 
 //==========GET USER IMAGE PROFESSIONAL==========
 const [userImage, setUserImage] = useState([]);
@@ -111,6 +110,7 @@ useEffect(() => {
 
   //Preparando as imagens selecionadas para serem enviadas ao back-end
   const handleUpload = () => {
+    setIsLoading(true)
     const fileExtension = file ? file.name.split('.').pop() : '';
     
     // Renomeia a imagem com o ID do usuário, número aleatório e a data/hora
@@ -118,6 +118,7 @@ useEffect(() => {
     formdata.append('image', renamedFile);
     formdata.append('userId', userId);
     formdata.append('password', confirmPassword);
+    formdata.append('formattedDateTime', formattedDateTime);
 
     axios.put(`${urlApi}/api/v1/updateUserImage`, formdata, {
       headers: {
@@ -125,26 +126,33 @@ useEffect(() => {
       }
     })
     .then(res => {
-      if(res.data.Status === "Success"){
+      setIsLoading(false)
+        setfile(false)
         setUserImageMessage("Imagem atualizada com sucesso.");
         setConfirmPassword('')
         setTimeout(() => {
           setUserImageMessage(null);
           window.location.reload()
         }, 2000);
-      }else{
-        setUserImageMessage('Erro ao atualizar a imagem. Tente novamente mais tarde.')
+    })
+    .catch(err => {
+      console.log(err)
+      setIsLoading(false)
+      if(err.response.status === 401){
+        setUserImageMessage("Verifique a senha informada e tente novamente.");
+        return setTimeout(() => {
+          setUserImageMessage(null);
+          setConfirmPassword('')
+          window.location.reload()
+        }, 3000);
+      }else if(err.response.status === 403){
+        return navigate("/SessionExpired")
+      }
+      setUserImageMessage('Erro ao atualizar a imagem. Tente novamente mais tarde.')
         setConfirmPassword('')
         setTimeout(() => {
           setUserImageMessage(null);
         }, 3000);
-      }
-    })
-    .catch(err => {
-      if(err.response.status === 403){
-        return navigate("/SessionExpired")
-      }
-      console.log(err)
     });
   }
 /*=================================================*/
@@ -152,6 +160,7 @@ const [mostrarNome, setMostrarNome] = useState(false);
 const [mostrarCelular, setMostrarCelular] = useState(false);
 const [mostrarEmail, setMostrarEmail] = useState(false);
 const [newName, setNewName] = useState('');
+const [nameUser, setNameUser] = useState('');
 const [newEmail, setNewEmail] = useState('');
 const [newPhoneNumber, setNewPhoneNumber] = useState('');
 const [userData, setUserData] = useState('');
@@ -179,6 +188,7 @@ const getUserData = () =>{
     })
       .then(res => {
         setUserData(res.data.User)
+        setNameUser(res.data.User[0].name)
       })
       .catch(error => {
         if(error.response.status === 403){
@@ -186,15 +196,33 @@ const getUserData = () =>{
         }
         console.log(error)
       });
-  }
-
+}
 //Função responsável por enviar o novo nome de usuário ao back-end
 const alterUserData = () => {
+  setIsLoading(true)
+
+  //Basics Validations
+  if(newPhoneNumber.length < 10){
+    setMessage('Informe um número válido.')
+    return setTimeout(() => {
+      setMessage(null)
+    }, 3000);
+  }
+
+  let validedNumber;
+
+  if(newPhoneNumber.length === 11){//Ex.:93 9 94455445
+    validedNumber = newPhoneNumber.slice(0, 3) + newPhoneNumber.slice(3 + 1);//Number formatted: 93 94455445
+  }
+
+  if(newPhoneNumber.length === 10){//Ex.:93 94455445
+    validedNumber = newPhoneNumber
+  }
 
   const valuesUserData = {
     newName,
     newEmail,
-    newPhoneNumber,
+    newPhoneNumber: validedNumber,
     confirmPassword,
     userId
   }
@@ -205,33 +233,48 @@ const alterUserData = () => {
     }
   })
     .then(res => {
-        if(res.data.Success === 'Success'){
           setMessage("Alteração realizada com sucesso.")
           setConfirmPassword('')
+          setIsLoading(false)
           // Limpar a mensagem após 3 segundos (3000 milissegundos)
           setTimeout(() => {
-            setMessage('');
-            setNewName('')
-            setNewEmail('')
-            setNewPhoneNumber('')
+            setMessage(false);
+            setNewName(false)
+            setNewEmail(false)
+            setNewPhoneNumber(false)
             getUserData()
           }, 3000);
-        }
-      })
-      .catch(error => {
-        if(error.response.status === 403){
-          return navigate("/SessionExpired")
-        }
-        setMessage("Erro ao realizar alteração.")
-        setConfirmPassword('')
-
-          // Limpar a mensagem após 3 segundos (3000 milissegundos)
-          setTimeout(() => {
+    })
+    .catch(error => {
+      setIsLoading(false)
+      if(error.response.status === 400){
+        setMessage(error.response.data.message)
+        return setTimeout(() => {
             setMessage('');
-            window.location.reload();
           }, 3000);
-        console.error('Erro ao realizar alteração:', error);
-      });
+      }
+      if(error.response.status === 401){
+        setMessage("Verifique a senha informada e tente novamente.");
+        return setTimeout(() => {
+          setMessage('');
+        }, 3000);
+      }
+      if(error.response.status === 403){
+        return navigate("/SessionExpired")
+      }
+      if(error.response.status === 404){
+        setMessage("Erro ao atualizar cadastro. Não foi possível localizar o usuário.")
+        return setTimeout(() => {
+            setMessage('');
+          }, 3000);
+      }
+      setMessage("Erro ao realizar alteração.")
+      setConfirmPassword('')
+        setTimeout(() => {
+          setMessage('');
+        }, 3000);
+      console.error('Erro ao realizar alteração:', error);
+    });
 };
 
 //Hook para chamar a função getUserData()
@@ -250,6 +293,7 @@ const alternarSenha = () => {
 };
 
 const alterarSenha = () => {
+  setIsLoading(true)
 
   const valuesToUpdateUserPassword = {
     userId: userId,
@@ -262,22 +306,30 @@ const alterarSenha = () => {
       'Authorization': `Bearer ${token}`
     }
   }).then(res => {
-    if(res.data.Success === 'Success'){
       setMessagePassword("Senha alterada com sucesso.")
+      setIsLoading(false)
         // Limpar a mensagem após 3 segundos (3000 milissegundos)
         setTimeout(() => {
           setMessagePassword('');
-          window.location.reload();
+          setPasswordConfirm('');
+          setNewPassword('');
+          setMostrarSenha(false)
         }, 3000);
-    }else{
-      setMessagePassword("Senha atual não confirmada!")
-        // Limpar a mensagem após 3 segundos (3000 milissegundos)
-        setTimeout(() => {
-          setMessagePassword('');
-          //window.location.reload();
-        }, 5000);
-    }
   }).catch(error => {
+    console.log(error)
+    setIsLoading(false)
+    if(error.response.status === 400){
+      setMessagePassword("Formato de senha incorreto. Verifique a senha informada e tente novamente.")
+      return setTimeout(() => {
+          setMessagePassword('');
+        }, 3000);
+    }
+    if(error.response.status === 401){
+      setMessagePassword("Verifique a senha informada e tente novamente.");
+      return setTimeout(() => {
+        setMessagePassword(null);
+      }, 3000);
+    }
     if(error.response.status === 403){
       return navigate("/SessionExpired")
     }
@@ -292,7 +344,7 @@ const alterarSenha = () => {
 
 return (
     <>
-    <div className="container__profile__professional">
+    <div className="container__profile__professional" style={{paddingBottom: '70px'}}>
         <div className='section__image__profile'>
             <div className="img__user_edit"> 
                 <label htmlFor="input-file-user" id="drop-area-user">
@@ -311,13 +363,13 @@ return (
                         </div>
                     ) : (
                         <div className="Box__image  Box__first__letter">
-                            <p className='firstLetter__professional'>{firstLetter}</p>
+                            <p className='firstLetter__professional'>{nameUser.charAt(0).toUpperCase()}</p>
                         </div>
                     )}
                 </label>
             </div>
         <div className="section__userName">
-            {userName}
+            {nameUser}
         </div>
         {userImageMessage === "Imagem atualizada com sucesso." ? (
             <div className="mensagem-sucesso">
@@ -332,39 +384,42 @@ return (
         )}
 
         {file &&(
-            file.name.length > 0 ?
+            file.name.length > 0 &&
             <div style={{paddingLeft: '10px'}}>
-                <div style={{width:'385px'}} className="form__change__data">
-                    <div className='container__text__change__data'>
-                        Digite sua senha para confirmar a alteração
-                    </div>
+              {isLoading ? (
+                  <div className="loaderCreatingBooking"></div>
+                ):(
+                  <div style={{width:'385px'}} className="form__change__data">
+                      <div className='container__text__change__data'>
+                          Digite sua senha para confirmar a alteração
+                      </div>
 
-                <div className='container__form__change__data'>
-                    <input
-                        type="password"
-                        id="senha"
-                        name="senha"
-                        value={confirmPassword}
-                        className={`input__change__data ${confirmPassword ? 'input__valided':''}`}
-                        onChange={(e) => {
-                            const inputValue = e.target.value;
-                            //regex to valided password
-                            const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9@.#%]/g, '');
-                            // Limitar a 10 caracteres
-                            const truncatedPasswordConfirm = sanitizedValue.slice(0, 8);
-                            setConfirmPassword(truncatedPasswordConfirm);
-                        }}
-                        placeholder="Senha atual"
-                        maxLength={8}
-                        required
-                        /><PiPassword className='icon__input__change__data'/>
-                        <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={handleUpload}>
-                            Confirmar
-                        </button>
-                </div>
-                </div>
+                  <div className='container__form__change__data'>
+                      <input
+                          type="password"
+                          id="senha"
+                          name="senha"
+                          value={confirmPassword}
+                          className={`input__change__data ${confirmPassword ? 'input__valided':''}`}
+                          onChange={(e) => {
+                              const inputValue = e.target.value;
+                              //regex to valided password
+                              const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9@.#%]/g, '');
+                              // Limitar a 10 caracteres
+                              const truncatedPasswordConfirm = sanitizedValue.slice(0, 8);
+                              setConfirmPassword(truncatedPasswordConfirm);
+                          }}
+                          placeholder="Senha atual"
+                          maxLength={8}
+                          required
+                          /><PiPassword className='icon__input__change__data'/>
+                          <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={handleUpload}>
+                              Confirmar
+                          </button>
+                  </div>
+                  </div>
+                )}
             </div>
-            :null
         )}
         </div>
 
@@ -399,7 +454,7 @@ return (
                     onChange={(e) => {
                     const inputValue = e.target.value;
                     // Remover caracteres não alfanuméricos
-                    const filteredValue = inputValue.replace(/[^a-zA-Z\sçéúíóáõãèòìàêôâ]/g, '');
+                    const filteredValue = inputValue.replace(/[^a-zA-Z\sçéúíóáõãèòìàêôâ.]/g, '');
                     // Limitar a 30 caracteres
                     const userName = filteredValue.slice(0, 30);
                     setNewName(userName);
@@ -411,7 +466,10 @@ return (
                 </div>
 
                 {newName.length > 0 &&(
-                <div style={{paddingLeft: '10px'}}>
+                <div style={{paddingLeft: '10px'}} className='center__form'>
+                  {isLoading ? (
+                    <div className="loaderCreatingBooking"></div>
+                  ):(
                     <div className="form__change__data">
                         <div className='container__text__change__data'>
                             Digite sua senha para confirmar a alteração
@@ -439,6 +497,7 @@ return (
                             </button>
                     </div>
                     </div>
+                  )}
                 </div>
                 )}
             </div>
@@ -448,8 +507,8 @@ return (
     <hr className='hr_menu' />
 
     <div className="menu__main" onClick={alternarCelular}>
-        <MdOutlinePhonelinkRing className='icon_menu'/>
-        Celular
+        <FaWhatsapp className='icon_menu'/>
+        WhatsApp
         <IoIosArrowDown className={`arrow ${mostrarCelular ? 'girar' : ''}`} id='arrow'/>
     </div>
 
@@ -458,7 +517,7 @@ return (
             <p className='information__span'>Alterar número de contato</p>
             <div className="inputBox">
                 <input
-                type="text"
+                type="tel"
                 id="celular"
                 name="celular"
                 onChange={(e) => {
@@ -475,35 +534,39 @@ return (
                 />{' '}<MdNumbers  className='icon_input'/>
             </div>
 
-            {newPhoneNumber.length > 10 &&(
-                <div style={{paddingLeft: '10px'}}>
-                <div className="form__change__data">
-                    <div className='container__text__change__data'>
-                        Digite sua senha para confirmar a alteração
-                    </div>
+            {newPhoneNumber.length >= 10 &&(
+                <div style={{paddingLeft: '10px'}} className='center__form'>
+                {isLoading ? (
+                  <div className="loaderCreatingBooking"></div>
+                ):(
+                  <div className="form__change__data">
+                      <div className='container__text__change__data'>
+                          Digite sua senha para confirmar a alteração
+                      </div>
 
-                    <div className='container__form__change__data'>
-                    <input
-                        type="password"
-                        id="senha"
-                        name="senha"
-                        value={confirmPassword}
-                        className={`input__change__data ${confirmPassword ? 'input__valided':''}`}
-                        onChange={(e) => {
-                            const inputValue = e.target.value;
-                            // Limitar a 10 caracteres
-                            const truncatedPasswordConfirm = inputValue.slice(0, 10);
-                            setConfirmPassword(truncatedPasswordConfirm);
-                        }}
-                        placeholder="Senha atual"
-                        maxLength={8}
-                        required
-                        /><PiPassword className='icon__input__change__data'/>
-                        <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={alterUserData}>
-                            Confirmar
-                        </button>
-                    </div>
-                </div>
+                      <div className='container__form__change__data'>
+                      <input
+                          type="password"
+                          id="senha"
+                          name="senha"
+                          value={confirmPassword}
+                          className={`input__change__data ${confirmPassword ? 'input__valided':''}`}
+                          onChange={(e) => {
+                              const inputValue = e.target.value;
+                              // Limitar a 10 caracteres
+                              const truncatedPasswordConfirm = inputValue.slice(0, 10);
+                              setConfirmPassword(truncatedPasswordConfirm);
+                          }}
+                          placeholder="Senha atual"
+                          maxLength={8}
+                          required
+                          /><PiPassword className='icon__input__change__data'/>
+                          <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={alterUserData}>
+                              Confirmar
+                          </button>
+                      </div>
+                  </div>
+                )}
                 </div>
             )}
         </div>
@@ -549,34 +612,38 @@ return (
         </div>
 
         {newEmail.length > 0 &&(
-        <div style={{paddingLeft: '10px'}}>
-            <div className="form__change__data">
-                <div className='container__text__change__data'>
-                    Digite sua senha para confirmar a alteração
-                </div>
+          <div style={{paddingLeft: '10px'}} className='center__form'>
+          {isLoading ? (
+            <div className="loaderCreatingBooking"></div>
+          ):(
+              <div className="form__change__data">
+                  <div className='container__text__change__data'>
+                      Digite sua senha para confirmar a alteração
+                  </div>
 
-            <div className='container__form__change__data'>
-                <input
-                    type="password"
-                    id="senha"
-                    name="senha"
-                    value={confirmPassword}
-                    className={`input__change__data ${confirmPassword ? 'input__valided':''}`}
-                    onChange={(e) => {
-                        const inputValue = e.target.value;
-                        // Limitar a 10 caracteres
-                        const truncatedPasswordConfirm = inputValue.slice(0, 10);
-                        setConfirmPassword(truncatedPasswordConfirm);
-                    }}
-                    placeholder="Senha atual"
-                    maxLength={8}
-                    required
-                    /><PiPassword className='icon__input__change__data'/>
-                    <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={alterUserData}>
-                        Confirmar
-                    </button>
-            </div>
-            </div>
+              <div className='container__form__change__data'>
+                  <input
+                      type="password"
+                      id="senha"
+                      name="senha"
+                      value={confirmPassword}
+                      className={`input__change__data ${confirmPassword ? 'input__valided':''}`}
+                      onChange={(e) => {
+                          const inputValue = e.target.value;
+                          // Limitar a 10 caracteres
+                          const truncatedPasswordConfirm = inputValue.slice(0, 10);
+                          setConfirmPassword(truncatedPasswordConfirm);
+                      }}
+                      placeholder="Senha atual"
+                      maxLength={8}
+                      required
+                      /><PiPassword className='icon__input__change__data'/>
+                      <button className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided':''}`} onClick={alterUserData}>
+                          Confirmar
+                      </button>
+              </div>
+              </div>
+          )}
         </div>
         )}
     </div>
@@ -643,10 +710,16 @@ return (
             required
             />{' '} <PiPasswordDuotone className='icon_input'/>
         </div>
-
-        <button className={`button__change ${newPassword ? 'show' : ''}`} onClick={alterarSenha}>
-        Alterar
-        </button>
+        
+        {isLoading && newPassword ? (
+          <div className='center__form'>
+            <div className="loaderCreatingBooking"></div>
+          </div>
+        ):(
+          <button className={`button__change ${newPassword ? 'show' : ''}`} onClick={alterarSenha}>
+            Alterar
+          </button>
+        )}
     </div>
     
     )}

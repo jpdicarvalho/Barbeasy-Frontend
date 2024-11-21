@@ -5,6 +5,11 @@
     box-sizing: border-box;
     font-family: 'Poppis', sans-serif;
 }
+.box_information_cover_image{
+    width: 385px;
+    padding-left: 10px;
+    text-align: justify;
+}
 .icon_back{
     display: flex;
     justify-content: end;
@@ -574,6 +579,7 @@
     padding: 10px;
     border-radius: 5px;
     margin-top: 5px;
+    margin-bottom: 5px;
     opacity: 1;
 }
 .hide_icon__error{
