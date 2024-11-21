@@ -56,6 +56,8 @@ function cronometro () {
 const navigate = useNavigate();
 const location = useLocation();
 
+const [isLoading, setIsLoading] = useState(false) 
+
 const [objectNewAccount, setObjectNewAccount] = useState(null);
 const [numberCodeSended, setNumberCodeSended] = useState('');  
 const [editNumber, setEditNumber] = useState(false);           
@@ -182,6 +184,7 @@ const resendCodeAutentication = () => {
 
 //==================== Section verify code activation =================
 const verifyCodeActivation = () =>{
+  setIsLoading(true)
   if(code.join('').length === 5){
     //Object to Auth user
     const values = {
@@ -193,6 +196,7 @@ const verifyCodeActivation = () =>{
     axios.put(`${urlAuth}/api/v1/verifyUserCode-WhatsApp`, values)
     .then(res =>{
       if(res.status === 201){
+        setIsLoading(false)
         setMessage('Sua conta foi ativada com sucesso!')
          return setTimeout(() => {
           setMessage(null)
@@ -205,6 +209,7 @@ const verifyCodeActivation = () =>{
         }, 2000);
       }
       if(res.status === 204){
+        setIsLoading(false)
         setMessage('Código de ativação incorreto.')
         return setTimeout(() => {
           setMessage(null)
@@ -212,10 +217,12 @@ const verifyCodeActivation = () =>{
       }
     })
     .catch(err =>{
+      setIsLoading(false)
       console.log('Erro ao ativar a conta', err)
       return setMessage('Erro ao ativar a conta.Ttente novamente mais tarde.')
     })
   }else{
+    setIsLoading(false)
     setMessage('Preencha todos os campos.')
     return setTimeout(() => {
       setMessage(null)
@@ -288,9 +295,16 @@ return (
             ))}
           </div>
 
-          <button className="input__submit__code__verification" onClick={verifyCodeActivation}>
-            Ativar conta
-          </button>
+          {isLoading ? (
+            <div className='center__form'>
+              <div className="loaderCreatingBooking"></div>
+            </div>
+          ):(
+            <button className="input__submit__code__verification" onClick={verifyCodeActivation}>
+              Ativar conta
+            </button>
+          )}
+          
 
         </div>
         {formattedTime === '00:00' ? (
