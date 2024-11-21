@@ -247,6 +247,14 @@ function formattedTransactionAmount (transaction_amount){
   return amountFormatted;
 }
 
+//Function to expanded booking cards
+const toggleItem = (itemId) => {
+  if (expandedCardBooking.includes(itemId)) {
+    setExpandedCardBooking(expandedCardBooking.filter(id => id !== itemId));
+  } else {
+    setExpandedCardBooking([...expandedCardBooking, itemId]);
+  }
+};
 return (
     <div className="container__main__home__barbearia">
         <div className='header_container'>
