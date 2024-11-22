@@ -355,11 +355,11 @@ const alterarSenha = () => {
 
 return (
     <>
-    <div className="container__profile__professional">
-        <div className="back" onClick={navigateToProfileProfessional}>
+    <div className="container__profile__professional" translate="no">
+        <div className="back" onClick={navigateToProfileProfessional} translate="no">
           <IoArrowBackSharp className="Icon__Back"/>
         </div>
-        <div className='section__image__profile'>
+        <div className='section__image__profile' translate="no">
             <div className="img__user_edit"> 
                 <label htmlFor="input-file-user" id="drop-area-user">
                     <MdOutlineEdit id="editar"/>
@@ -400,7 +400,7 @@ return (
         )}
 
         {file &&(
-          <div>
+          <div translate="no">
             {file.name.length > 0 &&(
               <div style={{paddingLeft: '10px'}}>
               <div className="form__change__data">

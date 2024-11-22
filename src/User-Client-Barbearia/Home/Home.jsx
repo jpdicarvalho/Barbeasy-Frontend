@@ -137,122 +137,138 @@ const barbeariaSearch = barbearias.filter((barbearia) => {
 
 return (
   <>
-          <div className={`header ${scrollPosition > 200 ? 'scrolled' : ''}`}>
-                <div className={`imgBoxSectionUser ${scrollPosition > 200 ? 'hideDiv' : ''}`} onClick={navigateToUserProfile}>
-                  {userImage != 'default.jpg' ?(
-                    <img className="img__user__in__home__page"src={urlCloudFront + userImage} alt="foto de perfil do usuário" />
-
-                    ):(
-                      <div className="box__first__letter__user">
-                            <p className='firstLetter__professional'>{firstLetter}</p>
-                        </div>
-                    )}
-                  <div className="spanUser">
-                    <p className="nameUser">Olá, {userName}</p>
-                    <p className="saudacao">{saudacao}</p>
-                    
-                  </div>
-                  
-                </div>
-                <div className={`Barbeasy ${scrollPosition > 200 ? 'hideDiv' : ''}`}>
-                  <img id="logoBarbeasy" src={barberLogo} alt="lodo-Barbeasy"/>
-                  <h1>Barbeasy</h1>
-                </div>
-                <div className={`containerSearch ${scrollPosition > 200 ? 'header__Search' : ''}`}>
-                  <div className="inputBoxSearch">
-                    <i className="fa-solid fa-magnifying-glass lupa"></i>
-                    <input type="search" id="inputSearch" name="name" value={search} onChange={(e) => setSearch(e.target.value)} placeholder='Buscar por nome, serviço, aberta...'/>
-                    <BsFillGridFill className="icon__filter"/>
-                  </div>
-                </div> 
+    <div className={`header ${scrollPosition > 200 ? 'scrolled' : ''}`}>
+      <div className={`imgBoxSectionUser ${scrollPosition > 200 ? 'hideDiv' : ''}`} onClick={navigateToUserProfile}>
+        {userImage != 'default.jpg' ? (
+          <img 
+            className="img__user__in__home__page"
+            src={urlCloudFront + userImage} 
+            alt="foto de perfil do usuário" 
+            translate="no"
+          />
+        ) : (
+          <div className="box__first__letter__user">
+            <p className='firstLetter__professional' translate="no">{firstLetter}</p>
           </div>
-          
-          <div className="containerHome">
-            {barbearias.length > 0 ? (
-                barbeariaSearch.length > 0 ? (
-                  barbeariaSearch.map((barbearia, index) => (
-                    <div key={index} className="containerBarbearia" onClick={() => handleBarbeariaClick(barbearia.barbearia_id)}>
-                        
-                        <div className="imgBoxSection">
-                          {barbearia.bannerBarbearia === "banner_main" ?(
-                            <>
-                              <CiImageOn className="icon__CiImageOn"/>
-                            </>
-                          ):(
-                            <img src={urlCloudFront + barbearia.bannerBarbearia} alt="Imagem de capa da barbearia" />
-                          )}
-                        </div>
-                        
-                      <div className="section">
-                          <div className="box__logo__barbeasy">
-                            <div className="inner__img__logo__barbeasy">
-                              <img src={barberLogo} className="img__logo__barbeasy"/>
-                            </div>
-                          </div>
+        )}
+        <div className="spanUser">
+          <p className="nameUser" translate="no">Olá, {userName}</p>
+          <p className="saudacao" translate="no">{saudacao}</p>
+        </div>
+      </div>
+      <div className={`Barbeasy ${scrollPosition > 200 ? 'hideDiv' : ''}`} translate="no">
+        <img 
+          id="logoBarbeasy" 
+          src={barberLogo} 
+          alt="logo-Barbeasy" 
+          translate="no" 
+        />
+        <h1 translate="no">Barbeasy</h1>
+      </div>
+      <div className={`containerSearch ${scrollPosition > 200 ? 'header__Search' : ''}`}>
+        <div className="inputBoxSearch">
+          <i className="fa-solid fa-magnifying-glass lupa"></i>
+          <input 
+            type="search" 
+            id="inputSearch" 
+            name="name" 
+            value={search} 
+            onChange={(e) => setSearch(e.target.value)} 
+            placeholder="Buscar por nome, serviço, aberta..." 
+            translate="no"
+          />
+          <BsFillGridFill className="icon__filter" translate="no" />
+        </div>
+      </div>
+    </div>
 
-                          <div className="Barbearias">
-                            <h2>
-                              {barbearia.nameBarbearia}
-                            </h2>
-                          </div>
-
-                          <div className="endereco">
-                            <p>{barbearia.ruaBarbearia}, Nº {barbearia.NruaBarbearia}, {barbearia.bairroBarbearia}, {barbearia.cidadeBarbearia}</p>
-                          </div>
-
-                          <div className="section__status">
-                            {barbearia.statusBarbearia === "Aberta" ? (
-                              <p className="aberto"> {barbearia.statusBarbearia}</p>
-                              ) : (
-                              <p className="fechado">{barbearia.statusBarbearia}</p>
-                            )}
-                            <div className="section__star">
-                              <IoIosStar className="icon__star" /> 
-                              <p>{barbearia.averageAvaliationsBarbearia ? barbearia.averageAvaliationsBarbearia:0} • ({barbearia.totalAvaliationsBarbearia ? barbearia.totalAvaliationsBarbearia:0})</p>
-                          </div>
-                          </div>
-                          
-                      </div>
-                      <button className="agendar">Ver barbearia</button>
-                    
-                    </div>
-                  ))
-                ):(
-                <div className='box__message__no__bookings__history in__home__barbearia'>
-                  <BsSearch className="icon__LuSearchX"/>
-                    <h3 className="message__barbearia__not__found">Nenhuma barbearia encontrada para "{search}"</h3>
-                </div>
-                )
-            ):(
-              <div className="container__skeletons">
-                <HomeSkeleton />
-                <HomeSkeleton />
+    <div className="containerHome">
+      {barbearias.length > 0 ? (
+        barbeariaSearch.length > 0 ? (
+          barbeariaSearch.map((barbearia, index) => (
+            <div 
+              key={index} 
+              className="containerBarbearia" 
+              onClick={() => handleBarbeariaClick(barbearia.barbearia_id)}
+              translate="no"
+            >
+              <div className="imgBoxSection">
+                {barbearia.bannerBarbearia === "banner_main" ? (
+                  <CiImageOn className="icon__CiImageOn" translate="no" />
+                ) : (
+                  <img 
+                    src={urlCloudFront + barbearia.bannerBarbearia} 
+                    alt="Imagem de capa da barbearia" 
+                    translate="no" 
+                  />
+                )}
               </div>
-                
-            )}
-            
-              
-            <ul className="Navigation active">
-              <li>
-              <button onClick={logoutClick}>
-                  <CiLogout />
-                </button>
-                
-              </li>
-              <li>
-                <button onClick={navigateToUserProfile}>
-                  <VscAccount className="color__icon__menu__navigate"/>
-                </button>
-              </li>
-              <li>
-              <button>
-                  <BsCalendar2Check onClick={navigateToBookingsHistory}/>
-                </button>
-              </li>
-              
-            </ul>
+              <div className="section">
+                <div className="box__logo__barbeasy">
+                  <div className="inner__img__logo__barbeasy">
+                    <img 
+                      src={barberLogo} 
+                      className="img__logo__barbeasy" 
+                      translate="no" 
+                    />
+                  </div>
+                </div>
+                <div className="Barbearias">
+                  <h2 translate="no">{barbearia.nameBarbearia}</h2>
+                </div>
+                <div className="endereco">
+                  <p translate="no">
+                    {barbearia.ruaBarbearia}, Nº {barbearia.NruaBarbearia}, {barbearia.bairroBarbearia}, {barbearia.cidadeBarbearia}
+                  </p>
+                </div>
+                <div className="section__status">
+                  {barbearia.statusBarbearia === "Aberta" ? (
+                    <p className="aberto" translate="no">{barbearia.statusBarbearia}</p>
+                  ) : (
+                    <p className="fechado" translate="no">{barbearia.statusBarbearia}</p>
+                  )}
+                  <div className="section__star">
+                    <IoIosStar className="icon__star" translate="no" /> 
+                    <p translate="no">
+                      {barbearia.averageAvaliationsBarbearia ? barbearia.averageAvaliationsBarbearia : 0} • ({barbearia.totalAvaliationsBarbearia ? barbearia.totalAvaliationsBarbearia : 0})
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <button className="agendar" translate="no">Ver barbearia</button>
+            </div>
+          ))
+        ) : (
+          <div className="box__message__no__bookings__history in__home__barbearia">
+            <BsSearch className="icon__LuSearchX" translate="no" />
+            <h3 className="message__barbearia__not__found" translate="no">Nenhuma barbearia encontrada para "{search}"</h3>
           </div>
-    </>
-    )
+        )
+      ) : (
+        <div className="container__skeletons">
+          <HomeSkeleton />
+          <HomeSkeleton />
+        </div>
+      )}
+      <ul className="Navigation active">
+        <li>
+          <button onClick={logoutClick}>
+            <CiLogout translate="no" />
+          </button>
+        </li>
+        <li>
+          <button onClick={navigateToUserProfile}>
+            <VscAccount className="color__icon__menu__navigate" translate="no" />
+          </button>
+        </li>
+        <li>
+          <button>
+            <BsCalendar2Check onClick={navigateToBookingsHistory} translate="no" />
+          </button>
+        </li>
+      </ul>
+    </div>
+  </>
+);
 }
 export default Home  

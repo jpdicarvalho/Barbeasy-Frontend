@@ -375,8 +375,8 @@ return (
       <div>Barbearia não encontrada</div>
     ):(
       <>
-        <div className="Outdoor">
-        <Swiper slidesPerView={1} effect={'fade'} modules={[EffectFade]} autoplay={{ delay: 3000 }}>
+        <div className="Outdoor" translate="no">
+        <Swiper slidesPerView={1} effect={'fade'} modules={[EffectFade]} autoplay={{ delay: 3000 }} translate="no">
           {banners.map((item) =>
             
               <SwiperSlide key={item} className="Slide__Box">
@@ -391,8 +391,8 @@ return (
            
           )}
         </Swiper>
-        <div className="containner__BarbeariaInformation">
-          <div className="inner__BarbeariaInformation">
+        <div className="containner__BarbeariaInformation" translate="no">
+          <div className="inner__BarbeariaInformation" translate="no">
               {barbearia.statusBarbearia === "Aberta" ? <p className="abertoBarbDetails">{barbearia.statusBarbearia}</p> : <p className="fechadoBarbDetails">{barbearia.statusBarbearia}</p>}
               
               <h2 id="BarbeariaName">{barbearia.nameBarbearia} • {averageAvaliation ? averageAvaliation.toFixed(1):0} <IoStarSharp className="icon__start__in__BarbeariaInformation"/> ({AllAvaliation.length})</h2>
@@ -402,12 +402,12 @@ return (
               </div>
           </div>
           {linkCopied &&(
-            <div className="link__copied">
+            <div className="link__copied" translate="no">
               <LuClipboardCheck className="icon__LuClipboardCheck"/>
               <p>Link copiado!</p>
             </div>
           )}
-          <div className="container__icon__share" onClick={handleCopyLink}>
+          <div className="container__icon__share" onClick={handleCopyLink} translate="no">
             <div className="inner__icon__HiOutlineShare">
               <HiOutlineShare className="icon__HiOutlineShare"/>
             </div>
@@ -415,9 +415,9 @@ return (
           </div>
         </div>
       
-        <div className="container__main__barbearia__details">
-            <div className="container__widget">
-              <header className="header__widget">
+        <div className="container__main__barbearia__details" translate="no">
+            <div className="container__widget" translate="no">
+              <header className="header__widget" translate="no">
                 {tabHeaders.map((tab, index) => (
                   <button
                     key={tab}
@@ -437,8 +437,8 @@ return (
                 ></div>
               </header>
 
-              <div className="content">
-                <div className="content-inner" style={{transform: `translate(-${activeIndex * tabWidth}px, 0)`,}}>
+              <div className="content" translate="no">
+                <div className="content-inner" style={{transform: `translate(-${activeIndex * tabWidth}px, 0)`,}} translate="no">
                 
                     <div  className="tab-content">
                     {bookingWithPayment === 'enabled' &&(
@@ -648,10 +648,10 @@ return (
               </div>
             </div>
             
-            <ul className="Navigation active">
+            <ul className="Navigation active" translate="no">
               {userType === "visitante" ?(
                 <>
-                  <button onClick={navigateToSignIn} className="Btn__create__preBooking">
+                  <button onClick={navigateToSignIn} className="Btn__create__preBooking" translate="no">
                     <VscSignIn className="icon__VscSignIn" /> Fazer login
                   </button>
                 </>

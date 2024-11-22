@@ -201,30 +201,29 @@ const login = useGoogleLogin({
 });
 
 return (
-    <>
-     <div className="container__default">
-      <form onSubmit={handleSubmit} className="container">
-        <div className="imgBox">
+  <>
+    <div className="container__default" translate="no">
+      <form onSubmit={handleSubmit} className="container" translate="no">
+        <div className="imgBox" translate="no">
           <img src={barberLogo} alt="" />
         </div>
 
-        <h2 id="HeaderSignUp">Barbeasy</h2>
-        <div className="Box__cadastro__barbearia">
-          <VscAccount className='icon__IoStorefrontOutline'/>
-          <h3 style={{color: '#f6f6fc'}}>Cadastro de usuário</h3>
+        <h2 id="HeaderSignUp" translate="no">Barbeasy</h2>
+        <div className="Box__cadastro__barbearia" translate="no">
+          <VscAccount className="icon__IoStorefrontOutline" />
+          <h3 style={{ color: '#f6f6fc' }} translate="no">Cadastro de usuário</h3>
         </div>
 
         {message && (
           message.length > 30 ? (
-            <p className={message ? 'error':''}>{message}</p>
+            <p className={message ? 'error' : ''} translate="no">{message}</p>
           ) : (
-            <p className="success">{message}</p>
-            
+            <p className="success" translate="no">{message}</p>
           )
         )}
         {!pendingActivation ? (
-          <animated.div style={props} className="inputContainer">
-            <div className="inputBox center__form">
+          <animated.div style={props} className="inputContainer" translate="no">
+            <div className="inputBox center__form" translate="no">
               <input
                 type="text"
                 id="name"
@@ -233,16 +232,13 @@ return (
                 maxLength={50}
                 onChange={(e) => {
                   const inputValue = e.target.value;
-                  // Remover caracteres não alfanuméricos, ponto e espaço
                   const filteredValue = inputValue.replace(/[^a-zA-Z0-9\sçéúíóáõãèòìàêôâ.]/g, '');
-                  // Limitar a 30 caracteres
                   const truncatedValue = filteredValue.slice(0, 30);
                   setName(truncatedValue);
                 }}
                 placeholder="Nome"
                 required
-              /> 
-
+              />
               <input
                 type="email"
                 id="email"
@@ -250,145 +246,134 @@ return (
                 value={email}
                 onChange={(e) => {
                   const inputValue = e.target.value;
-                  // Remover caracteres não permitidos no e-mail
                   const filteredValue = inputValue.replace(/[^a-zA-Z0-9@._]/g, '');
                   setEmail(filteredValue);
                 }}
                 placeholder="Email"
                 maxLength={100}
                 required
-              /> 
-            </div>
-
-          {step >= 2 && (
-            <div className="inputBox center__form">
-              <input
-                type="tel"
-                id="celular"
-                name="celular"
-                value={celular}
-                onChange={(e) => {
-                  const inputValue = e.target.value;
-                  const filteredValue = inputValue.replace(/[^0-9]/g, '');
-                  // Limitar a 11 caracteres
-                  const truncatedValue = filteredValue.slice(0, 11);
-                  setCelular(truncatedValue)
-                }}
-                placeholder="WhatsApp"
-                maxLength={16}
-                required
-              /> 
-
-              <input
-                type={!passwordVisibility ? "password":"text"}
-                id="senha"
-                name="senha"
-                value={senha}
-                onChange={(e) => {
-                  const inputValue = e.target.value;
-                  //regex to valided password
-                  const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9@.#%]/g, '');
-                  // Limitar a 8 caracteres
-                  const truncatedValue = sanitizedValue.slice(0, 22);
-                  setSenha(truncatedValue);
-                }}
-                placeholder="Password"
-                maxLength={8}
-                required
               />
-              {!passwordVisibility ?(
-                <VscEyeClosed className="icon__VscEyeClosed" onClick={() =>{setPasswordVisibility(true)}}/>
-              ):(
-                <VscEye className="icon__VscEyeClosed" onClick={() =>{setPasswordVisibility(false)}}/>
-              )}
-
             </div>
-          )}
-          {step < 3 && (
-            <div className='inputBox center__form'>
-              <button type="button" onClick={nextStep} id="button_next">Continuar</button>
-            </div>
-          )}
 
-          {step === 3 && (
-            <div className='inputBox center__form'>
-              {valuesNoEmpty ?(
-                <div className="inputBox__inner__cadastrar">
-                  {isLoading ? (
-                    <div className="loaderCreatingBooking"></div>
-                  ):(
-                    <div className="terms__and__btn__create__account">
-
-                      <TurnstileComponent key={captchaKey} siteKey="0x4AAAAAAAz289DCfx9-VvHc" onVerify={handleTokenVerification} />
-
-                      <div className="footer-links in__SignUp">
-                        Ao clicar em "Concordar", você aceita nossos
-                          <Link to="/TermsOfUse" className="footer-link">
+            {step >= 2 && (
+              <div className="inputBox center__form" translate="no">
+                <input
+                  type="tel"
+                  id="celular"
+                  name="celular"
+                  value={celular}
+                  onChange={(e) => {
+                    const inputValue = e.target.value;
+                    const filteredValue = inputValue.replace(/[^0-9]/g, '');
+                    const truncatedValue = filteredValue.slice(0, 11);
+                    setCelular(truncatedValue);
+                  }}
+                  placeholder="WhatsApp"
+                  maxLength={16}
+                  required
+                />
+                <input
+                  type={!passwordVisibility ? "password" : "text"}
+                  id="senha"
+                  name="senha"
+                  value={senha}
+                  onChange={(e) => {
+                    const inputValue = e.target.value;
+                    const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9@.#%]/g, '');
+                    const truncatedValue = sanitizedValue.slice(0, 22);
+                    setSenha(truncatedValue);
+                  }}
+                  placeholder="Password"
+                  maxLength={22}
+                  required
+                />
+                {!passwordVisibility ? (
+                  <VscEyeClosed className="icon__VscEyeClosed" onClick={() => { setPasswordVisibility(true) }} />
+                ) : (
+                  <VscEye className="icon__VscEyeClosed" onClick={() => { setPasswordVisibility(false) }} />
+                )}
+              </div>
+            )}
+            {step < 3 && (
+              <div className="inputBox center__form" translate="no">
+                <button type="button" onClick={nextStep} id="button_next">Continuar</button>
+              </div>
+            )}
+            {step === 3 && (
+              <div className="inputBox center__form" translate="no">
+                {valuesNoEmpty ? (
+                  <div className="inputBox__inner__cadastrar" translate="no">
+                    {isLoading ? (
+                      <div className="loaderCreatingBooking" translate="no"></div>
+                    ) : (
+                      <div className="terms__and__btn__create__account" translate="no">
+                        <TurnstileComponent key={captchaKey} siteKey="0x4AAAAAAAz289DCfx9-VvHc" onVerify={handleTokenVerification} />
+                        <div className="footer-links in__SignUp" translate="no">
+                          Ao clicar em "Concordar", você aceita nossos
+                          <Link to="/TermsOfUse" className="footer-link" translate="no">
                             Termos de Uso
                           </Link>
                           e declara ter lido nossa
-                          <Link to="/PrivacyPolicies" className="footer-link">
+                          <Link to="/PrivacyPolicies" className="footer-link" translate="no">
                             Políticas de Privacidade
                           </Link>
                         </div>
-                      <input type="submit" value="Concordar" />
-                    </div>
-                  )}
-                </div>
-              ):(
-                <button type="button" id="button_next">Preencha todos os campos</button>
-              )}
-            </div>
-          )}
-          
-        </animated.div>
-        ):(
-          <div className="box__recover__account">
+                        <input type="submit" value="Concordar" />
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <button type="button" id="button_next" translate="no">Preencha todos os campos</button>
+                )}
+              </div>
+            )}
+          </animated.div>
+        ) : (
+          <div className="box__recover__account" translate="no">
             <p className="text__information__recover__account">Já existe uma conta com ativação pendente para esse email ou celular informado. Deseja recuperá-la?</p>
             <button type="button" id="button_next" onClick={sendCodeAndRedirectUser}>Recuperar conta</button>
           </div>
         )}
-        
 
-        <div className="link__login">
-          <p>Você já tem uma conta?</p><Link className="link" to="/SignIn">Login</Link>
+        <div className="link__login" translate="no">
+          <p translate="no">Você já tem uma conta?</p>
+          <Link className="link" to="/SignIn" translate="no">Login</Link>
         </div>
-
       </form>
       {!pendingActivation && (
         <>
-          <div className='box__another__option__login'>
-              <hr />
-              <p className='text__other'>OU</p>
-              <hr />
+          <div className="box__another__option__login" translate="no">
+            <hr />
+            <p className="text__other" translate="no">OU</p>
+            <hr />
           </div>
-          <button className="button google" onClick={login}>
-                <svg
-                  viewBox="0 0 256 262"
-                  preserveAspectRatio="xMidYMid"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M255.878 133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45 12.04-9.283 30.172-26.69 42.356l-.244 1.622 38.755 30.023 2.685.268c24.659-22.774 38.875-56.282 38.875-96.027"
-                    fill="#4285F4"
-                  ></path>
-                  <path
-                    d="M130.55 261.1c35.248 0 64.839-11.605 86.453-31.622l-41.196-31.913c-11.024 7.688-25.82 13.055-45.257 13.055-34.523 0-63.824-22.773-74.269-54.25l-1.531.13-40.298 31.187-.527 1.465C35.393 231.798 79.49 261.1 130.55 261.1"
-                    fill="#34A853"
-                  ></path>
-                  <path
-                    d="M56.281 156.37c-2.756-8.123-4.351-16.827-4.351-25.82 0-8.994 1.595-17.697 4.206-25.82l-.073-1.73L15.26 71.312l-1.335.635C5.077 89.644 0 109.517 0 130.55s5.077 40.905 13.925 58.602l42.356-32.782"
-                    fill="#FBBC05"
-                  ></path>
-                  <path
-                    d="M130.55 50.479c24.514 0 41.05 10.589 50.479 19.438l36.844-35.974C195.245 12.91 165.798 0 130.55 0 79.49 0 35.393 29.301 13.925 71.947l42.211 32.783c10.59-31.477 39.891-54.251 74.414-54.251"
-                    fill="#EB4335"
-                  ></path>
-                </svg>
-                Continuar com o Google
+          <button className="button google" onClick={login} translate="no">
+            <svg
+              viewBox="0 0 256 262"
+              preserveAspectRatio="xMidYMid"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M255.878 133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45 12.04-9.283 30.172-26.69 42.356l-.244 1.622 38.755 30.023 2.685.268c24.659-22.774 38.875-56.282 38.875-96.027"
+                fill="#4285F4"
+              ></path>
+              <path
+                d="M130.55 261.1c35.248 0 64.839-11.605 86.453-31.622l-41.196-31.913c-11.024 7.688-25.82 13.055-45.257 13.055-34.523 0-63.824-22.773-74.269-54.25l-1.531.13-40.298 31.187-.527 1.465C35.393 231.798 79.49 261.1 130.55 261.1"
+                fill="#34A853"
+              ></path>
+              <path
+                d="M56.281 156.37c-2.756-8.123-4.351-16.827-4.351-25.82 0-8.994 1.595-17.697 4.206-25.82l-.073-1.73L15.26 71.312l-1.335.635C5.077 89.644 0 109.517 0 130.55s5.077 40.905 13.925 58.602l42.356-32.782"
+                fill="#FBBC05"
+              ></path>
+              <path
+                d="M130.55 50.479c24.514 0 41.05 10.589 50.479 19.438l36.844-35.974C195.245 12.91 165.798 0 130.55 0 79.49 0 35.393 29.301 13.925 71.947l42.211 32.783c10.59-31.477 39.891-54.251 74.414-54.251"
+                fill="#EB4335"
+              ></path>
+            </svg>
+            Continuar com o Google
           </button>
 
-          <footer className="footer">
+          <footer className="footer" translate="no">
             <p className="copyright-text">
               © 2024 Barbeasy. Todos os direitos reservados.
             </p>
@@ -396,9 +381,9 @@ return (
         </>
       )}
     </div>
-    </> 
-    
-  );
+  </>
+);
+
 }
 
 export default SignUp;

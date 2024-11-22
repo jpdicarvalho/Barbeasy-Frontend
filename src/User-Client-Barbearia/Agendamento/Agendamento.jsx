@@ -614,9 +614,9 @@ const [isBookingCreated, setIsBookingCreated] = useState(false)
   return (
   <>
     {serviceId &&(
-      <div className='container__Calendar'>
-      <div className='sectionCalendar'>
-        <div className="list__Names__Week__And__Day">
+      <div className='container__Calendar' translate="no">
+      <div className='sectionCalendar' translate="no">
+        <div className="list__Names__Week__And__Day" translate="no">
         {weekDays.map((dayOfWeek, index) => (
             <div key={`weekDay-${index}`} className="list__name__Week">
               <div
@@ -635,21 +635,21 @@ const [isBookingCreated, setIsBookingCreated] = useState(false)
     )}
 
     {selectedDay &&(
-        <div className="tittle">
+        <div className="tittle" translate="no">
           <div style={{marginTop: '15px'}}>
             Horários Disponíveis
           </div>
         </div>
     )} 
 
-    <div className="container__horarios">
+    <div className="container__horarios" translate="no">
       {renderHorariosDiaSelecionado()}
     </div>
   
 
     {userType != "visitante" &&(
       
-      <div className="container__btn__create__booking__and__payment">
+      <div className="container__btn__create__booking__and__payment" translate="no">
 
         {messageConfirmedBooking === "Agendamento realizado com sucesso!" ? (
           <div className="mensagem-sucesso">

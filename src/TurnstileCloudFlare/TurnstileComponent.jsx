@@ -29,7 +29,7 @@ const TurnstileComponent = ({ siteKey, onVerify }) => {
     };
   }, []);
   
-  return <div id="example-container"></div>;
+  return <div id="example-container" translate="no"></div>;
   };
   
   export default TurnstileComponent;

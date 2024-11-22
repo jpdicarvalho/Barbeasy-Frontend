@@ -1054,30 +1054,30 @@ return (
 
 <hr className='hr_menu'/>
 
-      <div className="menu__main" onClick={alternarHorario}>
+      <div className="menu__main" onClick={alternarHorario} translate="no">
           <TbClockHour4 className='icon_menu'/>
             Definir Horários de Trabalho
           <IoIosArrowDown className={`arrow ${mostrarHorario ? 'girar' : ''}`} id='arrow'/>
       </div>
 
       {mostrarHorario && (
-            <div className="divSelected">
+            <div className="divSelected" translate="no">
               <p className='information__span'>Defina seus horários de funcionamento para cada dia definido anteriormente:</p>
               {daysFromAgenda.length === 0 ? (
                 <p style={{textAlign: 'center', marginTop: '10px'}}>Nenhum dia selecionado</p>
               ) : (
                 daysFromAgenda.map(day => (
-                  <div key={day} className='Dias_Trabalho_Rapido'>
-                    <div className='Dias_Semana' onClick={() => handleDiaClick(day)}>{day}
+                  <div key={day} className='Dias_Trabalho_Rapido' translate="no">
+                    <div className='Dias_Semana' onClick={() => handleDiaClick(day)} translate="no">{day}
                       {diaSelecionado === day && (
-                        <div><p className='information__span'>Defina o seu horário de funcionamento:</p>
+                        <div translate="no"><p className='information__span'>Defina o seu horário de funcionamento:</p>
                           <div className="inputs-horarios">
                           {freeTimeFromOtherDays(diaSelecionado, horarios, fullAgenda)}
                           </div>
                         </div>
                       )}
                       {diaSelecionado === day && (
-                          <div>
+                          <div translate="no">
                               <p className='information__span'>Horários já definidos para esse dia:</p>
                               <div className="inputs-horarios">
                                   {getHorariosPorDia(day)}
@@ -1085,7 +1085,7 @@ return (
                           </div>
                       )}
                       {diaSelecionado === day &&   agendaDoDiaSelecionado.length > 2 &&(
-                        <div>
+                        <div translate="no">
                           <p className='information__span'>Deseja remover algum horário?</p>
                           <div className="inputs-horarios">
                               {agendaDoDiaSelecionado.map((value, index) => (
@@ -1142,7 +1142,7 @@ return (
                  </div>
                 )}
                 {daysAnotherBarbearia.map(day => (
-                  <div key={day} className='Dias_Trabalho_Rapido'>
+                  <div key={day} className='Dias_Trabalho_Rapido' translate="no">
                     <div className='Dias_Semana' onClick={() => handleDiaClick(day)}>{day}
                       {diaSelecionado === day && (
                         <div><p className='information__span'>Defina o seu horário de funcionamento:</p>
@@ -1223,7 +1223,7 @@ return (
 
 <hr className='hr_menu'/>
 
-          <div className="menu__main" onClick={alternarCalendar}>
+          <div className="menu__main" onClick={alternarCalendar} translate="no">
             <CiAlarmOff className='icon_menu'/>
               Fechar horários
             <IoIosArrowDown className={`arrow ${showCalendar ? 'girar' : ''}`} id='arrow'/>
@@ -1234,8 +1234,8 @@ return (
           )}
 
           {showCalendar &&(
-            <div className='container__Calendar'>
-            <div className='sectionCalendar'>
+            <div className='container__Calendar'translate="no" >
+            <div className='sectionCalendar' translate="no" >
                 <div className="list__Names__Week__And__Day">
                 {weekDays.map((dayOfWeek, index) => (
                     <div key={`weekDay-${index}`} className="list__name__Week">
@@ -1336,7 +1336,7 @@ return (
           </div>
 
           {showButtonUnlinkProfessional &&(
-          <div className="divSelected">
+          <div className="divSelected" translate="no">
               <div style={{paddingLeft: '10px'}}>
                 <div className="form__change__data">
                     <div className='span__unlink'>

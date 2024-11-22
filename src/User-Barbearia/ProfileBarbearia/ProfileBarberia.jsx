@@ -957,7 +957,7 @@ useEffect(() =>{
   };
   return (
     <>
-          <div className="banner__in__profile__barbearia">
+          <div className="banner__in__profile__barbearia" translate="no">
             <div className='containner__banner__in__profile__barbearia'>
               {bannerImages.length > 0 ? (
                   <>
@@ -1043,7 +1043,7 @@ useEffect(() =>{
       
     <hr style={{width: '100%'}}/>
 
-      <div className="section_information">
+      <div className="section_information" translate="no">
         <div className='tittle_menu'>
             <h3>Profissional</h3>
             <hr id='sublime'/>
@@ -1088,7 +1088,7 @@ useEffect(() =>{
             <hr id='sublime'/>
         </div>
 
-    <div className="container__menu">
+    <div className="container__menu" translate="no">
 
             <BookingPoliceis barbeariaId={barbeariaId} OAuthUrl={OAuthUrl} isConectedWithMercadoPago={isConectedWithMercadoPago} />
 

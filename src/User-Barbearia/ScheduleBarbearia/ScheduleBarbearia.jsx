@@ -222,8 +222,8 @@ const toggleItem = (itemId) => {
 };
 
 return (
-    <div className="container__main__Schedule__barbearia">
-        <div className="header__bookings__schedule">
+    <div className="container__main__Schedule__barbearia" translate="no">
+        <div className="header__bookings__schedule" translate="no">
             <div className="back__in__schedule">
                 <IoArrowBackSharp className="Icon__Back" onClick={handleBackClick}/>
             </div>
@@ -253,7 +253,7 @@ return (
             </div>
         </div>
 
-        <div className='body__Schedule__barbearia'>
+        <div className='body__Schedule__barbearia' translate="no">
             {bookings &&(
                         <>
                         {bookings.length > 0 ? (
@@ -370,7 +370,7 @@ return (
         </div>
         
         
-        <div className='container__buttons__header'>
+        <div className='container__buttons__header' translate="no">
             
             <div className='inner__buttons__header'>
             <button className='button__header' onClick={logoutClick}>

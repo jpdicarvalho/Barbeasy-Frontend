@@ -12,7 +12,7 @@ const GetStartedPage = () => {
   };
 
   return (
-    <div className="main">
+    <div className="main" translate="no">
       <div className="header__container">
         <img id="logoBarbeasy" src={barberLogo} alt="lodo-Barbeasy" />
         <h1>Barbeasy</h1>

@@ -137,19 +137,19 @@ BookingPoliceis.propTypes = {
 
 return (
     <>
-        <div className="menu__main" onClick={changeShowBookingPolicies}>
+        <div className="menu__main" onClick={changeShowBookingPolicies} translate="no">
           <AiOutlineFileProtect className='icon_menu'/>
             Políticas de agendamento
           <IoIosArrowDown className={`arrow ${showBookingsPoliceis ? 'girar' : ''}`} id='arrow'/>
         </div>
 
         {showBookingsPoliceis && (
-            <div className="divSelected">
+            <div className="divSelected" translate="no">
                 <p className='information__span'>Escolha como os agendamentos devem ser feitos em sua barbearia:</p>
               <div className="container__payment__policeis">
                 {bookingWithPayment === true ? (
                   <>
-                  <div className='container__checkbox__payment'>
+                  <div className='container__checkbox__payment' translate="no">
                     <PiContactlessPayment className='icon_menu__payment__enable' style={{color: '#f6f6f6'}}/>
                     <span  className='span__payment__enable' style={{color: '#f6f6f6'}}>Apenas com pagamento</span>
                       <input
@@ -168,7 +168,7 @@ return (
                       </label>
                   </div>
                     
-                    <div className="container__conection__with__mercado__pago">
+                    <div className="container__conection__with__mercado__pago" translate="no">
                       {isConectedWithMercadoPago ? (
                         <>
                           <div className='container__barearia__conected'>
@@ -301,7 +301,7 @@ return (
                   </>
                 ):(
                   <>
-                    <div className='container__checkbox__payment'>
+                    <div className='container__checkbox__payment' translate="no">
                       <PiContactlessPayment className='icon_menu__payment__enable' style={{color: '#354249'}}/>
 
                       <span className='span__payment__enable' style={{color: '#354249'}}>Apenas com pagamento</span>
@@ -336,7 +336,7 @@ return (
                         </div>
                       )}
 
-                    <div className="form__change__data">
+                    <div className="form__change__data" translate="no">
                         <div className="container__text__change__data">
                           Digite sua senha para confirmar a alteração
                         </div>

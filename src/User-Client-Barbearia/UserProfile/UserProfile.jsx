@@ -344,9 +344,9 @@ const alterarSenha = () => {
 
 return (
     <>
-    <div className="container__profile__professional" style={{paddingBottom: '70px'}}>
-        <div className='section__image__profile'>
-            <div className="img__user_edit"> 
+    <div className="container__profile__professional" style={{paddingBottom: '70px'}} translate="no">
+        <div className='section__image__profile' translate="no">
+            <div className="img__user_edit" translate="no"> 
                 <label htmlFor="input-file-user" id="drop-area-user">
                     <MdOutlineEdit id="editar"/>
                     <input
@@ -362,13 +362,13 @@ return (
                             <img src={userImage} alt="" id='img-profile' />
                         </div>
                     ) : (
-                        <div className="Box__image  Box__first__letter">
+                        <div className="Box__image  Box__first__letter" translate="no">
                             <p className='firstLetter__professional'>{nameUser.charAt(0).toUpperCase()}</p>
                         </div>
                     )}
                 </label>
             </div>
-        <div className="section__userName">
+        <div className="section__userName" translate="no">
             {nameUser}
         </div>
         {userImageMessage === "Imagem atualizada com sucesso." ? (
@@ -435,7 +435,7 @@ return (
             </div>
         )}
 
-    <div className="container__menu">
+    <div className="container__menu" translate="no">
         <div className="menu__main" onClick={alternarNome}>
         <FaRegUser className='icon_menu'/>
             Nome
@@ -506,7 +506,7 @@ return (
 
     <hr className='hr_menu' />
 
-    <div className="menu__main" onClick={alternarCelular}>
+    <div className="menu__main" onClick={alternarCelular} translate="no">
         <FaWhatsapp className='icon_menu'/>
         WhatsApp
         <IoIosArrowDown className={`arrow ${mostrarCelular ? 'girar' : ''}`} id='arrow'/>
@@ -574,7 +574,7 @@ return (
 
     <hr className='hr_menu'/>
 
-    <div className="menu__main" onClick={alternarEmail} >
+    <div className="menu__main" onClick={alternarEmail} translate="no" >
         <MdOutlineEmail className='icon_menu'/>
         Email
         <IoIosArrowDown className={`arrow ${mostrarEmail ? 'girar' : ''}`} id='arrow'/>

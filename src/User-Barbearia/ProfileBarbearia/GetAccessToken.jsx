@@ -106,7 +106,7 @@ const GetAccessToken = () => {
   }, [location.search]);
 
   return (
-    <div className="container__get__access__token">
+    <div className="container__get__access__token" translate="no">
       {credentialsObtained &&(
         <>
           <div className="section__get__access__token__successfuly">

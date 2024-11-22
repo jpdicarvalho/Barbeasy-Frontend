@@ -3,7 +3,7 @@ import barberLogo from '../../barber-logo.png';
 
 function PrivacyPolicies() {
     return (
-        <div className="terms-container">
+        <div className="terms-container" translate="no">
     <div className="header__container">
         <img id="logoBarbeasy" src={barberLogo} alt="logo-Barbeasy" />
         <h1>Barbeasy</h1>

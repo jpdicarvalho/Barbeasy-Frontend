@@ -234,7 +234,7 @@ const verifyCodeActivation = () =>{
 
 return (
     <>
-      <div className="container__in__AccountActivationClient">
+      <div className="container__in__AccountActivationClient" translate="no">
         <div className="imgBox">
           <img src={barberLogo} alt="" />
         </div>
@@ -245,7 +245,7 @@ return (
           <h3 style={{color: '#f6f6fc'}}>Verificação de WhatsApp</h3>
         </div>
 
-        <div className="information__in__AccountActivationClient">
+        <div className="information__in__AccountActivationClient" translate="no">
           {!editNumber && (
             <>
               <p>Enviamos um código de ativação para o número {numberCodeSended}<MdOutlineEdit className="icon__edit__number" onClick={() => setEditNumber(!editNumber)}/>  </p>
@@ -279,7 +279,7 @@ return (
             <p className={message ? 'error':''}>{message}</p>
           )}
         
-        <div className="form__in__AccountActivationClient">
+        <div className="form__in__AccountActivationClient" translate="no">
           <div className="box__input__in__AccountActivationClient">
             {code.map((_, index) => (
               <input

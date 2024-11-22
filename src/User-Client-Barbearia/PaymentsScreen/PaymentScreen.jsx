@@ -186,9 +186,9 @@ export default function PaymentScreen(){
     };
 
     return(
-        <div className="container__master">
+        <div className="container__master" translate="no">
             {!deletedPreBooking ? (
-                <div className="teste">
+                <div className="teste" translate="no">
                     {paymentUpdated ? (
                         <div className="container__payment__approved">
                             <IoIosCheckmarkCircleOutline className="icon__CheckmarkCircleOutline"/>
@@ -201,7 +201,7 @@ export default function PaymentScreen(){
                             </div>
                         </div>
                     ):(
-                        <div className="container__payment__screen">
+                        <div className="container__payment__screen" translate="no">
                             <div className="header__payment__screen">
                                 <h2>Babreasy</h2>
                                 <div className="box__pay__secure">
@@ -284,7 +284,7 @@ export default function PaymentScreen(){
                     )}
                 </div>
             ):(
-                <div className="section__time__over">
+                <div className="section__time__over" translate="no">
                     <RxCounterClockwiseClock className="icon__RxCounterClockwiseClock"/>
                     <p className="text__one__conection__succesfuly">Tempo esgotado...</p>
                     <p className="text__two__conection__succesfuly">O tempo para a realização do pagamento expirou. Mas não tem problema! Você pode tentar novamente.</p>

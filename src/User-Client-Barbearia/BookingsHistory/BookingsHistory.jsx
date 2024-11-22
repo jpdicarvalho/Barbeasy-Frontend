@@ -127,8 +127,8 @@ function BookingsHistory (){
 
     return(
         <>
-            <div className="container__profile__professional">
-                <div className="header__bookings__history">
+            <div className="container__profile__professional" translate="no">
+                <div className="header__bookings__history" translate="no">
                     <div className="back">
                         <IoArrowBackSharp className="Icon__Back" onClick={handleBackClick}/>
                     </div>
@@ -147,7 +147,7 @@ function BookingsHistory (){
                     </div>
                 </div>
                 {isLoading?(
-                    <div className='container__loading__in__bookings__history'>
+                    <div className='container__loading__in__bookings__history' translate="no">
                         <div className="loaderCreatingBooking"></div>
                     </div>
                 ):(

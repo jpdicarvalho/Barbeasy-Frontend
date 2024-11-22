@@ -220,7 +220,7 @@ function SignUpBarbearia() {
 
   return (
     <>
-    <div className="container__signup__barbearia">
+    <div className="container__signup__barbearia" translate="no">
         <form onSubmit={handleSubmit} className="container">
             <div className="imgBox">
               <img src={barberLogo} alt="" />
@@ -471,8 +471,8 @@ function SignUpBarbearia() {
               </div>
             )}
 
-            <div className="link__login">
-              <p>Você já tem uma conta?</p><Link className="link" to="/SignInBarbearia">Login</Link>
+            <div className="link__login" translate="no">
+              <p>Você já tem uma conta?</p><Link className="link" translate="no" to="/SignInBarbearia">Login</Link>
             </div>
         </form>
         {!pendingActivation && (

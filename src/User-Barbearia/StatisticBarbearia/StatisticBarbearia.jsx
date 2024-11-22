@@ -299,10 +299,10 @@ const toggleItem = (itemId) => {
 };
 
 return (
-    <div className='container__statistic__barbearia'>
-        <div className='section__input__search__statistic__barbearia'>
-          <div className='inner__input__search__statistic__barbearia'>
-            <div className='tittle__historic tittle__historic__in__statistic__barbearia'>
+    <div className='container__statistic__barbearia' translate="no">
+        <div className='section__input__search__statistic__barbearia' translate="no">
+          <div className='inner__input__search__statistic__barbearia' translate="no">
+            <div className='tittle__historic tittle__historic__in__statistic__barbearia' translate="no">
               <LuGanttChartSquare className='icon__LuGanttChartSquare' />
               <h2 >Relatório </h2>
               {!isHiddenSectionStatistic && !showInformationToSearch &&(

@@ -346,9 +346,9 @@ useEffect(() =>{
 
 return (
 <>
-    <div className="container__main__in__home__professional">
-      <div className='header_container__in__home__professional'>
-        <div className="img__user__professional">
+    <div className="container__main__in__home__professional" translate="no">
+      <div className='header_container__in__home__professional' translate="no">
+        <div className="img__user__professional" translate="no">
             {imageUser.length > 49 ? (
                   <div className="user__img__home__professional" onClick={navigateToProfileProfessional}>
                     <img src={imageUser} alt="" id='img-profile' />
@@ -358,14 +358,14 @@ return (
                     <p>{firstLetter}</p>
                   </div>
             )}
-            <div className="user__name__professional">
+            <div className="user__name__professional" translate="no">
                 <p className='name__professional__InHome'>Olá, {professionalUserName}</p>
                 <p className='saudacao__in__home__professional'> {saudacao}</p>
             </div>
             
             <CiLogout className='icon__IoNotificationsOutline' onClick={logoutClick}/>
 
-            <div className="icon__notification" onClick={navigateToNotification}>
+            <div className="icon__notification" onClick={navigateToNotification} translate="no">
               {notification.length >= 1 &&(
                 <div className='circle__notification'></div>
               )}
@@ -373,7 +373,7 @@ return (
             </div>
 
         </div>
-        <div className='container__amount__home__professional'>
+        <div className='container__amount__home__professional' translate="no">
           {changeVisibilityAmount ?(
             <>
               <p className='tittle__amount'>Total faturado esse mês</p>
@@ -384,7 +384,7 @@ return (
               
             </>
             ):(
-              <div className='box__amount'>
+              <div className='box__amount' translate="no">
                 <p className='hidden__amount'></p>
                 <AiOutlineEye className='icon__AiOutlineEyeInvisible' onClick={showAmountVisibility}/>
               </div>
@@ -393,16 +393,16 @@ return (
         </div>
       </div>
       
-        <div className="container__calendar__home__professional">
-          <div className='header__agenda__in__home__professional'>
+        <div className="container__calendar__home__professional" translate="no">
+          <div className='header__agenda__in__home__professional' translate="no">
             <BsCalendar2Check className='icon__RiExchangeFundsLine'/> 
             <h3 className='text__agenda__in__home__professional'>Agenda</h3>
           </div>
           <div className='container__currentDate__in__home__professional'>
             <p className='inner__text__currentDate__in__home__professional'>{selectedDay ? selectedDay:currenteDate}</p>
           </div>
-          <div className='calendar__barbearia'>
-            <div className="list__Names__Week__And__Day">
+          <div className='calendar__barbearia' translate="no">
+            <div className="list__Names__Week__And__Day" translate="no">
             {weekDays.map((dayOfWeek, index) => (
                 <div key={`weekDay-${index}`} className="list__name__Week">
                   <div

@@ -38,7 +38,7 @@ const GoogleSignInButton = () => {
   }, []);
 
   return (
-    <div>
+    <div translate="no">
       {/* Elemento de inicialização */}
       <div
         id="g_id_onload"

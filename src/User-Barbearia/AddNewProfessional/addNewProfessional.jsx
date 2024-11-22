@@ -234,16 +234,16 @@ const sendRequesToProfessional = () =>{
 if(openModal){
     return (
         <>
-        <div className="container__form">
-            <div className="section_professional">
-            <div className="tittle__search__professional">
+        <div className="container__form" translate="no">
+            <div className="section_professional" translate="no">
+              <div className="tittle__search__professional" translate="no">
                   <p>Adicionar Profissional</p>
                   <button className="Btn__closeModal" onClick={setCloseModal}>
                     <IoClose className="icon_close"/>
                   </button>
-                </div>
+              </div>
               {showSearchProfessional &&(
-                <div className="section_search_professional">
+                <div className="section_search_professional" translate="no">
                     <div className="inputBox__search">
                       <IoSearchOutline className="icon__lupa"/>
                       
@@ -336,7 +336,7 @@ if(openModal){
               )}
               
               {showForm && (
-                <div className="section__form">
+                <div className="section__form" translate="no">
                               <div className="coolinput">
                               <label htmlFor="professionalName" className="text">Name:</label>
                               <input

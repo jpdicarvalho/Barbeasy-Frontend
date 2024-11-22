@@ -320,7 +320,7 @@ const sendNewPasswordToEmail = () => {
 
 return(
     <>
-        <div className="container__in__AccountActivationClient">
+        <div className="container__in__AccountActivationClient" translate="no">
             {!emailVerified ? (
                 <>
                     <div className="imgBox">
@@ -332,7 +332,7 @@ return(
                     <div className="Box__cadastro__barbearia">
                         <h3 style={{color: '#f6f6fc'}}>Recuperação de Conta</h3>
                     </div>
-                    <animated.div style={props} className="inputContainer">
+                    <animated.div style={props} className="inputContainer" translate="no">
                         {!whatsAppVerified ? (
                             <div className="information__in__AccountActivationClient">
                         
@@ -449,7 +449,7 @@ return(
                     </animated.div>
                 </>
             ):(
-                <div className="container__payment__approved">
+                <div className="container__payment__approved" translate="no">
                     <IoIosCheckmarkCircleOutline className="icon__CheckmarkCircleOutline"/>
                     <p className="text__one__conection__succesfuly">Sua conta foi recuperada!</p>
                     <p className="text__two__conection__succesfuly">Enviamos uma senha provisória para seu e-mail! Lembre-se de troca-lá após fazer login.</p>

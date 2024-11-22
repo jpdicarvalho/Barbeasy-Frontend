@@ -31,15 +31,15 @@ function BookingDetails () {
 
     return(
         <>
-            <div className="container__Booking__Details">
+            <div className="container__Booking__Details" translate="no">
                 <div className="Box__banner__main__Booking__Details">
                     <img className="Img__banner__main__Booking__Details" src={urlCloudFront + booking.bannerBarbearia} alt="" />
                 </div>
-                <div className="information__barbearia__Booking__Details">
+                <div className="information__barbearia__Booking__Details" translate="no">
                     <h2>{booking.barbeariaName}</h2>
                     <p>{booking.ruaBarbearia}, Nº {booking.NruaBarbearia}, {booking.bairroBarbearia}, {booking.cidadeBarbearia}</p>
                 </div>
-            <div className="background">
+            <div className="background" translate="no">
                 <div className="subtittle__Booking__Details">
                     <h3>Detalhes do serviço</h3>
                 </div>
@@ -90,7 +90,7 @@ function BookingDetails () {
                 
             </div>
                 
-            <div className="Box__btn__back__Booking__Details">
+            <div className="Box__btn__back__Booking__Details" translate="no">
                 <button className="Btn__back__Booking__Details" onClick={handleBackClick}>
                     Voltar
                 </button>

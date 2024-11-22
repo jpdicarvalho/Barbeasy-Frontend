@@ -350,7 +350,7 @@ const toggleItem = (itemId) => {
   };
     return (
         <>
-        <div className="menu__main" onClick={alternarServico}>
+        <div className="menu__main" onClick={alternarServico} translate="no">
             <GiRazor className='icon_menu'/>
               Definir Serviços
             <IoIosArrowDown className={`arrow ${mostrarServico ? 'girar' : ''}`} id='arrow'/>
@@ -358,9 +358,9 @@ const toggleItem = (itemId) => {
           </div>
 
           {mostrarServico && (
-            <div className={`${showAddServico ? 'expandir' : ''}`}>
+            <div className={`${showAddServico ? 'expandir' : ''}`} translate="no">
               {showAddServico &&(
-                <div className="input_Container">
+                <div className="input_Container" translate="no">
 
                       <p>Qual o nome do serviço?</p>
                       <input
@@ -440,9 +440,9 @@ const toggleItem = (itemId) => {
                 </div>
               )}
 
-              <div className="divSelected">
-                <div className='container__servicos'>
-                  <div className='section__service'>
+              <div className="divSelected" translate="no">
+                <div className='container__servicos' translate="no">
+                  <div className='section__service' translate="no">
                   {servicos.length > 0 ?
                     servicos.map((servico, index) => (
                       <div 

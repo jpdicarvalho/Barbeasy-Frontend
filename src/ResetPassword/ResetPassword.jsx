@@ -245,7 +245,7 @@ const verifyCodeToResetPassword = () => {
 
 return(
         <>
-            <div className="container__in__AccountActivationClient">
+            <div className="container__in__AccountActivationClient" translate="no">
                 <div className="imgBox">
                 <img src={barberLogo} alt="" />
                 </div>
@@ -303,7 +303,7 @@ return(
                     )}
                     <p style={{textAlign: 'left', color: 'gray', fontSize: '14px', paddingLeft: '10px', paddingRight: '10px'}}>Por onde você prefere recerber o código de verificação?</p>
                     
-                    <div className="container__method__receive__code">
+                    <div className="container__method__receive__code" translate="no">
                         
                         <div className="Box__method__email" onClick={() => {setMethodSendCode("email")}}>
                             <label className="cyberpunk-checkbox-label">
@@ -335,7 +335,7 @@ return(
                 )}
 
                 {methodSendCode === 'email' && !codeSend &&(
-                    <div className="inputBox__in__reset__password">
+                    <div className="inputBox__in__reset__password" translate="no">
                     <input
                       type="email"
                       id="email"
@@ -367,7 +367,7 @@ return(
                 )}
 
                 {methodSendCode === 'whatsApp' && !codeSend &&(
-                    <div className="inputBox__in__reset__password">
+                    <div className="inputBox__in__reset__password" translate="no">
                     <input
                       type="tel"
                       id="whatsApp"

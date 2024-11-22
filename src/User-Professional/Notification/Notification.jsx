@@ -124,9 +124,9 @@ export default function Notification (){
 
     }
     return (
-        <div className="container__notification">
-            <div className="section__notification">
-                <div className="header__notification">
+        <div className="container__notification" translate="no">
+            <div className="section__notification" translate="no">
+                <div className="header__notification" translate="no">
                     <div className="back">
                         <IoArrowBackSharp className="Icon__Back" onClick={navigateToHomeProfessional}/>
                     </div>
