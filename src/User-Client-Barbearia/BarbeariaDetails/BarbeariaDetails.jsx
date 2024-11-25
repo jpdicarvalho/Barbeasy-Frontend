@@ -99,7 +99,7 @@ const [servicePercentageStored, setServicePercentageStored] = useState('');
   
   useEffect(() =>{
     getBookingPoliceis()
-  }, [userType])
+  }, [])
 
 //=========== Get barbearia ==============
 const [barbearia, setBarbearia] = useState ([]);
@@ -124,27 +124,28 @@ useEffect(()=>{
 const [accessTokenBarbearia, setAccessTokenBarbearia] = useState();
 
 useEffect(()=>{
-  //Function to get access token of barbearia. That access token will be used to send the payment for it
-  const getAccessTokenBarbearia = () =>{
-    axios.get(`${urlApi}/api/v1/barbeariaCredentials/${barbeariaId}`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    }).then(res => {
-      if(res.data.Success === true){
-        setAccessTokenBarbearia(false);
+  if(userType != "visitante"){
+    //Function to get access token of barbearia. That access token will be used to send the payment for it
+    const getAccessTokenBarbearia = () =>{
+      axios.get(`${urlApi}/api/v1/barbeariaCredentials/${barbeariaId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }).then(res => {
+        if(res.data.Success === true){
+          setAccessTokenBarbearia(false);
 
-        setAccessTokenBarbearia(res.data.credentials[0].access_token);
-      }else{
-        setAccessTokenBarbearia(false);
-      }
-    }).catch(err => {
-      setAccessTokenBarbearia(false)
-      console.error('Erro ao obter os credenciais:', err);
-    })
+          setAccessTokenBarbearia(res.data.credentials[0].access_token);
+        }else{
+          setAccessTokenBarbearia(false);
+        }
+      }).catch(err => {
+        setAccessTokenBarbearia(false)
+        console.error('Erro ao obter os credenciais:', err);
+      })
+    }
+    getAccessTokenBarbearia()
   }
-
-  getAccessTokenBarbearia()
 }, [])
 /*=========== copy link barbearia to share ===========*/
 const [linkCopied, setLinkCopied] = useState(false);
