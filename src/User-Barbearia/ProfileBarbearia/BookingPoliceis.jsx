@@ -30,11 +30,8 @@ const [inputCheckChange, setInputCheckChange] = useState('');
 const [messagePoliceisChange, setMessagePoliceisChange] = useState('');
 
 const getBookingPoliceis = () =>{
-  axios.get(`${urlApi}/api/v1/bookingPoliceis/${barbeariaId}`, {
-    headers: {
-      'Authorization': `Bearer ${token}`
-   }
-  }).then(res =>{
+  axios.get(`${urlApi}/api/v1/bookingPoliceis/${barbeariaId}`)
+  .then(res =>{
       if(res.status === 200){
         setBookingWithPayment(res.data.bookingPoliceis.booking_with_payment === "enabled" ? true:false)
         setServicePercentage(res.data.bookingPoliceis.service_percentage === "false" ? false:res.data.bookingPoliceis.service_percentage)
