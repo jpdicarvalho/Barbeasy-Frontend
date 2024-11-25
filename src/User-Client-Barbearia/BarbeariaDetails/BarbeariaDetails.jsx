@@ -64,10 +64,10 @@ const token = localStorage.getItem('token');
 const userData = localStorage.getItem('userData');
 
 const DataVisitante = {
-  user: [{
+  user: {
     id: 9999999999,
     userType:"visitante"
-  }]
+  }
 }
 
 if(!userData){
@@ -86,11 +86,8 @@ const [bookingWithPayment, setBookingWithPayment] = useState(false);
 const [servicePercentageStored, setServicePercentageStored] = useState('');
 
   const getBookingPoliceis = () =>{
-    axios.get(`${urlApi}/api/v1/bookingPoliceis/${barbeariaId}`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-     }
-    }).then(res =>{
+    axios.get(`${urlApi}/api/v1/bookingPoliceis/${barbeariaId}`)
+    .then(res =>{
         if(res.status === 200){
           setBookingWithPayment(res.data.bookingPoliceis.booking_with_payment)
           setServicePercentageStored(res.data.bookingPoliceis.service_percentage === "false" ? '':res.data.bookingPoliceis.service_percentage)        
@@ -102,7 +99,7 @@ const [servicePercentageStored, setServicePercentageStored] = useState('');
   
   useEffect(() =>{
     getBookingPoliceis()
-  }, [])
+  }, [userType])
 
 //=========== Get barbearia ==============
 const [barbearia, setBarbearia] = useState ([]);
