@@ -12,21 +12,20 @@ const GetStartedPage = () => {
   };
 
   return (
-    <div className="main" translate="no">
+    <div className="main__get__started" translate="no">
       <div className="header__container">
         <img id="logoBarbeasy" src={barberLogo} alt="lodo-Barbeasy" />
         <h1>Barbeasy</h1>
         <h3 id="welcome">Seja Bem-Vindo</h3>
       </div>
       <div className="option">
-        <div className='tittle__option'>O que deseja fazer?</div>
         <div
           className={`section_option ${optionUser === 'cliente' ? 'selected' : ''}`}
           onClick={() => handleOptionUser('cliente')}
         >
           <p className="tittle__option">Agendar Serviço</p>
           <hr className={`hr__in__get__started ${optionUser === 'cliente' ? 'hr__selected' : ''}`}/>
-          <p>Descubra as melhores opções de serviços de barbearias.</p>
+          <p style={{fontSize: '12px'}}>Descubra as melhores opções de serviços de barbearias.</p>
         </div>
 
         <div
@@ -35,7 +34,7 @@ const GetStartedPage = () => {
         >
           <p className="tittle__option">Oferecer Serviço</p>
           <hr className={`hr__in__get__started ${optionUser === 'barbearia' ? 'hr__selected' : ''}`}/>
-          <p>Ofereça serviços de barbearia e conecte-se com clientes.</p>
+          <p style={{fontSize: '12px'}}>Ofereça serviços de barbearia e conecte-se com clientes.</p>
         </div>
         <Link to="/SignIn">
           {optionUser === 'cliente' && <button className='button__link'>Iniciar</button>}

@@ -973,9 +973,9 @@ const unlinkProfessional = () =>{
     })
 }
 return (
-    <div className="main__professional">
-    <div className="container__professional">
-        <div className="header__professional">
+    <div className="main__professional" translate="no">
+    <div className="container__professional" translate="no">
+        <div className="header__professional" translate="no">
             <div className="back">
               <IoArrowBackSharp className="Icon__Back" onClick={handleBackClick}/>
             </div>
@@ -985,11 +985,11 @@ return (
                               <img src={userImage} alt="" id='img-profile' />
                           </div>
               ) : (
-                    <div className="Box__image  Box__first__letter">
-                        <p className='firstLetter__professional'>{firstLetter}</p>
+                    <div className="Box__image  Box__first__letter" translate="no">
+                        <p className='firstLetter__professional' translate="no">{firstLetter}</p>
                     </div>
             )}
-            <p className='name__professional'>{professional.name}</p>
+            <p className='name__professional' translate="no">{professional.name}</p>
         </div>
 
         <div className="container__menu">
@@ -1385,9 +1385,6 @@ return (
              
         )}
         </div>
-        
-        
-        
     </div>
   </div>
     )
