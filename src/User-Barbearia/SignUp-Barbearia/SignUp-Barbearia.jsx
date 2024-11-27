@@ -163,7 +163,7 @@ function SignUpBarbearia() {
         }
         if(err.response.status === 400) {
           setIsLoading(false)
-          setMessage('E-mail ou celular já cadastrados.');
+          setMessage(err.response.data.message);
           return setTimeout(() => {
             setMessage(null);
           }, 3000);
@@ -199,7 +199,7 @@ function SignUpBarbearia() {
     if(accessToken){
       axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${accessToken}`)
         .then(res => {
-          setUsuario(`${res.data.given_name} ${res.data.family_name}`)
+          setUsuario(`${res.data.given_name}`)
           setEmail(res.data.email)
           setSenha(res.data.id)
           setStep(4);
