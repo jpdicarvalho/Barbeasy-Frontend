@@ -136,7 +136,7 @@ form .link{
   border-radius: 5px;
 }
 .error{
-  color: rgb(255, 0, 0);
+  color: rgb(255 134 134);
   margin-bottom: 10px;
   font-size: 13px;
   text-align: center;

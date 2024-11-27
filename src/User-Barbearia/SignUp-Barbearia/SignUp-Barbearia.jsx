@@ -218,6 +218,8 @@ function SignUpBarbearia() {
     }, 
   });
 
+// <QRCodeSVG value=""/>
+
   return (
     <>
     <div className="container__signup__barbearia" translate="no">
@@ -232,12 +234,6 @@ function SignUpBarbearia() {
               <IoStorefrontOutline className='icon__IoStorefrontOutline'/>
               <h3 style={{color: '#f6f6fc'}}>Cadastro de Barbearia</h3>
             </div>
-
-            {message === "Cadastro realizado!" ? (
-              <p className="success">{message}</p>
-              ) : (
-              <p className={message ? 'error':''}>{message}</p>
-            )}
 
             {!pendingActivation ? (
               <animated.div style={props}>
@@ -446,6 +442,11 @@ function SignUpBarbearia() {
 
                           <TurnstileComponent key={captchaKey} siteKey="0x4AAAAAAAz289DCfx9-VvHc" onVerify={handleTokenVerification} />
 
+                          {message === "Cadastro realizado!" ? (
+                            <p className="success">{message}</p>
+                            ) : (
+                            <p className={message ? 'error':''}>{message}</p>
+                          )}
                           <div className="footer-links in__SignUp">
                             Ao clicar em "Concordar", você aceita nossos
                             <Link to="/TermsOfUse" className="footer-link">
