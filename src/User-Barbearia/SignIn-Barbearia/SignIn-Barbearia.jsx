@@ -58,35 +58,16 @@ function SignInBarbearia() {
             navigate('/HomeBarbearia');
           }, 2000);
         }).catch(err =>{
-          setCaptchaKey(prev => prev + 1); // Reiniciar o turnstile caso haja erro
+          // Reiniciar o turnstile caso haja erro
+          setCaptchaKey(prev => prev + 1);
+          // Tratamento de erro para conta com pendência de ativação
           if(err.response.status === 302){
             setIsLoading(false)
             setEmailStored(err.response.data.userPending.email)
             setPhoneNumberStored(err.response.data.userPending.celular)
             return setPendingActivation(true)
           }
-          if(err.response.status === 401){
-            setMessage('E-mail ou senha incorreto.');
-            return setTimeout(() => {
-              setIsLoading(false)
-              setMessage(null);
-            }, 2000);
-          }
-          if(err.response.status === 403){
-            setMessage('Falha na verificação de autenticação humana.');
-            return setTimeout(() => {
-              setIsLoading(false)
-              setMessage(null);
-            }, 2000);
-          }
-          if(err.response.status === 404){
-            setMessage('Usuário não encontrado!');
-            return setTimeout(() => {
-              setIsLoading(false)
-              setMessage(null);
-            }, 2000);
-          }
-          setMessage('Erro ao realizar o Login! Tente novamente mais tarde.');
+          setMessage(err.response.data.message);
           setTimeout(() => {
             setIsLoading(false)
             setMessage(null);
@@ -115,27 +96,14 @@ function SignInBarbearia() {
             navigate('/HomeProfessional');
           }, 2000);
         }).catch(err =>{
-          setCaptchaKey(prev => prev + 1); // Reiniciar o turnstile caso haja erro
-          if (err.response.status === 400) {
-            setIsLoading(false)
-            setMessage('Verifique os dados informados. E-mail ou celular incorreto.');
-            return setTimeout(() => {
-              setMessage(null);
-            }, 3000);
-          }
-          if(err.response.status === 404){
-            setMessage('Usuário não encontrado.');
-            return setTimeout(() => {
-              setIsLoading(false)
-              setMessage(null);
-            }, 2000);
-          }
-          setMessage('Erro ao realizar o Login! Tente novamente mais tarde.');
+          console.log(err)
+          // Reiniciar o turnstile caso haja erro
+          setCaptchaKey(prev => prev + 1);
+          setMessage(err.response.data.message);
           setTimeout(() => {
             setIsLoading(false)
             setMessage(null);
           }, 2000);
-          console.log(err)
         })
       }
     }
@@ -313,12 +281,12 @@ function SignInBarbearia() {
                   inputValue = inputValue.replace(/[^a-zA-Z0-9@.#%]/g, '');
   
                   // Limitar a 8 caracteres
-                  const truncatedValue = inputValue.slice(0, 8);
+                  const truncatedValue = inputValue.slice(0, 22);
   
                   setSenha(truncatedValue);
                 }}
                 placeholder="Password"
-                maxLength={8}
+                maxLength={22}
                 required
               />
               {!passwordVisibility ? (

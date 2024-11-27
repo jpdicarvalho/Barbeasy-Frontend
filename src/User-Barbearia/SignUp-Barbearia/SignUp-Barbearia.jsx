@@ -126,7 +126,6 @@ function SignUpBarbearia() {
       
       axios.post(`${urlApi}/api/v1/SignUpBarbearia`, values)
       .then(res => {
-        if (res.status === 201) {
             //Object to Account Activation
             const objectNewAccountForActivation = {
               type: 'barbearia',
@@ -137,40 +136,22 @@ function SignUpBarbearia() {
             setIsLoading(false)
             sendCodeAutentication(objectNewAccountForActivation.phoneNumber, email)
             navigate('/AccountActivationClient', { state: { objectNewAccountForActivation } });          
-        } else {
-          setIsLoading(false)
-          setMessage('Erro ao realizar o cadastro!');
-          setTimeout(() => {
-            setMessage(null);
-          }, 3000);
-        }
       })
       .catch(err => {
-        console.log(err);
-        setCaptchaKey(prev => prev + 1); // Reiniciar o turnstile caso haja erro
-        if(err.response.status === 302){
-          setIsLoading(false)
-          setEmailStored(err.response.data.userPending.email)
-          setPhoneNumberStored(err.response.data.userPending.celular)
-          return setPendingActivation(true)
-        }
-        if(err.response.status === 403){
-          setMessage('Falha na verificação de autenticação humana.');
-          return setTimeout(() => {
+          console.log(err);
+          // Reiniciar o turnstile caso haja erro
+          setCaptchaKey(prev => prev + 1); 
+          if(err.response.status === 302){
             setIsLoading(false)
-            setMessage(null);
-          }, 2000);
-        }
-        if(err.response.status === 400) {
+            setEmailStored(err.response.data.userPending.email)
+            setPhoneNumberStored(err.response.data.userPending.celular)
+            return setPendingActivation(true)
+          }
           setIsLoading(false)
           setMessage(err.response.data.message);
           return setTimeout(() => {
             setMessage(null);
           }, 3000);
-        } else {
-          setIsLoading(false)
-          setMessage('Erro ao realizar o cadastro. Tente novamente mais tarde.');
-        }
       });
     }else{
       setIsLoading(false)
@@ -253,7 +234,7 @@ function SignUpBarbearia() {
                   setName(truncatedValue);
                 }}
                 placeholder="Nome da Barbearia"
-                maxLength={50}
+                maxLength={30}
                 required
               /> 
 
