@@ -126,16 +126,16 @@ function SignUpBarbearia() {
       
       axios.post(`${urlApi}/api/v1/SignUpBarbearia`, values)
       .then(res => {
-            //Object to Account Activation
-            const objectNewAccountForActivation = {
-              type: 'barbearia',
-              phoneNumber: numberWhithoutNine,
-              email: email,
-              data_request: Date.now() + 50 * 1000
-            }
-            setIsLoading(false)
-            sendCodeAutentication(objectNewAccountForActivation.phoneNumber, email)
-            navigate('/AccountActivationClient', { state: { objectNewAccountForActivation } });          
+          //Object to Account Activation
+          const objectNewAccountForActivation = {
+            type: 'barbearia',
+            phoneNumber: numberWhithoutNine,
+            email: email,
+            data_request: Date.now() + 50 * 1000
+          }
+          setIsLoading(false)
+          sendCodeAutentication(objectNewAccountForActivation.phoneNumber, email)
+          navigate('/AccountActivationClient', { state: { objectNewAccountForActivation } });          
       })
       .catch(err => {
           console.log(err);

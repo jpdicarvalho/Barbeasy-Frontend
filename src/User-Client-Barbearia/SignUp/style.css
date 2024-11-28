@@ -51,6 +51,7 @@ body{
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    width: 300px;
 }
 .in__SignUp{
     margin-top: 5px;

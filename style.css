@@ -143,6 +143,7 @@ form .link{
   padding: 5px;
   border-radius: 3px;
   background: rgba(255, 0, 0, 0.229);
+  width: 100%;
 }
 .inputBox__inner__cadastrar{
   display: flex;
