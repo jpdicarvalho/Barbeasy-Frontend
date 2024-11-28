@@ -200,7 +200,6 @@ function SignUpBarbearia() {
   });
 
 // <QRCodeSVG value=""/>
-
   return (
     <>
     <div className="container__signup__barbearia" translate="no">
