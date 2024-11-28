@@ -115,7 +115,6 @@ const valuesNoEmpty = name && email && celular && senha;
     if (step === 3) {
       axios.post(`${urlApi}/api/v1/SignUp`, values)
         .then(res => {
-          if (res.status === 201) {
             //Object to Account Activation
             const objectNewAccountForActivation = {
               type: 'client',
@@ -126,36 +125,21 @@ const valuesNoEmpty = name && email && celular && senha;
             setIsLoading(false)
             sendCodeAutentication(objectNewAccountForActivation.phoneNumber, email)
             navigate('/AccountActivationClient', { state: { objectNewAccountForActivation } });
-          }
         })
         .catch(err => {
-          console.log(err)
-          setCaptchaKey(prev => prev + 1); // Reiniciar o turnstile caso haja erro
-          if(err.response.status === 302){
-            setIsLoading(false)
-            setEmailStored(err.response.data.userPending.email)
-            setPhoneNumberStored(err.response.data.userPending.celular)
-            return setPendingActivation(true)
-          }
-          if(err.response.status === 403){
-            setMessage('Falha na verificação de autenticação humana. Por favor, tente novamente.');
-            return setTimeout(() => {
+            console.log(err)
+            setCaptchaKey(prev => prev + 1); // Reiniciar o turnstile caso haja erro
+            if(err.response.status === 302){
               setIsLoading(false)
-              setMessage(null);
-            }, 2000);
-          }
-          if (err.response.status === 400) {
+              setEmailStored(err.response.data.userPending.email)
+              setPhoneNumberStored(err.response.data.userPending.celular)
+              return setPendingActivation(true)
+            }
             setIsLoading(false)
-            setMessage('E-mail ou celular já cadastrados.');
+            setMessage(err.response.data.message);
             return setTimeout(() => {
               setMessage(null);
             }, 3000);
-          } else {
-            setIsLoading(false)
-            setMessage('Erro ao realizar o cadastro. Tente novamente mais tarde.');
-            console.error(err);
-          }
-          console.log(err)
         });
     } else {
       setStep(step + 1);

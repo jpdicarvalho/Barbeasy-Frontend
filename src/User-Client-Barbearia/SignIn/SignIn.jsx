@@ -59,44 +59,20 @@ const sendForm = () =>{
     }, 2000);
 
   }).catch(err => {
-    setCaptchaKey(prev => prev + 1); // Reiniciar o turnstile caso haja erro
-    
+    console.log(err)
+    // Reiniciar o turnstile caso haja erro
+    setCaptchaKey(prev => prev + 1); 
     if(err.response.status === 302){
       setIsLoading(false)
       setEmailStored(err.response.data.userPending.email)
       setPhoneNumberStored(err.response.data.userPending.celular)
       return setPendingActivation(true)
     }
-    if(err.response.status === 401){
-      setMessage('E-mail ou senha incorreto.');
-      return setTimeout(() => {
-        setIsLoading(false)
-        setMessage(null);
-      }, 2000);
-    }
-    if(err.response.status === 403){
-      setMessage('Falha na verificação de autenticação humana.');
-      return setTimeout(() => {
-        setIsLoading(false)
-        setMessage(null);
-      }, 2000);
-    }
-    if(err.response.status === 404){
-      setMessage('Usuário não encontrado.');
-
-      return setTimeout(() => {
-        setIsLoading(false)
-        setMessage(null);
-      }, 2000);
-    }
-    
-    setMessage('Erro ao realizar o Login! Tente novamente mais tarde.');
+    setIsLoading(false)
+    setMessage(err.response.data.message);
     setTimeout(() => {
-      setIsLoading(false)
       setMessage(null);
     }, 2000);
-    console.log(err)
-
   })
 }
 
