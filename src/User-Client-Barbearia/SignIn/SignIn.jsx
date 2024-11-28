@@ -37,6 +37,14 @@ const handleTokenVerification = (token) => {
 const sendForm = () =>{
   setIsLoading(true)
 
+  if(!values.email || !values.senha || !tokenCloudFlare){
+      setIsLoading(false)
+      setMessage('Preencha todos os campos.');
+      return setTimeout(() => {
+        setMessage(null);
+      }, 3000);
+  }
+
   const credentials = {
     email: values.email,
     senha: values.senha, 
@@ -72,7 +80,7 @@ const sendForm = () =>{
     setMessage(err.response.data.message);
     setTimeout(() => {
       setMessage(null);
-    }, 2000);
+    }, 3000);
   })
 }
 

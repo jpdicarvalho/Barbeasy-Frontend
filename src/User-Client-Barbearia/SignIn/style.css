@@ -10,13 +10,6 @@ body{
     flex-direction: column;
     background: #100d2a;
 }
-.container{
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
 .imgBox{
     position: relative;
 }
@@ -39,7 +32,6 @@ body{
     margin-top: 5px;
     margin-bottom: 10px;
     font-size: 14px;
-    padding-right: 25px;
 }
 .box__another__option__login{
     display: flex;
