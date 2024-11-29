@@ -201,14 +201,6 @@ const getUserData = () =>{
 const alterUserData = () => {
   setIsLoading(true)
 
-  //Basics Validations
-  if(newPhoneNumber.length < 10){
-    setMessage('Informe um número válido.')
-    return setTimeout(() => {
-      setMessage(null)
-    }, 3000);
-  }
-
   let validedNumber;
 
   if(newPhoneNumber.length === 11){//Ex.:93 9 94455445
@@ -246,14 +238,16 @@ const alterUserData = () => {
           }, 3000);
     })
     .catch(error => {
-      setIsLoading(false)
+      console.error('Erro ao realizar alteração:', error);
       if(error.response.status === 400){
+        setIsLoading(false)
         setMessage(error.response.data.message)
         return setTimeout(() => {
             setMessage('');
           }, 3000);
       }
       if(error.response.status === 401){
+        setIsLoading(false)
         setMessage("Verifique a senha informada e tente novamente.");
         return setTimeout(() => {
           setMessage('');
@@ -263,17 +257,18 @@ const alterUserData = () => {
         return navigate("/SessionExpired")
       }
       if(error.response.status === 404){
+        setIsLoading(false)
         setMessage("Erro ao atualizar cadastro. Não foi possível localizar o usuário.")
         return setTimeout(() => {
             setMessage('');
           }, 3000);
       }
+      setIsLoading(false)
       setMessage("Erro ao realizar alteração.")
       setConfirmPassword('')
         setTimeout(() => {
           setMessage('');
         }, 3000);
-      console.error('Erro ao realizar alteração:', error);
     });
 };
 
@@ -308,7 +303,6 @@ const alterarSenha = () => {
   }).then(res => {
       setMessagePassword("Senha alterada com sucesso.")
       setIsLoading(false)
-        // Limpar a mensagem após 3 segundos (3000 milissegundos)
         setTimeout(() => {
           setMessagePassword('');
           setPasswordConfirm('');
@@ -316,29 +310,15 @@ const alterarSenha = () => {
           setMostrarSenha(false)
         }, 3000);
   }).catch(error => {
-    console.log(error)
-    setIsLoading(false)
-    if(error.response.status === 400){
-      setMessagePassword("Formato de senha incorreto. Verifique a senha informada e tente novamente.")
-      return setTimeout(() => {
-          setMessagePassword('');
-        }, 3000);
-    }
-    if(error.response.status === 401){
-      setMessagePassword("Verifique a senha informada e tente novamente.");
-      return setTimeout(() => {
-        setMessagePassword(null);
-      }, 3000);
-    }
-    if(error.response.status === 403){
-      return navigate("/SessionExpired")
-    }
-    setMessagePassword("Erro ao alterar senha, tente novamente mais tarde!")
-        // Limpar a mensagem após 3 segundos (3000 milissegundos)
+        console.log(error)
+        setIsLoading(false)
+        if(error.response.status === 403){
+          return navigate("/SessionExpired")
+        }
+        setMessagePassword(error.response.data.message)
         setTimeout(() => {
           setMessagePassword('');
-          //window.location.reload();
-        }, 5000);
+        }, 3000);
   });
 };
 

@@ -457,6 +457,10 @@ useEffect(() => {
 
   //Função para mandar o novo nome da barbearia
   const alterarNomeBarbearia = () => {
+    if(novoNomeBarbearia === NomeBarbeariaAtual){
+      return setNovoNomeBarbearia('')
+    }
+    
     setIsLoading(true)
     axios.put(`${urlApi}/api/v1/updateBarbeariaName`, {barbeariaId: barbeariaId, novoNome: novoNomeBarbearia, confirmPassword: confirmPassword}, {
       headers: {
@@ -464,7 +468,8 @@ useEffect(() => {
       }
     })
     .then(res => {
-          setIsLoading(false)
+      console.log(res)
+      setIsLoading(false)
           setNovoNomeBarbearia('')
           setMessageNameBarbearia("Nome da Barbearia Alterado com Sucesso!")
           setConfirmPassword('')
@@ -486,6 +491,7 @@ useEffect(() => {
           return navigate("/SessionExpired")
         }
         if(error.response.status === 401){
+          setIsLoading(false)
           setConfirmPassword('')
           setMessageNameBarbearia("Verifique a senha informada e tente novamente.")
             return setTimeout(() => {
@@ -529,6 +535,7 @@ const [messageWhatsApp, setMessageWhatsApp] = useState('');
 const alternarCelular = () => {
   setMostrarCelular(!mostrarCelular);
 };
+
 
 const changeWhatsApp = () =>{
   //Basics Validations
@@ -1209,7 +1216,7 @@ useEffect(() =>{
                   
             ):(
               <>
-                {novoNomeBarbearia.length > 0 &&(
+                {novoNomeBarbearia != NomeBarbeariaAtual && novoNomeBarbearia.length > 0 &&(
                 <div style={{paddingLeft: '10px'}}>
                   <div className="form__change__data">
                       <div className='container__text__change__data'>
@@ -1288,7 +1295,7 @@ useEffect(() =>{
                 />{' '}<MdNumbers  className='icon_input'/>
             </div>
 
-            {newWhatsApp.length >= 10 &&(
+            {newWhatsApp.length >= 10 || newWhatsApp != whatsApp &&(
                 <div style={{paddingLeft: '10px'}} className='center__form'>
                 {isLoading ? (
                   <div className="loaderCreatingBooking"></div>

@@ -182,7 +182,6 @@ function SignUpBarbearia() {
         .then(res => {
           setUsuario(`${res.data.given_name}`)
           setEmail(res.data.email)
-          setSenha(res.data.id)
           setStep(4);
         }).catch(err =>{
           console.log(err)
@@ -463,7 +462,7 @@ function SignUpBarbearia() {
               <p className='text__other'>OU</p>
               <hr />
           </div>
-          <button className="button google" onClick={login}>
+          <button className="button google" onClick={login} style={{marginBottom: "40px"}}>
                 <svg
                   viewBox="0 0 256 262"
                   preserveAspectRatio="xMidYMid"

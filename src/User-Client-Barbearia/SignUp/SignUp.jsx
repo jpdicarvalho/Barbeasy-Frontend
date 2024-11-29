@@ -167,7 +167,6 @@ const sendTokenToGoogle = (accessToken) =>{
       .then(res => {
         setName(`${res.data.given_name} ${res.data.family_name}`)
         setEmail(res.data.email)
-        setSenha(res.data.id)
         setStep(3);
       }).catch(err =>{
         console.log(err)

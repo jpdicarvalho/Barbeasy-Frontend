@@ -8,7 +8,7 @@
   max-width: 390px;
   height: 100dvh;
   display: flex;
-  justify-content: end;
+  justify-content: center;
   align-items: center;
   flex-direction: column;
   background: #0c0e19;
@@ -31,68 +31,60 @@
   flex-direction: column;
   height: auto;
   border-radius: 12px;
-  padding: 10px;
-  background: #1c2035;
-  max-width: 370px;
+  padding: 5px;
+  width: 350px;
 }
 .section_option{
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 10px;
-  border-radius: 8px;
+  border-radius: 50px;
   cursor: pointer;
   transition: 0.5s;
-  margin-bottom: 10px;
   margin-top: 10px;
-  background: #171a1e;
-  color: gray;
+  border: 1px solid #f6f6fc;
+  color: #f6f6fc;
+  height: 55px;
+  width: 100%;
 }
 .section_option.selected{
     background-color: #4a17d5;
+    border: 1px solid #4a17d5;
+    border-radius: 50px;
     color: #f6f6fc;
-    border-radius: 15px;
     transition: 0.5s;
 }
 .tittle__option{
   font-weight: 400;
   font-size: 16px;
-  margin-bottom: 3px;
   width: 100%;
-}
-.hr__in__get__started{
-  width: 100px;
-  border: 1px solid #354249;
-  margin-bottom: 10px;
-  transition: 0.5s;
-
-}
-
-.hr__selected{
-  width: 100px;
-  border: 1px solid #f6f6fc;
-  margin-bottom: 10px;
-  transition: 0.5s;
+  text-align: center;
 }
 
 .button__link{
-  width: 320px;
+  width: 340px;
   height: 50px;
   margin-top: 30px;
   border: none;
-  border-radius: 5px;
+  border-radius: 50px;
   color: #f6f6fc;
   font-size: 18px;
-  background: #4a17d5;
+  background: #4a17d58f;
   transition: 0.5s;
 }
 
 .footer {
+  position: fixed;
+  bottom: 2px;
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: end;
   text-align: center;
-  padding-top: 20px;
   font-size: 0.9rem;
   color: #6c757d;
+  
 }
 
 .footer-links {
