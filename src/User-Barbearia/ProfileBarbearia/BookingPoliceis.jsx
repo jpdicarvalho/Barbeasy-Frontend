@@ -95,8 +95,7 @@ const updateBookingPoliceis = () =>{
       'Authorization': `Bearer ${token}`
    }
   }).then(res =>{
-      if(res.status === 200){
-        setMessagePoliceisChange('Políticas de agendamento atualizadas com sucesso.')
+        setMessagePoliceisChange(res.data.message)
         setTimeout(() => {
           setMessagePoliceisChange('');
           setConfirmPassword('')
@@ -105,26 +104,17 @@ const updateBookingPoliceis = () =>{
           getBookingPoliceis()
         }, 3000);
         return
-      }
   }).catch(err =>{
-    if(err.response.status === 403){
-      return navigate("/SessionExpired")
-    }
-    if(err.response.status === 401){
-      setMessagePoliceisChange('Verifique a senha informada e tente novamente')
+      console.log(err)
+      if(err.response.status === 403){
+        return navigate("/SessionExpired")
+      }
+      setMessagePoliceisChange(err.response.data.message)
       return setTimeout(() => {
           setMessagePoliceisChange('');
           setConfirmPassword('')
           setInputCheckChange('')
         }, 3000);
-    }
-      setMessagePoliceisChange('Houve um erro ao salvar as políticas de agendamento, tente novamente mais tarde.')
-      return setTimeout(() => {
-          setMessagePoliceisChange('');
-          setConfirmPassword('')
-          setInputCheckChange('')
-        }, 3000);
-    console.log(err)
   })
 }
 
