@@ -49,7 +49,7 @@
   width: 100%;
 }
 .section_option.selected{
-    background-color: #4a17d5;
+    background-color: #4a17d54f;
     border: 1px solid #4a17d5;
     border-radius: 50px;
     color: #f6f6fc;
@@ -61,7 +61,10 @@
   width: 100%;
   text-align: center;
 }
-
+.container__button__link{
+  position: fixed;
+  bottom: 75px;
+}
 .button__link{
   width: 340px;
   height: 50px;
@@ -70,7 +73,7 @@
   border-radius: 50px;
   color: #f6f6fc;
   font-size: 18px;
-  background: #4a17d58f;
+  background: #4a17d5;
   transition: 0.5s;
 }
 

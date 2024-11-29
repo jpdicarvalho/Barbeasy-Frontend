@@ -37,13 +37,15 @@ const GetStartedPage = () => {
         
       </div>
 
-      
-      <Link to="/SignIn">
+      <div className='container__button__link'>
+        <Link to="/SignIn">
           {optionUser === 'cliente' && <button className='button__link'>Iniciar</button>}
         </Link>
         <Link to="SignInBarbearia">
           {optionUser === 'barbearia' && <button className='button__link'>Iniciar</button>}
         </Link>
+      </div>
+        
         
       <footer className="footer">
       
