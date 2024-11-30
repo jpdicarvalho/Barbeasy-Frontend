@@ -30,6 +30,7 @@ const [servicePercentage, setServicePercentage] = useState(false);
 const [inputCheckChange, setInputCheckChange] = useState('');
 const [messagePoliceisChange, setMessagePoliceisChange] = useState('');
 
+
 const getBookingPoliceis = () =>{
   axios.get(`${urlApi}/api/v1/bookingPoliceis/${barbeariaId}`)
   .then(res =>{
@@ -85,6 +86,14 @@ const CheckboxServicePercentage = ({ value }) => {
 const updateBookingPoliceis = () =>{
   setIsLoading(true)
 
+  if(!confirmPassword){
+    setIsLoading(false)
+    setMessagePoliceisChange('Informe uma senha.')
+    return setTimeout(() => {
+      setMessagePoliceisChange('');
+    }, 3000);
+  }
+
   const values = {
     barbeariaId,
     confirmPassword,
@@ -99,9 +108,9 @@ const updateBookingPoliceis = () =>{
   }).then(res =>{
         setIsLoading(false)
         setMessagePoliceisChange('Políticas de agendamento atualizadas com sucesso.')
+        setConfirmPassword('')
         setTimeout(() => {
           setMessagePoliceisChange('');
-          setConfirmPassword('')
           setShowBookingsPoliceis('')
           setInputCheckChange('')
           getBookingPoliceis()
@@ -109,6 +118,7 @@ const updateBookingPoliceis = () =>{
         return
   }).catch(err =>{
       setIsLoading(false)
+      setConfirmPassword('')
       console.log(err)
       if(err.response.status === 403){
         return navigate("/SessionExpired")
@@ -116,8 +126,8 @@ const updateBookingPoliceis = () =>{
       setMessagePoliceisChange(err.response.data.message)
       return setTimeout(() => {
           setMessagePoliceisChange('');
-          setConfirmPassword('')
           setInputCheckChange('')
+          getBookingPoliceis()
         }, 3000);
   })
 }
@@ -319,11 +329,11 @@ return (
                 )}
                 
                 <div className='center__form'>
-                    {isLoading && inputCheckChange === 'bookingWithPaymentDisable' ? (
+                    {isLoading && !bookingWithPayment && inputCheckChange === 'bookingWithPaymentDisable' ? (
                           <div className="loaderCreatingBooking"></div>
                         ):(
                           <>
-                            {inputCheckChange === 'bookingWithPaymentDisable' &&(
+                            {inputCheckChange === 'bookingWithPaymentDisable' && servicePercentageStored != '' &&(
                               <>
                                 {messagePoliceisChange === "Políticas de agendamento atualizadas com sucesso." ? (
                                       <div className="mensagem-sucesso">
@@ -337,7 +347,7 @@ return (
                                   </div>
                                 )}
 
-                                <div className="form__change__data" translate="no">bookingWithPaymentDisable
+                                <div className="form__change__data" translate="no">
                                     <div className="container__text__change__data">
                                       Digite sua senha para confirmar a alteração
                                     </div>
