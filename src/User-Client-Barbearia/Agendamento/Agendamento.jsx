@@ -8,6 +8,7 @@ import './Agendamento.css';
 import PropTypes from 'prop-types';
 import { MdOutlineDone } from "react-icons/md";
 import { VscError } from "react-icons/vsc";
+import { IoIosCloseCircleOutline } from "react-icons/io";
 
 const monthNames = [
   'Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
@@ -17,7 +18,7 @@ const weekNames = [
   'Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'
 ];
 
-export function Agendamento({
+export default function Agendamento({
   accessTokenBarbearia,
   barbeariaId,
   professionalId,
@@ -425,12 +426,16 @@ export function Agendamento({
   const renderHorariosDiaSelecionado = () => {
     return (
       <>
-        {horariosDiaSelecionado && (
+        {horariosDiaSelecionado ? (
           horariosDiaSelecionado.map(index => (
             <div key={index} className={`horarios ${timeSelected === index ? 'selectedDay':''}`} onClick={() => hendleTimeClick(index)}>
               <p>{index}</p>
             </div>
           ))
+        ):(
+          <p style={{width: '100%', textAlign: 'center', color:'gray', fontSize: '14px', marginTop: '20px'}}>
+            Nenhum dia selecionado.
+          </p>
         )}
       </>
     );
@@ -611,84 +616,91 @@ const [isBookingCreated, setIsBookingCreated] = useState(false)
     serviceId: PropTypes.number,
     serviceDuration: PropTypes.number
   };
+  console.log(weekDays, 'weekDays')
   return (
   <>
     {serviceId &&(
-      <div className='container__Calendar' translate="no">
-      <div className='sectionCalendar' translate="no">
-        <div className="list__Names__Week__And__Day" translate="no">
-        {weekDays.map((dayOfWeek, index) => (
-            <div key={`weekDay-${index}`} className="list__name__Week">
-              <div
-                className={`dayWeekCurrent ${selectedDay === `${dayOfWeek}, ${numberDays[index].number} de ${numberDays[index].month} de ${year}` ? 'selectedDay' : ''} ${numberDays[index].isCurrentDay ? 'currentDay' : ''}`}
-                onClick={() => handleDateClick(dayOfWeek, numberDays[index].number, numberDays[index].month, year)}
-              >
-                <p className='Box__day'>{dayOfWeek}</p>
-                <p className='Box__NumDay'>{numberDays[index].number}</p>
-                <p className='Box__month'>{numberDays[index].month}</p>
+      <div className="container__background__agendamento">
+        <div className="container__agendamento">
+        
+            <div className="tittle in__agendamento">
+              <h3>Escolha um dia de sua preferência</h3>
+            </div>
+
+              <div className='container__Calendar' translate="no">
+              <div className='sectionCalendar' translate="no">
+                <div className="list__Names__Week__And__Day" translate="no">
+                {weekDays.map((dayOfWeek, index) => (
+                    <div key={`weekDay-${index}`} className="list__name__Week">
+                      <div
+                        className={`dayWeekCurrent ${selectedDay === `${dayOfWeek}, ${numberDays[index].number} de ${numberDays[index].month} de ${year}` ? 'selectedDay' : ''} ${numberDays[index].isCurrentDay ? 'currentDay' : ''}`}
+                        onClick={() => handleDateClick(dayOfWeek, numberDays[index].number, numberDays[index].month, year)}
+                      >
+                        <p className='Box__day'>{dayOfWeek}</p>
+                        <p className='Box__NumDay'>{numberDays[index].number}</p>
+                        <p className='Box__month'>{numberDays[index].month}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
-          ))}
+
+            <div className="tittle" translate="no">
+              <div style={{marginTop: '15px'}}>
+                Horários Disponíveis
+              </div>
+            </div>
+
+            <div className="container__horarios" translate="no">
+              {renderHorariosDiaSelecionado()}
+            </div>
+          
+
+            {userType != "visitante" &&(
+              
+              <div className="container__btn__create__booking__and__payment" translate="no">
+
+                {messageConfirmedBooking === "Agendamento realizado com sucesso!" ? (
+                  <div className="mensagem-sucesso">
+                    <MdOutlineDone className="icon__success"/>
+                    <p className="text__message">{messageConfirmedBooking}</p>
+                  </div>
+                ) : (
+                  <div className={` ${messageConfirmedBooking ? 'mensagem-erro' : ''}`}>
+                    <VscError className={`hide_icon__error ${messageConfirmedBooking ? 'icon__error' : ''}`}/>
+                    <p className="text__message">{messageConfirmedBooking}</p>
+                  </div>
+                )}
+
+                {bookingWithPayment === 'enabled' ?(
+                  <>
+                    {!preBookingAndPaymentCreated ?(
+                      <button onClick={createPayment} className={`Btn__ocult ${serviceId && selectedDay && timeSelected ? 'Btn__create__preBooking':''}`}>
+                        Realizar pagamento
+                      </button>
+                    ):(
+                      <button className="createPreBookingAndPayment">
+                        Criando pagamento
+                      </button>
+                    )}
+                  </>
+                ):(
+                  <button onClick={createBookingWithoutPayment} className={`Btn__ocult ${serviceId && selectedDay && timeSelected  && !messageConfirmedBooking ? 'Btn__create__preBooking':''}`}>
+
+                    {isBookingCreated ? (
+                      <div className="loaderCreatingBooking"></div>
+                    ):(
+                      <p>Realizar agendamento</p>
+                    )}
+                  </button>
+                )}
+                
+              </div>
+            )}
         </div>
-      </div>
     </div>
     )}
-
-    {selectedDay &&(
-        <div className="tittle" translate="no">
-          <div style={{marginTop: '15px'}}>
-            Horários Disponíveis
-          </div>
-        </div>
-    )} 
-
-    <div className="container__horarios" translate="no">
-      {renderHorariosDiaSelecionado()}
-    </div>
-  
-
-    {userType != "visitante" &&(
-      
-      <div className="container__btn__create__booking__and__payment" translate="no">
-
-        {messageConfirmedBooking === "Agendamento realizado com sucesso!" ? (
-          <div className="mensagem-sucesso">
-            <MdOutlineDone className="icon__success"/>
-            <p className="text__message">{messageConfirmedBooking}</p>
-          </div>
-        ) : (
-          <div className={` ${messageConfirmedBooking ? 'mensagem-erro' : ''}`}>
-            <VscError className={`hide_icon__error ${messageConfirmedBooking ? 'icon__error' : ''}`}/>
-            <p className="text__message">{messageConfirmedBooking}</p>
-          </div>
-        )}
-
-        {bookingWithPayment === 'enabled' ?(
-          <>
-            {!preBookingAndPaymentCreated ?(
-              <button onClick={createPayment} className={`Btn__ocult ${serviceId && selectedDay && timeSelected ? 'Btn__create__preBooking':''}`}>
-                Realizar pagamento
-              </button>
-            ):(
-              <button className="createPreBookingAndPayment">
-                Criando pagamento
-              </button>
-            )}
-          </>
-        ):(
-          <button onClick={createBookingWithoutPayment} className={`Btn__ocult ${serviceId && selectedDay && timeSelected  && !messageConfirmedBooking ? 'Btn__create__preBooking':''}`}>
-
-            {isBookingCreated ? (
-              <div className="loaderCreatingBooking"></div>
-            ):(
-              <p>Realizar agendamento</p>
-            )}
-          </button>
-        )}
-        
-      </div>
-    )}
-    
   </>
   );
 }

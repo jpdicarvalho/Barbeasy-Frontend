@@ -258,10 +258,9 @@ h4{
 }
 .Servicos {
     width: 100%;
-    max-height: 210px;
     display: flex;
     flex-direction: column;
-    margin-bottom: 20px;
+    margin-bottom: 55px;
     overflow-x: hidden; 
     overflow-y: scroll;
     margin-top: 10px;

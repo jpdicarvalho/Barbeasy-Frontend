@@ -38,7 +38,7 @@ import { differenceInDays, parse } from 'date-fns';
 
 
 //import Agendamento from 'react-Agendamento';
-import { Agendamento } from "../Agendamento/Agendamento";
+import Agendamento from "../Agendamento/Agendamento";
 
 import './BarbeariaDetails.css'
 
@@ -212,7 +212,7 @@ const handleServiceProfessional = (professional_id, professional_name) => {
 
 // ====== Section get serivce ========
 const [servicos, setServicos] = useState([]);
-const [selectedService, setSelectedService] = useState();
+const [selectedService, setSelectedService] = useState(false);
 const [serviceName, setServiceName] = useState();
 const [servicePrice, setServicePrice] = useState();
 const [serviceDuration, setServiceDuration] = useState();
@@ -366,7 +366,7 @@ const tabWidth = 395;
 
 const tabHeaders = ["Serviço", "Avaliação", "Detalhes"];
 const [activeIndex, setActiveIndex] = useState(0);
-
+console.log(selectedService)
 return (
     <>
     {!barbearia ? (
@@ -452,99 +452,79 @@ return (
                           </div>
                           <hr />
                       </div>
-                      )}
+                    )}
             
-                          <div className="tittle">
-                              {professional.length <= 1 ?(
-                                <p className="text__total__professional__and__service">Profissional</p>
-                              ):(
-                                <p className="text__total__professional__and__service">Profissionais ({professional.length})</p>
-                              )}
-                          </div>
-                          <div className="professionals">
-                            {professional.length > 0 ? (
-                                  professional.map(professional => {
-                                    // Obtendo a primeira letra do nome do profissional
-                                    const firstLetter = professional.name.charAt(0).toUpperCase();
-                                    
-                                    return (
-                                      <div key={professional.id} onClick={() => handleServiceProfessional(professional.id, professional.name)} className={`Box__professional__barbearia__details ${serviceProfessional === professional.id ? 'professionalSelected' : ''}`}> 
-                                        <div className="img__professional__barbearia__details">
-                                          {professional.user_image != 'default.png' ?(
-                                            <img src={cloudFrontUrl + professional.user_image} className="user__img__box__comment" alt="" />
-                                          ):(
-                                            <p className='firstLetter' style={{color: '#fff', fontSize: '40px'}}>{firstLetter}</p>
-                                          )}
-                                        </div>
-                                        <p className="name__professional__in__barbearia__details" style={{color: '#fff', fontSize: '14px'}}>{professional.name}</p>
-
-                                      </div>
-                                      
-                                    );
-                                  })
-                                ):(
-                                  <div className="inforService">
-                                  <IoIosInformationCircleOutline className="Icon__info"/>
-                                  <p >Nenhum profissional cadastrado</p>
-                                </div>
-                                )}
-                          </div>
-
-                          <hr />
-
-                          <div className="tittle">
-                            {serviceProfessional && servicos && (
-                              <>
-                                <p className="text__total__professional__and__service">Serviços ({servicos.filter(servico => servico.professional_id === serviceProfessional).length})</p>
-                                <div className="container__input__search__service">
-                                  <GrSearch className="icon__GrSearch"/>
-                                  <input type="search" className="inner__input__search__service" name="name" value={searchService} onChange={(e) => setSearchService(e.target.value)} placeholder="Buscar serviço por nome, preço ou duração"/>
-                                </div>
-                              </>
-                            )}
-                          </div>
-
-                          
-                          <div className="Servicos">
-                            {serviceProfessional ? (
-                              serviceSearch.filter(servico => servico.professional_id === serviceProfessional)  
-                                    .map(servico => (
-                                      <div key={servico.id} onClick={() => handleServiceChange(servico.id, servico.name, servico.preco, servico.duracao)} className={`servicoDiv ${selectedService === servico.id ? 'selected' : ''}`}>
-                                          <p>{servico.name} • {servico.preco} </p>
-                                          <p style={{color: 'darkgray'}}><GiSandsOfTime /> • {servico.duracao}</p>
-                                        </div>
-                                  ))
-                                  ):(
-                                    <>
-                                    {professional.length > 0 &&(
-                                      <div className="inforService">
-                                          <IoIosInformationCircleOutline className="Icon__info"/>
-                                          <p >Selecione um profissional para visualizar os serviços.</p>
-                                      </div>
-                                    )}
-                                    </>
-                                  )}
-                            </div>
-
-                          {selectedService &&(
-                            <div className="tittle">
-                              Escolha um dia de sua preferência
-                            </div>
+                      <div className="tittle">
+                          {professional.length <= 1 ?(
+                            <p className="text__total__professional__and__service">Profissional</p>
+                          ):(
+                            <p className="text__total__professional__and__service">Profissionais ({professional.length})</p>
                           )}
+                      </div>
+                      <div className="professionals">
+                        {professional.length > 0 ? (
+                              professional.map(professional => {
+                                // Obtendo a primeira letra do nome do profissional
+                                const firstLetter = professional.name.charAt(0).toUpperCase();
+                                
+                                return (
+                                  <div key={professional.id} onClick={() => handleServiceProfessional(professional.id, professional.name)} className={`Box__professional__barbearia__details ${serviceProfessional === professional.id ? 'professionalSelected' : ''}`}> 
+                                    <div className="img__professional__barbearia__details">
+                                      {professional.user_image != 'default.png' ?(
+                                        <img src={cloudFrontUrl + professional.user_image} className="user__img__box__comment" alt="" />
+                                      ):(
+                                        <p className='firstLetter' style={{color: '#fff', fontSize: '40px'}}>{firstLetter}</p>
+                                      )}
+                                    </div>
+                                    <p className="name__professional__in__barbearia__details" style={{color: '#fff', fontSize: '14px'}}>{professional.name}</p>
 
-                          <Agendamento 
-                            userId={userId}
-                            accessTokenBarbearia={accessTokenBarbearia}
-                            barbeariaId={Number (barbeariaId)}
-                            professionalId={serviceProfessional}
-                            serviceId={selectedService}
-                            barbeariaName={barbearia.nameBarbearia}
-                            professionalName={professionalName}
-                            serviceName={serviceName}
-                            servicePrice={servicePrice}
-                            serviceDuration={serviceDuration}
-                          />
+                                  </div>
+                                  
+                                );
+                              })
+                            ):(
+                              <div className="inforService">
+                              <IoIosInformationCircleOutline className="Icon__info"/>
+                              <p >Nenhum profissional cadastrado</p>
+                            </div>
+                            )}
+                      </div>
 
+                      <hr />
+
+                      <div className="tittle">
+                        {serviceProfessional && servicos && (
+                          <>
+                            <p className="text__total__professional__and__service">Serviços ({servicos.filter(servico => servico.professional_id === serviceProfessional).length})</p>
+                            <div className="container__input__search__service">
+                              <GrSearch className="icon__GrSearch"/>
+                              <input type="search" className="inner__input__search__service" name="name" value={searchService} onChange={(e) => setSearchService(e.target.value)} placeholder="Buscar serviço por nome, preço ou duração"/>
+                            </div>
+                          </>
+                        )}
+                      </div>
+
+                      
+                      <div className="Servicos">
+                        {serviceProfessional ? (
+                          serviceSearch.filter(servico => servico.professional_id === serviceProfessional)  
+                                .map(servico => (
+                                  <div key={servico.id} onClick={() => handleServiceChange(servico.id, servico.name, servico.preco, servico.duracao)} className={`servicoDiv ${selectedService === servico.id ? 'selected' : ''}`}>
+                                      <p>{servico.name} • {servico.preco} </p>
+                                      <p style={{color: 'darkgray'}}><GiSandsOfTime /> • {servico.duracao}</p>
+                                    </div>
+                              ))
+                              ):(
+                                <>
+                                {professional.length > 0 &&(
+                                  <div className="inforService">
+                                      <IoIosInformationCircleOutline className="Icon__info"/>
+                                      <p >Selecione um profissional para visualizar os serviços.</p>
+                                  </div>
+                                )}
+                                </>
+                              )}
+                      </div>
                     </div>
                     
                     <div className="tab-content">
@@ -645,7 +625,21 @@ return (
               </div>
               </div>
             </div>
-            
+
+            {serviceProfessional && (
+              <Agendamento 
+                userId={userId}
+                accessTokenBarbearia={accessTokenBarbearia}
+                barbeariaId={Number (barbeariaId)}
+                professionalId={serviceProfessional}
+                serviceId={selectedService}
+                barbeariaName={barbearia.nameBarbearia}
+                professionalName={professionalName}
+                serviceName={serviceName}
+                servicePrice={servicePrice}
+                serviceDuration={serviceDuration}
+            />
+            )}
             <ul className="Navigation active" translate="no">
               {userType === "visitante" ?(
                 <>

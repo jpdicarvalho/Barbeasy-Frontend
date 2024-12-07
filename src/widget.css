@@ -1,5 +1,6 @@
 .container__widget {
   width: 390px;
+  min-height: 80dvh;
   border-radius: 8px;
   padding-top: 10px;
   color: white;
@@ -53,27 +54,12 @@
 
 .content {
   position: relative;
-  height: 85dvh;
   width: 390px;
-  overflow-y: scroll;
   overflow-x: hidden;
 }
 
-.content::-webkit-scrollbar {
-  width: 1px;
-}
-.content::-webkit-scrollbar-thumb {
-  background: transparent; 
-  border-radius: 5px;
-}
-.content::-webkit-scrollbar-thumb:hover {
-  background: #f6f6f6; 
-}
-
 .content-inner {
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: relative;
   display: flex;
   width: 1155px; /* Substitua ${tabWidth * tabContent.length} por um valor fixo */
   transition: 0.35s;
