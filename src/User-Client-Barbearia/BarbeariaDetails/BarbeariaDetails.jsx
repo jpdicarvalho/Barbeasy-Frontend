@@ -208,6 +208,7 @@ useEffect(() => {
 const handleServiceProfessional = (professional_id, professional_name) => {
   setServiceProfessional(professional_id)
   setProfessionalName(professional_name)
+
 };
 
 // ====== Section get serivce ========
@@ -366,6 +367,7 @@ const tabWidth = 395;
 
 const tabHeaders = ["Serviço", "Avaliação", "Detalhes"];
 const [activeIndex, setActiveIndex] = useState(0);
+
 return (
     <>
     {!barbearia ? (
