@@ -607,7 +607,6 @@ const [isBookingCreated, setIsBookingCreated] = useState(false)
         })
     }
   }
-
 //============================== Section propTypes ==============================
   Agendamento.propTypes = {
     userId: PropTypes.number,
@@ -616,7 +615,6 @@ const [isBookingCreated, setIsBookingCreated] = useState(false)
     serviceId: PropTypes.number,
     serviceDuration: PropTypes.number
   };
-  console.log(weekDays, 'weekDays')
   return (
   <>
     {serviceId &&(

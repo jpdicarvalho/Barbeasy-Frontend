@@ -366,7 +366,6 @@ const tabWidth = 395;
 
 const tabHeaders = ["Serviço", "Avaliação", "Detalhes"];
 const [activeIndex, setActiveIndex] = useState(0);
-console.log(selectedService)
 return (
     <>
     {!barbearia ? (
@@ -498,7 +497,7 @@ return (
                             <p className="text__total__professional__and__service">Serviços ({servicos.filter(servico => servico.professional_id === serviceProfessional).length})</p>
                             <div className="container__input__search__service">
                               <GrSearch className="icon__GrSearch"/>
-                              <input type="search" className="inner__input__search__service" name="name" value={searchService} onChange={(e) => setSearchService(e.target.value)} placeholder="Buscar serviço por nome, preço ou duração"/>
+                              <input type="search" className="inner__input__search__service" name="name" value={searchService} onChange={(e) => setSearchService(e.target.value)} placeholder="Buscar serviço por nome, preço ou duração."/>
                             </div>
                           </>
                         )}
