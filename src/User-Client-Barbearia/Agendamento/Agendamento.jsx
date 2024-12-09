@@ -8,7 +8,8 @@ import './Agendamento.css';
 import PropTypes from 'prop-types';
 import { MdOutlineDone } from "react-icons/md";
 import { VscError } from "react-icons/vsc";
-import { IoIosCloseCircleOutline } from "react-icons/io";
+import { BsCalendar2Check } from "react-icons/bs";
+import { IoClose } from "react-icons/io5";
 
 const monthNames = [
   'Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
@@ -27,7 +28,9 @@ export default function Agendamento({
   professionalName,
   serviceName,
   servicePrice,
-  serviceDuration }) {
+  serviceDuration,
+  openModal,
+  closeModal }) {
   
   const navigate = useNavigate();
 
@@ -69,6 +72,7 @@ export default function Agendamento({
 
   const [bookingWithPayment, setBookingWithPayment] = useState(false);
   const [servicePercentageStored, setServicePercentageStored] = useState('');
+  const [isLoading, setIsLoading] = useState(false) 
 
   const getBookingPoliceis = () =>{
     axios.get(`${urlApi}/api/v1/bookingPoliceis/${barbeariaId}`, {
@@ -424,19 +428,21 @@ export default function Agendamento({
 
   //Function to render all times defined
   const renderHorariosDiaSelecionado = () => {
+
     return (
       <>
-        {horariosDiaSelecionado ? (
-          horariosDiaSelecionado.map(index => (
-            <div key={index} className={`horarios ${timeSelected === index ? 'selectedDay':''}`} onClick={() => hendleTimeClick(index)}>
-              <p>{index}</p>
-            </div>
-          ))
-        ):(
-          <p style={{width: '100%', textAlign: 'center', color:'gray', fontSize: '14px', marginTop: '20px'}}>
-            Nenhum dia selecionado.
-          </p>
-        )}
+       
+            {horariosDiaSelecionado ? (
+              horariosDiaSelecionado.map(index => (
+                <div key={index} className={`horarios ${timeSelected === index ? 'selectedDay':''}`} onClick={() => hendleTimeClick(index)}>
+                  <p>{index}</p>
+                </div>
+              ))
+            ):(
+              <p style={{width: '100%', textAlign: 'center', color:'gray', fontSize: '14px', marginTop: '20px'}}>
+                Nenhum dia selecionado
+              </p>
+            )}
       </>
     );
   };
@@ -615,14 +621,25 @@ const [isBookingCreated, setIsBookingCreated] = useState(false)
     serviceId: PropTypes.number,
     serviceDuration: PropTypes.number
   };
+
+useEffect(() =>{
+  setIsLoading(true)
+
+  setTimeout(() =>{
+    setIsLoading(false)
+  }, 1000)
+}, [selectedDay])
+
   return (
   <>
-    {serviceId &&(
+    {openModal &&(
       <div className="container__background__agendamento">
         <div className="container__agendamento">
         
-            <div className="tittle in__agendamento">
-              <h3>Escolha um dia de sua preferência</h3>
+            <div className="tittle__in__agendamento">
+            <BsCalendar2Check className='icon__RiExchangeFundsLine'/>   
+              <h3>Agenda</h3>
+              <IoClose className="icon__IoIosCloseCircleOutline" onClick={closeModal}/>
             </div>
 
               <div className='container__Calendar' translate="no">
@@ -632,7 +649,7 @@ const [isBookingCreated, setIsBookingCreated] = useState(false)
                     <div key={`weekDay-${index}`} className="list__name__Week">
                       <div
                         className={`dayWeekCurrent ${selectedDay === `${dayOfWeek}, ${numberDays[index].number} de ${numberDays[index].month} de ${year}` ? 'selectedDay' : ''} ${numberDays[index].isCurrentDay ? 'currentDay' : ''}`}
-                        onClick={() => handleDateClick(dayOfWeek, numberDays[index].number, numberDays[index].month, year)}
+                        onClick={() => {handleDateClick(dayOfWeek, numberDays[index].number, numberDays[index].month, year)}}
                       >
                         <p className='Box__day'>{dayOfWeek}</p>
                         <p className='Box__NumDay'>{numberDays[index].number}</p>
@@ -651,7 +668,16 @@ const [isBookingCreated, setIsBookingCreated] = useState(false)
             </div>
 
             <div className="container__horarios" translate="no">
-              {renderHorariosDiaSelecionado()}
+                {isLoading ? (
+                  <div className="loading__times">
+                    <div className="loaderCreatingBooking"></div>
+                  </div>
+                    
+                ):(
+                   <>
+                    {renderHorariosDiaSelecionado()}
+                   </>
+                )}
             </div>
           
 

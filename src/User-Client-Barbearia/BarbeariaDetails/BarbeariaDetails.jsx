@@ -79,6 +79,7 @@ const userId = userInformation.user.id
 const userType = userInformation.user.userType;
 
 const currentDate = new Date();
+const [isLoading, setIsLoading] = useState(false) 
 
 //=========== Get policeis barbearia ==============
 
@@ -218,6 +219,7 @@ const [serviceName, setServiceName] = useState();
 const [servicePrice, setServicePrice] = useState();
 const [serviceDuration, setServiceDuration] = useState();
 const [searchService, setSearchService] = useState('');
+const [StatusModal, setStatusModal] = useState(false);
 
 //Função para buscar os serviços cadastrados
 const obterServicos = () =>{
@@ -368,6 +370,15 @@ const tabWidth = 395;
 const tabHeaders = ["Serviço", "Avaliação", "Detalhes"];
 const [activeIndex, setActiveIndex] = useState(0);
 
+const handleSelectBookingDate = () =>{
+  setIsLoading(true)
+
+  setTimeout(() =>{
+    setIsLoading(false)
+    setStatusModal(true)
+  }, 1000)
+
+}
 return (
     <>
     {!barbearia ? (
@@ -462,6 +473,7 @@ return (
                             <p className="text__total__professional__and__service">Profissionais ({professional.length})</p>
                           )}
                       </div>
+
                       <div className="professionals">
                         {professional.length > 0 ? (
                               professional.map(professional => {
@@ -526,6 +538,21 @@ return (
                                 </>
                               )}
                       </div>
+                      
+                      <div>
+                        {selectedService && (
+                          isLoading ? (
+                            <div className='center__form'>
+                              <div className="loaderCreatingBooking"></div>
+                            </div>
+                          ):(
+                              <button className="Btn__continue__booking" onClick={handleSelectBookingDate}>
+                                  Escolher a data do agendamento
+                              </button>
+                          )
+                        )}
+                      </div>
+                    
                     </div>
                     
                     <div className="tab-content">
@@ -624,10 +651,11 @@ return (
                         </div>
                     </div>
               </div>
+              
               </div>
+              
             </div>
-
-            {serviceProfessional && (
+            
               <Agendamento 
                 userId={userId}
                 accessTokenBarbearia={accessTokenBarbearia}
@@ -639,8 +667,10 @@ return (
                 serviceName={serviceName}
                 servicePrice={servicePrice}
                 serviceDuration={serviceDuration}
+                openModal={StatusModal}
+                closeModal={() => setStatusModal(false)}
             />
-            )}
+
             <ul className="Navigation active" translate="no">
               {userType === "visitante" ?(
                 <>
