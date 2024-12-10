@@ -247,6 +247,7 @@ const handleServiceChange = (servicoId, name, price, duration) => {
   let number = duration.substring(0, 2)
   number = parseInt(number)
   setServiceDuration(number)
+  setStatusModal(true)
 };
 // Convertendo o valor do search para minúsculo
 const searchLowerCase = searchService.toLowerCase();
@@ -370,15 +371,7 @@ const tabWidth = 395;
 const tabHeaders = ["Serviço", "Avaliação", "Detalhes"];
 const [activeIndex, setActiveIndex] = useState(0);
 
-const handleSelectBookingDate = () =>{
-  setIsLoading(true)
 
-  setTimeout(() =>{
-    setIsLoading(false)
-    setStatusModal(true)
-  }, 1000)
-
-}
 return (
     <>
     {!barbearia ? (
@@ -424,7 +417,20 @@ return (
           </div>
           </div>
         </div>
-      
+        <Agendamento 
+              userId={userId}
+              accessTokenBarbearia={accessTokenBarbearia}
+              barbeariaId={Number (barbeariaId)}
+              professionalId={serviceProfessional}
+              serviceId={selectedService}
+              barbeariaName={barbearia.nameBarbearia}
+              professionalName={professionalName}
+              serviceName={serviceName}
+              servicePrice={servicePrice}
+              serviceDuration={serviceDuration}
+              openModal={StatusModal}
+              closeModal={() => setStatusModal(false)}
+          />
         <div className="container__main__barbearia__details" translate="no">
             <div className="container__widget" translate="no">
               <header className="header__widget" translate="no">
@@ -451,108 +457,94 @@ return (
                 <div className="content-inner" style={{transform: `translate(-${activeIndex * tabWidth}px, 0)`,}} translate="no">
                 
                     <div  className="tab-content">
-                    {bookingWithPayment === 'enabled' &&(
-                        <div className="container__payment__required">
-                          <p>Políticas de Agendamento</p>
-                          <div className="inner__payment__required">
-                            <PiContactlessPayment className="icon__PiContactlessPayment"/>
-                            <p className="text__policeis">Pagamento requerido</p>
-                          </div>
-                          <div className="inner__payment__required" style={{marginBottom: '10px'}}>
-                            <LiaCoinsSolid className="icon__PiContactlessPayment"/>
-                            <p className="text__policeis">{servicePercentageStored * 100 === 100 ? `${servicePercentageStored * 100}% do serviço`:`Valor inicial de ${servicePercentageStored * 100}% do serviço` } </p>
-                          </div>
-                          <hr />
-                      </div>
-                    )}
-            
-                      <div className="tittle">
-                          {professional.length <= 1 ?(
-                            <p className="text__total__professional__and__service">Profissional</p>
-                          ):(
-                            <p className="text__total__professional__and__service">Profissionais ({professional.length})</p>
-                          )}
-                      </div>
-
-                      <div className="professionals">
-                        {professional.length > 0 ? (
-                              professional.map(professional => {
-                                // Obtendo a primeira letra do nome do profissional
-                                const firstLetter = professional.name.charAt(0).toUpperCase();
-                                
-                                return (
-                                  <div key={professional.id} onClick={() => handleServiceProfessional(professional.id, professional.name)} className={`Box__professional__barbearia__details ${serviceProfessional === professional.id ? 'professionalSelected' : ''}`}> 
-                                    <div className="img__professional__barbearia__details">
-                                      {professional.user_image != 'default.png' ?(
-                                        <img src={cloudFrontUrl + professional.user_image} className="user__img__box__comment" alt="" />
-                                      ):(
-                                        <p className='firstLetter' style={{color: '#fff', fontSize: '40px'}}>{firstLetter}</p>
-                                      )}
-                                    </div>
-                                    <p className="name__professional__in__barbearia__details" style={{color: '#fff', fontSize: '14px'}}>{professional.name}</p>
-
-                                  </div>
-                                  
-                                );
-                              })
+                      {bookingWithPayment === 'enabled' &&(
+                          <div className="container__payment__required">
+                            <p>Políticas de Agendamento</p>
+                            <div className="inner__payment__required">
+                              <PiContactlessPayment className="icon__PiContactlessPayment"/>
+                              <p className="text__policeis">Pagamento requerido</p>
+                            </div>
+                            <div className="inner__payment__required" style={{marginBottom: '10px'}}>
+                              <LiaCoinsSolid className="icon__PiContactlessPayment"/>
+                              <p className="text__policeis">{servicePercentageStored * 100 === 100 ? `${servicePercentageStored * 100}% do serviço`:`Valor inicial de ${servicePercentageStored * 100}% do serviço` } </p>
+                            </div>
+                            <hr />
+                        </div>
+                      )}
+              
+                        <div className="tittle">
+                            {professional.length <= 1 ?(
+                              <p className="text__total__professional__and__service">Profissional</p>
                             ):(
-                              <div className="inforService">
-                              <IoIosInformationCircleOutline className="Icon__info"/>
-                              <p >Nenhum profissional cadastrado</p>
-                            </div>
+                              <p className="text__total__professional__and__service">Profissionais ({professional.length})</p>
                             )}
-                      </div>
+                        </div>
 
-                      <hr />
+                        <div className="professionals">
+                          {professional.length > 0 ? (
+                                professional.map(professional => {
+                                  // Obtendo a primeira letra do nome do profissional
+                                  const firstLetter = professional.name.charAt(0).toUpperCase();
+                                  
+                                  return (
+                                    <div key={professional.id} onClick={() => handleServiceProfessional(professional.id, professional.name)} className={`Box__professional__barbearia__details ${serviceProfessional === professional.id ? 'professionalSelected' : ''}`}> 
+                                      <div className="img__professional__barbearia__details">
+                                        {professional.user_image != 'default.png' ?(
+                                          <img src={cloudFrontUrl + professional.user_image} className="user__img__box__comment" alt="" />
+                                        ):(
+                                          <p className='firstLetter' style={{color: '#fff', fontSize: '40px'}}>{firstLetter}</p>
+                                        )}
+                                      </div>
+                                      <p className="name__professional__in__barbearia__details" style={{color: '#fff', fontSize: '14px'}}>{professional.name}</p>
 
-                      <div className="tittle">
-                        {serviceProfessional && servicos && (
-                          <>
-                            <p className="text__total__professional__and__service">Serviços ({servicos.filter(servico => servico.professional_id === serviceProfessional).length})</p>
-                            <div className="container__input__search__service">
-                              <GrSearch className="icon__GrSearch"/>
-                              <input type="search" className="inner__input__search__service" name="name" value={searchService} onChange={(e) => setSearchService(e.target.value)} placeholder="Buscar serviço por nome, preço ou duração."/>
-                            </div>
-                          </>
-                        )}
-                      </div>
-
-                      
-                      <div className="Servicos">
-                        {serviceProfessional ? (
-                          serviceSearch.filter(servico => servico.professional_id === serviceProfessional)  
-                                .map(servico => (
-                                  <div key={servico.id} onClick={() => handleServiceChange(servico.id, servico.name, servico.preco, servico.duracao)} className={`servicoDiv ${selectedService === servico.id ? 'selected' : ''}`}>
-                                      <p>{servico.name} • {servico.preco} </p>
-                                      <p style={{color: 'darkgray'}}><GiSandsOfTime /> • {servico.duracao}</p>
                                     </div>
-                              ))
+                                    
+                                  );
+                                })
                               ):(
-                                <>
-                                {professional.length > 0 &&(
-                                  <div className="inforService">
-                                      <IoIosInformationCircleOutline className="Icon__info"/>
-                                      <p >Selecione um profissional para visualizar os serviços.</p>
-                                  </div>
-                                )}
-                                </>
+                                <div className="inforService">
+                                <IoIosInformationCircleOutline className="Icon__info"/>
+                                <p >Nenhum profissional cadastrado</p>
+                              </div>
                               )}
-                      </div>
+                        </div>
+
+                        <hr />
+
+                        <div className="tittle">
+                          {serviceProfessional && servicos && (
+                            <>
+                              <p className="text__total__professional__and__service">Serviços ({servicos.filter(servico => servico.professional_id === serviceProfessional).length})</p>
+                              <div className="container__input__search__service">
+                                <GrSearch className="icon__GrSearch"/>
+                                <input type="search" className="inner__input__search__service" name="name" value={searchService} onChange={(e) => setSearchService(e.target.value)} placeholder="Buscar serviço por nome, preço ou duração."/>
+                              </div>
+                            </>
+                          )}
+                        </div>
+
+                        
+                        <div className="Servicos">
+                          {serviceProfessional ? (
+                            serviceSearch.filter(servico => servico.professional_id === serviceProfessional)  
+                                  .map(servico => (
+                                    <div key={servico.id} onClick={() => handleServiceChange(servico.id, servico.name, servico.preco, servico.duracao)} className={`servicoDiv ${selectedService === servico.id ? 'selected' : ''}`}>
+                                        <p>{servico.name} • {servico.preco} </p>
+                                        <p style={{color: 'darkgray'}}><GiSandsOfTime /> • {servico.duracao}</p>
+                                      </div>
+                                ))
+                                ):(
+                                  <>
+                                  {professional.length > 0 &&(
+                                    <div className="inforService">
+                                        <IoIosInformationCircleOutline className="Icon__info"/>
+                                        <p >Selecione um profissional para visualizar os serviços.</p>
+                                    </div>
+                                  )}
+                                  </>
+                                )}
+                        </div>
                       
-                      <div>
-                        {selectedService && (
-                          isLoading ? (
-                            <div className='center__form'>
-                              <div className="loaderCreatingBooking"></div>
-                            </div>
-                          ):(
-                              <button className="Btn__continue__booking" onClick={handleSelectBookingDate}>
-                                  Escolher a data do agendamento
-                              </button>
-                          )
-                        )}
-                      </div>
-                    
                     </div>
                     
                     <div className="tab-content">
@@ -651,26 +643,9 @@ return (
                         </div>
                     </div>
               </div>
-              
               </div>
               
             </div>
-            
-              <Agendamento 
-                userId={userId}
-                accessTokenBarbearia={accessTokenBarbearia}
-                barbeariaId={Number (barbeariaId)}
-                professionalId={serviceProfessional}
-                serviceId={selectedService}
-                barbeariaName={barbearia.nameBarbearia}
-                professionalName={professionalName}
-                serviceName={serviceName}
-                servicePrice={servicePrice}
-                serviceDuration={serviceDuration}
-                openModal={StatusModal}
-                closeModal={() => setStatusModal(false)}
-            />
-
             <ul className="Navigation active" translate="no">
               {userType === "visitante" ?(
                 <>

@@ -632,9 +632,8 @@ useEffect(() =>{
 
   return (
   <>
-    {openModal &&(
-      <div className="container__background__agendamento">
-        <div className="container__agendamento">
+    <div className={` ${openModal ? 'container__background__agendamento':'hiden__agendamento'}`}>
+        <div  className={` ${openModal ? 'container__agendamento':'hiden__agendamento'}`}>
         
             <div className="tittle__in__agendamento">
             <BsCalendar2Check className='icon__RiExchangeFundsLine'/>   
@@ -724,7 +723,6 @@ useEffect(() =>{
             )}
         </div>
     </div>
-    )}
   </>
   );
 }
