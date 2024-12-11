@@ -29,9 +29,9 @@
     transition: 0.5s;
 }
 .hiden__agendamento{
-    opacity: 0;
     height: 0;
     transition: 0.5s;
+    opacity: 0;
 }
 .tittle__in__agendamento{
     display: flex;

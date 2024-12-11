@@ -247,6 +247,8 @@ h4{
 .inforService{
     border-radius: 10px;
     display: flex;
+    justify-content: center;
+    align-items: center;
     color: #f6f6f6;
     padding: 5px;
     background: rgb(53 66 73 / 37%);;
@@ -264,7 +266,7 @@ h4{
     overflow-x: hidden; 
     overflow-y: scroll;
     margin-top: 10px;
-    border-bottom: 1px solid rgba(128, 128, 128, 0.217);
+    padding-bottom: 55px;
 }
 .Servicos::-webkit-scrollbar {
     width: 5px;

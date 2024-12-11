@@ -126,6 +126,7 @@ export function AddNewService ({ professionalId }){
   const addNewService = () => {
     // Verifica se os campos obrigatórios estão preenchidos
     if(newNameService && newPriceService && newServiceDuration[0]){
+
       setIsLoading(true)
       // Cria um objeto com os dados do serviço a serem enviados
       const newServiceData = {
@@ -137,15 +138,14 @@ export function AddNewService ({ professionalId }){
 
       let firstService = servicos.length;
 
-        axios.post(`${urlApi}/api/v1/addService/${barbeariaId}/${professionalId}`, newServiceData, {
+      axios.post(`${urlApi}/api/v1/addService/${barbeariaId}/${professionalId}`, newServiceData, {
           headers: {
           'Authorization': `Bearer ${token}`
           }
         })
           .then(res => {
-            if (res.data.Success === "Success") {
               setIsLoading(false)
-              setMessageAddService("Serviço adicionado com sucesso.");
+              setMessageAddService(res.data.message);
               obterServicos()
               setTimeout(() => {
                 setMessageAddService(null);
@@ -157,27 +157,24 @@ export function AddNewService ({ professionalId }){
                 setNewServiceDuration('')
                 setNewCommissionFee('')
                 fecharExpandir()
-              }, 2000);
-              
-            }
+              }, 2000);  
           })
           .catch(err => {
             setIsLoading(false)
+            console.error(err);
             if(err.response.status === 403){
               return navigate("/SessionExpired")
             }
-            setMessageAddService("Erro ao adicionar serviço!");
-
-            setTimeout(() => {
+            setMessageAddService(err.response.data.message);
+            return setTimeout(() => {
               setMessageAddService(null);
               setShowAddServico(false);
               }, 3000);
-            console.error(err);
           });
     }else{
       setIsLoading(false)
       setMessageAddService("Preencha todos os campos.");
-        setTimeout(() => {
+        return setTimeout(() => {
           setMessageAddService(null);
         }, 3000);
     }
@@ -209,6 +206,7 @@ const toggleItem = (itemId) => {
     setExpandedCardBooking([...expandedCardBooking, itemId]);
   }
 };
+
 /*===== Section to edit a current service ======*/
   const [editedServiceName, setEditedServiceName] = useState('');
   const [editedServicePrice, setEditedServicePrice] = useState('');
@@ -270,8 +268,7 @@ const toggleItem = (itemId) => {
         }
       })
       .then(res => {
-        if (res.data.Success === "Success") {
-          setMessageEditedService("Serviço alterado com sucesso.");
+          setMessageEditedService(res.data.message);
           obterServicos()
           setTimeout(() => {
             setMessageEditedService(null);
@@ -281,14 +278,13 @@ const toggleItem = (itemId) => {
             setEditedServiceDuration('')
             setSelectedService(null)
           }, 2000);
-        }
       })
       .catch(err => {
-        setMessageEditedService("Erro ao alterar informação do serviço. Tente novamente mais tarde.");
+        console.log("Erro ao alterar informação do serviço.", err);
+        setMessageEditedService(err.response.data.message);
         setTimeout(() => {
           setMessageEditedService(null);
         }, 2000);
-        console.log("Erro ao alterar informação do serviço.", err);
       });
   } else {
     setMessageEditedService("Nenhuma alteração identificada.");

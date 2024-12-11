@@ -417,20 +417,7 @@ return (
           </div>
           </div>
         </div>
-        <Agendamento 
-              userId={userId}
-              accessTokenBarbearia={accessTokenBarbearia}
-              barbeariaId={Number (barbeariaId)}
-              professionalId={serviceProfessional}
-              serviceId={selectedService}
-              barbeariaName={barbearia.nameBarbearia}
-              professionalName={professionalName}
-              serviceName={serviceName}
-              servicePrice={servicePrice}
-              serviceDuration={serviceDuration}
-              openModal={StatusModal}
-              closeModal={() => setStatusModal(false)}
-          />
+  
         <div className="container__main__barbearia__details" translate="no">
             <div className="container__widget" translate="no">
               <header className="header__widget" translate="no">
@@ -454,6 +441,20 @@ return (
               </header>
 
               <div className="content" translate="no">
+                <Agendamento 
+                    userId={userId}
+                    accessTokenBarbearia={accessTokenBarbearia}
+                    barbeariaId={Number (barbeariaId)}
+                    professionalId={serviceProfessional}
+                    serviceId={selectedService}
+                    barbeariaName={barbearia.nameBarbearia}
+                    professionalName={professionalName}
+                    serviceName={serviceName}
+                    servicePrice={servicePrice}
+                    serviceDuration={serviceDuration}
+                    openModal={StatusModal}
+                    closeModal={() => setStatusModal(false)}
+                />
                 <div className="content-inner" style={{transform: `translate(-${activeIndex * tabWidth}px, 0)`,}} translate="no">
                 
                     <div  className="tab-content">
@@ -642,10 +643,12 @@ return (
                           
                         </div>
                     </div>
+                    
               </div>
               </div>
               
             </div>
+              
             <ul className="Navigation active" translate="no">
               {userType === "visitante" ?(
                 <>
