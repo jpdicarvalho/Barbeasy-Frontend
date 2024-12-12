@@ -8,6 +8,12 @@
     font-family: 'Poppis', sans-serif;
     background: #0c0e19;
 }
+.loading__barbearia__details{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100dvh;
+}
 #barbDetails{
     color: white;
     font-weight: bold;
@@ -315,6 +321,7 @@ h4{
 .text__total__professional__and__service{
     margin-top: 10px;
     color: #f6f6f6;
+    width: 100%;
 }
 .servicoDiv {
     text-align: center;

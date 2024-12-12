@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import CryptoJS from 'crypto-js';
 
@@ -41,6 +41,7 @@ import { differenceInDays, parse } from 'date-fns';
 import Agendamento from "../Agendamento/Agendamento";
 
 import './BarbeariaDetails.css'
+import is from "date-fns/esm/locale/is/index.js";
 
 function BarbeariaDetails() {
 
@@ -114,8 +115,11 @@ useEffect(()=>{
         setBarbearia(res.data.barbearia[0])
         let nameBanners = res.data.barbearia[0].bannersBarbearia.split(',');
         setBanners(nameBanners)
+      }else{
+        navigate("/Home");
       }
     }).catch(err =>{
+      navigate("/Home");
       console.log(err)
     })
   }
@@ -192,24 +196,32 @@ const logoutClick = () => {
 const [professional, setProfessional] = useState([])
 const [professionalName, setProfessionalName] = useState([])
 const [serviceProfessional, setServiceProfessional] = useState()
+const [imageProfessional, setImageProfessional] = useState('')
+
 
 //Function to get all professionais
 useEffect(() => {
+
   const getProfessional = () =>{
-  axios.get(`${urlApi}/api/v1/listProfessionalToBarbearia/${barbeariaId}`)
-    .then(res => {
-      setProfessional(res.data.Professional)
-    })
-    .catch(error => console.log(error));
+    setIsLoading(true)
+    axios.get(`${urlApi}/api/v1/listProfessionalToBarbearia/${barbeariaId}`)
+      .then(res => {
+        setIsLoading(false)
+        setProfessional(res.data.Professional)
+      })
+      .catch(error => {
+        setIsLoading(false)
+        console.log(error)
+      });
   }
   getProfessional()
 }, [barbeariaId])
 
 
-const handleServiceProfessional = (professional_id, professional_name) => {
+const handleServiceProfessional = (professional_id, professional_name, professional_user_image) => {
   setServiceProfessional(professional_id)
   setProfessionalName(professional_name)
-
+  setImageProfessional(professional_user_image)
 };
 
 // ====== Section get serivce ========
@@ -374,8 +386,10 @@ const [activeIndex, setActiveIndex] = useState(0);
 
 return (
     <>
-    {!barbearia ? (
-      <div>Barbearia não encontrada</div>
+    {isLoading ? (
+      <div className="loading__barbearia__details">
+        <div className="loaderCreatingBooking"></div>
+      </div>
     ):(
       <>
         <div className="Outdoor" translate="no">
@@ -417,7 +431,7 @@ return (
           </div>
           </div>
         </div>
-  
+          
         <div className="container__main__barbearia__details" translate="no">
             <div className="container__widget" translate="no">
               <header className="header__widget" translate="no">
@@ -439,9 +453,7 @@ return (
                   }}
                 ></div>
               </header>
-
-              <div className="content" translate="no">
-                <Agendamento 
+              <Agendamento 
                     userId={userId}
                     accessTokenBarbearia={accessTokenBarbearia}
                     barbeariaId={Number (barbeariaId)}
@@ -449,12 +461,15 @@ return (
                     serviceId={selectedService}
                     barbeariaName={barbearia.nameBarbearia}
                     professionalName={professionalName}
+                    imageProfessional={imageProfessional}
                     serviceName={serviceName}
                     servicePrice={servicePrice}
                     serviceDuration={serviceDuration}
                     openModal={StatusModal}
                     closeModal={() => setStatusModal(false)}
                 />
+              <div className="content" translate="no">
+                
                 <div className="content-inner" style={{transform: `translate(-${activeIndex * tabWidth}px, 0)`,}} translate="no">
                 
                     <div  className="tab-content">
@@ -488,7 +503,7 @@ return (
                                   const firstLetter = professional.name.charAt(0).toUpperCase();
                                   
                                   return (
-                                    <div key={professional.id} onClick={() => handleServiceProfessional(professional.id, professional.name)} className={`Box__professional__barbearia__details ${serviceProfessional === professional.id ? 'professionalSelected' : ''}`}> 
+                                    <div key={professional.id} onClick={() => handleServiceProfessional(professional.id, professional.name, professional.user_image)} className={`Box__professional__barbearia__details ${serviceProfessional === professional.id ? 'professionalSelected' : ''}`}> 
                                       <div className="img__professional__barbearia__details">
                                         {professional.user_image != 'default.png' ?(
                                           <img src={cloudFrontUrl + professional.user_image} className="user__img__box__comment" alt="" />

@@ -18,13 +18,13 @@
     position: relative;
     background: #111421;
     padding-top: 10px;
-    padding-left: 5px;
+    padding-left: 10px;
     padding-right: 5px;
     overflow: hidden;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
     width: 390px;
-    height: 340px;
+    height: 530px;
     opacity: 1;
     transition: 0.5s;
 }
@@ -32,6 +32,27 @@
     height: 0;
     transition: 0.5s;
     opacity: 0;
+}
+
+.header__preview__booking{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.inner__preview__booking{
+    display: flex;
+    justify-content: space-between;
+    background: #35424957;
+    border-radius: 20px;
+}
+.box__service__preview{
+    display: flex;
+    justify-content: center;
+    align-items: left;
+    flex-direction: column;
+    width: 400px;
+
 }
 .tittle__in__agendamento{
     display: flex;

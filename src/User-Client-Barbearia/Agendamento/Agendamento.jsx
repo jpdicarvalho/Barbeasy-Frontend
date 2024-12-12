@@ -10,6 +10,7 @@ import { MdOutlineDone } from "react-icons/md";
 import { VscError } from "react-icons/vsc";
 import { BsCalendar2Check } from "react-icons/bs";
 import { IoClose } from "react-icons/io5";
+import { GiSandsOfTime } from "react-icons/gi";
 
 const monthNames = [
   'Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
@@ -26,6 +27,7 @@ export default function Agendamento({
   serviceId,
   barbeariaName,
   professionalName,
+  imageProfessional,
   serviceName,
   servicePrice,
   serviceDuration,
@@ -64,6 +66,8 @@ export default function Agendamento({
   const [messageConfirmedBooking, setMessageConfirmedBooking] = useState(false);
 
   const urlApi = 'https://barbeasy.up.railway.app'
+  const cloudFrontUrl = 'https://d15o6h0uxpz56g.cloudfront.net/'
+
   
   const currentDate = new Date(date);
   const formattedDate = `${currentDate.getDate()}-${currentDate.getMonth() + 1}-${currentDate.getFullYear()}-${currentDate.getHours()}:${currentDate.getMinutes()}`;
@@ -635,13 +639,35 @@ useEffect(() =>{
     <div className={` ${openModal ? 'container__background__agendamento':'hiden__agendamento'}`}>
         <div  className={` ${openModal ? 'container__agendamento':'hiden__agendamento'}`}>
         
-            <div className="tittle__in__agendamento">
-            <BsCalendar2Check className='icon__RiExchangeFundsLine'/>   
-              <h3>Agenda</h3>
-              <IoClose className="icon__IoIosCloseCircleOutline" onClick={closeModal}/>
-            </div>
+        <div className="container__preview__booking">
+          <div className="header__preview__booking">
+            <h3>Detalhes do agendamento </h3>
+            <IoClose className="icon__IoIosCloseCircleOutline" onClick={closeModal}/>
+          </div>
+          
+          
+          <div className="inner__preview__booking">
+              <div className="Box__professional__barbearia__details"> 
+                <div className="img__professional__barbearia__details">
+                  {imageProfessional != 'default.png' ?(
+                    <img src={cloudFrontUrl + imageProfessional} className="user__img__box__comment" alt="" />
+                  ):(
+                    <p className='firstLetter' style={{color: '#fff', fontSize: '40px'}}>{professionalName.charAt(0).toUpperCase()}</p>
+                  )}
+                </div>
+                <p className="name__professional__in__barbearia__details" style={{color: '#fff', fontSize: '14px'}}>{professionalName}</p>
 
+              </div>
+              <div className='box__service__preview'>
+                <p>{serviceName} • {servicePrice} </p>
+                <p style={{color: 'darkgray'}}><GiSandsOfTime /> • {serviceDuration}min</p>
+              </div>
+          </div>
+        
+        </div>
               <div className='container__Calendar' translate="no">
+                <p className="text__total__professional__and__service">Escolha um dia de sua preferência</p>
+
               <div className='sectionCalendar' translate="no">
                 <div className="list__Names__Week__And__Day" translate="no">
                 {weekDays.map((dayOfWeek, index) => (
