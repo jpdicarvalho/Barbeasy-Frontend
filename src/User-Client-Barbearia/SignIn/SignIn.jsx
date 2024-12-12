@@ -357,7 +357,7 @@ return (
           Políticas de Privacidade
         </Link>
       </div>
-      <p className="copyright-text">
+      <p style={{marginTop: '3px'}} className="copyright-text">
         © 2024 Barbeasy. Todos os direitos reservados.
       </p>
     </footer>
