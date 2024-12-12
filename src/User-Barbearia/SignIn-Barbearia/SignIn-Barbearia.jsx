@@ -340,7 +340,7 @@ function SignInBarbearia() {
         <hr />
       </div>
   
-      <button className="button google" onClick={login} style={{marginBottom: "40px"}}>
+      <button className="button google" onClick={login}>
         <svg
           viewBox="0 0 256 262"
           preserveAspectRatio="xMidYMid"
@@ -376,7 +376,7 @@ function SignInBarbearia() {
             Políticas de Privacidade
           </Link>
         </div>
-        <p className="copyright-text" translate="no">
+        <p style={{marginTop: '3px'}} className="copyright-text" translate="no" >
           © 2024 Barbeasy. Todos os direitos reservados.
         </p>
       </footer>
