@@ -588,13 +588,11 @@ const [isBookingCreated, setIsBookingCreated] = useState(false)
             }
         })
         .then(res => {
-            if(res.data.Success === 'Success'){
                 setIsBookingCreated(false)
-                setMessageConfirmedBooking("Agendamento realizado com sucesso!")
+                setMessageConfirmedBooking(res.data.message)
                 return setTimeout(() => {
                    navigate("/BookingsHistory")
                 }, 3000);
-            }
         }).catch(error => {
           console.error('Erro ao criar agendamento', error)
           
@@ -610,8 +608,10 @@ const [isBookingCreated, setIsBookingCreated] = useState(false)
                 setMessageConfirmedBooking('')
               }, 8000);
           }
-          setMessageConfirmedBooking("Houve um erro ao criar seu agendamento. Tente novamente mais tarde.")
-          setTimeout(() => {
+          
+          setIsBookingCreated(false)
+          setMessageConfirmedBooking(error.response.data.message)
+          return setTimeout(() => {
             setMessageConfirmedBooking('');
           }, 3000);
         })
@@ -716,7 +716,7 @@ useEffect(() =>{
                     <p className="text__message">{messageConfirmedBooking}</p>
                   </div>
                 ) : (
-                  <div className={` ${messageConfirmedBooking ? 'mensagem-erro' : ''}`}>
+                  <div className={` ${messageConfirmedBooking ? 'mensagem-erro' : ''}`} style={{textAlign: 'justify'}}>
                     <VscError className={`hide_icon__error ${messageConfirmedBooking ? 'icon__error' : ''}`}/>
                     <p className="text__message">{messageConfirmedBooking}</p>
                   </div>

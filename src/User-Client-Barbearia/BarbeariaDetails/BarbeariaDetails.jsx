@@ -392,6 +392,7 @@ return (
       </div>
     ):(
       <>
+      
         <div className="Outdoor" translate="no">
         <Swiper slidesPerView={1} effect={'fade'} modules={[EffectFade]} autoplay={{ delay: 3000 }} translate="no">
           {banners.map((item) =>
@@ -697,9 +698,11 @@ return (
                   </>
               )}
             </ul>
+            
         </div>
       </>
     )}
+    
   </>
   );
 }

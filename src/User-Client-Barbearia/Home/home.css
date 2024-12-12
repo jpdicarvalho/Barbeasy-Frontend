@@ -10,7 +10,7 @@
   flex-direction: column;
   width: 400px;
   min-height: 100dvh; 
-  padding-top: 330px;
+  padding-top: 310px;
   padding-left: 10px;
   padding-right: 10px;
   font-family: 'Poppis', sans-serif;
@@ -219,6 +219,12 @@
   left: 0;
   top: 4px;
   z-index: 1;
+}
+.container__text__topBarbearias{
+  margin-bottom: 10px;
+  width: 100%;
+  text-align: justify;
+  color: gray;
 }
 .containerBarbearia {
   position: relative;
