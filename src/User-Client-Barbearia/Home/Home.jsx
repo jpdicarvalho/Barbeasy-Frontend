@@ -185,7 +185,7 @@ return (
 
     <div className="containerHome">
       <div className="container__text__topBarbearias">
-        <p>#Top 15 Barbearias </p>
+        <p>#Top {barbearias.length} Barbearias com melhor avalição</p>
       </div>
       
       {barbearias.length > 0 ? (
