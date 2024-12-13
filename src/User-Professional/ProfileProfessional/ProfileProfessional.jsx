@@ -19,6 +19,7 @@ import { MdOutlinePhonelinkRing } from "react-icons/md";
 import { MdNumbers } from "react-icons/md";
 import { IoStar } from "react-icons/io5";
 import { IoIosRemoveCircleOutline } from "react-icons/io";
+import { CiImageOn } from "react-icons/ci";
 
 import './ProfileProfessional.css';
 
@@ -784,9 +785,16 @@ return (
                       {barbearias.map((barbearias) => { 
                         return (
                           <div key={barbearias.barbeariaId} className="box__barbearia__in__profile__professional">
-                                <div className="Box__img__capa__barbearia">
+                                {barbearias.bannerBarbearia === "banner_main" ? (
+                                  <div className="Box__img__capa__barbearia">
+                                    <CiImageOn className="icon__CiImageOn" translate="no" />
+                                  </div>
+                                ) : (
+                                  <div className="Box__img__capa__barbearia">
                                     <img src={urlCloudFront + barbearias.bannerBarbearia} className="img__capa__barbearia"/>
-                                </div>
+                                  </div>
+                                )}
+                                
                                 
                                 <div className="section__body__barbearia__in__profile__professional">
                                     <div className="name__barbearia">

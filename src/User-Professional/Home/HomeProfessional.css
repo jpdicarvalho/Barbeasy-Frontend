@@ -71,6 +71,10 @@
     font-size: 30px;
     cursor: pointer;
 }
+.icon__IoNotificationsOutline{
+    font-size: 22px;
+    color: #f6f6f6;
+}
 .circle__notification{
     position: absolute;
     margin-left: 12px;

@@ -136,6 +136,7 @@ const createNewProfessional = () =>{
           setNewPhoneProfessional('');
           setNewEmailProfessional('');
           setNewPasswordProfessional('');
+          setCloseModal()
         }, 2000);
       }
     })
@@ -364,91 +365,91 @@ const sendRequesToProfessional = () =>{
             
             {showForm && (
               <div className="section__form" translate="no">
-                            <div className="coolinput">
-                            <label htmlFor="professionalName" className="text">Name:</label>
-                            <input
-                              className="input"
-                              type="text"
-                              id="professionalName"
-                              name="professionalName"
-                              value={newNameProfessional}
-                              maxLength={30}
-                              pattern="[a-zA-Z]+"
-                              onChange={handleNameChange}
-                              placeholder="Ex. Marvin"
-                            />
-                            </div>
+                <div className="coolinput">
+                <label htmlFor="professionalName" className="text">Name:</label>
+                <input
+                  className="input"
+                  type="text"
+                  id="professionalName"
+                  name="professionalName"
+                  value={newNameProfessional}
+                  maxLength={30}
+                  pattern="[a-zA-Z]+"
+                  onChange={handleNameChange}
+                  placeholder="Ex. Marvin"
+                />
+                </div>
 
-                            <div className="coolinput">
-                            <label htmlFor="celularProfessional" className="text">Celular:</label>
-                            <input
-                              type="text"
-                              id="celularProfessional"
-                              name="celularProfessional"
-                              value={newPhoneProfessional}
-                              className="input"
-                              maxLength={11}
-                              onChange={handlePhoneChange}
-                              placeholder="Ex. 93 991121212"
-                            />
-                            </div>
+                <div className="coolinput">
+                <label htmlFor="celularProfessional" className="text">Celular:</label>
+                <input
+                  type="text"
+                  id="celularProfessional"
+                  name="celularProfessional"
+                  value={newPhoneProfessional}
+                  className="input"
+                  maxLength={11}
+                  onChange={handlePhoneChange}
+                  placeholder="Ex. 93 991121212"
+                />
+                </div>
 
-                            <div className="coolinput">
-                            <label htmlFor="email" className="text">Email:</label>
-                            <input
-                              type="email"
-                              id="email"
-                              name="email"
-                              value={newEmailProfessional}
-                              className="input"
-                              maxLength={50}
-                              onChange={(e) => {
-                                  const inputValue = e.target.value;
-                                  // Substituir o conteúdo do campo para conter apenas números, letras, "@" e "."
-                                  const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9@.]/g, '');
-                                  // Limitar a 50 caracteres
-                                  const truncatedValue = sanitizedValue.slice(0, 50);
-                                  setNewEmailProfessional( truncatedValue );
-                              }}
-                              placeholder="email.exemplo@gmail.com"
-                              required
-                              />
-                            </div>
+                <div className="coolinput">
+                <label htmlFor="email" className="text">Email:</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={newEmailProfessional}
+                  className="input"
+                  maxLength={50}
+                  onChange={(e) => {
+                      const inputValue = e.target.value;
+                      // Substituir o conteúdo do campo para conter apenas números, letras, "@" e "."
+                      const sanitizedValue = inputValue.replace(/[^a-zA-Z0-9@.]/g, '');
+                      // Limitar a 50 caracteres
+                      const truncatedValue = sanitizedValue.slice(0, 50);
+                      setNewEmailProfessional( truncatedValue );
+                  }}
+                  placeholder="email.exemplo@gmail.com"
+                  required
+                  />
+                </div>
 
-                            <div className="coolinput">
-                            <label htmlFor="passwordProfessional" className="text">Senha:</label>
-                            <input
-                              className="input"
-                              type="password"
-                              id="passwordProfessional"
-                              name="passwordProfessional"
-                              value={newPasswordProfessional}
-                              maxLength={8}
-                              onChange={handlePasswordChange}
-                              placeholder="********"
-                            />
-                            </div>
+                <div className="coolinput">
+                <label htmlFor="passwordProfessional" className="text">Senha:</label>
+                <input
+                  className="input"
+                  type="password"
+                  id="passwordProfessional"
+                  name="passwordProfessional"
+                  value={newPasswordProfessional}
+                  maxLength={8}
+                  onChange={handlePasswordChange}
+                  placeholder="********"
+                />
+                </div>
 
-                          {messageAddProfessional === "Profissional criado com sucesso." ? (
-                            <div className="mensagem-sucesso">
-                              <MdOutlineDone className="icon__success"/>
-                              <p className="text__message">{messageAddProfessional}</p>
-                            </div>
-                          ) : (
-                            <div className={` ${messageAddProfessional ? 'mensagem-erro' : ''}`}>
-                              <VscError className={`hide_icon__error ${messageAddProfessional ? 'icon__error' : ''}`}/>
-                              <p className="text__message">{messageAddProfessional}</p>
-                            </div>
-                          )}
-                            <div className="Box__Button">
-                                <button className="button__back__search" onClick={alternarShowForm}>
-                                    <IoIosArrowBack />
-                                </button>
-                                <button className="button__Salve__Service" onClick={createNewProfessional}>
-                                      Cadastrar
-                                </button>
-                            </div>
-                          </div>
+              {messageAddProfessional === "Profissional criado com sucesso." ? (
+                <div className="mensagem-sucesso">
+                  <MdOutlineDone className="icon__success"/>
+                  <p className="text__message">{messageAddProfessional}</p>
+                </div>
+              ) : (
+                <div className={` ${messageAddProfessional ? 'mensagem-erro' : ''}`}>
+                  <VscError className={`hide_icon__error ${messageAddProfessional ? 'icon__error' : ''}`}/>
+                  <p className="text__message">{messageAddProfessional}</p>
+                </div>
+              )}
+                <div className="Box__Button">
+                    <button className="button__back__search" onClick={alternarShowForm}>
+                        <IoIosArrowBack />
+                    </button>
+                    <button className="button__Salve__Service" onClick={createNewProfessional}>
+                          Cadastrar
+                    </button>
+                </div>
+              </div>
             )}
           </div>
       </div>
