@@ -1065,8 +1065,6 @@ useEffect(() =>{
               </button>
               Novo
             </div>
-            <AddNewProfessional openModal={showAddNewProfessional} setCloseModal={() => setShowAddNewProfessional(!showAddNewProfessional)}/>
-
             {professional.map((professional) => { 
               // Obtendo a primeira letra do nome do profissional
               const firstLetter = professional.name.charAt(0).toUpperCase();
@@ -1094,8 +1092,10 @@ useEffect(() =>{
             <h3>Barbearia</h3>
             <hr id='sublime'/>
         </div>
+        
+        <AddNewProfessional openModal={showAddNewProfessional} setCloseModal={() => setShowAddNewProfessional(!showAddNewProfessional)}/>
 
-    <div className="container__menu" translate="no">
+        <div className="container__menu" translate="no">
 
             <BookingPoliceis barbeariaId={barbeariaId} OAuthUrl={OAuthUrl} isConectedWithMercadoPago={isConectedWithMercadoPago} />
 
@@ -1776,7 +1776,7 @@ useEffect(() =>{
               <p className='label__button__header'>Home</p>
             </div>
 
-        </div>
+      </div>
   
     </>
   );
