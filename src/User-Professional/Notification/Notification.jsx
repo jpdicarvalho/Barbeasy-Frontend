@@ -140,7 +140,7 @@ export default function Notification (){
                 </div>
 
                 <div className="box__message__notification">
-                    {message === 'Solicitação aceita com sucesso.' ?(
+                    {message === 'Solicitação aceita com sucesso.' || message === 'Solicitação de vínculo recusada com sucesso.' ?(
                         <div className="mensagem-sucesso" style={{width: "365px"}}>
                             <MdOutlineDone className="icon__success"/>
                             <p className="text__message">{message}</p>
