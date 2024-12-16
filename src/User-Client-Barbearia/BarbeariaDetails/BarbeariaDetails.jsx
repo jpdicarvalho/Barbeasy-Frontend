@@ -546,7 +546,7 @@ return (
                             serviceSearch.filter(servico => servico.professional_id === serviceProfessional)  
                                   .map(servico => (
                                     <div key={servico.id} onClick={() => handleServiceChange(servico.id, servico.name, servico.preco, servico.duracao)} className={`servicoDiv ${selectedService === servico.id ? 'selected' : ''}`}>
-                                        <p>{servico.name} • {servico.preco} </p>
+                                        <p style={{color: '#f6f6f6'}}>{servico.name} • {servico.preco} </p>
                                         <p style={{color: 'darkgray'}}><GiSandsOfTime /> • {servico.duracao}</p>
                                       </div>
                                 ))
