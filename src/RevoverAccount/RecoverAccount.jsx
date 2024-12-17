@@ -147,7 +147,7 @@ const resendCodeAutenticationToWhatsApp = () => {
     let validedNumber;
   
     if(phoneNumber.length === 11){//Ex.:93 9 94455445
-      validedNumber = phoneNumber.slice(0, 3) + phoneNumber.slice(3 + 1);//Number formatted: 93 94455445
+      validedNumber = phoneNumber.slice(0, 2) + phoneNumber.slice(2 + 1);//Number formatted: 93 94455445
     }
     
     if(phoneNumber.length === 10){//Ex.:93 94455445
