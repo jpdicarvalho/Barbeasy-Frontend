@@ -117,7 +117,7 @@ const resendCodeAutentication = () => {
   let validedNumber;
 
   if(numberEdited.length === 11){//Ex.:93 9 94455445
-    validedNumber = numberEdited.slice(0, 3) + numberEdited.slice(3 + 1);//Number formatted: 93 94455445
+    validedNumber = numberEdited.slice(0, 2) + numberEdited.slice(2 + 1);//Number formatted: 93 94455445
   }
   
   if(numberEdited.length === 10){//Ex.:93 94455445

@@ -91,7 +91,7 @@ function formatPhoneNumber (whatsApp) {
     let validedNumber;
 
     if(whatsApp.length === 11){//Ex.:93 9 94455445
-        validedNumber = whatsApp.slice(0, 3) + whatsApp.slice(3 + 1);//Number formatted: 93 94455445
+        validedNumber = whatsApp.slice(0, 2) + whatsApp.slice(2 + 1);//Number formatted: 93 94455445
     }
 
     if(whatsApp.length === 10){//Ex.:93 94455445
