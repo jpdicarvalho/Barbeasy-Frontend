@@ -29,6 +29,8 @@ function BookingDetails () {
         currency: 'BRL'
     }):null;
 
+    console.log(booking)
+
     return(
         <>
             <div className="container__Booking__Details" translate="no">
@@ -38,6 +40,8 @@ function BookingDetails () {
                 <div className="information__barbearia__Booking__Details" translate="no">
                     <h2>{booking.barbeariaName}</h2>
                     <p>{booking.ruaBarbearia}, Nº {booking.NruaBarbearia}, {booking.bairroBarbearia}, {booking.cidadeBarbearia}</p>
+                    <p><MdOutlinePhone className="icon__details__service__Booking__Details"/>{booking.celularBarbearia}</p>
+
                 </div>
             <div className="background" translate="no">
                 <div className="subtittle__Booking__Details">
