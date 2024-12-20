@@ -86,7 +86,7 @@
     font-weight: bold;
     color: #fff;
     background: rgba(59, 20, 216, 0.1);
-    border-radius: 10px;
+    border-radius: 5px;
     border: 1px solid #4a17d5;
     transition: 0.5s;
 }
@@ -97,7 +97,7 @@
 .inputs-horarios{
     display: flex;
     background: transparent;
-    width: 280px;
+    width: 315px;
     padding: 10px;
     overflow: auto;
     cursor: grab;

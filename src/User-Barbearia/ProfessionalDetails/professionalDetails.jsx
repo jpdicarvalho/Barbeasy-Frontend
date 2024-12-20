@@ -1070,7 +1070,7 @@ return (
                   <div key={day} className='Dias_Trabalho_Rapido' translate="no">
                     <div className='Dias_Semana' onClick={() => handleDiaClick(day)} translate="no">{day}
                       {diaSelecionado === day && (
-                        <div translate="no"><p className='information__span'>Defina o seu horário de funcionamento:</p>
+                        <div translate="no"><p className='information__span'>Selecione o horário de início e término:</p>
                           <div className="inputs-horarios">
                           {freeTimeFromOtherDays(diaSelecionado, horarios, fullAgenda)}
                           </div>
