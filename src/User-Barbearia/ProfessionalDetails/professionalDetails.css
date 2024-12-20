@@ -196,21 +196,23 @@
     justify-content: center;
     margin-top: 5px;
     width: 100%;
-    color: #1AEE07;
+    color: #ffffff;
     padding: 10px;
     font-size: 14px;
     background: transparent;
     margin-right: 5px;
-    border: 1px solid #1AEE07;
+    border: 1px solid #0bdd12;
     transition: 0.5s;
+    border-radius: 50px;
 }
 .button__Salve__Service:hover{
     border-radius: 5px;
-    color: #141728;
-    font-size: 15px;
-    font-weight: 700;
-    background: #1AEE07;
+    color: #ffffff;
+    font-size: 14px;
+    background: #0bdd12;
     transition: 0.5s;
+    border-radius: 50px;
+
 }
 .container__btn__closeANDopen__alltimes{
     width: 100%;
