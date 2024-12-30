@@ -54,9 +54,9 @@ export default function Agendamento({
   let dayOfWeek = date.toLocaleDateString('pt-BR', options);
   dayOfWeek = dayOfWeek.slice(0, -1);
   dayOfWeek = dayOfWeek.charAt(0).toUpperCase() + dayOfWeek.slice(1);
-  const year = date.getFullYear();
   
   //Buscando a quantidade de dias que a agenda vai ficar aberta
+  const [year, setYear] = useState(date.getFullYear());
   const [horariosDiaSelecionado, setHorariosDiaSelecionado] = useState([]);
   const [QntDaysSelected, setQntDaysSelected] = useState([]);
   const [agenda, setAgenda] = useState([]);
@@ -220,9 +220,10 @@ export default function Agendamento({
   
   // Function to get all booking
   const handleDateClick = (dayOfWeek, day, month, year) => {
+    
   setSelectedDay(`${dayOfWeek}, ${day} de ${month} de ${year}`)
   let selectedDate = `${dayOfWeek}, ${day} de ${month} de ${year}`;
-  
+  console.log(year)
   
   let timesOfDaySelected = timesDays[dayOfWeek]; //Passa o índice do objeto, correspondente ao dia selecionado
   timesOfDaySelected = timesOfDaySelected.split(',');//Separa os horários que estão concatenados
@@ -670,18 +671,28 @@ useEffect(() =>{
 
               <div className='sectionCalendar' translate="no">
                 <div className="list__Names__Week__And__Day" translate="no">
-                {weekDays.map((dayOfWeek, index) => (
-                    <div key={`weekDay-${index}`} className="list__name__Week">
-                      <div
-                        className={`dayWeekCurrent ${selectedDay === `${dayOfWeek}, ${numberDays[index].number} de ${numberDays[index].month} de ${year}` ? 'selectedDay' : ''} ${numberDays[index].isCurrentDay ? 'currentDay' : ''}`}
-                        onClick={() => {handleDateClick(dayOfWeek, numberDays[index].number, numberDays[index].month, year)}}
-                      >
-                        <p className='Box__day'>{dayOfWeek}</p>
-                        <p className='Box__NumDay'>{numberDays[index].number}</p>
-                        <p className='Box__month'>{numberDays[index].month}</p>
+                {weekDays.map((dayOfWeek, index) => {
+                  //logic to handle de next year
+                    let yearOfselectedDay = year;
+                    if (numberDays[index].month === 'Jan') {
+                      yearOfselectedDay = date.getFullYear() + 1;
+                    }
+
+                    return (
+                      <div key={`weekDay-${index}`} className="list__name__Week">
+                        <div
+                          className={`dayWeekCurrent ${selectedDay === `${dayOfWeek}, ${numberDays[index].number} de ${numberDays[index].month} de ${yearOfselectedDay}` ? 'selectedDay' : ''} ${numberDays[index].isCurrentDay ? 'currentDay' : ''}`}
+                          onClick={() => {
+                            handleDateClick(dayOfWeek, numberDays[index].number, numberDays[index].month, yearOfselectedDay);
+                          }}
+                        >
+                          <p className='Box__day'>{dayOfWeek}</p>
+                          <p className='Box__NumDay'>{numberDays[index].number}</p>
+                          <p className='Box__month'>{numberDays[index].month}</p>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             </div>
