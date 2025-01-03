@@ -11,21 +11,6 @@ import { CiBookmarkCheck } from "react-icons/ci";
 import { BsCalendar2Check } from "react-icons/bs";
 import { FaLayerGroup } from "react-icons/fa";
 
-const numbersMonth = {
-    Jan: 1,
-    Fev: 2,
-    Mar: 3,
-    Abr: 4,
-    Maio: 5,
-    Jun: 6,
-    Jul: 7,
-    Ago: 8,
-    Set: 9,
-    Out: 10,
-    Nov: 11,
-    Dez: 12
-}
-
 function BookingsHistory (){
     const urlApi = 'https://barbeasy.up.railway.app'
 
@@ -102,6 +87,7 @@ function BookingsHistory (){
         booking.bookingTime.toLowerCase().includes(searchLowerCase)
     );
     
+    //Function to handle booking's status
     function campareCurrentDateWithBookingDate(yearBooking, monthBooking, bookingDay, bookingTime){
         if(currentYear > yearBooking){
             return true
@@ -123,30 +109,12 @@ function BookingsHistory (){
                     }
                 }
             }
+        }else{
+            return false
         }
 
     }
-    /*if(currentMonthAndYear === monthAndYearBookings){
-        if(currentDay === bookingDay){
-            if(currentTime > bookingTime){
-                return true
-            }else{
-                return false
-            }
-        }else{
-            if(currentDay > bookingDay){
-                return true
-            }else{
-                return false
-            }
-        }
-    }else{
-        if (currentMonthAndYear > monthAndYearBookings){
-                return true
-            }else{
-                return false
-            }
-        }*/
+
     return(
         <>
             <div className="container__profile__professional" translate="no">
@@ -201,8 +169,6 @@ function BookingsHistory (){
                                                     <p className='status__bookings__history'>Agendado</p>
                                                 </>
                                             )}
-                                            
-                                            
                                         </div>
 
                                         <div className='body__bookings__history'>
