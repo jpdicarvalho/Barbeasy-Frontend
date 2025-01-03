@@ -672,18 +672,18 @@ useEffect(() =>{
               <div className='sectionCalendar' translate="no">
                 <div className="list__Names__Week__And__Day" translate="no">
                 {weekDays.map((dayOfWeek, index) => {
-                  //logic to handle de next year
+                  /*logic to handle de next year
                     let yearOfselectedDay = year;
                     if (numberDays[index].month === 'Jan') {
                       yearOfselectedDay = date.getFullYear() + 1;
-                    }
+                    }*/
 
                     return (
                       <div key={`weekDay-${index}`} className="list__name__Week">
                         <div
-                          className={`dayWeekCurrent ${selectedDay === `${dayOfWeek}, ${numberDays[index].number} de ${numberDays[index].month} de ${yearOfselectedDay}` ? 'selectedDay' : ''} ${numberDays[index].isCurrentDay ? 'currentDay' : ''}`}
+                          className={`dayWeekCurrent ${selectedDay === `${dayOfWeek}, ${numberDays[index].number} de ${numberDays[index].month} de ${year}` ? 'selectedDay' : ''} ${numberDays[index].isCurrentDay ? 'currentDay' : ''}`}
                           onClick={() => {
-                            handleDateClick(dayOfWeek, numberDays[index].number, numberDays[index].month, yearOfselectedDay);
+                            handleDateClick(dayOfWeek, numberDays[index].number, numberDays[index].month, year);
                           }}
                         >
                           <p className='Box__day'>{dayOfWeek}</p>

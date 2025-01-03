@@ -46,7 +46,8 @@ function BookingsHistory (){
     const hours = String(currentDate.getHours()).padStart(2, '0');
     const minutes = String(currentDate.getMinutes()).padStart(2, '0');
 
-    const currentMonthAndYear = Number (`${month}` + `${year}`)
+    const currentYear = Number (`${year}`)
+    const currentMonth = Number (`${month}`)
     const currentDay = Number(day)
     const currentTime = Number(`${hours}` + `${minutes}`)
 
@@ -101,30 +102,51 @@ function BookingsHistory (){
         booking.bookingTime.toLowerCase().includes(searchLowerCase)
     );
     
-    function campareCurrentDateWithBookingDate(monthAndYearBookings, bookingDay, bookingTime){
-        if(currentMonthAndYear === monthAndYearBookings){
-            if(currentDay === bookingDay){
-                if(currentTime > bookingTime){
-                    return true
-                }else{
-                    return false
-                }
+    function campareCurrentDateWithBookingDate(yearBooking, monthBooking, bookingDay, bookingTime){
+        if(currentYear > yearBooking){
+            return true
+        }else if(currentYear === yearBooking){
+            if(currentMonth > monthBooking){
+                return true
+            }else if(currentMonth < monthBooking){
+                return false
             }else{
                 if(currentDay > bookingDay){
                     return true
-                }else{
+                }else if(currentDay < bookingDay){
                     return false
+                }else{
+                    if(currentTime > bookingTime){
+                        return true
+                    }else if(currentTime < bookingTime){
+                        return false
+                    }
                 }
+            }
+        }
+
+    }
+    /*if(currentMonthAndYear === monthAndYearBookings){
+        if(currentDay === bookingDay){
+            if(currentTime > bookingTime){
+                return true
+            }else{
+                return false
             }
         }else{
-            if (currentMonthAndYear > monthAndYearBookings){
-                    return true
-                }else{
-                    return false
-                }
+            if(currentDay > bookingDay){
+                return true
+            }else{
+                return false
             }
-    }
-
+        }
+    }else{
+        if (currentMonthAndYear > monthAndYearBookings){
+                return true
+            }else{
+                return false
+            }
+        }*/
     return(
         <>
             <div className="container__profile__professional" translate="no">
@@ -158,7 +180,6 @@ function BookingsHistory (){
                                 //obtendo o mês e o ano do agandamento
                                 const yearBooking = Number (booking.bookingDate.substring(17).replace(/[^0-9]/g, ''));
                                 const monthBooking = booking.bookingDate.match(/(Jan|Fev|Mar|Abr|Mai|Jun|Jul|Ago|Set|Out|Nov|Dez)/g, '');
-                                const monthAndYearBookings = Number (`${numbersMonth[monthBooking]}` + `${yearBooking}`);
                                 //obtendo o dia do agendamento
                                 const bookingDay = Number (booking.bookingDate.split(', ')[1].split(' ')[0]);
                                 //Obtendo o horário inicial do agendamento
@@ -167,9 +188,9 @@ function BookingsHistory (){
                                 let isTrue;
 
                                 return(
-                                    <div key={index} className={`Box__bookings__history ${isTrue = campareCurrentDateWithBookingDate(monthAndYearBookings, bookingDay, bookingTimes) ? 'colorTexts':''}`} onClick={() => handleBookingClick(booking)} >
+                                    <div key={index} className={`Box__bookings__history ${isTrue = campareCurrentDateWithBookingDate(yearBooking, monthBooking, bookingDay, bookingTimes) ? 'colorTexts':''}`} onClick={() => handleBookingClick(booking)} >
                                         <div className='box__status__bookings__history'>
-                                            {isTrue = campareCurrentDateWithBookingDate(monthAndYearBookings, bookingDay, bookingTimes) ?(
+                                            {isTrue = campareCurrentDateWithBookingDate(yearBooking, monthBooking, bookingDay, bookingTimes) ?(
                                                 <>
                                                     <BsCalendar2Check className='icon__GiSandsOfTime' style={{fontSize: '40px'}}/>
                                                     <p className='status__bookings__history'>Finalizado</p>
