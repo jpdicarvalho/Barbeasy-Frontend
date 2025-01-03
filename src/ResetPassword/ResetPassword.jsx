@@ -238,6 +238,7 @@ const verifyCodeToResetPassword = () => {
             });
     }
 };
+//<QRCodeSVG value=""/>
 
 return(
         <>
@@ -245,7 +246,6 @@ return(
                 <div className="imgBox">
                 <img src={barberLogo} alt="" />
                 </div>
-                <QRCodeSVG value=""/>
 
                 <h2 id="HeaderSignUp">Barbeasy</h2>
                 <div className="Box__cadastro__barbearia">

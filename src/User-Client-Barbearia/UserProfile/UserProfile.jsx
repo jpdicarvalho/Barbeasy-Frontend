@@ -204,7 +204,7 @@ const alterUserData = () => {
   let validedNumber;
 
   if(newPhoneNumber.length === 11){//Ex.:93 9 94455445
-    validedNumber = newPhoneNumber.slice(0, 3) + newPhoneNumber.slice(3 + 1);//Number formatted: 93 94455445
+    validedNumber = newPhoneNumber.slice(0, 2) + newPhoneNumber.slice(2 + 1);//Number formatted: 93 94455445
   }
 
   if(newPhoneNumber.length === 10){//Ex.:93 94455445
