@@ -19,8 +19,6 @@ import { CiImageOn } from "react-icons/ci";
 import { CiLogout } from "react-icons/ci";
 import { BsSearch } from "react-icons/bs";
 import { HomeSkeleton } from "./HomeSkeleton";
-import { MdOutlineStar } from "react-icons/md";
-
 
 function Home() {
 

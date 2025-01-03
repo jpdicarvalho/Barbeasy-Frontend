@@ -6,12 +6,9 @@ import './ResetPassword.css'
 import {QRCodeSVG} from 'qrcode.react';
 
 import barberLogo from '../../barber-logo.png';
-import { MdOutlineEdit } from "react-icons/md";
-import { MdCancel } from "react-icons/md";
 
 function ResetPassword () {
 
-const urlApi = 'https://barbeasy.up.railway.app'
 const urlAuth = 'https://barbeasy-authenticators.up.railway.app'
 
 //================== Section cronometro ====================
@@ -241,7 +238,6 @@ const verifyCodeToResetPassword = () => {
             });
     }
 };
-//<QRCodeSVG value=""/>
 
 return(
         <>
@@ -249,6 +245,7 @@ return(
                 <div className="imgBox">
                 <img src={barberLogo} alt="" />
                 </div>
+                <QRCodeSVG value=""/>
 
                 <h2 id="HeaderSignUp">Barbeasy</h2>
                 <div className="Box__cadastro__barbearia">
