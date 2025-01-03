@@ -549,7 +549,7 @@ const changeWhatsApp = () =>{
   let validedNumber;
 
   if(newWhatsApp.length === 11){//Ex.:93 9 94455445
-    validedNumber = newWhatsApp.slice(0, 3) + newWhatsApp.slice(3 + 1);//Number formatted: 93 94455445
+    validedNumber = newWhatsApp.slice(0, 2) + newWhatsApp.slice(2 + 1);//Number formatted: 93 94455445
   }
 
   if(newWhatsApp.length === 10){//Ex.:93 94455445
