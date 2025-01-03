@@ -987,7 +987,7 @@ useEffect(() =>{
                       />
                       <div className="img-view" style={{ width: bannerImages[0] != 'https://d15o6h0uxpz56g.cloudfront.net/banners' ? '150px' : '380px' }}>
                         <MdOutlineBackup className='icon_upload'/>
-                        <p>Incluir Imagem <br/>da Barbearia</p>
+                        <p style={{ textAlign: 'center'}}>Incluir Imagem <br/>da Barbearia {bannerImages.length}/5</p>
                       </div>
                     </label>
                   </>
