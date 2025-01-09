@@ -131,6 +131,34 @@ const updateBookingPoliceis = () =>{
         }, 3000);
   })
 }
+//===================== Section Rescheduling =====================
+const [timeToRescheduling, setTimeToRescheduling] = useState(false);
+
+//Mini components of inputs check time to rescheduling defalut
+const CheckboxTimeToRescheduling = ({ value }) => {
+  return (
+    <>
+      <input
+        type="checkbox"
+        id={value}
+        checked={timeToRescheduling === value}
+        onChange={() => {
+          if (timeToRescheduling === value) {
+            // Se a opção já estiver selecionada, desmarque-a
+            setTimeToRescheduling(false);
+          } else {
+            // Caso contrário, selecione a opção
+            setTimeToRescheduling(value);
+          }
+        }}
+        className="days-switch"
+      />
+      <label htmlFor={value} className="switch">
+        <span className="slider"></span>
+      </label>
+    </>
+  );
+};
 
 BookingPoliceis.propTypes = {
     barbeariaId: PropTypes.number
@@ -391,23 +419,23 @@ return (
               <div className='container__valor__payment__booking'>
 
                 <div className='container__service__percentage'>
-                  <p className={`text__service__percentage ${servicePercentage === "0.1" ? 'text__service__percentage__selected':''}`}>Até 1h antes do horário agendado</p>
-                  <CheckboxServicePercentage value="0.1"/>
+                  <p className={`text__service__percentage ${timeToRescheduling === "1" ? 'text__service__percentage__selected':''}`}>Até 1h antes do horário agendado</p>
+                  <CheckboxTimeToRescheduling value="1"/>
                 </div>
                 
                 <div className='container__service__percentage'>
-                  <p className={`text__service__percentage ${servicePercentage === "0.1" ? 'text__service__percentage__selected':''}`}>Até 3h antes do horário agendado</p>
-                  <CheckboxServicePercentage value="0.1"/>
+                  <p className={`text__service__percentage ${timeToRescheduling === "3" ? 'text__service__percentage__selected':''}`}>Até 3h antes do horário agendado</p>
+                  <CheckboxTimeToRescheduling value="3"/>
                 </div>
 
                 <div className='container__service__percentage'>
-                  <p className={`text__service__percentage ${servicePercentage === "0.1" ? 'text__service__percentage__selected':''}`}>Até 12h antes do horário agendado</p>
-                  <CheckboxServicePercentage value="0.1"/>
+                  <p className={`text__service__percentage ${timeToRescheduling === "12" ? 'text__service__percentage__selected':''}`}>Até 12h antes do horário agendado</p>
+                  <CheckboxTimeToRescheduling value="12"/>
                 </div>
 
                 <div className='container__service__percentage'>
-                  <p className={`text__service__percentage ${servicePercentage === "0.1" ? 'text__service__percentage__selected':''}`}>Até 24h antes do horário agendado</p>
-                  <CheckboxServicePercentage value="0.1"/>
+                  <p className={`text__service__percentage ${timeToRescheduling === "24" ? 'text__service__percentage__selected':''}`}>Até 24h antes do horário agendado</p>
+                  <CheckboxTimeToRescheduling value="24"/>
                 </div>
                 
                   {messagePoliceisChange === "Políticas de agendamento atualizadas com sucesso." ? (
