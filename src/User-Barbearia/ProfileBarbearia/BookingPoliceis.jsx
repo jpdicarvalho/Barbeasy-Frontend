@@ -160,6 +160,37 @@ const CheckboxTimeToRescheduling = ({ value }) => {
   );
 };
 
+//===================== Section Qnt of Rescheduling =====================
+const [qntToRescheduling, setQntToRescheduling] = useState(false);
+
+//Mini components of inputs check Qnt of rescheduling defalut
+const CheckboxQntToRescheduling = ({ value }) => {
+  return (
+    <>
+      <input
+        type="checkbox"
+        id={value}
+        checked={qntToRescheduling === value}
+        onChange={() => {
+          if (qntToRescheduling === value) {
+            // Se a opção já estiver selecionada, desmarque-a
+            setQntToRescheduling(false);
+          } else {
+            // Caso contrário, selecione a opção
+            setQntToRescheduling(value);
+          }
+        }}
+        className="days-switch"
+      />
+      <label htmlFor={value} className="switch">
+        <span className="slider"></span>
+      </label>
+    </>
+  );
+};
+
+console.log(qntToRescheduling)
+
 BookingPoliceis.propTypes = {
     barbeariaId: PropTypes.number
 };
@@ -415,7 +446,6 @@ return (
               </div>
 
               <p className='text__valor__payment__booking'>Qual o prazo para a realização de reagendamentos?</p>
-
               <div className='container__valor__payment__booking'>
 
                 <div className='container__service__percentage'>
@@ -469,7 +499,7 @@ return (
                                     <PiPassword className="icon__input__change__data" />
                                     <button
                                       className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided' : ''}`}
-                                      onClick={updateBookingPoliceis}
+                                      
                                     >
                                       Confirmar
                                     </button>
@@ -482,9 +512,79 @@ return (
                         </div>
                   )}
                 </div>
-                    
+                                  
               </div>
-            </div>
+
+              <p className='text__valor__payment__booking'>Quantas vezes o seu cliente pode reagendar um serviço por mês?</p>
+              <div className='container__valor__payment__booking'>
+
+                <div className='container__service__percentage'>
+                  <p className={`text__service__percentage ${qntToRescheduling === "1x" ? 'text__service__percentage__selected':''}`}>Até 1x por mês</p>
+                  <CheckboxQntToRescheduling value="1x"/>
+                </div>
+
+                <div className='container__service__percentage'>
+                  <p className={`text__service__percentage ${qntToRescheduling === "2x" ? 'text__service__percentage__selected':''}`}>Até 2x por mês</p>
+                  <CheckboxQntToRescheduling value="2x"/>
+                </div>
+
+                <div className='container__service__percentage'>
+                  <p className={`text__service__percentage ${qntToRescheduling === "3x" ? 'text__service__percentage__selected':''}`}>Até 3x por mês</p>
+                  <CheckboxQntToRescheduling value="3x"/>
+                </div>
+
+                <div className='container__service__percentage'>
+                  <p className={`text__service__percentage ${qntToRescheduling === "4x" ? 'text__service__percentage__selected':''}`}>Até 4x por mês</p>
+                  <CheckboxQntToRescheduling value="4x"/>
+                </div>
+
+                <div className='center__form'>
+                  {isLoading ? (
+                        <div className="loaderCreatingBooking"></div>
+                      ):(
+                        <div style={{ paddingLeft: '10px' }}>
+                          {qntToRescheduling !== false &&(
+                            <>
+                              <div className="form__change__data">
+                                  <div className="container__text__change__data">
+                                    Digite sua senha para confirmar a alteração
+                                  </div>
+                                  <div className="container__form__change__data">
+                                    <input
+                                      type="password"
+                                      id="senha"
+                                      name="senha"
+                                      value={confirmPassword}
+                                      className={`input__change__data ${confirmPassword ? 'input__valided' : ''}`}
+                                      onChange={(e) => {
+                                        const inputValue = e.target.value;
+                                        // Limitar a 10 caracteres
+                                        const truncatedPasswordConfirm = inputValue.slice(0, 10);
+                                        setConfirmPassword(truncatedPasswordConfirm);
+                                      }}
+                                      placeholder="Senha atual"
+                                      maxLength={8}
+                                      required
+                                    />
+                                    <PiPassword className="icon__input__change__data" />
+                                    <button
+                                      className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided' : ''}`}
+                                      
+                                    >
+                                      Confirmar
+                                    </button>
+                                  </div>
+                              </div>
+                            </>
+                          )}
+
+
+                        </div>
+                  )}
+                </div>
+                                  
+                </div>
+              </div>
           )}
     </>
 )
