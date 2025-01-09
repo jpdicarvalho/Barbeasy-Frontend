@@ -438,24 +438,12 @@ return (
                   <CheckboxTimeToRescheduling value="24h"/>
                 </div>
                 
-                  {messagePoliceisChange === "Políticas de agendamento atualizadas com sucesso." ? (
-                    <div className="mensagem-sucesso">
-                      <MdOutlineDone className="icon__success"/>
-                      <p className="text__message">{messagePoliceisChange}</p>
-                    </div>
-                  ) : (
-                    <div className={` ${messagePoliceisChange ? 'mensagem-erro' : ''}`}>
-                      <VscError className={`hide_icon__error ${messagePoliceisChange ? 'icon__error' : ''}`}/>
-                      <p className="text__message">{messagePoliceisChange}</p>
-                    </div>
-                  )}
-
                 <div className='center__form'>
                   {isLoading ? (
                         <div className="loaderCreatingBooking"></div>
                       ):(
                         <div style={{ paddingLeft: '10px' }}>
-                          {inputCheckChange === 'bookingWithPaymentEnable' && servicePercentage !== false &&(
+                          {timeToRescheduling !== false &&(
                             <>
                               <div className="form__change__data">
                                   <div className="container__text__change__data">
@@ -490,40 +478,7 @@ return (
                             </>
                           )}
 
-                          {servicePercentage !== false && servicePercentage !== servicePercentageStored && inputCheckChange === '' &&(
-                            <>
-                              <div className="form__change__data">
-                                  <div className="container__text__change__data">
-                                    Digite sua senha para confirmar a alteração
-                                  </div>
-                                  <div className="container__form__change__data">
-                                    <input
-                                      type="password"
-                                      id="senha"
-                                      name="senha"
-                                      value={confirmPassword}
-                                      className={`input__change__data ${confirmPassword ? 'input__valided' : ''}`}
-                                      onChange={(e) => {
-                                        const inputValue = e.target.value;
-                                        // Limitar a 10 caracteres
-                                        const truncatedPasswordConfirm = inputValue.slice(0, 10);
-                                        setConfirmPassword(truncatedPasswordConfirm);
-                                      }}
-                                      placeholder="Senha atual"
-                                      maxLength={8}
-                                      required
-                                    />
-                                    <PiPassword className="icon__input__change__data" />
-                                    <button
-                                      className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided' : ''}`}
-                                      onClick={updateBookingPoliceis}
-                                    >
-                                      Confirmar
-                                    </button>
-                                  </div>
-                              </div>
-                            </>
-                          )}
+            
                         </div>
                   )}
                 </div>
