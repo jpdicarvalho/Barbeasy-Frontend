@@ -98,7 +98,8 @@ const updateBookingPoliceis = () =>{
     barbeariaId,
     confirmPassword,
     bookingWithPayment: bookingWithPayment ? 'enabled':'disabled',
-    servicePercentage: servicePercentage ? servicePercentage:'false'
+    servicePercentage: servicePercentage ? servicePercentage:'false',
+    
   }
 
   axios.put(`${urlApi}/api/v1/updateBookingPoliceis`, values, {
@@ -160,6 +161,54 @@ const CheckboxTimeToRescheduling = ({ value }) => {
   );
 };
 
+const updateTimeToRescheduling = () =>{
+  setIsLoading(true)
+
+  if(!confirmPassword){
+    setIsLoading(false)
+    setMessagePoliceisChange('Informe uma senha.')
+    return setTimeout(() => {
+      setMessagePoliceisChange('');
+    }, 3000);
+  }
+
+  const values = {
+    barbeariaId,
+    confirmPassword,
+    timeToRescheduling: timeToRescheduling
+    
+  }
+
+  axios.put(`${urlApi}/api/v1/updateTimeToRescheduling`, values, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+   }
+  }).then(res =>{
+        setIsLoading(false)
+        setMessagePoliceisChange('Políticas de agendamento atualizadas com sucesso.')
+        setConfirmPassword('')
+        setTimeout(() => {
+          setMessagePoliceisChange('');
+          setShowBookingsPoliceis('')
+          getBookingPoliceis()
+        }, 3000);
+        return
+  }).catch(err =>{
+      setIsLoading(false)
+      setConfirmPassword('')
+      console.log(err)
+      if(err.response.status === 403){
+        return navigate("/SessionExpired")
+      }
+      setMessagePoliceisChange(err.response.data.message)
+      return setTimeout(() => {
+          setMessagePoliceisChange('');
+          setInputCheckChange('')
+          getBookingPoliceis()
+        }, 3000);
+  })
+
+}
 //===================== Section Qnt of Rescheduling =====================
 const [qntToRescheduling, setQntToRescheduling] = useState(false);
 
@@ -189,7 +238,6 @@ const CheckboxQntToRescheduling = ({ value }) => {
   );
 };
 
-console.log(qntToRescheduling)
 
 BookingPoliceis.propTypes = {
     barbeariaId: PropTypes.number
@@ -586,6 +634,7 @@ return (
                 </div>
               </div>
           )}
+        
     </>
 )
 }
