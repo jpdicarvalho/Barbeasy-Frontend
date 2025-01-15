@@ -12,6 +12,8 @@ import { AiOutlineFileProtect } from "react-icons/ai";
 import { VscError } from "react-icons/vsc";
 import { PiPassword } from "react-icons/pi";
 import { MdOutlineDone } from "react-icons/md";
+import { LuFileClock } from "react-icons/lu";
+import { LuFileCheck2 } from "react-icons/lu";
 
 export function BookingPoliceis ({barbeariaId, OAuthUrl, isConectedWithMercadoPago}){
 
@@ -133,7 +135,13 @@ const updateBookingPoliceis = () =>{
   })
 }
 //===================== Section Rescheduling =====================
+const [showReschedulingPoliceis, setShowReschedulingPoliceis] = useState(false);
 const [timeToRescheduling, setTimeToRescheduling] = useState(false);
+
+//Function to show menu of policeis settings
+const changeShowReschedulingPolicies = () => {
+  setShowReschedulingPoliceis(!showReschedulingPoliceis);
+};
 
 //Mini components of inputs check time to rescheduling defalut
 const CheckboxTimeToRescheduling = ({ value }) => {
@@ -246,8 +254,8 @@ BookingPoliceis.propTypes = {
 return (
     <>
         <div className="menu__main" onClick={changeShowBookingPolicies} translate="no">
-          <AiOutlineFileProtect className='icon_menu'/>
-            Políticas de agendamento
+          <LuFileCheck2 className='icon_menu'/>
+            Políticas de Agendamento
           <IoIosArrowDown className={`arrow ${showBookingsPoliceis ? 'girar' : ''}`} id='arrow'/>
         </div>
 
@@ -490,11 +498,25 @@ return (
                           </>
                         )}
                 </div>
-                
               </div>
+              </div>
+        )}
 
-              <p className='text__valor__payment__booking'>Qual o prazo para a realização de reagendamentos?</p>
+<hr className='hr_menu'/>
+ 
+        <div className="menu__main" onClick={changeShowReschedulingPolicies} translate="no">
+          <LuFileClock className='icon_menu'/>
+
+            Políticas de Reagendamento
+          <IoIosArrowDown className={`arrow ${showReschedulingPoliceis ? 'girar' : ''}`} id='arrow'/>
+        </div>
+
+        {showReschedulingPoliceis && (
+            <div className="divSelected" translate="no">
+              <p className='information__span'>Escolha como os reagendamentos devem ser feitos em sua barbearia:</p>
+              
               <div className='container__valor__payment__booking'>
+              <p className='text__valor__payment__booking'>Qual o prazo para a realização de reagendamentos?</p>
 
                 <div className='container__service__percentage'>
                   <p className={`text__service__percentage ${timeToRescheduling === "1h" ? 'text__service__percentage__selected':''}`}>Até 1h antes do horário agendado</p>
@@ -625,16 +647,13 @@ return (
                               </div>
                             </>
                           )}
-
-
                         </div>
                   )}
                 </div>
                                   
                 </div>
               </div>
-          )}
-        
+        )}
     </>
 )
 }
