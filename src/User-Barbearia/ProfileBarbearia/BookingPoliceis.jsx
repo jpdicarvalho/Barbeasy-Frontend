@@ -104,7 +104,7 @@ const updateBookingPoliceis = () =>{
     
   }
 
-  axios.put(`${urlApi}/api/v1/updateBookingPoliceis`, values, {
+  axios.put(`${urlApi}/api/v1/bookingPoliceis`, values, {
     headers: {
       'Authorization': `Bearer ${token}`
    }
@@ -187,7 +187,7 @@ const updateTimeToRescheduling = () =>{
     timeToRescheduling: timeToRescheduling
   }
 
-  axios.put(`${urlApi}/api/v1/updateTimeToRescheduling`, values, {
+  axios.put(`${urlApi}/api/v1/timeToRescheduling`, values, {
     headers: {
       'Authorization': `Bearer ${token}`
    }
@@ -669,6 +669,18 @@ return (
                   <p className={`text__service__percentage ${qntToRescheduling === "4x" ? 'text__service__percentage__selected':''}`}>Até 4x por mês</p>
                   <CheckboxQntToRescheduling value="4x"/>
                 </div>
+
+                {messageQntToReschedulingChange === "Política de reagendamento atualizada com sucesso." ? (
+                      <div className="mensagem-sucesso">
+                        <MdOutlineDone className="icon__success"/>
+                        <p className="text__message">{messageQntToReschedulingChange}</p>
+                      </div>
+                ) : (
+                  <div className={` ${messageQntToReschedulingChange ? 'mensagem-erro' : ''}`}>
+                    <VscError className={`hide_icon__error ${messageQntToReschedulingChange ? 'icon__error' : ''}`}/>
+                    <p className="text__message">{messageQntToReschedulingChange}</p>
+                  </div>
+                )}
 
                 <div className='center__form'>
                   {isLoading && qntToRescheduling ? (
