@@ -137,6 +137,7 @@ const updateBookingPoliceis = () =>{
 //===================== Section Rescheduling =====================
 const [showReschedulingPoliceis, setShowReschedulingPoliceis] = useState(false);
 const [timeToRescheduling, setTimeToRescheduling] = useState(false);
+const [messageReschedulingPoliciesChange, setMessageReschedulingPoliciesChange] = useState('');
 
 //Function to show menu of policeis settings
 const changeShowReschedulingPolicies = () => {
@@ -174,9 +175,9 @@ const updateTimeToRescheduling = () =>{
 
   if(!confirmPassword){
     setIsLoading(false)
-    setMessagePoliceisChange('Informe uma senha.')
+    setMessageReschedulingPoliciesChange('Informe uma senha.')
     return setTimeout(() => {
-      setMessagePoliceisChange('');
+      setMessageReschedulingPoliciesChange('');
     }, 3000);
   }
 
@@ -184,7 +185,6 @@ const updateTimeToRescheduling = () =>{
     barbeariaId,
     confirmPassword,
     timeToRescheduling: timeToRescheduling
-    
   }
 
   axios.put(`${urlApi}/api/v1/updateTimeToRescheduling`, values, {
@@ -193,10 +193,10 @@ const updateTimeToRescheduling = () =>{
    }
   }).then(res =>{
         setIsLoading(false)
-        setMessagePoliceisChange('Políticas de agendamento atualizadas com sucesso.')
+        setMessageReschedulingPoliciesChange(res.data.message)
         setConfirmPassword('')
         setTimeout(() => {
-          setMessagePoliceisChange('');
+          setMessageReschedulingPoliciesChange('');
           setShowBookingsPoliceis('')
           getBookingPoliceis()
         }, 3000);
@@ -208,9 +208,9 @@ const updateTimeToRescheduling = () =>{
       if(err.response.status === 403){
         return navigate("/SessionExpired")
       }
-      setMessagePoliceisChange(err.response.data.message)
+      setMessageReschedulingPoliciesChange(err.response.data.message)
       return setTimeout(() => {
-          setMessagePoliceisChange('');
+          setMessageReschedulingPoliciesChange('');
           setInputCheckChange('')
           getBookingPoliceis()
         }, 3000);
@@ -219,6 +219,7 @@ const updateTimeToRescheduling = () =>{
 }
 //===================== Section Qnt of Rescheduling =====================
 const [qntToRescheduling, setQntToRescheduling] = useState(false);
+const [messageQntToReschedulingChange, setMessageQntToReschedulingChange] = useState('');
 
 //Mini components of inputs check Qnt of rescheduling defalut
 const CheckboxQntToRescheduling = ({ value }) => {
@@ -246,6 +247,55 @@ const CheckboxQntToRescheduling = ({ value }) => {
   );
 };
 
+console.log(timeToRescheduling)
+
+const updateQntToRescheduling = () =>{
+  setIsLoading(true)
+
+  if(!confirmPassword){
+    setIsLoading(false)
+    setMessageQntToReschedulingChange('Informe uma senha.')
+    return setTimeout(() => {
+      setMessageQntToReschedulingChange('');
+    }, 3000);
+  }
+
+  const values = {
+    barbeariaId,
+    confirmPassword,
+    qntToRescheduling: qntToRescheduling
+  }
+
+  axios.put(`${urlApi}/api/v1/updateQntToRescheduling`, values, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+   }
+  }).then(res =>{
+        setIsLoading(false)
+        setMessageQntToReschedulingChange(res.data.message)
+        setConfirmPassword('')
+        setTimeout(() => {
+          setMessageQntToReschedulingChange('');
+          setShowBookingsPoliceis('')
+          getBookingPoliceis()
+        }, 3000);
+        return
+  }).catch(err =>{
+      setIsLoading(false)
+      setConfirmPassword('')
+      console.log(err)
+      if(err.response.status === 403){
+        return navigate("/SessionExpired")
+      }
+      setMessageQntToReschedulingChange(err.response.data.message)
+      return setTimeout(() => {
+          setMessageQntToReschedulingChange('');
+          setInputCheckChange('')
+          getBookingPoliceis()
+        }, 3000);
+  })
+
+}
 
 BookingPoliceis.propTypes = {
     barbeariaId: PropTypes.number
@@ -537,13 +587,25 @@ return (
                   <p className={`text__service__percentage ${timeToRescheduling === "24h" ? 'text__service__percentage__selected':''}`}>Até 24h antes do horário agendado</p>
                   <CheckboxTimeToRescheduling value="24h"/>
                 </div>
-                
+
+                {messageReschedulingPoliciesChange === "Política de reagendamento atualizada com sucesso." ? (
+                      <div className="mensagem-sucesso">
+                        <MdOutlineDone className="icon__success"/>
+                        <p className="text__message">{messageReschedulingPoliciesChange}</p>
+                      </div>
+                ) : (
+                  <div className={` ${messageReschedulingPoliciesChange ? 'mensagem-erro' : ''}`}>
+                    <VscError className={`hide_icon__error ${messageReschedulingPoliciesChange ? 'icon__error' : ''}`}/>
+                    <p className="text__message">{messageReschedulingPoliciesChange}</p>
+                  </div>
+                )}
+
                 <div className='center__form'>
-                  {isLoading ? (
+                  {isLoading && timeToRescheduling ? (
                         <div className="loaderCreatingBooking"></div>
                       ):(
                         <div style={{ paddingLeft: '10px' }}>
-                          {timeToRescheduling !== false &&(
+                          {timeToRescheduling !== false && (
                             <>
                               <div className="form__change__data">
                                   <div className="container__text__change__data">
@@ -569,7 +631,7 @@ return (
                                     <PiPassword className="icon__input__change__data" />
                                     <button
                                       className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided' : ''}`}
-                                      
+                                      onClick={updateTimeToRescheduling}
                                     >
                                       Confirmar
                                     </button>
@@ -609,7 +671,7 @@ return (
                 </div>
 
                 <div className='center__form'>
-                  {isLoading ? (
+                  {isLoading && qntToRescheduling ? (
                         <div className="loaderCreatingBooking"></div>
                       ):(
                         <div style={{ paddingLeft: '10px' }}>
@@ -639,7 +701,7 @@ return (
                                     <PiPassword className="icon__input__change__data" />
                                     <button
                                       className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided' : ''}`}
-                                      
+                                      onClick={updateQntToRescheduling}
                                     >
                                       Confirmar
                                     </button>
