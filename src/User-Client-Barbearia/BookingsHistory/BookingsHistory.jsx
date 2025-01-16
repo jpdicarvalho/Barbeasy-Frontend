@@ -183,6 +183,15 @@ function BookingsHistory (){
                                                     <p>{booking.bookingTime.split(',')[0]} - {booking.bookingTime.split(',')[booking.bookingTime.split(',').length-1]}</p>
                                                 </div>
                                             </div>
+                                            {isTrue = campareCurrentDateWithBookingDate(yearBooking, monthBooking, bookingDay, bookingTimes) ?(
+                                                <>
+                                                    
+                                                </>
+                                            ):(
+                                                <>
+                                                    <button className='btn__reagendar'>Reagendar</button>
+                                                </>
+                                            )}
                                         </div>
                                     </div>
                                 )

@@ -151,3 +151,12 @@
     align-items: center;
     height: 300px;
 }
+.btn__reagendar{
+    width: 100%;
+    height: 35px;
+    border: none;
+    border-radius: 5px;
+    background: #4a17d5;
+    color: #f6f6f6;
+    font-size: 14px;
+}
