@@ -247,7 +247,7 @@ const CheckboxQntToRescheduling = ({ value }) => {
   );
 };
 
-console.log(timeToRescheduling)
+console.log(qntToRescheduling)
 
 const updateQntToRescheduling = () =>{
   setIsLoading(true)
@@ -266,7 +266,7 @@ const updateQntToRescheduling = () =>{
     qntToRescheduling: qntToRescheduling
   }
 
-  axios.put(`${urlApi}/api/v1/updateQntToRescheduling`, values, {
+  axios.put(`${urlApi}/api/v1/qntToRescheduling`, values, {
     headers: {
       'Authorization': `Bearer ${token}`
    }
