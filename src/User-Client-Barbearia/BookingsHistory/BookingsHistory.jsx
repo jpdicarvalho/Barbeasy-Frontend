@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom"
 import axios from 'axios';
 
+import Rescheduling from '../Rescheduling/Rescheduling';
+
 import './BookingsHistory.css'
 
 import { IoArrowBackSharp } from "react-icons/io5";
@@ -10,6 +12,7 @@ import { PiTimerLight } from "react-icons/pi";
 import { CiBookmarkCheck } from "react-icons/ci";
 import { BsCalendar2Check } from "react-icons/bs";
 import { FaLayerGroup } from "react-icons/fa";
+import { IoIosArrowForward } from "react-icons/io";
 
 function BookingsHistory (){
     const urlApi = 'https://barbeasy.up.railway.app'
@@ -35,6 +38,8 @@ function BookingsHistory (){
     const currentMonth = Number (`${month}`)
     const currentDay = Number(day)
     const currentTime = Number(`${hours}` + `${minutes}`)
+
+    const [StatusModal, setStatusModal] = useState(false);
 
     // Concatene as partes formatadas
     const handleBackClick = () => {
@@ -135,6 +140,9 @@ function BookingsHistory (){
                         value={search} onChange={(e) => setSearch(e.target.value)}
                         placeholder='Buscar agendamento'/>
                     </div>
+
+                    <Rescheduling openModal={StatusModal}/>
+
                 </div>
                 {isLoading?(
                     <div className='container__loading__in__bookings__history' translate="no">
@@ -156,7 +164,7 @@ function BookingsHistory (){
                                 let isTrue;
 
                                 return(
-                                    <div key={index} className={`Box__bookings__history ${isTrue = campareCurrentDateWithBookingDate(yearBooking, monthBooking, bookingDay, bookingTimes) ? 'colorTexts':''}`} onClick={() => handleBookingClick(booking)} >
+                                    <div key={index} className={`Box__bookings__history ${isTrue = campareCurrentDateWithBookingDate(yearBooking, monthBooking, bookingDay, bookingTimes) ? 'colorTexts':''}`} >
                                         <div className='box__status__bookings__history'>
                                             {isTrue = campareCurrentDateWithBookingDate(yearBooking, monthBooking, bookingDay, bookingTimes) ?(
                                                 <>
@@ -188,9 +196,14 @@ function BookingsHistory (){
                                                     
                                                 </>
                                             ):(
-                                                <>
-                                                    <button className='btn__reagendar'>Reagendar</button>
-                                                </>
+                                                <div className='conteiner__btn__bookings__history'>
+                                                    <button className='btn__reagendar' onClick={() => setStatusModal(true)}>Reagendar</button>
+                                                    <div className='Box__icon__view__more' onClick={() => handleBookingClick(booking)}>
+                                                        <p>Detalhes</p>
+                                                        <IoIosArrowForward className='icon__IoIosArrowForward' />
+                                                    </div>
+                                                    
+                                                </div>
                                             )}
                                         </div>
                                     </div>

@@ -152,11 +152,25 @@
     height: 300px;
 }
 .btn__reagendar{
-    width: 100%;
+    width: 150px;
     height: 35px;
     border: none;
     border-radius: 5px;
     background: #4a17d5;
     color: #f6f6f6;
     font-size: 14px;
+}
+.conteiner__btn__bookings__history{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.Box__icon__view__more{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+}
+.icon__IoIosArrowForward{
+    font-size: 18px;
 }
