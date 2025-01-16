@@ -29,6 +29,8 @@ const [showBookingsPoliceis, setShowBookingsPoliceis] = useState(false);
 const [bookingWithPayment, setBookingWithPayment] = useState(false);
 const [servicePercentageStored, setServicePercentageStored] = useState('');
 const [servicePercentage, setServicePercentage] = useState(false);
+const [timeToRescheduling, setTimeToRescheduling] = useState(false);
+const [qntToRescheduling, setQntToRescheduling] = useState(false);
 const [inputCheckChange, setInputCheckChange] = useState('');
 const [messagePoliceisChange, setMessagePoliceisChange] = useState('');
 
@@ -40,6 +42,8 @@ const getBookingPoliceis = () =>{
         setBookingWithPayment(res.data.bookingPoliceis.booking_with_payment === "enabled" ? true:false)
         setServicePercentage(res.data.bookingPoliceis.service_percentage === "false" ? false:res.data.bookingPoliceis.service_percentage)
         setServicePercentageStored(res.data.bookingPoliceis.service_percentage === "false" ? '':res.data.bookingPoliceis.service_percentage)
+        setTimeToRescheduling(res.data.bookingPoliceis.time_rescheduling ? res.data.bookingPoliceis.time_rescheduling:false)
+        setQntToRescheduling(res.data.bookingPoliceis.qnt_rescheduling ? res.data.bookingPoliceis.qnt_rescheduling:false)
       }
   }).catch(err =>{
     if(err.response.status === 403){
@@ -101,7 +105,6 @@ const updateBookingPoliceis = () =>{
     confirmPassword,
     bookingWithPayment: bookingWithPayment ? 'enabled':'disabled',
     servicePercentage: servicePercentage ? servicePercentage:'false',
-    
   }
 
   axios.put(`${urlApi}/api/v1/bookingPoliceis`, values, {
@@ -136,7 +139,7 @@ const updateBookingPoliceis = () =>{
 }
 //===================== Section Rescheduling =====================
 const [showReschedulingPoliceis, setShowReschedulingPoliceis] = useState(false);
-const [timeToRescheduling, setTimeToRescheduling] = useState(false);
+const [timeToReschedulingChange, setTimeToReschedulingChange] = useState(false);
 const [messageReschedulingPoliciesChange, setMessageReschedulingPoliciesChange] = useState('');
 
 //Function to show menu of policeis settings
@@ -156,9 +159,11 @@ const CheckboxTimeToRescheduling = ({ value }) => {
           if (timeToRescheduling === value) {
             // Se a opção já estiver selecionada, desmarque-a
             setTimeToRescheduling(false);
+            setTimeToReschedulingChange(true)
           } else {
             // Caso contrário, selecione a opção
             setTimeToRescheduling(value);
+            setTimeToReschedulingChange(true)
           }
         }}
         className="days-switch"
@@ -218,8 +223,8 @@ const updateTimeToRescheduling = () =>{
 
 }
 //===================== Section Qnt of Rescheduling =====================
-const [qntToRescheduling, setQntToRescheduling] = useState(false);
 const [messageQntToReschedulingChange, setMessageQntToReschedulingChange] = useState('');
+const [qntToReschedulingChange, setQntToReschedulingChange] = useState(false);
 
 //Mini components of inputs check Qnt of rescheduling defalut
 const CheckboxQntToRescheduling = ({ value }) => {
@@ -233,9 +238,11 @@ const CheckboxQntToRescheduling = ({ value }) => {
           if (qntToRescheduling === value) {
             // Se a opção já estiver selecionada, desmarque-a
             setQntToRescheduling(false);
+            setQntToReschedulingChange(true)
           } else {
             // Caso contrário, selecione a opção
             setQntToRescheduling(value);
+            setQntToReschedulingChange(true)
           }
         }}
         className="days-switch"
@@ -246,8 +253,6 @@ const CheckboxQntToRescheduling = ({ value }) => {
     </>
   );
 };
-
-console.log(qntToRescheduling)
 
 const updateQntToRescheduling = () =>{
   setIsLoading(true)
@@ -552,181 +557,183 @@ return (
               </div>
         )}
 
-<hr className='hr_menu'/>
- 
-        <div className="menu__main" onClick={changeShowReschedulingPolicies} translate="no">
-          <LuFileClock className='icon_menu'/>
+        {bookingWithPayment &&(
+          <>
+            <hr className='hr_menu'/>
+            <div className="menu__main" onClick={changeShowReschedulingPolicies} translate="no">
+              <LuFileClock className='icon_menu'/>
+                Políticas de Reagendamento
+              <IoIosArrowDown className={`arrow ${showReschedulingPoliceis ? 'girar' : ''}`} id='arrow'/>
+            </div>
 
-            Políticas de Reagendamento
-          <IoIosArrowDown className={`arrow ${showReschedulingPoliceis ? 'girar' : ''}`} id='arrow'/>
-        </div>
+            {showReschedulingPoliceis && (
+                <div className="divSelected" translate="no">
+                  <p className='information__span'>Escolha como os reagendamentos devem ser feitos em sua barbearia:</p>
+                  
+                  <div className='container__valor__payment__booking'>
+                  <p className='text__valor__payment__booking'>Qual o prazo para a realização de reagendamentos?</p>
 
-        {showReschedulingPoliceis && (
-            <div className="divSelected" translate="no">
-              <p className='information__span'>Escolha como os reagendamentos devem ser feitos em sua barbearia:</p>
-              
-              <div className='container__valor__payment__booking'>
-              <p className='text__valor__payment__booking'>Qual o prazo para a realização de reagendamentos?</p>
+                    <div className='container__service__percentage'>
+                      <p className={`text__service__percentage ${timeToRescheduling === "1h" ? 'text__service__percentage__selected':''}`}>Até 1h antes do horário agendado</p>
+                      <CheckboxTimeToRescheduling value="1h"/>
+                    </div>
+                    
+                    <div className='container__service__percentage'>
+                      <p className={`text__service__percentage ${timeToRescheduling === "3h" ? 'text__service__percentage__selected':''}`}>Até 3h antes do horário agendado</p>
+                      <CheckboxTimeToRescheduling value="3h"/>
+                    </div>
 
-                <div className='container__service__percentage'>
-                  <p className={`text__service__percentage ${timeToRescheduling === "1h" ? 'text__service__percentage__selected':''}`}>Até 1h antes do horário agendado</p>
-                  <CheckboxTimeToRescheduling value="1h"/>
-                </div>
-                
-                <div className='container__service__percentage'>
-                  <p className={`text__service__percentage ${timeToRescheduling === "3h" ? 'text__service__percentage__selected':''}`}>Até 3h antes do horário agendado</p>
-                  <CheckboxTimeToRescheduling value="3h"/>
-                </div>
+                    <div className='container__service__percentage'>
+                      <p className={`text__service__percentage ${timeToRescheduling === "12h" ? 'text__service__percentage__selected':''}`}>Até 12h antes do horário agendado</p>
+                      <CheckboxTimeToRescheduling value="12h"/>
+                    </div>
 
-                <div className='container__service__percentage'>
-                  <p className={`text__service__percentage ${timeToRescheduling === "12h" ? 'text__service__percentage__selected':''}`}>Até 12h antes do horário agendado</p>
-                  <CheckboxTimeToRescheduling value="12h"/>
-                </div>
+                    <div className='container__service__percentage'>
+                      <p className={`text__service__percentage ${timeToRescheduling === "24h" ? 'text__service__percentage__selected':''}`}>Até 24h antes do horário agendado</p>
+                      <CheckboxTimeToRescheduling value="24h"/>
+                    </div>
 
-                <div className='container__service__percentage'>
-                  <p className={`text__service__percentage ${timeToRescheduling === "24h" ? 'text__service__percentage__selected':''}`}>Até 24h antes do horário agendado</p>
-                  <CheckboxTimeToRescheduling value="24h"/>
-                </div>
-
-                {messageReschedulingPoliciesChange === "Política de reagendamento atualizada com sucesso." ? (
-                      <div className="mensagem-sucesso">
-                        <MdOutlineDone className="icon__success"/>
+                    {messageReschedulingPoliciesChange === "Política de reagendamento atualizada com sucesso." ? (
+                          <div className="mensagem-sucesso">
+                            <MdOutlineDone className="icon__success"/>
+                            <p className="text__message">{messageReschedulingPoliciesChange}</p>
+                          </div>
+                    ) : (
+                      <div className={` ${messageReschedulingPoliciesChange ? 'mensagem-erro' : ''}`}>
+                        <VscError className={`hide_icon__error ${messageReschedulingPoliciesChange ? 'icon__error' : ''}`}/>
                         <p className="text__message">{messageReschedulingPoliciesChange}</p>
                       </div>
-                ) : (
-                  <div className={` ${messageReschedulingPoliciesChange ? 'mensagem-erro' : ''}`}>
-                    <VscError className={`hide_icon__error ${messageReschedulingPoliciesChange ? 'icon__error' : ''}`}/>
-                    <p className="text__message">{messageReschedulingPoliciesChange}</p>
+                    )}
+
+                    <div className='center__form'>
+                      {isLoading && timeToRescheduling ? (
+                            <div className="loaderCreatingBooking"></div>
+                          ):(
+                            <div style={{ paddingLeft: '10px' }}>
+                              {timeToRescheduling !== false && timeToReschedulingChange &&(
+                                <>
+                                  <div className="form__change__data">
+                                      <div className="container__text__change__data">
+                                        Digite sua senha para confirmar a alteração
+                                      </div>
+                                      <div className="container__form__change__data">
+                                        <input
+                                          type="password"
+                                          id="senha"
+                                          name="senha"
+                                          value={confirmPassword}
+                                          className={`input__change__data ${confirmPassword ? 'input__valided' : ''}`}
+                                          onChange={(e) => {
+                                            const inputValue = e.target.value;
+                                            // Limitar a 10 caracteres
+                                            const truncatedPasswordConfirm = inputValue.slice(0, 10);
+                                            setConfirmPassword(truncatedPasswordConfirm);
+                                          }}
+                                          placeholder="Senha atual"
+                                          maxLength={8}
+                                          required
+                                        />
+                                        <PiPassword className="icon__input__change__data" />
+                                        <button
+                                          className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided' : ''}`}
+                                          onClick={updateTimeToRescheduling}
+                                        >
+                                          Confirmar
+                                        </button>
+                                      </div>
+                                  </div>
+                                </>
+                              )}
+
+                
+                            </div>
+                      )}
+                    </div>
+                                      
                   </div>
-                )}
 
-                <div className='center__form'>
-                  {isLoading && timeToRescheduling ? (
-                        <div className="loaderCreatingBooking"></div>
-                      ):(
-                        <div style={{ paddingLeft: '10px' }}>
-                          {timeToRescheduling !== false && (
-                            <>
-                              <div className="form__change__data">
-                                  <div className="container__text__change__data">
-                                    Digite sua senha para confirmar a alteração
-                                  </div>
-                                  <div className="container__form__change__data">
-                                    <input
-                                      type="password"
-                                      id="senha"
-                                      name="senha"
-                                      value={confirmPassword}
-                                      className={`input__change__data ${confirmPassword ? 'input__valided' : ''}`}
-                                      onChange={(e) => {
-                                        const inputValue = e.target.value;
-                                        // Limitar a 10 caracteres
-                                        const truncatedPasswordConfirm = inputValue.slice(0, 10);
-                                        setConfirmPassword(truncatedPasswordConfirm);
-                                      }}
-                                      placeholder="Senha atual"
-                                      maxLength={8}
-                                      required
-                                    />
-                                    <PiPassword className="icon__input__change__data" />
-                                    <button
-                                      className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided' : ''}`}
-                                      onClick={updateTimeToRescheduling}
-                                    >
-                                      Confirmar
-                                    </button>
-                                  </div>
-                              </div>
-                            </>
-                          )}
+                  <p className='text__valor__payment__booking'>Quantas vezes o seu cliente pode reagendar um serviço por mês?</p>
+                  <div className='container__valor__payment__booking'>
 
-            
-                        </div>
-                  )}
-                </div>
-                                  
-              </div>
+                    <div className='container__service__percentage'>
+                      <p className={`text__service__percentage ${qntToRescheduling === "1x" ? 'text__service__percentage__selected':''}`}>Até 1x por mês</p>
+                      <CheckboxQntToRescheduling value="1x"/>
+                    </div>
 
-              <p className='text__valor__payment__booking'>Quantas vezes o seu cliente pode reagendar um serviço por mês?</p>
-              <div className='container__valor__payment__booking'>
+                    <div className='container__service__percentage'>
+                      <p className={`text__service__percentage ${qntToRescheduling === "2x" ? 'text__service__percentage__selected':''}`}>Até 2x por mês</p>
+                      <CheckboxQntToRescheduling value="2x"/>
+                    </div>
 
-                <div className='container__service__percentage'>
-                  <p className={`text__service__percentage ${qntToRescheduling === "1x" ? 'text__service__percentage__selected':''}`}>Até 1x por mês</p>
-                  <CheckboxQntToRescheduling value="1x"/>
-                </div>
+                    <div className='container__service__percentage'>
+                      <p className={`text__service__percentage ${qntToRescheduling === "3x" ? 'text__service__percentage__selected':''}`}>Até 3x por mês</p>
+                      <CheckboxQntToRescheduling value="3x"/>
+                    </div>
 
-                <div className='container__service__percentage'>
-                  <p className={`text__service__percentage ${qntToRescheduling === "2x" ? 'text__service__percentage__selected':''}`}>Até 2x por mês</p>
-                  <CheckboxQntToRescheduling value="2x"/>
-                </div>
+                    <div className='container__service__percentage'>
+                      <p className={`text__service__percentage ${qntToRescheduling === "4x" ? 'text__service__percentage__selected':''}`}>Até 4x por mês</p>
+                      <CheckboxQntToRescheduling value="4x"/>
+                    </div>
 
-                <div className='container__service__percentage'>
-                  <p className={`text__service__percentage ${qntToRescheduling === "3x" ? 'text__service__percentage__selected':''}`}>Até 3x por mês</p>
-                  <CheckboxQntToRescheduling value="3x"/>
-                </div>
-
-                <div className='container__service__percentage'>
-                  <p className={`text__service__percentage ${qntToRescheduling === "4x" ? 'text__service__percentage__selected':''}`}>Até 4x por mês</p>
-                  <CheckboxQntToRescheduling value="4x"/>
-                </div>
-
-                {messageQntToReschedulingChange === "Política de reagendamento atualizada com sucesso." ? (
-                      <div className="mensagem-sucesso">
-                        <MdOutlineDone className="icon__success"/>
+                    {messageQntToReschedulingChange === "Política de reagendamento atualizada com sucesso." ? (
+                          <div className="mensagem-sucesso">
+                            <MdOutlineDone className="icon__success"/>
+                            <p className="text__message">{messageQntToReschedulingChange}</p>
+                          </div>
+                    ) : (
+                      <div className={` ${messageQntToReschedulingChange ? 'mensagem-erro' : ''}`}>
+                        <VscError className={`hide_icon__error ${messageQntToReschedulingChange ? 'icon__error' : ''}`}/>
                         <p className="text__message">{messageQntToReschedulingChange}</p>
                       </div>
-                ) : (
-                  <div className={` ${messageQntToReschedulingChange ? 'mensagem-erro' : ''}`}>
-                    <VscError className={`hide_icon__error ${messageQntToReschedulingChange ? 'icon__error' : ''}`}/>
-                    <p className="text__message">{messageQntToReschedulingChange}</p>
-                  </div>
-                )}
+                    )}
 
-                <div className='center__form'>
-                  {isLoading && qntToRescheduling ? (
-                        <div className="loaderCreatingBooking"></div>
-                      ):(
-                        <div style={{ paddingLeft: '10px' }}>
-                          {qntToRescheduling !== false &&(
-                            <>
-                              <div className="form__change__data">
-                                  <div className="container__text__change__data">
-                                    Digite sua senha para confirmar a alteração
+                    <div className='center__form'>
+                      {isLoading && qntToRescheduling ? (
+                            <div className="loaderCreatingBooking"></div>
+                          ):(
+                            <div style={{ paddingLeft: '10px' }}>
+                              {qntToRescheduling !== false && qntToReschedulingChange &&(
+                                <>
+                                  <div className="form__change__data">
+                                      <div className="container__text__change__data">
+                                        Digite sua senha para confirmar a alteração
+                                      </div>
+                                      <div className="container__form__change__data">
+                                        <input
+                                          type="password"
+                                          id="senha"
+                                          name="senha"
+                                          value={confirmPassword}
+                                          className={`input__change__data ${confirmPassword ? 'input__valided' : ''}`}
+                                          onChange={(e) => {
+                                            const inputValue = e.target.value;
+                                            // Limitar a 10 caracteres
+                                            const truncatedPasswordConfirm = inputValue.slice(0, 10);
+                                            setConfirmPassword(truncatedPasswordConfirm);
+                                          }}
+                                          placeholder="Senha atual"
+                                          maxLength={8}
+                                          required
+                                        />
+                                        <PiPassword className="icon__input__change__data" />
+                                        <button
+                                          className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided' : ''}`}
+                                          onClick={updateQntToRescheduling}
+                                        >
+                                          Confirmar
+                                        </button>
+                                      </div>
                                   </div>
-                                  <div className="container__form__change__data">
-                                    <input
-                                      type="password"
-                                      id="senha"
-                                      name="senha"
-                                      value={confirmPassword}
-                                      className={`input__change__data ${confirmPassword ? 'input__valided' : ''}`}
-                                      onChange={(e) => {
-                                        const inputValue = e.target.value;
-                                        // Limitar a 10 caracteres
-                                        const truncatedPasswordConfirm = inputValue.slice(0, 10);
-                                        setConfirmPassword(truncatedPasswordConfirm);
-                                      }}
-                                      placeholder="Senha atual"
-                                      maxLength={8}
-                                      required
-                                    />
-                                    <PiPassword className="icon__input__change__data" />
-                                    <button
-                                      className={`Btn__confirm__changes ${confirmPassword ? 'Btn__valided' : ''}`}
-                                      onClick={updateQntToRescheduling}
-                                    >
-                                      Confirmar
-                                    </button>
-                                  </div>
-                              </div>
-                            </>
-                          )}
-                        </div>
-                  )}
-                </div>
-                                  
-                </div>
-              </div>
+                                </>
+                              )}
+                            </div>
+                      )}
+                    </div>
+                                      
+                    </div>
+                  </div>
+            )}
+          </>
         )}
     </>
 )
