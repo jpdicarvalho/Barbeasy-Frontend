@@ -203,6 +203,7 @@ const updateTimeToRescheduling = () =>{
         setTimeout(() => {
           setMessageReschedulingPoliciesChange('');
           setShowBookingsPoliceis('')
+          setTimeToReschedulingChange(false)
           getBookingPoliceis()
         }, 3000);
         return
@@ -282,6 +283,7 @@ const updateQntToRescheduling = () =>{
         setTimeout(() => {
           setMessageQntToReschedulingChange('');
           setShowBookingsPoliceis('')
+          setQntToReschedulingChange(false)
           getBookingPoliceis()
         }, 3000);
         return
@@ -305,7 +307,7 @@ const updateQntToRescheduling = () =>{
 BookingPoliceis.propTypes = {
     barbeariaId: PropTypes.number
 };
-
+console.log(qntToRescheduling)
 return (
     <>
         <div className="menu__main" onClick={changeShowBookingPolicies} translate="no">
@@ -606,7 +608,7 @@ return (
                     )}
 
                     <div className='center__form'>
-                      {isLoading && timeToRescheduling ? (
+                      {(isLoading && timeToRescheduling && (!qntToReschedulingChange)) ? (
                             <div className="loaderCreatingBooking"></div>
                           ):(
                             <div style={{ paddingLeft: '10px' }}>
@@ -688,7 +690,7 @@ return (
                     )}
 
                     <div className='center__form'>
-                      {isLoading && qntToRescheduling ? (
+                      {(isLoading && qntToRescheduling && (!timeToReschedulingChange  )) ? (
                             <div className="loaderCreatingBooking"></div>
                           ):(
                             <div style={{ paddingLeft: '10px' }}>
