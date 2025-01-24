@@ -27,6 +27,7 @@ import BarbeariaDetails from '../src/User-Client-Barbearia/BarbeariaDetails/Barb
 import PaymentScreen from './User-Client-Barbearia/PaymentsScreen/PaymentScreen';
 import BookingsHistory from './User-Client-Barbearia/BookingsHistory/BookingsHistory';
 import BookingDetails from './User-Client-Barbearia/BookingDetails/BookingDetails';
+import Rescheduling from './User-Client-Barbearia/Rescheduling/Rescheduling';
 
 import HomeProfessional from './User-Professional/Home/HomeProfessional';
 import ProfileProfessional from './User-Professional/ProfileProfessional/ProfileProfessional';
@@ -103,6 +104,7 @@ const App = () => {
         <Route path="/PaymentScreen" element={<PrivateRoute element={<PaymentScreen />} />} />
         <Route path="/BookingsHistory" element={<PrivateRoute element={<BookingsHistory />} />} />
         <Route path="/BookingDetails" element={<PrivateRoute element={<BookingDetails />} />} />
+        <Route path="/Rescheduling" element={<PrivateRoute element={<Rescheduling />} />} />
 
       </Routes>
     </Router>

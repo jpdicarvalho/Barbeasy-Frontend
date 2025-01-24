@@ -39,8 +39,6 @@ function BookingsHistory (){
     const currentDay = Number(day)
     const currentTime = Number(`${hours}` + `${minutes}`)
 
-    const [StatusModal, setStatusModal] = useState(false);
-
     // Concatene as partes formatadas
     const handleBackClick = () => {
         navigate("/Home");
@@ -120,6 +118,10 @@ function BookingsHistory (){
 
     }
 
+    const navigateToRescheduling = (barbeariaId, professionalId) =>{
+        navigate("/Rescheduling", { state: { barbeariaId, professionalId } });
+      } 
+
     return(
         <>
             <div className="container__profile__professional" translate="no">
@@ -140,8 +142,6 @@ function BookingsHistory (){
                         value={search} onChange={(e) => setSearch(e.target.value)}
                         placeholder='Buscar agendamento'/>
                     </div>
-
-                    <Rescheduling openModal={StatusModal}/>
 
                 </div>
                 {isLoading?(
@@ -197,7 +197,7 @@ function BookingsHistory (){
                                                 </>
                                             ):(
                                                 <div className='conteiner__btn__bookings__history'>
-                                                    <button className='btn__reagendar' onClick={() => setStatusModal(true)}>Reagendar</button>
+                                                    <button className='btn__reagendar' onClick={() => navigateToRescheduling(booking.barbeariaId, booking.professionalId)}>Reagendar</button>
                                                     <div className='Box__icon__view__more' onClick={() => handleBookingClick(booking)}>
                                                         <p>Detalhes</p>
                                                         <IoIosArrowForward className='icon__IoIosArrowForward' />

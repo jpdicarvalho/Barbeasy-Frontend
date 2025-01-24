@@ -666,7 +666,7 @@ useEffect(() =>{
           </div>
         
         </div>
-              <div className='container__Calendar' translate="no">
+            <div className='container__Calendar' translate="no">
                 <p className="text__total__professional__and__service">Escolha um dia de sua preferência</p>
 
               <div className='sectionCalendar' translate="no">
