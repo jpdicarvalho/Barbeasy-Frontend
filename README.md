@@ -12,8 +12,8 @@ O Barbeasy é um sistema de agendamentos e pagamentos de serviços de barbearia.
 ![frontClient](https://github.com/user-attachments/assets/595e16ac-2267-4acb-87d6-bc4997638891)
 
 ## Recursos Principais para Barbearias
-- [x] **Processamento de Pagamentos Seguro:** Receba o valor do serviço agendado pelo seu cliente no ato do agendamento.
-- [x] **Painel de Controle:** Utilize o painel de controle para definir e personalizar os recursos oferecidos pelo seu negócio, incluindo gestão de horários, serviços e profissionais.
+- [x] **Menu de Gerenciamento:** Esse recurso permite que a barbearia possa definir e gerenciar todas as informações do negócio, incluindo gestão de horários, serviços e profissionais.
+- [x] **Políticas de Agendamento:** Com esse recurso, a barbearia pode definir se deseja ou não receber (uma parte ou todo valor) pelos agendamentos realizados. Além disso, ao conectar sua conta do Mercado Pago à aplicação, ela passa a recerber pelos pagamentos diretamente em sua conta.
 
 ![frontBarbearia](https://github.com/user-attachments/assets/ca7494bb-6322-44e5-b23d-6fdfcf738519)
 
