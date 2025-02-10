@@ -3,7 +3,7 @@
 O Barbeasy é um sistema de agendamentos e pagamentos de serviços de barbearia. Nesse repositório você irá encontrar os principais recursos da aplicação, bem como as telas dos usuários Cliente & Barbearia.
 
 ## Recursos Principais para os Clientes das Barbearias
-- [x] **Busca Fácil por Barbearias:** Encontre barbearias próximas a você com base ou a que melhor lhe for conveniente. Encontre barbearias pelo nome, serviço, bairro, abertas, fechadas ou se preferir, você pode escolher uma das 15 melhores barbearias mais bem avaliadas.
+- [x] **Busca Fácil por Barbearias:** No Barbeasy é possível encontrar barbearias próximas a você com base ou a que melhor lhe for conveniente. Encontre barbearias pelo nome, serviço, bairro, abertas, fechadas ou se preferir, você pode escolher uma das 15 melhores barbearias mais bem avaliadas.
 
 - [x] **Agendamento Simples:** Agende serviços de forma fácil e direta, escolhendo horários convenientes.
 
