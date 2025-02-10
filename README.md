@@ -23,17 +23,6 @@ Tanto para clientes quanto para barbearias, basta acessar o site da plataforma [
 
 ### Vamos criar uma experiência excepcional para seus clientes e otimizar a administração da sua barbearia com o Barbeasy!
 
----
-
-## Modelo Entidade-Relacionamento
-A estrutura de dados do Barbeasy é representada por um Modelo Entidade-Relacionamento (MER) que descreve as entidades e seus relacionamentos no sistema, garantindo uma organização eficiente da informação.
-
-![Modelo Entidade-Relacionamento](https://github.com/jpdicarvalho/Barbeasy-Frontend/assets/114435447/a78252a0-73d7-4f5d-9787-7562769e9a66)
-
-## Diagrama de Componentes
-O Diagrama de Componentes do Barbeasy ilustra a arquitetura de software, destacando os principais componentes e suas interações para fornecer uma visão geral da estrutura do sistema.
-
-![Diagrama de Componentes](https://github.com/jpdicarvalho/Barbeasy-Frontend/assets/114435447/7abcec67-4f2d-47ae-833e-a3d1907e76c1)
 
 # Especificações Técnicas
   
