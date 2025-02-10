@@ -20,19 +20,8 @@ O Barbeasy é um sistema de agendamentos e pagamentos de serviços de barbearia.
 
 
 ## Como Começar?
-Tanto para clientes quanto para barbearias, basta acessar o site da plataforma [Barbeasy](https://barbeasy.netlify.app/) e realizar o cadastro!
+#### Tanto para clientes quanto para barbearias, basta acessar o site da plataforma [Barbeasy](https://barbeasy.com.br) e realizar o cadastro!
 
 ### Vamos criar uma experiência excepcional para seus clientes e otimizar a administração da sua barbearia com o Barbeasy!
-
-
-# Especificações Técnicas
-  
-### Tecnologias Utilizadas:
-- **Front-End:** React + Vite, HTML5, CSS & JavaScript.
-- **Back-End:** Node.js.
-- **Banco de Dados:** MySQL.
-- **Serviços de Hospedagem:**
-  - Railway: para a API e Banco de Dados;
-  - AWS: para armazenamento de imagens.
     
 # Isso é tudo pessoal! Obrigado!
