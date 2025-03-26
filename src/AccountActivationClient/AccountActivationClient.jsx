@@ -8,7 +8,7 @@ import barberLogo from '../../barber-logo.png';
 import { MdOutlineEdit } from "react-icons/md";
 import { MdCancel } from "react-icons/md";
 
-import {QRCodeSVG} from 'qrcode.react';
+//import {QRCodeSVG} from 'qrcode.react';
 
 function AccountActivationClient (){
   
@@ -240,7 +240,6 @@ return (
         </div>
 
         <h2 id="HeaderSignUp">Barbeasy</h2>
-
         <div className="Box__cadastro__barbearia">
           <h3 style={{color: '#f6f6fc'}}>Verificação de WhatsApp</h3>
         </div>
