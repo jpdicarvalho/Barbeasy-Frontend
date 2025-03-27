@@ -253,6 +253,7 @@ return (
           <HomeSkeleton />
         </div>
       )}
+
       <ul className="Navigation active">
         <li>
           <button onClick={logoutClick}>
@@ -270,6 +271,7 @@ return (
           </button>
         </li>
       </ul>
+      
     </div>
   </>
 );

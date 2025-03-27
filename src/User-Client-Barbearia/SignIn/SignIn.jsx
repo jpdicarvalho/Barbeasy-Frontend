@@ -9,6 +9,7 @@ import axios from 'axios';
 
 import './style.css';
 import barberLogo from '../../../barber-logo.png';
+//import {QRCodeSVG} from 'qrcode.react';
 
 function SignIn() {
   
@@ -196,7 +197,7 @@ const sendCodeAndRedirectUser = () =>{
   sendCodeAutentication(objectNewAccountForActivation.phoneNumber, objectNewAccountForActivation.email)
   navigate('/RecoverAccount', { state: { objectNewAccountForActivation } });
 }
-
+//<QRCodeSVG value=""/>
 return (
   <div className="container__default" translate="no">
     <form className="container" translate="no">
