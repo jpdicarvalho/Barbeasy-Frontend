@@ -375,6 +375,8 @@
   width: 45px;
   height: 45px;
   bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
   transition: 0.5s;
   transition-delay: 0.5s;
   border-radius: 60px;
