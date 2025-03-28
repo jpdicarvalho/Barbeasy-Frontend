@@ -180,18 +180,15 @@ return (
         </div>
       </div>
     </div>
-
-    <div className="containerHome">
-      <div className="container__text__topBarbearias">
-        <p>#Top {barbearias.length} Barbearias com melhor avalição</p>
-      </div>
+      
+    <div className="container__barbearia">
       
       {barbearias.length > 0 ? (
         barbeariaSearch.length > 0 ? (
           barbeariaSearch.map((barbearia, index) => (
             <div 
               key={index} 
-              className="containerBarbearia" 
+              className="inner__barbearia" 
               onClick={() => handleBarbeariaClick(barbearia.barbearia_id)}
               translate="no"
             >
@@ -253,8 +250,9 @@ return (
           <HomeSkeleton />
         </div>
       )}
+    </div>
 
-      <ul className="Navigation active">
+    <ul className="Navigation active">
         <li>
           <button onClick={logoutClick}>
             <CiLogout translate="no" />
@@ -271,8 +269,6 @@ return (
           </button>
         </li>
       </ul>
-      
-    </div>
   </>
 );
 }

@@ -2,20 +2,21 @@
 *{
   font-family: 'Poppis', sans-serif;
 }
-.containerHome{
+.container__barbearia{
   position: relative;
   display: flex;
-  justify-content: end;
+  flex-wrap: wrap;
   align-items: center;
-  flex-direction: column;
-  width: 400px;
-  min-height: 100dvh; 
-  padding-top: 330px;
-  padding-left: 10px;
-  padding-right: 10px;
-  font-family: 'Poppis', sans-serif;
+  justify-content: space-around;
+  width: 100%;
+  max-width: 1200px;
+  min-height: 100dvh;
+  padding: 330px 10px 40px;
+  font-family: 'Poppins', sans-serif;
   background: transparent;
   overflow: hidden;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 .container__skeletons{
   background: transparent;
@@ -225,13 +226,14 @@
   text-align: justify;
   color: gray;
 }
-.containerBarbearia {
+.inner__barbearia {
   position: relative;
   display: flex;
   flex-direction: column;
   width: 380px;
   border-bottom: 1px solid #1c2035;
   margin-bottom: 10px;
+  margin-left: 5px;
   overflow: hidden;
   border: 1px solid #4a17d5;
   border-radius: 10px;
