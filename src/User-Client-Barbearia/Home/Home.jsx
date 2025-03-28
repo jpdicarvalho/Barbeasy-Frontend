@@ -180,76 +180,83 @@ return (
         </div>
       </div>
     </div>
+
+   
       
     <div className="container__barbearia">
-      
-      {barbearias.length > 0 ? (
-        barbeariaSearch.length > 0 ? (
-          barbeariaSearch.map((barbearia, index) => (
-            <div 
-              key={index} 
-              className="inner__barbearia" 
-              onClick={() => handleBarbeariaClick(barbearia.barbearia_id)}
-              translate="no"
-            >
-              <div className="imgBoxSection">
-                {barbearia.bannerBarbearia === "banner_main" ? (
-                  <CiImageOn className="icon__CiImageOn" translate="no" />
-                ) : (
-                  <img 
-                    src={urlCloudFront + barbearia.bannerBarbearia} 
-                    alt="Imagem de capa da barbearia" 
-                    translate="no" 
-                  />
-                )}
-              </div>
-              <div className="section">
-                <div className="box__logo__barbeasy">
-                  <div className="inner__img__logo__barbeasy">
+      <div className="box__text__topBarbearias">
+        <p>#Top {barbearias.length} Barbearias com melhor avalição</p>
+      </div>
+      <div className="section__barbearia">
+        {barbearias.length > 0 ? (
+          barbeariaSearch.length > 0 ? (
+            barbeariaSearch.map((barbearia, index) => (
+              <div 
+                key={index} 
+                className="inner__barbearia" 
+                onClick={() => handleBarbeariaClick(barbearia.barbearia_id)}
+                translate="no"
+              >
+                <div className="imgBoxSection">
+                  {barbearia.bannerBarbearia === "banner_main" ? (
+                    <CiImageOn className="icon__CiImageOn" translate="no" />
+                  ) : (
                     <img 
-                      src={barberLogo} 
-                      className="img__logo__barbeasy" 
+                      src={urlCloudFront + barbearia.bannerBarbearia} 
+                      alt="Imagem de capa da barbearia" 
                       translate="no" 
                     />
-                  </div>
-                </div>
-                <div className="Barbearias">
-                  <h2 translate="no">{barbearia.nameBarbearia}</h2>
-                </div>
-                <div className="endereco">
-                  <p translate="no">
-                    {barbearia.ruaBarbearia}, Nº {barbearia.NruaBarbearia}, {barbearia.bairroBarbearia}, {barbearia.cidadeBarbearia}
-                  </p>
-                </div>
-                <div className="section__status">
-                  {barbearia.statusBarbearia === "Aberta" ? (
-                    <p className="aberto" translate="no">{barbearia.statusBarbearia}</p>
-                  ) : (
-                    <p className="fechado" translate="no">{barbearia.statusBarbearia}</p>
                   )}
-                  <div className="section__star">
-                    <IoIosStar className="icon__star" translate="no" /> 
+                </div>
+                <div className="section">
+                  <div className="box__logo__barbeasy">
+                    <div className="inner__img__logo__barbeasy">
+                      <img 
+                        src={barberLogo} 
+                        className="img__logo__barbeasy" 
+                        translate="no" 
+                      />
+                    </div>
+                  </div>
+                  <div className="Barbearias">
+                    <h2 translate="no">{barbearia.nameBarbearia}</h2>
+                  </div>
+                  <div className="endereco">
                     <p translate="no">
-                      {barbearia.averageAvaliationsBarbearia ? barbearia.averageAvaliationsBarbearia : 0} • ({barbearia.totalAvaliationsBarbearia ? barbearia.totalAvaliationsBarbearia : 0})
+                      {barbearia.ruaBarbearia}, Nº {barbearia.NruaBarbearia}, {barbearia.bairroBarbearia}, {barbearia.cidadeBarbearia}
                     </p>
                   </div>
+                  <div className="section__status">
+                    {barbearia.statusBarbearia === "Aberta" ? (
+                      <p className="aberto" translate="no">{barbearia.statusBarbearia}</p>
+                    ) : (
+                      <p className="fechado" translate="no">{barbearia.statusBarbearia}</p>
+                    )}
+                    <div className="section__star">
+                      <IoIosStar className="icon__star" translate="no" /> 
+                      <p translate="no">
+                        {barbearia.averageAvaliationsBarbearia ? barbearia.averageAvaliationsBarbearia : 0} • ({barbearia.totalAvaliationsBarbearia ? barbearia.totalAvaliationsBarbearia : 0})
+                      </p>
+                    </div>
+                  </div>
                 </div>
+                <button className="agendar" translate="no">Ver barbearia</button>
               </div>
-              <button className="agendar" translate="no">Ver barbearia</button>
+            ))
+          ) : (
+            <div className="box__message__no__bookings__history in__home__barbearia">
+              <BsSearch className="icon__LuSearchX" translate="no" />
+              <h3 className="message__barbearia__not__found" translate="no">Nenhuma barbearia encontrada para "{search}"</h3>
             </div>
-          ))
+          )
         ) : (
-          <div className="box__message__no__bookings__history in__home__barbearia">
-            <BsSearch className="icon__LuSearchX" translate="no" />
-            <h3 className="message__barbearia__not__found" translate="no">Nenhuma barbearia encontrada para "{search}"</h3>
+          <div className="container__skeletons">
+            <HomeSkeleton />
+            <HomeSkeleton />
           </div>
-        )
-      ) : (
-        <div className="container__skeletons">
-          <HomeSkeleton />
-          <HomeSkeleton />
-        </div>
-      )}
+        )}
+      </div>
+     
     </div>
 
     <ul className="Navigation active">

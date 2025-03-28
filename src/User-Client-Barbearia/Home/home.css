@@ -3,6 +3,12 @@
   font-family: 'Poppis', sans-serif;
 }
 .container__barbearia{
+  display: flex;
+  justify-content:  center;
+  flex-direction: column;
+  padding: 330px 10px 40px;
+}
+.section__barbearia{
   position: relative;
   display: flex;
   flex-wrap: wrap;
@@ -10,10 +16,7 @@
   justify-content: space-around;
   width: 100%;
   max-width: 1200px;
-  min-height: 100dvh;
-  padding: 330px 10px 40px;
   font-family: 'Poppins', sans-serif;
-  background: transparent;
   overflow: hidden;
   margin: 0 auto;
   box-sizing: border-box;
@@ -220,7 +223,7 @@
   top: 4px;
   z-index: 1;
 }
-.container__text__topBarbearias{
+.box__text__topBarbearias{
   margin-bottom: 10px;
   width: 100%;
   text-align: justify;
